@@ -14443,7 +14443,7 @@
         this._originalPlayers = GS.players.map(p => ({ ...p }));
         this.render();
         UI.showScreen('playerLobbyScreen');
-        if (GS.players.length === 1) {
+        if (GS.framesLoaded || GS.players.length === 1) {
           UI.updateLoadProgress(100, 'lobby');
         } else {
           UI.updateLoadProgress(0, 'lobby');
@@ -14606,12 +14606,19 @@
           const estMins = Math.max(1, Math.ceil((totalR * ((settings.timer || 30) + 5)) / 60));
           infoDuration.textContent = `~ ${estMins} Min`;
         }
-        const readyCount = GS.players.filter(p => p.loaded === true).length;
+        const readyCount = GS.players.filter(p => p.loaded === true || (!GameController._onlineMode && GS.framesLoaded)).length;
         if (infoReady) infoReady.textContent = `${readyCount} / ${GS.players.length || 1}`;
 
         // Update Start Buttons - ONLY enabled when EVERY player's assets are 100% loaded!
+        // In local mode, if framesLoaded, ensure all players are marked loaded
+        if (!GameController._onlineMode && GS.framesLoaded && Array.isArray(GS.players)) {
+          GS.players.forEach(p => {
+            p.loaded = true;
+            p.loadProgress = 100;
+          });
+        }
         const isHost = !GameController._onlineMode || MultiplayerEngine.isHost;
-        const allLoaded = GS.players.length >= 1 && GS.players.every(p => p.loaded === true);
+        const allLoaded = GS.players.length >= 1 && (GS.framesLoaded || GS.players.every(p => p.loaded === true));
         const canStart = isHost && allLoaded;
 
         [startBtn, mobileStartBtn].forEach(btn => {
@@ -15267,10 +15274,13 @@
     /* ═══ STATE MACHINE ═══ */
     /* ═══ AVATAR HELPER ═══ */
     function renderAvatar(p, type) {
+      const safeName = SecurityUtil.escapeHtml(p && p.name || '');
       if (p && p.avatarImg) {
-        return `<img src="${p.avatarImg}" alt="${p.name || ''}" class="av-img-elem" style="width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center;border-radius:50%;display:block;">`;
+        const safeImg = SecurityUtil.escapeHtml(p.avatarImg);
+        return `<img src="${safeImg}" alt="${safeName}" class="av-img-elem" style="width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain;object-position:center;border-radius:50%;display:block;">`;
       }
-      const icon = (p && p.avatar) ? `<svg class="svg-icon" style="width:1.4em;height:1.4em;"><use href="#icon-${p.avatar}" /></svg>` : (p && p.name ? p.name.charAt(0).toUpperCase() : '?');
+      const safeAv = p && p.avatar ? SecurityUtil.escapeHtml(p.avatar) : '';
+      const icon = safeAv ? `<svg class="svg-icon" style="width:1.4em;height:1.4em;"><use href="#icon-${safeAv}" /></svg>` : (safeName ? safeName.charAt(0).toUpperCase() : '?');
       return `<span style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:18px;font-family:'DM Sans',sans-serif;font-weight:900;">${icon}</span>`;
     }
 
@@ -15706,9 +15716,10 @@
           const was = !eligibleNames.has(p.name);
           const av = renderAvatar(p, 'c');
           const color = colors[i % colors.length];
-          return `<div class="jo-cand ${was ? 'was eliminated' : ''}" data-name="${p.name}" style="background: ${color};">
+          const safeName = SecurityUtil.escapeHtml(p.name);
+          return `<div class="jo-cand ${was ? 'was eliminated' : ''}" data-name="${safeName}" style="background: ${color};">
             <div class="jo-circle">${av}</div>
-            <span class="jo-cname">${p.name}</span>
+            <span class="jo-cname">${safeName}</span>
           </div>`;
         }).join('');
         
@@ -15856,6 +15867,29 @@
         // Chat engine ready
       },
 
+      renderSystemMessage(htmlOrText) {
+        const stream = document.getElementById('liveChatStream');
+        if (!stream) return;
+        const msgEl = document.createElement('div');
+        msgEl.className = 'chat-notice-subtle';
+        msgEl.innerHTML = '<span class="cns-text">' + htmlOrText + '</span>';
+        stream.appendChild(msgEl);
+        stream.scrollTop = stream.scrollHeight;
+      },
+
+      renderHintMessage(senderName, hintText) {
+        const stream = document.getElementById('liveChatStream');
+        if (!stream) return;
+        const msgEl = document.createElement('div');
+        msgEl.className = 'chat-notice-subtle';
+        msgEl.style.background = '#FEF08A';
+        msgEl.style.color = '#854D0E';
+        msgEl.style.fontWeight = 'bold';
+        msgEl.innerHTML = '💡 <span>' + SecurityUtil.escapeHtml(senderName) + '</span> unlocked hint: <span style="font-family:monospace;letter-spacing:2px;">' + SecurityUtil.escapeHtml(hintText) + '</span>';
+        stream.appendChild(msgEl);
+        stream.scrollTop = stream.scrollHeight;
+      },
+
       handleFormSubmit(event) {
         if (event) event.preventDefault();
         const input = document.getElementById('chatTextInput');
@@ -15943,30 +15977,34 @@
         this.messages.set(msg.id, msgRecord);
 
         const isMe = msg.senderId === MultiplayerEngine.playerId;
+        const safeMsgId = String(msg.id).replace(/[^a-zA-Z0-9_-]/g, '');
         const msgEl = document.createElement('div');
         msgEl.className = 'chat-msg';
-        msgEl.id = 'chatMsg_' + msg.id;
+        msgEl.id = 'chatMsg_' + safeMsgId;
+
+        const avKey = String(msg.senderAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const safeAvatar = ['aman', 'amish', 'aziz', 'vish'].includes(avKey) ? avKey : 'aman';
 
         const reactionButtonsHtml = isMe ?
           ('<span class="chat-reaction-btn chat-self-disabled" title="You cannot vote on your own answer">' +
             '<span class="reaction-emoji">👍</span>' +
-            '<span class="reaction-count" id="likeCount_' + msg.id + '"></span>' +
+            '<span class="reaction-count" id="likeCount_' + safeMsgId + '"></span>' +
           '</span>' +
           '<span class="chat-reaction-btn chat-self-disabled" title="You cannot vote on your own answer">' +
             '<span class="reaction-emoji">👎</span>' +
-            '<span class="reaction-count" id="dislikeCount_' + msg.id + '"></span>' +
+            '<span class="reaction-count" id="dislikeCount_' + safeMsgId + '"></span>' +
           '</span>') :
-          ('<button type="button" class="chat-reaction-btn chat-like-btn" id="likeBtn_' + msg.id + '" onclick="ChatEngine.toggleReaction(\'' + msg.id + '\', \'like\')" title="Like this answer">' +
+          ('<button type="button" class="chat-reaction-btn chat-like-btn" id="likeBtn_' + safeMsgId + '" onclick="ChatEngine.toggleReaction(\'' + safeMsgId + '\', \'like\')" title="Like this answer">' +
             '<span class="reaction-emoji">👍</span>' +
-            '<span class="reaction-count" id="likeCount_' + msg.id + '"></span>' +
+            '<span class="reaction-count" id="likeCount_' + safeMsgId + '"></span>' +
           '</button>' +
-          '<button type="button" class="chat-reaction-btn chat-dislike-btn" id="dislikeBtn_' + msg.id + '" onclick="ChatEngine.toggleReaction(\'' + msg.id + '\', \'dislike\')" title="Dislike this answer">' +
+          '<button type="button" class="chat-reaction-btn chat-dislike-btn" id="dislikeBtn_' + safeMsgId + '" onclick="ChatEngine.toggleReaction(\'' + safeMsgId + '\', \'dislike\')" title="Dislike this answer">' +
             '<span class="reaction-emoji">👎</span>' +
-            '<span class="reaction-count" id="dislikeCount_' + msg.id + '"></span>' +
+            '<span class="reaction-count" id="dislikeCount_' + safeMsgId + '"></span>' +
           '</button>');
 
         msgEl.innerHTML = '<div class="chat-avatar">' +
-          '<img src="avvtar/' + (msg.senderAvatar || 'aman') + '.svg" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" />' +
+          '<img src="avvtar/' + safeAvatar + '.svg" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" />' +
           '</div>' +
           '<div class="chat-msg-body">' +
           '<div class="chat-msg-header">' +
@@ -16170,6 +16208,11 @@
       joinRetryTimer: null,
       hasJoinedAck: false,
       isConnected: false,
+      _heartbeatInterval: null,
+      _watchdogInterval: null,
+      _hostAutoAdvanceTimer: null,
+      _clientWaitTimer: null,
+      lastHostHeartbeat: 0,
 
       init() {
         const savedName = localStorage.getItem('gtf_player_name');
@@ -16427,6 +16470,7 @@
         this.saveActiveSession();
         this.closeModals();
         this.setupCloudTransport();
+        this.startHostHeartbeat();
 
         GS.players = [{
           id: this.playerId,
@@ -16483,6 +16527,7 @@
 
         UI.showScreen('playerLobbyScreen');
         this.renderLobbyUI();
+        this.startHostWatchdog();
 
         // Send Join Request with automatic retry until acknowledged by Host
         this.sendJoinWithRetry();
@@ -16865,6 +16910,33 @@
           case 'RETURN_LOBBY_BROADCAST':
             this.handleRemoteReturnLobby();
             break;
+
+          case 'HOST_HEARTBEAT':
+            this.lastHostHeartbeat = Date.now();
+            break;
+
+          case 'HOST_MIGRATED':
+            this.lastHostHeartbeat = Date.now();
+            if (msg.newHostId === this.playerId) {
+              if (!this.isHost) this.becomeHost();
+            } else {
+              this.isHost = false;
+              this.stopHostHeartbeat();
+              this.startHostWatchdog();
+              if (msg.players) GS.players = msg.players;
+              GS.players.forEach(p => { p.isHost = (p.id === msg.newHostId); });
+              const hfbHostOnly = document.getElementById('hfbHostOnly');
+              if (hfbHostOnly) hfbHostOnly.style.display = 'none';
+              const hfbLabel = document.getElementById('hfbLabel');
+              if (hfbLabel) hfbLabel.textContent = '🎮 CONTROLS:';
+              const waitPill = document.getElementById('ansWaitingHostPill');
+              const nextBtn = document.getElementById('ansNextRoundBtn');
+              if (nextBtn) nextBtn.style.display = 'none';
+              if (waitPill) waitPill.style.display = 'inline-flex';
+              this.renderLobbyUI();
+              ChatEngine.renderSystemMessage('👑 <strong>' + SecurityUtil.escapeHtml(msg.newHostName || 'Player') + '</strong> is now the Host!');
+            }
+            break;
         }
       },
 
@@ -16971,6 +17043,114 @@
         } else {
           document.getElementById('hostFloatingBar').style.display = 'none';
         }
+      },
+
+      startHostHeartbeat() {
+        this.stopHostHeartbeat();
+        this._heartbeatInterval = setInterval(() => {
+          if (this.isHost && this.roomCode) {
+            this.sendEvent('HOST_HEARTBEAT', {
+              hostId: this.playerId,
+              timestamp: Date.now()
+            });
+          }
+        }, 3000);
+      },
+
+      stopHostHeartbeat() {
+        if (this._heartbeatInterval) {
+          clearInterval(this._heartbeatInterval);
+          this._heartbeatInterval = null;
+        }
+      },
+
+      startHostWatchdog() {
+        this.stopHostWatchdog();
+        this.lastHostHeartbeat = Date.now();
+        this._watchdogInterval = setInterval(() => {
+          if (this.isHost || !this.roomCode || !GameController._onlineMode) return;
+          const now = Date.now();
+          if (this.lastHostHeartbeat && (now - this.lastHostHeartbeat > 12000)) {
+            console.warn('[HostWatchdog] Host heartbeat missing for 12s. Initiating host migration...');
+            this.checkHostMigration();
+          }
+        }, 3000);
+      },
+
+      stopHostWatchdog() {
+        if (this._watchdogInterval) {
+          clearInterval(this._watchdogInterval);
+          this._watchdogInterval = null;
+        }
+      },
+
+      checkHostMigration() {
+        if (this.isHost) return;
+        this.lastHostHeartbeat = Date.now();
+        const currentHost = GS.players.find(p => p.isHost);
+        const currentHostId = currentHost ? currentHost.id : null;
+        const candidates = GS.players.filter(p => p.id !== currentHostId);
+        if (candidates.length === 0) return;
+        const nextHost = candidates[0];
+        if (nextHost.id === this.playerId) {
+          console.log('[HostMigration] Becoming new host!');
+          this.becomeHost();
+        }
+      },
+
+      becomeHost() {
+        this.isHost = true;
+        this.stopHostWatchdog();
+        GS.players.forEach(p => {
+          p.isHost = (p.id === this.playerId);
+        });
+        const hBar = document.getElementById('hostFloatingBar');
+        if (hBar) hBar.style.display = 'flex';
+        const hfbHostOnly = document.getElementById('hfbHostOnly');
+        if (hfbHostOnly) hfbHostOnly.style.display = 'inline-flex';
+        const hfbLabel = document.getElementById('hfbLabel');
+        if (hfbLabel) hfbLabel.textContent = '👑 HOST CONTROLS:';
+
+        const nextBtn = document.getElementById('ansNextRoundBtn');
+        const waitPill = document.getElementById('ansWaitingHostPill');
+        if (nextBtn && waitPill && waitPill.style.display !== 'none') {
+          nextBtn.style.display = 'inline-flex';
+          waitPill.style.display = 'none';
+        }
+
+        this.renderLobbyUI();
+        this.startHostHeartbeat();
+        this.saveActiveSession();
+
+        ChatEngine.renderSystemMessage('👑 <strong>' + SecurityUtil.escapeHtml(this.playerName) + '</strong> is now the Host!');
+
+        this.sendEvent('HOST_MIGRATED', {
+          newHostId: this.playerId,
+          newHostName: this.playerName,
+          players: GS.players
+        });
+      },
+
+      leaveRoom() {
+        this.stopHostHeartbeat();
+        this.stopHostWatchdog();
+        if (this._hostAutoAdvanceTimer) clearInterval(this._hostAutoAdvanceTimer);
+        if (this._clientWaitTimer) clearInterval(this._clientWaitTimer);
+        this.clearActiveSession();
+        if (this.mqttClient) {
+          try { this.mqttClient.end(true); } catch(e) {}
+          this.mqttClient = null;
+        }
+        if (this.broadcastChannel) {
+          try { this.broadcastChannel.close(); } catch(e) {}
+          this.broadcastChannel = null;
+        }
+        GameController._onlineMode = false;
+        GameController._isRemoteSession = false;
+        this.isHost = false;
+        this.roomCode = null;
+        this.roomId = null;
+        UI.showScreen('homeScreen');
       },
 
             playRoundIntroAnimation(roundNum, totalRounds, callback) {
@@ -17257,7 +17437,7 @@
         if (this.currentRoundWinners.length > 0) {
           spotlightHtml = '<div class="winners-spotlight">' + this.currentRoundWinners.map(w => {
             const badgeClass = w.position === 1 ? 'winner-pill-1' : (w.position === 2 ? 'winner-pill-2' : 'winner-pill-3');
-            return `<div class="winner-pill ${badgeClass}"><span>${w.position === 1 ? '🥇' : w.position === 2 ? '🥈' : '🥉'} ${w.playerName}</span><span>+${w.points} pts</span></div>`;
+            return `<div class="winner-pill ${badgeClass}"><span>${w.position === 1 ? '🥇' : w.position === 2 ? '🥈' : '🥉'} ${SecurityUtil.escapeHtml(w.playerName)}</span><span>+${Number(w.points) || 0} pts</span></div>`;
           }).join('') + '</div>';
         } else {
           spotlightHtml = '<div style="margin-top:10px; font-weight:800; color:#ff6b6b;">⏭ No one got it in time!</div>';
@@ -17275,15 +17455,31 @@
             currentPlayIndex: this.currentPlayIndex
           });
 
-          // Show manual Next Round button for host, NO auto timeout
+          // Show Next Round button for host with safety auto-advance
           const nextBtn = document.getElementById('ansNextRoundBtn');
           const waitPill = document.getElementById('ansWaitingHostPill');
           const isLast = (this.currentPlayIndex + 1 >= this.currentPlaylist.length);
+          const baseLabel = isLast ? 'FINISH MATCH 🏁' : 'NEXT ROUND ⏭';
           if (nextBtn) {
             nextBtn.style.display = 'inline-flex';
-            nextBtn.textContent = isLast ? 'FINISH MATCH 🏁' : 'NEXT ROUND ⏭';
+            nextBtn.textContent = baseLabel + ' (20s)';
           }
           if (waitPill) waitPill.style.display = 'none';
+
+          if (this._hostAutoAdvanceTimer) clearInterval(this._hostAutoAdvanceTimer);
+          let hostCountdown = 20;
+          this._hostAutoAdvanceTimer = setInterval(() => {
+            hostCountdown--;
+            if (nextBtn && nextBtn.style.display !== 'none') {
+              nextBtn.textContent = baseLabel + ' (' + hostCountdown + 's)';
+            }
+            if (hostCountdown <= 0) {
+              clearInterval(this._hostAutoAdvanceTimer);
+              if (this.isHost && document.getElementById('answerOverlay') && document.getElementById('answerOverlay').classList.contains('visible')) {
+                this.hostNextRound();
+              }
+            }
+          }, 1000);
 
           // Dynamically morph Skip button into "▶ Next Round" (or "🏁 Finish Match")
           this.setHostSkipButtonState('next');
@@ -17310,7 +17506,7 @@
         if (this.currentRoundWinners.length > 0) {
           spotlightHtml = '<div class="winners-spotlight">' + this.currentRoundWinners.map(w => {
             const badgeClass = w.position === 1 ? 'winner-pill-1' : (w.position === 2 ? 'winner-pill-2' : 'winner-pill-3');
-            return `<div class="winner-pill ${badgeClass}"><span>${w.position === 1 ? '🥇' : w.position === 2 ? '🥈' : '🥉'} ${w.playerName}</span><span>+${w.points} pts</span></div>`;
+            return `<div class="winner-pill ${badgeClass}"><span>${w.position === 1 ? '🥇' : w.position === 2 ? '🥈' : '🥉'} ${SecurityUtil.escapeHtml(w.playerName)}</span><span>+${Number(w.points) || 0} pts</span></div>`;
           }).join('') + '</div>';
         } else {
           spotlightHtml = '<div style="margin-top:10px; font-weight:800; color:#ff6b6b;">⏭ No one got it in time!</div>';
@@ -17325,10 +17521,32 @@
         const nextBtn = document.getElementById('ansNextRoundBtn');
         const waitPill = document.getElementById('ansWaitingHostPill');
         if (nextBtn) nextBtn.style.display = 'none';
-        if (waitPill) waitPill.style.display = 'inline-flex';
+        if (waitPill) {
+          waitPill.style.display = 'inline-flex';
+          waitPill.textContent = '⌛ WAITING FOR HOST... (20s)';
+        }
+
+        if (this._clientWaitTimer) clearInterval(this._clientWaitTimer);
+        let clientCountdown = 20;
+        this._clientWaitTimer = setInterval(() => {
+          clientCountdown--;
+          if (waitPill && waitPill.style.display !== 'none') {
+            waitPill.textContent = '⌛ WAITING FOR HOST... (' + clientCountdown + 's)';
+          }
+          if (clientCountdown <= 0) {
+            clearInterval(this._clientWaitTimer);
+            if (document.getElementById('answerOverlay') && document.getElementById('answerOverlay').classList.contains('visible')) {
+              if (Date.now() - (this.lastHostHeartbeat || 0) > 8000) {
+                this.checkHostMigration();
+              }
+            }
+          }
+        }, 1000);
       },
 
       hostNextRound() {
+        if (this._hostAutoAdvanceTimer) clearInterval(this._hostAutoAdvanceTimer);
+        if (this._clientWaitTimer) clearInterval(this._clientWaitTimer);
         if (!this.isHost) return;
         const ansOv = document.getElementById('answerOverlay');
         if (ansOv) ansOv.classList.remove('visible', 'active');
@@ -17459,7 +17677,7 @@
           }
         }
         if (msg.playerId !== this.playerId && msg.playerName !== this.playerName) {
-          ChatEngine.renderSystemMessage(`💡 <strong>${msg.playerName}</strong> unlocked a hint! (-2 pts)`);
+          ChatEngine.renderSystemMessage(`💡 <strong>${SecurityUtil.escapeHtml(msg.playerName)}</strong> unlocked a hint! (-2 pts)`);
         }
       },
 
@@ -17484,7 +17702,7 @@
         const tieOv = document.getElementById('tieVsOv');
         const tiePlayersEl = document.getElementById('tieVsPlayers');
         if (tiePlayersEl) {
-          tiePlayersEl.innerHTML = tiedPlayers.map(p => `<div style="font-size:20px; font-weight:900; color:#1a1a1a;">⚡ ${p.name}</div>`).join('');
+          tiePlayersEl.innerHTML = tiedPlayers.map(p => `<div style="font-size:20px; font-weight:900; color:#1a1a1a;">⚡ ${SecurityUtil.escapeHtml(p.name)}</div>`).join('');
         }
         if (tieOv) tieOv.classList.add('on');
 
@@ -17505,7 +17723,7 @@
         const tieOv = document.getElementById('tieVsOv');
         const tiePlayersEl = document.getElementById('tieVsPlayers');
         if (tiePlayersEl) {
-          tiePlayersEl.innerHTML = msg.tiedPlayers.map(p => `<div style="font-size:20px; font-weight:900; color:#1a1a1a;">⚡ ${p.name}</div>`).join('');
+          tiePlayersEl.innerHTML = (msg.tiedPlayers || []).map(p => `<div style="font-size:20px; font-weight:900; color:#1a1a1a;">⚡ ${SecurityUtil.escapeHtml(p.name)}</div>`).join('');
         }
         if (tieOv) tieOv.classList.add('on');
         setTimeout(() => {
@@ -17771,6 +17989,23 @@
         if (isOnline) {
           if (typeof RoomLobby !== 'undefined' && RoomLobby.channel) RoomLobby.updatePlayerLoadProgress(normalized);
         } else {
+          if (percent >= 100) {
+            GS.framesLoaded = true;
+            if (Array.isArray(GS.players)) {
+              GS.players.forEach(p => {
+                p.loaded = true;
+                p.loadProgress = 100;
+              });
+            }
+          } else if (Array.isArray(GS.players)) {
+            GS.players.forEach(p => {
+              p.loaded = false;
+              p.loadProgress = Math.round(percent);
+            });
+          }
+          if (typeof PlayerLobby !== 'undefined' && PlayerLobby.render) {
+            PlayerLobby.render();
+          }
           const startBtn = document.getElementById('lobbyStartBtn');
           const canStart = GS.players.length === 1 || (GS.players.length > 1 && GS.framesLoaded);
           if (startBtn) startBtn.disabled = !canStart;
@@ -17878,11 +18113,12 @@
           const av = p.avatarImg
             ? `<img src="${p.avatarImg}" alt="${p.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">`
             : `<span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;">${p.avatar ? `<svg class="svg-icon" style="width:1.5em;height:1.5em"><use href="#icon-${p.avatar}" /></svg>` : ''}</span>`;
+          const safeName = SecurityUtil.escapeHtml(p.name);
           return `<div class="lb-item ${i === 0 ? 'top' : ''}">
             <span class="lb-rank">${rank}</span>
             <div class="lb-av-wrap">${av}</div>
-            <span class="lb-name">${p.name}</span>
-            <span class="lb-score">${p.score}</span>
+            <span class="lb-name">${safeName}</span>
+            <span class="lb-score">${Number(p.score) || 0}</span>
           </div>`;
         }).join('');
       }
