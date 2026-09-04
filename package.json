@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mqtt": "^5.15.2",
+    "playwright": "^1.62.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "http-server": "^14.1.1"
+  }
+}

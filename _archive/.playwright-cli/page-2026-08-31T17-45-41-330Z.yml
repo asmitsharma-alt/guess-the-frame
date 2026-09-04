@@ -1,0 +1,68 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e115]:
+      - generic [ref=e116]:
+        - generic [ref=e117]:
+          - generic [ref=e118]: "ROOM CODE:"
+          - generic [ref=e119]: DJ4V
+        - generic [ref=e120]:
+          - button "📋 Copy Link" [ref=e121] [cursor=pointer]
+          - button "📱 QR Code" [ref=e122] [cursor=pointer]
+      - generic [ref=e123]:
+        - generic [ref=e124]: ⚙️ Host Match Settings
+        - generic [ref=e125]:
+          - generic [ref=e126]:
+            - generic [ref=e127]: Game Mode
+            - generic [ref=e128]:
+              - generic [ref=e129] [cursor=pointer]:
+                - checkbox "Frame" [checked] [ref=e130]
+                - generic [ref=e131]: Frame
+              - generic [ref=e132] [cursor=pointer]:
+                - checkbox "Eyes" [checked] [ref=e133]
+                - generic [ref=e134]: Eyes
+              - generic [ref=e135] [cursor=pointer]:
+                - checkbox "Dialogue" [checked] [ref=e136]
+                - generic [ref=e137]: Dialogue
+          - generic [ref=e138]:
+            - generic [ref=e139]: Rounds per mode (max 10)
+            - generic [ref=e140]:
+              - generic [ref=e141]:
+                - text: Frame
+                - spinbutton "Frame" [ref=e142]: "3"
+              - generic [ref=e143]:
+                - text: Eyes
+                - spinbutton "Eyes" [ref=e144]: "3"
+              - generic [ref=e145]:
+                - text: Dialogue
+                - spinbutton "Dialogue" [ref=e146]: "4"
+          - generic [ref=e147]:
+            - generic [ref=e148]: Round Timer
+            - spinbutton [ref=e149]: "30"
+      - generic [ref=e150]:
+        - generic [ref=e151]: ⚡ GAME LOBBY
+        - heading "CONNECTED PLAYERS" [level=1] [ref=e153]
+      - generic [ref=e154]: 1 PLAYER CONNECTED
+      - generic [ref=e160]:
+        - generic [ref=e161]:
+          - text: Player
+          - generic [ref=e162]: 👑 HOST
+          - generic [ref=e163]: YOU
+        - generic [ref=e164]: "Avatar: aman"
+      - generic [ref=e167]:
+        - generic [ref=e168]: ALL FRAMES LOADED & READY!
+        - generic [ref=e172]: 100%
+      - generic [ref=e175]: Need at least 1 player to start
+      - generic [ref=e178]:
+        - button "▶ START MATCH!" [ref=e179] [cursor=pointer]
+        - button "← Back to Home" [ref=e182] [cursor=pointer]
+    - text: "\"\""
+  - text: 1ST PLACE
+  - generic [ref=e83]:
+    - generic [ref=e84]: GAME UPDATE
+    - generic [ref=e85]: NEXT ROUND
+    - generic [ref=e86]: Prepare for the next frame
+  - button [ref=e87] [cursor=pointer]
+  - generic:
+    - generic:
+      - img "Avatar Preview"
+    - generic: Player

@@ -1,0 +1,5 @@
+.agents/
+skills-lock.json
+.vercel
+node_modules/
+.playwright/

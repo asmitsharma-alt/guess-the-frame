@@ -1,0 +1,541 @@
+=== CURRENT LOBBY HTML ===
+<div id="playerLobbyScreen" class="screen">
+      <!-- Decorative Shapes in Background -->
+      <div class="nb-shapes" aria-hidden="true">
+        <div class="nb-shape nb-star-shape" style="top:10%;left:6%;color:var(--nb-pink,#FF6B9D)">★</div>
+        <div class="nb-shape nb-square" style="top:18%;right:8%;background:var(--nb-blue,#3B82F6)"></div>
+        <div class="nb-shape nb-diamond" style="bottom:14%;left:8%;background:var(--nb-yellow,#FACC15)"></div>
+        <div class="nb-shape nb-square nb-sm" style="bottom:10%;right:8%;background:var(--nb-green,#84CC16)"></div>
+      </div>
+
+      <div class="lobby-stitch-topbar">
+        <div class="lobby-stitch-brand">DRAW THE MOVIE <span aria-hidden="true">✎</span></div>
+        <div class="lobby-stitch-status"><span>LOBBY STATUS:</span><b>● ONLINE</b></div>
+        <div class="lobby-stitch-waiting">WAITING FOR PLAYERS</div>
+        <div class="lobby-stitch-cloud"><strong>▰ CLOUD LIVE</strong><small>CONNECTED</small></div>
+      </div>
+      <div class="lobby-wrap">
+        <!-- Online Room Code & Share Banner -->
+        <div class="room-header-bar" id="onlineRoomBar" style="display:none;">
+          <div class="room-code-badge">
+            <span class="room-code-label">ROOM CODE:</span>
+            <span class="room-code-val" id="displayRoomCode">FILM</span>
+          </div>
+          <div class="room-actions">
+            <button class="room-btn" onclick="MultiplayerEngine.copyRoomLink()">📋 Copy Link</button>
+            <button class="room-btn" onclick="MultiplayerEngine.showQrCode()">📱 QR Code</button>
+          </div>
+        </div>
+
+        <!-- Host Match Configuration in Lobby -->
+        <div class="host-settings-box" id="hostSettingsBox" style="display:none;">
+          <div class="host-settings-title">⚙️ Host Match Settings</div>
+          <div class="host-options-grid">
+            <div class="host-select-group">
+              <label>Game Mode</label>
+              <div class="host-check-options" id="hostCategoryOptions">
+                <label class="host-check-option"><input type="checkbox" value="frames" checked onchange="MultiplayerEngine.updateHostSettings()"><span>Frame</span></label>
+                <label class="host-check-option"><input type="checkbox" value="eyes" checked onchange="MultiplayerEngine.updateHostSettings()"><span>Eyes</span></label>
+                <label class="host-check-option"><input type="checkbox" value="dialogue" checked onchange="MultiplayerEngine.updateHostSettings()"><span>Dialogue</span></label>
+              </div>
+            </div>
+            <div class="host-select-group">
+              <label>Rounds per mode (max 10)</label>
+              <div class="host-round-inputs">
+                <label>Frame <input class="host-number-input" id="hostFramesRounds" type="number" min="0" max="10" value="3" onchange="MultiplayerEngine.updateHostSettings()"></label>
+                <label>Eyes <input class="host-number-input" id="hostEyesRounds" type="number" min="0" max="10" value="3" onchange="MultiplayerEngine.updateHostSettings()"></label>
+                <label>Dialogue <input class="host-number-input" id="hostDialogueRounds" type="number" min="0" max="10" value="4" onchange="MultiplayerEngine.updateHostSettings()"></label>
+              </div>
+            </div>
+            <div class="host-select-group">
+              <label>Round Timer</label>
+              <input class="host-number-input" id="hostTimerSelect" type="number" min="5" max="30" step="1" value="30" inputmode="numeric" onchange="MultiplayerEngine.updateHostSettings()">
+            </div>
+          </div>
+        </div>
+
+        <div class="lobby-header-card">
+          <div class="lobby-stitch-section-label">PLAYER LOBBY</div>
+          <div class="lobby-eyebrow">⚡ GAME LOBBY</div>
+          <div class="lobby-title-box">
+            <h1 class="lobby-title-text" id="lobbyTitleText">CONNECTED PLAYERS</h1>
+          </div>
+        </div>
+        
+        <div class="lobby-count" id="lobbyCount"><div class="lobby-dots"><span class="lobby-dot active"></span><span class="lobby-dot active"></span><span class="lobby-dot active"></span><span class="lobby-dot active"></span></div><span>4 / 4 PLAYERS READY</span></div>
+        
+        <div class="lobby-players" id="lobbyPlayerList"></div>
+        
+        <div class="lobby-loading" id="lobbyLoading">
+          <div class="nb-load-card">
+            <div class="nb-load-header">
+              <div class="nb-load-title" id="loadTitle">
+                <svg class="svg-icon"><use href="#icon-clapperboard" /></svg>
+                <span id="loadTitleText">ALL FRAMES LOADED & READY!</span>
+              </div>
+              <span class="nb-load-percent" id="loadPercent">100%</span>
+            </div>
+            <div class="nb-load-track">
+              <div class="nb-load-bar" id="loadBar" style="width: 100%;"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lobby-min-warn" id="lobbyMinWarn"><svg class="svg-icon">
+            <use href="#icon-triangle-alert" />
+          </svg> Need at least 1 player to start</div>
+          
+        <div class="lobby-btns">
+          <button class="h-card h-card-play" id="lobbyStartBtn" onclick="PlayerLobby.start()">
+            <div class="h-card-body">
+              <div class="h-card-title">▶ START GAME!</div>
+            </div>
+          </button>
+          <button class="h-card h-card-back" onclick="PlayerLobby.back()">
+            <div class="h-card-body">
+              <div class="h-card-title">← Back to Home</div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- GAME -->
+    
+
+
+=== SEARCH: renderLobby ===
+--- at pos 67801 ---
+    GameController._onlineMode = true;
+        GameController._isRemoteSession = false;
+
+        UI.showScreen('playerLobbyScreen');
+        this.renderLobbyUI();
+      },
+
+      confirmJoinRoom() {
+        const input = document.getElementById('joinCodeInput');
+        const urlParams = new URLSearchParams(window.location.search);
+        let code = (input ? input.value : '') || urlPara
+--- at pos 69187 ---
+        isHost: false,
+          loaded: true,
+          color: '#57c3e0'
+        }];
+
+        UI.showScreen('playerLobbyScreen');
+        this.renderLobbyUI();
+
+        // Send Join Request with automatic retry until acknowledged by Host
+        this.sendJoinWithRetry();
+      },
+
+      setupCloudTransport() {
+        if (this.mqttClient) {
+          try { this.mqttClient.end(true);
+--- at pos 76093 ---
+          GS.players[existingIdx].name = msg.name;
+                GS.players[existingIdx].avatar = msg.avatar;
+              }
+              this.renderLobbyUI();
+              this.broadcastState('PLAYER_JOINED');
+            }
+            break;
+
+          case 'SYNC_ROOM_STATE':
+            if (msg.players && msg.players.length > 0) {
+              this.hasJoinedAck = true;
+        
+--- at pos 76865 ---
+ayIndex = msg.currentPlayIndex;
+              if (msg.currentRoundWinners) this.currentRoundWinners = msg.currentRoundWinners;
+
+              this.renderLobbyUI();
+              UI.renderLB();
+            }
+            break;
+
+          case 'UPDATE_HOST_SETTINGS':
+            if (msg.settings) {
+              this.hostSettings = msg.settings;
+              this.renderLobbyUI();
+      
+--- at pos 77091 ---
+reak;
+
+          case 'UPDATE_HOST_SETTINGS':
+            if (msg.settings) {
+              this.hostSettings = msg.settings;
+              this.renderLobbyUI();
+            }
+            break;
+
+          case 'GAME_START_COUNTDOWN':
+            this.handleRemoteGameStart(msg);
+            break;
+
+          case 'ROUND_START':
+            this.handleRemoteRoundStart(msg);
+         
+--- at pos 78240 ---
+    break;
+
+          case 'RETURN_LOBBY_BROADCAST':
+            this.handleRemoteReturnLobby();
+            break;
+        }
+      },
+
+      renderLobbyUI() {
+        const roomBar = document.getElementById('onlineRoomBar');
+        const codeDisplay = document.getElementById('displayRoomCode');
+        const hostBox = document.getElementById('hostSettingsBox');
+        const startBtn
+--- at pos 101231 ---
+        if (this.isHost) {
+          this.sendEvent('RETURN_LOBBY_BROADCAST');
+        }
+        UI.showScreen('playerLobbyScreen');
+        this.renderLobbyUI();
+      },
+
+      handleRemoteReturnLobby() {
+        UI.showScreen('playerLobbyScreen');
+        this.renderLobbyUI();
+      }
+    };
+
+    const UI = {
+      _cinematicTimer: null,
+      showCinematicTransition(type = 'next
+--- at pos 101354 ---
+bbyScreen');
+        this.renderLobbyUI();
+      },
+
+      handleRemoteReturnLobby() {
+        UI.showScreen('playerLobbyScreen');
+        this.renderLobbyUI();
+      }
+    };
+
+    const UI = {
+      _cinematicTimer: null,
+      showCinematicTransition(type = 'next', duration = 1500) {
+        const ov = document.getElementById('cinematicTransition');
+        if (!ov) return;
+      
+--- at pos 187482 ---
+ },
+      startOnlineGame() { MultiplayerEngine.startMatch(); },
+      leaveRoom() { UI.showScreen('homeScreen'); },
+      broadcast() { },
+      renderLobby() { },
+      updatePlayerLoadProgress() { },
+      _disconnectChannel() { this.channel = null; },
+      _resetRoomState() {
+        this.roomId = null;
+        this.roomCode = null;
+        this.playerId = null;
+        this.isHost
+
+=== SEARCH: updateLobby ===
+
+=== SEARCH: lobbyPlayerList ===
+--- at pos 1281 ---
+rameDisplay.preloadAll(p => UI.updateLoadProgress(p, 'lobby'));
+        }
+      },
+      render() {
+        const list = document.getElementById('lobbyPlayerList');
+        const count = document.getElementById('lobbyCount');
+        const warn = document.getElementById('lobbyMinWarn');
+        const startBtn = document.getElementById('lobbyStartBtn');
+        const colors = ['var(--nb-pin
+--- at pos 3873 ---
+ayer);
+          if (idx !== -1) GS.players.splice(idx, 1);
+          this.render();
+        };
+        const items = document.querySelectorAll('#lobbyPlayerList .lobby-player');
+        if (items[i]) {
+          items[i].classList.add('removing');
+          setTimeout(doRemove, 220);
+        } else {
+          doRemove();
+        }
+      },
+      start() {
+        if (GameController.
+--- at pos 78588 ---
+mentById('hostSettingsBox');
+        const startBtn = document.getElementById('lobbyStartBtn');
+        const playerList = document.getElementById('lobbyPlayerList');
+        const lobbyCount = document.getElementById('lobbyCount');
+
+        if (GameController._onlineMode) {
+          if (roomBar) roomBar.style.display = 'flex';
+          if (codeDisplay) codeDisplay.textContent = this.room
+
+=== SEARCH: hostSettingsBox ===
+--- at pos 78448 ---
+mentById('onlineRoomBar');
+        const codeDisplay = document.getElementById('displayRoomCode');
+        const hostBox = document.getElementById('hostSettingsBox');
+        const startBtn = document.getElementById('lobbyStartBtn');
+        const playerList = document.getElementById('lobbyPlayerList');
+        const lobbyCount = document.getElementById('lobbyCount');
+
+        if (GameContr
+
+=== SEARCH: onlineRoomBar ===
+--- at pos 71980 ---
+] Transport Notice:', err);
+          }
+        }
+      },
+
+      updateConnectionStatus(online) {
+        const bar = document.getElementById('onlineRoomBar');
+        if (bar) {
+          let dot = document.getElementById('cloudStatusDot');
+          if (!dot) {
+            dot = document.createElement('span');
+            dot.id = 'cloudStatusDot';
+            dot.style.marginLeft =
+--- at pos 78308 ---
+this.handleRemoteReturnLobby();
+            break;
+        }
+      },
+
+      renderLobbyUI() {
+        const roomBar = document.getElementById('onlineRoomBar');
+        const codeDisplay = document.getElementById('displayRoomCode');
+        const hostBox = document.getElementById('hostSettingsBox');
+        const startBtn = document.getElementById('lobbyStartBtn');
+        const playerLi
+
+=== SEARCH: loadPercent ===
+--- at pos 103850 ---
+isOnline = type === 'online';
+        const barId = isOnline ? 'onlineLoadBar' : 'loadBar';
+        const txtId = isOnline ? 'onlineLoadPercent' : 'loadPercent';
+        const contId = isOnline ? 'onlineLobbyLoading' : 'lobbyLoading';
+        const titleId = isOnline ? 'onlineLoadTitleText' : 'loadTitleText';
+
+        const bar = document.getElementById(barId);
+        const txt = document.
+
+=== SEARCH: loadBar ===
+--- at pos 103783 ---
+     },
+      updateLoadProgress(progress, type) {
+        const isOnline = type === 'online';
+        const barId = isOnline ? 'onlineLoadBar' : 'loadBar';
+        const txtId = isOnline ? 'onlineLoadPercent' : 'loadPercent';
+        const contId = isOnline ? 'onlineLobbyLoading' : 'lobbyLoading';
+        const titleId = isOnline ? 'onlineLoadTitleText' : 'loadTitleText';
+
+        const b
+
+=== SEARCH: lobbyStartBtn ===
+--- at pos 1476 ---
+ument.getElementById('lobbyCount');
+        const warn = document.getElementById('lobbyMinWarn');
+        const startBtn = document.getElementById('lobbyStartBtn');
+        const colors = ['var(--nb-pink, #FF6B9D)', 'var(--nb-blue, #3B82F6)', 'var(--nb-yellow, #FACC15)', 'var(--nb-green, #84CC16)', 'var(--nb-orange, #FB923C)'];
+        list.innerHTML = GS.players.map((p, i) => {
+          con
+--- at pos 78518 ---
+ementById('displayRoomCode');
+        const hostBox = document.getElementById('hostSettingsBox');
+        const startBtn = document.getElementById('lobbyStartBtn');
+        const playerList = document.getElementById('lobbyPlayerList');
+        const lobbyCount = document.getElementById('lobbyCount');
+
+        if (GameController._onlineMode) {
+          if (roomBar) roomBar.style.display = '
+--- at pos 105667 ---
+defined' && RoomLobby.channel) RoomLobby.updatePlayerLoadProgress(normalized);
+        } else {
+          const startBtn = document.getElementById('lobbyStartBtn');
+          const canStart = GS.players.length === 1 || (GS.players.length > 1 && GS.framesLoaded);
+          if (startBtn) startBtn.disabled = !canStart;
+        }
+      },
+      renderLB() {
+        const c = document.getElemen
+--- at pos 191158 ---
+       e.preventDefault();
+          showHowToPlay();
+        } else if (on('playerLobbyScreen')) {
+          const btn = document.getElementById('lobbyStartBtn');
+          if (btn && !btn.disabled) { e.preventDefault(); PlayerLobby.start(); }
+        } else if (on('gameScreen')) {
+          e.preventDefault();
+          if (SM.is(GS.PHASES.SCORING_PHASE)) {
+            const nonkBtn = do
+
+=== SEARCH: lobbyMinWarn ===
+--- at pos 1409 ---
+ument.getElementById('lobbyPlayerList');
+        const count = document.getElementById('lobbyCount');
+        const warn = document.getElementById('lobbyMinWarn');
+        const startBtn = document.getElementById('lobbyStartBtn');
+        const colors = ['var(--nb-pink, #FF6B9D)', 'var(--nb-blue, #3B82F6)', 'var(--nb-yellow, #FACC15)', 'var(--nb-green, #84CC16)', 'var(--nb-orange, #FB923C)'];
+--- at pos 3407 ---
+    },
+      remove(i) {
+        if (GS.players.length <= 1) {
+          SoundManager.playSkip();
+          const warn = document.getElementById('lobbyMinWarn');
+          if (warn) warn.classList.add('visible');
+          return;
+        }
+        SoundManager.playClick();
+        const player = GS.players[i];
+        const doRemove = () => {
+          if (GS.players.length <= 1) { thi
+
+=== SEARCH: copyRoomLink ===
+--- at pos 82585 ---
+Math.min(30, Math.max(5, tmr || 30))
+        };
+        this.sendEvent('UPDATE_HOST_SETTINGS', { settings: this.hostSettings });
+      },
+
+      copyRoomLink() {
+        const link = window.location.origin + window.location.pathname + '?room=' + this.roomCode;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(link).then(() => {
+   
+
+=== SEARCH: showQrCode ===
+--- at pos 83091 ---
+prompt('Copy this room link:', link);
+          });
+        } else {
+          prompt('Copy this room link:', link);
+        }
+      },
+
+      showQrCode() {
+        const link = window.location.origin + window.location.pathname + '?room=' + this.roomCode;
+        const modal = document.getElementById('qrModal');
+        const container = document.getElementById('qrcodeCanvasContainer');
+
+=== SEARCH: playerLobbyScreen ===
+--- at pos 862 ---
+
+        SoundManager.playClick();
+        this._originalPlayers = GS.players.map(p => ({ ...p }));
+        this.render();
+        UI.showScreen('playerLobbyScreen');
+        if (GS.players.length === 1) {
+          // Solo games load the current frame on demand instead of blocking here.
+          UI.updateLoadProgress(100, 'lobby');
+        } else {
+          UI.updateLoadProgress(0, 'lo
+--- at pos 67766 ---
+lor: '#ff7eb6'
+        }];
+
+        GameController._onlineMode = true;
+        GameController._isRemoteSession = false;
+
+        UI.showScreen('playerLobbyScreen');
+        this.renderLobbyUI();
+      },
+
+      confirmJoinRoom() {
+        const input = document.getElementById('joinCodeInput');
+        const urlParams = new URLSearchParams(window.location.search);
+        let code = (i
+--- at pos 69152 ---
+yerAvatar,
+          score: 0,
+          isHost: false,
+          loaded: true,
+          color: '#57c3e0'
+        }];
+
+        UI.showScreen('playerLobbyScreen');
+        this.renderLobbyUI();
+
+        // Send Join Request with automatic retry until acknowledged by Host
+        this.sendJoinWithRetry();
+      },
+
+      setupCloudTransport() {
+        if (this.mqttClient) {
+       
+--- at pos 101196 ---
+    },
+
+      returnToLobby() {
+        if (this.isHost) {
+          this.sendEvent('RETURN_LOBBY_BROADCAST');
+        }
+        UI.showScreen('playerLobbyScreen');
+        this.renderLobbyUI();
+      },
+
+      handleRemoteReturnLobby() {
+        UI.showScreen('playerLobbyScreen');
+        this.renderLobbyUI();
+      }
+    };
+
+    const UI = {
+      _cinematicTimer: null,
+      s
+--- at pos 101319 ---
+ }
+        UI.showScreen('playerLobbyScreen');
+        this.renderLobbyUI();
+      },
+
+      handleRemoteReturnLobby() {
+        UI.showScreen('playerLobbyScreen');
+        this.renderLobbyUI();
+      }
+    };
+
+    const UI = {
+      _cinematicTimer: null,
+      showCinematicTransition(type = 'next', duration = 1500) {
+        const ov = document.getElementById('cinematicTransition')
+--- at pos 103412 ---
+
+        }
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const lobby = document.getElementById('playerLobbyScreen');
+        if (lobby) lobby.classList.toggle('online-lobby-pro', id === 'playerLobbyScreen' && isOnline);
+        const el = document.getElementById(id);
+        if (el) el.classList.add('active');
+      },
+      updateLoadProg
+--- at pos 103504 ---
+ctive'));
+        const lobby = document.getElementById('playerLobbyScreen');
+        if (lobby) lobby.classList.toggle('online-lobby-pro', id === 'playerLobbyScreen' && isOnline);
+        const el = document.getElementById(id);
+        if (el) el.classList.add('active');
+      },
+      updateLoadProgress(progress, type) {
+        const isOnline = type === 'online';
+        const barId = i
+--- at pos 191087 ---
+
+
+      if (e.key === 'Enter') {
+        if (on('homeScreen')) {
+          e.preventDefault();
+          showHowToPlay();
+        } else if (on('playerLobbyScreen')) {
+          const btn = document.getElementById('lobbyStartBtn');
+          if (btn && !btn.disabled) { e.preventDefault(); PlayerLobby.start(); }
+        } else if (on('gameScreen')) {
+          e.preventDefault();
+        

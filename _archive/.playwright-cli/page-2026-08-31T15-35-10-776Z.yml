@@ -1,0 +1,89 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e2]:
+    - generic [ref=f1e3]:
+      - generic [ref=f1e4]:
+        - generic [ref=f1e5]: MARVEL
+        - generic [ref=f1e6]: DC
+        - generic [ref=f1e7]: HARRY POTTER
+        - generic [ref=f1e8]: STAR WARS
+        - generic [ref=f1e9]: LORD OF THE RINGS
+        - generic [ref=f1e10]: THE HOBBIT
+        - generic [ref=f1e11]: FAST & FURIOUS
+        - generic [ref=f1e12]: JURASSIC PARK
+        - generic [ref=f1e13]: MISSION IMPOSSIBLE
+        - generic [ref=f1e14]: JOHN WICK
+        - generic [ref=f1e15]: JAMES BOND
+        - generic [ref=f1e16]: PIRATES OF THE CARIBBEAN
+        - generic [ref=f1e17]: TRANSFORMERS
+        - generic [ref=f1e18]: SPIDER-MAN
+        - generic [ref=f1e19]: BATMAN
+        - generic [ref=f1e20]: SUPERMAN
+        - generic [ref=f1e21]: X-MEN
+        - generic [ref=f1e22]: AVENGERS
+        - generic [ref=f1e23]: IRON MAN
+        - generic [ref=f1e24]: NARUTO
+        - generic [ref=f1e25]: ONE PIECE
+        - generic [ref=f1e26]: DRAGON BALL
+        - generic [ref=f1e27]: ATTACK ON TITAN
+        - generic [ref=f1e28]: DEMON SLAYER
+        - generic [ref=f1e29]: DEATH NOTE
+        - generic [ref=f1e30]: JUJUTSU KAISEN
+        - generic [ref=f1e31]: BLEACH
+        - generic [ref=f1e32]: MY HERO ACADEMIA
+        - generic [ref=f1e33]: CHAINSAW MAN
+        - generic [ref=f1e34]: SPY X FAMILY
+        - generic [ref=f1e35]: MARVEL
+        - generic [ref=f1e36]: DC
+        - generic [ref=f1e37]: HARRY POTTER
+        - generic [ref=f1e38]: STAR WARS
+        - generic [ref=f1e39]: LORD OF THE RINGS
+        - generic [ref=f1e40]: THE HOBBIT
+        - generic [ref=f1e41]: FAST & FURIOUS
+        - generic [ref=f1e42]: JURASSIC PARK
+        - generic [ref=f1e43]: MISSION IMPOSSIBLE
+        - generic [ref=f1e44]: JOHN WICK
+        - generic [ref=f1e45]: JAMES BOND
+        - generic [ref=f1e46]: PIRATES OF THE CARIBBEAN
+        - generic [ref=f1e47]: TRANSFORMERS
+        - generic [ref=f1e48]: SPIDER-MAN
+        - generic [ref=f1e49]: BATMAN
+        - generic [ref=f1e50]: SUPERMAN
+        - generic [ref=f1e51]: X-MEN
+        - generic [ref=f1e52]: AVENGERS
+        - generic [ref=f1e53]: IRON MAN
+        - generic [ref=f1e54]: NARUTO
+        - generic [ref=f1e55]: ONE PIECE
+        - generic [ref=f1e56]: DRAGON BALL
+        - generic [ref=f1e57]: ATTACK ON TITAN
+        - generic [ref=f1e58]: DEMON SLAYER
+        - generic [ref=f1e59]: DEATH NOTE
+        - generic [ref=f1e60]: JUJUTSU KAISEN
+        - generic [ref=f1e61]: BLEACH
+        - generic [ref=f1e62]: MY HERO ACADEMIA
+        - generic [ref=f1e63]: CHAINSAW MAN
+        - generic [ref=f1e64]: SPY X FAMILY
+      - img "Guess The Frame by Asmit" [ref=f1e66]
+      - generic [ref=f1e67]:
+        - generic [ref=f1e68] [cursor=pointer]:
+          - generic [ref=f1e69]: ⚡ HOST GAME
+          - generic [ref=f1e70]: Create Online Room
+          - generic [ref=f1e71]: Generate a 4-letter room code & invite friends to play from their phones
+        - generic [ref=f1e72] [cursor=pointer]:
+          - generic [ref=f1e73]: 🎮 ENTER CODE
+          - generic [ref=f1e74]: Join Online Room
+          - generic [ref=f1e75]: Enter a room code & join your friend's cinema trivia match
+        - generic [ref=f1e76] [cursor=pointer]:
+          - generic [ref=f1e77]: 👥 PASS & PLAY
+          - generic [ref=f1e78]: Local Party Mode
+          - generic [ref=f1e79]: Play offline on a single screen with pass-and-play scoring
+      - generic [ref=f1e80]:
+        - text: How many can
+        - emphasis [ref=f1e81]: you
+        - text: name?
+    - text: "\"\""
+  - text: 1ST PLACE
+  - button [ref=f1e82] [cursor=pointer]
+  - generic:
+    - generic:
+      - img "Avatar Preview"
+    - generic: Player

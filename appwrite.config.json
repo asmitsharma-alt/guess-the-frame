@@ -1,0 +1,29 @@
+{
+    "projectId": "6a95a01e0028db20a16f",
+    "endpoint": "https://sgp.cloud.appwrite.io/v1",
+    "sites": [
+        {
+            "$id": "guesstheframe",
+            "name": "Guess The Frame",
+            "path": "sites/guess-the-frame",
+            "framework": "other",
+            "logging": true,
+            "timeout": 30,
+            "buildRuntime": "node-22",
+            "adapter": "static",
+            "installCommand": "",
+            "buildCommand": "",
+            "outputDirectory": ".",
+            "fallbackFile": "index.html",
+            "installationId": "",
+            "providerRepositoryId": "",
+            "providerBranch": "",
+            "providerSilentMode": false,
+            "providerRootDirectory": "",
+            "startCommand": "",
+            "buildSpecification": "s-2vcpu-2gb",
+            "runtimeSpecification": "s-0.5vcpu-512mb",
+            "deploymentRetention": 0
+        }
+    ]
+}

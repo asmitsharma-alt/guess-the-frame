@@ -1,0 +1,208 @@
+=== PlayerLobby Object ===
+const PlayerLobby = {
+      _originalPlayers: [],
+      show() {
+        SoundManager.playClick();
+        this._originalPlayers = GS.players.map(p => ({ ...p }));
+        this.render();
+        UI.showScreen('playerLobbyScreen');
+        if (GS.players.length === 1) {
+          // Solo games load the current frame on demand instead of blocking here.
+          UI.updateLoadProgress(100, 'lobby');
+        } else {
+          UI.updateLoadProgress(0, 'lobby');
+          FrameDisplay.preloadAll(p => UI.updateLoadProgress(p, 'lobby'));
+        }
+      },
+      render() {
+        const list = document.getElementById('lobbyPlayerList');
+        const count = document.getElementById('lobbyCount');
+        const warn = document.getElementById('lobbyMinWarn');
+        const startBtn = document.getElementById('lobbyStartBtn');
+        const colors = ['var(--nb-pink, #FF6B9D)', 'var(--nb-blue, #3B82F6)', 'var(--nb-yellow, #FACC15)', 'var(--nb-green, #84CC16)', 'var(--nb-orange, #FB923C)'];
+        list.innerHTML = GS.players.map((p, i) => {
+          const color = colors[i % colors.length];
+          const avHtml = renderAvatar(p, 'lp');
+          const safeName = SecurityUtil.escapeHtml(p.name);
+          const pSlot = `P${i + 1}`;
+          return `<div class="lobby-player" style="background: ${color};" data-index="${i}">
+            <div class="lp-top-bar">
+              <span class="lp-tag">${pSlot}</span>
+              <button class="lp-remove" onclick="PlayerLobby.remove(${i})" title="Remove ${safeName}" aria-label="Remove ${safeName}">✕</button>
+            </div>
+            <div class="lp-avatar-wrap">${avHtml}</div>
+            <div class="lp-name-badge">
+              <span class="lp-name-text">${safeName}</span>
+            </div>
+          </div>`;
+        }).join('');
+        
+        const dots = Array.from({ length: 4 }, (_, idx) => 
+          `<span class="lobby-dot ${idx < GS.players.length ? 'active' : ''}"></span>`
+        ).join('');
+        
+        count.innerHTML = `<div class="lobby-dots">${dots}</div><span>${GS.players.length} / 4 PLAYERS READY</span>`;
+        const canStart = GS.players.length === 1 || (GS.players.length > 1 && GS.framesLoaded);
+        startBtn.disabled = !canStart;
+        if (warn) {
+          if (GS.players.length < 1) {
+            warn.innerHTML = '<svg class="svg-icon"><use href="#icon-triangle-alert" /></svg> Need at least 1 player to start';
+            warn.classList.add('visible');
+          } else {
+            warn.classList.remove('visible');
+          }
+        }
+      },
+      remove(i) {
+        if (GS.players.length <= 1) {
+          SoundManager.playSkip();
+          const warn = document.getElementById('lobbyMinWarn');
+          if (warn) warn.classList.add('visible');
+          return;
+        }
+        SoundManager.playClick();
+        const player = GS.players[i];
+        const doRemove = () => {
+          if (GS.players.length <= 1) { this.render(); return; }
+          const idx = GS.players.indexOf(player);
+          if (idx !== -1) GS.players.splice(idx, 1);
+          this.render();
+        };
+        const items = document.querySelectorAll('#lobbyPlayerList .lobby-player');
+        if (items[i]) {
+          items[i].classList.add('removing');
+          setTimeout(doRemove, 220);
+        } else {
+          doRemove();
+        }
+      },
+      start() {
+        if (GameController._onlineMode && MultiplayerEngine.isHost) { MultiplayerEngine.startMatch(); return; }
+        if (GS.players.length < 1 || (GS.players.length > 1 && !GS.framesLoaded)) return;
+        SoundManager.playClick();
+        GameController.startGame();
+      },
+      back() {
+        SoundManager.playClick();
+        GS.players = this._originalPlayers.map(p => ({ ...p }));
+        UI.showScreen('homeScreen');
+      }
+    };
+
+    /* ═══ PREMIUM SOUND DESIGN ENGINE (Synthesized, Ear-Safe, 60fps) ═══ */
+    const So
+
+=== MultiplayerEngine.renderLobbyUI ===
+renderLobbyUI();
+      },
+
+      confirmJoinRoom() {
+        const input = document.getElementById('joinCodeInput');
+        const urlParams = new URLSearchParams(window.location.search);
+        let code = (input ? input.value : '') || urlParams.get('room') || '';
+        code = code.trim().toUpperCase();
+        if (!code || code.length < 3) {
+          alert('Please enter a valid Room Code.');
+          return;
+        }
+        const nick = (document.getElementById('joinNicknameInput').value || 'Player').trim();
+        this.playerName = nick;
+        this.playerAvatar = this.selectedAvatarForModal || 'aman';
+        this.isHost = false;
+        this.roomCode = code;
+        this.roomId = 'room_' + this.roomCode;
+        this.hasJoinedAck = false;
+
+        localStorage.setItem('gtf_player_name', this.playerName);
+        localStorage.setItem('gtf_player_avatar', this.playerAvatar);
+
+        this.closeModals();
+        this.setupCloudTransport();
+
+        GameController._onlineMode = true;
+        GameController._isRemoteSession = true;
+
+        GS.players = [{
+          id: this.playerId,
+          name: this.playerName,
+          avatar: this.playerAvatar,
+          score: 0,
+          isHost: false,
+          loaded: true,
+          color: '#57c3e0'
+        }];
+
+        UI.showScreen('playerLobbyScreen');
+        this.renderLobbyUI();
+
+        // Send Join Request with automatic retry until acknowledged by Host
+        this.sendJoinWithRetry();
+      },
+
+      setupCloudTransport() {
+        if (this.mqttClient) {
+          try { this.mqttClient.end(true); } catch(e) {}
+        }
+        if (this.broadcastChannel) {
+          try { this.broadcastChannel.close(); } catch(e) {}
+        }
+
+        const topic = 'gtf_game_v1/' + this.roomCode;
+
+        // 1. Local BroadcastChannel for instant same-browser sync
+        try {
+          this.broadcastChannel = new BroadcastChannel('gtf_bc_' + this.roomCode);
+          this.broadcastChannel.onmessage = (event) => {
+            if (event && event.data) this.handleIncomingEvent(event.data);
+          };
+        } catch(e) {}
+
+        // 2. Cloud WebSocket for cross-device Internet sync (phones/laptops)
+        if (typeof mqtt !== 'undefined') {
+          const brokerList = [
+            'wss://broker.emqx.io:8084/mqtt',
+            'wss://broker.hivemq.com:8884/mqtt'
+          ];
+          const brokerUrl = brokerList[0];
+
+          try {
+            this.mqttClient = mqtt.connect(brokerUrl, {
+              keepalive: 30,
+              reconnectPeriod: 2000,
+              connectTimeout: 5000,
+              clientId: 'gtf_' + this.playerId + '_' + Math.random().toString(16).substr(2, 6)
+            });
+
+            this.mqttClient.on('connect', () => {
+              this.isConnected = true;
+              console.log('[Realtime] Connected to Cloud WebSocket Broker!');
+              this.updateConnectionStatus(true);
+              this.mqttClient.subscribe(topic, { qos: 1 });
+              this.flushMessageQueue();
+
+              if (!this.isHost && !this.hasJoinedAck) {
+                this.sendJoinWithRetry();
+              } else if (this.isHost) {
+                this.broadcastState('HOST_ONLINE');
+              }
+            });
+
+            this.mqttClient.on('message', (t, payload) => {
+              try {
+                const msg = JSON.parse(payload.toString());
+                this.handleIncomingEvent(msg);
+              } catch(err) {
+                console.error('[Realtime] Error parsing message:', err);
+              }
+            });
+
+            this.mqttClient.on('offline', () => {
+              this.isConnected = false;
+              this.updateConnectionStatus(false);
+            });
+
+            this.mqttClient.on('error', (err) => {
+              console.warn('[Realtime] WebSocket Notice:', err.message);
+            });
+          } catch(err) {
+      

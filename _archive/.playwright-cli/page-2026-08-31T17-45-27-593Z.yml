@@ -1,0 +1,116 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]: MARVEL
+        - generic [ref=e6]: DC
+        - generic [ref=e7]: HARRY POTTER
+        - generic [ref=e8]: STAR WARS
+        - generic [ref=e9]: LORD OF THE RINGS
+        - generic [ref=e10]: THE HOBBIT
+        - generic [ref=e11]: FAST & FURIOUS
+        - generic [ref=e12]: JURASSIC PARK
+        - generic [ref=e13]: MISSION IMPOSSIBLE
+        - generic [ref=e14]: JOHN WICK
+        - generic [ref=e15]: JAMES BOND
+        - generic [ref=e16]: PIRATES OF THE CARIBBEAN
+        - generic [ref=e17]: TRANSFORMERS
+        - generic [ref=e18]: SPIDER-MAN
+        - generic [ref=e19]: BATMAN
+        - generic [ref=e20]: SUPERMAN
+        - generic [ref=e21]: X-MEN
+        - generic [ref=e22]: AVENGERS
+        - generic [ref=e23]: IRON MAN
+        - generic [ref=e24]: NARUTO
+        - generic [ref=e25]: ONE PIECE
+        - generic [ref=e26]: DRAGON BALL
+        - generic [ref=e27]: ATTACK ON TITAN
+        - generic [ref=e28]: DEMON SLAYER
+        - generic [ref=e29]: DEATH NOTE
+        - generic [ref=e30]: JUJUTSU KAISEN
+        - generic [ref=e31]: BLEACH
+        - generic [ref=e32]: MY HERO ACADEMIA
+        - generic [ref=e33]: CHAINSAW MAN
+        - generic [ref=e34]: SPY X FAMILY
+        - generic [ref=e35]: MARVEL
+        - generic [ref=e36]: DC
+        - generic [ref=e37]: HARRY POTTER
+        - generic [ref=e38]: STAR WARS
+        - generic [ref=e39]: LORD OF THE RINGS
+        - generic [ref=e40]: THE HOBBIT
+        - generic [ref=e41]: FAST & FURIOUS
+        - generic [ref=e42]: JURASSIC PARK
+        - generic [ref=e43]: MISSION IMPOSSIBLE
+        - generic [ref=e44]: JOHN WICK
+        - generic [ref=e45]: JAMES BOND
+        - generic [ref=e46]: PIRATES OF THE CARIBBEAN
+        - generic [ref=e47]: TRANSFORMERS
+        - generic [ref=e48]: SPIDER-MAN
+        - generic [ref=e49]: BATMAN
+        - generic [ref=e50]: SUPERMAN
+        - generic [ref=e51]: X-MEN
+        - generic [ref=e52]: AVENGERS
+        - generic [ref=e53]: IRON MAN
+        - generic [ref=e54]: NARUTO
+        - generic [ref=e55]: ONE PIECE
+        - generic [ref=e56]: DRAGON BALL
+        - generic [ref=e57]: ATTACK ON TITAN
+        - generic [ref=e58]: DEMON SLAYER
+        - generic [ref=e59]: DEATH NOTE
+        - generic [ref=e60]: JUJUTSU KAISEN
+        - generic [ref=e61]: BLEACH
+        - generic [ref=e62]: MY HERO ACADEMIA
+        - generic [ref=e63]: CHAINSAW MAN
+        - generic [ref=e64]: SPY X FAMILY
+      - img "Guess The Frame by Asmit" [ref=e66]
+      - generic [ref=e67]:
+        - generic [ref=e68] [cursor=pointer]:
+          - generic [ref=e69]: ⚡ HOST GAME
+          - generic [ref=e70]: Create Online Room
+          - generic [ref=e71]: Generate a 4-letter room code & invite friends to play from their phones
+        - generic [ref=e72] [cursor=pointer]:
+          - generic [ref=e73]: 🎮 ENTER CODE
+          - generic [ref=e74]: Join Online Room
+          - generic [ref=e75]: Enter a room code & join your friend's cinema trivia match
+        - generic [ref=e76] [cursor=pointer]:
+          - generic [ref=e77]: 👥 PASS & PLAY
+          - generic [ref=e78]: Local Party Mode
+          - generic [ref=e79]: Play offline on a single screen with pass-and-play scoring
+      - generic [ref=e80]:
+        - text: How many can
+        - emphasis [ref=e81]: you
+        - text: name?
+    - generic [ref=e91]:
+      - generic [ref=e92]:
+        - generic [ref=e93]: ⚡ Create Online Room
+        - button "✕" [ref=e94] [cursor=pointer]
+      - generic [ref=e95]:
+        - generic [ref=e96]: Your Host Nickname
+        - textbox "e.g. CinemaKing" [ref=e97]: Player
+      - generic [ref=e98]:
+        - generic [ref=e99]: Select Your Animated Avatar
+        - generic [ref=e100]:
+          - generic [ref=e101] [cursor=pointer]:
+            - img "Aman" [ref=e102]
+            - generic [ref=e103]: Aman
+          - generic [ref=e104] [cursor=pointer]:
+            - img "Amish" [ref=e105]
+            - generic [ref=e106]: Amish
+          - generic [ref=e107] [cursor=pointer]:
+            - img "Aziz" [ref=e108]
+            - generic [ref=e109]: Aziz
+          - generic [ref=e110] [cursor=pointer]:
+            - img "Vish" [ref=e111]
+            - generic [ref=e112]: Vish
+      - button "CREATE ROOM & GET CODE →" [ref=e113] [cursor=pointer]
+    - text: "\"\""
+  - text: 1ST PLACE
+  - generic [ref=e83]:
+    - generic [ref=e84]: GAME UPDATE
+    - generic [ref=e85]: NEXT ROUND
+    - generic [ref=e86]: Prepare for the next frame
+  - button [ref=e87] [cursor=pointer]
+  - generic:
+    - generic:
+      - img "Avatar Preview"
+    - generic: Player
