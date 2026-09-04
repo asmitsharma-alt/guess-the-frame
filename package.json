@@ -5,6 +5,8 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.62.1",
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "sharp": "^0.35.4",
+    "tailwindcss": "^3.4.19"
   }
 }

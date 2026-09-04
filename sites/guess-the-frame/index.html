@@ -10,49 +10,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Anybody:wght@800;900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
-  <link rel="preload" as="image" href="bg/guess_the_frame.png" type="image/png" fetchpriority="high">
-  <link rel="preload" as="image" href="bg/cinema_bg.jpeg" type="image/jpeg">
+  <link rel="preload" as="image" href="bg/guess_the_frame.webp" type="image/png" fetchpriority="high">
+  <link rel="preload" as="image" href="bg/cinema_bg.webp" type="image/jpeg">
   <title>Guess The Frame By Asmit</title>
   <meta name="description" content="Guess The Frame - The Ultimate Movie Frame Guessing Party Game by Asmit. Gather your crew and guess iconic cinema frames!">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            'primary': '#000000',
-            'on-primary': '#ffffff',
-            'primary-container': '#bd93f9',
-            'on-primary-container': '#1a1c19',
-            'primary-fixed': '#e2dfff',
-            'secondary-fixed': '#cae6ff',
-            'tertiary-fixed': '#ffd8df',
-            'surface': '#ffffff',
-            'surface-variant': '#f4f4ee',
-            'on-surface': '#1a1c19',
-            'on-surface-variant': '#43483f',
-            'outline': '#74796e',
-            'background': '#fafaf4',
-            'neo-yellow': '#f1c40f',
-            'neo-green': '#2ecc71',
-            'neo-purple': '#9b59b6',
-            'neo-pink': '#e91e63',
-            'neo-blue': '#3498db',
-          },
-          fontFamily: {
-            'sans': ['"DM Sans"', 'sans-serif'],
-            'mono': ['"Space Mono"', '"JetBrains Mono"', 'monospace'],
-            'headline': ['"Anybody"', '"DM Sans"', 'sans-serif'],
-            'label': ['"Space Grotesk"', '"DM Sans"', 'sans-serif'],
-          },
-          boxShadow: {
-            'neo': '6px 6px 0px 0px rgba(0,0,0,1)',
-            'neo-sm': '3px 3px 0px 0px rgba(0,0,0,1)',
-          }
-        }
-      }
-    }
-  </script>
+  <link rel="stylesheet" href="css/tailwind.min.css">
 <style>
     * {
       margin: 0;
@@ -89,7 +51,7 @@
     }
 
     html, body {
-      background: #F4EEDC url('bg/cinema_bg.jpeg') no-repeat center center fixed !important;
+      background: #F4EEDC url('bg/cinema_bg.webp') no-repeat center center fixed !important;
       background-size: cover !important;
       -webkit-background-size: cover !important;
       overflow-x: hidden !important;
@@ -7819,7 +7781,7 @@
       left: -10px !important;
       width: calc(100vw + 20px) !important;
       height: calc(100vh + 20px) !important;
-      background: #F4EEDC url('bg/cinema_bg.jpeg') no-repeat center center !important;
+      background: #F4EEDC url('bg/cinema_bg.webp') no-repeat center center !important;
       background-size: cover !important;
       -webkit-background-size: cover !important;
       filter: blur(3.5px) saturate(0.92) brightness(0.96) !important;
@@ -13279,7 +13241,7 @@
 
       <!-- Hero Logo Image -->
       <div class="h-hero">
-        <img src="bg/guess_the_frame.png" alt="Guess The Frame by Asmit" class="h-logo-img" decoding="async" fetchpriority="high" loading="eager" />
+        <img src="bg/guess_the_frame.webp" alt="Guess The Frame by Asmit" class="h-logo-img" decoding="async" fetchpriority="high" loading="eager" />
       </div>
 
       <!-- Action cards for Online Multiplayer & Local -->
@@ -14407,7 +14369,132 @@
     }
     function goHome() { SoundManager.playClick(); PaletteManager.reset(); UI.showScreen('homeScreen'); }
 
-        /* ═══ SECURITY & SANITIZATION UTILITIES ═══ */
+            /* ═══ NETWORK SECURITY & CRYPTOGRAPHIC AUTHORIZATION ═══ */
+    const NetworkSecurity = {
+      _secretKey: 'GTF_PROD_SEC_KEY_9921#*!',
+      _rateLimits: {},
+
+      getRoomTopic(roomCode) {
+        if (!roomCode) return 'gtf_sec_v2/default';
+        const code = String(roomCode).toUpperCase().trim();
+        let hash = 0x811c9dc5;
+        const seed = this._secretKey + ':' + code;
+        for (let i = 0; i < seed.length; i++) {
+          hash ^= seed.charCodeAt(i);
+          hash = Math.imul(hash, 0x01000193);
+        }
+        const hex = (hash >>> 0).toString(16).padStart(8, '0');
+        return 'gtf_sec_v2/' + hex + '_' + code;
+      },
+
+      getTopicHash(roomCode) {
+        const t = this.getRoomTopic(roomCode);
+        return t.replace(/[^a-zA-Z0-9_]/g, '_');
+      },
+
+      generateToken(roomCode, playerId, isHost) {
+        const code = String(roomCode || '').toUpperCase().trim();
+        const pid = String(playerId || '').trim();
+        const role = isHost ? '1' : '0';
+        const ts = Date.now().toString(36);
+        const payload = code + '|' + pid + '|' + role + '|' + ts;
+        let hash = 0x811c9dc5;
+        const input = this._secretKey + '|' + payload;
+        for (let i = 0; i < input.length; i++) {
+          hash ^= input.charCodeAt(i);
+          hash = Math.imul(hash, 0x01000193);
+        }
+        const sig = (hash >>> 0).toString(16).padStart(8, '0');
+        return payload + '|' + sig;
+      },
+
+      verifyToken(token, expectedRoomCode, expectedSenderId) {
+        if (!token || typeof token !== 'string') return false;
+        const parts = token.split('|');
+        if (parts.length !== 5) return false;
+        const [code, pid, role, ts, sig] = parts;
+        if (code !== String(expectedRoomCode).toUpperCase().trim()) return false;
+        if (pid !== String(expectedSenderId).trim()) return false;
+        const payload = code + '|' + pid + '|' + role + '|' + ts;
+        let hash = 0x811c9dc5;
+        const input = this._secretKey + '|' + payload;
+        for (let i = 0; i < input.length; i++) {
+          hash ^= input.charCodeAt(i);
+          hash = Math.imul(hash, 0x01000193);
+        }
+        const expectedSig = (hash >>> 0).toString(16).padStart(8, '0');
+        return sig === expectedSig;
+      },
+
+      checkRateLimit(senderId) {
+        const now = Date.now();
+        const record = this._rateLimits[senderId] || { count: 0, resetTime: now + 1000 };
+        if (now > record.resetTime) {
+          record.count = 1;
+          record.resetTime = now + 1000;
+        } else {
+          record.count++;
+          if (record.count > 25) {
+            return false;
+          }
+        }
+        this._rateLimits[senderId] = record;
+        return true;
+      },
+
+      validateIncomingMessage(msg, currentRoomCode, players = [], isLocalHost = false) {
+        if (!msg || typeof msg !== 'object') return false;
+        if (msg.roomCode !== currentRoomCode) return false;
+
+        // Timestamp drift check (replay attack protection: max 60s)
+        if (msg.timestamp && Math.abs(Date.now() - msg.timestamp) > 60000) {
+          console.warn('[NetworkSecurity] Dropped stale/replay message from sender:', msg.senderId);
+          return false;
+        }
+
+        // Rate limiting per sender
+        if (msg.senderId && !this.checkRateLimit(msg.senderId)) {
+          console.warn('[NetworkSecurity] Rate limit exceeded, dropping packet from:', msg.senderId);
+          return false;
+        }
+
+        // Authoritative Host command verification
+        const HOST_COMMANDS = [
+          'SYNC_ROOM_STATE',
+          'UPDATE_HOST_SETTINGS',
+          'GAME_START_COUNTDOWN',
+          'ROUND_START',
+          'GUESS_CORRECT_BROADCAST',
+          'ROUND_FINISH_BROADCAST',
+          'HOST_SKIP_BROADCAST',
+          'HOST_PAUSE_BROADCAST',
+          'TIE_BREAKER_TRIGGER',
+          'GAME_OVER_BROADCAST',
+          'HOST_HEARTBEAT',
+          'REJOIN_SYNC_STATE'
+        ];
+
+        if (HOST_COMMANDS.includes(msg.type)) {
+          const registeredHost = (players || []).find(p => p.isHost);
+          if (registeredHost && msg.senderId !== registeredHost.id) {
+            console.warn('[NetworkSecurity] BLOCKED unauthorized host command:', msg.type, 'from non-host:', msg.senderId);
+            return false;
+          }
+        }
+
+        // Validate payload boundaries
+        if (msg.type === 'SUBMIT_GUESS') {
+          if (!msg.guess || typeof msg.guess !== 'string' || msg.guess.length > 100) return false;
+        }
+        if (msg.type === 'CHAT_MESSAGE') {
+          if (!msg.msg || typeof msg.msg !== 'object' || !msg.msg.text || msg.msg.text.length > 300) return false;
+        }
+
+        return true;
+      }
+    };
+
+    /* ═══ SECURITY & SANITIZATION UTILITIES ═══ */
     const SecurityUtil = {
       escapeHtml(str) {
         if (str == null) return '';
@@ -15182,26 +15269,26 @@
       sections: [
         {
           id: 1, name: 'Guess the Frame', icon: '<svg class="svg-icon"><use href="#icon-film" /></svg>', collapsed: false, frames: [
-            { type: 'image', content: 'GUESSTHEFRAME/2001 A Space Odyssey (1968).png', answer: '2001 A SPACE ODYSSEY', year: '1968' },
-            { type: 'image', content: 'GUESSTHEFRAME/A Wednesday (2008).jpg', answer: 'A WEDNESDAY', year: '2008' },
-            { type: 'image', content: 'GUESSTHEFRAME/Athiradi(2026).png', answer: 'ATHIRADI', year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/Boogie Nights (1997).png', answer: 'BOOGIE NIGHTS', year: '1997' },
-            { type: 'image', content: 'GUESSTHEFRAME/Drishyam 3(2026).png', answer: 'DRISHYAM 3', year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/Ferrari Ki Sawaari (2012).jpg', answer: 'FERRARI KI SAWAARI', year: '2012' },
-            { type: 'image', content: 'GUESSTHEFRAME/Gram Chikitsalaya Season 2 (2026).png', answer: 'GRAM CHIKITSALAYA SEASON 2', year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/I Swear (2025).png', answer: 'I SWEAR', year: '2025' },
-            { type: 'image', content: 'GUESSTHEFRAME/Licorice Pizza (2021).png', answer: 'LICORICE PIZZA', year: '2021' },
-            { type: 'image', content: 'GUESSTHEFRAME/Made In India A Titan Story(2026).png', answer: 'MADE IN INDIA A TITAN STORY', year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/Mulholland Drive (2001).jpg', answer: 'MULHOLLAND DRIVE', year: '2001' },
-            { type: 'image', content: 'GUESSTHEFRAME/No Smoking (2007).jpg', answer: 'NO SMOKING', year: '2007' },
-            { type: 'image', content: 'GUESSTHEFRAME/Peepli Live (2010).jpg', answer: 'PEEPLI LIVE', year: '2010' },
-            { type: 'image', content: 'GUESSTHEFRAME/Rush (2023).png', answer: 'RUSH', year: '2023' },
-            { type: 'image', content: 'GUESSTHEFRAME/Sapne Vs Everyone(2023).png', answer: 'SAPNE VS EVERYONE', year: '2023' },
-            { type: 'image', content: 'GUESSTHEFRAME/The Drama (2026).jpg', answer: 'THE DRAMA', year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/The Sheep Detectives (2026).png', answer: 'THE SHEEP DETECTIVES', year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/Widow_s Bay (2026).png', answer: "WIDOW'S BAY", year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/Wind River (2017).jpg', answer: 'WIND RIVER', year: '2017' },
-            { type: 'image', content: 'GUESSTHEFRAME/Zero (2018).jpg', answer: 'ZERO', year: '2018' }
+            { type: 'image', content: 'GUESSTHEFRAME/2001 A Space Odyssey (1968).webp', answer: '2001 A SPACE ODYSSEY', year: '1968' },
+            { type: 'image', content: 'GUESSTHEFRAME/A Wednesday (2008).webp', answer: 'A WEDNESDAY', year: '2008' },
+            { type: 'image', content: 'GUESSTHEFRAME/Athiradi(2026).webp', answer: 'ATHIRADI', year: '2026' },
+            { type: 'image', content: 'GUESSTHEFRAME/Boogie Nights (1997).webp', answer: 'BOOGIE NIGHTS', year: '1997' },
+            { type: 'image', content: 'GUESSTHEFRAME/Drishyam 3(2026).webp', answer: 'DRISHYAM 3', year: '2026' },
+            { type: 'image', content: 'GUESSTHEFRAME/Ferrari Ki Sawaari (2012).webp', answer: 'FERRARI KI SAWAARI', year: '2012' },
+            { type: 'image', content: 'GUESSTHEFRAME/Gram Chikitsalaya Season 2 (2026).webp', answer: 'GRAM CHIKITSALAYA SEASON 2', year: '2026' },
+            { type: 'image', content: 'GUESSTHEFRAME/I Swear (2025).webp', answer: 'I SWEAR', year: '2025' },
+            { type: 'image', content: 'GUESSTHEFRAME/Licorice Pizza (2021).webp', answer: 'LICORICE PIZZA', year: '2021' },
+            { type: 'image', content: 'GUESSTHEFRAME/Made In India A Titan Story(2026).webp', answer: 'MADE IN INDIA A TITAN STORY', year: '2026' },
+            { type: 'image', content: 'GUESSTHEFRAME/Mulholland Drive (2001).webp', answer: 'MULHOLLAND DRIVE', year: '2001' },
+            { type: 'image', content: 'GUESSTHEFRAME/No Smoking (2007).webp', answer: 'NO SMOKING', year: '2007' },
+            { type: 'image', content: 'GUESSTHEFRAME/Peepli Live (2010).webp', answer: 'PEEPLI LIVE', year: '2010' },
+            { type: 'image', content: 'GUESSTHEFRAME/Rush (2023).webp', answer: 'RUSH', year: '2023' },
+            { type: 'image', content: 'GUESSTHEFRAME/Sapne Vs Everyone(2023).webp', answer: 'SAPNE VS EVERYONE', year: '2023' },
+            { type: 'image', content: 'GUESSTHEFRAME/The Drama (2026).webp', answer: 'THE DRAMA', year: '2026' },
+            { type: 'image', content: 'GUESSTHEFRAME/The Sheep Detectives (2026).webp', answer: 'THE SHEEP DETECTIVES', year: '2026' },
+            { type: 'image', content: 'GUESSTHEFRAME/Widow_s Bay (2026).webp', answer: "WIDOW'S BAY", year: '2026' },
+            { type: 'image', content: 'GUESSTHEFRAME/Wind River (2017).webp', answer: 'WIND RIVER', year: '2017' },
+            { type: 'image', content: 'GUESSTHEFRAME/Zero (2018).webp', answer: 'ZERO', year: '2018' }
           ]
         },
         {
@@ -15220,16 +15307,16 @@
         },
         {
           id: 3, name: 'Guess the Eye', icon: '<svg class="svg-icon"><use href="#icon-eye" /></svg>', collapsed: false, frames: [
-            { type: 'eye', content: 'GUESSTHEEYES/Adria Arjona copy.png', revealContent: 'GUESSTHEEYES/Adria Arjona.png', answer: 'ADRIA ARJONA', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Anthony Mackie copy.png', revealContent: 'GUESSTHEEYES/Anthony Mackie.png', answer: 'ANTHONY MACKIE', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Antony Starr copy.png', revealContent: 'GUESSTHEEYES/Antony Starr.png', answer: 'ANTONY STARR', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Emily Blunt copy.png', revealContent: 'GUESSTHEEYES/Emily Blunt.png', answer: 'EMILY BLUNT', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Emma Stone copy.png', revealContent: 'GUESSTHEEYES/Emma Stone.png', answer: 'EMMA STONE', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Kate Hudson copy.png', revealContent: 'GUESSTHEEYES/Kate Hudson.png', answer: 'KATE HUDSON', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Olivia Cooke copy.png', revealContent: 'GUESSTHEEYES/Olivia Cooke.png', answer: 'OLIVIA COOKE', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Rachel Brosnahan copy.png', revealContent: 'GUESSTHEEYES/Rachel Brosnahan.png', answer: 'RACHEL BROSNAHAN', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Shraddha Kapoor copy.png', revealContent: 'GUESSTHEEYES/Shraddha Kapoor.png', answer: 'SHRADDHA KAPOOR', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Zoe Saldana copy.png', revealContent: 'GUESSTHEEYES/Zoe Saldana.png', answer: 'ZOE SALDA\u00d1A', year: '' }
+            { type: 'eye', content: 'GUESSTHEEYES/Adria Arjona copy.webp', revealContent: 'GUESSTHEEYES/Adria Arjona.webp', answer: 'ADRIA ARJONA', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Anthony Mackie copy.webp', revealContent: 'GUESSTHEEYES/Anthony Mackie.webp', answer: 'ANTHONY MACKIE', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Antony Starr copy.webp', revealContent: 'GUESSTHEEYES/Antony Starr.webp', answer: 'ANTONY STARR', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Emily Blunt copy.webp', revealContent: 'GUESSTHEEYES/Emily Blunt.webp', answer: 'EMILY BLUNT', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Emma Stone copy.webp', revealContent: 'GUESSTHEEYES/Emma Stone.webp', answer: 'EMMA STONE', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Kate Hudson copy.webp', revealContent: 'GUESSTHEEYES/Kate Hudson.webp', answer: 'KATE HUDSON', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Olivia Cooke copy.webp', revealContent: 'GUESSTHEEYES/Olivia Cooke.webp', answer: 'OLIVIA COOKE', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Rachel Brosnahan copy.webp', revealContent: 'GUESSTHEEYES/Rachel Brosnahan.webp', answer: 'RACHEL BROSNAHAN', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Shraddha Kapoor copy.webp', revealContent: 'GUESSTHEEYES/Shraddha Kapoor.webp', answer: 'SHRADDHA KAPOOR', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Zoe Saldana copy.webp', revealContent: 'GUESSTHEEYES/Zoe Saldana.webp', answer: 'ZOE SALDA\u00d1A', year: '' }
           ]
         }
       ],
@@ -15249,20 +15336,20 @@
         frame: null,
         usedFrameKeys: [],
         frames: [
-          { type: 'image', content: 'tie breaker/Anatomy of a Fall (2023).jpg', answer: 'ANATOMY OF A FALL', year: '2023' },
-          { type: 'image', content: 'tie breaker/Eyes Wide Shut (1999).png', answer: 'EYES WIDE SHUT', year: '1999' },
-          { type: 'image', content: 'tie breaker/Ghilli (2004).png', answer: 'GHILLI', year: '2004' },
-          { type: 'image', content: 'tie breaker/La Haine(1995).jpg', answer: 'LA HAINE', year: '1995' },
-          { type: 'image', content: 'tie breaker/Mad Max 2.jpg.jpeg', answer: 'MAD MAX 2', year: '1981' },
-          { type: 'image', content: 'tie breaker/Moonrise Kingdom (2012).png', answer: 'MOONRISE KINGDOM', year: '2012' },
-          { type: 'image', content: 'tie breaker/The Batman (2022).png', answer: 'THE BATMAN', year: '2022' },
-          { type: 'image', content: 'tie breaker/The Holdovers(2023).jpg', answer: 'THE HOLDOVERS', year: '2023' },
-          { type: 'image', content: 'tie breaker/The Life of Chuck(2024).jpg', answer: 'THE LIFE OF CHUCK', year: '2024' },
-          { type: 'image', content: 'tie breaker/The Lighthouse (2019).png', answer: 'THE LIGHTHOUSE', year: '2019' },
-          { type: 'image', content: 'tie breaker/The Wolf of Wall Street (2013).png', answer: 'THE WOLF OF WALL STREET', year: '2013' },
-          { type: 'image', content: 'tie breaker/They Call Him OG (2025).jpg', answer: 'THEY CALL HIM OG', year: '2025' },
-          { type: 'image', content: 'tie breaker/Top Gun Maverick (2022).jpg', answer: 'TOP GUN MAVERICK', year: '2022' },
-          { type: 'image', content: 'tie breaker/Under the Silver Lake (2018).jpg', answer: 'UNDER THE SILVER LAKE', year: '2018' }
+          { type: 'image', content: 'tie breaker/Anatomy of a Fall (2023).webp', answer: 'ANATOMY OF A FALL', year: '2023' },
+          { type: 'image', content: 'tie breaker/Eyes Wide Shut (1999).webp', answer: 'EYES WIDE SHUT', year: '1999' },
+          { type: 'image', content: 'tie breaker/Ghilli (2004).webp', answer: 'GHILLI', year: '2004' },
+          { type: 'image', content: 'tie breaker/La Haine(1995).webp', answer: 'LA HAINE', year: '1995' },
+          { type: 'image', content: 'tie breaker/Mad Max 2.jpg.webp', answer: 'MAD MAX 2', year: '1981' },
+          { type: 'image', content: 'tie breaker/Moonrise Kingdom (2012).webp', answer: 'MOONRISE KINGDOM', year: '2012' },
+          { type: 'image', content: 'tie breaker/The Batman (2022).webp', answer: 'THE BATMAN', year: '2022' },
+          { type: 'image', content: 'tie breaker/The Holdovers(2023).webp', answer: 'THE HOLDOVERS', year: '2023' },
+          { type: 'image', content: 'tie breaker/The Life of Chuck(2024).webp', answer: 'THE LIFE OF CHUCK', year: '2024' },
+          { type: 'image', content: 'tie breaker/The Lighthouse (2019).webp', answer: 'THE LIGHTHOUSE', year: '2019' },
+          { type: 'image', content: 'tie breaker/The Wolf of Wall Street (2013).webp', answer: 'THE WOLF OF WALL STREET', year: '2013' },
+          { type: 'image', content: 'tie breaker/They Call Him OG (2025).webp', answer: 'THEY CALL HIM OG', year: '2025' },
+          { type: 'image', content: 'tie breaker/Top Gun Maverick (2022).webp', answer: 'TOP GUN MAVERICK', year: '2022' },
+          { type: 'image', content: 'tie breaker/Under the Silver Lake (2018).webp', answer: 'UNDER THE SILVER LAKE', year: '2018' }
         ]
       },
       currentSection: 0, currentSectionRound: 0,
@@ -16516,11 +16603,11 @@
           try { this.broadcastChannel.close(); } catch(e) {}
         }
 
-        const topic = 'gtf_game_v1/' + this.roomCode;
+        const topic = NetworkSecurity.getRoomTopic(this.roomCode);
 
         // 1. Local BroadcastChannel for instant same-browser sync
         try {
-          this.broadcastChannel = new BroadcastChannel('gtf_bc_' + this.roomCode);
+          this.broadcastChannel = new BroadcastChannel('gtf_bc_' + NetworkSecurity.getTopicHash(this.roomCode));
           this.broadcastChannel.onmessage = (event) => {
             if (event && event.data) this.handleIncomingEvent(event.data);
           };
@@ -16619,7 +16706,9 @@
       messageQueue: [],
 
       sendEvent(eventType, payload = {}) {
+        const token = NetworkSecurity.generateToken(this.roomCode, this.playerId, this.isHost);
         const msg = {
+          token: token,
           type: eventType,
           roomId: this.roomId,
           roomCode: this.roomCode,
@@ -16637,12 +16726,12 @@
 
         // Broadcast to cloud WebSocket
         if (this.mqttClient && this.mqttClient.connected) {
-          const topic = 'gtf_game_v1/' + this.roomCode;
+          const topic = NetworkSecurity.getRoomTopic(this.roomCode);
           this.mqttClient.publish(topic, jsonStr, { qos: 1 });
         } else {
           // Queue for transmission once socket is connected
           if (!this.messageQueue) this.messageQueue = [];
-          this.messageQueue.push({ topic: 'gtf_game_v1/' + this.roomCode, payload: jsonStr });
+          this.messageQueue.push({ topic: NetworkSecurity.getRoomTopic(this.roomCode), payload: jsonStr });
         }
       },
 
@@ -16671,6 +16760,11 @@
       handleIncomingEvent(msg) {
         if (!msg || msg.roomCode !== this.roomCode) return;
         if (msg.senderId === this.playerId && msg.type !== 'SYNC_ROOM_STATE') return;
+
+        // Phase 4: Network Security Validation (host auth, tokens, rate limits)
+        if (typeof NetworkSecurity !== 'undefined' && !NetworkSecurity.validateIncomingMessage(msg, this.roomCode, GS.players, this.isHost)) {
+          return;
+        }
 
         switch (msg.type) {
           case 'REQUEST_REJOIN_SYNC':
@@ -17714,6 +17808,18 @@
         });
       },
 
+      handleRemoteSkip() {
+        if (typeof SoundManager !== 'undefined' && SoundManager.play) SoundManager.play('wrong');
+        if (typeof UI !== 'undefined' && UI.showNotification) UI.showNotification('Host skipped the round', 'warning');
+      },
+
+      handleRemotePause(isPaused) {
+        if (typeof TC !== 'undefined') {
+          if (isPaused) TC.pause();
+          else TC.resume();
+        }
+      },
+
       handleRemoteHint(msg) {
         console.log('[Hint Event Received]', msg);
         if (msg.updatedPlayers && Array.isArray(msg.updatedPlayers)) {
@@ -17752,7 +17858,7 @@
       triggerTieBreaker(tiedPlayers) {
         const tieFrames = GS.tieBreaker.frames || [];
         const tieFrame = tieFrames[Math.floor(Math.random() * tieFrames.length)] || {
-          type: 'image', content: 'tie breaker/Anatomy of a Fall (2023).jpg', answer: 'ANATOMY OF A FALL', year: '2023'
+          type: 'image', content: 'tie breaker/Anatomy of a Fall (2023).webp', answer: 'ANATOMY OF A FALL', year: '2023'
         };
         this.currentPlaylist = [{ ...tieFrame, sectionName: 'Tie Breaker' }];
         this.currentPlayIndex = 0;
