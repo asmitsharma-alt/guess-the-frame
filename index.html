@@ -18310,43 +18310,54 @@
 
       /* Preload all frames for progress tracking */
       async preloadAll(onProgress) {
-        const allImages = [];
+        const priorityImages = [];
+        const backgroundImages = [];
+
         const collect = frames => frames.forEach(f => {
           if ((f.type === 'image' || f.type === 'eye') && f.content) {
-            allImages.push(f.content);
+            priorityImages.push(f.content);
           }
-          if (f.type === 'eye' && f.revealContent) allImages.push(f.revealContent);
+          if (f.type === 'eye' && f.revealContent) priorityImages.push(f.revealContent);
         });
         GS.sections.forEach(s => collect(s.frames));
-        // Also warm the tie-breaker pool so sudden-death rounds appear instantly
         if (GS.tieBreaker && Array.isArray(GS.tieBreaker.frames)) collect(GS.tieBreaker.frames);
-        // Player assets: avatars + winner trophy images (0 404s guaranteed across .svg, .png, .webp)
+
+        // Player assets: avatars + winner trophy images (priority)
         GS.players.forEach(p => {
           const avKey = (p.avatar || (p.avatarImg ? p.avatarImg.replace(/^.*\/([^./]+)\..*$/, '$1') : 'aman')).toLowerCase().replace(/[^a-z0-9]/g, '');
           const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
           const safeKey = validAvatars.includes(avKey) ? avKey : 'aman';
 
-          allImages.push('avvtar/' + safeKey + '.svg');
-          allImages.push('avvtar/' + safeKey + ' trophy.png');
+          priorityImages.push('avvtar/' + safeKey + '.svg');
+          priorityImages.push('avvtar/' + safeKey + ' trophy.png');
 
+          // Champion celebration frames are warmed in background so match can start instantly
           const maxF = safeKey === 'aman' ? 96 : 92;
           for (let i = 1; i <= maxF; i++) {
-            allImages.push('avvtar/' + safeKey + '/frame_' + String(i).padStart(4, '0') + '.png');
+            backgroundImages.push('avvtar/' + safeKey + '/frame_' + String(i).padStart(4, '0') + '.png');
           }
         });
 
         let loaded = 0;
-        const total = allImages.length;
-        if (total === 0) { if (onProgress) onProgress({ loaded: 0, total: 0, percent: 100 }); return; }
+        const totalPriority = priorityImages.length;
+        if (totalPriority === 0) { if (onProgress) onProgress({ loaded: 0, total: 0, percent: 100 }); return; }
 
-        // Batch load 5 images concurrently for faster loading
-        const BATCH = 8;
-        for (let i = 0; i < allImages.length; i += BATCH) {
-          const batch = allImages.slice(i, i + BATCH);
+        // Load critical match assets in high-performance batches
+        const BATCH = 16;
+        for (let i = 0; i < priorityImages.length; i += BATCH) {
+          const batch = priorityImages.slice(i, i + BATCH);
           const results = await Promise.allSettled(batch.map(src => this.preloadImage(src)));
           loaded += results.length;
-          if (onProgress) onProgress({ loaded, total, percent: (loaded / total) * 100 });
+          if (onProgress) onProgress({ loaded, total: totalPriority, percent: Math.min(100, Math.round((loaded / totalPriority) * 100)) });
         }
+
+        // Warm champion frames asynchronously in background without blocking match start
+        setTimeout(async () => {
+          for (let i = 0; i < backgroundImages.length; i += 20) {
+            const bgBatch = backgroundImages.slice(i, i + 20);
+            await Promise.allSettled(bgBatch.map(src => this.preloadImage(src)));
+          }
+        }, 100);
       },
 
       /* Preload next few frames */
