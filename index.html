@@ -13799,6 +13799,15 @@
           </div>
         </div>
 
+        <!-- LIVE ONLINE GUESS INPUT PANEL (Responsive thumb-friendly guessing) -->
+        <div class="online-guess-panel" id="onlineGuessPanel">
+          <div class="guess-feedback-pill" id="guessFeedbackPill" style="display:none;"></div>
+          <form class="online-guess-form" id="onlineGuessForm" onsubmit="MultiplayerEngine.submitGuess(event)">
+            <input type="text" id="onlineGuessInput" class="online-guess-input" placeholder="Type your movie or celebrity guess..." autocomplete="off" autocorrect="off" spellcheck="false" />
+            <button type="submit" class="online-guess-btn" id="onlineGuessSubmitBtn">GUESS ⚡</button>
+          </form>
+        </div>
+
         <!-- Scoring Overlay -->
         <div class="scoring-overlay" id="scoringOv">
           <div class="scoring-answer-badge" id="scoringAnswerBadge">
@@ -13906,7 +13915,6 @@
         </form>
       </div>
 
-    <div id="onlineGuessPanel" style="display:none;"><input id="onlineGuessInput" style="display:none;" /><button id="onlineGuessSubmitBtn" style="display:none;"></button><div id="guessFeedbackPill" style="display:none;"></div></div>
     </aside><!-- /.game-sidebar-col -->
 
     <!-- Mobile Floating Chat Toggle Button -->
@@ -15903,42 +15911,9 @@
         const currentFrame = MultiplayerEngine.currentPlaylist[MultiplayerEngine.currentPlayIndex];
         const alreadyWon = MultiplayerEngine.currentRoundWinners.some(w => w.playerId === MultiplayerEngine.playerId);
 
-        // Check if message is a correct guess and player hasn't scored yet
-        if (currentFrame && !alreadyWon && FuzzyMatcher.isMatch(text, currentFrame.answer)) {
-          const pos = MultiplayerEngine.currentRoundWinners.length + 1;
-          const pts = pos === 1 ? 10 : (pos === 2 ? 7 : (pos === 3 ? 5 : 0));
-
-          if (pts > 0) {
-            const me = GS.players.find(p => p.id === MultiplayerEngine.playerId);
-            if (me) me.score += pts;
-
-            const winRecord = {
-              playerId: MultiplayerEngine.playerId,
-              playerName: MultiplayerEngine.playerName,
-              avatar: MultiplayerEngine.playerAvatar,
-              position: pos,
-              points: pts,
-              timestamp: Date.now()
-            };
-            MultiplayerEngine.currentRoundWinners.push(winRecord);
-
-            SoundManager.play('correct');
-            MultiplayerEngine.showGuessFeedback(true, '🎉 Correct! +' + pts + ' Pts (' + (pos === 1 ? '1st' : pos === 2 ? '2nd' : '3rd') + ' Place!)');
-            UI.renderLB();
-
-            // Broadcast victory banner across cloud WebSocket
-            MultiplayerEngine.sendEvent('GUESS_CORRECT_BROADCAST', {
-              winRecord,
-              updatedPlayers: GS.players
-            });
-
-            this.renderWinnerBanner(winRecord);
-
-            if (MultiplayerEngine.currentRoundWinners.length >= 3 && MultiplayerEngine.isHost) {
-              setTimeout(() => MultiplayerEngine.endRound(), 600);
-            }
-            return;
-          }
+        // Route all chat text through host-authoritative guess validation
+        if (!alreadyWon) {
+          MultiplayerEngine.submitGuessDirect(text);
         }
 
         // Regular chat or guess
@@ -16875,6 +16850,24 @@
             this.handleRemoteRoundStart(msg);
             break;
 
+          case 'SUBMIT_GUESS':
+            if (this.isHost) {
+              this.validateAndProcessGuess(msg);
+            }
+            break;
+
+          case 'GUESS_RESULT':
+            if (msg.targetPlayerId === this.playerId && !msg.isCorrect) {
+              SoundManager.play('wrong');
+              this.showGuessFeedback(false, '❌ Not quite, try again!');
+              const input = document.getElementById('onlineGuessInput');
+              if (input) {
+                input.classList.add('shake-input');
+                setTimeout(() => input.classList.remove('shake-input'), 400);
+              }
+            }
+            break;
+
           case 'GUESS_CORRECT_BROADCAST':
             this.handleRemoteCorrectGuess(msg);
             break;
@@ -17003,8 +16996,9 @@
 
         GS.players.forEach(p => p.score = 0);
 
+        // Send countdown without answer leak (host holds authoritative playlist)
         this.sendEvent('GAME_START_COUNTDOWN', {
-          playlist: this.currentPlaylist,
+          totalRounds: this.currentPlaylist.length,
           hostSettings: this.hostSettings,
           players: GS.players
         });
@@ -17013,7 +17007,7 @@
       },
 
       handleRemoteGameStart(msg) {
-        this.currentPlaylist = msg.playlist || [];
+        this.totalMatchRounds = msg.totalRounds || (msg.playlist ? msg.playlist.length : 10);
         this.hostSettings = msg.hostSettings || this.hostSettings;
         GS.players = msg.players || GS.players;
         this.currentPlayIndex = 0;
@@ -17025,13 +17019,6 @@
         if (hfbHostOnly) hfbHostOnly.style.display = this.isHost ? 'inline-flex' : 'none';
         const hfbLabel = document.getElementById('hfbLabel');
         if (hfbLabel) hfbLabel.textContent = this.isHost ? '👑 HOST CONTROLS:' : '🎮 CONTROLS:';
-        if (this.currentPlaylist.length > 0) {
-          this.handleRemoteRoundStart({
-            roundIndex: 0,
-            frame: this.currentPlaylist[0],
-            timerDuration: this.hostSettings.timer || 30
-          });
-        }
       },
 
       executeGameStart() {
@@ -17276,9 +17263,19 @@
         });
 
         if (this.isHost) {
+          // Send sanitized clientFrame without answer or year
+          const clientFrame = {
+            id: frame.id,
+            type: frame.type,
+            content: frame.content,
+            revealContent: frame.revealContent,
+            sectionName: frame.sectionName,
+            sectionId: frame.sectionId
+          };
           this.sendEvent('ROUND_START', {
             roundIndex,
-            frame,
+            totalRounds: this.currentPlaylist.length,
+            frame: clientFrame,
             timerDuration,
             maskedHint: this.currentMaskedHint
           });
@@ -17289,7 +17286,11 @@
         this.currentPlayIndex = msg.roundIndex;
         this.currentRoundWinners = [];
         this.hasUsedHintThisRound = false;
-        this.currentMaskedHint = msg.maskedHint || (msg.frame && this.generateMaskedHint(msg.frame.answer));
+        this.currentMaskedHint = msg.maskedHint || '';
+        this.currentClientFrame = msg.frame || null;
+
+        UI.showScreen('gameScreen');
+        const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.add('active');
 
         // Show bottom controls bar with player controls
         const hBar = document.getElementById('hostFloatingBar');
@@ -17323,7 +17324,8 @@
         if (pill) { pill.style.display = 'none'; pill.textContent = ''; }
 
         const roundInfo = document.getElementById('roundInfo');
-        if (roundInfo) roundInfo.textContent = `Round ${msg.roundIndex + 1} / ${this.currentPlaylist.length}`;
+        const totalR = msg.totalRounds || this.totalMatchRounds || 10;
+        if (roundInfo) roundInfo.textContent = `Round ${msg.roundIndex + 1} / ${totalR}`;
         const secName = document.getElementById('curSecName');
         if (secName) secName.textContent = msg.frame.sectionName || 'Guess the Frame';
 
@@ -17332,7 +17334,7 @@
         document.getElementById('answerOverlay').classList.remove('active');
         document.getElementById('scoringOv').classList.remove('active');
 
-        this.playRoundIntroAnimation(msg.roundIndex + 1, this.currentPlaylist.length, () => {
+        this.playRoundIntroAnimation(msg.roundIndex + 1, totalR, () => {
           TC.start(msg.timerDuration || 30, () => {
             this.endRound();
           });
@@ -17344,53 +17346,97 @@
         const input = document.getElementById('onlineGuessInput');
         if (!input || !input.value.trim()) return;
         const guess = input.value.trim();
-        const currentFrame = this.currentPlaylist[this.currentPlayIndex];
-        if (!currentFrame) return;
+        input.value = '';
+        this.submitGuessDirect(guess);
+      },
 
+      submitGuessDirect(guess) {
+        if (!guess || !guess.trim()) return;
+        guess = guess.trim();
         if (this.currentRoundWinners.some(w => w.playerId === this.playerId)) return;
 
-        const isCorrect = FuzzyMatcher.isMatch(guess, currentFrame.answer);
+        if (this.isHost) {
+          this.validateAndProcessGuess({
+            playerId: this.playerId,
+            playerName: this.playerName,
+            playerAvatar: this.playerAvatar,
+            guess: guess,
+            roundIndex: this.currentPlayIndex
+          });
+        } else {
+          this.showGuessFeedback(null, '⏳ Checking guess...');
+          this.sendEvent('SUBMIT_GUESS', {
+            playerId: this.playerId,
+            playerName: this.playerName,
+            playerAvatar: this.playerAvatar,
+            guess: guess,
+            roundIndex: this.currentPlayIndex
+          });
+        }
+      },
 
-        if (isCorrect) {
+      validateAndProcessGuess(data) {
+        if (!this.isHost) return;
+        if (data.roundIndex !== this.currentPlayIndex) return;
+        if (this.currentRoundWinners.some(w => w.playerId === data.playerId)) return;
+
+        const currentFrame = this.currentPlaylist[this.currentPlayIndex];
+        if (!currentFrame || !currentFrame.answer) return;
+
+        const isMatch = FuzzyMatcher.isMatch(data.guess, currentFrame.answer);
+        if (isMatch) {
           const pos = this.currentRoundWinners.length + 1;
           const pts = pos === 1 ? 10 : (pos === 2 ? 7 : (pos === 3 ? 5 : 0));
-
           if (pts > 0) {
-            const me = GS.players.find(p => p.id === this.playerId);
-            if (me) me.score += pts;
+            const player = GS.players.find(p => p.id === data.playerId);
+            if (player) player.score = (player.score || 0) + pts;
 
             const winRecord = {
-              playerId: this.playerId,
-              playerName: this.playerName,
-              avatar: this.playerAvatar,
+              playerId: data.playerId,
+              playerName: data.playerName,
+              avatar: data.playerAvatar,
               position: pos,
               points: pts,
               timestamp: Date.now()
             };
             this.currentRoundWinners.push(winRecord);
 
-            SoundManager.play('correct');
-            this.showGuessFeedback(true, `🎉 Correct! +${pts} Pts (${pos === 1 ? '1st' : pos === 2 ? '2nd' : '3rd'} Place!)`);
-
-            input.disabled = true;
-            const ogb = document.getElementById('onlineGuessSubmitBtn'); if (ogb) ogb.disabled = true;
+            if (data.playerId === this.playerId) {
+              SoundManager.play('correct');
+              this.showGuessFeedback(true, '🎉 Correct! +' + pts + ' Pts (' + (pos === 1 ? '1st' : pos === 2 ? '2nd' : '3rd') + ' Place!)');
+              const input = document.getElementById('onlineGuessInput');
+              if (input) input.disabled = true;
+              const ogb = document.getElementById('onlineGuessSubmitBtn');
+              if (ogb) ogb.disabled = true;
+            }
 
             UI.renderLB();
+            ChatEngine.renderWinnerBanner(winRecord);
 
             this.sendEvent('GUESS_CORRECT_BROADCAST', {
               winRecord,
               updatedPlayers: GS.players
             });
 
-            if (this.currentRoundWinners.length >= 3 && this.isHost) {
+            if (this.currentRoundWinners.length >= 3) {
               setTimeout(() => this.endRound(), 600);
             }
           }
         } else {
-          SoundManager.play('wrong');
-          this.showGuessFeedback(false, '❌ Not quite, try again!');
-          input.classList.add('shake-input');
-          setTimeout(() => input.classList.remove('shake-input'), 400);
+          if (data.playerId === this.playerId) {
+            SoundManager.play('wrong');
+            this.showGuessFeedback(false, '❌ Not quite, try again!');
+            const input = document.getElementById('onlineGuessInput');
+            if (input) {
+              input.classList.add('shake-input');
+              setTimeout(() => input.classList.remove('shake-input'), 400);
+            }
+          } else {
+            this.sendEvent('GUESS_RESULT', {
+              targetPlayerId: data.playerId,
+              isCorrect: false
+            });
+          }
         }
       },
 
@@ -17412,6 +17458,15 @@
           GS.players = msg.updatedPlayers;
         }
         UI.renderLB();
+
+        if (winRecord && winRecord.playerId === this.playerId) {
+          SoundManager.play('correct');
+          this.showGuessFeedback(true, '🎉 Correct! +' + winRecord.points + ' Pts (' + (winRecord.position === 1 ? '1st' : winRecord.position === 2 ? '2nd' : '3rd') + ' Place!)');
+          const input = document.getElementById('onlineGuessInput');
+          if (input) input.disabled = true;
+          const ogb = document.getElementById('onlineGuessSubmitBtn');
+          if (ogb) ogb.disabled = true;
+        }
 
         if (this.currentRoundWinners.length >= 3 && this.isHost) {
           this.endRound();
@@ -17452,7 +17507,9 @@
         if (this.isHost) {
           this.sendEvent('ROUND_FINISH_BROADCAST', {
             currentRoundWinners: this.currentRoundWinners,
-            currentPlayIndex: this.currentPlayIndex
+            currentPlayIndex: this.currentPlayIndex,
+            revealedAnswer: currentFrame.answer || '',
+            revealedYear: currentFrame.year || ''
           });
 
           // Show Next Round button for host with safety auto-advance
@@ -17489,8 +17546,7 @@
       handleRemoteRoundFinish(msg) {
         TC.stop();
         this.currentRoundWinners = msg.currentRoundWinners || [];
-        const currentFrame = this.currentPlaylist[this.currentPlayIndex];
-        if (!currentFrame) return;
+        const currentFrame = this.currentPlaylist[this.currentPlayIndex] || this.currentClientFrame;
 
         const img = document.querySelector('#imageContainer img');
         if (img) img.style.filter = 'blur(0px)';
@@ -17499,8 +17555,10 @@
         const ansYear = document.getElementById('ansYear');
         const ansOverlay = document.getElementById('answerOverlay');
 
-        if (ansTitle) ansTitle.textContent = currentFrame.answer || '';
-        if (ansYear) ansYear.textContent = currentFrame.year ? `(${currentFrame.year})` : '';
+        const revealedAns = msg.revealedAnswer || (currentFrame && currentFrame.answer) || '';
+        const revealedYr = msg.revealedYear || (currentFrame && currentFrame.year) || '';
+        if (ansTitle) ansTitle.textContent = revealedAns;
+        if (ansYear) ansYear.textContent = revealedYr ? '(' + revealedYr + ')' : '';
 
         let spotlightHtml = '';
         if (this.currentRoundWinners.length > 0) {
@@ -18156,21 +18214,18 @@
         GS.sections.forEach(s => collect(s.frames));
         // Also warm the tie-breaker pool so sudden-death rounds appear instantly
         if (GS.tieBreaker && Array.isArray(GS.tieBreaker.frames)) collect(GS.tieBreaker.frames);
-        // Player assets: avatars + winner trophy images (avvtar/name.png → "avvtar/name trophy.png")
+        // Player assets: avatars + winner trophy images (0 404s guaranteed across .svg, .png, .webp)
         GS.players.forEach(p => {
-          if (p.avatarImg) {
-            allImages.push(p.avatarImg);
-            allImages.push(p.avatarImg.replace(/\.(png|jpe?g|webp)$/i, ' trophy.$1'));
-          }
-        });
-        // Winner champion animation frames (avvtar/name/frame_0001.png …) — load them
-        // here too so the winner screen plays instantly with zero delay.
-        GS.players.forEach(p => {
-          if (!p.avatarImg) return;
-          const folder = p.avatarImg.replace(/\.(png|jpe?g|webp)$/i, '');
-          const maxF = folder.toLowerCase().includes('aman') ? 96 : 92;
+          const avKey = (p.avatar || (p.avatarImg ? p.avatarImg.replace(/^.*\/([^./]+)\..*$/, '$1') : 'aman')).toLowerCase().replace(/[^a-z0-9]/g, '');
+          const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
+          const safeKey = validAvatars.includes(avKey) ? avKey : 'aman';
+
+          allImages.push('avvtar/' + safeKey + '.svg');
+          allImages.push('avvtar/' + safeKey + ' trophy.png');
+
+          const maxF = safeKey === 'aman' ? 96 : 92;
           for (let i = 1; i <= maxF; i++) {
-            allImages.push(`${folder}/frame_${String(i).padStart(4, '0')}.png`);
+            allImages.push('avvtar/' + safeKey + '/frame_' + String(i).padStart(4, '0') + '.png');
           }
         });
 
@@ -19029,8 +19084,13 @@
             }</div>`;
         };
 
-        // winner-only: full-body trophy image (derived from avatar path, e.g. avvtar/aman.png -> "avvtar/aman trophy.png")
-        const trophyImg = (p) => p.avatarImg ? p.avatarImg.replace(/(\.[a-z0-9]+)$/i, ' trophy$1') : null;
+        // winner-only: full-body trophy image (supporting svg, png, webp)
+        const trophyImg = (p) => {
+          const avKey = (p.avatar || (p.avatarImg ? p.avatarImg.replace(/^.*\/([^./]+)\..*$/, '$1') : 'aman')).toLowerCase().replace(/[^a-z0-9]/g, '');
+          const valid = ['aman', 'amish', 'aziz', 'vish'];
+          const safeKey = valid.includes(avKey) ? avKey : 'aman';
+          return 'avvtar/' + safeKey + ' trophy.png';
+        };
         const buildTrophies = (players) => {
           const count = players.length;
           // Single champion → play the trophy-lifting frame sequence (transparent, no border).
