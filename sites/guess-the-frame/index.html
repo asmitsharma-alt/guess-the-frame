@@ -11358,42 +11358,35 @@
 
 
 
-    /*                    /* ══════════════════════════════════════════════════════════════
-       🏆 PRODUCTION POLISHED COMIC GALA WINNER SCREEN
-       ══════════════════════════════════════════════════════════════ */
+    /*                        
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #FAF7EF;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+      overflow: hidden;
+    }
+
     #winnerScreen {
-      display: none;
-      width: 100vw !important;
-      height: 100vh !important;
-      height: 100dvh !important;
-      max-height: 100vh !important;
-      overflow: hidden !important;
-      align-items: center !important;
-      justify-content: center !important;
-      padding: clamp(8px, 1.4vw, 18px) !important;
-      position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
-      background: #F5EFE0 !important;
-      background-image: radial-gradient(#D6CEBA 1.2px, transparent 1.2px) !important;
-      background-size: 18px 18px !important;
-      z-index: 50 !important;
-      box-sizing: border-box !important;
-    }
-    #winnerScreen.active {
-      display: flex !important;
-      animation: comicPopIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both !important;
-    }
-
-    @keyframes comicPopIn {
-      from { opacity: 0; transform: scale(0.96) translateY(6px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
-    body.screen-winnerScreen {
-      overflow: hidden !important;
-      height: 100vh !important;
-      max-height: 100vh !important;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      max-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(6px, 1.2vw, 14px);
+      position: relative;
+      background: #F5EFE0;
+      background-image: radial-gradient(#D6CEBA 1.2px, transparent 1.2px);
+      background-size: 18px 18px;
+      box-sizing: border-box;
     }
 
     /* Confetti Layer */
@@ -11401,38 +11394,60 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      z-index: 3;
+      z-index: 2;
       overflow: hidden;
-    }
-    .comic-confetti-piece {
-      position: absolute;
-      top: -20px;
-      pointer-events: none;
-      animation: confettiFall linear infinite;
-    }
-    @keyframes confettiFall {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(105vh) rotate(720deg); opacity: 0.85; }
     }
 
     /* Master Card */
     .comic-winner-card {
       width: 100%;
-      max-width: 1180px;
+      max-width: 1160px;
       height: 100%;
-      max-height: 870px;
+      max-height: 840px;
       background: #FAF7EF;
       border: 3.5px solid #111827;
       box-shadow: 7px 7px 0 #111827;
-      border-radius: 16px;
+      border-radius: 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: clamp(10px, 1.3vw, 16px) clamp(14px, 1.8vw, 22px);
+      padding: clamp(10px, 1.3vw, 16px) clamp(16px, 2vw, 24px);
       position: relative;
       z-index: 10;
       box-sizing: border-box;
       overflow: hidden;
+    }
+
+    /* Corner Accent Polygons from Mockup */
+    .corner-poly {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .poly-top-left {
+      top: 55px;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-top: 48px solid transparent;
+      border-bottom: 48px solid transparent;
+      border-left: 64px solid #3B82F6;
+    }
+    .poly-bottom-left {
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-bottom: 105px solid #F472B6;
+      border-right: 115px solid transparent;
+    }
+    .poly-bottom-right {
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      border-bottom: 115px solid #FACC15;
+      border-left: 125px solid transparent;
     }
 
     /* ── TOP BAR ── */
@@ -11445,62 +11460,32 @@
       position: relative;
       z-index: 15;
     }
-
-    /* Top Left: Gala Tag */
     .cw-gala-tag {
       background: #FFFFFF;
       border: 2.5px solid #111827;
       box-shadow: 2.5px 2.5px 0 #111827;
       border-radius: 999px;
-      padding: 4px 14px;
+      padding: 3.5px 14px;
       display: flex;
       align-items: center;
       gap: 8px;
     }
-    .cw-clapper {
-      font-size: 16px;
-      line-height: 1;
-    }
-    .cw-gala-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.15;
-    }
+    .cw-clapper { font-size: 15px; line-height: 1; }
+    .cw-gala-text { display: flex; flex-direction: column; line-height: 1.15; }
     .cw-gala-text span {
       font-family: 'DM Sans', sans-serif;
-      font-size: 8.5px;
+      font-size: 8px;
       font-weight: 800;
       color: #64748B;
       letter-spacing: 0.8px;
     }
     .cw-gala-text strong {
-      font-family: 'Lilita One', 'Anybody', sans-serif;
-      font-size: 12px;
+      font-family: 'Lilita One', sans-serif;
+      font-size: 11.5px;
       color: #111827;
       letter-spacing: 0.5px;
     }
 
-    /* Top Center: Match Complete Badge */
-    .cw-center-badge {
-      background: #111827;
-      color: #FFFFFF;
-      border: 2.5px solid #111827;
-      border-radius: 999px;
-      padding: 5px 20px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 13px;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      box-shadow: 2.5px 2.5px 0 rgba(0,0,0,0.2);
-    }
-    .cw-trophy-icon {
-      font-size: 15px;
-    }
-
-    /* Top Right: Badges */
     .cw-top-badges {
       display: flex;
       align-items: center;
@@ -11512,18 +11497,14 @@
       border: 2.5px solid #111827;
       box-shadow: 2.5px 2.5px 0 #111827;
       border-radius: 999px;
-      padding: 4px 12px;
+      padding: 3.5px 12px;
       font-family: 'Lilita One', sans-serif;
-      font-size: 11.5px;
+      font-size: 11px;
       display: flex;
       align-items: center;
       gap: 5px;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-    }
-    .cw-star-icon {
-      color: #111827;
-      font-size: 12px;
     }
     .cw-players-badge {
       background: #818CF8;
@@ -11531,9 +11512,9 @@
       border: 2.5px solid #111827;
       box-shadow: 2.5px 2.5px 0 #111827;
       border-radius: 999px;
-      padding: 4px 12px;
+      padding: 3.5px 12px;
       font-family: 'Lilita One', sans-serif;
-      font-size: 11.5px;
+      font-size: 11px;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -11541,163 +11522,168 @@
       text-transform: uppercase;
     }
 
-    /* ── VICTORY HEADER & COMIC BLAST ── */
+    /* ── VICTORY HEADER (EXACT MATCH TO MOCKUP) ── */
     .cw-victory-section {
-      position: relative;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-top: -2px;
-      margin-bottom: -10px;
+      margin-top: 2px;
+      margin-bottom: 2px;
       flex-shrink: 0;
+      position: relative;
       z-index: 12;
+      user-select: none;
     }
-    .cw-splatter-bg {
-      position: absolute;
-      width: clamp(540px, 68vw, 840px);
-      height: clamp(80px, 10vw, 115px);
-      z-index: 1;
-      pointer-events: none;
+    .cw-victory-banner-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(10px, 1.8vw, 20px);
+      position: relative;
     }
-    .cw-splatter-bg svg {
+    .cw-burst-dashes {
+      width: clamp(26px, 3.4vw, 42px);
+      height: clamp(32px, 4vw, 50px);
+      flex-shrink: 0;
+    }
+    .cw-burst-dashes svg {
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 4px 0 rgba(0,0,0,0.22));
+      display: block;
     }
-
-    .cw-floating-deco {
-      position: absolute;
-      font-family: 'Lilita One', sans-serif;
-      z-index: 3;
-      user-select: none;
-      animation: floatDeco 2.5s ease-in-out infinite alternate;
-    }
-    .left-bolt {
-      top: 4px;
-      left: clamp(20px, 10vw, 90px);
-      font-size: 28px;
-      color: #FACC15;
-      text-shadow: 2.5px 2.5px 0 #111827;
-    }
-    .left-sparkle {
-      top: 12px;
-      left: clamp(50px, 14vw, 140px);
-      font-size: 18px;
-      color: #111827;
-    }
-    .right-sparkle {
-      top: 10px;
-      right: clamp(40px, 14vw, 140px);
-      font-size: 20px;
-      color: #111827;
-    }
-    @keyframes floatDeco {
-      from { transform: translateY(0) scale(1); }
-      to { transform: translateY(-4px) scale(1.08); }
-    }
-
-    .cw-victory-title {
-      font-family: 'Lilita One', 'Anybody', cursive, sans-serif;
-      font-weight: 900;
-      font-size: clamp(56px, 7vw, 88px);
-      color: #FACC15;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin: 0;
-      line-height: 0.95;
-      z-index: 2;
-      position: relative;
-      transform: rotate(-1deg);
-      -webkit-text-stroke: 3.5px #111827;
-      text-shadow:
-        5px 6px 0 #111827,
-        -2px -2px 0 #111827,
-        2px -2px 0 #111827,
-        -2px 2px 0 #111827,
-        0 8px 18px rgba(0,0,0,0.35);
-    }
-
-    /* ── MAIN STAGE SECTION (PODIUM + SUMMARY) ── */
-    .cw-stage-section {
-      display: flex;
+    .cw-victory-badge {
+      background: #FACC15;
+      border: 4px solid #111827;
+      box-shadow: 6px 7px 0 #111827;
+      border-radius: 4px;
+      padding: clamp(6px, 0.9vw, 11px) clamp(28px, 4vw, 56px);
+      transform: rotate(-3.5deg);
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: clamp(10px, 1.6vw, 24px);
+    }
+    .cw-victory-title {
+      font-family: 'Lilita One', cursive, sans-serif;
+      font-weight: 900;
+      font-size: clamp(44px, 5.4vw, 74px);
+      color: #111827;
+      text-transform: uppercase;
+      letter-spacing: clamp(2.5px, 0.35vw, 4.5px);
+      line-height: 0.95;
+      margin: 0;
+    }
+    .cw-victory-subtitle {
+      font-family: 'Lilita One', 'DM Sans', sans-serif;
+      font-weight: 900;
+      font-size: clamp(11.5px, 1.25vw, 15px);
+      color: #111827;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      margin: 8px 0 12px;
+      text-align: center;
+      line-height: 1.2;
+      transform: rotate(-1.5deg);
+    }
+
+    /* ── MAIN STAGE SECTION (PODIUM) ── */
+    .cw-stage-section {
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: clamp(16px, 2.6vw, 36px);
       position: relative;
       flex: 1;
       min-height: 0;
-      padding: clamp(6px, 1vw, 14px) clamp(10px, 1.5vw, 24px);
-      margin: 2px 0;
+      padding: 16px 10px 4px;
+      margin: 0 0 4px;
+      z-index: 10;
     }
-
-    /* 2nd & 3rd Place Runner Cards */
-    .cw-runner-card {
-      border: 3.5px solid #111827;
-      box-shadow: 5px 5px 0 #111827;
-      border-radius: 16px;
-      padding: clamp(16px, 1.8vw, 22px) 14px 12px;
+    .cw-runner-col {
       display: flex;
       flex-direction: column;
       align-items: center;
       position: relative;
-      max-width: clamp(170px, 18vw, 215px);
-      width: 100%;
-      margin: 0;
+    }
+    .cw-card-burst {
+      position: absolute;
+      top: -24px;
+      width: 26px;
+      height: 22px;
+    }
+    .burst-left { left: -8px; }
+    .burst-right { right: -8px; }
+
+    /* Runner Cards */
+    .cw-runner-card {
+      border: 3.5px solid #111827;
+      box-shadow: 6px 6px 0 #111827;
+      border-radius: 20px;
+      padding: clamp(16px, 2vw, 24px) 14px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      width: clamp(180px, 19vw, 225px);
+      height: clamp(255px, 32vh, 305px);
       box-sizing: border-box;
-      transition: transform 0.15s ease;
       z-index: 4;
-      flex-shrink: 0;
     }
-    .cw-runner-card:hover {
-      transform: translateY(-3px);
-    }
-    .runner-blue {
-      background: linear-gradient(180deg, #93C5FD 0%, #3B82F6 40%, #1D4ED8 100%);
-    }
-    .runner-orange {
-      background: linear-gradient(180deg, #FED7AA 0%, #F97316 40%, #C2410C 100%);
+    .runner-blue { background: #3B82F6; }
+    .runner-orange { background: #F97316; }
+    .runner-gold {
+      background: #FACC15;
+      width: clamp(205px, 22vw, 255px);
+      height: clamp(280px, 35vh, 335px);
+      padding: clamp(20px, 2.3vw, 28px) 16px 18px;
+      border: 4px solid #111827;
+      box-shadow: 7px 7px 0 #111827;
+      z-index: 6;
+      transform: translateY(-8px);
     }
 
     /* Rank Tab on top */
     .runner-rank-tab {
       position: absolute;
       top: -18px;
-      color: #FFFFFF;
       border: 2.5px solid #111827;
       border-radius: 8px;
-      width: 36px;
-      height: 32px;
+      width: 38px;
+      height: 34px;
       display: grid;
       place-items: center;
       font-family: 'Lilita One', sans-serif;
-      font-size: 19px;
-      box-shadow: 2px 2px 0 #111827;
+      font-size: 20px;
+      box-shadow: 2.5px 2.5px 0 #111827;
       z-index: 6;
     }
-    .blue-tab { background: #1D4ED8; }
-    .orange-tab { background: #9A3412; }
+    .blue-tab { background: #3B82F6; color: #FFFFFF; }
+    .gold-tab {
+      background: #FACC15;
+      color: #111827;
+      width: 44px;
+      height: 38px;
+      top: -20px;
+    }
+    .orange-tab { background: #F97316; color: #FFFFFF; }
 
-    /* Avatar Ring Frame */
+    /* Avatar Frame */
     .runner-avatar-frame {
-      width: clamp(88px, 9.6vw, 112px);
-      height: clamp(88px, 9.6vw, 112px);
+      width: clamp(80px, 8.6vw, 102px);
+      height: clamp(80px, 8.6vw, 102px);
       border-radius: 50%;
-      border: 3.5px solid #111827;
-      background: #FFFFFF;
+      border: 4px solid #111827;
       overflow: hidden;
-      display: grid;
-      place-items: center;
-      margin-top: 4px;
-      margin-bottom: 10px;
+      display: block;
+      margin-top: 2px;
+      margin-bottom: 8px;
       flex-shrink: 0;
+      background: #FFFFFF;
     }
-    .blue-ring {
-      box-shadow: 0 0 0 5px #1E40AF, 3.5px 3.5px 0 #111827;
-      background: #DBEAFE;
-    }
-    .orange-ring {
-      box-shadow: 0 0 0 5px #9A3412, 3.5px 3.5px 0 #111827;
-      background: #FFEDD5;
+    .champ-avatar-frame {
+      width: clamp(92px, 9.8vw, 116px);
+      height: clamp(92px, 9.8vw, 116px);
     }
     .runner-avatar-frame img {
       width: 100%;
@@ -11706,415 +11692,131 @@
       display: block;
     }
 
-    /* Runner Nameplate */
+    /* Runner White Nameplate Box */
     .runner-nameplate {
-      background: #111827;
-      color: #FFFFFF;
+      background: #FFFFFF;
+      color: #111827;
       font-family: 'Lilita One', sans-serif;
-      font-size: clamp(15px, 1.8vw, 21px);
-      padding: 4px 16px;
-      border-radius: 6px;
+      font-size: clamp(16px, 1.8vw, 21px);
+      padding: 4px 14px;
+      border: 2.5px solid #111827;
+      border-radius: 8px;
+      box-shadow: 2.5px 2.5px 0 #111827;
       letter-spacing: 1.2px;
       margin-bottom: 6px;
-      width: 94%;
+      width: 90%;
       text-align: center;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       text-transform: uppercase;
-      box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    }
+    .champ-nameplate {
+      font-size: clamp(18px, 2vw, 23px);
+      padding: 5px 18px;
     }
 
-    /* Score Tag */
+    /* Score Pill */
     .runner-score-tag {
       font-family: 'Lilita One', sans-serif;
       font-size: 12px;
       padding: 3px 14px;
-      border: 2px solid #111827;
-      border-radius: 999px;
-      margin-bottom: 8px;
-      letter-spacing: 0.6px;
-      text-transform: uppercase;
-      box-shadow: 1.5px 1.5px 0 #111827;
-    }
-    .blue-score-tag {
-      background: #EFF6FF;
-      color: #1E3A8A;
-    }
-    .orange-score-tag {
-      background: #FFF7ED;
-      color: #7C2D12;
-    }
-
-    /* Mini Trophy Shield Emblem */
-    .runner-trophy-emblem {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
       border: 2.5px solid #111827;
-      display: grid;
-      place-items: center;
-      font-size: 16px;
+      border-radius: 999px;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
       box-shadow: 2px 2px 0 #111827;
     }
-    .silver-emblem {
-      background: #1E293B;
-      border-color: #94A3B8;
-    }
-    .bronze-emblem {
-      background: #1E293B;
-      border-color: #B45309;
-    }
+    .blue-score-tag { background: #FFFFFF; color: #111827; }
+    .gold-score-tag { background: #111827; color: #FACC15; font-size: 13px; padding: 4px 18px; }
+    .orange-score-tag { background: #FFFFFF; color: #111827; }
 
-    /* ── CENTER: 1ST PLACE GOLDEN CHAMPION CARD ── */
-    .runner-gold {
-      background: linear-gradient(180deg, #FEF08A 0%, #FACC15 45%, #EAB308 100%);
-      border: 4px solid #111827;
-      box-shadow: 6px 6px 0 #111827;
-      border-radius: 18px;
-    }
-    .champ-gold-card {
-      max-width: clamp(200px, 22vw, 255px) !important;
-      padding: clamp(18px, 2vw, 26px) 16px 14px !important;
-      z-index: 6;
-      transform: translateY(-6px);
-      margin: 0 !important;
-      flex-shrink: 0 !important;
-    }
-    .champ-gold-card:hover {
-      transform: translateY(-10px) !important;
-    }
-
-    /* Gold Rank Tab on top */
-    .gold-tab {
-      background: #EAB308 !important;
-      color: #111827 !important;
-      width: 56px !important;
-      height: 34px !important;
-      top: -20px !important;
-      font-size: 18px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 4px !important;
-      border: 3px solid #111827 !important;
-      border-radius: 8px !important;
-      box-shadow: 2.5px 2.5px 0 #111827 !important;
-    }
-    .tab-crown {
-      font-size: 16px;
-      line-height: 1;
-    }
-
-    /* Grand Champion Ribbon inside card */
-    .champ-card-ribbon {
-      background: #111827;
-      color: #FACC15;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 12px;
-      letter-spacing: 1.2px;
-      padding: 3px 18px;
-      border-radius: 999px;
-      margin-top: -2px;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
-    }
-
-    /* Gold Avatar Ring */
-    .gold-ring {
-      box-shadow: 0 0 0 6px #CA8A04, 0 10px 28px rgba(250, 204, 21, 0.45), 4px 4px 0 #111827 !important;
-      background: #FFFBEB !important;
-      width: clamp(104px, 11.5vw, 132px) !important;
-      height: clamp(104px, 11.5vw, 132px) !important;
-      margin-bottom: 12px !important;
-    }
-
-    /* Champion Nameplate */
-    .champ-nameplate {
-      font-size: clamp(20px, 2.3vw, 28px) !important;
-      padding: 5px 22px !important;
-      letter-spacing: 2px !important;
-      margin-bottom: 6px !important;
-      border-radius: 8px !important;
-      box-shadow: 3px 3px 0 rgba(0,0,0,0.25) !important;
-    }
-
-    /* Cinema Legend Subtitle */
-    .champ-sub-tag {
-      background: #FEF08A;
-      color: #111827;
-      border: 2px solid #111827;
-      border-radius: 999px;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 11.5px;
-      letter-spacing: 0.8px;
-      padding: 2.5px 16px;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    /* Gold Score Tag */
-    .gold-score-tag {
-      background: #111827 !important;
-      color: #FACC15 !important;
-      border: 2.5px solid #111827 !important;
-      font-size: 14px !important;
-      padding: 4px 20px !important;
-      letter-spacing: 1px !important;
-      margin-bottom: 8px !important;
-      box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
-    }
-
-    /* Gold Trophy Shield Emblem */
-    .gold-emblem {
-      width: 36px !important;
-      height: 36px !important;
-      font-size: 18px !important;
-      background: #1E293B !important;
-      border: 3px solid #FACC15 !important;
-      border-radius: 8px !important;
-      box-shadow: 2px 2px 0 #111827 !important;
-    }
-    .gold-emblem .mini-trophy {
-      filter: drop-shadow(0 0 4px #FACC15);
-    }
-
-    /* ── MATCH SUMMARY CARD ── */
-    .cw-summary-card {
-      background: #FFFFFF;
-      border: 2.5px solid #111827;
-      box-shadow: 3.5px 3.5px 0 #111827;
-      border-radius: 12px;
+    /* ── MESSAGE (LEFT) & CREDITS (RIGHT) BOXES ── */
+    .cw-info-row {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: clamp(10px, 1.4vw, 18px);
+      margin: 4px 0 8px;
+      position: relative;
       z-index: 10;
-      overflow: hidden;
+      flex-shrink: 0;
     }
-    @media (min-width: 960px) {
-      .cw-summary-card {
-        position: absolute !important;
-        right: clamp(10px, 1.4vw, 24px) !important;
-        top: 50% !important;
-        transform: translateY(-50%) !important;
-        width: clamp(150px, 14.5vw, 185px) !important;
-        margin: 0 !important;
-      }
-    }
-    .summary-header {
-      background: #111827;
-      color: #FFFFFF;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 11.5px;
-      letter-spacing: 1px;
-      padding: 5px 8px;
-      text-align: center;
-      text-transform: uppercase;
-    }
-    .summary-rows {
-      display: flex;
-      flex-direction: column;
-      padding: 6px 10px;
-      gap: 5px;
-    }
-    .summary-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-      border-bottom: 1.5px solid #F1F5F9;
-      padding-bottom: 4px;
-    }
-    .summary-row:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-    .s-icon {
-      font-size: 12px;
-    }
-    .s-label {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 9.5px;
-      font-weight: 800;
-      color: #475569;
-      flex: 1;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .s-val {
-      font-family: 'Lilita One', sans-serif;
-      font-size: 12.5px;
-      color: #111827;
-    }
-
-    /* ── REWARDS & ACHIEVEMENTS PANEL ── */
-    .cw-rewards-panel {
+    .cw-info-card {
       background: #FFFFFF;
       border: 3px solid #111827;
       box-shadow: 4px 4px 0 #111827;
-      border-radius: 14px;
-      display: grid;
-      grid-template-columns: 1fr auto 1.45fr;
+      border-radius: 12px;
+      padding: 8px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+    }
+    .cw-info-header {
+      font-family: 'Lilita One', sans-serif;
+      font-size: 12px;
+      color: #111827;
+      letter-spacing: 0.8px;
+      display: flex;
       align-items: center;
-      padding: clamp(6px, 0.9vw, 10px) clamp(12px, 1.5vw, 18px);
-      gap: clamp(10px, 1.4vw, 18px);
-      margin-top: 4px;
-      flex-shrink: 0;
+      gap: 5px;
+      text-transform: uppercase;
+    }
+    .cw-info-text {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #334155;
+      line-height: 1.35;
     }
 
-    /* Left Col: Rewards */
-    .rp-rewards-col {
+    /* Credits Sub-items in right box */
+    .cw-credits-grid {
       display: flex;
       flex-direction: column;
       gap: 5px;
+      justify-content: center;
     }
-    .rp-header {
-      font-family: 'Lilita One', sans-serif;
-      font-size: 11px;
-      color: #111827;
-      letter-spacing: 0.6px;
+    .cw-credit-item {
       display: flex;
       align-items: center;
-      gap: 6px;
-      text-transform: uppercase;
+      gap: 7px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #334155;
     }
-    .rp-star {
-      font-size: 10px;
-    }
-    .rp-items-row {
-      display: flex;
-      align-items: center;
-      gap: clamp(10px, 1.5vw, 18px);
-    }
-    .rp-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      flex: 1;
-    }
-    .rp-badge-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      border: 2px solid #111827;
-      display: grid;
-      place-items: center;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 13px;
-      box-shadow: 2px 2px 0 #111827;
-      margin-bottom: 2px;
-    }
-    .xp-badge {
+    .cw-credit-badge {
       background: #FACC15;
       color: #111827;
-    }
-    .coin-badge {
-      background: #F59E0B;
-      border-radius: 50%;
-    }
-    .ticket-badge {
-      background: #A855F7;
-    }
-    .rp-item-val {
       font-family: 'Lilita One', sans-serif;
-      font-size: 13px;
-      color: #111827;
-      line-height: 1.1;
-    }
-    .rp-item-label {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 9px;
-      font-weight: 800;
-      color: #64748B;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    /* Vertical Divider */
-    .rp-divider {
-      width: 2.5px;
-      height: 48px;
-      background: #E2E8F0;
-      border-radius: 2px;
-    }
-
-    /* Right Col: Achievements */
-    .rp-achieve-col {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .new-pill {
-      background: #FACC15;
-      color: #111827;
+      font-size: 9.5px;
+      padding: 2px 7px;
       border: 1.5px solid #111827;
       border-radius: 4px;
-      padding: 1px 5px;
-      font-size: 9px;
-      font-weight: 900;
-    }
-    .rp-achieve-row {
-      display: flex;
-      align-items: center;
-      gap: clamp(8px, 1.2vw, 14px);
-    }
-    .achieve-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      flex: 1;
-    }
-    .achieve-frame {
-      width: 32px;
-      height: 32px;
-      border: 2px solid #111827;
-      border-radius: 8px;
-      display: grid;
-      place-items: center;
-      font-size: 15px;
-      box-shadow: 2px 2px 0 #111827;
-      margin-bottom: 2px;
-    }
-    .gold-frame { background: #FACC15; }
-    .cyan-frame { background: #2DD4BF; }
-    .purple-frame { background: #A855F7; }
-    .red-frame { background: #F43F5E; }
-
-    .achieve-title-box {
-      background: #111827;
-      color: #FFFFFF;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 9px;
-      padding: 1px 6px;
-      border-radius: 4px;
       letter-spacing: 0.5px;
       text-transform: uppercase;
       white-space: nowrap;
+      flex-shrink: 0;
     }
-    .achieve-desc {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 8.5px;
-      font-weight: 700;
-      color: #64748B;
-      line-height: 1.1;
-      margin-top: 2px;
+    .cw-credit-names {
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    /* ── BOTTOM 4 BUTTONS DECK ── */
+    /* ── BOTTOM BUTTONS DECK (3 BUTTONS AS IN MOCKUP) ── */
     .cw-buttons-deck {
       display: flex;
       gap: clamp(8px, 1.2vw, 14px);
-      margin-top: 6px;
+      margin-top: 2px;
       flex-shrink: 0;
+      position: relative;
+      z-index: 10;
     }
     .cw-btn {
       flex: 1;
-      padding: clamp(10px, 1.2vw, 14px) 14px;
-      border: 3px solid #111827;
-      box-shadow: 4px 4px 0 #111827;
+      padding: clamp(9px, 1.1vw, 13px) 16px;
+      border: 3.5px solid #111827;
+      box-shadow: 4.5px 4.5px 0 #111827;
       border-radius: 12px;
       font-family: 'Lilita One', sans-serif;
       font-size: clamp(13px, 1.4vw, 16px);
@@ -12125,148 +11827,114 @@
       gap: 8px;
       cursor: pointer;
       text-transform: uppercase;
-      transition: transform 0.14s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.14s ease;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
       user-select: none;
     }
-    .cw-btn:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 6px 6px 0 #111827;
-    }
-    .cw-btn:active {
-      transform: scale(0.97) translate(1px, 1px);
-      box-shadow: 1.5px 1.5px 0 #111827;
-    }
+    .btn-play-again { background: #FACC15; color: #111827; }
+    .btn-rematch { background: #3B82F6; color: #FFFFFF; }
+    .btn-lobby { background: #FFFFFF; color: #111827; }
+    .cw-btn-icon { font-size: 15px; line-height: 1; }
 
-    .btn-play-again {
-      background: #FACC15;
-      color: #111827;
-      flex: 1.2;
-    }
-    .btn-rematch {
-      background: #F472B6;
-      color: #111827;
-    }
-    .btn-lobby {
-      background: #86EFAC;
-      color: #111827;
-    }
-    .btn-menu {
-      background: #FFFFFF;
-      color: #111827;
-    }
-    .cw-btn-icon {
-      font-size: 16px;
-      line-height: 1;
-    }
-
-    /* ── MOBILE / TABLET RESPONSIVENESS (< 960px) ── */
-    @media (max-width: 959px) {
+    /* Mobile / Tablet Responsiveness (< 860px) */
+    @media (max-width: 860px) {
       #winnerScreen {
         overflow-y: auto !important;
-        -webkit-overflow-scrolling: touch;
         display: block !important;
         height: auto !important;
         min-height: 100vh !important;
-        min-height: 100dvh !important;
-        max-height: none !important;
         padding: 10px 8px !important;
       }
       .comic-winner-card {
         height: auto !important;
-        min-height: min-content !important;
         max-height: none !important;
-        overflow-y: visible !important;
         padding: 14px 10px !important;
         margin: 0 auto 20px;
-        gap: 12px;
+        gap: 14px;
+        display: flex !important;
+        flex-direction: column !important;
       }
       .cw-top-bar {
         flex-wrap: wrap;
         justify-content: center;
-        gap: 6px;
-      }
-      .cw-gala-tag, .cw-center-badge, .cw-top-badges {
-        padding: 4px 10px;
+        gap: 8px;
       }
       .cw-victory-section {
-        margin-top: 6px;
-        margin-bottom: 6px;
-      }
-      .cw-splatter-bg {
-        width: 95vw;
+        margin-top: 8px;
+        margin-bottom: 8px;
       }
       .cw-victory-title {
-        font-size: clamp(38px, 11vw, 54px);
+        font-size: clamp(36px, 10vw, 48px);
+      }
+      .cw-victory-subtitle {
+        font-size: 11.5px;
+        margin: 6px 0 14px;
       }
       .cw-stage-section {
-        display: flex;
-        flex-flow: row wrap;
-        justify-content: center;
-        align-items: stretch;
-        gap: 10px;
-        padding: 4px;
+        display: flex !important;
+        flex-flow: row wrap !important;
+        justify-content: center !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+        padding: 12px 4px 0 !important;
+        margin: 4px 0 !important;
         height: auto !important;
         flex: none !important;
       }
-      #champHeroCard {
-        order: 1;
+      .cw-runner-col {
+        order: 2 !important;
+        flex: 1 1 calc(50% - 8px) !important;
+        max-width: 175px !important;
+      }
+      .cw-runner-col:nth-child(2) {
+        order: 1 !important;
         flex: 1 1 100% !important;
-        width: 100% !important;
         max-width: 270px !important;
-        margin: 0 auto 8px !important;
-        transform: none !important;
+        margin-bottom: 8px !important;
       }
-      #champHeroCard:hover {
-        transform: translateY(-2px) !important;
-      }
-      #silverCard {
-        order: 2;
-        flex: 1 1 45% !important;
-        max-width: 155px !important;
-        margin: 0 !important;
-      }
-      #bronzeCard {
-        order: 3;
-        flex: 1 1 45% !important;
-        max-width: 155px !important;
-        margin: 0 !important;
-      }
-      .cw-summary-card {
-        order: 4;
-        flex: 1 1 100% !important;
-        position: static !important;
+      .cw-runner-card {
         width: 100% !important;
-        max-width: 320px !important;
-        margin: 10px auto 4px !important;
+        height: auto !important;
+        min-height: 0 !important;
+        padding: 18px 10px 12px !important;
+        transform: none !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
       }
-      .cw-rewards-panel {
+      .runner-avatar-frame {
+        width: 70px !important;
+        height: 70px !important;
+        margin: 4px auto 8px !important;
+      }
+      .champ-avatar-frame {
+        width: 82px !important;
+        height: 82px !important;
+        margin: 4px auto 10px !important;
+      }
+      .runner-nameplate {
+        font-size: 15px !important;
+        padding: 3px 8px !important;
+        margin-bottom: 6px !important;
+      }
+      .runner-score-tag {
+        font-size: 11px !important;
+        padding: 3px 12px !important;
+      }
+      .cw-card-burst { display: none; }
+      .cw-info-row {
         grid-template-columns: 1fr;
         gap: 10px;
-        padding: 12px 10px;
         flex: none !important;
-      }
-      .rp-divider {
-        display: none;
-      }
-      .rp-items-row, .rp-achieve-row {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px;
       }
       .cw-buttons-deck {
-        flex-wrap: wrap;
+        flex-direction: column;
         gap: 8px;
         flex: none !important;
-        margin-top: 4px;
       }
-      .cw-btn {
-        flex: 1 1 calc(50% - 6px);
-        min-width: 130px;
-        padding: 11px 8px;
-        font-size: 12px;
-      }
+      .cw-btn { width: 100%; padding: 12px; }
     }
-
+  
 </style>
   <!-- Appwrite Web SDK & QRCode for Online Multiplayer -->
   <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
@@ -13223,12 +12891,17 @@
     <!-- ══════════════════════════════════════════════════════════
        🏆 EXACT REPLICA: AAA COMIC VICTORY WINNER SCREEN
        ══════════════════════════════════════════════════════════ -->
-  <div id="winnerScreen" class="screen">
+      <div id="winnerScreen" class="screen">
     <!-- Comic Confetti Layer -->
     <div class="comic-confetti-layer" id="confettiBox" aria-hidden="true"></div>
 
     <div class="comic-winner-card">
       
+      <!-- Decorative Accent Polygons from Mockup -->
+      <div class="corner-poly poly-top-left" aria-hidden="true"></div>
+      <div class="corner-poly poly-bottom-left" aria-hidden="true"></div>
+      <div class="corner-poly poly-bottom-right" aria-hidden="true"></div>
+
       <!-- ── TOP BAR ── -->
       <div class="cw-top-bar">
         <!-- Top Left: Gala Box -->
@@ -13240,16 +12913,10 @@
           </div>
         </div>
 
-        <!-- Top Center: Match Complete Badge -->
-        <div class="cw-center-badge">
-          <span class="cw-trophy-icon">🏆</span>
-          <span>MATCH COMPLETE</span>
-        </div>
-
         <!-- Top Right: Badges -->
         <div class="cw-top-badges">
           <div class="cw-rounds-badge" id="winnerMatchRoundsChip">
-            <span class="cw-star-icon">★</span>
+            <span>★</span>
             <span><strong id="winnerRoundsCount">3</strong> ROUNDS CONQUERED</span>
           </div>
           <div class="cw-players-badge" id="winnerPlayerCountChip">
@@ -13259,199 +12926,136 @@
         </div>
       </div>
 
-      <!-- ── VICTORY HEADER & COMIC BLAST ── -->
+      <!-- ── VICTORY HEADER (EXACT MATCH TO MOCKUP) ── -->
       <div class="cw-victory-section">
-        <!-- Spiky Comic Blast SVG -->
-        <div class="cw-splatter-bg" aria-hidden="true">
-          <svg viewBox="0 0 800 140" preserveAspectRatio="none">
-            <path fill="#111827" d="M 40,75 L 20,40 L 70,50 L 80,15 L 130,40 L 170,5 L 210,35 L 270,0 L 320,30 L 390,-5 L 450,25 L 520,0 L 570,30 L 630,5 L 670,35 L 720,15 L 740,45 L 790,35 L 765,75 L 795,110 L 745,100 L 725,135 L 675,110 L 635,138 L 585,115 L 525,142 L 465,115 L 400,140 L 335,115 L 275,140 L 215,112 L 165,135 L 125,105 L 75,130 L 55,95 Z" />
-            
-          </svg>
+        <div class="cw-victory-banner-wrap">
+          <!-- Left 3 Radiating Burst Lines -->
+          <div class="cw-burst-dashes left-dashes" aria-hidden="true">
+            <svg viewBox="0 0 38 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="33" y1="13" x2="11" y2="4" stroke="#111827" stroke-width="6" stroke-linecap="round" />
+              <line x1="35" y1="23" x2="8" y2="23" stroke="#111827" stroke-width="6" stroke-linecap="round" />
+              <line x1="33" y1="33" x2="11" y2="42" stroke="#111827" stroke-width="6" stroke-linecap="round" />
+            </svg>
+          </div>
+
+          <!-- Center Tilted Yellow Box -->
+          <div class="cw-victory-badge">
+            <h1 class="cw-victory-title">VICTORY!</h1>
+          </div>
+
+          <!-- Right 3 Radiating Burst Lines -->
+          <div class="cw-burst-dashes right-dashes" aria-hidden="true">
+            <svg viewBox="0 0 38 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <line x1="5" y1="13" x2="27" y2="4" stroke="#111827" stroke-width="6" stroke-linecap="round" />
+              <line x1="3" y1="23" x2="30" y2="23" stroke="#111827" stroke-width="6" stroke-linecap="round" />
+              <line x1="5" y1="33" x2="27" y2="42" stroke="#111827" stroke-width="6" stroke-linecap="round" />
+            </svg>
+          </div>
         </div>
 
-        <div class="cw-floating-deco left-bolt">⚡</div>
-        <div class="cw-floating-deco left-sparkle">✦</div>
-        <div class="cw-floating-deco right-sparkle">✦</div>
-
-        <h1 class="cw-victory-title">VICTORY!</h1>
+        <!-- Tagline below -->
+        <div class="cw-victory-subtitle">GREAT MINDS WATCH TOGETHER</div>
       </div>
 
-      <!-- ── MAIN STAGE SECTION (PODIUM + SUMMARY) ── -->
+      <!-- ── 3 RUNNER PODIUM CARDS ── -->
       <div class="cw-stage-section">
         
-        <!-- LEFT: 2nd Place Card (Aziz) -->
-        <div class="cw-runner-card runner-blue" id="silverCard">
-          <div class="runner-rank-tab blue-tab">2</div>
-          <div class="runner-avatar-frame blue-ring" id="silverAvatarWrap">
-            <img id="silverAvatarImg" src="avvtar/aziz.svg" alt="2nd Place" onerror="this.src='avvtar/aziz.svg'" />
+        <!-- Card 2 (Left - Aziz) -->
+        <div class="cw-runner-col">
+          <div class="cw-card-burst burst-left" aria-hidden="true">
+            <svg viewBox="0 0 30 25" width="26" height="22" fill="none">
+              <line x1="22" y1="22" x2="8" y2="6" stroke="#111827" stroke-width="4.5" stroke-linecap="round" />
+              <line x1="28" y1="12" x2="16" y2="2" stroke="#111827" stroke-width="4.5" stroke-linecap="round" />
+            </svg>
           </div>
-          <div class="runner-nameplate" id="silverName">AZIZ</div>
-          <div class="runner-score-tag blue-score-tag" id="silverScore">22 POINTS</div>
-          <div class="runner-trophy-emblem silver-emblem">
-            <span class="mini-trophy">🏆</span>
+          <div class="cw-runner-card runner-blue" id="silverCard">
+            <div class="runner-rank-tab blue-tab">2</div>
+            <div class="runner-avatar-frame" id="silverAvatarWrap">
+              <img id="silverAvatarImg" src="avvtar/aziz.svg" alt="2nd Place" onerror="this.src='avvtar/aziz.svg'" />
+            </div>
+            <div class="runner-nameplate" id="silverName">AZIZ</div>
+            <div class="runner-score-tag blue-score-tag" id="silverScore">22 POINTS</div>
           </div>
         </div>
 
-                        <!-- CENTER: 1st Place Golden Champion Card (Aman) -->
-        <div class="cw-runner-card runner-gold champ-gold-card" id="champHeroCard">
-          <div class="runner-rank-tab gold-tab">
-            <span class="tab-crown">👑</span> 1
-          </div>
-          <div class="champ-card-ribbon">★ GRAND CHAMPION ★</div>
-          <div class="runner-avatar-frame gold-ring" id="champAvatarWrap">
-            <img id="champAvatarImg" src="avvtar/aman.svg" alt="Champion" onerror="this.src='avvtar/aman.svg'" />
-          </div>
-          <div class="runner-nameplate champ-nameplate" id="champName">AMAN</div>
-          <div class="champ-sub-tag">⚡ CINEMA LEGEND ⚡</div>
-          <div class="runner-score-tag gold-score-tag" id="champScore">30 POINTS</div>
-          <div class="runner-trophy-emblem gold-emblem">
-            <span class="mini-trophy">🏆</span>
+        <!-- Card 1 (Center - Aman) -->
+        <div class="cw-runner-col">
+          <div class="cw-runner-card runner-gold" id="champHeroCard">
+            <div class="runner-rank-tab gold-tab">
+              <svg viewBox="0 0 24 20" width="22" height="18" fill="#111827">
+                <path d="M2 5l4.5 4L12 2l5.5 7L22 5l-2.5 11H4.5L2 5z" />
+                <rect x="3.5" y="17.5" width="17" height="2.5" rx="1" />
+              </svg>
+            </div>
+            <div class="runner-avatar-frame champ-avatar-frame" id="champAvatarWrap">
+              <img id="champAvatarImg" src="avvtar/aman.svg" alt="Champion" onerror="this.src='avvtar/aman.svg'" />
+            </div>
+            <div class="runner-nameplate champ-nameplate" id="champName">AMAN</div>
+            <div class="runner-score-tag gold-score-tag" id="champScore">30 POINTS</div>
           </div>
         </div>
 
-        <!-- RIGHT: 3rd Place Card (Amish) -->
-        <div class="cw-runner-card runner-orange" id="bronzeCard">
-          <div class="runner-rank-tab orange-tab">3</div>
-          <div class="runner-avatar-frame orange-ring" id="bronzeAvatarWrap">
-            <img id="bronzeAvatarImg" src="avvtar/amish.svg" alt="3rd Place" onerror="this.src='avvtar/amish.svg'" />
+        <!-- Card 3 (Right - Amish) -->
+        <div class="cw-runner-col">
+          <div class="cw-card-burst burst-right" aria-hidden="true">
+            <svg viewBox="0 0 30 25" width="26" height="22" fill="none">
+              <line x1="8" y1="22" x2="22" y2="6" stroke="#111827" stroke-width="4.5" stroke-linecap="round" />
+              <line x1="2" y1="12" x2="14" y2="2" stroke="#111827" stroke-width="4.5" stroke-linecap="round" />
+            </svg>
           </div>
-          <div class="runner-nameplate" id="bronzeName">AMISH</div>
-          <div class="runner-score-tag orange-score-tag" id="bronzeScore">16 POINTS</div>
-          <div class="runner-trophy-emblem bronze-emblem">
-            <span class="mini-trophy">🏆</span>
-          </div>
-        </div>
-
-        <!-- TOP RIGHT: Match Summary Card -->
-        <div class="cw-summary-card">
-          <div class="summary-header">MATCH SUMMARY</div>
-          <div class="summary-rows">
-            <div class="summary-row">
-              <span class="s-icon">⭐</span>
-              <span class="s-label">ROUNDS WON</span>
-              <span class="s-val" id="summaryRoundsWon">3/3</span>
+          <div class="cw-runner-card runner-orange" id="bronzeCard">
+            <div class="runner-rank-tab orange-tab">3</div>
+            <div class="runner-avatar-frame" id="bronzeAvatarWrap">
+              <img id="bronzeAvatarImg" src="avvtar/amish.svg" alt="3rd Place" onerror="this.src='avvtar/amish.svg'" />
             </div>
-            <div class="summary-row">
-              <span class="s-icon">🎯</span>
-              <span class="s-label">ACCURACY</span>
-              <span class="s-val" id="summaryAccuracy">92%</span>
-            </div>
-            <div class="summary-row">
-              <span class="s-icon">⚡</span>
-              <span class="s-label">FASTEST ANSWER</span>
-              <span class="s-val" id="summaryFastest">2.8s</span>
-            </div>
-            <div class="summary-row">
-              <span class="s-icon">⭐</span>
-              <span class="s-label">TOTAL POINTS</span>
-              <span class="s-val" id="summaryPoints">30</span>
-            </div>
+            <div class="runner-nameplate" id="bronzeName">AMISH</div>
+            <div class="runner-score-tag orange-score-tag" id="bronzeScore">16 POINTS</div>
           </div>
         </div>
 
       </div><!-- /.cw-stage-section -->
 
-      <!-- ── MIDDLE BAR: REWARDS & ACHIEVEMENTS ── -->
-      <div class="cw-rewards-panel">
-        
-        <!-- Left: Rewards Earned -->
-        <div class="rp-rewards-col">
-          <div class="rp-header">
-            <span>REWARDS EARNED</span>
-            <span class="rp-star">✦</span>
+      <!-- ── MESSAGE (LEFT) & CREDITS (RIGHT) BOXES ── -->
+      <div class="cw-info-row">
+        <!-- Left: Message Box -->
+        <div class="cw-info-card">
+          <div class="cw-info-header">
+            <span>💬</span>
+            <span>MESSAGE</span>
           </div>
-          <div class="rp-items-row">
-            <!-- XP -->
-            <div class="rp-item">
-              <div class="rp-badge-icon xp-badge">
-                <span>XP</span>
-              </div>
-              <div class="rp-item-val">+150</div>
-              <div class="rp-item-label">EXPERIENCE</div>
+          <p class="cw-info-text">
+            Umeed hai aap sabko game pasand aaya hoga. Agar aapke paas koi feedback ho, to humein zaroor batayein. Milte hain agle podcast mein! Aur bhai log, ScoopLuck de do, life mein kaafi problems chal rahi hain. Problems solve hote hi ₹1,000 ka Super Chat pakka. Aur haan, bhai log, email ka reply bhi diya karo 😊
+          </p>
+        </div>
+
+        <!-- Right: Frames By & Website By Box -->
+        <div class="cw-info-card">
+          <div class="cw-credits-grid">
+            <div class="cw-credit-item">
+              <span class="cw-credit-badge">FRAMES BY</span>
+              <span class="cw-credit-names" id="creatorMsg">tanmayy, Tanuj, Darshan, Akash, Anmol &amp; smoc crew</span>
             </div>
-            <!-- Cine Coins -->
-            <div class="rp-item">
-              <div class="rp-badge-icon coin-badge">
-                <span>🪙</span>
-              </div>
-              <div class="rp-item-val">+50</div>
-              <div class="rp-item-label">CINE COINS</div>
-            </div>
-            <!-- Premium Ticket -->
-            <div class="rp-item">
-              <div class="rp-badge-icon ticket-badge">
-                <span>🎟️</span>
-              </div>
-              <div class="rp-item-val">+1</div>
-              <div class="rp-item-label">PREMIUM TICKET</div>
+            <div class="cw-credit-item">
+              <span class="cw-credit-badge">WEBSITE BY</span>
+              <span class="cw-credit-names">Built with ❤️ by Asmit</span>
             </div>
           </div>
         </div>
+      </div><!-- /.cw-info-row -->
 
-        <!-- Divider -->
-        <div class="rp-divider"></div>
-
-        <!-- Right: New Achievements Unlocked -->
-        <div class="rp-achieve-col">
-          <div class="rp-header">
-            <span class="new-pill">NEW!</span>
-            <span>NEW ACHIEVEMENTS UNLOCKED</span>
-          </div>
-          <div class="rp-achieve-row">
-            <!-- Cinema King -->
-            <div class="achieve-item">
-              <div class="achieve-frame gold-frame">
-                <span class="achieve-ico">👑</span>
-              </div>
-              <div class="achieve-title-box">CINEMA KING</div>
-              <div class="achieve-desc">Highest Score</div>
-            </div>
-            <!-- Speed Master -->
-            <div class="achieve-item">
-              <div class="achieve-frame cyan-frame">
-                <span class="achieve-ico">⚡</span>
-              </div>
-              <div class="achieve-title-box">SPEED MASTER</div>
-              <div class="achieve-desc">Fastest Answers</div>
-            </div>
-            <!-- Perfect Round -->
-            <div class="achieve-item">
-              <div class="achieve-frame purple-frame">
-                <span class="achieve-ico">🎯</span>
-              </div>
-              <div class="achieve-title-box">PERFECT ROUND</div>
-              <div class="achieve-desc">No Wrong Answers</div>
-            </div>
-            <!-- Streak Legend -->
-            <div class="achieve-item">
-              <div class="achieve-frame red-frame">
-                <span class="achieve-ico">🔥</span>
-              </div>
-              <div class="achieve-title-box">STREAK LEGEND</div>
-              <div class="achieve-desc">5 Correct Streak</div>
-            </div>
-          </div>
-        </div>
-
-      </div><!-- /.cw-rewards-panel -->
-
-      <!-- ── BOTTOM BUTTONS DECK (4 BUTTONS) ── -->
+      <!-- ── BOTTOM BUTTONS DECK (3 BUTTONS AS IN MOCKUP) ── -->
       <div class="cw-buttons-deck">
         <button type="button" class="cw-btn btn-play-again" onclick="GameController.playAgain()">
           <span class="cw-btn-icon">▶</span>
           <span class="cw-btn-text">PLAY AGAIN</span>
         </button>
         <button type="button" class="cw-btn btn-rematch" onclick="GameController._onlineMode ? MultiplayerEngine.rematch() : GameController.playAgain()">
-          <span class="cw-btn-icon">🔄</span>
+          <span class="cw-btn-icon">👥</span>
           <span class="cw-btn-text">REMATCH</span>
         </button>
-        <button type="button" class="cw-btn btn-lobby" onclick="MultiplayerEngine.returnToLobby()">
-          <span class="cw-btn-icon">👥</span>
-          <span class="cw-btn-text">RETURN TO LOBBY</span>
-        </button>
-        <button type="button" class="cw-btn btn-menu" onclick="GameController.goHome()">
+        <button type="button" class="cw-btn btn-lobby" onclick="GameController._onlineMode ? MultiplayerEngine.returnToLobby() : GameController.goHome()">
           <span class="cw-btn-icon">🏠</span>
-          <span class="cw-btn-text">MAIN MENU</span>
+          <span class="cw-btn-text">RETURN TO LOBBY</span>
         </button>
       </div>
 
