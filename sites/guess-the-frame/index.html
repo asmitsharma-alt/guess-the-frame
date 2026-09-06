@@ -16044,17 +16044,6 @@
         this.renderStage(playerList);
         this.renderMatchSummary(playerList);
         this.fireComicConfetti();
-
-        // Round count
-        const roundCountEl = document.getElementById('winnerRoundsCount');
-        if (roundCountEl) {
-          const count = (MultiplayerEngine.currentPlaylist && MultiplayerEngine.currentPlaylist.length) || (GS.sections && GS.sections.length) || 3;
-          roundCountEl.textContent = count;
-        }
-        const playerCountEl = document.getElementById('winnerPlayerCount');
-        if (playerCountEl) {
-          playerCountEl.textContent = playerList.length || 4;
-        }
       },
 
             renderStage(players) {
