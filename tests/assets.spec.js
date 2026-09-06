@@ -6,32 +6,26 @@ test.describe("Asset & Frame Loading Reliability", () => {
     await page.waitForLoadState("domcontentloaded");
   });
 
-  test("Core movie frames in Section 1 resolve over HTTP with status 200", async ({ page, request }) => {
+  test("Core movie frames in Section 1 contains all 34 frames and resolve over HTTP 200", async ({ page, request }) => {
     const frames = await page.evaluate(() => {
       const s1 = GS.sections.find(s => s.id === 1);
       return s1 ? s1.frames.map(f => f.content) : [];
     });
 
-    expect(frames.length).toBeGreaterThan(0);
+    expect(frames.length).toBe(34);
 
-    for (const framePath of frames.slice(0, 10)) {
+    for (const framePath of frames) {
       const response = await request.get("/" + encodeURI(framePath));
       expect(response.status(), "Frame failed to load: " + framePath).toBe(200);
     }
   });
 
-  test("Eye puzzle assets in Section 3 resolve over HTTP with status 200", async ({ page, request }) => {
-    const eyeAssets = await page.evaluate(() => {
-      const s3 = GS.sections.find(s => s.id === 3);
-      return s3 ? s3.frames.map(f => f.content) : [];
-    });
-
-    expect(eyeAssets.length).toBeGreaterThan(0);
-
-    for (const assetPath of eyeAssets.slice(0, 8)) {
-      const response = await request.get("/" + encodeURI(assetPath));
-      expect(response.status(), "Eye asset failed to load: " + assetPath).toBe(200);
-    }
+  test("Only Section 1 (Guess the Frame) is active; dialogue and eyes modes are removed", async ({ page }) => {
+    const sections = await page.evaluate(() => GS.sections);
+    expect(sections.length).toBe(1);
+    expect(sections[0].id).toBe(1);
+    expect(sections[0].name).toBe("Guess the Frame");
+    expect(sections.some(s => s.id === 2 || s.id === 3)).toBe(false);
   });
 
   test("Tie-breaker frames resolve over HTTP with status 200", async ({ page, request }) => {

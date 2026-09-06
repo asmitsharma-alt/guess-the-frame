@@ -11787,26 +11787,19 @@
                 <div class="shrink-0">
                   <div class="flex items-center justify-between mb-2">
                     <span class="font-label-bold text-xs uppercase tracking-wider text-on-surface flex items-center gap-1.5 font-bold">
-                      <span class="material-symbols-outlined text-base text-neo-purple">category</span> Mode Badges
+                      <span class="material-symbols-outlined text-base text-neo-purple">category</span> Mode Rotation
                     </span>
-                    <span class="font-label-sm text-[10px] text-outline uppercase font-bold">Tap to toggle</span>
+                    <span class="font-label-sm text-[10px] text-outline uppercase font-bold">Active Mode</span>
                   </div>
-                  <div class="grid grid-cols-3 gap-2.5" id="categoryModeBadges">
+                  <div class="flex gap-2.5" id="categoryModeBadges">
                     <!-- Frames Badge -->
-                    <button type="button" id="modeBadge-frames" onclick="PlayerLobby.toggleMode('frames')" class="mode-badge border-2 border-on-surface py-2.5 px-2 rounded-xl font-label-bold text-xs uppercase flex items-center justify-center gap-1.5 neo-shadow-sm active:translate-y-[1px] transition-all cursor-pointer font-black select-none" style="background-color: #cae6ff;">
+                    <button type="button" id="modeBadge-frames" class="w-full mode-badge border-2 border-on-surface py-2.5 px-3 rounded-xl font-label-bold text-xs uppercase flex items-center justify-center gap-2 neo-shadow-sm transition-all cursor-default font-black select-none" style="background-color: #cae6ff;">
                       <span class="material-symbols-outlined text-base">panorama</span>
-                      <span>Frames</span>
+                      <span>Movie Frames (34 Movies In Pool)</span>
                     </button>
-                    <!-- Eyes Badge -->
-                    <button type="button" id="modeBadge-eyes" onclick="PlayerLobby.toggleMode('eyes')" class="mode-badge border-2 border-on-surface py-2.5 px-2 rounded-xl font-label-bold text-xs uppercase flex items-center justify-center gap-1.5 neo-shadow-sm active:translate-y-[1px] transition-all cursor-pointer font-black select-none" style="background-color: #86EFAC;">
-                      <span class="material-symbols-outlined text-base">visibility</span>
-                      <span>Eyes</span>
-                    </button>
-                    <!-- Dialogue Badge -->
-                    <button type="button" id="modeBadge-dialogue" onclick="PlayerLobby.toggleMode('dialogue')" class="mode-badge border-2 border-on-surface py-2.5 px-2 rounded-xl font-label-bold text-xs uppercase flex items-center justify-center gap-1.5 neo-shadow-sm active:translate-y-[1px] transition-all cursor-pointer font-black select-none" style="background-color: #FEF08A;">
-                      <span class="material-symbols-outlined text-base">chat</span>
-                      <span>Dialogue</span>
-                    </button>
+                    <!-- Eyes & Dialogue hidden for current rotation -->
+                    <button type="button" id="modeBadge-eyes" style="display: none;"></button>
+                    <button type="button" id="modeBadge-dialogue" style="display: none;"></button>
                   </div>
                 </div>
 
@@ -11816,65 +11809,32 @@
                 <div class="flex-1 flex flex-col justify-between my-1">
                   <div class="flex items-center justify-between mb-2">
                     <span class="font-label-bold text-xs uppercase tracking-wider text-on-surface flex items-center gap-1.5 font-bold">
-                      <span class="material-symbols-outlined text-base text-neo-purple">grid_view</span> Rounds by Mode
+                      <span class="material-symbols-outlined text-base text-neo-purple">grid_view</span> Match Rounds
                     </span>
-                    <span class="font-label-sm text-[10px] text-outline uppercase font-bold">Max 10 / Mode</span>
+                    <span class="font-label-sm text-[10px] text-outline uppercase font-bold">1 to 20 Rounds</span>
                   </div>
 
-                  <div class="grid grid-cols-3 gap-2.5 flex-1 items-stretch">
+                  <div class="flex-1 flex flex-col items-stretch">
                     <!-- Frames Stepper Card -->
-                    <div id="modeCard-frames" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-3 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden h-full" style="border-top: 4px solid #3b82f6;">
-                      <div class="flex items-center justify-between mb-1.5 pb-1.5 border-b-2 border-outline/20 cursor-pointer" onclick="PlayerLobby.toggleMode('frames')">
-                        <span class="font-label-bold text-xs uppercase font-black text-on-surface flex items-center gap-1">
-                          <span class="material-symbols-outlined text-sm">panorama</span> Frame
+                    <div id="modeCard-frames" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-4 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden h-full" style="border-top: 4px solid #3b82f6;">
+                      <div class="flex items-center justify-between mb-2 pb-2 border-b-2 border-outline/20">
+                        <span class="font-label-bold text-xs uppercase font-black text-on-surface flex items-center gap-1.5">
+                          <span class="material-symbols-outlined text-base text-[#3b82f6]">panorama</span> Movie Frame Rounds
                         </span>
                         <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface" id="modeStatusDot-frames"></span>
                       </div>
                       <div class="flex flex-col items-center justify-center py-4 flex-1">
-                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostFramesRoundsBtn">3</span>
-                        <span class="text-[9px] font-label-bold uppercase text-outline mt-1.5 tracking-wider font-black">Rounds</span>
+                        <span class="font-headline-xl text-5xl font-black text-on-surface leading-none" id="hostFramesRoundsBtn">10</span>
+                        <span class="text-[10px] font-label-bold uppercase text-outline mt-2 tracking-wider font-black">Total Rounds</span>
                       </div>
-                      <div class="grid grid-cols-2 gap-1.5 mt-auto pt-2 border-t-2 border-dashed border-outline/20">
-                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', -1)" class="w-full bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Decrease Frame Rounds">−</button>
-                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', 1)" class="w-full bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Increase Frame Rounds">+</button>
-                      </div>
-                    </div>
-
-                    <!-- Eyes Stepper Card -->
-                    <div id="modeCard-eyes" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-3 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden h-full" style="border-top: 4px solid #22c55e;">
-                      <div class="flex items-center justify-between mb-1.5 pb-1.5 border-b-2 border-outline/20 cursor-pointer" onclick="PlayerLobby.toggleMode('eyes')">
-                        <span class="font-label-bold text-xs uppercase font-black text-on-surface flex items-center gap-1">
-                          <span class="material-symbols-outlined text-sm">visibility</span> Eyes
-                        </span>
-                        <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface" id="modeStatusDot-eyes"></span>
-                      </div>
-                      <div class="flex flex-col items-center justify-center py-4 flex-1">
-                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostEyesRoundsBtn">3</span>
-                        <span class="text-[9px] font-label-bold uppercase text-outline mt-1.5 tracking-wider font-black">Rounds</span>
-                      </div>
-                      <div class="grid grid-cols-2 gap-1.5 mt-auto pt-2 border-t-2 border-dashed border-outline/20">
-                        <button type="button" onclick="PlayerLobby.adjustRounds('eyes', -1)" class="w-full bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Decrease Eyes Rounds">−</button>
-                        <button type="button" onclick="PlayerLobby.adjustRounds('eyes', 1)" class="w-full bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Increase Eyes Rounds">+</button>
+                      <div class="grid grid-cols-2 gap-2 mt-auto pt-2.5 border-t-2 border-dashed border-outline/20">
+                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', -1)" class="w-full bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-lg py-2 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Decrease Rounds">−</button>
+                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', 1)" class="w-full bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-lg py-2 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Increase Rounds">+</button>
                       </div>
                     </div>
-
-                    <!-- Dialogue Stepper Card -->
-                    <div id="modeCard-dialogue" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-3 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden h-full" style="border-top: 4px solid #eab308;">
-                      <div class="flex items-center justify-between mb-1.5 pb-1.5 border-b-2 border-outline/20 cursor-pointer" onclick="PlayerLobby.toggleMode('dialogue')">
-                        <span class="font-label-bold text-xs uppercase font-black text-on-surface flex items-center gap-1">
-                          <span class="material-symbols-outlined text-sm">chat</span> Dialogue
-                        </span>
-                        <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface" id="modeStatusDot-dialogue"></span>
-                      </div>
-                      <div class="flex flex-col items-center justify-center py-4 flex-1">
-                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostDialogueRoundsBtn">4</span>
-                        <span class="text-[9px] font-label-bold uppercase text-outline mt-1.5 tracking-wider font-black">Rounds</span>
-                      </div>
-                      <div class="grid grid-cols-2 gap-1.5 mt-auto pt-2 border-t-2 border-dashed border-outline/20">
-                        <button type="button" onclick="PlayerLobby.adjustRounds('dialogue', -1)" class="w-full bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Decrease Dialogue Rounds">−</button>
-                        <button type="button" onclick="PlayerLobby.adjustRounds('dialogue', 1)" class="w-full bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Increase Dialogue Rounds">+</button>
-                      </div>
-                    </div>
+                    <!-- Hidden elements to preserve ID bindings -->
+                    <div id="modeCard-eyes" style="display: none;"><span id="hostEyesRoundsBtn">0</span><span id="modeStatusDot-eyes"></span></div>
+                    <div id="modeCard-dialogue" style="display: none;"><span id="hostDialogueRoundsBtn">0</span><span id="modeStatusDot-dialogue"></span></div>
                   </div>
                 </div>
 
@@ -12810,15 +12770,13 @@
 
         // Settings sync
         const settings = (GameController._onlineMode && MultiplayerEngine.hostSettings) ? MultiplayerEngine.hostSettings : (MultiplayerEngine.hostSettings || {
-          category: 'all',
-          categories: ['frames', 'eyes', 'dialogue'],
-          roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
+          category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 },
           rounds: 10,
           timer: 30
         });
 
-        const activeCategories = settings.categories || ['frames', 'eyes', 'dialogue'];
-        const counts = settings.roundsByMode || { frames: 3, eyes: 3, dialogue: 4 };
+        const activeCategories = settings.categories || ['frames'];
+        const counts = settings.roundsByMode || { frames: 10 };
 
         const modeColors = {
           frames: { active: '#cae6ff', inactive: '#f4f4ee' },
@@ -12941,9 +12899,7 @@
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'all',
-            categories: ['frames', 'eyes', 'dialogue'],
-            roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
+            category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 },
             rounds: 10,
             timer: 30
           };
@@ -12971,9 +12927,7 @@
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'all',
-            categories: ['frames', 'eyes', 'dialogue'],
-            roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
+            category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 },
             rounds: 10,
             timer: 30
           };
@@ -13005,9 +12959,7 @@
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'all',
-            categories: ['frames', 'eyes', 'dialogue'],
-            roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
+            category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 },
             rounds: 10,
             timer: 30
           };
@@ -13016,19 +12968,13 @@
         if (!s.roundsByMode) s.roundsByMode = { frames: 3, eyes: 3, dialogue: 4 };
         if (!s.categories) s.categories = ['frames', 'eyes', 'dialogue'];
         
-        let current = Number(s.roundsByMode[mode]) || 0;
-        current = Math.max(0, Math.min(10, current + delta));
-        s.roundsByMode[mode] = current;
+        let current = Number(s.roundsByMode[mode] || s.roundsByMode.frames) || 10;
+        current = Math.max(1, Math.min(20, current + delta));
+        s.roundsByMode = { frames: current };
+        s.rounds = current;
+        s.category = 'frames';
+        s.categories = ['frames'];
 
-        if (current > 0 && !s.categories.includes(mode)) {
-          s.categories.push(mode);
-        } else if (current === 0 && s.categories.includes(mode)) {
-          if (s.categories.length > 1) {
-            s.categories = s.categories.filter(c => c !== mode);
-          }
-        }
-        
-        s.rounds = Object.values(s.roundsByMode).reduce((a, b) => a + b, 0);
         if (GameController._onlineMode && MultiplayerEngine.isHost) {
           MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
         }
@@ -13044,9 +12990,7 @@
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'all',
-            categories: ['frames', 'eyes', 'dialogue'],
-            roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
+            category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 },
             rounds: 10,
             timer: 30
           };
@@ -13469,54 +13413,210 @@
       sections: [
         {
           id: 1, name: 'Guess the Frame', icon: '<svg class="svg-icon"><use href="#icon-film" /></svg>', collapsed: false, frames: [
-            { type: 'image', content: 'GUESSTHEFRAME/2001 A Space Odyssey (1968).webp', answer: '2001 A SPACE ODYSSEY', year: '1968' },
-            { type: 'image', content: 'GUESSTHEFRAME/A Wednesday (2008).webp', answer: 'A WEDNESDAY', year: '2008' },
-            { type: 'image', content: 'GUESSTHEFRAME/Athiradi(2026).webp', answer: 'ATHIRADI', year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/Boogie Nights (1997).webp', answer: 'BOOGIE NIGHTS', year: '1997' },
-            { type: 'image', content: 'GUESSTHEFRAME/Drishyam 3(2026).webp', answer: 'DRISHYAM 3', year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/Ferrari Ki Sawaari (2012).webp', answer: 'FERRARI KI SAWAARI', year: '2012' },
-            { type: 'image', content: 'GUESSTHEFRAME/Gram Chikitsalaya Season 2 (2026).webp', answer: 'GRAM CHIKITSALAYA SEASON 2', year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/I Swear (2025).webp', answer: 'I SWEAR', year: '2025' },
-            { type: 'image', content: 'GUESSTHEFRAME/Licorice Pizza (2021).webp', answer: 'LICORICE PIZZA', year: '2021' },
-            { type: 'image', content: 'GUESSTHEFRAME/Made In India A Titan Story(2026).webp', answer: 'MADE IN INDIA A TITAN STORY', year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/Mulholland Drive (2001).webp', answer: 'MULHOLLAND DRIVE', year: '2001' },
-            { type: 'image', content: 'GUESSTHEFRAME/No Smoking (2007).webp', answer: 'NO SMOKING', year: '2007' },
-            { type: 'image', content: 'GUESSTHEFRAME/Peepli Live (2010).webp', answer: 'PEEPLI LIVE', year: '2010' },
-            { type: 'image', content: 'GUESSTHEFRAME/Rush (2023).webp', answer: 'RUSH', year: '2023' },
-            { type: 'image', content: 'GUESSTHEFRAME/Sapne Vs Everyone(2023).webp', answer: 'SAPNE VS EVERYONE', year: '2023' },
-            { type: 'image', content: 'GUESSTHEFRAME/The Drama (2026).webp', answer: 'THE DRAMA', year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/The Sheep Detectives (2026).webp', answer: 'THE SHEEP DETECTIVES', year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/Widow_s Bay (2026).webp', answer: "WIDOW'S BAY", year: '2026' },
-            { type: 'image', content: 'GUESSTHEFRAME/Wind River (2017).webp', answer: 'WIND RIVER', year: '2017' },
-            { type: 'image', content: 'GUESSTHEFRAME/Zero (2018).webp', answer: 'ZERO', year: '2018' }
-          ]
-        },
-        {
-          id: 2, name: 'Guess the Dialogue', icon: '<svg class="svg-icon"><use href="#icon-message-circle" /></svg>', collapsed: false, frames: [
-            { type: 'dialogue', dialogue: "Aaya hoon, kuch toh loot kar jaunga... Khandani chor hoon main, khandani!", answer: 'ANDAAZ APNA APNA', year: '1994' },
-            { type: 'dialogue', dialogue: "Khoon kharabe wale khandan se aata hoon... roz subah uthkar 2-4 khoon na karoon toh mera naashta hazam nahi hota!", answer: 'HUNGAMA', year: '2003' },
-            { type: 'dialogue', dialogue: "Yeh koi tareeka hai bheek maangne ka?!", answer: 'GOLMAAL', year: '2006' },
-            { type: 'dialogue', dialogue: "Meri ek taang nakli hai, main hockey ka bohot bada khiladi tha...", answer: 'WELCOME', year: '2007' },
-            { type: 'dialogue', dialogue: "Arey \u20b95 mein chicken biryani de raha hai re woh!", answer: 'RUN', year: '2004' },
-            { type: 'dialogue', dialogue: "Hi, guys. We're going on a national bikini tour, and we're looking for two oil boys who can grease us up before each competition.", answer: 'DUMB AND DUMBER', year: '1994' },
-            { type: 'dialogue', dialogue: "It\u2019s not a purse, it\u2019s a satchel. Gods and Indiana Jones wears one.", answer: 'THE HANGOVER', year: '2009' },
-            { type: 'dialogue', dialogue: "I'm not Bad. I'm just Drawn That Way.", answer: 'WHO FRAMED ROGER RABBIT', year: '1988' },
-            { type: 'dialogue', dialogue: "I don't want to survive. I want to live.", answer: 'WALL-E', year: '2008' },
-            { type: 'dialogue', dialogue: "I wasted so much time worrying what could go wrong, but what did go wrong, was never the things I worried about.", answer: 'THE WORST PERSON IN THE WORLD', year: '2021' }
-          ]
-        },
-        {
-          id: 3, name: 'Guess the Eye', icon: '<svg class="svg-icon"><use href="#icon-eye" /></svg>', collapsed: false, frames: [
-            { type: 'eye', content: 'GUESSTHEEYES/Adria Arjona copy.webp', revealContent: 'GUESSTHEEYES/Adria Arjona.webp', answer: 'ADRIA ARJONA', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Anthony Mackie copy.webp', revealContent: 'GUESSTHEEYES/Anthony Mackie.webp', answer: 'ANTHONY MACKIE', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Antony Starr copy.webp', revealContent: 'GUESSTHEEYES/Antony Starr.webp', answer: 'ANTONY STARR', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Emily Blunt copy.webp', revealContent: 'GUESSTHEEYES/Emily Blunt.webp', answer: 'EMILY BLUNT', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Emma Stone copy.webp', revealContent: 'GUESSTHEEYES/Emma Stone.webp', answer: 'EMMA STONE', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Kate Hudson copy.webp', revealContent: 'GUESSTHEEYES/Kate Hudson.webp', answer: 'KATE HUDSON', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Olivia Cooke copy.webp', revealContent: 'GUESSTHEEYES/Olivia Cooke.webp', answer: 'OLIVIA COOKE', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Rachel Brosnahan copy.webp', revealContent: 'GUESSTHEEYES/Rachel Brosnahan.webp', answer: 'RACHEL BROSNAHAN', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Shraddha Kapoor copy.webp', revealContent: 'GUESSTHEEYES/Shraddha Kapoor.webp', answer: 'SHRADDHA KAPOOR', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Zoe Saldana copy.webp', revealContent: 'GUESSTHEEYES/Zoe Saldana.webp', answer: 'ZOE SALDA\u00d1A', year: '' }
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/2001 A Space Odyssey (1968).webp",
+                              "answer": "2001 A SPACE ODYSSEY",
+                              "year": "1968"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/A Wednesday (2008).webp",
+                              "answer": "A WEDNESDAY",
+                              "year": "2008"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Athiradi(2026).webp",
+                              "answer": "ATHIRADI",
+                              "year": "2026"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Boogie Nights (1997).webp",
+                              "answer": "BOOGIE NIGHTS",
+                              "year": "1997"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Drishyam 3(2026).webp",
+                              "answer": "DRISHYAM 3",
+                              "year": "2026"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Ferrari Ki Sawaari (2012).webp",
+                              "answer": "FERRARI KI SAWAARI",
+                              "year": "2012"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Gram Chikitsalaya Season 2 (2026).webp",
+                              "answer": "GRAM CHIKITSALAYA SEASON 2",
+                              "year": "2026"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/I Swear (2025).webp",
+                              "answer": "I SWEAR",
+                              "year": "2025"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Licorice Pizza (2021).webp",
+                              "answer": "LICORICE PIZZA",
+                              "year": "2021"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Made In India A Titan Story(2026).webp",
+                              "answer": "MADE IN INDIA A TITAN STORY",
+                              "year": "2026"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Mulholland Drive (2001).webp",
+                              "answer": "MULHOLLAND DRIVE",
+                              "year": "2001"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/No Smoking (2007).webp",
+                              "answer": "NO SMOKING",
+                              "year": "2007"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Peepli Live (2010).webp",
+                              "answer": "PEEPLI LIVE",
+                              "year": "2010"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Rush (2023).webp",
+                              "answer": "RUSH",
+                              "year": "2023"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Sapne Vs Everyone(2023).webp",
+                              "answer": "SAPNE VS EVERYONE",
+                              "year": "2023"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/The Drama (2026).webp",
+                              "answer": "THE DRAMA",
+                              "year": "2026"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/The Sheep Detectives (2026).webp",
+                              "answer": "THE SHEEP DETECTIVES",
+                              "year": "2026"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Widow_s Bay (2026).webp",
+                              "answer": "WIDOW'S BAY",
+                              "year": "2026"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Wind River (2017).webp",
+                              "answer": "WIND RIVER",
+                              "year": "2017"
+                    },
+                    {
+                              "type": "image",
+                              "content": "GUESSTHEFRAME/Zero (2018).webp",
+                              "answer": "ZERO",
+                              "year": "2018"
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/Anatomy of a Fall (2023).webp",
+                              "answer": "ANATOMY OF A FALL",
+                              "year": "2023"
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/Eyes Wide Shut (1999).webp",
+                              "answer": "EYES WIDE SHUT",
+                              "year": "1999"
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/Ghilli (2004).webp",
+                              "answer": "GHILLI",
+                              "year": "2004"
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/La Haine(1995).webp",
+                              "answer": "LA HAINE",
+                              "year": "1995"
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/Mad Max 2.jpg.webp",
+                              "answer": "MAD MAX 2",
+                              "year": ""
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/Moonrise Kingdom (2012).webp",
+                              "answer": "MOONRISE KINGDOM",
+                              "year": "2012"
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/The Batman (2022).webp",
+                              "answer": "THE BATMAN",
+                              "year": "2022"
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/The Holdovers(2023).webp",
+                              "answer": "THE HOLDOVERS",
+                              "year": "2023"
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/The Life of Chuck(2024).webp",
+                              "answer": "THE LIFE OF CHUCK",
+                              "year": "2024"
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/The Lighthouse (2019).webp",
+                              "answer": "THE LIGHTHOUSE",
+                              "year": "2019"
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/The Wolf of Wall Street (2013).webp",
+                              "answer": "THE WOLF OF WALL STREET",
+                              "year": "2013"
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/They Call Him OG (2025).webp",
+                              "answer": "THEY CALL HIM OG",
+                              "year": "2025"
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/Top Gun Maverick (2022).webp",
+                              "answer": "TOP GUN MAVERICK",
+                              "year": "2022"
+                    },
+                    {
+                              "type": "image",
+                              "content": "tie breaker/Under the Silver Lake (2018).webp",
+                              "answer": "UNDER THE SILVER LAKE",
+                              "year": "2018"
+                    }
           ]
         }
       ],
@@ -14723,7 +14823,7 @@
         this.playerName = this.getAvatarDisplayName(this.playerAvatar);
         this.isHost = true;
         this.roomCode = this.generateRoomCode();
-        this.hostSettings = { category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 3, eyes: 3, dialogue: 4 }, rounds: 10, timer: 30 };
+        this.hostSettings = { category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 }, rounds: 10, timer: 30 };
         this.roomId = 'room_' + this.roomCode;
 
         localStorage.setItem('gtf_player_name', this.playerName);
@@ -15236,9 +15336,7 @@
         let pool = [];
         if (!this.hostSettings) {
           this.hostSettings = {
-            category: 'all',
-            categories: ['frames', 'eyes', 'dialogue'],
-            roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
+            category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 },
             rounds: 10,
             timer: 30
           };
