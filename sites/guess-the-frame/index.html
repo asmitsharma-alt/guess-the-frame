@@ -6424,6 +6424,20 @@
 
     /* ── responsive: stack on narrow screens ── */
     @media (max-width: 860px) {
+      .cw-center-stage-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 16px !important;
+      }
+      .cw-left-col .cw-msg-card {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: unset !important;
+      }
+      .cw-right-col {
+        width: 100% !important;
+        max-height: none !important;
+      }
       #gameScreen .ctrl-panel { width: 100% !important; flex-direction: row !important; flex-wrap: wrap !important; }
       #gameScreen .panel-sec { flex: 1 1 240px !important; }
       #gameScreen .game-main { flex-direction: column !important; }
@@ -8355,6 +8369,7 @@
       box-shadow: 8px 8px 0 #1a1a1a;
     }
     .h-card-local {
+      display: none !important;
       background: #FACC15;
       box-shadow: 5px 5px 0 #1a1a1a;
       color: #1a1a1a;
@@ -11028,17 +11043,17 @@
       margin: 0;
     }
 
-    /* ── MAIN STAGE SECTION (PODIUM) ── */
+    /* ── MAIN STAGE SECTION (PODIUM) — 0.75X SCALED ── */
     .cw-stage-section {
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      gap: clamp(16px, 2.6vw, 36px);
+      gap: clamp(14px, 2.2vw, 30px);
       position: relative;
       flex: 1;
       min-height: 0;
-      padding: 12px 10px 4px;
-      margin: 0 0 4px;
+      padding: 6px 8px 2px;
+      margin: 0 0 2px;
       z-index: 10;
     }
     .cw-runner-col {
@@ -11049,26 +11064,26 @@
     }
     .cw-card-burst {
       position: absolute;
-      top: -24px;
-      width: 26px;
-      height: 22px;
+      top: -20px;
+      width: 22px;
+      height: 18px;
     }
-    .burst-left { left: -8px; }
-    .burst-right { right: -8px; }
+    .burst-left { left: -6px; }
+    .burst-right { right: -6px; }
 
-    /* Runner Cards */
+    /* Runner Cards (0.75x scaled) */
     .cw-runner-card {
-      border: 3.5px solid #111827;
-      box-shadow: 6px 6px 0 #111827;
-      border-radius: 20px;
-      padding: clamp(14px, 1.8vw, 22px) 14px 14px;
+      border: 3px solid #111827;
+      box-shadow: 5px 5px 0 #111827;
+      border-radius: 16px;
+      padding: clamp(10px, 1.3vw, 16px) 10px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
       position: relative;
-      width: clamp(175px, 18.5vw, 220px);
-      height: clamp(240px, 30vh, 285px);
+      width: clamp(130px, 14vw, 165px);
+      height: clamp(180px, 22.5vh, 215px);
       box-sizing: border-box;
       z-index: 4;
     }
@@ -11076,56 +11091,57 @@
     .runner-orange { background: #F97316; }
     .runner-gold {
       background: #FACC15;
-      width: clamp(200px, 21.5vw, 250px);
-      height: clamp(265px, 33vh, 315px);
-      padding: clamp(18px, 2.1vw, 26px) 16px 16px;
-      border: 4px solid #111827;
-      box-shadow: 7px 7px 0 #111827;
+      width: clamp(150px, 16vw, 188px);
+      height: clamp(200px, 25vh, 236px);
+      padding: clamp(12px, 1.5vw, 18px) 12px 12px;
+      border: 3.5px solid #111827;
+      box-shadow: 6px 6px 0 #111827;
       z-index: 6;
-      transform: translateY(-8px);
+      transform: translateY(-6px);
     }
 
     /* Rank Tab on top */
     .runner-rank-tab {
       position: absolute;
-      top: -18px;
-      border: 2.5px solid #111827;
-      border-radius: 8px;
-      width: 38px;
-      height: 34px;
+      top: -14px;
+      border: 2px solid #111827;
+      border-radius: 6px;
+      width: 30px;
+      height: 26px;
       display: grid;
       place-items: center;
       font-family: 'Lilita One', sans-serif;
-      font-size: 20px;
-      box-shadow: 2.5px 2.5px 0 #111827;
+      font-size: 15px;
+      box-shadow: 2px 2px 0 #111827;
       z-index: 6;
     }
     .blue-tab { background: #3B82F6; color: #FFFFFF; }
     .gold-tab {
       background: #FACC15;
       color: #111827;
-      width: 44px;
-      height: 38px;
-      top: -20px;
+      width: 34px;
+      height: 30px;
+      top: -16px;
     }
     .orange-tab { background: #F97316; color: #FFFFFF; }
 
     /* Avatar Frame */
     .runner-avatar-frame {
-      width: clamp(74px, 8vw, 96px);
-      height: clamp(74px, 8vw, 96px);
+      width: clamp(56px, 6vw, 72px);
+      height: clamp(56px, 6vw, 72px);
       border-radius: 50%;
-      border: 4px solid #111827;
+      border: 3px solid #111827;
       overflow: hidden;
       display: block;
       margin-top: 2px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       flex-shrink: 0;
       background: #FFFFFF;
     }
     .champ-avatar-frame {
-      width: clamp(86px, 9.2vw, 110px);
-      height: clamp(86px, 9.2vw, 110px);
+      width: clamp(65px, 7vw, 83px);
+      height: clamp(65px, 7vw, 83px);
+      border-width: 3.5px;
     }
     .runner-avatar-frame img {
       width: 100%;
@@ -11139,13 +11155,13 @@
       background: #FFFFFF;
       color: #111827;
       font-family: 'Lilita One', sans-serif;
-      font-size: clamp(15px, 1.7vw, 20px);
-      padding: 3.5px 12px;
-      border: 2.5px solid #111827;
-      border-radius: 8px;
-      box-shadow: 2.5px 2.5px 0 #111827;
-      letter-spacing: 1.2px;
-      margin-bottom: 5px;
+      font-size: clamp(12px, 1.3vw, 15px);
+      padding: 2.5px 8px;
+      border: 2px solid #111827;
+      border-radius: 6px;
+      box-shadow: 2px 2px 0 #111827;
+      letter-spacing: 0.8px;
+      margin-bottom: 4px;
       width: 90%;
       text-align: center;
       white-space: nowrap;
@@ -11154,52 +11170,109 @@
       text-transform: uppercase;
     }
     .champ-nameplate {
-      font-size: clamp(17px, 1.9vw, 22px);
-      padding: 4.5px 16px;
+      font-size: clamp(13px, 1.5vw, 17px);
+      padding: 3px 12px;
     }
 
     /* Score Pill */
     .runner-score-tag {
       font-family: 'Lilita One', sans-serif;
-      font-size: 11.5px;
-      padding: 2.5px 12px;
-      border: 2.5px solid #111827;
+      font-size: 9.5px;
+      padding: 2px 9px;
+      border: 2px solid #111827;
       border-radius: 999px;
-      letter-spacing: 0.8px;
+      letter-spacing: 0.6px;
       text-transform: uppercase;
-      box-shadow: 2px 2px 0 #111827;
+      box-shadow: 1.5px 1.5px 0 #111827;
     }
     .blue-score-tag { background: #FFFFFF; color: #111827; }
-    .gold-score-tag { background: #111827; color: #FACC15; font-size: 12.5px; padding: 3.5px 16px; }
+    .gold-score-tag { background: #111827; color: #FACC15; font-size: 10.5px; padding: 2.5px 12px; }
     .orange-score-tag { background: #FFFFFF; color: #111827; }
 
-    /* ── 3-COLUMN INFO ROW: MESSAGE | SCOREBOARD | CREDITS ── */
-    .cw-info-row {
+    /* ── 3-COLUMN MAIN STAGE: LEFT MESSAGE | CENTER PODIUM | RIGHT (SCOREBOARD + CREDITS) ── */
+    .cw-center-stage-grid {
       display: grid;
-      grid-template-columns: 1.15fr 1.1fr 0.85fr;
-      gap: clamp(8px, 1.2vw, 14px);
-      margin: 4px 0 8px;
+      grid-template-columns: minmax(230px, 270px) 1fr minmax(270px, 320px);
+      align-items: center;
+      gap: clamp(12px, 2vw, 26px);
+      flex: 1;
+      min-height: 0;
+      margin: 2px 0 4px;
       position: relative;
       z-index: 10;
+      width: 100%;
+    }
+
+    /* Left Column: Square Message Box */
+    .cw-left-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+    .cw-left-col .cw-msg-card {
+      flex: 0 0 auto !important;
+      width: clamp(210px, 18vw, 245px) !important;
+      height: clamp(210px, 18vw, 245px) !important;
+      aspect-ratio: 1 / 1 !important;
+      box-sizing: border-box;
+      padding: clamp(12px, 1.2vw, 16px) !important;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .cw-left-col .cw-msg-card .cw-info-header {
+      font-size: 13.5px;
+      margin-bottom: 4px;
       flex-shrink: 0;
     }
+    .cw-left-col .cw-msg-card .cw-info-text {
+      font-size: clamp(9.5px, 0.78vw, 11px);
+      font-weight: 700;
+      color: #334155;
+      line-height: 1.42;
+      overflow-y: auto;
+      padding-right: 2px;
+      flex: 1;
+      margin: 0;
+    }
+
+    /* Center Column: 3 Runner Podium Cards (0.75x scaled) */
+    .cw-stage-section {
+      padding: 2px 0 !important;
+      margin: 0 !important;
+      flex: 1;
+    }
+
+    /* Right Column: Scoreboard on top, Credits below */
+    .cw-right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      justify-content: center;
+      height: 100%;
+      min-height: 0;
+      max-height: 380px;
+    }
+
+    /* Base Info Card */
     .cw-info-card {
       background: #FFFFFF;
       border: 3px solid #111827;
       box-shadow: 4px 4px 0 #111827;
-      border-radius: 12px;
-      padding: 8px 12px;
+      border-radius: 14px;
+      padding: 10px 12px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
-      gap: 4px;
-      height: 122px;
+      gap: 6px;
       box-sizing: border-box;
       overflow: hidden;
     }
     .cw-info-header {
       font-family: 'Lilita One', sans-serif;
-      font-size: 12px;
+      font-size: 12.5px;
       color: #111827;
       letter-spacing: 0.8px;
       display: flex;
@@ -11208,25 +11281,29 @@
       text-transform: uppercase;
       flex-shrink: 0;
     }
-    .cw-info-text {
-      font-size: 10.5px;
-      font-weight: 700;
-      color: #334155;
-      line-height: 1.38;
-      overflow-y: auto;
-      padding-right: 2px;
-    }
 
-    /* Scoreboard Middle Card */
-    .cw-scoreboard-card {
-      padding: 7px 10px;
+    /* Scoreboard Card (Right Top - Bigger) */
+    .cw-right-col .cw-scoreboard-card {
+      flex: 1 1 auto;
+      min-height: 180px;
+      max-height: 240px;
+      height: auto !important;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 10px 14px !important;
+      overflow: hidden;
+    }
+    .cw-scoreboard-card .cw-info-header {
+      font-size: 14.5px;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
     }
     .cw-sb-list {
       display: flex;
       flex-direction: column;
-      gap: 3.5px;
+      gap: 5px;
       overflow-y: auto;
-      padding-right: 3px;
+      padding-right: 4px;
       flex: 1;
     }
     .cw-sb-list::-webkit-scrollbar {
@@ -11242,11 +11319,13 @@
       justify-content: space-between;
       gap: 6px;
       background: #F8FAFC;
-      border: 1.5px solid #111827;
-      border-radius: 6px;
-      padding: 2.5px 8px;
-      font-size: 10.5px;
+      border: 2px solid #111827;
+      border-radius: 8px;
+      padding: 3px 10px;
+      box-shadow: 2px 2px 0 #111827;
+      font-size: 12.5px;
       font-weight: 800;
+      transition: transform 0.1s ease;
     }
     .sb-row.sb-champ {
       background: #FEF08A;
@@ -11255,23 +11334,25 @@
     .sb-left {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
       min-width: 0;
       overflow: hidden;
+      flex: 1;
     }
     .sb-rank {
       font-family: 'Lilita One', sans-serif;
-      font-size: 11px;
+      font-size: 14px;
       line-height: 1;
-      width: 16px;
+      width: 20px;
       flex-shrink: 0;
       text-align: center;
+      color: #111827;
     }
     .sb-avatar-mini {
-      width: 20px;
-      height: 20px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
-      border: 1.5px solid #111827;
+      border: 2px solid #111827;
       overflow: hidden;
       flex-shrink: 0;
       background: #fff;
@@ -11284,6 +11365,7 @@
     }
     .sb-name {
       font-family: 'Lilita One', sans-serif;
+      font-size: 13.5px;
       letter-spacing: 0.5px;
       text-transform: uppercase;
       white-space: nowrap;
@@ -11293,12 +11375,12 @@
     }
     .sb-score {
       font-family: 'Lilita One', sans-serif;
-      font-size: 10.5px;
+      font-size: 12.5px;
       background: #111827;
       color: #FFFFFF;
-      padding: 1.5px 6px;
-      border-radius: 4px;
-      letter-spacing: 0.5px;
+      padding: 2px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.6px;
       white-space: nowrap;
       flex-shrink: 0;
     }
@@ -11307,40 +11389,51 @@
       color: #FACC15;
     }
 
-    /* Credits Sub-items in right box */
-    .cw-credits-grid {
+    /* Credits Card (Right Bottom) */
+    .cw-right-col .cw-credits-card {
+      flex: 0 0 auto;
+      width: 100%;
+      height: auto !important;
+      min-height: 80px;
+      max-height: 105px;
+      aspect-ratio: unset !important;
+      padding: 8px 12px !important;
+      box-sizing: border-box;
+      justify-content: center;
+    }
+    .cw-right-col .cw-credits-grid {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      justify-content: center;
-      flex: 1;
-    }
-    .cw-credit-item {
-      display: flex;
-      align-items: center;
       gap: 6px;
-      font-size: 10px;
-      font-weight: 700;
-      color: #334155;
+      justify-content: center;
+      height: 100%;
+    }
+    .cw-right-col .cw-credit-item {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
     }
     .cw-credit-badge {
       background: #FACC15;
       color: #111827;
       font-family: 'Lilita One', sans-serif;
       font-size: 9.5px;
-      padding: 1.5px 5px;
+      padding: 1.5px 6px;
       border: 1.5px solid #111827;
       border-radius: 4px;
       letter-spacing: 0.5px;
       text-transform: uppercase;
-      white-space: nowrap;
-      flex-shrink: 0;
+      box-shadow: 1.5px 1.5px 0 #111827;
     }
     .cw-credit-names {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      font-size: 10.5px;
+      font-size: 10px;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.25;
+      white-space: normal;
+      word-break: break-word;
+      text-align: left;
     }
 
     /* ── BOTTOM BUTTONS DECK (3 BUTTONS) ── */
@@ -11815,7 +11908,112 @@
       .hta-client-status { width: 100%; justify-content: center; box-sizing: border-box; }
     }
   
-</style>
+
+    /* Non-host client players: hide skip button and actions */
+    body.is-client-player #gameScreen #skipBtn,
+    body.is-client-player #gameScreen .skip-btn,
+    body.is-client-player #gameScreen .leaderboard-actions,
+    body.is-client-player #skipBtn,
+    body.is-client-player .skip-btn,
+    body.is-client-player .leaderboard-actions {
+      display: none !important;
+    }
+  
+    /* Credits Box directly below Winner Badge */
+    .cw-credits-badge-card {
+      background: #FFFFFF;
+      border: 2.5px solid #111827;
+      box-shadow: 3.5px 3.5px 0 #111827;
+      border-radius: 10px;
+      padding: 5px 16px;
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(8px, 1.2vw, 16px);
+      margin-top: 6px;
+      margin-bottom: 2px;
+      position: relative;
+      z-index: 12;
+      box-sizing: border-box;
+      max-width: 90%;
+    }
+    .cw-credits-badge-card .cw-credit-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .cw-credit-divider {
+      font-size: 14px;
+      color: #94A3B8;
+      font-weight: 900;
+      user-select: none;
+    }
+
+    /* Scoreboard now takes full height of right column */
+    .cw-right-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%;
+    }
+    .cw-right-col .cw-scoreboard-card {
+      height: clamp(210px, 18vw, 250px) !important;
+      max-height: 255px !important;
+      min-height: 210px !important;
+      display: flex !important;
+      flex-direction: column !important;
+    }
+    .cw-right-col .cw-sb-list {
+      flex: 1 !important;
+    }
+
+  
+    /* Center Column with Players Badge & Credits Box Below */
+    .cw-center-col {
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 6px !important;
+      flex: 1 !important;
+      min-width: 0 !important;
+      height: 100% !important;
+    }
+    .cw-center-col .cw-stage-section {
+      padding: 0 !important;
+      margin: 0 !important;
+      flex: 0 0 auto !important;
+    }
+    .cw-credits-below-players {
+      background: #FFFFFF !important;
+      border: 2.5px solid #111827 !important;
+      box-shadow: 3.5px 3.5px 0 #111827 !important;
+      border-radius: 10px !important;
+      padding: 5px 16px !important;
+      display: inline-flex !important;
+      flex-wrap: wrap !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: clamp(8px, 1.2vw, 16px) !important;
+      margin-top: 4px !important;
+      position: relative !important;
+      z-index: 12 !important;
+      box-sizing: border-box !important;
+      max-width: 98% !important;
+    }
+    .cw-credits-below-players .cw-credit-item {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 7px !important;
+    }
+    .cw-credits-below-players .cw-credit-divider {
+      font-size: 14px !important;
+      color: #94A3B8 !important;
+      font-weight: 900 !important;
+      user-select: none !important;
+    }
+  </style>
   <!-- Appwrite Web SDK & QRCode for Online Multiplayer -->
   <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
@@ -12131,7 +12329,7 @@
         <div class="h-card-mp h-card-join" onclick="MultiplayerEngine.openJoinModal()">
           <div class="h-card-title-lg">🎮 JOIN ROOM</div>
         </div>
-        <div class="h-card-mp h-card-local" onclick="showHowToPlay()">
+        <div class="h-card-mp h-card-local" onclick="showHowToPlay()" style="display: none !important;" aria-hidden="true">
           <div class="h-card-title-lg">🎬 PLAY OFFLINE</div>
         </div>
       </div>
@@ -12790,7 +12988,6 @@
         <div class="leaderboard" id="leaderboard"></div>
         <div class="leaderboard-actions">
           <button type="button" class="skip-btn" id="skipBtn" onclick="GameController.skipRound()">Skip</button>
-          <button type="button" class="super-skip-btn" id="superSkipBtn" onclick="GameController.superSkipRound()">Super Skip</button>
         </div>
       </div>
 
@@ -12907,134 +13104,141 @@
           </div>
         </div>
       </div>
-
-      <!-- ── 3 RUNNER PODIUM CARDS ── -->
-      <div class="cw-stage-section">
+      <!-- ── 3-COLUMN MAIN STAGE: LEFT MESSAGE | CENTER PODIUM | RIGHT (SCOREBOARD + CREDITS) ── -->
+      <div class="cw-center-stage-grid">
         
-        <!-- Card 2 (Left - Aziz) -->
-        <div class="cw-runner-col">
-          <div class="cw-card-burst burst-left" aria-hidden="true">
-            <svg viewBox="0 0 30 25" width="26" height="22" fill="none">
-              <line x1="22" y1="22" x2="8" y2="6" stroke="#111827" stroke-width="4.5" stroke-linecap="round" />
-              <line x1="28" y1="12" x2="16" y2="2" stroke="#111827" stroke-width="4.5" stroke-linecap="round" />
-            </svg>
-          </div>
-          <div class="cw-runner-card runner-blue" id="silverCard">
-            <div class="runner-rank-tab blue-tab">2</div>
-            <div class="runner-avatar-frame" id="silverAvatarWrap">
-              <img id="silverAvatarImg" src="avvtar/aziz.svg" alt="2nd Place" />
+        <!-- LEFT COLUMN: SQUARE MESSAGE BOX -->
+        <div class="cw-left-col">
+          <div class="cw-info-card cw-msg-card">
+            <div class="cw-info-header">
+              <span>💬</span>
+              <span>MESSAGE</span>
             </div>
-            <div class="runner-nameplate" id="silverName">AZIZ</div>
-            <div class="runner-score-tag blue-score-tag" id="silverScore">22 POINTS</div>
+            <p class="cw-info-text">
+              Umeed hai aap sabko game pasand aaya hoga. Agar aapke paas koi feedback ho, to humein zaroor batayein. Milte hain agle podcast mein! Aur bhai log, ScoopLuck de do, life mein kaafi problems chal rahi hain. Problems solve hote hi ₹1,000 ka Super Chat pakka. Aur haan, bhai log, email ka reply bhi diya karo 😊
+            </p>
           </div>
         </div>
 
-        <!-- Card 1 (Center - Aman) -->
-        <div class="cw-runner-col">
-          <div class="cw-runner-card runner-gold" id="champHeroCard">
-            <div class="runner-rank-tab gold-tab">
-              <svg viewBox="0 0 24 20" width="22" height="18" fill="#111827">
-                <path d="M2 5l4.5 4L12 2l5.5 7L22 5l-2.5 11H4.5L2 5z" />
-                <rect x="3.5" y="17.5" width="17" height="2.5" rx="1" />
+        <!-- CENTER COLUMN: 3 PODIUM RUNNER CARDS + CREDITS BOX BELOW PLAYERS -->
+        <div class="cw-center-col">
+          <!-- CENTER COLUMN: 3 PODIUM RUNNER CARDS -->
+        <div class="cw-stage-section">
+          <!-- Card 2 (Left - Aziz) -->
+          <div class="cw-runner-col">
+            <div class="cw-card-burst burst-left" aria-hidden="true">
+              <svg viewBox="0 0 30 25" width="22" height="18" fill="none">
+                <line x1="22" y1="22" x2="8" y2="6" stroke="#111827" stroke-width="4" stroke-linecap="round" />
+                <line x1="28" y1="12" x2="16" y2="2" stroke="#111827" stroke-width="4" stroke-linecap="round" />
               </svg>
             </div>
-            <div class="runner-avatar-frame champ-avatar-frame" id="champAvatarWrap">
-              <img id="champAvatarImg" src="avvtar/aman.svg" alt="Champion" />
-            </div>
-            <div class="runner-nameplate champ-nameplate" id="champName">AMAN</div>
-            <div class="runner-score-tag gold-score-tag" id="champScore">30 POINTS</div>
-          </div>
-        </div>
-
-        <!-- Card 3 (Right - Amish) -->
-        <div class="cw-runner-col">
-          <div class="cw-card-burst burst-right" aria-hidden="true">
-            <svg viewBox="0 0 30 25" width="26" height="22" fill="none">
-              <line x1="8" y1="22" x2="22" y2="6" stroke="#111827" stroke-width="4.5" stroke-linecap="round" />
-              <line x1="2" y1="12" x2="14" y2="2" stroke="#111827" stroke-width="4.5" stroke-linecap="round" />
-            </svg>
-          </div>
-          <div class="cw-runner-card runner-orange" id="bronzeCard">
-            <div class="runner-rank-tab orange-tab">3</div>
-            <div class="runner-avatar-frame" id="bronzeAvatarWrap">
-              <img id="bronzeAvatarImg" src="avvtar/amish.svg" alt="3rd Place" />
-            </div>
-            <div class="runner-nameplate" id="bronzeName">AMISH</div>
-            <div class="runner-score-tag orange-score-tag" id="bronzeScore">16 POINTS</div>
-          </div>
-        </div>
-
-      </div><!-- /.cw-stage-section -->
-
-      <!-- ── 3-BOX ROW: MESSAGE (LEFT) | SCOREBOARD (CENTER) | CREDITS (RIGHT) ── -->
-      <div class="cw-info-row">
-        <!-- Left: Message Box -->
-        <div class="cw-info-card">
-          <div class="cw-info-header">
-            <span>💬</span>
-            <span>MESSAGE</span>
-          </div>
-          <p class="cw-info-text">
-            Umeed hai aap sabko game pasand aaya hoga. Agar aapke paas koi feedback ho, to humein zaroor batayein. Milte hain agle podcast mein! Aur bhai log, ScoopLuck de do, life mein kaafi problems chal rahi hain. Problems solve hote hi ₹1,000 ka Super Chat pakka. Aur haan, bhai log, email ka reply bhi diya karo 😊
-          </p>
-        </div>
-
-        <!-- Center: Scoreboard Box -->
-        <div class="cw-info-card cw-scoreboard-card">
-          <div class="cw-info-header">
-            <span>🏆</span>
-            <span>SCOREBOARD</span>
-          </div>
-          <div class="cw-sb-list" id="winnerScoreboardList">
-            <div class="sb-row sb-champ">
-              <div class="sb-left">
-                <span class="sb-rank">👑</span>
-                <div class="sb-avatar-mini"><img src="avvtar/aman.svg" alt="Aman" /></div>
-                <span class="sb-name">AMAN</span>
+            <div class="cw-runner-card runner-blue" id="silverCard">
+              <div class="runner-rank-tab blue-tab">2</div>
+              <div class="runner-avatar-frame" id="silverAvatarWrap">
+                <img id="silverAvatarImg" src="avvtar/aziz.svg" alt="2nd Place" />
               </div>
-              <span class="sb-score">30 PTS</span>
+              <div class="runner-nameplate" id="silverName">AZIZ</div>
+              <div class="runner-score-tag blue-score-tag" id="silverScore">22 POINTS</div>
             </div>
-            <div class="sb-row">
-              <div class="sb-left">
-                <span class="sb-rank">2</span>
-                <div class="sb-avatar-mini"><img src="avvtar/aziz.svg" alt="Aziz" /></div>
-                <span class="sb-name">AZIZ</span>
+          </div>
+
+          <!-- Card 1 (Center - Aman) -->
+          <div class="cw-runner-col">
+            <div class="cw-runner-card runner-gold" id="champHeroCard">
+              <div class="runner-rank-tab gold-tab">
+                <svg viewBox="0 0 24 20" width="18" height="15" fill="#111827">
+                  <path d="M2 5l4.5 4L12 2l5.5 7L22 5l-2.5 11H4.5L2 5z" />
+                  <rect x="3.5" y="17.5" width="17" height="2.5" rx="1" />
+                </svg>
               </div>
-              <span class="sb-score">22 PTS</span>
+              <div class="runner-avatar-frame champ-avatar-frame" id="champAvatarWrap">
+                <img id="champAvatarImg" src="avvtar/aman.svg" alt="Champion" />
+              </div>
+              <div class="runner-nameplate champ-nameplate" id="champName">AMAN</div>
+              <div class="runner-score-tag gold-score-tag" id="champScore">30 POINTS</div>
             </div>
-            <div class="sb-row">
-              <div class="sb-left">
-                <span class="sb-rank">3</span>
-                <div class="sb-avatar-mini"><img src="avvtar/amish.svg" alt="Amish" /></div>
-                <span class="sb-name">AMISH</span>
-              </div>
-              <span class="sb-score">16 PTS</span>
+          </div>
+
+          <!-- Card 3 (Right - Amish) -->
+          <div class="cw-runner-col">
+            <div class="cw-card-burst burst-right" aria-hidden="true">
+              <svg viewBox="0 0 30 25" width="22" height="18" fill="none">
+                <line x1="8" y1="22" x2="22" y2="6" stroke="#111827" stroke-width="4" stroke-linecap="round" />
+                <line x1="2" y1="12" x2="14" y2="2" stroke="#111827" stroke-width="4" stroke-linecap="round" />
+              </svg>
             </div>
-            <div class="sb-row">
-              <div class="sb-left">
-                <span class="sb-rank">4</span>
-                <div class="sb-avatar-mini"><img src="avvtar/vish.svg" alt="Vish" /></div>
-                <span class="sb-name">VISH</span>
+            <div class="cw-runner-card runner-orange" id="bronzeCard">
+              <div class="runner-rank-tab orange-tab">3</div>
+              <div class="runner-avatar-frame" id="bronzeAvatarWrap">
+                <img id="bronzeAvatarImg" src="avvtar/amish.svg" alt="3rd Place" />
               </div>
-              <span class="sb-score">10 PTS</span>
+              <div class="runner-nameplate" id="bronzeName">AMISH</div>
+              <div class="runner-score-tag orange-score-tag" id="bronzeScore">16 POINTS</div>
             </div>
           </div>
         </div>
 
-        <!-- Right: Frames By & Website By Box -->
-        <div class="cw-info-card">
-          <div class="cw-credits-grid">
+          <!-- ── CREDITS BOX JUST BELOW THE PLAYERS BADGE ── -->
+          <div class="cw-credits-badge-card cw-credits-below-players">
             <div class="cw-credit-item">
               <span class="cw-credit-badge">FRAMES BY</span>
               <span class="cw-credit-names" id="creatorMsg">tanmayy, Tanuj, Darshan, Akash, Anmol &amp; smoc crew</span>
             </div>
+            <div class="cw-credit-divider" aria-hidden="true">•</div>
             <div class="cw-credit-item">
               <span class="cw-credit-badge">WEBSITE BY</span>
               <span class="cw-credit-names">Built with ❤️ by Asmit</span>
             </div>
           </div>
         </div>
-      </div><!-- /.cw-info-row -->
+
+        
+        <!-- RIGHT COLUMN: STANDALONE EXPANDED SCOREBOARD -->
+        <div class="cw-right-col">
+          <!-- Scoreboard Above -->
+          <div class="cw-info-card cw-scoreboard-card">
+            <div class="cw-info-header">
+              <span>🏆</span>
+              <span>SCOREBOARD</span>
+            </div>
+            <div class="cw-sb-list" id="winnerScoreboardList">
+              <div class="sb-row sb-champ">
+                <div class="sb-left">
+                  <span class="sb-rank">👑</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/aman.svg" alt="Aman" /></div>
+                  <span class="sb-name">AMAN</span>
+                </div>
+                <span class="sb-score">30 PTS</span>
+              </div>
+              <div class="sb-row">
+                <div class="sb-left">
+                  <span class="sb-rank">2</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/aziz.svg" alt="Aziz" /></div>
+                  <span class="sb-name">AZIZ</span>
+                </div>
+                <span class="sb-score">22 PTS</span>
+              </div>
+              <div class="sb-row">
+                <div class="sb-left">
+                  <span class="sb-rank">3</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/amish.svg" alt="Amish" /></div>
+                  <span class="sb-name">AMISH</span>
+                </div>
+                <span class="sb-score">16 PTS</span>
+              </div>
+              <div class="sb-row">
+                <div class="sb-left">
+                  <span class="sb-rank">4</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/vish.svg" alt="Vish" /></div>
+                  <span class="sb-name">VISH</span>
+                </div>
+                <span class="sb-score">7 PTS</span>
+              </div>
+            </div>
+          </div>
+
+          </div>
+      </div><!-- /.cw-center-stage-grid -->
 
       <!-- ── BOTTOM BUTTONS DECK (3 BUTTONS) ── -->
       <div class="cw-buttons-deck">
@@ -16611,6 +16815,7 @@
       becomeHost() {
         this.isHost = true;
         this.stopHostWatchdog();
+        if (typeof UI !== 'undefined' && UI.updateSkipButtonVisibility) UI.updateSkipButtonVisibility();
         GS.players.forEach(p => {
           p.isHost = (p.id === this.playerId);
         });
@@ -16714,16 +16919,24 @@
           }
         }
 
+        if (typeof UI !== 'undefined' && UI.updateSkipButtonVisibility) {
+          UI.updateSkipButtonVisibility();
+        }
         const skipBtn = document.getElementById('skipBtn');
         if (skipBtn) {
-          if (state === 'next') {
-            skipBtn.textContent = isLast ? 'Finish Match' : 'Next Round';
-            skipBtn.classList.add('next-round-state');
-            skipBtn.onclick = () => MultiplayerEngine.hostNextRound();
+          if (GameController._onlineMode && !this.isHost) {
+            skipBtn.style.display = 'none';
           } else {
-            skipBtn.textContent = 'Skip';
-            skipBtn.classList.remove('next-round-state');
-            skipBtn.onclick = () => GameController._onlineMode ? MultiplayerEngine.hostSkipRound() : GameController.skipRound();
+            skipBtn.style.display = '';
+            if (state === 'next') {
+              skipBtn.textContent = isLast ? 'Finish Match' : 'Next Round';
+              skipBtn.classList.add('next-round-state');
+              skipBtn.onclick = () => MultiplayerEngine.hostNextRound();
+            } else {
+              skipBtn.textContent = 'Skip';
+              skipBtn.classList.remove('next-round-state');
+              skipBtn.onclick = () => GameController._onlineMode ? MultiplayerEngine.hostSkipRound() : GameController.skipRound();
+            }
           }
         }
       },
@@ -17604,6 +17817,41 @@
         } else {
           document.body.style.overflow = '';
           document.documentElement.style.overflow = '';
+        }
+        this.updateSkipButtonVisibility();
+      },
+      updateSkipButtonVisibility() {
+        const isOnline = typeof GameController !== 'undefined' && !!GameController._onlineMode;
+        let isHost = true;
+        if (isOnline) {
+          if (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.roomCode) {
+            isHost = !!MultiplayerEngine.isHost;
+          } else if (typeof RoomLobby !== 'undefined' && RoomLobby.isHost !== undefined) {
+            isHost = !!RoomLobby.isHost;
+          } else {
+            isHost = false;
+          }
+        }
+        const shouldShow = !isOnline || isHost;
+        const skipBtn = document.getElementById('skipBtn');
+        if (skipBtn) {
+          if (shouldShow) {
+            skipBtn.style.removeProperty('display');
+          } else {
+            skipBtn.style.setProperty('display', 'none', 'important');
+          }
+        }
+        const lbActions = document.querySelector('.leaderboard-actions');
+        if (lbActions) {
+          if (shouldShow) {
+            lbActions.style.removeProperty('display');
+          } else {
+            lbActions.style.setProperty('display', 'none', 'important');
+          }
+        }
+        if (document.body) {
+          document.body.classList.toggle('is-host-player', shouldShow);
+          document.body.classList.toggle('is-client-player', !shouldShow);
         }
       },
       updateLoadProgress(progress, type) {
@@ -18580,7 +18828,9 @@
         }
       },
       skipRound() {
-        if (this._onlineMode && typeof RoomLobby !== 'undefined' && !RoomLobby.isHost) return;
+        const isHost = (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.isHost) ||
+                       (typeof RoomLobby !== 'undefined' && RoomLobby.isHost);
+        if (this._onlineMode && !isHost) return;
         SoundManager.playClick();
         if (!SM.is(GS.PHASES.ROUND_ACTIVE)) return;
         this._broadcast('skip-round');
