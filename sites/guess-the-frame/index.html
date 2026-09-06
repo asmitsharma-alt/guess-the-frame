@@ -12013,6 +12013,134 @@
       font-weight: 900 !important;
       user-select: none !important;
     }
+  
+    /* ── NO OVERLAP REFINEMENTS ── */
+    .comic-winner-card {
+      max-width: 1240px !important;
+      padding: clamp(8px, 1.2vw, 14px) clamp(16px, 1.8vw, 24px) !important;
+    }
+    .cw-center-stage-grid {
+      display: grid !important;
+      grid-template-columns: minmax(180px, 215px) 1fr minmax(215px, 260px) !important;
+      gap: clamp(14px, 1.8vw, 24px) !important;
+      align-items: center !important;
+      width: 100% !important;
+    }
+    .cw-left-col .cw-msg-card {
+      width: clamp(180px, 15vw, 215px) !important;
+      height: clamp(180px, 15vw, 215px) !important;
+      aspect-ratio: 1 / 1 !important;
+      padding: clamp(10px, 1vw, 14px) !important;
+    }
+    .cw-left-col .cw-msg-card .cw-info-text {
+      font-size: clamp(8.5px, 0.72vw, 10px) !important;
+      line-height: 1.38 !important;
+    }
+
+    /* 3 Runner Cards - Proportional 0.75x fit with no stage overflow */
+    .cw-stage-section {
+      display: flex !important;
+      align-items: flex-end !important;
+      justify-content: center !important;
+      gap: clamp(8px, 1.2vw, 16px) !important;
+      width: 100% !important;
+      max-width: 500px !important;
+      margin: 0 auto !important;
+      padding: 0 !important;
+    }
+    .cw-runner-card {
+      width: clamp(112px, 10vw, 132px) !important;
+      height: clamp(160px, 20vh, 185px) !important;
+      padding: 8px 6px !important;
+      border-radius: 14px !important;
+    }
+    .runner-gold {
+      width: clamp(128px, 11.8vw, 152px) !important;
+      height: clamp(180px, 22.5vh, 206px) !important;
+      padding: 10px 8px !important;
+      border-radius: 16px !important;
+    }
+    .runner-avatar-frame {
+      width: clamp(48px, 4.8vw, 60px) !important;
+      height: clamp(48px, 4.8vw, 60px) !important;
+    }
+    .champ-avatar-frame {
+      width: clamp(56px, 5.6vw, 70px) !important;
+      height: clamp(56px, 5.6vw, 70px) !important;
+    }
+    .runner-nameplate {
+      font-size: clamp(11px, 1.1vw, 13.5px) !important;
+      padding: 2px 6px !important;
+      margin-bottom: 2px !important;
+    }
+    .champ-nameplate {
+      font-size: clamp(12px, 1.2vw, 15px) !important;
+      padding: 2.5px 8px !important;
+    }
+    .runner-score-tag {
+      font-size: 9px !important;
+      padding: 2px 7px !important;
+    }
+    .gold-score-tag {
+      font-size: 10px !important;
+      padding: 2px 9px !important;
+    }
+    .runner-rank-tab {
+      width: 26px !important;
+      height: 22px !important;
+      font-size: 13px !important;
+      top: -12px !important;
+    }
+    .gold-tab {
+      width: 30px !important;
+      height: 26px !important;
+      top: -14px !important;
+    }
+    .gold-tab svg {
+      width: 16px !important;
+      height: 13px !important;
+    }
+
+    /* Burst icons adjusted so they don't protrude into side columns */
+    .burst-left {
+      left: 0px !important;
+      top: -16px !important;
+    }
+    .burst-right {
+      right: 0px !important;
+      top: -16px !important;
+    }
+
+    /* Scoreboard */
+    .cw-right-col .cw-scoreboard-card {
+      width: 100% !important;
+      height: clamp(190px, 16vw, 230px) !important;
+      max-height: 240px !important;
+      padding: 8px 12px !important;
+    }
+    .cw-right-col .sb-row {
+      padding: 3px 8px !important;
+      gap: 5px !important;
+      font-size: 12px !important;
+    }
+    .cw-right-col .sb-name {
+      font-size: 12.5px !important;
+    }
+    .cw-right-col .sb-score {
+      font-size: 11.5px !important;
+      padding: 2px 6px !important;
+    }
+
+    /* Credits below players */
+    .cw-credits-below-players {
+      margin-top: 4px !important;
+      padding: 4px 14px !important;
+      max-width: 95% !important;
+    }
+    .cw-credit-names {
+      font-size: 9.5px !important;
+    }
+
   </style>
   <!-- Appwrite Web SDK & QRCode for Online Multiplayer -->
   <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
