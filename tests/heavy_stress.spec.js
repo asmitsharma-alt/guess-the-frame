@@ -244,4 +244,179 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
     const rows = await page.locator('#winnerScoreboardList .sb-row').count();
     expect(rows).toBe(4);
   });
+
+  test('Spoiler Shield: ChatEngine hides correct answer from live chat and awards points via winner banner', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+
+    const result = await page.evaluate(() => {
+      MultiplayerEngine.selectedAvatarForModal = 'aman';
+      MultiplayerEngine.confirmCreateRoom();
+
+      GS.players = [
+        { id: MultiplayerEngine.playerId, name: 'AMAN', avatar: 'aman', score: 0 }
+      ];
+
+      MultiplayerEngine.currentPlaylist = [
+        { sectionId: 1, sectionName: 'Guess the Frame', type: 'image', content: 'GUESSTHEFRAME/Rush (2023).webp', answer: 'RUSH', year: '2023' }
+      ];
+      MultiplayerEngine.currentPlayIndex = 0;
+      MultiplayerEngine.isMatchActive = true;
+      MultiplayerEngine.isRoundFinished = false;
+      MultiplayerEngine.currentRoundWinners = [];
+
+      // Aman types the correct movie title into chat
+      ChatEngine.processOutgoingMessage('Rush');
+
+      const stream = document.getElementById('liveChatStream');
+      const chatTexts = Array.from(stream.querySelectorAll('.chat-msg-text')).map(el => el.textContent.trim());
+      const winnerBanners = Array.from(stream.querySelectorAll('.chat-msg-winner')).map(el => el.textContent.trim());
+
+      return {
+        winnersCount: MultiplayerEngine.currentRoundWinners.length,
+        firstWinnerPts: MultiplayerEngine.currentRoundWinners[0]?.points,
+        chatTexts,
+        winnerBanners,
+        hasAnswerInChatText: chatTexts.some(t => /rush/i.test(t))
+      };
+    });
+
+    expect(result.winnersCount).toBe(1);
+    expect(result.firstWinnerPts).toBe(10);
+    expect(result.winnerBanners.length).toBe(1);
+    expect(result.winnerBanners[0].toLowerCase()).toContain('aman guessed the answer');
+    // The movie answer MUST NOT be in the chat text!
+    expect(result.hasAnswerInChatText).toBe(false);
+    expect(result.chatTexts.length).toBe(0);
+  });
+
+  test('Spoiler Shield: ChatEngine blocks spoiler attempts from players who already won', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+
+    const result = await page.evaluate(() => {
+      MultiplayerEngine.selectedAvatarForModal = 'aman';
+      MultiplayerEngine.confirmCreateRoom();
+
+      GS.players = [
+        { id: MultiplayerEngine.playerId, name: 'AMAN', avatar: 'aman', score: 10 }
+      ];
+
+      MultiplayerEngine.currentPlaylist = [
+        { sectionId: 1, sectionName: 'Guess the Frame', type: 'image', content: 'GUESSTHEFRAME/Rush (2023).webp', answer: 'RUSH', year: '2023' }
+      ];
+      MultiplayerEngine.currentPlayIndex = 0;
+      MultiplayerEngine.isMatchActive = true;
+      MultiplayerEngine.isRoundFinished = false;
+      MultiplayerEngine.currentRoundWinners = [
+        { playerId: MultiplayerEngine.playerId, playerName: 'AMAN', avatar: 'aman', position: 1, points: 10 }
+      ];
+
+      // Aman attempts to spoil the answer in chat for other players
+      ChatEngine.processOutgoingMessage('Guys the answer is Rush');
+
+      const stream = document.getElementById('liveChatStream');
+      const chatTexts = Array.from(stream.querySelectorAll('.chat-msg-text')).map(el => el.textContent.trim());
+      const notices = Array.from(stream.querySelectorAll('.chat-notice-subtle')).map(el => el.textContent.trim());
+
+      return {
+        chatTexts,
+        notices,
+        hasSpoilerInChat: chatTexts.some(t => /rush/i.test(t)),
+        hasWarningNotice: notices.some(n => /don't spoil/i.test(n) || /shh/i.test(n))
+      };
+    });
+
+    expect(result.hasSpoilerInChat).toBe(false);
+    expect(result.chatTexts.length).toBe(0);
+    expect(result.hasWarningNotice).toBe(true);
+  });
+
+  test('ChatEngine allows casual non-spoiler messages normally', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+
+    const result = await page.evaluate(() => {
+      MultiplayerEngine.selectedAvatarForModal = 'aman';
+      MultiplayerEngine.confirmCreateRoom();
+
+      GS.players = [
+        { id: MultiplayerEngine.playerId, name: 'AMAN', avatar: 'aman', score: 0 }
+      ];
+
+      MultiplayerEngine.currentPlaylist = [
+        { sectionId: 1, sectionName: 'Guess the Frame', type: 'image', content: 'GUESSTHEFRAME/Rush (2023).webp', answer: 'RUSH', year: '2023' }
+      ];
+      MultiplayerEngine.currentPlayIndex = 0;
+      MultiplayerEngine.isMatchActive = true;
+      MultiplayerEngine.isRoundFinished = false;
+      MultiplayerEngine.currentRoundWinners = [];
+
+      // Casual chat
+      ChatEngine.processOutgoingMessage('Good luck everyone!');
+
+      const stream = document.getElementById('liveChatStream');
+      const chatTexts = Array.from(stream.querySelectorAll('.chat-msg-text')).map(el => el.textContent.trim());
+
+      return {
+        chatTexts
+      };
+    });
+
+    expect(result.chatTexts.length).toBe(1);
+    expect(result.chatTexts[0]).toBe('Good luck everyone!');
+  });
+
+  test('Defense-in-depth: Incoming WebSocket CHAT_MESSAGE containing answer during active round is suppressed from chat', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+
+    const result = await page.evaluate(() => {
+      MultiplayerEngine.selectedAvatarForModal = 'aman';
+      MultiplayerEngine.confirmCreateRoom();
+
+      GS.players = [
+        { id: MultiplayerEngine.playerId, name: 'AMAN', avatar: 'aman', score: 0 },
+        { id: 'p2', name: 'AMISH', avatar: 'amish', score: 0 }
+      ];
+
+      MultiplayerEngine.currentPlaylist = [
+        { sectionId: 1, sectionName: 'Guess the Frame', type: 'image', content: 'GUESSTHEFRAME/2001 A Space Odyssey (1968).webp', answer: '2001 A SPACE ODYSSEY', year: '1968' }
+      ];
+      MultiplayerEngine.currentPlayIndex = 0;
+      MultiplayerEngine.isMatchActive = true;
+      MultiplayerEngine.isRoundFinished = false;
+      MultiplayerEngine.currentRoundWinners = [];
+
+      // Rogue / laggy client broadcasts CHAT_MESSAGE with the movie title over websocket
+      MultiplayerEngine.handleIncomingEvent({
+        roomCode: MultiplayerEngine.roomCode,
+        senderId: 'p2',
+        type: 'CHAT_MESSAGE',
+        msg: {
+          id: 'msg_hack_1',
+          senderId: 'p2',
+          senderName: 'AMISH',
+          senderAvatar: 'amish',
+          text: '2001 A Space Odyssey',
+          timestamp: Date.now()
+        }
+      });
+
+      const stream = document.getElementById('liveChatStream');
+      const chatTexts = Array.from(stream.querySelectorAll('.chat-msg-text')).map(el => el.textContent.trim());
+
+      return {
+        chatTexts,
+        hasAnswerInChat: chatTexts.some(t => /space odyssey/i.test(t)),
+        winnersCount: MultiplayerEngine.currentRoundWinners.length
+      };
+    });
+
+    // The answer must not be rendered into chat!
+    expect(result.hasAnswerInChat).toBe(false);
+    expect(result.chatTexts.length).toBe(0);
+    // Because p2 submitted the correct answer, host awards points to p2
+    expect(result.winnersCount).toBe(1);
+  });
 });

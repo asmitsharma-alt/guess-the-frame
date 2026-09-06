@@ -14262,6 +14262,81 @@
         // Chat engine ready
       },
 
+      getCurrentRoundAnswer() {
+        if (MultiplayerEngine.currentPlaylist && MultiplayerEngine.currentPlaylist[MultiplayerEngine.currentPlayIndex]) {
+          const f = MultiplayerEngine.currentPlaylist[MultiplayerEngine.currentPlayIndex];
+          if (f && f.answer) return f.answer;
+        }
+        if (MultiplayerEngine.currentClientFrame) {
+          if (MultiplayerEngine.currentClientFrame.answer) return MultiplayerEngine.currentClientFrame.answer;
+          const targetContent = MultiplayerEngine.currentClientFrame.content;
+          const targetId = MultiplayerEngine.currentClientFrame.id;
+          if (Array.isArray(GS.sections)) {
+            for (const sec of GS.sections) {
+              if (!sec || !sec.frames) continue;
+              const match = sec.frames.find(f => (targetId && f.id === targetId) || (targetContent && f.content === targetContent));
+              if (match && match.answer) return match.answer;
+            }
+          }
+        }
+        if (typeof GameController !== 'undefined' && !GameController._onlineMode) {
+          const sec = GS.sections[GS.currentSection];
+          if (sec && sec.frames && sec.frames[GS.currentSectionRound]) {
+            return sec.frames[GS.currentSectionRound].answer;
+          }
+        }
+        const ansTitle = document.getElementById('ansTitle');
+        if (ansTitle && ansTitle.textContent.trim()) {
+          return ansTitle.textContent.trim();
+        }
+        return null;
+      },
+
+      isRoundActive() {
+        if (GameController._onlineMode || MultiplayerEngine.roomCode) {
+          if (MultiplayerEngine.isMatchActive && !MultiplayerEngine.isRoundFinished) {
+            const ansOv = document.getElementById('answerOverlay');
+            if (ansOv && (ansOv.classList.contains('visible') || ansOv.classList.contains('active'))) {
+              return false;
+            }
+            return true;
+          }
+          return false;
+        }
+        if (typeof SM !== 'undefined' && SM.is) {
+          return SM.is(GS.PHASES.ROUND_ACTIVE);
+        }
+        return false;
+      },
+
+      isAnswerOrSpoiler(text, answer) {
+        if (!text || !answer) return false;
+
+        // 1. Direct Fuzzy Match
+        if (FuzzyMatcher.isMatch(text, answer)) return true;
+
+        // 2. Normalized substring & contains checks
+        const nText = FuzzyMatcher.normalize(text);
+        const nAns = FuzzyMatcher.normalize(answer);
+        if (!nText || !nAns) return false;
+
+        if (nText === nAns) return true;
+        if (nAns.length >= 3 && nText.includes(nAns)) return true;
+        if (nText.length >= 4 && nAns.includes(nText)) return true;
+
+        // 3. Significant word check from answer (distinct words >= 4 chars)
+        const commonChatWords = new Set(['what', 'that', 'this', 'with', 'from', 'have', 'were', 'will', 'good', 'time', 'like', 'just', 'know', 'take', 'some', 'them', 'come']);
+        const ansWords = nAns.split(' ').filter(w => w.length >= 4 && !commonChatWords.has(w));
+        for (const w of ansWords) {
+          const wordRegex = new RegExp('\\b' + w + '\\b', 'i');
+          if (wordRegex.test(nText)) {
+            return true;
+          }
+        }
+
+        return false;
+      },
+
       renderSystemMessage(htmlOrText) {
         const stream = document.getElementById('liveChatStream');
         if (!stream) return;
@@ -14295,15 +14370,43 @@
       },
 
       processOutgoingMessage(text) {
-        const currentFrame = MultiplayerEngine.currentPlaylist[MultiplayerEngine.currentPlayIndex];
+        if (!text || !text.trim()) return;
+        text = text.trim();
+
+        const currentAns = this.getCurrentRoundAnswer();
+        const roundActive = this.isRoundActive();
         const alreadyWon = MultiplayerEngine.currentRoundWinners.some(w => w.playerId === MultiplayerEngine.playerId);
 
-        // Route all chat text through host-authoritative guess validation
-        if (!alreadyWon) {
+        // Check if message matches the active round answer or contains spoiler words
+        const isAnswer = roundActive && currentAns && this.isAnswerOrSpoiler(text, currentAns);
+
+        if (isAnswer) {
+          if (!alreadyWon) {
+            // Legitimate correct guess: forward directly to host guess validation for scoring and winner banner
+            MultiplayerEngine.submitGuessDirect(text);
+
+            // Update local input placeholder to show user won this round
+            const chatInput = document.getElementById('chatTextInput');
+            if (chatInput) chatInput.placeholder = 'You guessed it! Chat freely (no spoilers)...';
+
+            // CRITICAL: Suppress chat rendering and network broadcast so answer stays completely hidden
+            return;
+          } else {
+            // Already won or spoiler attempt during active round: block message from chat
+            this.renderSystemMessage('⚠️ <strong>Shh!</strong> That\'s the answer! Don\'t spoil it in chat! 🤫');
+            if (typeof SoundManager !== 'undefined' && SoundManager.playPop) {
+              SoundManager.playPop();
+            }
+            return;
+          }
+        }
+
+        // If not the answer, still submit to guess validation if player hasn't won yet
+        if (roundActive && !alreadyWon) {
           MultiplayerEngine.submitGuessDirect(text);
         }
 
-        // Regular chat or guess
+        // Regular chat or non-winning guess
         const msg = {
           id: 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
           senderId: MultiplayerEngine.playerId,
@@ -14325,7 +14428,13 @@
 
       renderMessage(msg) {
         const stream = document.getElementById('liveChatStream');
-        if (!stream) return;
+        if (!stream || !msg) return;
+
+        // Defense-in-depth: Never render the answer into live chat stream during an active round
+        const currentAns = this.getCurrentRoundAnswer();
+        if (this.isRoundActive() && currentAns && this.isAnswerOrSpoiler(msg.text, currentAns)) {
+          return;
+        }
 
         if (!msg.id) {
           msg.id = 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
@@ -15170,7 +15279,24 @@
             break;
 
           case 'CHAT_MESSAGE':
-            if (msg.msg) ChatEngine.renderMessage(msg.msg);
+            if (msg.msg) {
+              const currentAns = ChatEngine.getCurrentRoundAnswer();
+              if (ChatEngine.isRoundActive() && currentAns && ChatEngine.isAnswerOrSpoiler(msg.msg.text, currentAns)) {
+                // Incoming message matches or contains the answer during an active round!
+                // Suppress from chat stream. If host and player hasn't won yet, process as a guess.
+                if (this.isHost && !this.currentRoundWinners.some(w => w.playerId === msg.msg.senderId)) {
+                  this.validateAndProcessGuess({
+                    playerId: msg.msg.senderId,
+                    playerName: msg.msg.senderName,
+                    playerAvatar: msg.msg.senderAvatar,
+                    guess: msg.msg.text,
+                    roundIndex: this.currentPlayIndex
+                  });
+                }
+                break;
+              }
+              ChatEngine.renderMessage(msg.msg);
+            }
             break;
 
           case 'CHAT_REACTION_UPDATE':
@@ -15598,9 +15724,15 @@
 
       startRound(roundIndex) {
         this.isMatchActive = true;
+        this.isRoundFinished = false;
         this.currentPlayIndex = roundIndex;
         this.currentRoundWinners = [];
         this.hasUsedHintThisRound = false;
+        const chatInput = document.getElementById('chatTextInput');
+        if (chatInput) {
+          chatInput.placeholder = 'Type guess or chat...';
+          chatInput.value = '';
+        }
         const frame = this.currentPlaylist[roundIndex];
         if (!frame) {
           this.finishGame();
@@ -15675,11 +15807,19 @@
       },
 
       handleRemoteRoundStart(msg) {
+        this.isMatchActive = true;
+        this.isRoundFinished = false;
         this.currentPlayIndex = msg.roundIndex;
         this.currentRoundWinners = [];
         this.hasUsedHintThisRound = false;
         this.currentMaskedHint = msg.maskedHint || '';
         this.currentClientFrame = msg.frame || null;
+
+        const chatInput = document.getElementById('chatTextInput');
+        if (chatInput) {
+          chatInput.placeholder = 'Type guess or chat...';
+          chatInput.value = '';
+        }
 
         UI.showScreen('gameScreen');
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.add('active');
@@ -15800,6 +15940,8 @@
               if (input) input.disabled = true;
               const ogb = document.getElementById('onlineGuessSubmitBtn');
               if (ogb) ogb.disabled = true;
+              const chatInput = document.getElementById('chatTextInput');
+              if (chatInput) chatInput.placeholder = 'You guessed it! Chat freely (no spoilers)...';
             }
 
             UI.renderLB();
@@ -15858,6 +16000,8 @@
           if (input) input.disabled = true;
           const ogb = document.getElementById('onlineGuessSubmitBtn');
           if (ogb) ogb.disabled = true;
+          const chatInput = document.getElementById('chatTextInput');
+          if (chatInput) chatInput.placeholder = 'You guessed it! Chat freely (no spoilers)...';
         }
 
         if (this.currentRoundWinners.length >= 3 && this.isHost) {
@@ -15867,6 +16011,7 @@
 
       endRound() {
         TC.stop();
+        this.isRoundFinished = true;
         const currentFrame = this.currentPlaylist[this.currentPlayIndex];
         if (!currentFrame) return;
 
@@ -15937,6 +16082,7 @@
 
       handleRemoteRoundFinish(msg) {
         TC.stop();
+        this.isRoundFinished = true;
         this.currentRoundWinners = msg.currentRoundWinners || [];
         const currentFrame = this.currentPlaylist[this.currentPlayIndex] || this.currentClientFrame;
 
@@ -16053,8 +16199,13 @@
           ChatEngine.renderSystemMessage('⚠️ You already unlocked the hint for this round!');
           return;
         }
-        const currentFrame = this.currentPlaylist[this.currentPlayIndex];
-        if (!currentFrame || !currentFrame.answer) return;
+        const currentFrame = this.currentPlaylist[this.currentPlayIndex] || this.currentClientFrame;
+        const ans = (currentFrame && currentFrame.answer) || ChatEngine.getCurrentRoundAnswer();
+        if (!this.currentMaskedHint && ans) {
+          this.currentMaskedHint = this.generateMaskedHint(ans);
+        }
+        const masked = this.currentMaskedHint;
+        if (!masked) return;
 
         this.hasUsedHintThisRound = true;
 
@@ -16064,11 +16215,6 @@
           myPlayer.score = (myPlayer.score || 0) - 2;
           UI.renderLB();
         }
-
-        if (!this.currentMaskedHint) {
-          this.currentMaskedHint = this.generateMaskedHint(currentFrame.answer);
-        }
-        const masked = this.currentMaskedHint;
 
         // Disable hint buttons for this round
         const hintBtns = document.querySelectorAll('#chatHintBtn, #hfbHintBtn');
@@ -16195,6 +16341,8 @@
       },
 
       finishGame() {
+        this.isMatchActive = false;
+        this.isRoundFinished = true;
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.remove('active');
         document.getElementById('hostFloatingBar').style.display = 'none';
 
@@ -16208,6 +16356,8 @@
       },
 
       handleRemoteGameOver(msg) {
+        this.isMatchActive = false;
+        this.isRoundFinished = true;
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.remove('active');
         document.getElementById('hostFloatingBar').style.display = 'none';
         if (msg.players) GS.players = msg.players;
