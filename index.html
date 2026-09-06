@@ -11358,8 +11358,8 @@
 
 
 
-    /* ══════════════════════════════════════════════════════════════
-       🏆 EXACT REPLICA: AAA COMIC VICTORY WINNER SCREEN
+    /*                    /* ══════════════════════════════════════════════════════════════
+       🏆 PRODUCTION POLISHED COMIC GALA WINNER SCREEN
        ══════════════════════════════════════════════════════════════ */
     #winnerScreen {
       display: none;
@@ -11370,7 +11370,7 @@
       overflow: hidden !important;
       align-items: center !important;
       justify-content: center !important;
-      padding: clamp(6px, 1.2vw, 14px) !important;
+      padding: clamp(8px, 1.4vw, 18px) !important;
       position: absolute !important;
       top: 0 !important;
       left: 0 !important;
@@ -11382,796 +11382,21 @@
     }
     #winnerScreen.active {
       display: flex !important;
-      animation: comicPopIn 0.35s cubic-bezier(0.18, 1.25, 0.4, 1) both !important;
+      animation: comicPopIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) both !important;
     }
 
     @keyframes comicPopIn {
-      from { opacity: 0; transform: scale(0.92); }
-      to { opacity: 1; transform: scale(1); }
+      from { opacity: 0; transform: scale(0.96) translateY(6px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    /* Comic Confetti Layer */
-    .comic-confetti-layer {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 3;
-      overflow: hidden;
-    }
-    .comic-confetti-piece {
-      position: absolute;
-      top: -20px;
-      pointer-events: none;
-      animation: confettiFall linear infinite;
-    }
-    @keyframes confettiFall {
-      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(105vh) rotate(720deg); opacity: 0.9; }
-    }
-
-    /* Master Card */
-    .comic-winner-card {
-      width: 100%;
-      max-width: 1160px;
-      height: 100%;
-      max-height: 870px;
-      background: #FAF7EF;
-      border: 3.5px solid #111827;
-      box-shadow: 7px 7px 0 #111827;
-      border-radius: 4px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: clamp(10px, 1.4vw, 16px) clamp(12px, 1.8vw, 22px);
-      position: relative;
-      z-index: 10;
-      box-sizing: border-box;
-      overflow: hidden;
-    }
-
-    /* ── TOP BAR ── */
-    .cw-top-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      flex-shrink: 0;
-      position: relative;
-      z-index: 15;
-    }
-
-    /* Top Left: Gala Tag */
-    .cw-gala-tag {
-      background: #FFFFFF;
-      border: 2.5px solid #111827;
-      box-shadow: 2px 2px 0 #111827;
-      border-radius: 4px;
-      padding: 3px 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .cw-clapper {
-      font-size: 16px;
-      line-height: 1;
-    }
-    .cw-gala-text {
-      display: flex;
-      flex-direction: column;
-      line-height: 1.1;
-    }
-    .cw-gala-text span {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 8px;
-      font-weight: 800;
-      color: #64748B;
-      letter-spacing: 0.5px;
-    }
-    .cw-gala-text strong {
-      font-family: 'Lilita One', 'Anybody', sans-serif;
-      font-size: 11px;
-      color: #111827;
-      letter-spacing: 0.5px;
-    }
-
-    /* Top Center: Match Complete Badge */
-    .cw-center-badge {
-      background: #111827;
-      color: #FFFFFF;
-      border: 2px solid #111827;
-      border-radius: 20px;
-      padding: 4px 18px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 13px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
-    }
-    .cw-trophy-icon {
-      font-size: 14px;
-    }
-
-    /* Top Right: Badges */
-    .cw-top-badges {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .cw-rounds-badge {
-      background: #FACC15;
-      color: #111827;
-      border: 2.5px solid #111827;
-      box-shadow: 2px 2px 0 #111827;
-      border-radius: 4px;
-      padding: 4px 10px;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 11px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-    .cw-star-icon {
-      color: #111827;
-      font-size: 12px;
-    }
-    .cw-players-badge {
-      background: #818CF8;
-      color: #FFFFFF;
-      border: 2.5px solid #111827;
-      box-shadow: 2px 2px 0 #111827;
-      border-radius: 4px;
-      padding: 4px 10px;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 11px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-        /* ── VICTORY HEADER & COMIC BLAST ── */
-    .cw-victory-section {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: -6px;
-      margin-bottom: -32px;
-      flex-shrink: 0;
-      z-index: 12;
-    }
-    .cw-splatter-bg {
-      position: absolute;
-      width: clamp(620px, 75vw, 920px);
-      height: clamp(100px, 13vw, 150px);
-      z-index: 1;
-      pointer-events: none;
-    }
-    .cw-splatter-bg svg {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 4px 0 rgba(0,0,0,0.25));
-    }
-
-    .cw-floating-deco {
-      position: absolute;
-      font-family: 'Lilita One', sans-serif;
-      z-index: 3;
-      user-select: none;
-      animation: floatDeco 2.5s ease-in-out infinite alternate;
-    }
-    .left-bolt {
-      top: 6px;
-      left: clamp(20px, 8vw, 80px);
-      font-size: 32px;
-      color: #FACC15;
-      text-shadow: 2.5px 2.5px 0 #111827;
-    }
-    .left-sparkle {
-      top: 18px;
-      left: clamp(50px, 12vw, 130px);
-      font-size: 20px;
-      color: #111827;
-    }
-    .right-sparkle {
-      top: 14px;
-      right: clamp(40px, 12vw, 130px);
-      font-size: 22px;
-      color: #111827;
-    }
-
-    .cw-victory-title {
-      font-family: 'Lilita One', 'Anybody', cursive, sans-serif;
-      font-weight: 900;
-      font-size: clamp(68px, 8.8vw, 110px);
-      color: #FACC15;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin: 0;
-      line-height: 0.95;
-      z-index: 2;
-      position: relative;
-      transform: rotate(-1.5deg);
-      -webkit-text-stroke: 4px #111827;
-      text-shadow:
-        6px 8px 0 #111827,
-        -3px -3px 0 #111827,
-        3px -3px 0 #111827,
-        -3px 3px 0 #111827,
-        0 10px 20px rgba(0,0,0,0.4);
-    }
-
-    /* ── MAIN STAGE SECTION (PODIUM + SUMMARY) ── */
-    .cw-stage-section {
-      display: grid;
-      grid-template-columns: 1fr 1.25fr 1fr;
-      align-items: end;
-      justify-content: center;
-      gap: clamp(8px, 1.4vw, 16px);
-      position: relative;
-      flex: 1;
-      min-height: 0;
-      padding-bottom: 2px;
-      margin-top: 10px;
-    }
-
-    /* 2nd & 3rd Place Runner Cards */
-    .cw-runner-card {
-      border: 4px solid #111827;
-      box-shadow: 5px 5px 0 #111827;
-      border-radius: 6px;
-      padding: clamp(14px, 1.6vw, 20px) 14px 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      max-width: 225px;
-      width: 100%;
-      margin: 0 auto;
-      box-sizing: border-box;
-      transition: transform 0.15s ease;
-      z-index: 4;
-    }
-    .cw-runner-card:hover {
-      transform: translateY(-3px);
-    }
-    .runner-blue {
-      background: #3B82F6;
-    }
-    .runner-orange {
-      background: #EA580C;
-    }
-
-    /* Rank Tab on top */
-    .runner-rank-tab {
-      position: absolute;
-      top: -18px;
-      color: #FFFFFF;
-      border: 3px solid #111827;
-      border-radius: 4px;
-      width: 34px;
-      height: 32px;
-      display: grid;
-      place-items: center;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 20px;
-      box-shadow: 2px 2px 0 #111827;
-      z-index: 6;
-    }
-    .blue-tab { background: #2563EB; }
-    .orange-tab { background: #C2410C; }
-
-    /* Avatar Ring Frame */
-    .runner-avatar-frame {
-      width: clamp(84px, 9.8vw, 114px);
-      height: clamp(84px, 9.8vw, 114px);
-      border-radius: 50%;
-      border: 4px solid #111827;
-      background: #FFFFFF;
-      overflow: hidden;
-      display: grid;
-      place-items: center;
-      margin-top: 4px;
-      margin-bottom: 10px;
-      flex-shrink: 0;
-    }
-    .blue-ring {
-      box-shadow: 0 0 0 5px #1D4ED8, 4px 4px 0 #111827;
-      background: #60A5FA;
-    }
-    .orange-ring {
-      box-shadow: 0 0 0 5px #9A3412, 4px 4px 0 #111827;
-      background: #F97316;
-    }
-    .runner-avatar-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* Runner Nameplate */
-    .runner-nameplate {
-      background: #111827;
-      color: #FFFFFF;
-      font-family: 'Lilita One', sans-serif;
-      font-size: clamp(16px, 1.9vw, 22px);
-      padding: 4px 16px;
-      border-radius: 4px;
-      letter-spacing: 1.5px;
-      margin-bottom: 6px;
-      width: 92%;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-transform: uppercase;
-    }
-
-    /* Score Tag */
-    .runner-score-tag {
-      font-family: 'Lilita One', sans-serif;
-      font-size: 12px;
-      padding: 2px 12px;
-      border: 2px solid #111827;
-      border-radius: 3px;
-      margin-bottom: 8px;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-    }
-    .blue-score-tag {
-      background: #93C5FD;
-      color: #111827;
-    }
-    .orange-score-tag {
-      background: #FDBA74;
-      color: #111827;
-    }
-
-    /* Mini Trophy Shield Emblem */
-    .runner-trophy-emblem {
-      width: 34px;
-      height: 34px;
-      border-radius: 4px;
-      border: 2.5px solid #111827;
-      display: grid;
-      place-items: center;
-      font-size: 17px;
-      box-shadow: 2px 2px 0 #111827;
-    }
-    .silver-emblem {
-      background: #1E293B;
-      border-color: #94A3B8;
-    }
-    .bronze-emblem {
-      background: #1E293B;
-      border-color: #B45309;
-    }
-
-            /* ── CENTER: 1ST PLACE GOLDEN CHAMPION CARD ── */
-    .runner-gold {
-      background: linear-gradient(180deg, #FEF08A 0%, #FACC15 45%, #EAB308 100%);
-      border: 4.5px solid #111827;
-      box-shadow: 7px 7px 0 #111827;
-    }
-    .champ-gold-card {
-      max-width: 250px !important;
-      padding: clamp(16px, 2vw, 24px) 16px 12px !important;
-      z-index: 6;
-      transform: translateY(-12px);
-    }
-    .champ-gold-card:hover {
-      transform: translateY(-16px) !important;
-    }
-
-    /* Gold Rank Tab on top */
-    .gold-tab {
-      background: #EAB308 !important;
-      color: #111827 !important;
-      width: 48px !important;
-      height: 34px !important;
-      top: -20px !important;
-      font-size: 18px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 4px !important;
-      border: 3.5px solid #111827 !important;
-      box-shadow: 3px 3px 0 #111827 !important;
-    }
-    .tab-crown {
-      font-size: 16px;
-      line-height: 1;
-    }
-
-    /* Grand Champion Ribbon inside card */
-    .champ-card-ribbon {
-      background: #111827;
-      color: #FACC15;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 11.5px;
-      letter-spacing: 1px;
-      padding: 3px 16px;
-      border-radius: 3px;
-      margin-top: -2px;
-      margin-bottom: 8px;
-      text-transform: uppercase;
-      white-space: nowrap;
-      box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
-    }
-
-    /* Gold Avatar Ring */
-    .gold-ring {
-      box-shadow: 0 0 0 6px #CA8A04, 5px 5px 0 #111827 !important;
-      background: #FF6B9D !important;
-      width: clamp(94px, 11vw, 126px) !important;
-      height: clamp(94px, 11vw, 126px) !important;
-      margin-bottom: 12px !important;
-    }
-
-    /* Champion Nameplate */
-    .champ-nameplate {
-      font-size: clamp(20px, 2.4vw, 28px) !important;
-      padding: 5px 22px !important;
-      letter-spacing: 2.5px !important;
-      margin-bottom: 6px !important;
-      box-shadow: 3px 3px 0 rgba(0,0,0,0.3) !important;
-    }
-
-    /* Cinema Legend Subtitle */
-    .champ-sub-tag {
-      background: #FEF08A;
-      color: #111827;
-      border: 2px solid #111827;
-      border-radius: 3px;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.8px;
-      padding: 2px 14px;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    /* Gold Score Tag */
-    .gold-score-tag {
-      background: #111827 !important;
-      color: #FACC15 !important;
-      border: 2.5px solid #111827 !important;
-      font-size: 14px !important;
-      padding: 4px 18px !important;
-      letter-spacing: 1px !important;
-      margin-bottom: 8px !important;
-    }
-
-    /* Gold Trophy Shield Emblem */
-    .gold-emblem {
-      width: 36px !important;
-      height: 36px !important;
-      font-size: 18px !important;
-      background: #1E293B !important;
-      border: 3px solid #FACC15 !important;
-      box-shadow: 2px 2px 0 #111827 !important;
-    }
-    .gold-emblem .mini-trophy {
-      filter: drop-shadow(0 0 4px #FACC15);
-    }
-    /* ── MATCH SUMMARY CARD (TOP RIGHT OF STAGE) ── */
-    .cw-summary-card {
-      position: absolute;
-      top: -8px;
-      right: 0;
-      width: clamp(155px, 17vw, 195px);
-      background: #FFFFFF;
-      border: 3px solid #111827;
-      box-shadow: 4px 4px 0 #111827;
-      border-radius: 5px;
-      z-index: 10;
-      overflow: hidden;
-    }
-    .summary-header {
-      background: #111827;
-      color: #FFFFFF;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 12px;
-      letter-spacing: 1px;
-      padding: 5px 8px;
-      text-align: center;
-      text-transform: uppercase;
-    }
-    .summary-rows {
-      display: flex;
-      flex-direction: column;
-      padding: 6px 10px;
-      gap: 6px;
-    }
-    .summary-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 6px;
-      border-bottom: 1.5px dashed #E2E8F0;
-      padding-bottom: 4px;
-    }
-    .summary-row:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-    .s-icon {
-      font-size: 11px;
-    }
-    .s-label {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 9px;
-      font-weight: 900;
-      color: #111827;
-      flex: 1;
-      text-transform: uppercase;
-    }
-    .s-val {
-      font-family: 'Lilita One', sans-serif;
-      font-size: 12px;
-      color: #111827;
-    }
-
-    /* ── REWARDS & ACHIEVEMENTS PANEL ── */
-    .cw-rewards-panel {
-      background: #FFFFFF;
-      border: 3px solid #111827;
-      box-shadow: 4px 4px 0 #111827;
-      border-radius: 4px;
-      display: grid;
-      grid-template-columns: 1fr auto 1.45fr;
-      align-items: center;
-      padding: clamp(6px, 1vw, 10px) clamp(10px, 1.4vw, 16px);
-      gap: clamp(8px, 1.2vw, 16px);
-      margin-top: 4px;
-      flex-shrink: 0;
-    }
-
-    /* Left Col: Rewards */
-    .rp-rewards-col {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .rp-header {
-      font-family: 'Lilita One', sans-serif;
-      font-size: 10.5px;
-      color: #111827;
-      letter-spacing: 0.5px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      text-transform: uppercase;
-    }
-    .rp-star {
-      font-size: 9px;
-    }
-    .rp-items-row {
-      display: flex;
-      align-items: center;
-      gap: clamp(10px, 1.5vw, 18px);
-    }
-    .rp-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      flex: 1;
-    }
-    .rp-badge-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 6px;
-      border: 2px solid #111827;
-      display: grid;
-      place-items: center;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 13px;
-      box-shadow: 2px 2px 0 #111827;
-      margin-bottom: 2px;
-    }
-    .xp-badge {
-      background: #FACC15;
-      color: #111827;
-    }
-    .coin-badge {
-      background: #F59E0B;
-      border-radius: 50%;
-    }
-    .ticket-badge {
-      background: #A855F7;
-    }
-    .rp-item-val {
-      font-family: 'Lilita One', sans-serif;
-      font-size: 13px;
-      color: #111827;
-      line-height: 1.1;
-    }
-    .rp-item-label {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 7.5px;
-      font-weight: 800;
-      color: #64748B;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    /* Vertical Divider */
-    .rp-divider {
-      width: 2.5px;
-      height: 48px;
-      background: #111827;
-    }
-
-    /* Right Col: Achievements */
-    .rp-achieve-col {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .new-pill {
-      background: #FACC15;
-      color: #111827;
-      border: 1.5px solid #111827;
-      border-radius: 3px;
-      padding: 1px 4px;
-      font-size: 9px;
-      font-weight: 900;
-    }
-    .rp-achieve-row {
-      display: flex;
-      align-items: center;
-      gap: clamp(8px, 1.2vw, 14px);
-    }
-    .achieve-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      flex: 1;
-    }
-    .achieve-frame {
-      width: 32px;
-      height: 32px;
-      border: 2px solid #111827;
-      border-radius: 6px;
-      display: grid;
-      place-items: center;
-      font-size: 14px;
-      box-shadow: 2px 2px 0 #111827;
-      margin-bottom: 2px;
-    }
-    .gold-frame { background: #FACC15; }
-    .cyan-frame { background: #2DD4BF; }
-    .purple-frame { background: #A855F7; }
-    .red-frame { background: #F43F5E; }
-
-    .achieve-title-box {
-      background: #111827;
-      color: #FFFFFF;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 8px;
-      padding: 1px 5px;
-      border-radius: 2px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-    .achieve-desc {
-      font-family: 'DM Sans', sans-serif;
-      font-size: 7.5px;
-      font-weight: 700;
-      color: #64748B;
-      line-height: 1.1;
-      margin-top: 1px;
-      white-space: nowrap;
-    }
-
-    /* ── BOTTOM 4 BUTTONS DECK ── */
-    .cw-buttons-deck {
-      display: flex;
-      gap: clamp(8px, 1.2vw, 14px);
-      margin-top: 6px;
-      flex-shrink: 0;
-    }
-    .cw-btn {
-      flex: 1;
-      padding: clamp(9px, 1.2vw, 13px) 12px;
-      border: 3px solid #111827;
-      box-shadow: 4px 4px 0 #111827;
-      border-radius: 4px;
-      font-family: 'Lilita One', sans-serif;
-      font-size: clamp(12px, 1.4vw, 16px);
-      letter-spacing: 0.8px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      text-transform: uppercase;
-      transition: transform 0.12s ease, box-shadow 0.12s ease;
-      user-select: none;
-    }
-    .cw-btn:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 6px 6px 0 #111827;
-    }
-    .cw-btn:active {
-      transform: translate(2px, 2px);
-      box-shadow: 1px 1px 0 #111827;
-    }
-
-    .btn-play-again {
-      background: #FACC15;
-      color: #111827;
-    }
-    .btn-rematch {
-      background: #F472B6;
-      color: #111827;
-    }
-    .btn-lobby {
-      background: #86EFAC;
-      color: #111827;
-    }
-    .btn-menu {
-      background: #FFFFFF;
-      color: #111827;
-    }
-    .cw-btn-icon {
-      font-size: 16px;
-      line-height: 1;
-    }
-
-
-
-    
     body.screen-winnerScreen {
       overflow: hidden !important;
       height: 100vh !important;
       max-height: 100vh !important;
     }
 
-    /* ══════════════════════════════════════════════════════════════
-       🏆 EXACT PIXEL-PERFECT REPLICA: AAA COMIC VICTORY WINNER SCREEN
-       ══════════════════════════════════════════════════════════════ */
-    #winnerScreen {
-      display: none;
-      width: 100vw !important;
-      height: 100vh !important;
-      height: 100dvh !important;
-      max-height: 100vh !important;
-      overflow: hidden !important;
-      align-items: center !important;
-      justify-content: center !important;
-      padding: clamp(6px, 1.2vw, 14px) !important;
-      position: absolute !important;
-      top: 0 !important;
-      left: 0 !important;
-      background: #F4EEDB !important;
-      background-image: radial-gradient(#D3C9B0 1.2px, transparent 1.2px) !important;
-      background-size: 16px 16px !important;
-      z-index: 50 !important;
-      box-sizing: border-box !important;
-    }
-    #winnerScreen.active {
-      display: flex !important;
-      animation: comicPopIn 0.35s cubic-bezier(0.18, 1.25, 0.4, 1) both !important;
-    }
-
-    @keyframes comicPopIn {
-      from { opacity: 0; transform: scale(0.92); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    /* Comic Confetti Layer */
+    /* Confetti Layer */
     .comic-confetti-layer {
       position: absolute;
       inset: 0;
@@ -12187,23 +11412,23 @@
     }
     @keyframes confettiFall {
       0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(105vh) rotate(720deg); opacity: 0.9; }
+      100% { transform: translateY(105vh) rotate(720deg); opacity: 0.85; }
     }
 
     /* Master Card */
     .comic-winner-card {
       width: 100%;
-      max-width: 1140px;
+      max-width: 1180px;
       height: 100%;
       max-height: 870px;
       background: #FAF7EF;
       border: 3.5px solid #111827;
-      box-shadow: 6px 6px 0 #111827;
-      border-radius: 4px;
+      box-shadow: 7px 7px 0 #111827;
+      border-radius: 16px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: clamp(8px, 1.2vw, 14px) clamp(12px, 1.6vw, 20px);
+      padding: clamp(10px, 1.3vw, 16px) clamp(14px, 1.8vw, 22px);
       position: relative;
       z-index: 10;
       box-sizing: border-box;
@@ -12225,9 +11450,9 @@
     .cw-gala-tag {
       background: #FFFFFF;
       border: 2.5px solid #111827;
-      box-shadow: 2px 2px 0 #111827;
-      border-radius: 4px;
-      padding: 3px 10px;
+      box-shadow: 2.5px 2.5px 0 #111827;
+      border-radius: 999px;
+      padding: 4px 14px;
       display: flex;
       align-items: center;
       gap: 8px;
@@ -12239,18 +11464,18 @@
     .cw-gala-text {
       display: flex;
       flex-direction: column;
-      line-height: 1.1;
+      line-height: 1.15;
     }
     .cw-gala-text span {
       font-family: 'DM Sans', sans-serif;
-      font-size: 8px;
+      font-size: 8.5px;
       font-weight: 800;
       color: #64748B;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
     }
     .cw-gala-text strong {
       font-family: 'Lilita One', 'Anybody', sans-serif;
-      font-size: 11px;
+      font-size: 12px;
       color: #111827;
       letter-spacing: 0.5px;
     }
@@ -12259,20 +11484,20 @@
     .cw-center-badge {
       background: #111827;
       color: #FFFFFF;
-      border: 2px solid #111827;
-      border-radius: 20px;
-      padding: 4px 18px;
+      border: 2.5px solid #111827;
+      border-radius: 999px;
+      padding: 5px 20px;
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
       font-family: 'Lilita One', sans-serif;
       font-size: 13px;
-      letter-spacing: 1px;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
-      box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+      box-shadow: 2.5px 2.5px 0 rgba(0,0,0,0.2);
     }
     .cw-trophy-icon {
-      font-size: 14px;
+      font-size: 15px;
     }
 
     /* Top Right: Badges */
@@ -12285,11 +11510,11 @@
       background: #FACC15;
       color: #111827;
       border: 2.5px solid #111827;
-      box-shadow: 2px 2px 0 #111827;
-      border-radius: 4px;
-      padding: 4px 10px;
+      box-shadow: 2.5px 2.5px 0 #111827;
+      border-radius: 999px;
+      padding: 4px 12px;
       font-family: 'Lilita One', sans-serif;
-      font-size: 11px;
+      font-size: 11.5px;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -12304,11 +11529,11 @@
       background: #818CF8;
       color: #FFFFFF;
       border: 2.5px solid #111827;
-      box-shadow: 2px 2px 0 #111827;
-      border-radius: 4px;
-      padding: 4px 10px;
+      box-shadow: 2.5px 2.5px 0 #111827;
+      border-radius: 999px;
+      padding: 4px 12px;
       font-family: 'Lilita One', sans-serif;
-      font-size: 11px;
+      font-size: 11.5px;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -12322,22 +11547,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: -6px;
-      margin-bottom: -18px;
+      margin-top: -2px;
+      margin-bottom: -10px;
       flex-shrink: 0;
       z-index: 12;
     }
     .cw-splatter-bg {
       position: absolute;
-      width: clamp(540px, 66vw, 820px);
-      height: clamp(85px, 11vw, 125px);
+      width: clamp(540px, 68vw, 840px);
+      height: clamp(80px, 10vw, 115px);
       z-index: 1;
       pointer-events: none;
     }
     .cw-splatter-bg svg {
       width: 100%;
       height: 100%;
-      filter: drop-shadow(0 3px 0 rgba(0,0,0,0.2));
+      filter: drop-shadow(0 4px 0 rgba(0,0,0,0.22));
     }
 
     .cw-floating-deco {
@@ -12348,111 +11573,114 @@
       animation: floatDeco 2.5s ease-in-out infinite alternate;
     }
     .left-bolt {
-      top: 0px;
+      top: 4px;
       left: clamp(20px, 10vw, 90px);
-      font-size: 26px;
+      font-size: 28px;
       color: #FACC15;
-      text-shadow: 2px 2px 0 #111827;
+      text-shadow: 2.5px 2.5px 0 #111827;
     }
     .left-sparkle {
-      top: 10px;
+      top: 12px;
       left: clamp(50px, 14vw, 140px);
-      font-size: 16px;
+      font-size: 18px;
       color: #111827;
     }
     .right-sparkle {
-      top: 8px;
+      top: 10px;
       right: clamp(40px, 14vw, 140px);
-      font-size: 18px;
+      font-size: 20px;
       color: #111827;
     }
     @keyframes floatDeco {
       from { transform: translateY(0) scale(1); }
-      to { transform: translateY(-4px) scale(1.1); }
+      to { transform: translateY(-4px) scale(1.08); }
     }
 
     .cw-victory-title {
       font-family: 'Lilita One', 'Anybody', cursive, sans-serif;
       font-weight: 900;
-      font-size: clamp(56px, 7.5vw, 92px);
+      font-size: clamp(56px, 7vw, 88px);
       color: #FACC15;
       text-transform: uppercase;
       letter-spacing: 2px;
       margin: 0;
-      line-height: 1;
+      line-height: 0.95;
       z-index: 2;
       position: relative;
-      transform: rotate(-1.5deg);
+      transform: rotate(-1deg);
       -webkit-text-stroke: 3.5px #111827;
       text-shadow:
         5px 6px 0 #111827,
         -2px -2px 0 #111827,
         2px -2px 0 #111827,
         -2px 2px 0 #111827,
-        0 8px 16px rgba(0,0,0,0.4);
+        0 8px 18px rgba(0,0,0,0.35);
     }
 
     /* ── MAIN STAGE SECTION (PODIUM + SUMMARY) ── */
     .cw-stage-section {
-      display: grid;
-      grid-template-columns: 1fr 1.75fr 1fr;
-      align-items: end;
+      display: flex;
+      align-items: center;
       justify-content: center;
-      gap: clamp(8px, 1.4vw, 18px);
+      gap: clamp(10px, 1.6vw, 24px);
       position: relative;
       flex: 1;
       min-height: 0;
-      padding-bottom: 2px;
+      padding: clamp(6px, 1vw, 14px) clamp(10px, 1.5vw, 24px);
+      margin: 2px 0;
     }
 
     /* 2nd & 3rd Place Runner Cards */
     .cw-runner-card {
       border: 3.5px solid #111827;
-      box-shadow: 4px 4px 0 #111827;
-      border-radius: 6px;
-      padding: clamp(10px, 1.2vw, 14px) 12px 8px;
+      box-shadow: 5px 5px 0 #111827;
+      border-radius: 16px;
+      padding: clamp(16px, 1.8vw, 22px) 14px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       position: relative;
-      max-width: 185px;
+      max-width: clamp(170px, 18vw, 215px);
       width: 100%;
-      margin: 0 auto;
+      margin: 0;
       box-sizing: border-box;
       transition: transform 0.15s ease;
+      z-index: 4;
+      flex-shrink: 0;
     }
     .cw-runner-card:hover {
       transform: translateY(-3px);
     }
     .runner-blue {
-      background: #3B82F6;
+      background: linear-gradient(180deg, #93C5FD 0%, #3B82F6 40%, #1D4ED8 100%);
     }
     .runner-orange {
-      background: #EA580C;
+      background: linear-gradient(180deg, #FED7AA 0%, #F97316 40%, #C2410C 100%);
     }
 
     /* Rank Tab on top */
     .runner-rank-tab {
       position: absolute;
-      top: -15px;
+      top: -18px;
       color: #FFFFFF;
       border: 2.5px solid #111827;
-      border-radius: 4px;
-      width: 30px;
-      height: 28px;
+      border-radius: 8px;
+      width: 36px;
+      height: 32px;
       display: grid;
       place-items: center;
       font-family: 'Lilita One', sans-serif;
-      font-size: 18px;
+      font-size: 19px;
       box-shadow: 2px 2px 0 #111827;
+      z-index: 6;
     }
-    .blue-tab { background: #2563EB; }
-    .orange-tab { background: #C2410C; }
+    .blue-tab { background: #1D4ED8; }
+    .orange-tab { background: #9A3412; }
 
     /* Avatar Ring Frame */
     .runner-avatar-frame {
-      width: clamp(70px, 8vw, 92px);
-      height: clamp(70px, 8vw, 92px);
+      width: clamp(88px, 9.6vw, 112px);
+      height: clamp(88px, 9.6vw, 112px);
       border-radius: 50%;
       border: 3.5px solid #111827;
       background: #FFFFFF;
@@ -12460,16 +11688,16 @@
       display: grid;
       place-items: center;
       margin-top: 4px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
       flex-shrink: 0;
     }
     .blue-ring {
-      box-shadow: 0 0 0 4px #1D4ED8, 3px 3px 0 #111827;
-      background: #60A5FA;
+      box-shadow: 0 0 0 5px #1E40AF, 3.5px 3.5px 0 #111827;
+      background: #DBEAFE;
     }
     .orange-ring {
-      box-shadow: 0 0 0 4px #9A3412, 3px 3px 0 #111827;
-      background: #F97316;
+      box-shadow: 0 0 0 5px #9A3412, 3.5px 3.5px 0 #111827;
+      background: #FFEDD5;
     }
     .runner-avatar-frame img {
       width: 100%;
@@ -12483,49 +11711,51 @@
       background: #111827;
       color: #FFFFFF;
       font-family: 'Lilita One', sans-serif;
-      font-size: clamp(14px, 1.6vw, 18px);
-      padding: 3px 14px;
-      border-radius: 3px;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
-      width: 90%;
+      font-size: clamp(15px, 1.8vw, 21px);
+      padding: 4px 16px;
+      border-radius: 6px;
+      letter-spacing: 1.2px;
+      margin-bottom: 6px;
+      width: 94%;
       text-align: center;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       text-transform: uppercase;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
     }
 
     /* Score Tag */
     .runner-score-tag {
       font-family: 'Lilita One', sans-serif;
-      font-size: 11px;
-      padding: 2px 10px;
-      border: 1.8px solid #111827;
-      border-radius: 2px;
-      margin-bottom: 6px;
-      letter-spacing: 0.5px;
+      font-size: 12px;
+      padding: 3px 14px;
+      border: 2px solid #111827;
+      border-radius: 999px;
+      margin-bottom: 8px;
+      letter-spacing: 0.6px;
       text-transform: uppercase;
+      box-shadow: 1.5px 1.5px 0 #111827;
     }
     .blue-score-tag {
-      background: #93C5FD;
-      color: #111827;
+      background: #EFF6FF;
+      color: #1E3A8A;
     }
     .orange-score-tag {
-      background: #FDBA74;
-      color: #111827;
+      background: #FFF7ED;
+      color: #7C2D12;
     }
 
     /* Mini Trophy Shield Emblem */
     .runner-trophy-emblem {
-      width: 30px;
-      height: 30px;
-      border-radius: 4px;
-      border: 2px solid #111827;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 2.5px solid #111827;
       display: grid;
       place-items: center;
-      font-size: 15px;
-      box-shadow: 1.5px 1.5px 0 #111827;
+      font-size: 16px;
+      box-shadow: 2px 2px 0 #111827;
     }
     .silver-emblem {
       background: #1E293B;
@@ -12536,193 +11766,184 @@
       border-color: #B45309;
     }
 
-    /* ── CENTER: GRAND CHAMPION TROPHY STAGE ── */
-    .cw-champion-stage {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      position: relative;
-      width: 100%;
-      height: 100%;
-      min-height: 0;
-      z-index: 5;
+    /* ── CENTER: 1ST PLACE GOLDEN CHAMPION CARD ── */
+    .runner-gold {
+      background: linear-gradient(180deg, #FEF08A 0%, #FACC15 45%, #EAB308 100%);
+      border: 4px solid #111827;
+      box-shadow: 6px 6px 0 #111827;
+      border-radius: 18px;
     }
-
-    .grand-trophy-graphic {
-      width: 100%;
-      max-width: 440px;
-      height: clamp(190px, 25vh, 270px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      z-index: 2;
-    }
-    .grand-trophy-svg {
-      width: 100%;
-      height: 100%;
-      filter: drop-shadow(0 6px 0 rgba(0,0,0,0.25));
-    }
-
-    /* Ribbons & Nameplate */
-    .champ-ribbon-upper {
-      background: #FACC15;
-      color: #111827;
-      border: 2px solid #111827;
-      box-shadow: 2px 2px 0 #111827;
-      border-radius: 2px;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.8px;
-      padding: 2px 16px;
-      margin-top: -8px;
+    .champ-gold-card {
+      max-width: clamp(200px, 22vw, 255px) !important;
+      padding: clamp(18px, 2vw, 26px) 16px 14px !important;
       z-index: 6;
-      text-transform: uppercase;
+      transform: translateY(-6px);
+      margin: 0 !important;
+      flex-shrink: 0 !important;
+    }
+    .champ-gold-card:hover {
+      transform: translateY(-10px) !important;
     }
 
-    .champ-name-banner {
-      background: #111827;
-      color: #FFFFFF;
-      border: 3.5px solid #111827;
-      box-shadow: 4px 4px 0 rgba(0,0,0,0.3);
-      border-radius: 4px;
-      font-family: 'Lilita One', 'Anybody', sans-serif;
-      font-size: clamp(24px, 3.2vw, 36px);
-      letter-spacing: 2px;
-      padding: 3px 26px;
-      margin-top: 2px;
-      z-index: 6;
-      text-transform: uppercase;
-      white-space: nowrap;
-      max-width: 90%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      text-align: center;
+    /* Gold Rank Tab on top */
+    .gold-tab {
+      background: #EAB308 !important;
+      color: #111827 !important;
+      width: 56px !important;
+      height: 34px !important;
+      top: -20px !important;
+      font-size: 18px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 4px !important;
+      border: 3px solid #111827 !important;
+      border-radius: 8px !important;
+      box-shadow: 2.5px 2.5px 0 #111827 !important;
     }
-
-    .champ-ribbon-lower {
-      background: #FACC15;
-      color: #111827;
-      border: 2px solid #111827;
-      box-shadow: 2px 2px 0 #111827;
-      border-radius: 2px;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 11px;
-      letter-spacing: 0.5px;
-      padding: 2px 18px;
-      margin-top: 3px;
-      z-index: 6;
-      text-transform: uppercase;
-    }
-
-    /* Score Pedestal Block */
-    .champ-pedestal-block {
-      background: #111827;
-      border: 3px solid #111827;
-      border-radius: 3px;
-      padding: 3px 28px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 3px;
-      z-index: 6;
-      min-width: 120px;
-    }
-    .pedestal-score-num {
-      font-family: 'Lilita One', sans-serif;
-      font-size: clamp(26px, 3.4vw, 38px);
-      color: #FACC15;
+    .tab-crown {
+      font-size: 16px;
       line-height: 1;
     }
-    .pedestal-score-label {
+
+    /* Grand Champion Ribbon inside card */
+    .champ-card-ribbon {
+      background: #111827;
+      color: #FACC15;
       font-family: 'Lilita One', sans-serif;
-      font-size: 10px;
-      color: #FFFFFF;
-      letter-spacing: 1.5px;
-      margin-top: 1px;
+      font-size: 12px;
+      letter-spacing: 1.2px;
+      padding: 3px 18px;
+      border-radius: 999px;
+      margin-top: -2px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      white-space: nowrap;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.25);
     }
 
-    /* Tiered Base Platform */
-    .trophy-base-platform {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 2px;
-      z-index: 5;
-    }
-    .tier-upper {
-      width: clamp(200px, 26vw, 280px);
-      height: 10px;
-      background: #FFFFFF;
-      border: 3px solid #111827;
-      border-radius: 3px;
-    }
-    .tier-lower {
-      width: clamp(240px, 30vw, 330px);
-      height: 14px;
-      background: linear-gradient(180deg, #FDE047, #EAB308);
-      border: 3px solid #111827;
-      border-top: none;
-      box-shadow: 0 4px 0 #111827;
+    /* Gold Avatar Ring */
+    .gold-ring {
+      box-shadow: 0 0 0 6px #CA8A04, 0 10px 28px rgba(250, 204, 21, 0.45), 4px 4px 0 #111827 !important;
+      background: #FFFBEB !important;
+      width: clamp(104px, 11.5vw, 132px) !important;
+      height: clamp(104px, 11.5vw, 132px) !important;
+      margin-bottom: 12px !important;
     }
 
-    /* ── MATCH SUMMARY CARD (TOP RIGHT OF STAGE) ── */
+    /* Champion Nameplate */
+    .champ-nameplate {
+      font-size: clamp(20px, 2.3vw, 28px) !important;
+      padding: 5px 22px !important;
+      letter-spacing: 2px !important;
+      margin-bottom: 6px !important;
+      border-radius: 8px !important;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.25) !important;
+    }
+
+    /* Cinema Legend Subtitle */
+    .champ-sub-tag {
+      background: #FEF08A;
+      color: #111827;
+      border: 2px solid #111827;
+      border-radius: 999px;
+      font-family: 'Lilita One', sans-serif;
+      font-size: 11.5px;
+      letter-spacing: 0.8px;
+      padding: 2.5px 16px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    /* Gold Score Tag */
+    .gold-score-tag {
+      background: #111827 !important;
+      color: #FACC15 !important;
+      border: 2.5px solid #111827 !important;
+      font-size: 14px !important;
+      padding: 4px 20px !important;
+      letter-spacing: 1px !important;
+      margin-bottom: 8px !important;
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.2);
+    }
+
+    /* Gold Trophy Shield Emblem */
+    .gold-emblem {
+      width: 36px !important;
+      height: 36px !important;
+      font-size: 18px !important;
+      background: #1E293B !important;
+      border: 3px solid #FACC15 !important;
+      border-radius: 8px !important;
+      box-shadow: 2px 2px 0 #111827 !important;
+    }
+    .gold-emblem .mini-trophy {
+      filter: drop-shadow(0 0 4px #FACC15);
+    }
+
+    /* ── MATCH SUMMARY CARD ── */
     .cw-summary-card {
-      position: absolute;
-      top: -6px;
-      right: 0;
-      width: clamp(140px, 16vw, 175px);
       background: #FFFFFF;
       border: 2.5px solid #111827;
       box-shadow: 3.5px 3.5px 0 #111827;
-      border-radius: 4px;
+      border-radius: 12px;
       z-index: 10;
       overflow: hidden;
+    }
+    @media (min-width: 960px) {
+      .cw-summary-card {
+        position: absolute !important;
+        right: clamp(10px, 1.4vw, 24px) !important;
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+        width: clamp(150px, 14.5vw, 185px) !important;
+        margin: 0 !important;
+      }
     }
     .summary-header {
       background: #111827;
       color: #FFFFFF;
       font-family: 'Lilita One', sans-serif;
-      font-size: 11px;
+      font-size: 11.5px;
       letter-spacing: 1px;
-      padding: 4px 6px;
+      padding: 5px 8px;
       text-align: center;
       text-transform: uppercase;
     }
     .summary-rows {
       display: flex;
       flex-direction: column;
-      padding: 5px 8px;
+      padding: 6px 10px;
       gap: 5px;
     }
     .summary-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 4px;
-      border-bottom: 1px dashed #E2E8F0;
-      padding-bottom: 3px;
+      gap: 6px;
+      border-bottom: 1.5px solid #F1F5F9;
+      padding-bottom: 4px;
     }
     .summary-row:last-child {
       border-bottom: none;
       padding-bottom: 0;
     }
     .s-icon {
-      font-size: 10px;
+      font-size: 12px;
     }
     .s-label {
       font-family: 'DM Sans', sans-serif;
-      font-size: 8.5px;
+      font-size: 9.5px;
       font-weight: 800;
-      color: #111827;
+      color: #475569;
       flex: 1;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     .s-val {
       font-family: 'Lilita One', sans-serif;
-      font-size: 11px;
+      font-size: 12.5px;
       color: #111827;
     }
 
@@ -12731,12 +11952,12 @@
       background: #FFFFFF;
       border: 3px solid #111827;
       box-shadow: 4px 4px 0 #111827;
-      border-radius: 4px;
+      border-radius: 14px;
       display: grid;
       grid-template-columns: 1fr auto 1.45fr;
       align-items: center;
-      padding: clamp(6px, 1vw, 10px) clamp(10px, 1.4vw, 16px);
-      gap: clamp(8px, 1.2vw, 16px);
+      padding: clamp(6px, 0.9vw, 10px) clamp(12px, 1.5vw, 18px);
+      gap: clamp(10px, 1.4vw, 18px);
       margin-top: 4px;
       flex-shrink: 0;
     }
@@ -12745,20 +11966,20 @@
     .rp-rewards-col {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
     .rp-header {
       font-family: 'Lilita One', sans-serif;
-      font-size: 10.5px;
+      font-size: 11px;
       color: #111827;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
       display: flex;
       align-items: center;
       gap: 6px;
       text-transform: uppercase;
     }
     .rp-star {
-      font-size: 9px;
+      font-size: 10px;
     }
     .rp-items-row {
       display: flex;
@@ -12775,7 +11996,7 @@
     .rp-badge-icon {
       width: 32px;
       height: 32px;
-      border-radius: 6px;
+      border-radius: 8px;
       border: 2px solid #111827;
       display: grid;
       place-items: center;
@@ -12803,7 +12024,7 @@
     }
     .rp-item-label {
       font-family: 'DM Sans', sans-serif;
-      font-size: 7.5px;
+      font-size: 9px;
       font-weight: 800;
       color: #64748B;
       letter-spacing: 0.5px;
@@ -12814,21 +12035,22 @@
     .rp-divider {
       width: 2.5px;
       height: 48px;
-      background: #111827;
+      background: #E2E8F0;
+      border-radius: 2px;
     }
 
     /* Right Col: Achievements */
     .rp-achieve-col {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
     .new-pill {
       background: #FACC15;
       color: #111827;
       border: 1.5px solid #111827;
-      border-radius: 3px;
-      padding: 1px 4px;
+      border-radius: 4px;
+      padding: 1px 5px;
       font-size: 9px;
       font-weight: 900;
     }
@@ -12848,10 +12070,10 @@
       width: 32px;
       height: 32px;
       border: 2px solid #111827;
-      border-radius: 6px;
+      border-radius: 8px;
       display: grid;
       place-items: center;
-      font-size: 14px;
+      font-size: 15px;
       box-shadow: 2px 2px 0 #111827;
       margin-bottom: 2px;
     }
@@ -12864,20 +12086,20 @@
       background: #111827;
       color: #FFFFFF;
       font-family: 'Lilita One', sans-serif;
-      font-size: 8px;
-      padding: 1px 5px;
-      border-radius: 2px;
+      font-size: 9px;
+      padding: 1px 6px;
+      border-radius: 4px;
       letter-spacing: 0.5px;
       text-transform: uppercase;
       white-space: nowrap;
     }
     .achieve-desc {
       font-family: 'DM Sans', sans-serif;
-      font-size: 7.5px;
+      font-size: 8.5px;
       font-weight: 700;
       color: #64748B;
       line-height: 1.1;
-      margin-top: 1px;
+      margin-top: 2px;
       white-space: nowrap;
     }
 
@@ -12890,12 +12112,12 @@
     }
     .cw-btn {
       flex: 1;
-      padding: clamp(9px, 1.2vw, 13px) 12px;
+      padding: clamp(10px, 1.2vw, 14px) 14px;
       border: 3px solid #111827;
       box-shadow: 4px 4px 0 #111827;
-      border-radius: 4px;
+      border-radius: 12px;
       font-family: 'Lilita One', sans-serif;
-      font-size: clamp(12px, 1.4vw, 16px);
+      font-size: clamp(13px, 1.4vw, 16px);
       letter-spacing: 0.8px;
       display: inline-flex;
       align-items: center;
@@ -12903,7 +12125,7 @@
       gap: 8px;
       cursor: pointer;
       text-transform: uppercase;
-      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      transition: transform 0.14s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.14s ease;
       user-select: none;
     }
     .cw-btn:hover {
@@ -12911,13 +12133,14 @@
       box-shadow: 6px 6px 0 #111827;
     }
     .cw-btn:active {
-      transform: translate(2px, 2px);
-      box-shadow: 1px 1px 0 #111827;
+      transform: scale(0.97) translate(1px, 1px);
+      box-shadow: 1.5px 1.5px 0 #111827;
     }
 
     .btn-play-again {
       background: #FACC15;
       color: #111827;
+      flex: 1.2;
     }
     .btn-rematch {
       background: #F472B6;
@@ -12934,6 +12157,114 @@
     .cw-btn-icon {
       font-size: 16px;
       line-height: 1;
+    }
+
+    /* ── MOBILE / TABLET RESPONSIVENESS (< 960px) ── */
+    @media (max-width: 959px) {
+      #winnerScreen {
+        overflow-y: auto !important;
+        -webkit-overflow-scrolling: touch;
+        display: block !important;
+        height: auto !important;
+        min-height: 100vh !important;
+        min-height: 100dvh !important;
+        max-height: none !important;
+        padding: 10px 8px !important;
+      }
+      .comic-winner-card {
+        height: auto !important;
+        min-height: min-content !important;
+        max-height: none !important;
+        overflow-y: visible !important;
+        padding: 14px 10px !important;
+        margin: 0 auto 20px;
+        gap: 12px;
+      }
+      .cw-top-bar {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 6px;
+      }
+      .cw-gala-tag, .cw-center-badge, .cw-top-badges {
+        padding: 4px 10px;
+      }
+      .cw-victory-section {
+        margin-top: 6px;
+        margin-bottom: 6px;
+      }
+      .cw-splatter-bg {
+        width: 95vw;
+      }
+      .cw-victory-title {
+        font-size: clamp(38px, 11vw, 54px);
+      }
+      .cw-stage-section {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: stretch;
+        gap: 10px;
+        padding: 4px;
+        height: auto !important;
+        flex: none !important;
+      }
+      #champHeroCard {
+        order: 1;
+        flex: 1 1 100% !important;
+        width: 100% !important;
+        max-width: 270px !important;
+        margin: 0 auto 8px !important;
+        transform: none !important;
+      }
+      #champHeroCard:hover {
+        transform: translateY(-2px) !important;
+      }
+      #silverCard {
+        order: 2;
+        flex: 1 1 45% !important;
+        max-width: 155px !important;
+        margin: 0 !important;
+      }
+      #bronzeCard {
+        order: 3;
+        flex: 1 1 45% !important;
+        max-width: 155px !important;
+        margin: 0 !important;
+      }
+      .cw-summary-card {
+        order: 4;
+        flex: 1 1 100% !important;
+        position: static !important;
+        width: 100% !important;
+        max-width: 320px !important;
+        margin: 10px auto 4px !important;
+      }
+      .cw-rewards-panel {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 12px 10px;
+        flex: none !important;
+      }
+      .rp-divider {
+        display: none;
+      }
+      .rp-items-row, .rp-achieve-row {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+      }
+      .cw-buttons-deck {
+        flex-wrap: wrap;
+        gap: 8px;
+        flex: none !important;
+        margin-top: 4px;
+      }
+      .cw-btn {
+        flex: 1 1 calc(50% - 6px);
+        min-width: 130px;
+        padding: 11px 8px;
+        font-size: 12px;
+      }
     }
 
 </style>
@@ -13934,11 +13265,7 @@
         <div class="cw-splatter-bg" aria-hidden="true">
           <svg viewBox="0 0 800 140" preserveAspectRatio="none">
             <path fill="#111827" d="M 40,75 L 20,40 L 70,50 L 80,15 L 130,40 L 170,5 L 210,35 L 270,0 L 320,30 L 390,-5 L 450,25 L 520,0 L 570,30 L 630,5 L 670,35 L 720,15 L 740,45 L 790,35 L 765,75 L 795,110 L 745,100 L 725,135 L 675,110 L 635,138 L 585,115 L 525,142 L 465,115 L 400,140 L 335,115 L 275,140 L 215,112 L 165,135 L 125,105 L 75,130 L 55,95 Z" />
-            <circle cx="15" cy="25" r="4.5" fill="#111827" />
-            <circle cx="35" cy="12" r="3" fill="#111827" />
-            <circle cx="785" cy="20" r="5" fill="#111827" />
-            <circle cx="770" cy="130" r="4" fill="#111827" />
-            <circle cx="25" cy="120" r="3.5" fill="#111827" />
+            
           </svg>
         </div>
 
@@ -17892,8 +17219,7 @@
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.remove('active');
         document.getElementById('hostFloatingBar').style.display = 'none';
 
-        UI.showScreen('winnerScreen'); document.body.style.overflow = 'hidden';
-        UI.renderFinalLB();
+        WinnerScreen.show(GS.players);
 
         if (this.isHost) {
           this.sendEvent('GAME_OVER_BROADCAST', {
@@ -17906,8 +17232,7 @@
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.remove('active');
         document.getElementById('hostFloatingBar').style.display = 'none';
         if (msg.players) GS.players = msg.players;
-        UI.showScreen('winnerScreen');
-        UI.renderFinalLB();
+        WinnerScreen.show(GS.players);
       },
 
       hostSkipRound() {
