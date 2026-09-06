@@ -64,6 +64,16 @@ test.describe("Multiplayer & Game State Synchronization", () => {
       MultiplayerEngine.startMatch();
     });
 
+    await expect(page.locator("#howToAnswerScreen")).toBeVisible();
+
+    // Complete the guide to advance to game screen
+    await page.evaluate(() => {
+      if (typeof HowToAnswerGuide !== 'undefined') {
+        HowToAnswerGuide._secondsLeft = 0;
+        HowToAnswerGuide.handleHostClick();
+      }
+    });
+
     await expect(page.locator("#gameScreen")).toBeVisible();
 
     const matchState = await page.evaluate(() => ({

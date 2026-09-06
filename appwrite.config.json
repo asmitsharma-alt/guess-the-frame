@@ -8,7 +8,7 @@
             "path": "sites/guess-the-frame",
             "framework": "other",
             "logging": true,
-            "timeout": 30,
+            "timeout": 60,
             "buildRuntime": "node-22",
             "adapter": "static",
             "installCommand": "",
