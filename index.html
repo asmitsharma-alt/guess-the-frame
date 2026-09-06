@@ -12217,6 +12217,11 @@
           <div class="mp-modal-title">⚡ Create Online Room</div>
           <button class="mp-modal-close" onclick="MultiplayerEngine.closeModals()">✕</button>
         </div>
+
+        <div class="mp-form-group">
+          <label class="mp-label">Your Player Name</label>
+          <input type="text" id="hostPlayerNameInput" class="mp-input font-bold" placeholder="Enter your name (e.g. Maverick)" maxlength="16" />
+        </div>
         
         <div class="mp-form-group">
           <label class="mp-label">Select Your Animated Avatar</label>
@@ -12253,6 +12258,11 @@
         <div class="mp-form-group">
           <label class="mp-label">4-Letter Room Code</label>
           <input type="text" id="joinCodeInput" class="mp-input mp-code-input" placeholder="FILM" maxlength="6" />
+        </div>
+
+        <div class="mp-form-group">
+          <label class="mp-label">Your Player Name</label>
+          <input type="text" id="joinPlayerNameInput" class="mp-input font-bold" placeholder="Enter your name (e.g. Neo)" maxlength="16" />
         </div>
         
         <div class="mp-form-group">
@@ -13634,6 +13644,9 @@
             const safeAvKey = validAvatars.includes(avKey) ? avKey : 'aman';
             const avConfig = AVATAR_MAP[safeAvKey] || { bg: bgOrder[i % bgOrder.length], img: `avvtar/${safeAvKey}.png` };
             const safeName = SecurityUtil.escapeHtml(p.name || `Player ${i+1}`);
+            const isMe = !GameController._onlineMode ||
+              (MultiplayerEngine.isHost ? (p.isHost || p.id === MultiplayerEngine.playerId || i === 0) : (p.id === MultiplayerEngine.playerId || p.name === MultiplayerEngine.playerName));
+            const canRemove = !GameController._onlineMode && GS.players.length > 1;
 
             return `
               <div class="bg-surface border-4 border-on-surface p-4 flex flex-col items-center justify-center relative neo-shadow rounded-xl transform transition-transform hover:-translate-y-1">
@@ -13642,12 +13655,33 @@
                     <span class="material-symbols-outlined text-xs">workspace_premium</span> Host
                   </div>
                 ` : ''}
+                ${canRemove ? `
+                  <button type="button" onclick="PlayerLobby.remove(${i})" class="absolute -top-2.5 -right-2.5 bg-[#ff6b6b] text-white hover:bg-red-600 border-2 border-on-surface w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] transition-all z-10 cursor-pointer" title="Remove Player">✕</button>
+                ` : ''}
                 <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-on-surface overflow-hidden mb-3 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" style="background-color: ${avConfig.color};">
                   <img class="w-full h-full object-cover" src="avvtar/${safeAvKey}.svg" alt="${safeName}" onerror="this.src='avvtar/aman.svg'"/>
                 </div>
-                <div class="border-2 border-on-surface px-3 py-1 rounded-lg font-headline-sm text-sm sm:text-base uppercase font-black tracking-wide text-on-surface truncate max-w-full text-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" style="background-color: ${avConfig.color};">
-                  ${safeName}
-                </div>
+                ${isMe ? `
+                  <div class="relative w-full max-w-[140px] flex items-center group">
+                    <input type="text"
+                           class="w-full text-center font-black uppercase text-xs sm:text-sm px-2 py-1 border-2 border-on-surface rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:outline-none focus:ring-2 focus:ring-black transition-all cursor-text font-sans"
+                           style="background-color: ${avConfig.color}; color: #1a1a1a;"
+                           value="${safeName}"
+                           maxlength="14"
+                           placeholder="Name..."
+                           title="Click to change player name"
+                           onfocus="this.select()"
+                           onchange="PlayerLobby.renamePlayer(${i}, this.value)"
+                           onblur="PlayerLobby.renamePlayer(${i}, this.value)"
+                           onkeydown="if(event.key==='Enter') this.blur();"
+                    />
+                    <span class="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity">✏️</span>
+                  </div>
+                ` : `
+                  <div class="border-2 border-on-surface px-3 py-1 rounded-lg font-headline-sm text-sm sm:text-base uppercase font-black tracking-wide text-on-surface truncate max-w-full text-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" style="background-color: ${avConfig.color};">
+                    ${safeName}
+                  </div>
+                `}
                 <div class="mt-2.5 ${p.loaded ? 'bg-[#86EFAC] text-[#14532D]' : 'bg-[#FEF08A] text-[#854D0E]'} border-2 border-on-surface px-2.5 py-0.5 rounded-full font-label-bold text-[10px] uppercase font-black flex items-center gap-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                   ${p.loaded ? '<span>✅ READY</span>' : `<span>⏳ LOADING (${p.loadProgress || 0}%)...</span>`}
                 </div>
@@ -13659,6 +13693,14 @@
           const emptySlotsHtml = Array.from({ length: emptySlotsCount }, (_, idx) => {
             const slotIdx = GS.players.length + idx;
             const hideOnMobile = slotIdx >= 2 ? 'hidden sm:flex' : '';
+            if (!GameController._onlineMode) {
+              return `
+                <div onclick="PlayerLobby.addLocalPlayer()" class="border-4 border-dashed border-outline/40 hover:border-outline hover:bg-surface/50 rounded-xl p-4 flex flex-col items-center justify-center h-36 opacity-60 hover:opacity-100 transition-all cursor-pointer ${hideOnMobile}" title="Click to add player">
+                  <span class="material-symbols-outlined text-4xl text-outline">person_add</span>
+                  <span class="font-label-bold text-[10px] uppercase font-bold text-outline mt-1">+ Add Player</span>
+                </div>
+              `;
+            }
             return `
               <div class="border-4 border-dashed border-outline/40 rounded-xl p-4 flex flex-col items-center justify-center h-36 opacity-40 ${hideOnMobile}">
                 <span class="material-symbols-outlined text-4xl text-outline">person_add</span>
@@ -13931,6 +13973,55 @@
         const player = GS.players[i];
         const idx = GS.players.indexOf(player);
         if (idx !== -1) GS.players.splice(idx, 1);
+        this.render();
+      },
+
+      renamePlayer(i, newName) {
+        const clean = (newName || '').trim();
+        if (!clean) return;
+        if (GS.players[i]) {
+          GS.players[i].name = clean;
+          if (GameController._onlineMode) {
+            const isH = MultiplayerEngine.isHost && (GS.players[i].isHost || i === 0);
+            if (isH) {
+              MultiplayerEngine.playerName = clean;
+              localStorage.setItem('gtf_player_name', clean);
+              MultiplayerEngine.broadcastState('PLAYER_NAME_CHANGED');
+            } else if (!MultiplayerEngine.isHost) {
+              MultiplayerEngine.playerName = clean;
+              localStorage.setItem('gtf_player_name', clean);
+              MultiplayerEngine.sendEvent('UPDATE_PLAYER_NAME', {
+                playerId: MultiplayerEngine.playerId,
+                name: clean
+              });
+            }
+          } else {
+            if (this._originalPlayers && this._originalPlayers[i]) {
+              this._originalPlayers[i].name = clean;
+            }
+          }
+          this.render();
+        }
+      },
+
+      addLocalPlayer() {
+        if (GameController._onlineMode || GS.players.length >= 8) return;
+        SoundManager.playClick();
+        const avatarList = ['aman', 'amish', 'aziz', 'vish'];
+        const colors = ['#cae6ff', '#2ecc71', '#f1c40f', '#ff7eb6'];
+        const nextAv = avatarList[GS.players.length % avatarList.length];
+        const nextColor = colors[GS.players.length % colors.length];
+        const newP = {
+          name: `Player ${GS.players.length + 1}`,
+          score: 0,
+          avatar: nextAv,
+          avatarImg: `avvtar/${nextAv}.svg`,
+          loaded: true,
+          loadProgress: 100,
+          color: nextColor
+        };
+        GS.players.push(newP);
+        if (this._originalPlayers) this._originalPlayers.push({ ...newP });
         this.render();
       },
 
@@ -15762,17 +15853,25 @@
       openCreateModal() {
         this.playerAvatar = this.playerAvatar || 'aman';
         this.selectedAvatarForModal = this.playerAvatar;
-        this.playerName = this.getAvatarDisplayName(this.playerAvatar);
+        const savedName = localStorage.getItem('gtf_player_name');
+        this.playerName = savedName || this.playerName || this.getAvatarDisplayName(this.playerAvatar);
         this.highlightSelectedAvatar('host', this.playerAvatar);
+        const nameInput = document.getElementById('hostPlayerNameInput');
+        if (nameInput) nameInput.value = this.playerName;
         document.getElementById('createRoomModal').classList.add('active');
+        if (nameInput) setTimeout(() => nameInput.focus(), 150);
       },
 
       openJoinModal() {
         this.playerAvatar = this.playerAvatar || 'aman';
         this.selectedAvatarForModal = this.playerAvatar;
-        this.playerName = this.getAvatarDisplayName(this.playerAvatar);
+        const savedName = localStorage.getItem('gtf_player_name');
+        this.playerName = savedName || this.playerName || this.getAvatarDisplayName(this.playerAvatar);
         this.highlightSelectedAvatar('join', this.playerAvatar);
+        const nameInput = document.getElementById('joinPlayerNameInput');
+        if (nameInput) nameInput.value = this.playerName;
         document.getElementById('joinRoomModal').classList.add('active');
+        if (nameInput) setTimeout(() => nameInput.focus(), 150);
       },
 
       showQrCode() {
@@ -15827,7 +15926,20 @@
         const av = element.getAttribute('data-avatar') || 'aman';
         this.selectedAvatarForModal = av;
         this.playerAvatar = av;
-        this.playerName = this.getAvatarDisplayName(av);
+        const nameInput = modalType === 'host'
+          ? document.getElementById('hostPlayerNameInput')
+          : document.getElementById('joinPlayerNameInput');
+        const currentVal = nameInput ? nameInput.value.trim() : '';
+        const defaultNames = ['Aman', 'Amish', 'Aziz', 'Vish', 'aman', 'amish', 'aziz', 'vish'];
+        if (nameInput && (!currentVal || defaultNames.includes(currentVal))) {
+          const defaultName = this.getAvatarDisplayName(av);
+          nameInput.value = defaultName;
+          this.playerName = defaultName;
+        } else if (currentVal) {
+          this.playerName = currentVal;
+        } else {
+          this.playerName = this.getAvatarDisplayName(av);
+        }
       },
 
       highlightSelectedAvatar(modalType, avatarName) {
@@ -15852,8 +15964,10 @@
       },
 
       confirmCreateRoom() {
+        const nameInput = document.getElementById('hostPlayerNameInput');
+        const typedName = (nameInput ? nameInput.value : '').trim();
         this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'aman';
-        this.playerName = this.getAvatarDisplayName(this.playerAvatar);
+        this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
         this.isHost = true;
         this.roomCode = this.generateRoomCode();
         this.hostSettings = { category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 }, rounds: 10, timer: 30 };
@@ -15893,8 +16007,10 @@
           alert('Please enter a valid Room Code.');
           return;
         }
+        const nameInput = document.getElementById('joinPlayerNameInput');
+        const typedName = (nameInput ? nameInput.value : '').trim();
         this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'aman';
-        this.playerName = this.getAvatarDisplayName(this.playerAvatar);
+        this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
         this.isHost = false;
         this.roomCode = code;
         this.roomId = 'room_' + this.roomCode;
@@ -16225,6 +16341,17 @@
 
           case 'CHAT_REACTION_UPDATE':
             ChatEngine.handleReactionUpdate(msg);
+            break;
+
+          case 'UPDATE_PLAYER_NAME':
+            if (this.isHost && msg.playerId && msg.name) {
+              const p = GS.players.find(x => x.id === msg.playerId);
+              if (p) {
+                p.name = msg.name.trim().slice(0, 16);
+                this.renderLobbyUI();
+                this.broadcastState('PLAYER_NAME_UPDATED');
+              }
+            }
             break;
 
           case 'PLAYER_LOAD_STATUS':
