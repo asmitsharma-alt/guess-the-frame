@@ -3127,81 +3127,6 @@
       background: #07070e;
     }
 
-    /* Speed-streak lines radiating from center */
-    .rio-streaks {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .rio-streak {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 2px;
-      height: 0;
-      background: linear-gradient(to top, transparent, rgba(255, 46, 146, .6), transparent);
-      transform-origin: center bottom;
-      border-radius: 1px;
-      animation: streakShoot .6s cubic-bezier(.22, 1, .36, 1) both;
-    }
-
-    .rio-streak:nth-child(1) {
-      transform: rotate(0deg) translateY(-50%);
-      animation-delay: .05s;
-    }
-
-    .rio-streak:nth-child(2) {
-      transform: rotate(45deg) translateY(-50%);
-      animation-delay: .10s;
-    }
-
-    .rio-streak:nth-child(3) {
-      transform: rotate(90deg) translateY(-50%);
-      animation-delay: .05s;
-    }
-
-    .rio-streak:nth-child(4) {
-      transform: rotate(135deg) translateY(-50%);
-      animation-delay: .10s;
-    }
-
-    .rio-streak:nth-child(5) {
-      transform: rotate(180deg) translateY(-50%);
-      animation-delay: .05s;
-    }
-
-    .rio-streak:nth-child(6) {
-      transform: rotate(225deg) translateY(-50%);
-      animation-delay: .10s;
-    }
-
-    .rio-streak:nth-child(7) {
-      transform: rotate(270deg) translateY(-50%);
-      animation-delay: .05s;
-    }
-
-    .rio-streak:nth-child(8) {
-      transform: rotate(315deg) translateY(-50%);
-      animation-delay: .10s;
-    }
-
-    @keyframes streakShoot {
-      from {
-        height: 0;
-        opacity: 0;
-      }
-
-      30% {
-        opacity: 1;
-      }
-
-      to {
-        height: 45vh;
-        opacity: 0;
-      }
-    }
 
     .rio-content {
       position: relative;
@@ -13262,17 +13187,6 @@
   </div>
 
   <div class="round-intro-ov" id="roundIntroOv">
-    <!-- streak lines -->
-    <div class="rio-streaks" aria-hidden="true">
-      <div class="rio-streak"></div>
-      <div class="rio-streak"></div>
-      <div class="rio-streak"></div>
-      <div class="rio-streak"></div>
-      <div class="rio-streak"></div>
-      <div class="rio-streak"></div>
-      <div class="rio-streak"></div>
-      <div class="rio-streak"></div>
-    </div>
     <div class="rio-content">
       <div class="rio-badge">ROUND</div>
       <div class="rio-num" id="rioNum">1</div>
