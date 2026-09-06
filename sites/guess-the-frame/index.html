@@ -9524,10 +9524,15 @@
         height: auto !important;
         flex: none !important;
         width: 100% !important;
+        position: sticky !important;
+        top: 0 !important;
+        z-index: 50 !important;
+        background: #fdfcf9 !important;
       }
       #gameScreen .frame-area {
-        min-height: 260px !important;
-        height: 38vh !important;
+        min-height: 160px !important;
+        height: 36vh !important;
+        max-height: 280px !important;
         flex: none !important;
       }
       #gameScreen .game-sidebar-col {
@@ -9542,8 +9547,8 @@
         bottom: 0 !important;
         left: 0 !important;
         width: 100% !important;
-        height: 75vh !important;
-        max-height: 80vh !important;
+        height: 52vh !important;
+        max-height: 55vh !important;
         z-index: 999999 !important;
         border-radius: 20px 20px 0 0 !important;
         border-bottom: none !important;
@@ -9554,6 +9559,147 @@
       #gameScreen .live-chat-panel.active,
       #gameScreen .live-chat-panel.mobile-open {
         transform: translateY(0) !important;
+      }
+
+      /* ══════════════════════════════════════════════════════════
+         MOBILE TYPING & KEYBOARD-VISIBLE LOCKED ZERO-SCROLL MODE
+         Ensures both the movie frame AND typed answer remain 100% in view!
+         ══════════════════════════════════════════════════════════ */
+      body.mobile-typing,
+      body.keyboard-visible,
+      body:has(#mobileQuickInput:focus) {
+        height: 100% !important;
+        overflow: hidden !important;
+        position: fixed !important;
+        width: 100% !important;
+      }
+      body.mobile-typing #app,
+      body.keyboard-visible #app,
+      body:has(#mobileQuickInput:focus) #app {
+        height: 100% !important;
+        width: 100% !important;
+        overflow: hidden !important;
+      }
+      body.mobile-typing #gameScreen,
+      body.keyboard-visible #gameScreen,
+      body:has(#mobileQuickInput:focus) #gameScreen {
+        position: fixed !important;
+        inset: 0 !important;
+        width: 100vw !important;
+        height: 100% !important;
+        height: 100dvh !important;
+        max-height: 100% !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 6px 8px !important;
+        box-sizing: border-box !important;
+        gap: 6px !important;
+      }
+      body.mobile-typing #gameScreen .game-main-row,
+      body.keyboard-visible #gameScreen .game-main-row,
+      body:has(#mobileQuickInput:focus) #gameScreen .game-main-row {
+        flex: 1 1 0% !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        gap: 6px !important;
+      }
+      body.mobile-typing #gameScreen .game-stage-col,
+      body.keyboard-visible #gameScreen .game-stage-col,
+      body:has(#mobileQuickInput:focus) #gameScreen .game-stage-col {
+        flex: 1 1 0% !important;
+        min-height: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        gap: 6px !important;
+        position: relative !important;
+        top: auto !important;
+      }
+      body.mobile-typing #gameScreen .game-header,
+      body.keyboard-visible #gameScreen .game-header,
+      body:has(#mobileQuickInput:focus) #gameScreen .game-header {
+        flex: 0 0 auto !important;
+        height: 38px !important;
+        min-height: 38px !important;
+        padding: 4px 8px !important;
+        margin: 0 !important;
+      }
+      body.mobile-typing #gameScreen .frame-area,
+      body.keyboard-visible #gameScreen .frame-area,
+      body:has(#mobileQuickInput:focus) #gameScreen .frame-area {
+        flex: 1 1 0% !important;
+        min-height: 0 !important;
+        height: 100% !important;
+        max-height: 100% !important;
+        width: 100% !important;
+        position: relative !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        margin: 0 !important;
+      }
+      body.mobile-typing #gameScreen .frame-display,
+      body.keyboard-visible #gameScreen .frame-display,
+      body:has(#mobileQuickInput:focus) #gameScreen .frame-display {
+        flex: 1 1 0% !important;
+        min-height: 0 !important;
+        height: 100% !important;
+        width: 100% !important;
+        position: relative !important;
+      }
+      body.mobile-typing #gameScreen .frame-image-container,
+      body.keyboard-visible #gameScreen .frame-image-container,
+      body:has(#mobileQuickInput:focus) #gameScreen .frame-image-container {
+        height: 100% !important;
+        width: 100% !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: absolute !important;
+        inset: 0 !important;
+      }
+      body.mobile-typing #gameScreen .frame-image-container img,
+      body.keyboard-visible #gameScreen .frame-image-container img,
+      body:has(#mobileQuickInput:focus) #gameScreen .frame-image-container img {
+        max-width: 100% !important;
+        max-height: 100% !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+      }
+      body.mobile-typing #gameScreen .game-sidebar-col,
+      body.keyboard-visible #gameScreen .game-sidebar-col,
+      body:has(#mobileQuickInput:focus) #gameScreen .game-sidebar-col {
+        display: none !important;
+      }
+      body.mobile-typing #gameScreen .host-floating-bar,
+      body.keyboard-visible #gameScreen .host-floating-bar,
+      body:has(#mobileQuickInput:focus) #gameScreen .host-floating-bar {
+        display: none !important;
+      }
+      body.mobile-typing .mobile-bottom-bar,
+      body.keyboard-visible .mobile-bottom-bar,
+      body:has(#mobileQuickInput:focus) .mobile-bottom-bar {
+        flex: 0 0 auto !important;
+        position: relative !important;
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border-top: none !important;
+      }
+      body.mobile-typing #sndBtn,
+      body.keyboard-visible #sndBtn,
+      body:has(#mobileQuickInput:focus) #sndBtn {
+        display: none !important;
       }
       #gameScreen .chat-close-btn {
         display: block !important;
@@ -14745,23 +14891,71 @@
       },
 
       initVisualViewport() {
+        const lockToTop = () => {
+          window.scrollTo(0, 0);
+          const gs = document.getElementById('gameScreen');
+          if (gs) gs.scrollTop = 0;
+        };
+
+        const setupInputListeners = () => {
+          const qInput = document.getElementById('mobileQuickInput');
+          const cInput = document.getElementById('chatTextInput');
+
+          const handleFocus = () => {
+            document.body.classList.add('mobile-typing');
+            lockToTop();
+            setTimeout(lockToTop, 50);
+            setTimeout(lockToTop, 150);
+            setTimeout(lockToTop, 300);
+          };
+
+          const handleBlur = (input) => {
+            setTimeout(() => {
+              if (document.activeElement !== input) {
+                document.body.classList.remove('mobile-typing');
+              }
+            }, 120);
+          };
+
+          if (qInput && !qInput._typingBound) {
+            qInput._typingBound = true;
+            qInput.addEventListener('focus', handleFocus);
+            qInput.addEventListener('blur', () => handleBlur(qInput));
+          }
+          if (cInput && !cInput._typingBound) {
+            cInput._typingBound = true;
+            cInput.addEventListener('focus', handleFocus);
+            cInput.addEventListener('blur', () => handleBlur(cInput));
+          }
+        };
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', setupInputListeners);
+        } else {
+          setupInputListeners();
+        }
+
         if (typeof window !== 'undefined' && window.visualViewport) {
           const onViewportChange = () => {
             const bottomBar = document.getElementById('mobileBottomBar');
             const chatPanel = document.getElementById('liveChatPanel');
             const offset = Math.max(0, window.innerHeight - window.visualViewport.height);
+
             if (offset > 60) {
-              if (bottomBar) bottomBar.style.bottom = offset + 'px';
-              if (chatPanel && (chatPanel.classList.contains('mobile-open') || chatPanel.classList.contains('active'))) {
-                chatPanel.style.bottom = offset + 'px';
-              }
+              document.body.classList.add('keyboard-visible');
+              lockToTop();
             } else {
+              document.body.classList.remove('keyboard-visible');
               if (bottomBar) bottomBar.style.bottom = '0px';
               if (chatPanel) chatPanel.style.bottom = '0px';
             }
           };
           window.visualViewport.addEventListener('resize', onViewportChange);
-          window.visualViewport.addEventListener('scroll', onViewportChange);
+          window.visualViewport.addEventListener('scroll', () => {
+            if (document.body.classList.contains('mobile-typing') || document.body.classList.contains('keyboard-visible')) {
+              lockToTop();
+            }
+          });
         }
       }
     };
