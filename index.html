@@ -11527,6 +11527,343 @@
       }
       .cw-btn { width: 100%; padding: 12px; }
     }
+
+    /* ════ HOW TO ANSWER GUIDE SCREEN ════ */
+    #howToAnswerScreen {
+      display: none;
+      width: 100%;
+      min-height: 100vh;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 99990;
+      background: rgba(244, 238, 220, 0.94) url('bg/cinema_bg.webp') no-repeat center center fixed !important;
+      background-size: cover !important;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 16px;
+      box-sizing: border-box;
+      justify-content: center;
+      align-items: center;
+    }
+    #howToAnswerScreen.active {
+      display: flex !important;
+    }
+    .hta-modal-card {
+      background: #ffffff;
+      border: 4px solid #1a1a1a;
+      border-radius: 24px;
+      box-shadow: 8px 8px 0 #1a1a1a;
+      width: 100%;
+      max-width: 1060px;
+      padding: 24px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      margin: auto;
+      box-sizing: border-box;
+      animation: ansSlideUp 0.3s ease both;
+    }
+    .hta-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 3px solid #1a1a1a;
+      padding-bottom: 16px;
+    }
+    .hta-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .hta-badge {
+      align-self: flex-start;
+      background: #FDE047;
+      color: #1a1a1a;
+      border: 2px solid #1a1a1a;
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      box-shadow: 2px 2px 0 #1a1a1a;
+    }
+    .hta-title {
+      font-size: 26px;
+      font-weight: 900;
+      color: #1a1a1a;
+      margin: 0;
+      line-height: 1.1;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+    }
+    .hta-subtitle {
+      font-size: 13px;
+      font-weight: 700;
+      color: #4b5563;
+      margin: 0;
+    }
+    .hta-timer-badge {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #FEF08A;
+      border: 3px solid #1a1a1a;
+      border-radius: 16px;
+      padding: 8px 16px;
+      box-shadow: 3px 3px 0 #1a1a1a;
+    }
+    .hta-timer-icon {
+      font-size: 24px;
+    }
+    .hta-timer-text-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .hta-timer-label {
+      font-size: 10px;
+      font-weight: 900;
+      color: #854d0e;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .hta-timer-digits {
+      font-family: 'Space Mono', monospace;
+      font-size: 20px;
+      font-weight: 900;
+      color: #1a1a1a;
+      line-height: 1;
+    }
+    .hta-timer-bar-wrap {
+      width: 100%;
+      height: 8px;
+      background: #e5e7eb;
+      border: 2px solid #1a1a1a;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: -6px;
+    }
+    .hta-timer-bar-fill {
+      height: 100%;
+      background: #10B981;
+      width: 100%;
+      transition: width 1s linear;
+    }
+    .hta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .hta-card {
+      background: #fafaf9;
+      border: 3px solid #1a1a1a;
+      border-radius: 16px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 4px 4px 0 #1a1a1a;
+      transition: transform 0.15s ease;
+    }
+    .hta-card:hover {
+      transform: translateY(-2px);
+    }
+    .hta-card-pill {
+      align-self: flex-start;
+      border: 2px solid #1a1a1a;
+      border-radius: 8px;
+      padding: 2px 8px;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      box-shadow: 1.5px 1.5px 0 #1a1a1a;
+      text-transform: uppercase;
+    }
+    .hta-card-title {
+      font-size: 16px;
+      font-weight: 900;
+      color: #1a1a1a;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hta-card-desc {
+      font-size: 12px;
+      font-weight: 600;
+      color: #4b5563;
+      margin: 0;
+      line-height: 1.35;
+    }
+    .hta-example-box {
+      background: #ffffff;
+      border: 2px solid #1a1a1a;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
+    }
+    .hta-example-target {
+      font-size: 11px;
+      font-weight: 900;
+      color: #1a1a1a;
+      border-bottom: 1.5px dashed #d1d5db;
+      padding-bottom: 4px;
+      text-transform: uppercase;
+    }
+    .hta-example-list {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .hta-ex-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .hta-ex-item.ok {
+      color: #15803d;
+    }
+    .hta-ex-item.bad {
+      color: #b91c1c;
+    }
+    .hta-ex-code {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      background: #f3f4f6;
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid #e5e7eb;
+    }
+    .hta-ex-tag {
+      font-size: 10px;
+      color: #6b7280;
+      font-weight: 600;
+      font-style: italic;
+    }
+    .hta-pro-tips {
+      background: #EDE9FE;
+      border: 3px solid #1a1a1a;
+      border-radius: 16px;
+      padding: 12px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-shadow: 3px 3px 0 #1a1a1a;
+    }
+    .hta-pro-tips-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 900;
+      color: #5B21B6;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .hta-tips-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .hta-tip-item {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1a1a1a;
+      line-height: 1.3;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+    .hta-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 3px solid #1a1a1a;
+      padding-top: 16px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .hta-footer-note {
+      font-size: 12px;
+      font-weight: 800;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .hta-action-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hta-start-btn {
+      background: #10B981;
+      color: #ffffff;
+      border: 3.5px solid #1a1a1a;
+      border-radius: 14px;
+      padding: 12px 28px;
+      font-size: 16px;
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 4px 4px 0 #1a1a1a;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hta-start-btn:hover:not(:disabled) {
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #1a1a1a;
+      background: #059669;
+    }
+    .hta-start-btn:active:not(:disabled) {
+      transform: translate(2px, 2px);
+      box-shadow: 0 0 0 #1a1a1a;
+    }
+    .hta-start-btn:disabled {
+      background: #e5e7eb !important;
+      color: #6b7280 !important;
+      cursor: not-allowed !important;
+      box-shadow: 2px 2px 0 #1a1a1a !important;
+      transform: none !important;
+    }
+    .hta-client-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f1f5f9;
+      border: 2px solid #1a1a1a;
+      border-radius: 12px;
+      padding: 8px 16px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #334155;
+      box-shadow: 2px 2px 0 #1a1a1a;
+    }
+    @media (max-width: 860px) {
+      .hta-modal-card { padding: 16px; border-radius: 18px; }
+      .hta-title { font-size: 20px; }
+      .hta-grid { grid-template-columns: 1fr; }
+      .hta-tips-grid { grid-template-columns: 1fr; }
+      .hta-footer { flex-direction: column; align-items: stretch; }
+      .hta-action-wrap { width: 100%; }
+      .hta-start-btn { width: 100%; justify-content: center; }
+      .hta-client-status { width: 100%; justify-content: center; box-sizing: border-box; }
+    }
   
 </style>
   <!-- Appwrite Web SDK & QRCode for Online Multiplayer -->
@@ -12238,6 +12575,111 @@
           Profile
         </button>
       </nav>
+    </div>
+
+    <!-- ════ HOW TO ANSWER GUIDE SCREEN ════ -->
+    <div id="howToAnswerScreen" class="screen">
+      <div class="hta-modal-card">
+        <!-- HEADER -->
+        <div class="hta-header">
+          <div class="hta-title-group">
+            <span class="hta-badge">Quick Guide & Rules</span>
+            <h2 class="hta-title">🎯 How to Answer</h2>
+            <p class="hta-subtitle">Fast typing, fuzzy match & smart answers accepted! Read below before Round 1 begins.</p>
+          </div>
+          <div class="hta-timer-badge">
+            <span class="hta-timer-icon">⏱️</span>
+            <div class="hta-timer-text-wrap">
+              <span class="hta-timer-label">Game starts in</span>
+              <span class="hta-timer-digits" id="htaTimerCount">10s</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROGRESS BAR -->
+        <div class="hta-timer-bar-wrap">
+          <div class="hta-timer-bar-fill" id="htaTimerBar"></div>
+        </div>
+
+        <!-- 3-CARD RULE GRID (EXAMPLES OUTSIDE CURRENT FRAMES POOL) -->
+        <div class="hta-grid">
+          <!-- CARD 1: TYPO-TOLERANT -->
+          <div class="hta-card">
+            <span class="hta-card-pill" style="background:#DCFCE7; color:#166534;">Smart Matching</span>
+            <h3 class="hta-card-title"><span>✍️</span> Typo & Spelling Tolerant</h3>
+            <p class="hta-card-desc">Small typos, phonetics, and slight misspellings are automatically forgiven by the fuzzy judge.</p>
+            <div class="hta-example-box">
+              <div class="hta-example-target">Target: Inception</div>
+              <div class="hta-example-list">
+                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">Inception</span> <span class="hta-ex-tag">(Exact)</span></div>
+                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">Incepton</span> <span class="hta-ex-tag">(1 typo ok)</span></div>
+                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">Incepshun</span> <span class="hta-ex-tag">(Phonetic ok)</span></div>
+                <div class="hta-ex-item bad"><span>❌</span> <span class="hta-ex-code">Interstellar</span> <span class="hta-ex-tag">(Different movie)</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 2: ARTICLES & ACRONYMS -->
+          <div class="hta-card">
+            <span class="hta-card-pill" style="background:#E0F2FE; color:#075985;">Flexible Prefix</span>
+            <h3 class="hta-card-title"><span>🔤</span> Articles & Acronyms</h3>
+            <p class="hta-card-desc">Prefix words like "The", "A", "An" are completely optional. Well-known acronyms work too!</p>
+            <div class="hta-example-box">
+              <div class="hta-example-target">Target: The Lord of the Rings</div>
+              <div class="hta-example-list">
+                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">Lord of the Rings</span> <span class="hta-ex-tag">(Without "The")</span></div>
+                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">The Lord of the Rings</span> <span class="hta-ex-tag">(With "The")</span></div>
+                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">LOTR</span> <span class="hta-ex-tag">(Recognized acronym)</span></div>
+                <div class="hta-ex-item bad"><span>❌</span> <span class="hta-ex-code">The Hobbit</span> <span class="hta-ex-tag">(Different series)</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CARD 3: NUMBERS & SUBTITLES -->
+          <div class="hta-card">
+            <span class="hta-card-pill" style="background:#FEF3C7; color:#92400E;">Numbers & Subtitles</span>
+            <h3 class="hta-card-title"><span>🔢</span> Numbers & Subtitles</h3>
+            <p class="hta-card-desc">Type digits (2) or words (Two). Long sequels don't require full subtitles to count!</p>
+            <div class="hta-example-box">
+              <div class="hta-example-target">Target: Terminator 2: Judgment Day</div>
+              <div class="hta-example-list">
+                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">Terminator 2</span> <span class="hta-ex-tag">(Digit / No subtitle)</span></div>
+                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">Terminator Two</span> <span class="hta-ex-tag">(Word number)</span></div>
+                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">T2</span> <span class="hta-ex-tag">(Short title)</span></div>
+                <div class="hta-ex-item bad"><span>❌</span> <span class="hta-ex-code">Terminator 1</span> <span class="hta-ex-tag">(Wrong sequel)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRO TIPS RIBBON -->
+        <div class="hta-pro-tips">
+          <div class="hta-pro-tips-header">
+            <span>💡</span> Pro Tips for Scoring Big
+          </div>
+          <div class="hta-tips-grid">
+            <div class="hta-tip-item">⚡ <strong>Speed = Max Points:</strong> Fast answers score up to 1,000 pts. Faster you type, higher you climb!</div>
+            <div class="hta-tip-item">🔍 <strong>Private Hints:</strong> Stuck? Click the Hint button! Your hint is private and won't help rivals.</div>
+            <div class="hta-tip-item">🎯 <strong>Unlimited Guesses:</strong> No penalty for wrong tries — keep guessing until time runs out!</div>
+          </div>
+        </div>
+
+        <!-- FOOTER: HOST BUTTON & CLIENT STATUS -->
+        <div class="hta-footer">
+          <div class="hta-footer-note">
+            <span>🛡️</span> All players are viewing this guide simultaneously
+          </div>
+          <div class="hta-action-wrap">
+            <div id="htaClientStatus" class="hta-client-status" style="display:none;">
+              <span class="hta-spinner">⏳</span>
+              <span id="htaClientStatusText">Reading rules... Waiting for host (10s)</span>
+            </div>
+            <button id="htaHostStartBtn" class="hta-start-btn" disabled>
+              <span>⏳ Host can start in 10s...</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="gameScreen" class="screen">
@@ -13052,6 +13494,109 @@
       }
     };
 
+    /* ════ HOW TO ANSWER GUIDE CONTROLLER ════ */
+    const HowToAnswerGuide = {
+      _timerId: null,
+      _secondsLeft: 10,
+      _isHost: false,
+      _onLaunch: null,
+
+      start(isHost = false, onLaunchCallback = null) {
+        this.stop();
+        this._isHost = !!isHost;
+        this._onLaunch = onLaunchCallback;
+        this._secondsLeft = 10;
+
+        UI.showScreen('howToAnswerScreen');
+
+        const timerCount = document.getElementById('htaTimerCount');
+        const timerBar = document.getElementById('htaTimerBar');
+        const hostBtn = document.getElementById('htaHostStartBtn');
+        const clientStatus = document.getElementById('htaClientStatus');
+        const clientStatusText = document.getElementById('htaClientStatusText');
+
+        if (timerCount) timerCount.textContent = '10s';
+        if (timerBar) {
+          timerBar.style.transition = 'none';
+          timerBar.style.width = '100%';
+          // Trigger reflow to restart CSS transition
+          void timerBar.offsetWidth;
+          timerBar.style.transition = 'width 10s linear';
+          timerBar.style.width = '0%';
+        }
+
+        if (this._isHost) {
+          if (hostBtn) {
+            hostBtn.style.display = 'inline-flex';
+            hostBtn.disabled = true;
+            hostBtn.style.animation = 'none';
+            hostBtn.innerHTML = '<span>⏳ Host can start in 10s...</span>';
+            hostBtn.onclick = () => this.handleHostClick();
+          }
+          if (clientStatus) clientStatus.style.display = 'none';
+        } else {
+          if (hostBtn) hostBtn.style.display = 'none';
+          if (clientStatus) {
+            clientStatus.style.display = 'inline-flex';
+            if (clientStatusText) clientStatusText.textContent = 'Reading rules... Waiting for host (10s)';
+          }
+        }
+
+        this._timerId = setInterval(() => {
+          this._secondsLeft--;
+          const remaining = Math.max(0, this._secondsLeft);
+          if (timerCount) {
+            timerCount.textContent = `${remaining}s`;
+          }
+
+          if (this._isHost && hostBtn) {
+            if (remaining > 0) {
+              hostBtn.innerHTML = `<span>⏳ Host can start in ${remaining}s...</span>`;
+            } else {
+              hostBtn.disabled = false;
+              hostBtn.innerHTML = '<span>🚀 START GAME NOW ▶</span>';
+              hostBtn.style.animation = 'pulse 1.2s infinite';
+              if (typeof SoundManager !== 'undefined' && SoundManager.play) {
+                SoundManager.play('click');
+              }
+            }
+          }
+
+          if (!this._isHost && clientStatusText) {
+            if (remaining > 0) {
+              clientStatusText.textContent = `Reading rules... Waiting for host (${remaining}s)`;
+            } else {
+              clientStatusText.textContent = '🎮 Host can now launch Round 1! Get ready...';
+            }
+          }
+
+          if (this._secondsLeft <= 0) {
+            clearInterval(this._timerId);
+            this._timerId = null;
+          }
+        }, 1000);
+      },
+
+      handleHostClick() {
+        if (!this._isHost || this._secondsLeft > 0) return;
+        if (typeof SoundManager !== 'undefined' && SoundManager.play) {
+          SoundManager.play('gamestart');
+        }
+        const cb = this._onLaunch;
+        this.stop();
+        if (typeof cb === 'function') {
+          cb();
+        }
+      },
+
+      stop() {
+        if (this._timerId) {
+          clearInterval(this._timerId);
+          this._timerId = null;
+        }
+      }
+    };
+
     const PlayerLobby = {
       _originalPlayers: [],
       show() {
@@ -13396,11 +13941,14 @@
         }
         if (GS.players.length < 1) return;
         SoundManager.playClick();
-        GameController.startGame();
+        HowToAnswerGuide.start(true, () => {
+          GameController.startGame();
+        });
       },
 
       back() {
         SoundManager.playClick();
+        HowToAnswerGuide.stop();
         if (GameController._onlineMode) {
           MultiplayerEngine.leaveRoom();
         } else {
@@ -15738,6 +16286,10 @@
             }
             break;
 
+          case 'SHOW_HOW_TO_ANSWER':
+            this.handleRemoteHowToAnswer(msg);
+            break;
+
           case 'GAME_START_COUNTDOWN':
             this.handleRemoteGameStart(msg);
             break;
@@ -15890,17 +16442,33 @@
 
         GS.players.forEach(p => p.score = 0);
 
-        // Send countdown without answer leak (host holds authoritative playlist)
-        this.sendEvent('GAME_START_COUNTDOWN', {
+        // Tell all clients to show the How To Answer guide screen
+        this.sendEvent('SHOW_HOW_TO_ANSWER', {
           totalRounds: this.currentPlaylist.length,
           hostSettings: this.hostSettings,
           players: GS.players
         });
 
-        this.executeGameStart();
+        // Host shows How To Answer guide with 10s timer, unlocks Host Start button at 0s
+        HowToAnswerGuide.start(true, () => {
+          this.sendEvent('GAME_START_COUNTDOWN', {
+            totalRounds: this.currentPlaylist.length,
+            hostSettings: this.hostSettings,
+            players: GS.players
+          });
+          this.executeGameStart();
+        });
+      },
+
+      handleRemoteHowToAnswer(msg) {
+        this.totalMatchRounds = msg.totalRounds || (msg.playlist ? msg.playlist.length : 10);
+        this.hostSettings = msg.hostSettings || this.hostSettings;
+        GS.players = msg.players || GS.players;
+        HowToAnswerGuide.start(false, null);
       },
 
       handleRemoteGameStart(msg) {
+        HowToAnswerGuide.stop();
         this.totalMatchRounds = msg.totalRounds || (msg.playlist ? msg.playlist.length : 10);
         this.hostSettings = msg.hostSettings || this.hostSettings;
         GS.players = msg.players || GS.players;
@@ -15916,6 +16484,7 @@
       },
 
       executeGameStart() {
+        HowToAnswerGuide.stop();
         UI.showScreen('gameScreen');
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.add('active');
         if (this.isHost) {
@@ -16013,6 +16582,7 @@
       },
 
       leaveRoom() {
+        if (typeof HowToAnswerGuide !== 'undefined') HowToAnswerGuide.stop();
         this.stopHostHeartbeat();
         this.stopHostWatchdog();
         if (this._hostAutoAdvanceTimer) clearInterval(this._hostAutoAdvanceTimer);
@@ -16794,6 +17364,7 @@
       },
 
       returnToLobby() {
+        if (typeof HowToAnswerGuide !== 'undefined') HowToAnswerGuide.stop();
         if (this.isHost) {
           this.sendEvent('RETURN_LOBBY_BROADCAST');
         }
@@ -16802,6 +17373,7 @@
       },
 
       handleRemoteReturnLobby() {
+        if (typeof HowToAnswerGuide !== 'undefined') HowToAnswerGuide.stop();
         UI.showScreen('playerLobbyScreen');
         this.renderLobbyUI();
       }
