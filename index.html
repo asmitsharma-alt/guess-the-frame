@@ -9729,6 +9729,7 @@
       /* Dedicated Mobile Sticky Bottom Guess Bar */
       .mobile-bottom-bar {
         display: flex !important;
+        flex-direction: column !important;
         position: fixed !important;
         bottom: 0 !important;
         left: 0 !important;
@@ -9737,11 +9738,67 @@
         z-index: 99990 !important;
         background: #ffffff !important;
         border-top: 3px solid #1a1a1a !important;
-        padding: 8px 10px max(10px, env(safe-area-inset-bottom, 10px)) !important;
+        padding: 6px 10px max(10px, env(safe-area-inset-bottom, 10px)) !important;
         box-shadow: 0 -6px 20px rgba(0,0,0,0.18) !important;
-        gap: 8px !important;
-        align-items: center !important;
+        gap: 6px !important;
         box-sizing: border-box !important;
+      }
+      .mobile-bottom-bar-row {
+        display: flex !important;
+        width: 100% !important;
+        gap: 6px !important;
+        align-items: center !important;
+      }
+      .mobile-hint-banner {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background: #FEF08A !important;
+        border: 2px solid #1a1a1a !important;
+        border-radius: 8px !important;
+        padding: 3px 8px !important;
+        box-shadow: 2px 2px 0 #1a1a1a !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        animation: ansSlideUp 0.2s ease forwards !important;
+      }
+      .mhb-badge {
+        font-size: 10px !important;
+        font-weight: 900 !important;
+        color: #854D0E !important;
+      }
+      .mhb-text {
+        font-family: 'Space Mono', monospace !important;
+        font-size: 13px !important;
+        font-weight: 900 !important;
+        color: #1a1a1a !important;
+        letter-spacing: 2px !important;
+      }
+      .mobile-bar-hint-btn {
+        height: 46px !important;
+        width: 44px !important;
+        min-width: 44px !important;
+        background: #FDE047 !important;
+        color: #1a1a1a !important;
+        border: 2.5px solid #1a1a1a !important;
+        border-radius: 12px !important;
+        cursor: pointer !important;
+        box-shadow: 2px 2px 0 #1a1a1a !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-shrink: 0 !important;
+        font-size: 18px !important;
+        transition: all 0.15s ease !important;
+      }
+      .mobile-bar-hint-btn:active {
+        transform: translate(2px, 2px) !important;
+        box-shadow: 0 0 0 #1a1a1a !important;
+      }
+      .mobile-bar-hint-btn:disabled {
+        opacity: 0.55 !important;
+        cursor: not-allowed !important;
       }
       .mobile-guess-form {
         display: flex !important;
@@ -9850,6 +9907,10 @@
         bottom: 74px !important;
         left: 12px !important;
         z-index: 99995 !important;
+      }
+      body:has(#mobileHintBanner[style*="display: flex"]) #sndBtn,
+      body:has(#mobileHintBanner[style*="display:flex"]) #sndBtn {
+        bottom: 104px !important;
       }
       body.mobile-chat-open #sndBtn,
       body:has(.live-chat-panel.mobile-open) #sndBtn,
@@ -12367,26 +12428,35 @@
 
     <!-- Mobile Sticky Bottom Guess & Chat Bar -->
     <div class="mobile-bottom-bar" id="mobileBottomBar">
-      <form class="mobile-guess-form" id="mobileQuickForm" onsubmit="ChatEngine.handleMobileQuickGuess(event)">
-        <input 
-          type="text" 
-          id="mobileQuickInput" 
-          class="mobile-quick-input" 
-          placeholder="Type movie guess..." 
-          autocomplete="off" 
-          autocorrect="off" 
-          autocapitalize="off" 
-          spellcheck="false" 
-          maxlength="80" 
-        />
-        <button type="submit" class="mobile-quick-btn" id="mobileQuickBtn" title="Submit Guess">
-          <span>GUESS</span>
+      <div id="mobileHintBanner" class="mobile-hint-banner" style="display:none;">
+        <span class="mhb-badge">💡 HINT:</span>
+        <span class="mhb-text" id="mobileHintText"></span>
+      </div>
+      <div class="mobile-bottom-bar-row">
+        <form class="mobile-guess-form" id="mobileQuickForm" onsubmit="ChatEngine.handleMobileQuickGuess(event)">
+          <input 
+            type="text" 
+            id="mobileQuickInput" 
+            class="mobile-quick-input" 
+            placeholder="Type movie guess..." 
+            autocomplete="off" 
+            autocorrect="off" 
+            autocapitalize="off" 
+            spellcheck="false" 
+            maxlength="80" 
+          />
+          <button type="submit" class="mobile-quick-btn" id="mobileQuickBtn" title="Submit Guess">
+            <span>GUESS</span>
+          </button>
+        </form>
+        <button type="button" class="mobile-bar-hint-btn" id="mobileQuickHintBtn" onclick="MultiplayerEngine.requestHint()" title="Get Hint (-2 pts)">
+          <span>💡</span>
         </button>
-      </form>
-      <button type="button" class="mobile-bar-chat-btn" id="mobileChatToggleBtn" onclick="ChatEngine.toggleMobileDrawer(true)" title="Open Live Chat">
-        <span style="font-size:18px;">💬</span>
-        <span id="mobileChatBadge" class="mobile-chat-badge" style="display:none;">0</span>
-      </button>
+        <button type="button" class="mobile-bar-chat-btn" id="mobileChatToggleBtn" onclick="ChatEngine.toggleMobileDrawer(true)" title="Open Live Chat">
+          <span style="font-size:18px;">💬</span>
+          <span id="mobileChatBadge" class="mobile-chat-badge" style="display:none;">0</span>
+        </button>
+      </div>
     </div>
   </div>
 </div><!-- /#gameScreen -->
@@ -14554,17 +14624,18 @@
         stream.scrollTop = stream.scrollHeight;
       },
 
-      renderHintMessage(senderName, hintText) {
+      renderPersonalHintMessage(hintText) {
         const stream = document.getElementById('liveChatStream');
         if (!stream) return;
         const msgEl = document.createElement('div');
-        msgEl.className = 'chat-notice-subtle';
-        msgEl.style.background = '#FEF08A';
-        msgEl.style.color = '#854D0E';
-        msgEl.style.fontWeight = 'bold';
-        msgEl.innerHTML = '💡 <span>' + SecurityUtil.escapeHtml(senderName) + '</span> unlocked hint: <span style="font-family:monospace;letter-spacing:2px;">' + SecurityUtil.escapeHtml(hintText) + '</span>';
+        msgEl.className = 'chat-msg-hint';
+        msgEl.innerHTML = '<div class="cmh-header">💡 YOUR PRIVATE HINT (-2 PTS)</div><div class="cmh-body">' + SecurityUtil.escapeHtml(hintText) + '</div>';
         stream.appendChild(msgEl);
         stream.scrollTop = stream.scrollHeight;
+      },
+
+      renderHintMessage(senderName, hintText) {
+        this.renderPersonalHintMessage(hintText);
       },
 
       handleFormSubmit(event) {
@@ -16048,16 +16119,18 @@
         this.setHostSkipButtonState('skip');
 
         // Reset Hint UI for new round
-        const hintBtns = document.querySelectorAll('#chatHintBtn, #hfbHintBtn');
+        const hintBtns = document.querySelectorAll('#chatHintBtn, #hfbHintBtn, #mobileQuickHintBtn');
         hintBtns.forEach(b => {
           b.disabled = false;
           b.style.opacity = '1';
-          b.textContent = '💡 Hint (-2 pts)';
+          b.textContent = b.id === 'mobileQuickHintBtn' ? '💡' : '💡 Hint (-2 pts)';
         });
         const cah = document.getElementById('chatActiveHint');
         if (cah) cah.style.display = 'none';
         const hfbHintPill = document.getElementById('hfbActiveHintPill');
         if (hfbHintPill) hfbHintPill.style.display = 'none';
+        const mbHintBanner = document.getElementById('mobileHintBanner');
+        if (mbHintBanner) mbHintBanner.style.display = 'none';
 
         const input = document.getElementById('onlineGuessInput');
         const submitBtn = document.getElementById('onlineGuessSubmitBtn');
@@ -16132,16 +16205,18 @@
         if (hfbLabel) hfbLabel.textContent = this.isHost ? '👑 HOST CONTROLS:' : '🎮 CONTROLS:';
 
         // Reset Hint UI for new round
-        const hintBtns = document.querySelectorAll('#chatHintBtn, #hfbHintBtn');
+        const hintBtns = document.querySelectorAll('#chatHintBtn, #hfbHintBtn, #mobileQuickHintBtn');
         hintBtns.forEach(b => {
           b.disabled = false;
           b.style.opacity = '1';
-          b.textContent = '💡 Hint (-2 pts)';
+          b.textContent = b.id === 'mobileQuickHintBtn' ? '💡' : '💡 Hint (-2 pts)';
         });
         const cah = document.getElementById('chatActiveHint');
         if (cah) cah.style.display = 'none';
         const hfbHintPill = document.getElementById('hfbActiveHintPill');
         if (hfbHintPill) hfbHintPill.style.display = 'none';
+        const mbHintBanner = document.getElementById('mobileHintBanner');
+        if (mbHintBanner) mbHintBanner.style.display = 'none';
 
         const input = document.getElementById('onlineGuessInput');
         const submitBtn = document.getElementById('onlineGuessSubmitBtn');
@@ -16456,35 +16531,48 @@
       },
 
       generateMaskedHint(title) {
-        if (!title) return '';
-        return title.split(' ').map(word => {
-          if (word.length <= 2) return word.toUpperCase();
-          
-          const charIndices = [];
+        if (!title || typeof title !== 'string') return '';
+        const cleanTitle = title.trim();
+        if (!cleanTitle) return '';
+
+        return cleanTitle.split(/\s+/).map(word => {
+          const alphaIndices = [];
           for (let i = 0; i < word.length; i++) {
             if (/[a-zA-Z0-9]/i.test(word[i])) {
-              charIndices.push(i);
+              alphaIndices.push(i);
             }
           }
-          
-          if (charIndices.length <= 2) return word.toUpperCase();
+          const L = alphaIndices.length;
+          if (L === 0) return word;
 
-          // Pick ~35% - 50% of characters randomly to reveal
-          const revealCount = Math.max(1, Math.min(charIndices.length - 1, Math.round(charIndices.length * (0.35 + Math.random() * 0.15))));
-          
-          // Shuffle indices to pick completely random positions
-          const shuffled = [...charIndices].sort(() => Math.random() - 0.5);
+          // Strictly guarantee NO word >= 2 characters is ever fully revealed:
+          // L === 1: 0 revealed (shown as '_')
+          // L === 2: exactly 1 revealed, 1 hidden (e.g. "D _" or "_ C" - NEVER "DC")
+          // L === 3 to 5: exactly 1 revealed (e.g. "R _ _", "D _ _ _")
+          // L >= 6: at most ~30% revealed, always leaving at least 3 characters masked
+          let revealCount = 1;
+          if (L === 1) {
+            revealCount = 0;
+          } else if (L === 2) {
+            revealCount = 1;
+          } else if (L <= 5) {
+            revealCount = 1;
+          } else {
+            revealCount = Math.max(1, Math.min(Math.floor(L * 0.3), L - 3));
+          }
+
+          const shuffled = [...alphaIndices].sort(() => Math.random() - 0.5);
           const revealSet = new Set(shuffled.slice(0, revealCount));
 
-          let res = [];
+          const res = [];
           for (let i = 0; i < word.length; i++) {
             const ch = word[i];
             if (!/[a-zA-Z0-9]/i.test(ch)) {
-              res.push(ch);
+              res.push(ch); // Preserve hyphens, colons, apostrophes, etc.
             } else if (revealSet.has(i)) {
               res.push(ch.toUpperCase());
             } else {
-              res.push('-');
+              res.push('_');
             }
           }
           return res.join(' ');
@@ -16513,38 +16601,45 @@
           UI.renderLB();
         }
 
-        // Disable hint buttons for this round
-        const hintBtns = document.querySelectorAll('#chatHintBtn, #hfbHintBtn');
+        // Disable hint buttons for this round on this local machine
+        const hintBtns = document.querySelectorAll('#chatHintBtn, #hfbHintBtn, #mobileQuickHintBtn');
         hintBtns.forEach(b => {
           b.disabled = true;
           b.style.opacity = '0.6';
-          b.textContent = '💡 Hint Used';
+          b.textContent = b.id === 'mobileQuickHintBtn' ? '💡✓' : '💡 Hint Used';
         });
 
-        // Show persistent banner in chat panel
+        // Show persistent banner in chat panel (visible only to this player)
         const cah = document.getElementById('chatActiveHint');
         const caht = document.getElementById('chatActiveHintText');
         if (cah && caht) {
           caht.textContent = masked;
           cah.style.display = 'flex';
         }
+        // Show persistent pill on controls bar (visible only to this player)
         const hfbHintPill = document.getElementById('hfbActiveHintPill');
         const hfbHintText = document.getElementById('hfbActiveHintText');
         if (hfbHintPill && hfbHintText) {
           hfbHintText.textContent = masked;
           hfbHintPill.style.display = 'inline-flex';
         }
+        // Show persistent banner in mobile bar (visible only to this player)
+        const mbHintBanner = document.getElementById('mobileHintBanner');
+        const mbHintText = document.getElementById('mobileHintText');
+        if (mbHintBanner && mbHintText) {
+          mbHintText.textContent = masked;
+          mbHintBanner.style.display = 'flex';
+        }
 
-        // Add hint bubble in stream
-        ChatEngine.renderHintMessage(this.playerName, masked);
+        // Add private hint card in stream ONLY for this player
+        ChatEngine.renderPersonalHintMessage(masked);
         SoundManager.play('wrong');
 
-        // Broadcast hint usage & updated score across room
+        // Broadcast hint usage & updated score across room - NEVER send maskedHint to other players!
         this.sendEvent('PLAYER_USED_HINT', {
           playerId: this.playerId,
           playerName: this.playerName,
           playerAvatar: this.playerAvatar,
-          maskedHint: masked,
           updatedPlayers: GS.players
         });
       },
@@ -16573,14 +16668,7 @@
           });
           UI.renderLB();
         }
-        if (msg.maskedHint) {
-          const hfbHintPill = document.getElementById('hfbActiveHintPill');
-          const hfbHintText = document.getElementById('hfbActiveHintText');
-          if (hfbHintPill && hfbHintText) {
-            hfbHintText.textContent = msg.maskedHint;
-            hfbHintPill.style.display = 'inline-flex';
-          }
-        }
+        // NOTE: Hints are strictly individual! Remote hint text is NEVER displayed here.
         if (msg.playerId !== this.playerId && msg.playerName !== this.playerName) {
           ChatEngine.renderSystemMessage(`💡 <strong>${SecurityUtil.escapeHtml(msg.playerName)}</strong> unlocked a hint! (-2 pts)`);
         }
