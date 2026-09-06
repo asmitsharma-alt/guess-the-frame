@@ -8305,28 +8305,36 @@
        ONLINE MULTIPLAYER STYLES (NEOBRUTALIST / CLAYMORPHISM)
        ══════════════════════════════════════════════════════════════════ */
     .h-cards-multiplayer {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      flex-wrap: wrap;
       gap: 16px;
       width: 100%;
-      max-width: 860px;
-      margin: 20px auto 0;
+      max-width: 920px;
+      margin: 22px auto 0;
       padding: 0 16px;
       z-index: 10;
+      box-sizing: border-box;
     }
     .h-card-mp {
+      flex: 1 1 220px;
+      max-width: 280px;
+      min-width: 220px;
       border: 3px solid #1a1a1a;
       border-radius: 16px;
-      padding: 18px 20px;
+      padding: 20px 18px;
       cursor: pointer;
       font-family: inherit;
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
+      align-items: center;
+      justify-content: flex-start;
       gap: 8px;
       transition: transform 0.15s ease, box-shadow 0.15s ease;
       position: relative;
-      text-align: left;
+      text-align: center;
+      box-sizing: border-box;
     }
     .h-card-create {
       background: #FFE9F3;
@@ -8360,21 +8368,41 @@
       font-size: 11px;
       font-weight: 800;
       letter-spacing: 1px;
-      padding: 4px 8px;
-      border-radius: 6px;
+      padding: 4px 10px;
+      border-radius: 8px;
       border: 2px solid #1a1a1a;
       background: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
     .h-card-title-lg {
       font-size: 20px;
       font-weight: 900;
       color: #1a1a1a;
+      text-align: center;
     }
     .h-card-desc-sm {
       font-size: 13px;
       font-weight: 500;
       color: #4a3d6b;
-      line-height: 1.3;
+      line-height: 1.35;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .h-cards-multiplayer {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        padding: 0 20px;
+      }
+      .h-card-mp {
+        width: 100%;
+        max-width: 360px;
+        flex: none;
+        padding: 18px 20px;
+      }
     }
 
     /* Modal dialogs for Multiplayer */
