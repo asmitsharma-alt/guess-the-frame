@@ -9129,21 +9129,10 @@
       box-shadow: 0 0 0 #1a1a1a;
     }
 
-    .mobile-chat-toggle-btn {
+    .mobile-chat-toggle-btn,
+    .mobile-bottom-bar,
+    .mobile-chat-backdrop {
       display: none;
-      position: fixed;
-      bottom: 24px;
-      right: 20px;
-      z-index: 990;
-      background: #FACC15;
-      color: #1a1a1a;
-      font-size: 15px;
-      font-weight: 900;
-      padding: 12px 18px;
-      border: 3px solid #1a1a1a;
-      border-radius: 30px;
-      box-shadow: 4px 4px 0 #1a1a1a;
-      cursor: pointer;
     }
 
     @media (max-width: 900px) {
@@ -9168,16 +9157,15 @@
         position: relative;
         z-index: 1000000 !important;
       }
-      .live-chat-panel.mobile-open {
-        transform: translateY(0);
+      .live-chat-panel.mobile-open,
+      .live-chat-panel.active {
+        transform: translateY(0) !important;
       }
       .chat-close-btn {
         display: block;
       }
       .mobile-chat-toggle-btn {
-        display: flex;
-        align-items: center;
-        gap: 6px;
+        display: none !important;
       }
     }
 
@@ -9561,30 +9549,166 @@
         border-bottom: none !important;
         transform: translateY(100%) !important;
         transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        background: #ffffff !important;
       }
-      #gameScreen .live-chat-panel.active {
+      #gameScreen .live-chat-panel.active,
+      #gameScreen .live-chat-panel.mobile-open {
         transform: translateY(0) !important;
       }
       #gameScreen .chat-close-btn {
         display: block !important;
       }
+      #gameScreen .chat-input-box {
+        font-size: 16px !important; /* CRITICAL: Prevents iOS Safari auto-zoom */
+        min-height: 46px !important;
+        height: 46px !important;
+        background: #ffffff !important;
+        color: #111827 !important;
+        -webkit-text-fill-color: #111827 !important;
+        border: 2.5px solid #1a1a1a !important;
+        border-radius: 12px !important;
+        padding: 0 12px !important;
+        caret-color: #2563EB !important;
+      }
+      #gameScreen .chat-send-btn {
+        height: 46px !important;
+        min-height: 46px !important;
+        font-size: 15px !important;
+        padding: 0 18px !important;
+      }
       #gameScreen .mobile-chat-toggle-btn {
+        display: none !important;
+      }
+
+      /* Dedicated Mobile Sticky Bottom Guess Bar */
+      .mobile-bottom-bar {
         display: flex !important;
         position: fixed !important;
-        bottom: 14px !important;
-        right: 14px !important;
-        z-index: 1000 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 99990 !important;
+        background: #ffffff !important;
+        border-top: 3px solid #1a1a1a !important;
+        padding: 8px 10px max(10px, env(safe-area-inset-bottom, 10px)) !important;
+        box-shadow: 0 -6px 20px rgba(0,0,0,0.18) !important;
+        gap: 8px !important;
+        align-items: center !important;
+        box-sizing: border-box !important;
+      }
+      .mobile-guess-form {
+        display: flex !important;
+        flex: 1 !important;
+        gap: 6px !important;
+        align-items: center !important;
+        margin: 0 !important;
+      }
+      .mobile-quick-input {
+        flex: 1 !important;
+        height: 46px !important;
+        min-height: 46px !important;
+        border: 2.5px solid #1a1a1a !important;
+        border-radius: 12px !important;
+        padding: 0 12px !important;
+        font-size: 16px !important; /* CRITICAL: Prevents iOS Safari auto-zoom */
+        font-weight: 700 !important;
+        background: #ffffff !important;
+        color: #111827 !important;
+        -webkit-text-fill-color: #111827 !important;
+        outline: none !important;
+        box-shadow: 2px 2px 0 #1a1a1a !important;
+        box-sizing: border-box !important;
+        caret-color: #2563EB !important;
+      }
+      .mobile-quick-input:focus {
+        border-color: #3B82F6 !important;
+        background: #ffffff !important;
+      }
+      .mobile-quick-input::placeholder {
+        color: #6b7280 !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
+      }
+      .mobile-quick-btn {
+        height: 46px !important;
+        min-height: 46px !important;
         background: #FACC15 !important;
         color: #1a1a1a !important;
         border: 2.5px solid #1a1a1a !important;
-        border-radius: 9999px !important;
-        padding: 8px 14px !important;
-        box-shadow: 3px 3px 0 #1a1a1a !important;
+        border-radius: 12px !important;
+        padding: 0 16px !important;
+        font-size: 14px !important;
         font-weight: 900 !important;
-        font-size: 13px !important;
         cursor: pointer !important;
+        box-shadow: 2px 2px 0 #1a1a1a !important;
+        display: flex !important;
         align-items: center !important;
-        gap: 6px !important;
+        justify-content: center !important;
+        letter-spacing: 0.5px !important;
+        flex-shrink: 0 !important;
+      }
+      .mobile-quick-btn:active {
+        transform: translate(2px, 2px) !important;
+        box-shadow: 0 0 0 #1a1a1a !important;
+      }
+      .mobile-bar-chat-btn {
+        height: 46px !important;
+        width: 46px !important;
+        min-width: 46px !important;
+        background: #3B82F6 !important;
+        color: #ffffff !important;
+        border: 2.5px solid #1a1a1a !important;
+        border-radius: 12px !important;
+        cursor: pointer !important;
+        box-shadow: 2px 2px 0 #1a1a1a !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        position: relative !important;
+        flex-shrink: 0 !important;
+      }
+      .mobile-bar-chat-btn:active {
+        transform: translate(2px, 2px) !important;
+        box-shadow: 0 0 0 #1a1a1a !important;
+      }
+      .mobile-chat-badge {
+        position: absolute !important;
+        top: -6px !important;
+        right: -6px !important;
+        background: #ef4444 !important;
+        color: #ffffff !important;
+        font-size: 11px !important;
+        font-weight: 900 !important;
+        padding: 2px 6px !important;
+        border-radius: 9999px !important;
+        border: 1.5px solid #1a1a1a !important;
+        line-height: 1 !important;
+      }
+      .mobile-chat-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        z-index: 999998 !important;
+      }
+      .mobile-chat-backdrop.active {
+        display: block !important;
+      }
+
+      /* Float audio toggle above sticky bottom bar when game is active on mobile, hide when chat drawer open */
+      body.in-game-screen #sndBtn,
+      body:has(#gameScreen.active) #sndBtn {
+        bottom: 74px !important;
+        left: 12px !important;
+        z-index: 99995 !important;
+      }
+      body.mobile-chat-open #sndBtn,
+      body:has(.live-chat-panel.mobile-open) #sndBtn,
+      body:has(.live-chat-panel.active) #sndBtn {
+        display: none !important;
       }
     }
 
@@ -12092,11 +12216,32 @@
 
     </aside><!-- /.game-sidebar-col -->
 
-    <!-- Mobile Floating Chat Toggle Button -->
-    <button type="button" class="mobile-chat-toggle-btn" id="mobileChatToggleBtn" onclick="ChatEngine.toggleMobileDrawer(true)">
-      <span>💬 Live Chat</span>
-      <span id="mobileChatBadge" style="background:#ef4444; color:#fff; font-size:11px; padding:2px 6px; border-radius:10px; display:none;">0</span>
-    </button>
+    <!-- Backdrop for mobile chat drawer -->
+    <div id="mobileChatBackdrop" class="mobile-chat-backdrop" onclick="ChatEngine.toggleMobileDrawer(false)"></div>
+
+    <!-- Mobile Sticky Bottom Guess & Chat Bar -->
+    <div class="mobile-bottom-bar" id="mobileBottomBar">
+      <form class="mobile-guess-form" id="mobileQuickForm" onsubmit="ChatEngine.handleMobileQuickGuess(event)">
+        <input 
+          type="text" 
+          id="mobileQuickInput" 
+          class="mobile-quick-input" 
+          placeholder="Type movie guess..." 
+          autocomplete="off" 
+          autocorrect="off" 
+          autocapitalize="off" 
+          spellcheck="false" 
+          maxlength="80" 
+        />
+        <button type="submit" class="mobile-quick-btn" id="mobileQuickBtn" title="Submit Guess">
+          <span>GUESS</span>
+        </button>
+      </form>
+      <button type="button" class="mobile-bar-chat-btn" id="mobileChatToggleBtn" onclick="ChatEngine.toggleMobileDrawer(true)" title="Open Live Chat">
+        <span style="font-size:18px;">💬</span>
+        <span id="mobileChatBadge" class="mobile-chat-badge" style="display:none;">0</span>
+      </button>
+    </div>
   </div>
 </div><!-- /#gameScreen -->
 
@@ -14281,8 +14426,31 @@
         const input = document.getElementById('chatTextInput');
         if (!input || !input.value.trim()) return;
         const text = input.value.trim();
-        input.value = '';
+        this.clearInputs();
         this.processOutgoingMessage(text);
+      },
+
+      handleMobileQuickGuess(event) {
+        if (event) event.preventDefault();
+        const input = document.getElementById('mobileQuickInput');
+        if (!input || !input.value.trim()) return;
+        const text = input.value.trim();
+        this.clearInputs();
+        this.processOutgoingMessage(text);
+      },
+
+      setPlaceholder(text) {
+        const desktopInput = document.getElementById('chatTextInput');
+        if (desktopInput) desktopInput.placeholder = text;
+        const mobileInput = document.getElementById('mobileQuickInput');
+        if (mobileInput) mobileInput.placeholder = text;
+      },
+
+      clearInputs() {
+        const desktopInput = document.getElementById('chatTextInput');
+        if (desktopInput) desktopInput.value = '';
+        const mobileInput = document.getElementById('mobileQuickInput');
+        if (mobileInput) mobileInput.value = '';
       },
 
       processOutgoingMessage(text) {
@@ -14302,8 +14470,7 @@
             MultiplayerEngine.submitGuessDirect(text);
 
             // Update local input placeholder to show user won this round
-            const chatInput = document.getElementById('chatTextInput');
-            if (chatInput) chatInput.placeholder = 'You guessed it! Chat freely (no spoilers)...';
+            this.setPlaceholder('You guessed it! Chat freely (no spoilers)...');
 
             // CRITICAL: Suppress chat rendering and network broadcast so answer stays completely hidden
             return;
@@ -14555,19 +14722,46 @@
       },
 
       toggleMobileDrawer(open) {
-        this.isMobileDrawerOpen = open;
+        this.isMobileDrawerOpen = !!open;
+        document.body.classList.toggle('mobile-chat-open', !!open);
         const panel = document.getElementById('liveChatPanel');
+        const backdrop = document.getElementById('mobileChatBackdrop');
         if (panel) {
           if (open) {
             panel.classList.add('mobile-open');
+            panel.classList.add('active');
+            if (backdrop) backdrop.classList.add('active');
             this.unreadCount = 0;
             const badge = document.getElementById('mobileChatBadge');
             if (badge) badge.style.display = 'none';
             const input = document.getElementById('chatTextInput');
-            if (input) setTimeout(() => input.focus(), 200);
+            if (input) setTimeout(() => input.focus(), 150);
           } else {
             panel.classList.remove('mobile-open');
+            panel.classList.remove('active');
+            if (backdrop) backdrop.classList.remove('active');
           }
+        }
+      },
+
+      initVisualViewport() {
+        if (typeof window !== 'undefined' && window.visualViewport) {
+          const onViewportChange = () => {
+            const bottomBar = document.getElementById('mobileBottomBar');
+            const chatPanel = document.getElementById('liveChatPanel');
+            const offset = Math.max(0, window.innerHeight - window.visualViewport.height);
+            if (offset > 60) {
+              if (bottomBar) bottomBar.style.bottom = offset + 'px';
+              if (chatPanel && (chatPanel.classList.contains('mobile-open') || chatPanel.classList.contains('active'))) {
+                chatPanel.style.bottom = offset + 'px';
+              }
+            } else {
+              if (bottomBar) bottomBar.style.bottom = '0px';
+              if (chatPanel) chatPanel.style.bottom = '0px';
+            }
+          };
+          window.visualViewport.addEventListener('resize', onViewportChange);
+          window.visualViewport.addEventListener('scroll', onViewportChange);
         }
       }
     };
@@ -14613,6 +14807,7 @@
           this.playerId = 'p_' + Math.random().toString(36).substr(2, 9);
         }
         this.checkUrlParams();
+        ChatEngine.initVisualViewport();
       },
 
       saveActiveSession() {
@@ -15644,11 +15839,8 @@
         this.currentPlayIndex = roundIndex;
         this.currentRoundWinners = [];
         this.hasUsedHintThisRound = false;
-        const chatInput = document.getElementById('chatTextInput');
-        if (chatInput) {
-          chatInput.placeholder = 'Type guess or chat...';
-          chatInput.value = '';
-        }
+        ChatEngine.setPlaceholder('Type movie guess or chat...');
+        ChatEngine.clearInputs();
         const frame = this.currentPlaylist[roundIndex];
         if (!frame) {
           this.finishGame();
@@ -15731,11 +15923,8 @@
         this.currentMaskedHint = msg.maskedHint || '';
         this.currentClientFrame = msg.frame || null;
 
-        const chatInput = document.getElementById('chatTextInput');
-        if (chatInput) {
-          chatInput.placeholder = 'Type guess or chat...';
-          chatInput.value = '';
-        }
+        ChatEngine.setPlaceholder('Type movie guess or chat...');
+        ChatEngine.clearInputs();
 
         UI.showScreen('gameScreen');
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.add('active');
@@ -15856,8 +16045,7 @@
               if (input) input.disabled = true;
               const ogb = document.getElementById('onlineGuessSubmitBtn');
               if (ogb) ogb.disabled = true;
-              const chatInput = document.getElementById('chatTextInput');
-              if (chatInput) chatInput.placeholder = 'You guessed it! Chat freely (no spoilers)...';
+              ChatEngine.setPlaceholder('You guessed it! Chat freely (no spoilers)...');
             }
 
             UI.renderLB();
@@ -15916,8 +16104,7 @@
           if (input) input.disabled = true;
           const ogb = document.getElementById('onlineGuessSubmitBtn');
           if (ogb) ogb.disabled = true;
-          const chatInput = document.getElementById('chatTextInput');
-          if (chatInput) chatInput.placeholder = 'You guessed it! Chat freely (no spoilers)...';
+          ChatEngine.setPlaceholder('You guessed it! Chat freely (no spoilers)...');
         }
 
         if (this.currentRoundWinners.length >= 3 && this.isHost) {
@@ -16491,7 +16678,20 @@
     };
 
     const UI = {
-      showScreen(id) { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); const el = document.getElementById(id); if (el) el.classList.add('active'); if (id === 'winnerScreen') { document.body.style.overflow = 'hidden'; document.documentElement.style.overflow = 'hidden'; } else { document.body.style.overflow = ''; document.documentElement.style.overflow = ''; } },
+      showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        const el = document.getElementById(id);
+        if (el) el.classList.add('active');
+        document.body.classList.toggle('in-game-screen', id === 'gameScreen');
+        if (id !== 'gameScreen') document.body.classList.remove('mobile-chat-open');
+        if (id === 'winnerScreen') {
+          document.body.style.overflow = 'hidden';
+          document.documentElement.style.overflow = 'hidden';
+        } else {
+          document.body.style.overflow = '';
+          document.documentElement.style.overflow = '';
+        }
+      },
       updateLoadProgress(progress, type) {
         const isOnline = type === 'online';
         const barId = isOnline ? 'onlineLoadBar' : 'loadBar';
