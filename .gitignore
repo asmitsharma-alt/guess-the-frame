@@ -1,5 +1,24 @@
+# Dependencies
+node_modules/
+
+# Test artifacts and reports
+test-results/
+.playwright/
+
+# Scratch & temporary development files
+scratch/
+*.log
+
+# Deployment & agent caches
+.vercel/
 .agents/
 skills-lock.json
-.vercel
-node_modules/
-.playwright/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Screenshots & temporary visual artifacts
+winner_screen_*.png
+current_winner_screen.png
+live_*.png

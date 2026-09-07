@@ -1,4 +1,13 @@
 {
+  "name": "guess-the-frame",
+  "version": "1.0.0",
+  "description": "Guess The Frame - Cinema Frame Guessing Party Game by Asmit",
+  "scripts": {
+    "start": "http-server -p 8080 -s",
+    "test": "playwright test",
+    "test:e2e": "playwright test tests/master_heavy_e2e.spec.js",
+    "test:ui": "playwright test tests/ui.spec.js"
+  },
   "dependencies": {
     "mqtt": "^5.15.2",
     "playwright": "^1.62.1"
@@ -10,3 +19,4 @@
     "tailwindcss": "^3.4.19"
   }
 }
+

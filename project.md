@@ -123,7 +123,7 @@ Players identify famous actors/celebrities from extreme eye closeups, which reve
 - *Shraddha Kapoor*
 - *Zoe Saldaña*
 
-### 3. 💬 Guess The Dialogue (`diaouge. txt`)
+### 3. 💬 Guess The Dialogue (`dialogues.txt`)
 Classic comedic and dramatic punchlines from iconic films:
 - *"Aaya hoon, kuch toh loot kar jaunga... Khandani chor hoon main, khandani!"* — *Andaaz Apna Apna*
 - *"Khoon kharabe wale khandan se aata hoon... roz subah uthkar 2-4 khoon na karoon..."* — *Hungama*
@@ -194,24 +194,36 @@ The host has a floating control bar during active gameplay:
 
 ```plaintext
 appwrite-skills/
-├── .agents/                    # Agent & skill configuration files
-│   └── skills/                 # Language and capability skills
-├── avvtar/                     # Animated sprite avatar frames
-│   ├── aman/                   # Frame-by-frame PNG sequences
-│   ├── amish/                  # Frame-by-frame PNG sequences
-│   ├── aziz/                   # Frame-by-frame PNG sequences
-│   └── vish/                   # Frame-by-frame PNG sequences
-├── bg/                         # Background and branding artwork
-│   ├── cinema_bg.jpeg          # Cinema hall atmosphere backdrop
-│   └── guess_the_frame.png     # Logo & banner assets
-├── GUESSTHEEYES/               # Celebrity closeups & full portrait assets
-├── GUESSTHEFRAME/              # Movie stills catalog
-├── tie breaker/                # Sudden death tie breaker frame catalog
-├── diaouge. txt                # Movie quotes and dialogue catalog
-├── index.html                  # Unified application bundle (HTML + CSS + JS)
-├── logo.png                    # Game logo asset
-├── project.md                  # Master documentation (this file)
-└── walkthrough.md              # Feature implementation log
+├── avvtar/                      # Vector sprite avatars (aman, amish, aziz, vish)
+├── bg/                          # Background artwork (cinema_bg.webp, guess_the_frame.webp)
+├── css/                         # Precompiled Tailwind stylesheet (tailwind.min.css)
+├── docs/                        # Architecture reports and specifications
+│   ├── FIX_ROADMAP.md
+│   ├── PRODUCTION_AUDIT_REPORT.md
+│   ├── PRODUCTION_UPGRADE_PLAN.md
+│   └── screenshots/             # Verified reference screenshots
+├── GUESSTHEEYES/                # Celebrity eye closeup catalog
+├── GUESSTHEFRAME/               # Movie stills catalog (34 WebP frames)
+├── sites/                       # Appwrite Sites deployment package
+│   └── guess-the-frame/         # Static site deploy target
+├── tests/                       # Automated Playwright test suites
+│   ├── assets.spec.js
+│   ├── heavy_stress.spec.js
+│   ├── lobby.spec.js
+│   ├── master_heavy_e2e.spec.js
+│   ├── multiplayer.spec.js
+│   ├── reconnect.spec.js
+│   ├── security.spec.js
+│   ├── ui.spec.js
+│   └── verify_live.js
+├── tie breaker/                 # Sudden death tie-breaker stills catalog
+├── dialogues.txt                # Movie quotes and dialogue catalog
+├── index.html                   # Unified client application bundle
+├── logo.png                     # Game logo asset
+├── package.json                 # Project scripts and dependencies
+├── playwright.config.js         # Test configuration
+├── project.md                   # Master documentation (this file)
+└── README.md                    # Project overview & quick start guide
 ```
 
 ---

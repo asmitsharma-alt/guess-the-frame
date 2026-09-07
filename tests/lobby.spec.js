@@ -16,7 +16,7 @@ test.describe('Lobby & Player Setup Tests', () => {
 
     await expect(hostCard).toBeVisible();
     await expect(joinCard).toBeVisible();
-    await expect(localCard).toBeVisible();
+    await expect(localCard).toBeHidden();
   });
 
   test('Host Game modal opens and generates a valid room code', async ({ page }) => {

@@ -10910,8 +10910,13 @@
       overflow: hidden;
     }
 
+    /* ══════════════════════════════════════════════════════════
+       🏆 EXACT PIXEL-PERFECT NEO-BRUTALIST VICTORY SCREEN
+       ══════════════════════════════════════════════════════════ */
     #winnerScreen {
       display: none;
+      position: fixed;
+      inset: 0;
       width: 100vw;
       height: 100vh;
       height: 100dvh;
@@ -10919,15 +10924,19 @@
       overflow: hidden;
       align-items: center;
       justify-content: center;
-      padding: clamp(6px, 1.2vw, 14px);
-      position: relative;
-      background: #F5EFE0;
-      background-image: radial-gradient(#D6CEBA 1.2px, transparent 1.2px);
-      background-size: 18px 18px;
+      padding: clamp(6px, 1.2vh, 16px) clamp(8px, 1.4vw, 20px);
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       box-sizing: border-box;
+      z-index: 9999;
     }
     #winnerScreen.active {
-      display: flex;
+      display: flex !important;
+    }
+    #winnerScreen.active ~ #sndBtn,
+    body:has(#winnerScreen.active) #sndBtn {
+      display: none !important;
     }
 
     /* Confetti Layer */
@@ -10938,21 +10947,32 @@
       z-index: 2;
       overflow: hidden;
     }
+    .comic-confetti-piece {
+      position: absolute;
+      top: -20px;
+      pointer-events: none;
+      animation: confettiFall linear infinite;
+    }
+    @keyframes confettiFall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(105vh) rotate(720deg); opacity: 0; }
+    }
 
-    /* Master Card */
+    /* Main Modal Card */
     .comic-winner-card {
       width: 100%;
-      max-width: 1180px;
-      height: 100%;
-      max-height: 850px;
-      background: #FAF7EF;
-      border: 3.5px solid #111827;
-      box-shadow: 7px 7px 0 #111827;
-      border-radius: 20px;
+      max-width: 928px;
+      height: 524px;
+      max-height: 96vh;
+      background: #FAF7EE;
+      border: 4px solid #000000;
+      box-shadow: 7px 7px 0px #000000;
+      border-radius: 26px;
       display: flex;
       flex-direction: column;
+      align-items: center;
       justify-content: space-between;
-      padding: clamp(10px, 1.4vw, 18px) clamp(16px, 2vw, 26px);
+      padding: 12px 20px 16px;
       position: relative;
       z-index: 10;
       box-sizing: border-box;
@@ -10965,30 +10985,32 @@
       pointer-events: none;
       z-index: 1;
     }
+    /* Top-Left: Blue triangle pointing right */
     .poly-top-left {
-      top: 30px;
+      top: 26px;
       left: 0;
-      width: 0;
-      height: 0;
-      border-top: 50px solid transparent;
-      border-bottom: 50px solid transparent;
-      border-left: 65px solid #3B82F6;
+      width: 55px;
+      height: 110px;
+      background: #3B82F6;
+      clip-path: polygon(0 0, 100% 50%, 0 100%);
     }
+    /* Bottom-Left: Pink right triangle */
     .poly-bottom-left {
       bottom: 0;
       left: 0;
-      width: 0;
-      height: 0;
-      border-bottom: 105px solid #F472B6;
-      border-right: 115px solid transparent;
+      width: 95px;
+      height: 95px;
+      background: #EC4899;
+      clip-path: polygon(0 0, 0 100%, 100% 100%);
     }
+    /* Bottom-Right: Yellow right triangle */
     .poly-bottom-right {
       bottom: 0;
       right: 0;
-      width: 0;
-      height: 0;
-      border-bottom: 115px solid #FACC15;
-      border-left: 125px solid transparent;
+      width: 110px;
+      height: 120px;
+      background: #FACC15;
+      clip-path: polygon(100% 0, 0 100%, 100% 100%);
     }
 
     /* ── VICTORY HEADER ── */
@@ -10997,23 +11019,24 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin-top: 2px;
-      margin-bottom: 4px;
-      flex-shrink: 0;
+      margin-top: 0px;
       position: relative;
-      z-index: 12;
-      user-select: none;
+      z-index: 5;
+      width: 100%;
     }
     .cw-victory-banner-wrap {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: clamp(10px, 1.8vw, 22px);
+      gap: 12px;
       position: relative;
     }
     .cw-burst-dashes {
-      width: clamp(26px, 3.2vw, 42px);
-      height: clamp(32px, 3.8vw, 48px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 44px;
       flex-shrink: 0;
     }
     .cw-burst-dashes svg {
@@ -11023,38 +11046,94 @@
     }
     .cw-victory-badge {
       background: #FACC15;
-      border: 4px solid #111827;
-      box-shadow: 6px 7px 0 #111827;
-      border-radius: 6px;
-      padding: clamp(6px, 0.9vw, 11px) clamp(28px, 4vw, 56px);
-      transform: rotate(-3deg);
-      display: inline-flex;
+      border: 3.5px solid #000000;
+      border-radius: 8px;
+      box-shadow: 5px 5px 0px #000000;
+      transform: rotate(-2.5deg);
+      padding: 6px 36px;
+      display: flex;
       align-items: center;
       justify-content: center;
     }
     .cw-victory-title {
       font-family: 'Lilita One', cursive, sans-serif;
       font-weight: 900;
-      font-size: clamp(42px, 5.2vw, 70px);
+      font-size: 52px;
       color: #111827;
       text-transform: uppercase;
-      letter-spacing: clamp(2.5px, 0.35vw, 4.5px);
-      line-height: 0.95;
+      letter-spacing: 3px;
+      line-height: 1;
       margin: 0;
     }
 
-    /* ── MAIN STAGE SECTION (PODIUM) — 0.75X SCALED ── */
+    /* ── 3-COLUMN MAIN STAGE GRID ── */
+    .cw-center-stage-grid {
+      display: grid;
+      grid-template-columns: 206px 1fr 206px;
+      align-items: flex-end;
+      gap: 16px;
+      width: 100%;
+      margin: 0;
+      position: relative;
+      z-index: 5;
+    }
+
+    /* ── LEFT COLUMN: MESSAGE CARD ── */
+    .cw-left-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100%;
+    }
+    .cw-msg-card {
+      background: #FFFFFF;
+      border: 3px solid #000000;
+      border-radius: 18px;
+      box-shadow: 4px 4px 0px #000000;
+      padding: 12px 12px 14px;
+      display: flex;
+      flex-direction: column;
+      height: 224px;
+      box-sizing: border-box;
+    }
+    .cw-info-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 6px;
+    }
+    .cw-info-header .msg-icon-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cw-info-header span:last-child {
+      font-weight: 900;
+      font-size: 13.5px;
+      color: #111827;
+      letter-spacing: 0.5px;
+    }
+    .cw-info-text {
+      font-size: 9.8px;
+      line-height: 1.36;
+      font-weight: 500;
+      color: #111827;
+      margin: 0;
+    }
+
+    /* ── CENTER COLUMN: PODIUM ── */
+    .cw-center-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
     .cw-stage-section {
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      gap: clamp(14px, 2.2vw, 30px);
-      position: relative;
-      flex: 1;
-      min-height: 0;
-      padding: 6px 8px 2px;
-      margin: 0 0 2px;
-      z-index: 10;
+      gap: 12px;
+      width: 100%;
     }
     .cw-runner-col {
       display: flex;
@@ -11064,1083 +11143,481 @@
     }
     .cw-card-burst {
       position: absolute;
-      top: -20px;
-      width: 22px;
-      height: 18px;
+      top: -18px;
+      pointer-events: none;
+      z-index: 2;
     }
-    .burst-left { left: -6px; }
-    .burst-right { right: -6px; }
+    .burst-left {
+      left: 6px;
+    }
+    .burst-right {
+      right: 6px;
+    }
 
-    /* Runner Cards (0.75x scaled) */
+    /* Runner Cards */
     .cw-runner-card {
-      border: 3px solid #111827;
-      box-shadow: 5px 5px 0 #111827;
-      border-radius: 16px;
-      padding: clamp(10px, 1.3vw, 16px) 10px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: space-between;
+      border: 3px solid #000000;
+      box-shadow: 4px 4px 0px #000000;
       position: relative;
-      width: clamp(130px, 14vw, 165px);
-      height: clamp(180px, 22.5vh, 215px);
       box-sizing: border-box;
-      z-index: 4;
     }
-    .runner-blue { background: #3B82F6; }
-    .runner-orange { background: #F97316; }
+    .runner-blue {
+      background: #3B82F6;
+      width: 120px;
+      height: 172px;
+      border-radius: 18px;
+      padding: 10px 8px 10px;
+    }
     .runner-gold {
       background: #FACC15;
-      width: clamp(150px, 16vw, 188px);
-      height: clamp(200px, 25vh, 236px);
-      padding: clamp(12px, 1.5vw, 18px) 12px 12px;
-      border: 3.5px solid #111827;
-      box-shadow: 6px 6px 0 #111827;
-      z-index: 6;
-      transform: translateY(-6px);
+      width: 142px;
+      height: 202px;
+      border-radius: 20px;
+      border-width: 3.5px;
+      padding: 12px 10px 12px;
+      z-index: 2;
+    }
+    .runner-orange {
+      background: #EA580C;
+      width: 120px;
+      height: 172px;
+      border-radius: 18px;
+      padding: 10px 8px 10px;
     }
 
-    /* Rank Tab on top */
+    /* Rank Tabs */
     .runner-rank-tab {
       position: absolute;
-      top: -14px;
-      border: 2px solid #111827;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 26px;
+      height: 22px;
+      border: 2px solid #000000;
       border-radius: 6px;
-      width: 30px;
-      height: 26px;
-      display: grid;
-      place-items: center;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 15px;
-      box-shadow: 2px 2px 0 #111827;
-      z-index: 6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 13px;
+      color: #FFFFFF;
+      z-index: 4;
+      box-shadow: 2px 2px 0 #000000;
     }
-    .blue-tab { background: #3B82F6; color: #FFFFFF; }
+    .blue-tab {
+      background: #3B82F6;
+    }
     .gold-tab {
       background: #FACC15;
-      color: #111827;
-      width: 34px;
-      height: 30px;
-      top: -16px;
+      width: 32px;
+      height: 26px;
+      top: -14px;
+      border-radius: 6px;
     }
-    .orange-tab { background: #F97316; color: #FFFFFF; }
+    .gold-tab svg {
+      width: 18px;
+      height: 15px;
+    }
+    .orange-tab {
+      background: #EA580C;
+    }
 
-    /* Avatar Frame */
+    /* Avatar Frames */
     .runner-avatar-frame {
-      width: clamp(56px, 6vw, 72px);
-      height: clamp(56px, 6vw, 72px);
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
-      border: 3px solid #111827;
+      box-shadow: 0 0 0 2px #FFFFFF, 0 0 0 4.5px #000000;
       overflow: hidden;
-      display: block;
-      margin-top: 2px;
-      margin-bottom: 4px;
-      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       background: #FFFFFF;
+      margin-top: 2px;
     }
     .champ-avatar-frame {
-      width: clamp(65px, 7vw, 83px);
-      height: clamp(65px, 7vw, 83px);
-      border-width: 3.5px;
+      width: 64px;
+      height: 64px;
+      box-shadow: 0 0 0 2.5px #FFFFFF, 0 0 0 5.5px #000000;
+      margin-top: 1px;
     }
-    .runner-avatar-frame img {
+    .runner-avatar-frame img,
+    .champ-avatar-frame img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
 
-    /* Runner White Nameplate Box */
+    /* Nameplates */
     .runner-nameplate {
       background: #FFFFFF;
-      color: #111827;
-      font-family: 'Lilita One', sans-serif;
-      font-size: clamp(12px, 1.3vw, 15px);
-      padding: 2.5px 8px;
-      border: 2px solid #111827;
-      border-radius: 6px;
-      box-shadow: 2px 2px 0 #111827;
-      letter-spacing: 0.8px;
-      margin-bottom: 4px;
-      width: 90%;
+      border: 2.5px solid #000000;
+      border-radius: 8px;
+      width: 88px;
+      padding: 2.5px 0;
       text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-weight: 900;
+      font-size: 12.5px;
+      color: #000000;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     .champ-nameplate {
-      font-size: clamp(13px, 1.5vw, 17px);
-      padding: 3px 12px;
+      width: 104px;
+      padding: 3.5px 0;
+      font-size: 14.5px;
     }
 
-    /* Score Pill */
+    /* Score Tags */
     .runner-score-tag {
-      font-family: 'Lilita One', sans-serif;
-      font-size: 9.5px;
-      padding: 2px 9px;
-      border: 2px solid #111827;
+      background: #000000;
       border-radius: 999px;
-      letter-spacing: 0.6px;
+      padding: 2.5px 9px;
+      font-weight: 900;
+      font-size: 9px;
+      color: #FFFFFF;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
-      box-shadow: 1.5px 1.5px 0 #111827;
+      white-space: nowrap;
     }
-    .blue-score-tag { background: #FFFFFF; color: #111827; }
-    .gold-score-tag { background: #111827; color: #FACC15; font-size: 10.5px; padding: 2.5px 12px; }
-    .orange-score-tag { background: #FFFFFF; color: #111827; }
-
-    /* ── 3-COLUMN MAIN STAGE: LEFT MESSAGE | CENTER PODIUM | RIGHT (SCOREBOARD + CREDITS) ── */
-    .cw-center-stage-grid {
-      display: grid;
-      grid-template-columns: minmax(230px, 270px) 1fr minmax(270px, 320px);
-      align-items: center;
-      gap: clamp(12px, 2vw, 26px);
-      flex: 1;
-      min-height: 0;
-      margin: 2px 0 4px;
-      position: relative;
-      z-index: 10;
-      width: 100%;
+    .gold-score-tag {
+      padding: 3px 11px;
+      font-size: 10px;
+      color: #FACC15;
     }
 
-    /* Left Column: Square Message Box */
-    .cw-left-col {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100%;
-    }
-    .cw-left-col .cw-msg-card {
-      flex: 0 0 auto !important;
-      width: clamp(210px, 18vw, 245px) !important;
-      height: clamp(210px, 18vw, 245px) !important;
-      aspect-ratio: 1 / 1 !important;
-      box-sizing: border-box;
-      padding: clamp(12px, 1.2vw, 16px) !important;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-    .cw-left-col .cw-msg-card .cw-info-header {
-      font-size: 13.5px;
-      margin-bottom: 4px;
-      flex-shrink: 0;
-    }
-    .cw-left-col .cw-msg-card .cw-info-text {
-      font-size: clamp(9.5px, 0.78vw, 11px);
-      font-weight: 700;
-      color: #334155;
-      line-height: 1.42;
-      overflow-y: auto;
-      padding-right: 2px;
-      flex: 1;
-      margin: 0;
-    }
-
-    /* Center Column: 3 Runner Podium Cards (0.75x scaled) */
-    .cw-stage-section {
-      padding: 2px 0 !important;
-      margin: 0 !important;
-      flex: 1;
-    }
-
-    /* Right Column: Scoreboard on top, Credits below */
-    .cw-right-col {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      justify-content: center;
-      height: 100%;
-      min-height: 0;
-      max-height: 380px;
-    }
-
-    /* Base Info Card */
-    .cw-info-card {
+    /* ── CREDITS PILL BAR (Directly below podium) ── */
+    .cw-credits-pill-bar {
+      margin: 0 auto;
+      align-self: center;
+      width: 576px;
+      max-width: 90%;
+      height: 32px;
       background: #FFFFFF;
-      border: 3px solid #111827;
-      box-shadow: 4px 4px 0 #111827;
-      border-radius: 14px;
-      padding: 10px 12px;
+      border: 2.5px solid #000000;
+      border-radius: 999px;
+      box-shadow: 3.5px 3.5px 0px #000000;
+      padding: 0 14px;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      gap: 6px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       box-sizing: border-box;
-      overflow: hidden;
+      position: relative;
+      z-index: 5;
     }
-    .cw-info-header {
-      font-family: 'Lilita One', sans-serif;
-      font-size: 12.5px;
-      color: #111827;
-      letter-spacing: 0.8px;
+    .cw-credit-item {
       display: flex;
       align-items: center;
       gap: 5px;
-      text-transform: uppercase;
-      flex-shrink: 0;
+    }
+    .cw-credit-badge {
+      background: #FACC15;
+      border: 2px solid #000000;
+      border-radius: 5px;
+      padding: 1.5px 6px;
+      font-weight: 900;
+      font-size: 9px;
+      color: #000000;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+    .cw-credit-names {
+      font-size: 9px;
+      font-weight: 600;
+      color: #111827;
+      white-space: nowrap;
+    }
+    .cw-credit-divider {
+      font-size: 12px;
+      color: #000000;
+      line-height: 1;
     }
 
-    /* Scoreboard Card (Right Top - Bigger) */
-    .cw-right-col .cw-scoreboard-card {
-      flex: 1 1 auto;
-      min-height: 180px;
-      max-height: 240px;
-      height: auto !important;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 10px 14px !important;
-      overflow: hidden;
+    /* ── RIGHT COLUMN: SCOREBOARD ── */
+    .cw-right-col {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      height: 100%;
     }
-    .cw-scoreboard-card .cw-info-header {
-      font-size: 14.5px;
-      letter-spacing: 1px;
-      margin-bottom: 2px;
+    .cw-scoreboard-card {
+      background: #FFFFFF;
+      border: 3px solid #000000;
+      border-radius: 18px;
+      box-shadow: 4px 4px 0px #000000;
+      padding: 10px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 224px;
+      box-sizing: border-box;
+    }
+    .cw-scoreboard-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 4px;
+    }
+    .cw-scoreboard-header .trophy-icon {
+      font-size: 15px;
+    }
+    .cw-scoreboard-header span:last-child {
+      font-weight: 900;
+      font-size: 13.5px;
+      color: #111827;
+      letter-spacing: 0.5px;
     }
     .cw-sb-list {
       display: flex;
       flex-direction: column;
-      gap: 5px;
-      overflow-y: auto;
-      padding-right: 4px;
+      gap: 4px;
       flex: 1;
-    }
-    .cw-sb-list::-webkit-scrollbar {
-      width: 4px;
-    }
-    .cw-sb-list::-webkit-scrollbar-thumb {
-      background: #111827;
-      border-radius: 4px;
+      justify-content: space-between;
     }
     .sb-row {
+      background: #FFFFFF;
+      border: 2px solid #000000;
+      border-radius: 8px;
+      padding: 2px 7px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 6px;
-      background: #F8FAFC;
-      border: 2px solid #111827;
-      border-radius: 8px;
-      padding: 3px 10px;
-      box-shadow: 2px 2px 0 #111827;
-      font-size: 12.5px;
-      font-weight: 800;
-      transition: transform 0.1s ease;
+      height: 33px;
+      box-sizing: border-box;
     }
     .sb-row.sb-champ {
-      background: #FEF08A;
-      border-color: #111827;
+      background: #FEF9C3;
     }
     .sb-left {
       display: flex;
       align-items: center;
-      gap: 7px;
-      min-width: 0;
-      overflow: hidden;
-      flex: 1;
+      gap: 5px;
     }
     .sb-rank {
-      font-family: 'Lilita One', sans-serif;
-      font-size: 14px;
-      line-height: 1;
-      width: 20px;
-      flex-shrink: 0;
+      font-weight: 900;
+      font-size: 12px;
+      width: 12px;
+      color: #000000;
       text-align: center;
-      color: #111827;
     }
     .sb-avatar-mini {
-      width: 28px;
-      height: 28px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
-      border: 2px solid #111827;
+      border: 1.5px solid #000000;
       overflow: hidden;
-      flex-shrink: 0;
-      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #FFFFFF;
     }
     .sb-avatar-mini img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      display: block;
     }
     .sb-name {
-      font-family: 'Lilita One', sans-serif;
-      font-size: 13.5px;
-      letter-spacing: 0.5px;
+      font-weight: 900;
+      font-size: 12px;
+      color: #000000;
       text-transform: uppercase;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      color: #111827;
+      letter-spacing: 0.3px;
     }
     .sb-score {
-      font-family: 'Lilita One', sans-serif;
-      font-size: 12.5px;
-      background: #111827;
+      background: #000000;
+      border-radius: 5px;
+      padding: 2px 7px;
+      font-weight: 900;
+      font-size: 10.5px;
       color: #FFFFFF;
-      padding: 2px 8px;
-      border-radius: 6px;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.3px;
       white-space: nowrap;
-      flex-shrink: 0;
     }
     .sb-champ .sb-score {
-      background: #111827;
       color: #FACC15;
     }
 
-    /* Credits Card (Right Bottom) */
-    .cw-right-col .cw-credits-card {
-      flex: 0 0 auto;
-      width: 100%;
-      height: auto !important;
-      min-height: 80px;
-      max-height: 105px;
-      aspect-ratio: unset !important;
-      padding: 8px 12px !important;
-      box-sizing: border-box;
-      justify-content: center;
-    }
-    .cw-right-col .cw-credits-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      justify-content: center;
-      height: 100%;
-    }
-    .cw-right-col .cw-credit-item {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 2px;
-    }
-    .cw-credit-badge {
-      background: #FACC15;
-      color: #111827;
-      font-family: 'Lilita One', sans-serif;
-      font-size: 9.5px;
-      padding: 1.5px 6px;
-      border: 1.5px solid #111827;
-      border-radius: 4px;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      box-shadow: 1.5px 1.5px 0 #111827;
-    }
-    .cw-credit-names {
-      font-size: 10px;
-      font-weight: 800;
-      color: #111827;
-      line-height: 1.25;
-      white-space: normal;
-      word-break: break-word;
-      text-align: left;
-    }
-
-    /* ── BOTTOM BUTTONS DECK (3 BUTTONS) ── */
+    /* ── BOTTOM ACTION BUTTONS ── */
     .cw-buttons-deck {
       display: flex;
-      gap: clamp(8px, 1.2vw, 14px);
-      margin-top: 2px;
-      flex-shrink: 0;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      margin: 0;
       position: relative;
-      z-index: 10;
+      z-index: 5;
     }
     .cw-btn {
       flex: 1;
-      padding: clamp(9px, 1.1vw, 13px) 16px;
-      border: 3.5px solid #111827;
-      box-shadow: 4.5px 4.5px 0 #111827;
+      height: 48px;
+      border: 3px solid #000000;
       border-radius: 12px;
-      font-family: 'Lilita One', sans-serif;
-      font-size: clamp(13px, 1.4vw, 16px);
-      letter-spacing: 0.8px;
-      display: inline-flex;
+      box-shadow: 4px 4px 0px #000000;
+      display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      font-family: inherit;
+      font-weight: 900;
+      font-size: 15px;
       cursor: pointer;
-      text-transform: uppercase;
-      transition: transform 0.12s ease, box-shadow 0.12s ease;
-      user-select: none;
+      text-decoration: none;
+      transition: transform 0.1s ease, box-shadow 0.1s ease;
+      box-sizing: border-box;
     }
     .cw-btn:hover {
-      transform: translate(-2px, -2px);
-      box-shadow: 6px 6px 0 #111827;
+      transform: translate(-1px, -1px);
+      box-shadow: 5px 5px 0px #000000;
     }
     .cw-btn:active {
-      transform: scale(0.97) translate(1px, 1px);
-      box-shadow: 2px 2px 0 #111827;
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0px #000000;
     }
-    .btn-play-again { background: #FACC15; color: #111827; }
-    .btn-rematch { background: #3B82F6; color: #FFFFFF; }
-    .btn-lobby { background: #FFFFFF; color: #111827; }
-    .cw-btn-icon { font-size: 15px; line-height: 1; }
+    .btn-play-again {
+      background: #FACC15;
+      color: #000000;
+    }
+    .btn-rematch {
+      background: #3B82F6;
+      color: #FFFFFF;
+    }
+    .btn-lobby {
+      background: #FFFFFF;
+      color: #000000;
+    }
+    .cw-btn-icon {
+      font-size: 15px;
+      line-height: 1;
+    }
+    .cw-btn-text {
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
 
-    /* Mobile / Tablet Responsiveness (< 860px) */
-    @media (max-width: 860px) {
-      #winnerScreen.active {
-        overflow-y: auto !important;
-        display: block !important;
-        height: auto !important;
-        min-height: 100vh !important;
-        padding: 12px 8px !important;
+    /* ── MOBILE RESPONSIVENESS ── */
+    @media (max-width: 768px) {
+      #winnerScreen {
+        padding: 12px 10px;
+        align-items: flex-start;
+        overflow-y: auto;
       }
       .comic-winner-card {
-        height: auto !important;
-        max-height: none !important;
-        padding: 16px 12px !important;
-        margin: 0 auto 20px;
-        gap: 14px;
-        display: flex !important;
-        flex-direction: column !important;
-      }
-      .cw-victory-section {
-        margin-top: 10px;
-        margin-bottom: 12px;
+        height: auto;
+        min-height: auto;
+        max-height: none;
+        padding: 16px 12px 20px;
+        gap: 12px;
+        border-radius: 20px;
       }
       .cw-victory-title {
-        font-size: clamp(40px, 11vw, 54px);
+        font-size: 32px;
+      }
+      .cw-victory-badge {
+        padding: 4px 20px;
+      }
+      .cw-center-stage-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
       }
       .cw-stage-section {
-        display: flex !important;
-        flex-flow: row wrap !important;
-        justify-content: center !important;
-        align-items: stretch !important;
-        gap: 10px !important;
-        padding: 14px 4px 0 !important;
-        margin: 4px 0 !important;
-        height: auto !important;
-        flex: none !important;
+        gap: 6px;
       }
-      .cw-runner-col {
-        order: 2 !important;
-        flex: 1 1 calc(50% - 8px) !important;
-        max-width: 175px !important;
+      .runner-blue, .runner-orange {
+        width: 98px;
+        height: 154px;
+        border-radius: 14px;
+        padding: 8px 6px 8px;
       }
-      .cw-runner-col:nth-child(2) {
-        order: 1 !important;
-        flex: 1 1 100% !important;
-        max-width: 275px !important;
-        margin-bottom: 10px !important;
-      }
-      .cw-runner-card {
-        width: 100% !important;
-        height: auto !important;
-        min-height: 0 !important;
-        padding: 18px 10px 14px !important;
-        transform: none !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: flex-start !important;
+      .runner-gold {
+        width: 118px;
+        height: 178px;
+        border-radius: 16px;
+        padding: 10px 8px 10px;
       }
       .runner-avatar-frame {
-        width: 72px !important;
-        height: 72px !important;
-        margin: 4px auto 8px !important;
+        width: 44px;
+        height: 44px;
       }
       .champ-avatar-frame {
-        width: 86px !important;
-        height: 86px !important;
-        margin: 4px auto 10px !important;
+        width: 54px;
+        height: 54px;
       }
       .runner-nameplate {
-        font-size: 15px !important;
-        padding: 3px 8px !important;
-        margin-bottom: 6px !important;
+        width: 74px;
+        font-size: 11px;
+        padding: 2px 0;
+      }
+      .champ-nameplate {
+        width: 88px;
+        font-size: 13px;
+        padding: 2.5px 0;
       }
       .runner-score-tag {
-        font-size: 11px !important;
-        padding: 3px 12px !important;
+        font-size: 8.5px;
+        padding: 2px 6px;
       }
-      .cw-card-burst { display: none; }
-      .cw-info-row {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        flex: none !important;
+      .gold-score-tag {
+        font-size: 9.5px;
+        padding: 2px 8px;
       }
-      .cw-info-card {
-        height: auto !important;
-        min-height: 90px;
+      .runner-rank-tab {
+        width: 22px;
+        height: 19px;
+        font-size: 11px;
+        top: -10px;
+      }
+      .gold-tab {
+        width: 28px;
+        height: 22px;
+        top: -12px;
+      }
+      .gold-tab svg {
+        width: 14px;
+        height: 12px;
+      }
+      .cw-center-col {
+        order: 1;
+      }
+      .cw-right-col {
+        order: 2;
+      }
+      .cw-left-col {
+        order: 3;
+      }
+      .cw-msg-card,
+      .cw-scoreboard-card {
+        height: auto;
+      }
+      .cw-credits-pill-bar {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+        gap: 5px;
+        border-radius: 14px;
+        padding: 6px 10px;
+      }
+      .cw-credit-divider {
+        display: none;
+      }
+      .cw-credit-item {
+        flex-wrap: wrap;
+        justify-content: center;
       }
       .cw-buttons-deck {
         flex-direction: column;
         gap: 8px;
-        flex: none !important;
       }
-      .cw-btn { width: 100%; padding: 12px; }
+      .cw-btn {
+        width: 100%;
+        height: 44px;
+      }
     }
-
-    /* ════ HOW TO ANSWER GUIDE SCREEN ════ */
-    #howToAnswerScreen {
-      display: none;
-      width: 100%;
-      min-height: 100vh;
-      height: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 99990;
-      background: rgba(244, 238, 220, 0.94) url('bg/cinema_bg.webp') no-repeat center center fixed !important;
-      background-size: cover !important;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      padding: 16px;
-      box-sizing: border-box;
-      justify-content: center;
-      align-items: center;
-    }
-    #howToAnswerScreen.active {
-      display: flex !important;
-    }
-    .hta-modal-card {
-      background: #ffffff;
-      border: 4px solid #1a1a1a;
-      border-radius: 24px;
-      box-shadow: 8px 8px 0 #1a1a1a;
-      width: 100%;
-      max-width: 1060px;
-      padding: 24px 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      position: relative;
-      margin: auto;
-      box-sizing: border-box;
-      animation: ansSlideUp 0.3s ease both;
-    }
-    .hta-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      border-bottom: 3px solid #1a1a1a;
-      padding-bottom: 16px;
-    }
-    .hta-title-group {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .hta-badge {
-      align-self: flex-start;
-      background: #FDE047;
-      color: #1a1a1a;
-      border: 2px solid #1a1a1a;
-      border-radius: 999px;
-      padding: 2px 10px;
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      box-shadow: 2px 2px 0 #1a1a1a;
-    }
-    .hta-title {
-      font-size: 26px;
-      font-weight: 900;
-      color: #1a1a1a;
-      margin: 0;
-      line-height: 1.1;
-      text-transform: uppercase;
-      letter-spacing: -0.5px;
-    }
-    .hta-subtitle {
-      font-size: 13px;
-      font-weight: 700;
-      color: #4b5563;
-      margin: 0;
-    }
-    .hta-timer-badge {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: #FEF08A;
-      border: 3px solid #1a1a1a;
-      border-radius: 16px;
-      padding: 8px 16px;
-      box-shadow: 3px 3px 0 #1a1a1a;
-    }
-    .hta-timer-icon {
-      font-size: 24px;
-    }
-    .hta-timer-text-wrap {
-      display: flex;
-      flex-direction: column;
-    }
-    .hta-timer-label {
-      font-size: 10px;
-      font-weight: 900;
-      color: #854d0e;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .hta-timer-digits {
-      font-family: 'Space Mono', monospace;
-      font-size: 20px;
-      font-weight: 900;
-      color: #1a1a1a;
-      line-height: 1;
-    }
-    .hta-timer-bar-wrap {
-      width: 100%;
-      height: 8px;
-      background: #e5e7eb;
-      border: 2px solid #1a1a1a;
-      border-radius: 999px;
-      overflow: hidden;
-      margin-top: -6px;
-    }
-    .hta-timer-bar-fill {
-      height: 100%;
-      background: #10B981;
-      width: 100%;
-      transition: width 1s linear;
-    }
-    .hta-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-    .hta-card {
-      background: #fafaf9;
-      border: 3px solid #1a1a1a;
-      border-radius: 16px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      box-shadow: 4px 4px 0 #1a1a1a;
-      transition: transform 0.15s ease;
-    }
-    .hta-card:hover {
-      transform: translateY(-2px);
-    }
-    .hta-card-pill {
-      align-self: flex-start;
-      border: 2px solid #1a1a1a;
-      border-radius: 8px;
-      padding: 2px 8px;
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      box-shadow: 1.5px 1.5px 0 #1a1a1a;
-      text-transform: uppercase;
-    }
-    .hta-card-title {
-      font-size: 16px;
-      font-weight: 900;
-      color: #1a1a1a;
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .hta-card-desc {
-      font-size: 12px;
-      font-weight: 600;
-      color: #4b5563;
-      margin: 0;
-      line-height: 1.35;
-    }
-    .hta-example-box {
-      background: #ffffff;
-      border: 2px solid #1a1a1a;
-      border-radius: 12px;
-      padding: 10px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
-    }
-    .hta-example-target {
-      font-size: 11px;
-      font-weight: 900;
-      color: #1a1a1a;
-      border-bottom: 1.5px dashed #d1d5db;
-      padding-bottom: 4px;
-      text-transform: uppercase;
-    }
-    .hta-example-list {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .hta-ex-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .hta-ex-item.ok {
-      color: #15803d;
-    }
-    .hta-ex-item.bad {
-      color: #b91c1c;
-    }
-    .hta-ex-code {
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-      background: #f3f4f6;
-      padding: 1px 6px;
-      border-radius: 4px;
-      border: 1px solid #e5e7eb;
-    }
-    .hta-ex-tag {
-      font-size: 10px;
-      color: #6b7280;
-      font-weight: 600;
-      font-style: italic;
-    }
-    .hta-pro-tips {
-      background: #EDE9FE;
-      border: 3px solid #1a1a1a;
-      border-radius: 16px;
-      padding: 12px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      box-shadow: 3px 3px 0 #1a1a1a;
-    }
-    .hta-pro-tips-header {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      font-weight: 900;
-      color: #5B21B6;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .hta-tips-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    .hta-tip-item {
-      font-size: 12px;
-      font-weight: 700;
-      color: #1a1a1a;
-      line-height: 1.3;
-      display: flex;
-      align-items: flex-start;
-      gap: 6px;
-    }
-    .hta-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 3px solid #1a1a1a;
-      padding-top: 16px;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .hta-footer-note {
-      font-size: 12px;
-      font-weight: 800;
-      color: #6b7280;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .hta-action-wrap {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .hta-start-btn {
-      background: #10B981;
-      color: #ffffff;
-      border: 3.5px solid #1a1a1a;
-      border-radius: 14px;
-      padding: 12px 28px;
-      font-size: 16px;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-      cursor: pointer;
-      box-shadow: 4px 4px 0 #1a1a1a;
-      transition: all 0.15s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .hta-start-btn:hover:not(:disabled) {
-      transform: translate(-2px, -2px);
-      box-shadow: 6px 6px 0 #1a1a1a;
-      background: #059669;
-    }
-    .hta-start-btn:active:not(:disabled) {
-      transform: translate(2px, 2px);
-      box-shadow: 0 0 0 #1a1a1a;
-    }
-    .hta-start-btn:disabled {
-      background: #e5e7eb !important;
-      color: #6b7280 !important;
-      cursor: not-allowed !important;
-      box-shadow: 2px 2px 0 #1a1a1a !important;
-      transform: none !important;
-    }
-    .hta-client-status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: #f1f5f9;
-      border: 2px solid #1a1a1a;
-      border-radius: 12px;
-      padding: 8px 16px;
-      font-size: 13px;
-      font-weight: 800;
-      color: #334155;
-      box-shadow: 2px 2px 0 #1a1a1a;
-    }
-    @media (max-width: 860px) {
-      .hta-modal-card { padding: 16px; border-radius: 18px; }
-      .hta-title { font-size: 20px; }
-      .hta-grid { grid-template-columns: 1fr; }
-      .hta-tips-grid { grid-template-columns: 1fr; }
-      .hta-footer { flex-direction: column; align-items: stretch; }
-      .hta-action-wrap { width: 100%; }
-      .hta-start-btn { width: 100%; justify-content: center; }
-      .hta-client-status { width: 100%; justify-content: center; box-sizing: border-box; }
-    }
-  
-
-    /* Non-host client players: hide skip button and actions */
-    body.is-client-player #gameScreen #skipBtn,
-    body.is-client-player #gameScreen .skip-btn,
-    body.is-client-player #gameScreen .leaderboard-actions,
-    body.is-client-player #skipBtn,
-    body.is-client-player .skip-btn,
-    body.is-client-player .leaderboard-actions {
-      display: none !important;
-    }
-  
-    /* Credits Box directly below Winner Badge */
-    .cw-credits-badge-card {
-      background: #FFFFFF;
-      border: 2.5px solid #111827;
-      box-shadow: 3.5px 3.5px 0 #111827;
-      border-radius: 10px;
-      padding: 5px 16px;
-      display: inline-flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      gap: clamp(8px, 1.2vw, 16px);
-      margin-top: 6px;
-      margin-bottom: 2px;
-      position: relative;
-      z-index: 12;
-      box-sizing: border-box;
-      max-width: 90%;
-    }
-    .cw-credits-badge-card .cw-credit-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-    }
-    .cw-credit-divider {
-      font-size: 14px;
-      color: #94A3B8;
-      font-weight: 900;
-      user-select: none;
-    }
-
-    /* Scoreboard now takes full height of right column */
-    .cw-right-col {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      height: 100%;
-    }
-    .cw-right-col .cw-scoreboard-card {
-      height: clamp(210px, 18vw, 250px) !important;
-      max-height: 255px !important;
-      min-height: 210px !important;
-      display: flex !important;
-      flex-direction: column !important;
-    }
-    .cw-right-col .cw-sb-list {
-      flex: 1 !important;
-    }
-
-  
-    /* Center Column with Players Badge & Credits Box Below */
-    .cw-center-col {
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 6px !important;
-      flex: 1 !important;
-      min-width: 0 !important;
-      height: 100% !important;
-    }
-    .cw-center-col .cw-stage-section {
-      padding: 0 !important;
-      margin: 0 !important;
-      flex: 0 0 auto !important;
-    }
-    .cw-credits-below-players {
-      background: #FFFFFF !important;
-      border: 2.5px solid #111827 !important;
-      box-shadow: 3.5px 3.5px 0 #111827 !important;
-      border-radius: 10px !important;
-      padding: 5px 16px !important;
-      display: inline-flex !important;
-      flex-wrap: wrap !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: clamp(8px, 1.2vw, 16px) !important;
-      margin-top: 4px !important;
-      position: relative !important;
-      z-index: 12 !important;
-      box-sizing: border-box !important;
-      max-width: 98% !important;
-    }
-    .cw-credits-below-players .cw-credit-item {
-      display: inline-flex !important;
-      align-items: center !important;
-      gap: 7px !important;
-    }
-    .cw-credits-below-players .cw-credit-divider {
-      font-size: 14px !important;
-      color: #94A3B8 !important;
-      font-weight: 900 !important;
-      user-select: none !important;
-    }
-  
-    /* ── NO OVERLAP REFINEMENTS ── */
-    .comic-winner-card {
-      max-width: 1240px !important;
-      padding: clamp(8px, 1.2vw, 14px) clamp(16px, 1.8vw, 24px) !important;
-    }
-    .cw-center-stage-grid {
-      display: grid !important;
-      grid-template-columns: minmax(180px, 215px) 1fr minmax(215px, 260px) !important;
-      gap: clamp(14px, 1.8vw, 24px) !important;
-      align-items: center !important;
-      width: 100% !important;
-    }
-    .cw-left-col .cw-msg-card {
-      width: clamp(180px, 15vw, 215px) !important;
-      height: clamp(180px, 15vw, 215px) !important;
-      aspect-ratio: 1 / 1 !important;
-      padding: clamp(10px, 1vw, 14px) !important;
-    }
-    .cw-left-col .cw-msg-card .cw-info-text {
-      font-size: clamp(8.5px, 0.72vw, 10px) !important;
-      line-height: 1.38 !important;
-    }
-
-    /* 3 Runner Cards - Proportional 0.75x fit with no stage overflow */
-    .cw-stage-section {
-      display: flex !important;
-      align-items: flex-end !important;
-      justify-content: center !important;
-      gap: clamp(8px, 1.2vw, 16px) !important;
-      width: 100% !important;
-      max-width: 500px !important;
-      margin: 0 auto !important;
-      padding: 0 !important;
-    }
-    .cw-runner-card {
-      width: clamp(112px, 10vw, 132px) !important;
-      height: clamp(160px, 20vh, 185px) !important;
-      padding: 8px 6px !important;
-      border-radius: 14px !important;
-    }
-    .runner-gold {
-      width: clamp(128px, 11.8vw, 152px) !important;
-      height: clamp(180px, 22.5vh, 206px) !important;
-      padding: 10px 8px !important;
-      border-radius: 16px !important;
-    }
-    .runner-avatar-frame {
-      width: clamp(48px, 4.8vw, 60px) !important;
-      height: clamp(48px, 4.8vw, 60px) !important;
-    }
-    .champ-avatar-frame {
-      width: clamp(56px, 5.6vw, 70px) !important;
-      height: clamp(56px, 5.6vw, 70px) !important;
-    }
-    .runner-nameplate {
-      font-size: clamp(11px, 1.1vw, 13.5px) !important;
-      padding: 2px 6px !important;
-      margin-bottom: 2px !important;
-    }
-    .champ-nameplate {
-      font-size: clamp(12px, 1.2vw, 15px) !important;
-      padding: 2.5px 8px !important;
-    }
-    .runner-score-tag {
-      font-size: 9px !important;
-      padding: 2px 7px !important;
-    }
-    .gold-score-tag {
-      font-size: 10px !important;
-      padding: 2px 9px !important;
-    }
-    .runner-rank-tab {
-      width: 26px !important;
-      height: 22px !important;
-      font-size: 13px !important;
-      top: -12px !important;
-    }
-    .gold-tab {
-      width: 30px !important;
-      height: 26px !important;
-      top: -14px !important;
-    }
-    .gold-tab svg {
-      width: 16px !important;
-      height: 13px !important;
-    }
-
-    /* Burst icons adjusted so they don't protrude into side columns */
-    .burst-left {
-      left: 0px !important;
-      top: -16px !important;
-    }
-    .burst-right {
-      right: 0px !important;
-      top: -16px !important;
-    }
-
-    /* Scoreboard */
-    .cw-right-col .cw-scoreboard-card {
-      width: 100% !important;
-      height: clamp(190px, 16vw, 230px) !important;
-      max-height: 240px !important;
-      padding: 8px 12px !important;
-    }
-    .cw-right-col .sb-row {
-      padding: 3px 8px !important;
-      gap: 5px !important;
-      font-size: 12px !important;
-    }
-    .cw-right-col .sb-name {
-      font-size: 12.5px !important;
-    }
-    .cw-right-col .sb-score {
-      font-size: 11.5px !important;
-      padding: 2px 6px !important;
-    }
-
-    /* Credits below players */
-    .cw-credits-below-players {
-      margin-top: 4px !important;
-      padding: 4px 14px !important;
-      max-width: 95% !important;
-    }
-    .cw-credit-names {
-      font-size: 9.5px !important;
-    }
-
   </style>
   <!-- Appwrite Web SDK & QRCode for Online Multiplayer -->
   <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
@@ -13200,7 +12677,7 @@
 
     <div class="comic-winner-card">
       
-      <!-- Decorative Accent Polygons from Mockup -->
+      <!-- Corner Accent Polygons from Mockup -->
       <div class="corner-poly poly-top-left" aria-hidden="true"></div>
       <div class="corner-poly poly-bottom-left" aria-hidden="true"></div>
       <div class="corner-poly poly-bottom-right" aria-hidden="true"></div>
@@ -13232,107 +12709,100 @@
           </div>
         </div>
       </div>
-      <!-- ── 3-COLUMN MAIN STAGE: LEFT MESSAGE | CENTER PODIUM | RIGHT (SCOREBOARD + CREDITS) ── -->
+
+      <!-- ── 3-COLUMN MAIN STAGE: LEFT MESSAGE | CENTER PODIUM | RIGHT SCOREBOARD ── -->
       <div class="cw-center-stage-grid">
         
-        <!-- LEFT COLUMN: SQUARE MESSAGE BOX -->
+        <!-- LEFT COLUMN: MESSAGE BOX -->
         <div class="cw-left-col">
-          <div class="cw-info-card cw-msg-card">
+          <div class="cw-msg-card">
             <div class="cw-info-header">
-              <span>💬</span>
+              <span class="msg-icon-wrap" aria-hidden="true">
+                <svg width="22" height="20" viewBox="0 0 24 22" fill="none" stroke="#6D28D9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                  <circle cx="9" cy="11.5" r="1" fill="#6D28D9" />
+                  <circle cx="12" cy="11.5" r="1" fill="#6D28D9" />
+                  <circle cx="15" cy="11.5" r="1" fill="#6D28D9" />
+                </svg>
+              </span>
               <span>MESSAGE</span>
             </div>
             <p class="cw-info-text">
-              Umeed hai aap sabko game pasand aaya hoga. Agar aapke paas koi feedback ho, to humein zaroor batayein. Milte hain agle podcast mein! Aur bhai log, ScoopLuck de do, life mein kaafi problems chal rahi hain. Problems solve hote hi ₹1,000 ka Super Chat pakka. Aur haan, bhai log, email ka reply bhi diya karo 😊
+              Umeed hai aap sabko game pasand aaya hoga. Agar aapko koi feedback ho, to humein zaroor batayein. Mui! hain aapke suggestions se aur bhi behtar anubhav banane ki koshish karenge. Koi bhi problem ho to Super Chat ya email se zaroor batayein.<br>
+              Dhanyavaad! 🙌
             </p>
           </div>
         </div>
 
-        <!-- CENTER COLUMN: 3 PODIUM RUNNER CARDS + CREDITS BOX BELOW PLAYERS -->
+        <!-- CENTER COLUMN: 3 PODIUM RUNNER CARDS -->
         <div class="cw-center-col">
-          <!-- CENTER COLUMN: 3 PODIUM RUNNER CARDS -->
-        <div class="cw-stage-section">
-          <!-- Card 2 (Left - Aziz) -->
-          <div class="cw-runner-col">
-            <div class="cw-card-burst burst-left" aria-hidden="true">
-              <svg viewBox="0 0 30 25" width="22" height="18" fill="none">
-                <line x1="22" y1="22" x2="8" y2="6" stroke="#111827" stroke-width="4" stroke-linecap="round" />
-                <line x1="28" y1="12" x2="16" y2="2" stroke="#111827" stroke-width="4" stroke-linecap="round" />
-              </svg>
-            </div>
-            <div class="cw-runner-card runner-blue" id="silverCard">
-              <div class="runner-rank-tab blue-tab">2</div>
-              <div class="runner-avatar-frame" id="silverAvatarWrap">
-                <img id="silverAvatarImg" src="avvtar/aziz.svg" alt="2nd Place" />
-              </div>
-              <div class="runner-nameplate" id="silverName">AZIZ</div>
-              <div class="runner-score-tag blue-score-tag" id="silverScore">22 POINTS</div>
-            </div>
-          </div>
-
-          <!-- Card 1 (Center - Aman) -->
-          <div class="cw-runner-col">
-            <div class="cw-runner-card runner-gold" id="champHeroCard">
-              <div class="runner-rank-tab gold-tab">
-                <svg viewBox="0 0 24 20" width="18" height="15" fill="#111827">
-                  <path d="M2 5l4.5 4L12 2l5.5 7L22 5l-2.5 11H4.5L2 5z" />
-                  <rect x="3.5" y="17.5" width="17" height="2.5" rx="1" />
+          <div class="cw-stage-section">
+            <!-- Card 2 (Left - Aziz) -->
+            <div class="cw-runner-col">
+              <div class="cw-card-burst burst-left" aria-hidden="true">
+                <svg viewBox="0 0 30 25" width="22" height="18" fill="none">
+                  <line x1="22" y1="22" x2="8" y2="6" stroke="#111827" stroke-width="4" stroke-linecap="round" />
+                  <line x1="28" y1="12" x2="16" y2="2" stroke="#111827" stroke-width="4" stroke-linecap="round" />
                 </svg>
               </div>
-              <div class="runner-avatar-frame champ-avatar-frame" id="champAvatarWrap">
-                <img id="champAvatarImg" src="avvtar/aman.svg" alt="Champion" />
+              <div class="cw-runner-card runner-blue" id="silverCard">
+                <div class="runner-rank-tab blue-tab">2</div>
+                <div class="runner-avatar-frame" id="silverAvatarWrap">
+                  <img id="silverAvatarImg" src="avvtar/aziz.svg" alt="2nd Place" />
+                </div>
+                <div class="runner-nameplate" id="silverName">AZIZ</div>
+                <div class="runner-score-tag blue-score-tag" id="silverScore">12 POINTS</div>
               </div>
-              <div class="runner-nameplate champ-nameplate" id="champName">AMAN</div>
-              <div class="runner-score-tag gold-score-tag" id="champScore">30 POINTS</div>
             </div>
-          </div>
 
-          <!-- Card 3 (Right - Amish) -->
-          <div class="cw-runner-col">
-            <div class="cw-card-burst burst-right" aria-hidden="true">
-              <svg viewBox="0 0 30 25" width="22" height="18" fill="none">
-                <line x1="8" y1="22" x2="22" y2="6" stroke="#111827" stroke-width="4" stroke-linecap="round" />
-                <line x1="2" y1="12" x2="14" y2="2" stroke="#111827" stroke-width="4" stroke-linecap="round" />
-              </svg>
-            </div>
-            <div class="cw-runner-card runner-orange" id="bronzeCard">
-              <div class="runner-rank-tab orange-tab">3</div>
-              <div class="runner-avatar-frame" id="bronzeAvatarWrap">
-                <img id="bronzeAvatarImg" src="avvtar/amish.svg" alt="3rd Place" />
+            <!-- Card 1 (Center - Aman) -->
+            <div class="cw-runner-col">
+              <div class="cw-runner-card runner-gold" id="champHeroCard">
+                <div class="runner-rank-tab gold-tab">
+                  <svg viewBox="0 0 24 20" width="18" height="15" fill="#111827">
+                    <path d="M2 5l4.5 4L12 2l5.5 7L22 5l-2.5 11H4.5L2 5z" />
+                    <rect x="3.5" y="17.5" width="17" height="2.5" rx="1" />
+                  </svg>
+                </div>
+                <div class="runner-avatar-frame champ-avatar-frame" id="champAvatarWrap">
+                  <img id="champAvatarImg" src="avvtar/aman.svg" alt="Champion" />
+                </div>
+                <div class="runner-nameplate champ-nameplate" id="champName">AMAN</div>
+                <div class="runner-score-tag gold-score-tag" id="champScore">30 POINTS</div>
               </div>
-              <div class="runner-nameplate" id="bronzeName">AMISH</div>
-              <div class="runner-score-tag orange-score-tag" id="bronzeScore">16 POINTS</div>
+            </div>
+
+            <!-- Card 3 (Right - Amish) -->
+            <div class="cw-runner-col">
+              <div class="cw-card-burst burst-right" aria-hidden="true">
+                <svg viewBox="0 0 30 25" width="22" height="18" fill="none">
+                  <line x1="8" y1="22" x2="22" y2="6" stroke="#111827" stroke-width="4" stroke-linecap="round" />
+                  <line x1="2" y1="12" x2="14" y2="2" stroke="#111827" stroke-width="4" stroke-linecap="round" />
+                </svg>
+              </div>
+              <div class="cw-runner-card runner-orange" id="bronzeCard">
+                <div class="runner-rank-tab orange-tab">3</div>
+                <div class="runner-avatar-frame" id="bronzeAvatarWrap">
+                  <img id="bronzeAvatarImg" src="avvtar/amish.svg" alt="3rd Place" />
+                </div>
+                <div class="runner-nameplate" id="bronzeName">AMISH</div>
+                <div class="runner-score-tag orange-score-tag" id="bronzeScore">16 POINTS</div>
+              </div>
             </div>
           </div>
         </div>
 
-          <!-- ── CREDITS BOX JUST BELOW THE PLAYERS BADGE ── -->
-          <div class="cw-credits-badge-card cw-credits-below-players">
-            <div class="cw-credit-item">
-              <span class="cw-credit-badge">FRAMES BY</span>
-              <span class="cw-credit-names" id="creatorMsg">tanmayy, Tanuj, Darshan, Akash, Anmol &amp; smoc crew</span>
-            </div>
-            <div class="cw-credit-divider" aria-hidden="true">•</div>
-            <div class="cw-credit-item">
-              <span class="cw-credit-badge">WEBSITE BY</span>
-              <span class="cw-credit-names">Built with ❤️ by Asmit</span>
-            </div>
-          </div>
-        </div>
-
-        
-        <!-- RIGHT COLUMN: STANDALONE EXPANDED SCOREBOARD -->
+        <!-- RIGHT COLUMN: SCOREBOARD -->
         <div class="cw-right-col">
-          <!-- Scoreboard Above -->
-          <div class="cw-info-card cw-scoreboard-card">
-            <div class="cw-info-header">
-              <span>🏆</span>
+          <div class="cw-scoreboard-card">
+            <div class="cw-scoreboard-header">
+              <span class="trophy-icon">🏆</span>
               <span>SCOREBOARD</span>
             </div>
             <div class="cw-sb-list" id="winnerScoreboardList">
               <div class="sb-row sb-champ">
                 <div class="sb-left">
-                  <span class="sb-rank">👑</span>
+                  <span class="sb-rank">1</span>
                   <div class="sb-avatar-mini"><img src="avvtar/aman.svg" alt="Aman" /></div>
                   <span class="sb-name">AMAN</span>
                 </div>
@@ -13344,7 +12814,7 @@
                   <div class="sb-avatar-mini"><img src="avvtar/aziz.svg" alt="Aziz" /></div>
                   <span class="sb-name">AZIZ</span>
                 </div>
-                <span class="sb-score">22 PTS</span>
+                <span class="sb-score">12 PTS</span>
               </div>
               <div class="sb-row">
                 <div class="sb-left">
@@ -13364,9 +12834,22 @@
               </div>
             </div>
           </div>
+        </div>
 
-          </div>
       </div><!-- /.cw-center-stage-grid -->
+
+      <!-- ── CREDITS PILL BAR JUST BELOW THE PLAYERS ── -->
+      <div class="cw-credits-pill-bar">
+        <div class="cw-credit-item">
+          <span class="cw-credit-badge">FRAMES BY</span>
+          <span class="cw-credit-names" id="creatorMsg">tammayr, Tanuj, Darshan, Akash, Anmol &amp; smoo crew</span>
+        </div>
+        <div class="cw-credit-divider" aria-hidden="true">•</div>
+        <div class="cw-credit-item">
+          <span class="cw-credit-badge">WEBSITE BY</span>
+          <span class="cw-credit-names">Built with ❤️ by Asmit</span>
+        </div>
+      </div>
 
       <!-- ── BOTTOM BUTTONS DECK (3 BUTTONS) ── -->
       <div class="cw-buttons-deck">
@@ -17819,7 +17302,7 @@
           return `
             <div class="sb-row ${isChamp ? 'sb-champ' : ''}">
               <div class="sb-left">
-                <span class="sb-rank">${isChamp ? '👑' : rank}</span>
+                <span class="sb-rank">${rank}</span>
                 <div class="sb-avatar-mini"><img src="avvtar/${av}.svg" alt="${safeName}" onerror="this.src='avvtar/aman.svg'" /></div>
                 <span class="sb-name">${safeName.toUpperCase()}</span>
               </div>
@@ -17861,7 +17344,7 @@
             silverCard.style.visibility = 'visible';
             const p2Avatar = p2.avatar || (p2.avatarImg ? p2.avatarImg.replace(/^.*\/([^\/]+)\.svg$/i, '$1') : 'aziz');
             if (silverName) silverName.textContent = (p2.name || 'AZIZ').toUpperCase();
-            if (silverScore) silverScore.textContent = (p2.score != null ? p2.score : 22) + ' POINTS';
+            if (silverScore) silverScore.textContent = (p2.score != null ? p2.score : 12) + ' POINTS';
             if (silverImg) silverImg.src = 'avvtar/' + p2Avatar + '.svg';
           } else {
             silverCard.style.opacity = '0.35';
