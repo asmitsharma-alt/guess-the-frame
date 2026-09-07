@@ -216,6 +216,36 @@ test.describe('FULL APPLICATION PAGE & SCREEN INSPECTOR', () => {
     // Verify sound button is hidden on winner screen
     await expect(page.locator('#sndBtn')).toBeHidden();
 
+    const diag = await page.evaluate(() => {
+      const card = document.querySelector('.comic-winner-card');
+      const popperL = document.getElementById('popperLeft');
+      const popperR = document.getElementById('popperRight');
+      const confettiBox = document.getElementById('confettiBox');
+
+      const cardRect = card ? card.getBoundingClientRect() : null;
+      const popperLRect = popperL ? popperL.getBoundingClientRect() : null;
+      const popperRRect = popperR ? popperR.getBoundingClientRect() : null;
+
+      const cardZ = card ? window.getComputedStyle(card).zIndex : null;
+      const popperLZ = popperL ? window.getComputedStyle(popperL).zIndex : null;
+      const confettiZ = confettiBox ? window.getComputedStyle(confettiBox).zIndex : null;
+
+      return {
+        cardRect: cardRect ? { x: Math.round(cardRect.x), y: Math.round(cardRect.y), w: Math.round(cardRect.width), h: Math.round(cardRect.height), right: Math.round(cardRect.right), bottom: Math.round(cardRect.bottom) } : null,
+        popperLRect: popperLRect ? { x: Math.round(popperLRect.x), y: Math.round(popperLRect.y), w: Math.round(popperLRect.width), h: Math.round(popperLRect.height) } : null,
+        popperRRect: popperRRect ? { x: Math.round(popperRRect.x), y: Math.round(popperRRect.y), w: Math.round(popperRRect.width), h: Math.round(popperRRect.height) } : null,
+        cardZ,
+        popperLZ,
+        confettiZ
+      };
+    });
+    console.log('POPPER_DIAG:', JSON.stringify(diag));
+
+    // Trigger popper and capture mid-burst
+    await page.evaluate(() => WinnerScreen.triggerPopper('left'));
+    await page.waitForTimeout(200);
+    await page.screenshot({ path: path.join(SCREENSHOT_DIR, 'debug_mid_burst.png') });
+
     await page.waitForTimeout(1000);
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, '10_winner_screen_desktop.png') });
 

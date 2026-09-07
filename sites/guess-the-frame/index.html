@@ -10942,12 +10942,12 @@
       display: none !important;
     }
 
-    /* Confetti Layer */
+    /* Confetti Layer (Front Celebration Overlay) */
     .comic-confetti-layer {
-      position: absolute;
+      position: fixed;
       inset: 0;
       pointer-events: none;
-      z-index: 2;
+      z-index: 1000;
       overflow: hidden;
     }
     .comic-confetti-piece {
@@ -10965,7 +10965,7 @@
     .comic-confetti-burst {
       position: absolute;
       pointer-events: none;
-      z-index: 35;
+      z-index: 1001;
       animation: confettiBurstAnim 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
     @keyframes confettiBurstAnim {
@@ -10974,10 +10974,10 @@
       100% { transform: translate(var(--bx, var(--tx, 0px)), var(--by, var(--ty, 0px))) rotate(var(--rot, 0deg)) scale(1.1); opacity: 0; }
     }
 
-    /* ── PARTY POPPER CANNONS (LEFT & RIGHT) ── */
+    /* ── PARTY POPPER CANNONS (MOUNTED ON WINNER CARD FRONT) ── */
     .cw-party-popper {
       position: absolute;
-      bottom: 24px;
+      bottom: 12px;
       z-index: 25;
       cursor: pointer;
       display: flex;
@@ -10987,11 +10987,11 @@
       user-select: none;
     }
     .cw-party-popper.popper-left {
-      left: 24px;
+      left: 16px;
       transform: rotate(24deg);
     }
     .cw-party-popper.popper-right {
-      right: 24px;
+      right: 16px;
       transform: rotate(-24deg);
     }
     .cw-party-popper:hover {
@@ -13472,39 +13472,39 @@
           <div id="winnerScreen" class="screen">
     <div class="comic-confetti-layer" id="confettiBox" aria-hidden="true"></div>
 
-    <!-- ── INTERACTIVE PARTY POPPERS (LEFT & RIGHT) ── -->
-    <div class="cw-party-popper popper-left" id="popperLeft" onclick="WinnerScreen.triggerPopper('left')" role="button" tabindex="0" title="Click to pop confetti!">
-      <div class="popper-blast-lines">
-        <span></span><span></span><span></span>
-      </div>
-      <svg class="popper-cone" width="48" height="54" viewBox="0 0 46 52" fill="none">
-        <path d="M23 48L3 8C3 8 13 2 23 2C33 2 43 8 43 8L23 48Z" fill="#EC4899" stroke="#000000" stroke-width="3.5" stroke-linejoin="round"/>
-        <path d="M14 26C17 29 29 29 32 26" stroke="#FDE047" stroke-width="3.5" stroke-linecap="round"/>
-        <path d="M19 14C21 16 25 16 27 14" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round"/>
-        <circle cx="23" cy="8" r="3" fill="#FDE047"/>
-      </svg>
-      <span class="popper-tooltip">🎉 POP ME!</span>
-    </div>
-
-    <div class="cw-party-popper popper-right" id="popperRight" onclick="WinnerScreen.triggerPopper('right')" role="button" tabindex="0" title="Click to pop confetti!">
-      <div class="popper-blast-lines">
-        <span></span><span></span><span></span>
-      </div>
-      <svg class="popper-cone" width="48" height="54" viewBox="0 0 46 52" fill="none">
-        <path d="M23 48L3 8C3 8 13 2 23 2C33 2 43 8 43 8L23 48Z" fill="#3B82F6" stroke="#000000" stroke-width="3.5" stroke-linejoin="round"/>
-        <path d="M14 26C17 29 29 29 32 26" stroke="#FACC15" stroke-width="3.5" stroke-linecap="round"/>
-        <path d="M19 14C21 16 25 16 27 14" stroke="#4ADE80" stroke-width="3.5" stroke-linecap="round"/>
-        <circle cx="23" cy="8" r="3" fill="#FACC15"/>
-      </svg>
-      <span class="popper-tooltip">🎉 POP ME!</span>
-    </div>
-
     <div class="comic-winner-card">
       
       <!-- Corner Accent Polygons from Mockup -->
       <div class="corner-poly poly-top-left" aria-hidden="true"></div>
       <div class="corner-poly poly-bottom-left" aria-hidden="true"></div>
       <div class="corner-poly poly-bottom-right" aria-hidden="true"></div>
+
+      <!-- ── INTERACTIVE PARTY POPPERS (MOUNTED ON WINNER CARD FRONT) ── -->
+      <div class="cw-party-popper popper-left" id="popperLeft" onclick="WinnerScreen.triggerPopper('left')" role="button" tabindex="0" title="Click to pop confetti!">
+        <div class="popper-blast-lines">
+          <span></span><span></span><span></span>
+        </div>
+        <svg class="popper-cone" width="48" height="54" viewBox="0 0 46 52" fill="none">
+          <path d="M23 48L3 8C3 8 13 2 23 2C33 2 43 8 43 8L23 48Z" fill="#EC4899" stroke="#000000" stroke-width="3.5" stroke-linejoin="round"/>
+          <path d="M14 26C17 29 29 29 32 26" stroke="#FDE047" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M19 14C21 16 25 16 27 14" stroke="#38BDF8" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="23" cy="8" r="3" fill="#FDE047"/>
+        </svg>
+        <span class="popper-tooltip">🎉 POP ME!</span>
+      </div>
+
+      <div class="cw-party-popper popper-right" id="popperRight" onclick="WinnerScreen.triggerPopper('right')" role="button" tabindex="0" title="Click to pop confetti!">
+        <div class="popper-blast-lines">
+          <span></span><span></span><span></span>
+        </div>
+        <svg class="popper-cone" width="48" height="54" viewBox="0 0 46 52" fill="none">
+          <path d="M23 48L3 8C3 8 13 2 23 2C33 2 43 8 43 8L23 48Z" fill="#3B82F6" stroke="#000000" stroke-width="3.5" stroke-linejoin="round"/>
+          <path d="M14 26C17 29 29 29 32 26" stroke="#FACC15" stroke-width="3.5" stroke-linecap="round"/>
+          <path d="M19 14C21 16 25 16 27 14" stroke="#4ADE80" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="23" cy="8" r="3" fill="#FACC15"/>
+        </svg>
+        <span class="popper-tooltip">🎉 POP ME!</span>
+      </div>
 
       <!-- ── VICTORY HEADER ── -->
       <div class="cw-victory-section">
