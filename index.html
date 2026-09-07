@@ -10974,25 +10974,9 @@
       100% { transform: translate(var(--bx, var(--tx, 0px)), var(--by, var(--ty, 0px))) rotate(var(--rot, 0deg)) scale(1.1); opacity: 0; }
     }
 
-    /* ── PARTY POPPER CANNONS (MOUNTED ON WINNER CARD FRONT) ── */
+    /* ── PARTY POPPER CANNONS (HIDDEN VISUALLY, WORKING MECHANICALLY) ── */
     .cw-party-popper {
-      position: absolute;
-      bottom: 12px;
-      z-index: 25;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-      user-select: none;
-    }
-    .cw-party-popper.popper-left {
-      left: 16px;
-      transform: rotate(24deg);
-    }
-    .cw-party-popper.popper-right {
-      right: 16px;
-      transform: rotate(-24deg);
+      display: none !important;
     }
     .cw-party-popper:hover {
       transform: scale(1.15) rotate(var(--popper-rot, 24deg));
@@ -18147,8 +18131,20 @@
 
         const box = document.getElementById('confettiBox') || document.body;
         const rect = popperEl ? popperEl.getBoundingClientRect() : null;
-        const originX = rect ? (rect.left + rect.width / 2) : (side === 'left' ? window.innerWidth * 0.1 : window.innerWidth * 0.9);
-        const originY = rect ? rect.top : (window.innerHeight - 80);
+        const card = document.querySelector('.comic-winner-card');
+        const cardRect = card ? card.getBoundingClientRect() : null;
+
+        let originX, originY;
+        if (rect && rect.width > 0 && rect.height > 0) {
+          originX = rect.left + rect.width / 2;
+          originY = rect.top;
+        } else if (cardRect && cardRect.width > 0) {
+          originX = side === 'left' ? (cardRect.left + 50) : (cardRect.right - 50);
+          originY = cardRect.bottom - 40;
+        } else {
+          originX = side === 'left' ? window.innerWidth * 0.15 : window.innerWidth * 0.85;
+          originY = window.innerHeight - 80;
+        }
 
         const colors = ['#EF4444', '#3B82F6', '#10B981', '#FACC15', '#EC4899', '#8B5CF6', '#FB923C', '#06B6D4'];
         const shapes = ['circle', 'rect', 'star'];
