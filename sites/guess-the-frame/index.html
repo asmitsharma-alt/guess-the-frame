@@ -18466,7 +18466,7 @@
         const c = document.getElementById('scoringGrid'); if (!c) return;
         const cj = GS.judge.currentJudge;
         const isOnline = GameController._onlineMode;
-        const isHost = typeof RoomLobby !== 'undefined' && RoomLobby.isHost;
+        const isHost = (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.isHost) || (typeof RoomLobby !== 'undefined' && RoomLobby.isHost);
         const disableAll = isOnline && !isHost;
         const tieActive = GS.tieBreaker && GS.tieBreaker.active;
         const tieKeys = tieActive ? new Set(GS.tieBreaker.playerKeys || []) : null;

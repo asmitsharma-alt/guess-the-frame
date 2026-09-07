@@ -1,0 +1,21 @@
+[Script Info]
+Title: Guess The Frame Tutorial
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: None
+PlayResX: 1280
+PlayResY: 720
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Banner,Arial,20,&H00FFFFFF,&H000000FF,&H00111827,&HDD1A110F,-1,0,0,0,100,100,0,0,3,10,0,2,30,30,28,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.50,0:00:06.50,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 1:{\c&HFFFFFF&} HOST OR JOIN A ROOM\N{\fnArial\fs15\c&H57E0C3&}Pick your player name and animated vector avatar to start
+Dialogue: 0,0:00:06.80,0:00:13.50,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 2:{\c&HFFFFFF&} INVITE FRIENDS TO YOUR LOBBY\N{\fnArial\fs15\c&H57E0C3&}Share the 4-letter Room Code or scan the QR Code on mobile
+Dialogue: 0,0:00:13.80,0:00:20.50,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 3:{\c&HFFFFFF&} 3-STEP ARCADE PLAYBOOK\N{\fnArial\fs15\c&H57E0C3&}01 Watch Frame  •  02 Type Guess (Typos Allowed!)  •  03 Score Points
+Dialogue: 0,0:00:20.80,0:00:32.00,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 4:{\c&HFFFFFF&} WATCH THE FRAME & GUESS IN LIVE CHAT\N{\fnArial\fs15\c&H57E0C3&}Fastest correct answers score points! Stuck? Use the Hint button (-2 pts)
+Dialogue: 0,0:00:32.30,0:00:43.00,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 5:{\c&HFFFFFF&} POINT DISTRIBUTION & LEADERBOARD\N{\fnArial\fs15\c&H57E0C3&}Host awards points to correct players — watch the leaderboard update live!
+Dialogue: 0,0:00:43.30,0:00:53.00,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 6:{\c&HFFFFFF&} CROWN THE CHAMPION!\N{\fnArial\fs15\c&H57E0C3&}Climb the podium, celebrate with confetti & challenge friends to a rematch!
