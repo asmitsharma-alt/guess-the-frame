@@ -137,6 +137,7 @@ test.describe('FULL APPLICATION PAGE & SCREEN INSPECTOR', () => {
     const htaHostStartBtn = page.locator('#htaHostStartBtn');
     await expect(htaHostStartBtn).toBeDisabled();
 
+    await page.waitForTimeout(400);
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, '07_how_to_answer_desktop.png') });
 
     // Fast-forward countdown to test unlocked button state
@@ -257,6 +258,7 @@ test.describe('FULL APPLICATION PAGE & SCREEN INSPECTOR', () => {
     }
 
     await expect(page.locator('#howToAnswerScreen')).toBeVisible();
+    await page.waitForTimeout(400);
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, '15_how_to_answer_mobile.png') });
 
     // 5. Mobile Winner Screen
