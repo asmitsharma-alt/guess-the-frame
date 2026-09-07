@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neo-Brutalist Multiplayer Winner Page — React Showcase</title>
+  <!-- Google Fonts: Luckiest Guy & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Space+Grotesk:wght@500;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['"Luckiest Guy"', 'cursive', 'sans-serif'],
+            sans: ['"Space Grotesk"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- React 18 & Babel Standalone -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <style>
+    @keyframes victoryEntry {
+      0% { transform: scale(0.7) rotate(0deg); opacity: 0; }
+      70% { transform: scale(1.08) rotate(-4deg); opacity: 1; }
+      100% { transform: scale(1) rotate(-3deg); opacity: 1; }
+    }
+    @keyframes podiumCardEntry {
+      0% { transform: translateY(50px) scale(0.85); opacity: 0; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    .font-display {
+      font-family: 'Luckiest Guy', cursive, sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-[#F4EEDC] m-0 p-0 overflow-x-hidden antialiased select-none min-h-screen">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // Default Players Data
+    const INITIAL_PLAYERS = [
+      { id: '1', name: 'AMAN', score: 30, rank: 1, avatarUrl: 'avvtar/aman.svg' },
+      { id: '2', name: 'AZIZ', score: 22, rank: 2, avatarUrl: 'avvtar/aziz.svg' },
+      { id: '3', name: 'AMISH', score: 16, rank: 3, avatarUrl: 'avvtar/amish.svg' },
+      { id: '4', name: 'VISH', score: 7, rank: 4, avatarUrl: 'avvtar/vish.svg' },
+    ];
+
+    // Component: VictoryBanner
+    const VictoryBanner = ({ title = 'VICTORY!' }) => {
+      return (
+        <div className="relative z-10 flex items-center justify-center my-0.5 select-none animate-[victoryEntry_0.5s_cubic-bezier(0.34,1.56,0.64,1)_both]">
+          {/* Left Speed Lines */}
+          <div className="hidden sm:block mr-2 w-7 h-9 opacity-95 shrink-0" aria-hidden="true">
+            <svg viewBox="0 0 38 46" fill="none" className="w-full h-full">
+              <line x1="33" y1="13" x2="11" y2="4" stroke="#111827" strokeWidth="6" strokeLinecap="round" />
+              <line x1="35" y1="23" x2="8" y2="23" stroke="#111827" strokeWidth="6" strokeLinecap="round" />
+              <line x1="33" y1="33" x2="11" y2="42" stroke="#111827" strokeWidth="6" strokeLinecap="round" />
+            </svg>
+          </div>
+
+          {/* Yellow Banner */}
+          <div
+            className="bg-[#FFD83D] border-[4px] sm:border-[5px] border-[#111827] rounded-xl px-6 sm:px-8 py-1.5 shadow-[5px_5px_0px_#111827] -rotate-3 transition-transform hover:scale-105 duration-200"
+            style={{ transform: 'rotate(-3deg)' }}
+          >
+            <h1 className="font-display text-[34px] sm:text-[44px] md:text-[52px] lg:text-[58px] font-black tracking-wider text-[#111827] uppercase leading-none m-0 text-center drop-shadow-sm">
+              {title}
+            </h1>
+          </div>
+
+          {/* Right Speed Lines */}
+          <div className="hidden sm:block ml-2 w-7 h-9 opacity-95 shrink-0" aria-hidden="true">
+            <svg viewBox="0 0 38 46" fill="none" className="w-full h-full">
+              <line x1="5" y1="13" x2="27" y2="4" stroke="#111827" strokeWidth="6" strokeLinecap="round" />
+              <line x1="3" y1="23" x2="30" y2="23" stroke="#111827" strokeWidth="6" strokeLinecap="round" />
+              <line x1="5" y1="33" x2="27" y2="42" stroke="#111827" strokeWidth="6" strokeLinecap="round" />
+            </svg>
+          </div>
+        </div>
+      );
+    };
+
+    // Component: PlayerCard
+    const PlayerCard = ({ player, rank, delayMs = 0 }) => {
+      const isChamp = rank === 1;
+      const isSecond = rank === 2;
+      const isThird = rank === 3;
+
+      const cardColorClass = isChamp ? 'bg-[#FFD83D]' : isSecond ? 'bg-[#3B82F6]' : 'bg-[#F97316]';
+      const rankBadgeBg = 'bg-[#111827] text-white';
+      const scoreBadgeBg = isChamp ? 'bg-[#111827] text-[#FFD83D]' : 'bg-[#111827] text-white';
+
+      const cardDimensions = isChamp
+        ? 'w-[124px] sm:w-[136px] md:w-[148px] min-h-[190px] sm:min-h-[205px]'
+        : 'w-[110px] sm:w-[118px] md:w-[128px] min-h-[170px] sm:min-h-[185px]';
+
+      return (
+        <div
+          className="relative flex flex-col items-center select-none transition-transform duration-200 hover:-translate-y-1"
+          style={{ animation: `podiumCardEntry 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) ${delayMs}ms both` }}
+        >
+          {/* Bursts */}
+          {isSecond && (
+            <div className="absolute -top-3 left-0 w-6 h-5 opacity-90 pointer-events-none" aria-hidden="true">
+              <svg viewBox="0 0 30 25" fill="none" className="w-full h-full">
+                <line x1="22" y1="22" x2="8" y2="6" stroke="#111827" strokeWidth="4" strokeLinecap="round" />
+                <line x1="28" y1="12" x2="16" y2="2" stroke="#111827" strokeWidth="4" strokeLinecap="round" />
+              </svg>
+            </div>
+          )}
+          {isThird && (
+            <div className="absolute -top-3 right-0 w-6 h-5 opacity-90 pointer-events-none" aria-hidden="true">
+              <svg viewBox="0 0 30 25" fill="none" className="w-full h-full">
+                <line x1="8" y1="22" x2="22" y2="6" stroke="#111827" strokeWidth="4" strokeLinecap="round" />
+                <line x1="2" y1="12" x2="14" y2="2" stroke="#111827" strokeWidth="4" strokeLinecap="round" />
+              </svg>
+            </div>
+          )}
+
+          {/* Card Frame */}
+          <div className={`${cardColorClass} ${cardDimensions} border-[3.5px] border-[#111827] rounded-[18px] shadow-[5px_5px_0px_#111827] flex flex-col items-center justify-between p-2 relative`}>
+            {/* Crown or Rank Tab */}
+            <div className={`absolute -top-3.5 w-7 h-7 sm:w-8 sm:h-8 rounded-full border-[2.5px] border-[#111827] flex items-center justify-center font-black text-xs sm:text-sm shadow-[2px_2px_0px_#111827] ${rankBadgeBg}`}>
+              {isChamp ? (
+                <svg viewBox="0 0 24 20" width="16" height="13" fill="#FFD83D">
+                  <path d="M2 5l4.5 4L12 2l5.5 7L22 5l-2.5 11H4.5L2 5z" />
+                  <rect x="3.5" y="17.5" width="17" height="2.5" rx="1" />
+                </svg>
+              ) : (
+                rank
+              )}
+            </div>
+
+            {/* Avatar Circle */}
+            <div className={`mt-2 ${isChamp ? 'w-16 h-16 sm:w-17 sm:h-17' : 'w-13 h-13 sm:w-14 sm:h-14'} rounded-full border-[3px] border-[#111827] bg-white overflow-hidden shadow-[2px_2px_0px_#111827] flex items-center justify-center shrink-0`}>
+              <img src={player.avatarUrl} alt={player.name} className="w-full h-full object-cover" />
+            </div>
+
+            {/* Nameplate */}
+            <div className="w-full bg-white border-[2px] border-[#111827] rounded-lg py-0.5 px-1.5 my-1 shadow-[1.5px_1.5px_0px_#111827] text-center">
+              <span className="font-display font-black text-xs sm:text-sm text-[#111827] tracking-wide uppercase truncate block">
+                {player.name}
+              </span>
+            </div>
+
+            {/* Score Tag */}
+            <div className={`w-full ${scoreBadgeBg} border-[1.5px] border-[#111827] rounded-full py-0.5 px-1 text-center shadow-[1px_1px_0px_#111827]`}>
+              <span className="font-mono font-black text-[10px] sm:text-[11px] tracking-wider uppercase block">
+                {player.score} POINTS
+              </span>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // Component: Podium
+    const Podium = ({ players }) => {
+      const sorted = [...players].sort((a, b) => a.rank - b.rank);
+      const first = sorted.find((p) => p.rank === 1) || sorted[0];
+      const second = sorted.find((p) => p.rank === 2) || sorted[1];
+      const third = sorted.find((p) => p.rank === 3) || sorted[2];
+
+      return (
+        <section aria-label="Winner Podium" className="flex items-end justify-center gap-1 sm:gap-2.5 md:gap-3 w-full max-w-[480px] mx-auto py-1">
+          {second && (
+            <div className="flex-1 flex justify-center pb-2">
+              <PlayerCard player={second} rank={2} delayMs={350} />
+            </div>
+          )}
+          {first && (
+            <div className="flex-1 flex justify-center z-10 pb-4">
+              <PlayerCard player={first} rank={1} delayMs={200} />
+            </div>
+          )}
+          {third && (
+            <div className="flex-1 flex justify-center pb-0">
+              <PlayerCard player={third} rank={3} delayMs={500} />
+            </div>
+          )}
+        </section>
+      );
+    };
+
+    // Component: Scoreboard
+    const Scoreboard = ({ players }) => {
+      const sorted = [...players].sort((a, b) => a.rank - b.rank);
+      return (
+        <aside aria-label="Scoreboard" className="bg-white border-[3px] border-[#111827] rounded-2xl p-2.5 sm:p-3 shadow-[4.5px_4.5px_0px_#111827] flex flex-col gap-1.5 w-full max-w-[260px] mx-auto select-none">
+          <div className="flex items-center gap-1.5 border-b-[2px] border-[#111827] pb-1.5">
+            <span className="text-lg">🏆</span>
+            <h2 className="font-display font-black text-sm sm:text-base text-[#111827] tracking-wider uppercase m-0">
+              SCOREBOARD
+            </h2>
+          </div>
+          <div className="flex flex-col gap-1 overflow-y-auto max-h-[220px] pr-0.5">
+            {sorted.map((player) => {
+              const isWinner = player.rank === 1;
+              const rowBg = isWinner ? 'bg-[#FFD83D]' : 'bg-[#F3F4F6] hover:bg-[#E5E7EB]';
+              const borderClass = isWinner
+                ? 'border-[2px] border-[#111827] shadow-[1.5px_1.5px_0px_#111827]'
+                : 'border-[1.5px] border-[#111827] shadow-[1px_1px_0px_#111827]';
+
+              return (
+                <div key={player.id} className={`flex items-center justify-between px-2 py-1 rounded-lg transition-colors ${rowBg} ${borderClass}`}>
+                  <div className="flex items-center gap-1.5 min-w-0">
+                    <span className="font-black text-xs w-3.5 text-center shrink-0 text-[#111827]">
+                      {isWinner ? '👑' : player.rank}
+                    </span>
+                    <div className="w-6 h-6 rounded-full border-[1.5px] border-[#111827] bg-white overflow-hidden shrink-0 flex items-center justify-center">
+                      <img src={player.avatarUrl} alt={player.name} className="w-full h-full object-cover" />
+                    </div>
+                    <span className="font-display font-bold text-xs text-[#111827] tracking-wide uppercase truncate max-w-[80px]">
+                      {player.name}
+                    </span>
+                  </div>
+                  <div className="bg-[#111827] text-white rounded px-1.5 py-0.5 shrink-0 border border-black shadow-[0.5px_0.5px_0px_#111827]">
+                    <span className="font-mono font-black text-[10px] tracking-wider text-[#FFD83D]">
+                      {player.score} PTS
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </aside>
+      );
+    };
+
+    // Component: MessageCard
+    const MessageCard = ({ message }) => {
+      const defaultText =
+        'Umeed hai aap sabko game pasand aaya hoga. Agar aapke paas koi feedback ho, to humein zaroor batayein. Milte hain agle podcast mein! Aur bhai log, ScoopLuck de do, life mein kaafi problems chal rahi hain. Problems solve hote hi ₹1,000 ka Super Chat pakka. Aur haan, bhai log, email ka reply bhi diya karo 😊';
+
+      return (
+        <article aria-label="Feedback Message" className="bg-white border-[3px] border-[#111827] rounded-2xl p-2.5 sm:p-3 shadow-[4.5px_4.5px_0px_#111827] flex flex-col gap-1.5 w-full max-w-[240px] mx-auto select-none">
+          <div className="flex items-center gap-1.5 border-b-[2px] border-[#111827] pb-1.5">
+            <span className="text-lg">💬</span>
+            <h2 className="font-display font-black text-sm sm:text-base text-[#111827] tracking-wider uppercase m-0">
+              MESSAGE
+            </h2>
+          </div>
+          <p className="text-[11px] sm:text-xs text-[#374151] font-medium leading-relaxed overflow-y-auto max-h-[190px] pr-0.5 m-0">
+            {message || defaultText}
+          </p>
+        </article>
+      );
+    };
+
+    // Component: CreditsBar
+    const CreditsBar = ({ credits }) => {
+      const frames = credits?.framesBy || 'tanmayy, Tanuj, Darshan, Akash, Anmol & smoc crew';
+      const web = credits?.websiteBy || 'Built with ❤️ by Asmit';
+
+      return (
+        <div aria-label="Credits" className="inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5 bg-white border-[2.5px] border-[#111827] rounded-full py-1 px-2.5 sm:px-3.5 shadow-[3px_3px_0px_#111827] max-w-full select-none">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span className="bg-[#FFD83D] text-[#111827] border-[1.5px] border-[#111827] font-black text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded-md uppercase tracking-wider shrink-0 shadow-[0.5px_0.5px_0px_#111827]">
+              FRAMES BY
+            </span>
+            <span className="text-[10px] sm:text-[11px] font-bold text-[#111827] truncate max-w-[180px] sm:max-w-[240px]">
+              {frames}
+            </span>
+          </div>
+          <span className="text-[#9CA3AF] font-black text-xs hidden sm:inline">•</span>
+          <div className="flex items-center gap-1.5 min-w-0">
+            <span className="bg-[#FFD83D] text-[#111827] border-[1.5px] border-[#111827] font-black text-[9px] sm:text-[10px] px-1.5 py-0.5 rounded-md uppercase tracking-wider shrink-0 shadow-[0.5px_0.5px_0px_#111827]">
+              WEBSITE BY
+            </span>
+            <span className="text-[10px] sm:text-[11px] font-bold text-[#111827]">
+              {web}
+            </span>
+          </div>
+        </div>
+      );
+    };
+
+    // Component: ActionButtons
+    const ActionButtons = ({ onPlayAgain, onRematch, onReturnLobby }) => {
+      return (
+        <nav aria-label="Actions" className="w-full flex flex-col sm:flex-row items-stretch justify-center gap-2 sm:gap-3 max-w-[820px] mx-auto select-none">
+          <button
+            type="button"
+            onClick={onPlayAgain}
+            className="flex-1 min-h-[50px] sm:min-h-[58px] bg-[#FFD83D] hover:bg-[#FACC15] text-[#111827] border-[3.5px] border-[#111827] rounded-[14px] shadow-[4px_4px_0px_#111827] hover:-translate-y-[2px] hover:shadow-[4px_6px_0px_#111827] active:translate-y-[1px] active:shadow-[1.5px_1.5px_0px_#111827] transition-all duration-150 flex items-center justify-center gap-2 px-3 cursor-pointer focus:outline-none"
+          >
+            <span className="text-base sm:text-lg">▶</span>
+            <span className="font-display font-black text-xs sm:text-sm md:text-base tracking-wider uppercase">
+              PLAY AGAIN
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={onRematch}
+            className="flex-1 min-h-[50px] sm:min-h-[58px] bg-[#3B82F6] hover:bg-[#2563EB] text-white border-[3.5px] border-[#111827] rounded-[14px] shadow-[4px_4px_0px_#111827] hover:-translate-y-[2px] hover:shadow-[4px_6px_0px_#111827] active:translate-y-[1px] active:shadow-[1.5px_1.5px_0px_#111827] transition-all duration-150 flex items-center justify-center gap-2 px-3 cursor-pointer focus:outline-none"
+          >
+            <span className="text-base sm:text-lg">👥</span>
+            <span className="font-display font-black text-xs sm:text-sm md:text-base tracking-wider uppercase">
+              REMATCH
+            </span>
+          </button>
+
+          <button
+            type="button"
+            onClick={onReturnLobby}
+            className="flex-1 min-h-[50px] sm:min-h-[58px] bg-white hover:bg-[#F3F4F6] text-[#111827] border-[3.5px] border-[#111827] rounded-[14px] shadow-[4px_4px_0px_#111827] hover:-translate-y-[2px] hover:shadow-[4px_6px_0px_#111827] active:translate-y-[1px] active:shadow-[1.5px_1.5px_0px_#111827] transition-all duration-150 flex items-center justify-center gap-2 px-3 cursor-pointer focus:outline-none"
+          >
+            <span className="text-base sm:text-lg">🏠</span>
+            <span className="font-display font-black text-xs sm:text-sm md:text-base tracking-wider uppercase">
+              RETURN TO LOBBY
+            </span>
+          </button>
+        </nav>
+      );
+    };
+
+    // Component: WinnerPage
+    const WinnerPage = ({ players = INITIAL_PLAYERS }) => {
+      const [animKey, setAnimKey] = useState(0);
+
+      const fireConfetti = () => {
+        if (typeof confetti === 'function') {
+          confetti({
+            particleCount: 80,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#FFD83D', '#3B82F6', '#F97316', '#F472B6', '#111827'],
+          });
+        }
+      };
+
+      useEffect(() => {
+        fireConfetti();
+      }, [animKey]);
+
+      return (
+        <main
+          key={animKey}
+          className="min-h-screen w-full flex items-center justify-center p-2 sm:p-4 md:p-5 relative overflow-x-hidden"
+          style={{
+            background: '#F4EEDC url("bg/cinema_bg.webp") no-repeat center center fixed',
+            backgroundSize: 'cover',
+          }}
+        >
+          {/* Backdrop Blur Overlay */}
+          <div className="fixed inset-0 bg-[#F4EEDC]/85 backdrop-blur-[3.5px] pointer-events-none z-0" />
+
+          {/* Controls Bar for Testing */}
+          <div className="fixed top-2 right-2 z-50 flex items-center gap-2 bg-white/90 border-2 border-black rounded-lg px-2 py-1 shadow-sm text-xs">
+            <button
+              onClick={() => { setAnimKey((k) => k + 1); fireConfetti(); }}
+              className="bg-[#FFD83D] font-bold px-2 py-1 rounded border border-black hover:bg-yellow-400"
+            >
+              🎉 Replay Entry & Confetti
+            </button>
+          </div>
+
+          {/* Main Neo-Brutalist Victory Panel */}
+          <div className="relative z-10 w-[95vw] max-w-[1160px] bg-[#FFF8EF] border-4 border-[#111827] rounded-[24px] shadow-[7px_7px_0px_#111827] p-2.5 sm:p-4 md:p-6 flex flex-col justify-between gap-2.5 sm:gap-3 md:gap-4 overflow-hidden">
+            
+            {/* Corner Decorative Triangles */}
+            <div className="absolute top-6 left-0 w-0 h-0 border-t-[30px] border-t-transparent border-b-[30px] border-b-transparent border-l-[45px] border-l-[#3B82F6] pointer-events-none z-1" />
+            <div className="absolute bottom-0 left-0 w-0 h-0 border-b-[75px] sm:border-b-[95px] border-b-[#F472B6] border-r-[85px] sm:border-r-[105px] border-r-transparent pointer-events-none z-1" />
+            <div className="absolute bottom-0 right-0 w-0 h-0 border-b-[85px] sm:border-b-[105px] border-b-[#FACC15] border-l-[95px] sm:border-l-[115px] border-l-transparent pointer-events-none z-1" />
+
+            {/* Header */}
+            <header className="w-full flex justify-center pt-0.5">
+              <VictoryBanner title="VICTORY!" />
+            </header>
+
+            {/* Main Content Area: 3 Columns Desktop / Stacked Mobile */}
+            <section aria-label="Results" className="w-full grid grid-cols-1 lg:grid-cols-[minmax(180px,230px)_1fr_minmax(200px,250px)] items-center gap-2 sm:gap-3 md:gap-4 relative z-10">
+              {/* Message Card */}
+              <div className="order-3 lg:order-1 flex justify-center w-full">
+                <MessageCard />
+              </div>
+
+              {/* Center Podium + Credits */}
+              <div className="order-1 lg:order-2 flex flex-col items-center justify-center gap-2 w-full">
+                <Podium players={players} />
+                <div className="w-full flex justify-center pt-0.5">
+                  <CreditsBar />
+                </div>
+              </div>
+
+              {/* Scoreboard */}
+              <div className="order-2 lg:order-3 flex justify-center w-full">
+                <Scoreboard players={players} />
+              </div>
+            </section>
+
+            {/* Action Buttons */}
+            <footer className="w-full pt-1 sm:pt-2 relative z-10">
+              <ActionButtons
+                onPlayAgain={() => { fireConfetti(); alert('Play Again clicked!'); }}
+                onRematch={() => { fireConfetti(); alert('Rematch clicked!'); }}
+                onReturnLobby={() => { alert('Return to Lobby clicked!'); }}
+              />
+            </footer>
+          </div>
+        </main>
+      );
+    };
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<WinnerPage />);
+  </script>
+</body>
+</html>
