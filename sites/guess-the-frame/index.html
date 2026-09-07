@@ -11622,7 +11622,7 @@
       }
     }
   
-    /* ════ HOW TO ANSWER GUIDE SCREEN ════ */
+    /* ════ HOW TO ANSWER GUIDE SCREEN (NEOBRUTAL ARCADE HOW TO PLAY) ════ */
     #howToAnswerScreen {
       display: none;
       width: 100%;
@@ -11634,9 +11634,9 @@
       right: 0;
       bottom: 0;
       z-index: 99990;
-      background: rgba(15, 23, 42, 0.72) !important;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      background: radial-gradient(circle at 50% 35%, rgba(20, 15, 35, 0.88) 0%, rgba(8, 6, 15, 0.96) 100%) !important;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       padding: 16px;
@@ -11649,15 +11649,15 @@
     }
     .hta-modal-card {
       background: #ffffff !important;
-      border: 4px solid #1a1a1a !important;
-      border-radius: 28px !important;
-      box-shadow: 10px 10px 0 #1a1a1a !important;
+      border: 4px solid #111111 !important;
+      border-radius: 36px !important;
+      box-shadow: 0 12px 0 #111111, 0 20px 35px rgba(0, 0, 0, 0.45) !important;
       width: 100%;
-      max-width: 960px;
-      padding: 24px 28px;
+      max-width: 980px;
+      padding: 24px 32px 26px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
       position: relative;
       margin: auto;
       box-sizing: border-box;
@@ -11668,80 +11668,89 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
+      position: relative;
+      padding-bottom: 4px;
       gap: 12px;
-      border-bottom: 3.5px solid #1a1a1a;
-      padding-bottom: 12px;
-    }
-    .hta-title-group {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
     }
     .hta-badge {
-      align-self: flex-start;
-      background: #FF6B9D;
+      background: #FF5E97;
       color: #ffffff;
-      border: 2px solid #1a1a1a;
+      border: 3.5px solid #111111;
       border-radius: 999px;
-      padding: 3px 12px;
-      font-size: 11px;
+      padding: 6px 18px;
+      font-family: 'Lilita One', 'Anybody', sans-serif;
+      font-size: 15px;
       font-weight: 900;
       letter-spacing: 0.8px;
       text-transform: uppercase;
-      box-shadow: 2px 2px 0 #1a1a1a;
+      box-shadow: 0 4px 0 #111111;
+      line-height: 1;
+    }
+    .hta-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hta-title-burst {
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+    .hta-title-burst.right {
+      transform: scaleX(-1);
     }
     .hta-title {
-      font-size: 30px;
+      font-family: 'Lilita One', 'Anybody', cursive, sans-serif;
+      font-size: 44px;
       font-weight: 900;
-      color: #1a1a1a;
+      color: #111111;
       margin: 0;
-      line-height: 1.1;
+      line-height: 1;
       text-transform: uppercase;
-      letter-spacing: -0.5px;
-    }
-    .hta-subtitle {
-      font-size: 13px;
-      font-weight: 700;
-      color: #4b5563;
-      margin: 0;
+      letter-spacing: 1px;
+      text-align: center;
     }
     .hta-timer-badge {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: #FEF08A;
-      border: 3px solid #1a1a1a;
-      border-radius: 18px;
-      padding: 8px 16px;
-      box-shadow: 3px 3px 0 #1a1a1a;
+      background: #FFDE59;
+      border: 3.5px solid #111111;
+      border-radius: 20px;
+      padding: 6px 16px;
+      box-shadow: 0 4px 0 #111111;
     }
     .hta-timer-icon {
       font-size: 26px;
+      line-height: 1;
     }
     .hta-timer-text-wrap {
       display: flex;
       flex-direction: column;
-    }
-    .hta-timer-label {
-      font-size: 10px;
-      font-weight: 900;
-      color: #854d0e;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      align-items: flex-start;
+      line-height: 1.05;
     }
     .hta-timer-digits {
-      font-family: 'Space Mono', monospace;
-      font-size: 24px;
+      font-family: 'Lilita One', 'Space Mono', sans-serif;
+      font-size: 26px;
       font-weight: 900;
-      color: #1a1a1a;
+      color: #111111;
       line-height: 1;
+    }
+    .hta-timer-label {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9px;
+      font-weight: 900;
+      color: #111111;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
     }
     .hta-timer-bar-wrap {
       width: 100%;
-      height: 9px;
-      background: #e5e7eb;
-      border: 2.5px solid #1a1a1a;
+      height: 8px;
+      background: #E5E7EB;
+      border: 2.5px solid #111111;
       border-radius: 999px;
       overflow: hidden;
       margin-top: -6px;
@@ -11752,227 +11761,293 @@
       width: 100%;
       transition: width 1s linear;
     }
-    .hta-section-title {
-      font-size: 12px;
-      font-weight: 900;
-      color: #1a1a1a;
-      letter-spacing: 0.8px;
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 2px;
-    }
     .hta-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
+      gap: 16px;
     }
     .hta-step-card {
-      border: 3px solid #1a1a1a;
-      border-radius: 18px;
-      padding: 14px 16px;
+      border: 3.5px solid #111111;
+      border-radius: 24px;
+      padding: 20px 18px 18px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      box-shadow: 4px 4px 0 #1a1a1a;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+      box-shadow: 0 5px 0 #111111;
       transition: transform 0.15s ease;
       position: relative;
     }
     .hta-step-card:hover {
       transform: translateY(-2px);
     }
-    .hta-step-card.step-1 { background: #FEF9C3; }
-    .hta-step-card.step-2 { background: #E0F2FE; }
-    .hta-step-card.step-3 { background: #DCFCE7; }
-    .hta-step-top {
+    .hta-step-card.step-1 { background: #FFFBD6; }
+    .hta-step-card.step-2 { background: #E0F4FF; }
+    .hta-step-card.step-3 { background: #D7F8E6; }
+    .hta-hero-art {
+      height: 68px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: center;
+      margin-bottom: 2px;
     }
-    .hta-step-pill {
-      background: #1a1a1a;
-      color: #ffffff;
-      border-radius: 999px;
-      padding: 2px 8px;
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-    }
-    .hta-step-num {
-      font-family: 'Space Mono', monospace;
-      font-size: 16px;
-      font-weight: 900;
-      color: rgba(26, 26, 26, 0.35);
-    }
-    .hta-step-hero {
-      font-size: 36px;
-      line-height: 1;
-      margin: 1px 0;
+    .hta-svg-hero {
+      height: 64px;
+      width: auto;
+      max-width: 90px;
     }
     .hta-step-title {
-      font-size: 17px;
+      font-family: 'Lilita One', 'Anybody', sans-serif;
+      font-size: 18px;
       font-weight: 900;
-      color: #1a1a1a;
+      color: #111111;
       margin: 0;
       text-transform: uppercase;
-      letter-spacing: -0.3px;
+      letter-spacing: 0.5px;
       line-height: 1.15;
     }
     .hta-step-desc {
-      font-size: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13.5px;
       font-weight: 700;
       color: #374151;
       margin: 0;
       line-height: 1.35;
-      min-height: 32px;
+      min-height: 36px;
     }
-    .hta-step-preview {
-      background: #ffffff;
-      border: 2px solid #1a1a1a;
-      border-radius: 10px;
-      padding: 6px 10px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 2px 2px 0 #1a1a1a;
-      margin-top: auto;
-    }
-    .hta-mock-input {
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-      font-weight: 700;
-      color: #1a1a1a;
-    }
-    .hta-mock-badge {
-      background: #DCFCE7;
-      color: #166534;
-      border: 1.5px solid #166534;
-      border-radius: 6px;
-      padding: 2px 6px;
-      font-size: 10px;
+    .hta-bottom-pill {
+      border: 3px solid #111111;
+      border-radius: 999px;
+      padding: 6px 22px;
+      font-family: 'Lilita One', 'Anybody', sans-serif;
+      font-size: 14px;
       font-weight: 900;
       letter-spacing: 0.5px;
+      box-shadow: 0 3px 0 #111111;
+      margin-top: auto;
+      color: #111111;
+      text-transform: uppercase;
     }
-    .hta-mock-frame {
-      background: #F3F4F6;
-      border: 1.5px dashed #9CA3AF;
-      border-radius: 6px;
-      padding: 3px 8px;
-      font-size: 11px;
-      font-weight: 800;
-      color: #4B5563;
-      width: 100%;
-      text-align: center;
-      box-sizing: border-box;
-    }
-    /* POINTING SYSTEM STRIP */
-    .hta-scoring-strip {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-    }
-    .hta-score-pill {
-      border: 3px solid #1a1a1a;
-      border-radius: 14px;
-      padding: 8px 10px;
+    .hta-bottom-pill.pill-yellow { background: #FFDE59; }
+    .hta-bottom-pill.pill-green { background: #34D399; }
+    .hta-search-pill {
+      background: #FFFFFF;
+      border: 3px solid #111111;
+      border-radius: 999px;
+      padding: 4px 6px 4px 14px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      box-shadow: 3px 3px 0 #1a1a1a;
-      background: #ffffff;
-    }
-    .hta-score-pill.pill-gold { background: #FEF08A; }
-    .hta-score-pill.pill-silver { background: #E2E8F0; }
-    .hta-score-pill.pill-bronze { background: #FFEDD5; }
-    .hta-score-pill.pill-hint { background: #FAF5FF; }
-    .hta-score-pill.pill-wrong { background: #F3F4F6; }
-    .hsp-icon { font-size: 24px; line-height: 1; flex-shrink: 0; }
-    .hsp-info { display: flex; flex-direction: column; }
-    .hsp-place { font-size: 10px; font-weight: 800; color: #4B5563; text-transform: uppercase; }
-    .hsp-pts { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 900; color: #166534; }
-    .hsp-pts.minus { color: #DC2626; }
-    .hsp-pts.zero { color: #4B5563; font-size: 13px; }
-    .hta-footer {
-      display: flex;
       justify-content: space-between;
-      align-items: center;
-      border-top: 3.5px solid #1a1a1a;
-      padding-top: 14px;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .hta-footer-note {
-      font-size: 13px;
-      font-weight: 800;
-      color: #4B5563;
-      display: flex;
-      align-items: center;
+      width: 100%;
+      box-sizing: border-box;
+      box-shadow: 0 3px 0 #111111;
+      margin-top: auto;
       gap: 6px;
     }
-    .hta-action-wrap {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .hsp-search-icon {
+      font-size: 14px;
+      color: #111111;
     }
-    .hta-start-btn {
-      background: #10B981;
-      color: #ffffff;
-      border: 3.5px solid #1a1a1a;
-      border-radius: 16px;
-      padding: 12px 28px;
-      font-size: 16px;
+    .hsp-search-text {
+      font-family: 'Lilita One', 'Space Mono', sans-serif;
+      font-size: 14px;
+      font-weight: 900;
+      color: #111111;
+      letter-spacing: 0.5px;
+      flex: 1;
+      text-align: left;
+    }
+    .hsp-typo-badge {
+      background: #22C55E;
+      color: #FFFFFF;
+      border: 2px solid #111111;
+      border-radius: 999px;
+      padding: 2px 10px;
+      font-family: 'Lilita One', 'Space Mono', sans-serif;
+      font-size: 11px;
       font-weight: 900;
       letter-spacing: 0.5px;
       text-transform: uppercase;
+    }
+    /* POINTING SYSTEM HEADER & STRIP */
+    .hta-pointing-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .hta-pointing-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Lilita One', 'Anybody', sans-serif;
+      font-size: 16px;
+      font-weight: 900;
+      color: #111111;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .hta-divider-line {
+      flex: 1;
+      height: 3.5px;
+      background: #111111;
+      opacity: 0.18;
+      border-radius: 999px;
+    }
+    .hta-scoring-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+    .hta-score-pill {
+      border: 3.5px solid #111111;
+      border-radius: 18px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 0 #111111;
+      background: #ffffff;
+    }
+    .hta-score-pill.pill-gold { background: #FFDF40; }
+    .hta-score-pill.pill-silver { background: #E2E8F0; }
+    .hta-score-pill.pill-bronze { background: #FED7AA; }
+    .hta-score-pill.pill-hint { background: #F3E8FF; }
+    .hta-score-pill.pill-wrong { background: #F1F5F9; }
+    .hsp-icon-wrap {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .hsp-medal-svg {
+      width: 32px;
+      height: 32px;
+    }
+    .hsp-info {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+    .hsp-place {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #4B5563;
+      text-transform: uppercase;
+    }
+    .hsp-pts {
+      font-family: 'Lilita One', 'Space Mono', sans-serif;
+      font-size: 17px;
+      font-weight: 900;
+      color: #111111;
+      line-height: 1.1;
+    }
+    .hsp-pts.minus { color: #111111; }
+    .hsp-pts.zero { color: #111111; }
+    /* CENTERED FOOTER ACTION */
+    .hta-footer-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 2px;
+    }
+    .hta-btn-container {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+    .hta-action-rays {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .hta-action-rays span {
+      display: block;
+      height: 4px;
+      background: #111111;
+      border-radius: 999px;
+    }
+    .hta-action-rays.left span:nth-child(1) { width: 14px; transform: rotate(-25deg); }
+    .hta-action-rays.left span:nth-child(2) { width: 22px; margin-left: -4px; }
+    .hta-action-rays.left span:nth-child(3) { width: 14px; transform: rotate(25deg); }
+    .hta-action-rays.right span:nth-child(1) { width: 14px; transform: rotate(25deg); }
+    .hta-action-rays.right span:nth-child(2) { width: 22px; }
+    .hta-action-rays.right span:nth-child(3) { width: 14px; transform: rotate(-25deg); }
+    .hta-start-btn {
+      background: #22C55E;
+      color: #ffffff;
+      border: 4px solid #111111;
+      border-radius: 999px;
+      padding: 12px 52px;
+      font-family: 'Lilita One', 'Anybody', cursive, sans-serif;
+      font-size: 26px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
       cursor: pointer;
-      box-shadow: 4px 4px 0 #1a1a1a;
+      box-shadow: 0 6px 0 #111111;
       transition: all 0.15s ease;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      gap: 12px;
+      line-height: 1;
     }
     .hta-start-btn:hover:not(:disabled) {
-      transform: translate(-2px, -2px);
-      box-shadow: 6px 6px 0 #1a1a1a;
-      background: #059669;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 0 #111111;
+      background: #16A34A;
     }
     .hta-start-btn:active:not(:disabled) {
-      transform: translate(2px, 2px);
-      box-shadow: 0 0 0 #1a1a1a;
+      transform: translateY(4px);
+      box-shadow: 0 2px 0 #111111;
     }
     .hta-start-btn:disabled {
-      background: #e5e7eb !important;
-      color: #6b7280 !important;
+      background: #E2E8F0 !important;
+      color: #64748B !important;
       cursor: not-allowed !important;
-      box-shadow: 2px 2px 0 #1a1a1a !important;
+      box-shadow: 0 4px 0 #111111 !important;
       transform: none !important;
+      font-size: 18px;
+      padding: 12px 36px;
+    }
+    .hta-play-icon {
+      font-size: 22px;
+      line-height: 1;
     }
     .hta-client-status {
       display: flex;
       align-items: center;
       gap: 8px;
       background: #f1f5f9;
-      border: 2px solid #1a1a1a;
+      border: 2px solid #111111;
       border-radius: 12px;
       padding: 8px 16px;
       font-size: 13px;
       font-weight: 800;
       color: #334155;
-      box-shadow: 2px 2px 0 #1a1a1a;
+      box-shadow: 0 2px 0 #111111;
     }
     @media (max-width: 860px) {
-      .hta-modal-card { padding: 16px; border-radius: 20px; gap: 10px; }
-      .hta-title { font-size: 22px; }
-      .hta-grid { grid-template-columns: 1fr; gap: 8px; }
-      .hta-step-card { padding: 12px; gap: 6px; }
-      .hta-step-hero { font-size: 28px; }
+      .hta-modal-card { padding: 18px 14px; border-radius: 26px !important; gap: 12px; }
+      .hta-header { flex-direction: column; align-items: center; gap: 8px; }
+      .hta-title { font-size: 30px; }
+      .hta-grid { grid-template-columns: 1fr; gap: 12px; }
+      .hta-step-card { padding: 14px; gap: 8px; }
       .hta-step-desc { min-height: auto; }
       .hta-scoring-strip { grid-template-columns: repeat(2, 1fr); gap: 8px; }
       .hta-scoring-strip .hta-score-pill:last-child { grid-column: span 2; }
-      .hta-footer { flex-direction: column; align-items: stretch; gap: 8px; }
-      .hta-action-wrap { width: 100%; }
-      .hta-start-btn { width: 100%; justify-content: center; }
+      .hta-action-rays { display: none; }
+      .hta-btn-container { width: 100%; }
+      .hta-start-btn { width: 100%; padding: 12px 20px; font-size: 20px; }
       .hta-client-status { width: 100%; justify-content: center; box-sizing: border-box; }
     }
   </style>
@@ -12694,131 +12769,226 @@
     <!-- ════ HOW TO ANSWER GUIDE SCREEN ════ -->
     <div id="howToAnswerScreen" class="screen">
       <div class="hta-modal-card">
-        <!-- HEADER -->
+        <!-- TOP HEADER: BADGE | HOW TO PLAY TITLE | TIMER BOX -->
         <div class="hta-header">
-          <div class="hta-title-group">
-            <span class="hta-badge">🎮 QUICK GUIDE</span>
+          <div class="hta-badge">QUICK GUIDE</div>
+          <div class="hta-title-wrap">
+            <svg class="hta-title-burst" viewBox="0 0 24 24" fill="none">
+              <path d="M4 12L1 12M6 6L2 3M6 18L2 21" stroke="#FF5E97" stroke-width="3.5" stroke-linecap="round"/>
+            </svg>
             <h2 class="hta-title">HOW TO PLAY</h2>
-            <p class="hta-subtitle">Simple rules &amp; scoring — read in 10 seconds!</p>
+            <svg class="hta-title-burst right" viewBox="0 0 24 24" fill="none">
+              <path d="M4 12L1 12M6 6L2 3M6 18L2 21" stroke="#FF5E97" stroke-width="3.5" stroke-linecap="round"/>
+            </svg>
           </div>
           <div class="hta-timer-badge">
             <span class="hta-timer-icon">⏱️</span>
             <div class="hta-timer-text-wrap">
-              <span class="hta-timer-label">GAME STARTS IN</span>
               <span class="hta-timer-digits" id="htaTimerCount">10s</span>
+              <span class="hta-timer-label">GAME STARTS IN</span>
             </div>
           </div>
         </div>
 
-        <!-- PROGRESS BAR -->
+        <!-- SMOOTH TIMER BAR -->
         <div class="hta-timer-bar-wrap">
           <div class="hta-timer-bar-fill" id="htaTimerBar"></div>
         </div>
 
-        <!-- SECTION 1: HOW TO PLAY (3 SIMPLE STEPS) -->
-        <div class="hta-section-title">
-          <span>🎬</span> HOW TO PLAY (3 SIMPLE STEPS)
-        </div>
+        <!-- 3-STEP ARCADE CARDS -->
         <div class="hta-grid">
           <!-- STEP 1: WATCH FRAME -->
           <div class="hta-step-card step-1">
-            <div class="hta-step-top">
-              <span class="hta-step-pill">STEP 1</span>
-              <span class="hta-step-num">01</span>
+            <div class="hta-hero-art">
+              <svg class="hta-svg-hero" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Yellow comic sparkles -->
+                <path d="M12 28L7 25M14 18L9 13M22 14L21 7" stroke="#F59E0B" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M68 28L73 25M66 18L71 13M58 14L59 7" stroke="#F59E0B" stroke-width="3.5" stroke-linecap="round"/>
+                <!-- Clapperboard top stick (angled open) -->
+                <g transform="rotate(-12 20 32)">
+                  <rect x="18" y="16" width="46" height="12" rx="4" fill="#1E293B" stroke="#111111" stroke-width="3.5"/>
+                  <path d="M26 16L32 28M38 16L44 28M50 16L56 28" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+                </g>
+                <!-- Clapperboard bottom body -->
+                <rect x="18" y="32" width="46" height="34" rx="6" fill="#1E293B" stroke="#111111" stroke-width="3.5"/>
+                <path d="M25 32L31 44M37 32L43 44M49 32L55 44" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round"/>
+                <line x1="24" y1="50" x2="58" y2="50" stroke="#64748B" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="24" y1="57" x2="48" y2="57" stroke="#64748B" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
             </div>
-            <div class="hta-step-hero">🎬</div>
-            <h3 class="hta-step-title">WATCH FRAME</h3>
-            <p class="hta-step-desc">A movie screenshot will appear on screen. Look closely for clues!</p>
-            <div class="hta-step-preview">
-              <div class="hta-mock-frame">⏱️ 30s Round</div>
-            </div>
+            <h3 class="hta-step-title">STEP 1: WATCH FRAME</h3>
+            <p class="hta-step-desc">Look closely at the screenshot for clues.</p>
+            <div class="hta-bottom-pill pill-yellow">30s Round</div>
           </div>
 
-          <!-- STEP 2: TYPE ANY GUESS -->
+          <!-- STEP 2: TYPE GUESS -->
           <div class="hta-step-card step-2">
-            <div class="hta-step-top">
-              <span class="hta-step-pill">STEP 2</span>
-              <span class="hta-step-num">02</span>
+            <div class="hta-hero-art">
+              <svg class="hta-svg-hero" viewBox="0 0 90 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Cyan comic sparkles -->
+                <path d="M12 22L7 19M15 13L10 8" stroke="#0284C7" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M78 22L83 19M75 13L80 8" stroke="#0284C7" stroke-width="3.5" stroke-linecap="round"/>
+                <!-- 3D Keyboard Body -->
+                <rect x="15" y="24" width="60" height="34" rx="8" fill="#0F172A"/>
+                <rect x="15" y="20" width="60" height="34" rx="8" fill="#1E293B" stroke="#111111" stroke-width="3.5"/>
+                <!-- Keycaps Row 1 -->
+                <rect x="20" y="25" width="6" height="5" rx="1.5" fill="#FFFFFF"/>
+                <rect x="28" y="25" width="6" height="5" rx="1.5" fill="#FFFFFF"/>
+                <rect x="36" y="25" width="6" height="5" rx="1.5" fill="#FFFFFF"/>
+                <rect x="44" y="25" width="6" height="5" rx="1.5" fill="#FFFFFF"/>
+                <rect x="52" y="25" width="6" height="5" rx="1.5" fill="#FFFFFF"/>
+                <rect x="60" y="25" width="10" height="5" rx="1.5" fill="#F43F5E"/>
+                <!-- Keycaps Row 2 -->
+                <rect x="20" y="33" width="8" height="5" rx="1.5" fill="#38BDF8"/>
+                <rect x="30" y="33" width="6" height="5" rx="1.5" fill="#FFFFFF"/>
+                <rect x="38" y="33" width="6" height="5" rx="1.5" fill="#FFFFFF"/>
+                <rect x="46" y="33" width="6" height="5" rx="1.5" fill="#FFFFFF"/>
+                <rect x="54" y="33" width="6" height="5" rx="1.5" fill="#FFFFFF"/>
+                <rect x="62" y="33" width="8" height="5" rx="1.5" fill="#FFFFFF"/>
+                <!-- Keycaps Row 3 -->
+                <rect x="20" y="41" width="10" height="5" rx="1.5" fill="#F43F5E"/>
+                <rect x="32" y="41" width="26" height="5" rx="1.5" fill="#FFFFFF"/>
+                <rect x="60" y="41" width="10" height="5" rx="1.5" fill="#38BDF8"/>
+              </svg>
             </div>
-            <div class="hta-step-hero">⌨️</div>
-            <h3 class="hta-step-title">TYPE GUESS</h3>
-            <p class="hta-step-desc">Typos are forgiven! Acronyms and slight misspellings count as correct.</p>
-            <div class="hta-step-preview">
-              <span class="hta-mock-input">Inception</span>
-              <span class="hta-mock-badge">✓ TYPO OK</span>
+            <h3 class="hta-step-title">STEP 2: TYPE GUESS</h3>
+            <p class="hta-step-desc">Typos are forgiven! Acronyms accepted.</p>
+            <div class="hta-search-pill">
+              <span class="hsp-search-icon">🔍</span>
+              <span class="hsp-search-text">Inception</span>
+              <span class="hsp-typo-badge">TYPO OK</span>
             </div>
           </div>
 
           <!-- STEP 3: UNLIMITED TRIES -->
           <div class="hta-step-card step-3">
-            <div class="hta-step-top">
-              <span class="hta-step-pill">STEP 3</span>
-              <span class="hta-step-num">03</span>
+            <div class="hta-hero-art">
+              <svg class="hta-svg-hero" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Green comic sparkles -->
+                <path d="M14 22L9 19M16 13L11 8" stroke="#16A34A" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M66 22L71 19M64 13L69 8" stroke="#16A34A" stroke-width="3.5" stroke-linecap="round"/>
+                <!-- Target circles -->
+                <circle cx="40" cy="42" r="28" fill="#EF4444" stroke="#111111" stroke-width="3.5"/>
+                <circle cx="40" cy="42" r="21" fill="#FFFFFF" stroke="#111111" stroke-width="2.5"/>
+                <circle cx="40" cy="42" r="14" fill="#EF4444" stroke="#111111" stroke-width="2.5"/>
+                <circle cx="40" cy="42" r="7" fill="#FFFFFF" stroke="#111111" stroke-width="2"/>
+                <circle cx="40" cy="42" r="3" fill="#EF4444"/>
+                <!-- Dart hitting bullseye -->
+                <g transform="rotate(40 40 42)">
+                  <line x1="40" y1="42" x2="40" y2="12" stroke="#2563EB" stroke-width="4.5" stroke-linecap="round"/>
+                  <!-- Dart fletching / fins -->
+                  <path d="M34 16L40 22L46 16L40 8Z" fill="#3B82F6" stroke="#111111" stroke-width="2"/>
+                  <path d="M40 20L40 8" stroke="#1D4ED8" stroke-width="2"/>
+                </g>
+              </svg>
             </div>
-            <div class="hta-step-hero">🎯</div>
-            <h3 class="hta-step-title">UNLIMITED TRIES</h3>
-            <p class="hta-step-desc">No penalties for wrong guesses! Keep guessing as fast as you can.</p>
-            <div class="hta-step-preview">
-              <div class="hta-mock-frame" style="background:#DCFCE7;border-color:#166534;color:#166534;font-weight:900;">⚡ Unlimited Tries</div>
-            </div>
+            <h3 class="hta-step-title">STEP 3: UNLIMITED TRIES</h3>
+            <p class="hta-step-desc">No penalty for wrong guesses! Keep guessing fast.</p>
+            <div class="hta-bottom-pill pill-green">Unlimited Tries</div>
           </div>
         </div>
 
-        <!-- SECTION 2: POINTING SYSTEM -->
-        <div class="hta-section-title">
-          <span>🏆</span> POINTING SYSTEM (HOW TO SCORE)
+        <!-- POINTING SYSTEM SECTION -->
+        <div class="hta-pointing-header">
+          <div class="hta-pointing-title">
+            <span>🏆</span>
+            <span>POINTING SYSTEM</span>
+          </div>
+          <div class="hta-divider-line"></div>
         </div>
+
         <div class="hta-scoring-strip">
+          <!-- 1ST PLACE -->
           <div class="hta-score-pill pill-gold">
-            <span class="hsp-icon">🥇</span>
+            <div class="hsp-icon-wrap">
+              <svg class="hsp-medal-svg" viewBox="0 0 36 36" fill="none">
+                <path d="M12 4L14 18L18 15L22 18L24 4H12Z" fill="#F43F5E"/>
+                <circle cx="18" cy="22" r="11" fill="#FBBF24" stroke="#B45309" stroke-width="2"/>
+                <text x="18" y="26" text-anchor="middle" font-size="12" font-weight="900" fill="#78350F" font-family="Lilita One, sans-serif">1</text>
+              </svg>
+            </div>
             <div class="hsp-info">
               <span class="hsp-place">1st Place</span>
               <span class="hsp-pts">+10 PTS</span>
             </div>
           </div>
+
+          <!-- 2ND PLACE -->
           <div class="hta-score-pill pill-silver">
-            <span class="hsp-icon">🥈</span>
+            <div class="hsp-icon-wrap">
+              <svg class="hsp-medal-svg" viewBox="0 0 36 36" fill="none">
+                <path d="M12 4L14 18L18 15L22 18L24 4H12Z" fill="#3B82F6"/>
+                <circle cx="18" cy="22" r="11" fill="#E2E8F0" stroke="#64748B" stroke-width="2"/>
+                <text x="18" y="26" text-anchor="middle" font-size="12" font-weight="900" fill="#334155" font-family="Lilita One, sans-serif">2</text>
+              </svg>
+            </div>
             <div class="hsp-info">
               <span class="hsp-place">2nd Place</span>
               <span class="hsp-pts">+7 PTS</span>
             </div>
           </div>
+
+          <!-- 3RD PLACE -->
           <div class="hta-score-pill pill-bronze">
-            <span class="hsp-icon">🥉</span>
+            <div class="hsp-icon-wrap">
+              <svg class="hsp-medal-svg" viewBox="0 0 36 36" fill="none">
+                <path d="M12 4L14 18L18 15L22 18L24 4H12Z" fill="#EA580C"/>
+                <circle cx="18" cy="22" r="11" fill="#FDBA74" stroke="#C2410C" stroke-width="2"/>
+                <text x="18" y="26" text-anchor="middle" font-size="12" font-weight="900" fill="#7C2D12" font-family="Lilita One, sans-serif">3</text>
+              </svg>
+            </div>
             <div class="hsp-info">
               <span class="hsp-place">3rd Place</span>
               <span class="hsp-pts">+5 PTS</span>
             </div>
           </div>
+
+          <!-- HINT USED -->
           <div class="hta-score-pill pill-hint">
-            <span class="hsp-icon">💡</span>
+            <div class="hsp-icon-wrap">
+              <svg class="hsp-medal-svg" viewBox="0 0 36 36" fill="none">
+                <path d="M18 6C13.5 6 10 9.5 10 14C10 17 12 19.5 14 22V24H22V22C24 19.5 26 17 26 14C26 9.5 22.5 6 18 6Z" fill="#FDE047" stroke="#A16207" stroke-width="2"/>
+                <path d="M15 27H21M16 29H20" stroke="#713F12" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
             <div class="hsp-info">
               <span class="hsp-place">Hint Used</span>
               <span class="hsp-pts minus">-2 PTS</span>
             </div>
           </div>
+
+          <!-- WRONG GUESS -->
           <div class="hta-score-pill pill-wrong">
-            <span class="hsp-icon">🎯</span>
+            <div class="hsp-icon-wrap">
+              <svg class="hsp-medal-svg" viewBox="0 0 36 36" fill="none">
+                <path d="M18 6L9 10V18C9 23.5 13 28 18 30C23 28 27 23.5 27 18V10L18 6Z" fill="#94A3B8" stroke="#334155" stroke-width="2"/>
+                <path d="M18 10L18 26" stroke="#475569" stroke-width="1.5"/>
+              </svg>
+            </div>
             <div class="hsp-info">
               <span class="hsp-place">Wrong Guess</span>
-              <span class="hsp-pts zero">0 PTS (Safe)</span>
+              <span class="hsp-pts zero">0 PTS</span>
             </div>
           </div>
         </div>
 
-        <!-- FOOTER: HOST BUTTON & CLIENT STATUS -->
-        <div class="hta-footer">
-          <div class="hta-footer-note">
-            <span>🛡️</span> All players are viewing this guide simultaneously
+        <!-- CENTERED FOOTER ACTION: BIG GREEN START BUTTON WITH ACTION RAYS -->
+        <div class="hta-footer-center">
+          <div id="htaClientStatus" class="hta-client-status" style="display:none;">
+            <span class="hta-spinner">⏳</span>
+            <span id="htaClientStatusText">Reading rules... Waiting for host (10s)</span>
           </div>
-          <div class="hta-action-wrap">
-            <div id="htaClientStatus" class="hta-client-status" style="display:none;">
-              <span class="hta-spinner">⏳</span>
-              <span id="htaClientStatusText">Reading rules... Waiting for host (10s)</span>
+          <div class="hta-btn-container">
+            <div class="hta-action-rays left">
+              <span></span><span></span><span></span>
             </div>
             <button id="htaHostStartBtn" class="hta-start-btn" disabled>
-              <span>⏳ Host can start in 10s...</span>
+              <span class="hta-play-icon">▶</span>
+              <span class="hta-btn-text">START GAME</span>
             </button>
+            <div class="hta-action-rays right">
+              <span></span><span></span><span></span>
+            </div>
           </div>
         </div>
       </div>
@@ -13697,7 +13867,7 @@
               hostBtn.innerHTML = `<span>⏳ Host can start in ${remaining}s...</span>`;
             } else {
               hostBtn.disabled = false;
-              hostBtn.innerHTML = '<span>🚀 START GAME NOW ▶</span>';
+              hostBtn.innerHTML = '<span class="hta-play-icon">▶</span> <span class="hta-btn-text">START GAME</span>';
               hostBtn.style.animation = 'pulse 1.2s infinite';
               if (typeof SoundManager !== 'undefined' && SoundManager.play) {
                 SoundManager.play('click');
