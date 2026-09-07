@@ -216,6 +216,7 @@ test.describe('FULL APPLICATION PAGE & SCREEN INSPECTOR', () => {
     // Verify sound button is hidden on winner screen
     await expect(page.locator('#sndBtn')).toBeHidden();
 
+    await page.waitForTimeout(1000);
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, '10_winner_screen_desktop.png') });
 
     // Click Return to Lobby
@@ -270,6 +271,7 @@ test.describe('FULL APPLICATION PAGE & SCREEN INSPECTOR', () => {
       ]);
     });
     await expect(page.locator('#winnerScreen')).toBeVisible();
+    await page.waitForTimeout(1000);
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, '16_winner_screen_mobile.png') });
   });
 
