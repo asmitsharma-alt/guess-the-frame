@@ -11665,11 +11665,11 @@
       border-radius: 24px;
       box-shadow: 8px 8px 0 #1a1a1a;
       width: 100%;
-      max-width: 1060px;
+      max-width: 900px;
       padding: 24px 28px;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       position: relative;
       margin: auto;
       box-sizing: border-box;
@@ -11682,7 +11682,7 @@
       flex-wrap: wrap;
       gap: 12px;
       border-bottom: 3px solid #1a1a1a;
-      padding-bottom: 16px;
+      padding-bottom: 14px;
     }
     .hta-title-group {
       display: flex;
@@ -11703,7 +11703,7 @@
       box-shadow: 2px 2px 0 #1a1a1a;
     }
     .hta-title {
-      font-size: 26px;
+      font-size: 28px;
       font-weight: 900;
       color: #1a1a1a;
       margin: 0;
@@ -11712,7 +11712,7 @@
       letter-spacing: -0.5px;
     }
     .hta-subtitle {
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
       color: #4b5563;
       margin: 0;
@@ -11743,7 +11743,7 @@
     }
     .hta-timer-digits {
       font-family: 'Space Mono', monospace;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 900;
       color: #1a1a1a;
       line-height: 1;
@@ -11766,139 +11766,126 @@
     .hta-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      gap: 14px;
     }
     .hta-card {
       background: #fafaf9;
       border: 3px solid #1a1a1a;
-      border-radius: 16px;
-      padding: 16px;
+      border-radius: 18px;
+      padding: 16px 18px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       box-shadow: 4px 4px 0 #1a1a1a;
       transition: transform 0.15s ease;
     }
     .hta-card:hover {
       transform: translateY(-2px);
     }
+    .hta-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
     .hta-card-pill {
-      align-self: flex-start;
       border: 2px solid #1a1a1a;
       border-radius: 8px;
       padding: 2px 8px;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 900;
       letter-spacing: 0.5px;
       box-shadow: 1.5px 1.5px 0 #1a1a1a;
       text-transform: uppercase;
     }
-    .hta-card-title {
+    .hta-card-num {
+      font-family: 'Space Mono', monospace;
       font-size: 16px;
+      font-weight: 900;
+      color: #9ca3af;
+    }
+    .hta-card-title {
+      font-size: 18px;
       font-weight: 900;
       color: #1a1a1a;
       margin: 0;
       display: flex;
       align-items: center;
       gap: 6px;
+      line-height: 1.2;
     }
     .hta-card-desc {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       color: #4b5563;
       margin: 0;
       line-height: 1.35;
+      min-height: 36px;
     }
-    .hta-example-box {
+    .hta-demo-box {
       background: #ffffff;
       border: 2px solid #1a1a1a;
       border-radius: 12px;
-      padding: 10px 12px;
+      padding: 8px 12px;
       display: flex;
       flex-direction: column;
       gap: 6px;
       box-shadow: inset 0 2px 4px rgba(0,0,0,0.04);
+      margin-top: auto;
     }
-    .hta-example-target {
-      font-size: 11px;
-      font-weight: 900;
-      color: #1a1a1a;
-      border-bottom: 1.5px dashed #d1d5db;
-      padding-bottom: 4px;
-      text-transform: uppercase;
-    }
-    .hta-example-list {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-    .hta-ex-item {
+    .hta-demo-row {
       display: flex;
       align-items: center;
       gap: 6px;
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
     }
-    .hta-ex-item.ok {
+    .hta-demo-row.ok {
       color: #15803d;
     }
-    .hta-ex-item.bad {
-      color: #b91c1c;
+    .hta-demo-row.highlight {
+      color: #7c3aed;
     }
-    .hta-ex-code {
+    .hta-demo-row code {
       font-family: 'Space Mono', monospace;
       font-size: 12px;
       background: #f3f4f6;
-      padding: 1px 6px;
+      padding: 2px 6px;
       border-radius: 4px;
       border: 1px solid #e5e7eb;
+      color: #1a1a1a;
     }
-    .hta-ex-tag {
-      font-size: 10px;
+    .hta-demo-note {
+      font-size: 11px;
       color: #6b7280;
       font-weight: 600;
       font-style: italic;
     }
     .hta-pro-tips {
       background: #EDE9FE;
-      border: 3px solid #1a1a1a;
-      border-radius: 16px;
-      padding: 12px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
+      border: 2.5px solid #1a1a1a;
+      border-radius: 14px;
+      padding: 10px 16px;
       box-shadow: 3px 3px 0 #1a1a1a;
     }
-    .hta-pro-tips-header {
+    .hta-tip-single {
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      font-weight: 900;
-      color: #5B21B6;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .hta-tips-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-    .hta-tip-item {
-      font-size: 12px;
+      gap: 8px;
+      font-size: 13px;
       font-weight: 700;
-      color: #1a1a1a;
+      color: #3b0764;
       line-height: 1.3;
-      display: flex;
-      align-items: flex-start;
-      gap: 6px;
+    }
+    .hta-tip-icon {
+      font-size: 18px;
+      flex-shrink: 0;
     }
     .hta-footer {
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-top: 3px solid #1a1a1a;
-      padding-top: 16px;
+      padding-top: 14px;
       gap: 12px;
       flex-wrap: wrap;
     }
@@ -11921,7 +11908,7 @@
       border: 3.5px solid #1a1a1a;
       border-radius: 14px;
       padding: 12px 28px;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 900;
       letter-spacing: 0.5px;
       text-transform: uppercase;
@@ -11962,11 +11949,12 @@
       box-shadow: 2px 2px 0 #1a1a1a;
     }
     @media (max-width: 860px) {
-      .hta-modal-card { padding: 16px; border-radius: 18px; }
+      .hta-modal-card { padding: 14px; border-radius: 18px; gap: 10px; }
       .hta-title { font-size: 20px; }
-      .hta-grid { grid-template-columns: 1fr; }
-      .hta-tips-grid { grid-template-columns: 1fr; }
-      .hta-footer { flex-direction: column; align-items: stretch; }
+      .hta-grid { grid-template-columns: 1fr; gap: 8px; }
+      .hta-card { padding: 12px 14px; gap: 6px; }
+      .hta-card-desc { min-height: auto; }
+      .hta-footer { flex-direction: column; align-items: stretch; gap: 8px; }
       .hta-action-wrap { width: 100%; }
       .hta-start-btn { width: 100%; justify-content: center; }
       .hta-client-status { width: 100%; justify-content: center; box-sizing: border-box; }
@@ -12693,14 +12681,14 @@
         <!-- HEADER -->
         <div class="hta-header">
           <div class="hta-title-group">
-            <span class="hta-badge">Quick Guide & Rules</span>
-            <h2 class="hta-title">🎯 How to Answer</h2>
-            <p class="hta-subtitle">Fast typing, fuzzy match & smart answers accepted! Read below before Round 1 begins.</p>
+            <span class="hta-badge">🎬 3 RULES TO WIN</span>
+            <h2 class="hta-title">HOW TO GUESS</h2>
+            <p class="hta-subtitle">Read in 5 seconds before Round 1 starts!</p>
           </div>
           <div class="hta-timer-badge">
             <span class="hta-timer-icon">⏱️</span>
             <div class="hta-timer-text-wrap">
-              <span class="hta-timer-label">Game starts in</span>
+              <span class="hta-timer-label">STARTING IN</span>
               <span class="hta-timer-digits" id="htaTimerCount">10s</span>
             </div>
           </div>
@@ -12711,66 +12699,56 @@
           <div class="hta-timer-bar-fill" id="htaTimerBar"></div>
         </div>
 
-        <!-- 3-CARD RULE GRID (EXAMPLES OUTSIDE CURRENT FRAMES POOL) -->
+        <!-- 3-CARD ULTRA-SIMPLE RULE GRID -->
         <div class="hta-grid">
-          <!-- CARD 1: TYPO-TOLERANT -->
+          <!-- CARD 1: TYPOS ARE OK -->
           <div class="hta-card">
-            <span class="hta-card-pill" style="background:#DCFCE7; color:#166534;">Smart Matching</span>
-            <h3 class="hta-card-title"><span>✍️</span> Typo & Spelling Tolerant</h3>
-            <p class="hta-card-desc">Small typos, phonetics, and slight misspellings are automatically forgiven by the fuzzy judge.</p>
-            <div class="hta-example-box">
-              <div class="hta-example-target">Target: Inception</div>
-              <div class="hta-example-list">
-                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">Inception</span> <span class="hta-ex-tag">(Exact)</span></div>
-                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">Incepton</span> <span class="hta-ex-tag">(1 typo ok)</span></div>
-                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">Incepshun</span> <span class="hta-ex-tag">(Phonetic ok)</span></div>
-                <div class="hta-ex-item bad"><span>❌</span> <span class="hta-ex-code">Interstellar</span> <span class="hta-ex-tag">(Different movie)</span></div>
-              </div>
+            <div class="hta-card-top">
+              <span class="hta-card-pill" style="background:#DCFCE7; color:#166534;">RULE 01</span>
+              <span class="hta-card-num">01</span>
+            </div>
+            <h3 class="hta-card-title"><span>✍️</span> Typos Are OK!</h3>
+            <p class="hta-card-desc">Spelling mistakes are forgiven. Close enough still scores!</p>
+            <div class="hta-demo-box">
+              <div class="hta-demo-row ok"><span>✅</span> <code>Inception</code></div>
+              <div class="hta-demo-row ok"><span>✅</span> <code>Incepton</code> <span class="hta-demo-note">(typo ok)</span></div>
             </div>
           </div>
 
-          <!-- CARD 2: ARTICLES & ACRONYMS -->
+          <!-- CARD 2: SHORT NAMES WORK -->
           <div class="hta-card">
-            <span class="hta-card-pill" style="background:#E0F2FE; color:#075985;">Flexible Prefix</span>
-            <h3 class="hta-card-title"><span>🔤</span> Articles & Acronyms</h3>
-            <p class="hta-card-desc">Prefix words like "The", "A", "An" are completely optional. Well-known acronyms work too!</p>
-            <div class="hta-example-box">
-              <div class="hta-example-target">Target: The Lord of the Rings</div>
-              <div class="hta-example-list">
-                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">Lord of the Rings</span> <span class="hta-ex-tag">(Without "The")</span></div>
-                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">The Lord of the Rings</span> <span class="hta-ex-tag">(With "The")</span></div>
-                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">LOTR</span> <span class="hta-ex-tag">(Recognized acronym)</span></div>
-                <div class="hta-ex-item bad"><span>❌</span> <span class="hta-ex-code">The Hobbit</span> <span class="hta-ex-tag">(Different series)</span></div>
-              </div>
+            <div class="hta-card-top">
+              <span class="hta-card-pill" style="background:#E0F2FE; color:#075985;">RULE 02</span>
+              <span class="hta-card-num">02</span>
+            </div>
+            <h3 class="hta-card-title"><span>🔤</span> Short Titles Work</h3>
+            <p class="hta-card-desc">Skip "The", "A", "An" or type well-known acronyms!</p>
+            <div class="hta-demo-box">
+              <div class="hta-demo-row ok"><span>✅</span> <code>Dark Knight</code></div>
+              <div class="hta-demo-row ok"><span>✅</span> <code>LOTR</code> <span class="hta-demo-note">(acronym ok)</span></div>
             </div>
           </div>
 
-          <!-- CARD 3: NUMBERS & SUBTITLES -->
+          <!-- CARD 3: UNLIMITED FAST GUESSES -->
           <div class="hta-card">
-            <span class="hta-card-pill" style="background:#FEF3C7; color:#92400E;">Numbers & Subtitles</span>
-            <h3 class="hta-card-title"><span>🔢</span> Numbers & Subtitles</h3>
-            <p class="hta-card-desc">Type digits (2) or words (Two). Long sequels don't require full subtitles to count!</p>
-            <div class="hta-example-box">
-              <div class="hta-example-target">Target: Terminator 2: Judgment Day</div>
-              <div class="hta-example-list">
-                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">Terminator 2</span> <span class="hta-ex-tag">(Digit / No subtitle)</span></div>
-                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">Terminator Two</span> <span class="hta-ex-tag">(Word number)</span></div>
-                <div class="hta-ex-item ok"><span>✅</span> <span class="hta-ex-code">T2</span> <span class="hta-ex-tag">(Short title)</span></div>
-                <div class="hta-ex-item bad"><span>❌</span> <span class="hta-ex-code">Terminator 1</span> <span class="hta-ex-tag">(Wrong sequel)</span></div>
-              </div>
+            <div class="hta-card-top">
+              <span class="hta-card-pill" style="background:#FEF3C7; color:#92400E;">RULE 03</span>
+              <span class="hta-card-num">03</span>
+            </div>
+            <h3 class="hta-card-title"><span>⚡</span> Guess Fast & Often</h3>
+            <p class="hta-card-desc">No penalty for wrong guesses. Faster guesses = max points!</p>
+            <div class="hta-demo-box">
+              <div class="hta-demo-row highlight"><span>🚀</span> <strong>Up to 1,000 pts</strong></div>
+              <div class="hta-demo-row ok"><span>🎯</span> <strong>Unlimited tries</strong></div>
             </div>
           </div>
         </div>
 
-        <!-- PRO TIPS RIBBON -->
+        <!-- QUICK PRO TIP BANNER -->
         <div class="hta-pro-tips">
-          <div class="hta-pro-tips-header">
-            <span>💡</span> Pro Tips for Scoring Big
-          </div>
-          <div class="hta-tips-grid">
-            <div class="hta-tip-item">⚡ <strong>Speed = Max Points:</strong> Fast answers score up to 1,000 pts. Faster you type, higher you climb!</div>
-            <div class="hta-tip-item">🔍 <strong>Private Hints:</strong> Stuck? Click the Hint button! Your hint is private and won't help rivals.</div>
-            <div class="hta-tip-item">🎯 <strong>Unlimited Guesses:</strong> No penalty for wrong tries — keep guessing until time runs out!</div>
+          <div class="hta-tip-single">
+            <span class="hta-tip-icon">💡</span>
+            <span><strong>Pro Tip:</strong> Stuck on a movie? Tap the <strong>Hint button</strong> during the round to reveal masked letters!</span>
           </div>
         </div>
 
