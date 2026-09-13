@@ -48,15 +48,24 @@ export const BOLD_AVATAR_COLORS = [
 
 export const AVATAR_SEEDS = [
   'Nolan', 'Tarantino', 'Scorsese', 'Kubrick', 'Spielberg', 'Fincher', 'Hitchcock', 'Coppola', 'Villeneuve', 'Bong',
-  'Aman', 'Amish', 'Aziz', 'Vish', 'Emma', 'Liam', 'Olivia', 'Noah', 'Ava', 'Oliver',
-  'Sophia', 'James', 'Isabella', 'Lucas', 'Mia', 'Henry', 'Charlotte', 'Alexander', 'Amelia', 'Ethan',
-  'Harper', 'Daniel', 'Evelyn', 'Jacob', 'Abigail', 'Logan', 'Emily', 'Jackson', 'Ella', 'Sebastian',
-  'Elizabeth', 'Jack', 'Camila', 'Owen', 'Luna', 'Theodore', 'Sofia', 'Samuel', 'Avery', 'Joseph',
-  'Mila', 'David', 'Aria', 'Wyatt', 'Scarlett', 'Matthew', 'Penelope', 'Luke', 'Layla', 'Asher',
-  'Chloe', 'Carter', 'Victoria', 'Julian', 'Madison', 'Grayson', 'Eleanor', 'Leo', 'Grace', 'Jayden',
-  'Nora', 'Gabriel', 'Riley', 'Isaac', 'Zoey', 'Lincoln', 'Hannah', 'Anthony', 'Hazel', 'Hudson',
-  'Lily', 'Dylan', 'Ellie', 'Ezra', 'Violet', 'Thomas', 'Lillian', 'Charles', 'Zoe', 'Christopher',
-  'Stella', 'Jaxon', 'Aurora', 'Maverick', 'Natalie', 'Josiah', 'Emilia', 'Isaiah', 'Everly', 'Andrew'
+  'Miyazaki', 'Kurosawa', 'Fellini', 'Godard', 'Truffaut', 'Lynch', 'Cronenberg', 'WesAnderson', 'PTA', 'Chivo',
+  'WongKarWai', 'BongJoonHo', 'ParkChanWook', 'DelToro', 'Cuaron', 'Inarritu', 'Almodovar', 'Tarkovsky', 'Bergman', 'Leone',
+  'Emma', 'Liam', 'Olivia', 'Noah', 'Ava', 'Oliver', 'Sophia', 'James', 'Isabella', 'Lucas',
+  'Mia', 'Henry', 'Charlotte', 'Alexander', 'Amelia', 'Ethan', 'Harper', 'Daniel', 'Evelyn', 'Jacob',
+  'Abigail', 'Logan', 'Emily', 'Jackson', 'Ella', 'Sebastian', 'Elizabeth', 'Jack', 'Camila', 'Owen',
+  'Luna', 'Theodore', 'Sofia', 'Samuel', 'Avery', 'Joseph', 'Mila', 'David', 'Aria', 'Wyatt',
+  'Scarlett', 'Matthew', 'Penelope', 'Luke', 'Layla', 'Asher', 'Chloe', 'Carter', 'Victoria', 'Julian',
+  'Madison', 'Grayson', 'Eleanor', 'Leo', 'Grace', 'Jayden', 'Nora', 'Gabriel', 'Riley', 'Isaac',
+  'Zoey', 'Lincoln', 'Hannah', 'Anthony', 'Hazel', 'Hudson', 'Lily', 'Dylan', 'Ellie', 'Ezra',
+  'Violet', 'Thomas', 'Lillian', 'Charles', 'Zoe', 'Christopher', 'Stella', 'Jaxon', 'Aurora', 'Maverick',
+  'Natalie', 'Josiah', 'Emilia', 'Isaiah', 'Everly', 'Andrew', 'Leah', 'Elias', 'Aubrey', 'Joshua',
+  'Willow', 'Nathan', 'Addison', 'Caleb', 'Lucy', 'Ryan', 'Eliana', 'Adrian', 'Ivy', 'Miles',
+  'Everett', 'Isla', 'Eli', 'Kinsley', 'Christian', 'Delilah', 'Aaron', 'Cora', 'Hunter', 'Genesis',
+  'Cameron', 'Elena', 'Colton', 'Maya', 'Luca', 'Naomi', 'Landon', 'Aaliyah', 'Jonathan', 'Elena',
+  'Axel', 'Sarah', 'Easton', 'Claire', 'Jordan', 'Adeline', 'Jeremiah', 'Audrey', 'Robert', 'Autumn',
+  'Angel', 'Piper', 'Greyson', 'Ruby', 'Dominic', 'Alice', 'Austin', 'Madelyn', 'Ian', 'Peyton',
+  'Adam', 'Savannah', 'Nicholas', 'Serenity', 'Carson', 'Sadie', 'Jaxson', 'Brielle', 'Weston', 'Clara',
+  'Brooks', 'Hadley', 'Declan', 'Melanie', 'Waylon', 'Mackenzie', 'Weston', 'Reagan', 'Silas', 'Kennedy'
 ];
 
 

@@ -15,16 +15,21 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar }) => {
   const [loadedCount, setLoadedCount] = useState(BATCH_SIZE);
   const scrollContainerRef = useRef(null);
 
-  // Generate deterministic list of infinite avatars
+  // Generate deterministic list of completely unique avatars (zero repeats)
   const infiniteAvatars = useMemo(() => {
     const list = [];
-    for (let i = 0; i < loadedCount; i++) {
-      const seedBase = AVATAR_SEEDS[i % AVATAR_SEEDS.length];
-      const cycle = Math.floor(i / AVATAR_SEEDS.length);
-      const seed = cycle === 0 ? seedBase : `${seedBase}_${cycle}`;
+    const seenUrls = new Set();
+    const founderIds = new Set(['aman', 'amish', 'aziz', 'vish']);
+
+    for (let i = 0; i < loadedCount && i < AVATAR_SEEDS.length; i++) {
+      const seed = AVATAR_SEEDS[i];
+      if (founderIds.has(seed.toLowerCase())) continue;
       const color = BOLD_AVATAR_COLORS[i % BOLD_AVATAR_COLORS.length];
       const url = `https://api.dicebear.com/9.x/lorelei/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
-      list.push({ id: url, url, seed, color });
+      if (!seenUrls.has(url)) {
+        seenUrls.add(url);
+        list.push({ id: url, url, seed, color });
+      }
     }
     return list;
   }, [loadedCount]);
@@ -33,7 +38,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar }) => {
     const el = scrollContainerRef.current;
     if (!el) return;
     if (el.scrollTop + el.clientHeight >= el.scrollHeight - 140) {
-      setLoadedCount(prev => Math.min(prev + BATCH_SIZE, 300));
+      setLoadedCount(prev => Math.min(prev + BATCH_SIZE, AVATAR_SEEDS.length));
     }
   }, []);
 
