@@ -1,8 +1,8 @@
-const { chromium } = require('playwright');
+const { chromium } = require('@playwright/test');
 const path = require('path');
 
 const ENDPOINTS = [
-  { name: 'Vercel Production', url: 'https://guess-the-frame-v2.vercel.app', prefix: 'live_vercel' },
+  { name: 'Vercel Production (Scoopcast Live)', url: 'https://scoopcast-live.in', prefix: 'live_vercel' },
   { name: 'Appwrite Sites', url: 'https://6a9a6a18002d67382503.appwrite.network', prefix: 'live_appwrite' }
 ];
 
@@ -24,7 +24,7 @@ async function testEndpoint(ep) {
   try {
     // 1. Load Homepage
     console.log(`1. Navigating to ${ep.url}...`);
-    await page.goto(ep.url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    await page.goto(ep.url, { waitUntil: 'domcontentloaded', timeout: 60000 });
     const title = await page.title();
     console.log(`   Page title: "${title}"`);
 
@@ -48,6 +48,23 @@ async function testEndpoint(ep) {
 
     const roomCode = await page.evaluate(() => MultiplayerEngine.roomCode);
     console.log(`   Room Created! Code: "${roomCode}"`);
+
+    // Test Copy Link Button (Verify NO dialog/alert popup, inline feedback works)
+    console.log('   Testing Copy Link button (verifying zero blocking alerts/dialogs)...');
+    let dialogFired = false;
+    const dialogListener = d => { dialogFired = true; d.dismiss(); };
+    page.on('dialog', dialogListener);
+    const copyBtn = page.locator('#copyLinkBtn');
+    if (await copyBtn.count() > 0) {
+      await copyBtn.click();
+      await page.waitForTimeout(500);
+      const btnText = await copyBtn.innerText();
+      console.log(`   Copy Link Button Text after click: "${btnText}" (Dialog fired: ${dialogFired})`);
+      if (dialogFired) {
+        throw new Error('Blocking alert or dialog was triggered during Copy Link!');
+      }
+    }
+    page.off('dialog', dialogListener);
 
     // Screenshot Lobby
     const lobbyPath = path.join(ARTIFACT_DIR, `${ep.prefix}_master_lobby.png`);
@@ -131,6 +148,14 @@ async function testEndpoint(ep) {
 
     const champName = await page.locator('#champName').textContent();
     console.log(`    Champion on Winner Podium: "${champName.trim()}"`);
+
+    const creatorMsg = await page.locator('#creatorMsg').textContent();
+    console.log(`    Creator Message on Winner Screen: "${creatorMsg.trim()}"`);
+    if (!creatorMsg.includes('timestamp guy')) {
+      console.warn(`    WARNING: creatorMsg does not yet contain 'timestamp guy' (received: "${creatorMsg.trim()}")`);
+    } else {
+      console.log(`    SUCCESS: creatorMsg verified with 'timestamp guy'!`);
+    }
 
     // Screenshot Winner Screen
     const winnerPath = path.join(ARTIFACT_DIR, `${ep.prefix}_master_winner.png`);

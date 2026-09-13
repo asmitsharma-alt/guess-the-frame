@@ -1,6 +1,13 @@
 # Dependencies
 node_modules/
 
+# Build artifacts (generated, not committed)
+react-app/dist/
+
+# Local database files
+backend/prisma/*.db
+backend/prisma/*.db-journal
+
 # Test artifacts and reports
 test-results/
 .playwright/
@@ -22,3 +29,9 @@ Thumbs.db
 winner_screen_*.png
 current_winner_screen.png
 live_*.png
+
+# Environment files (contain secrets)
+.env
+.env.local
+.env.production
+backend/.env

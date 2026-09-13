@@ -1,0 +1,24 @@
+[Script Info]
+Title: Guess The Frame Official Master Tutorial
+ScriptType: v4.00+
+WrapStyle: 0
+ScaledBorderAndShadow: yes
+YCbCr Matrix: None
+PlayResX: 1280
+PlayResY: 720
+
+[V4+ Styles]
+Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+Style: Banner,Arial,18,&H00FFFFFF,&H000000FF,&H00111827,&HDD1A110F,-1,0,0,0,100,100,0,0,3,8,0,2,30,30,26,1
+
+[Events]
+Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
+Dialogue: 0,0:00:00.20,0:00:05.40,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 1:{\c&HFFFFFF&} HOST A NEW ROOM\N{\fs14\c&H57E0C3&}Welcome to Guess The Frame! Click Create Room to start your game
+Dialogue: 0,0:00:05.47,0:00:11.50,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 2:{\c&HFFFFFF&} SELECT AVATAR & NAME\N{\fs14\c&H57E0C3&}Type your name, pick your favorite animated avatar, and enter the lobby
+Dialogue: 0,0:00:11.59,0:00:19.25,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 3:{\c&HFFFFFF&} CHOOSE ROUNDS & INVITE FRIENDS\N{\fs14\c&H57E0C3&}Select round count, copy the invite link, and let all players join
+Dialogue: 0,0:00:19.32,0:00:27.60,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 4:{\c&HFFFFFF&} START GAME & 10s QUICK GUIDE\N{\fs14\c&H57E0C3&}Click Start Match • 10 seconds to read rules or host clicks Start Round 1
+Dialogue: 0,0:00:27.70,0:00:39.40,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 5:{\c&HFFFFFF&} WATCH FRAME & GUESS IN CHAT (10, 7, 5 PTS)\N{\fs14\c&H57E0C3&}Type movie guesses in live chat • 1st: 10 pts, 2nd: 7 pts, 3rd: 5 pts!
+Dialogue: 0,0:00:39.50,0:00:46.00,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 6:{\c&HFFFFFF&} STUCK? USE THE HINT BUTTON\N{\fs14\c&H57E0C3&}Tap Hint (-2 pts) to reveal missing letter blanks and clues
+Dialogue: 0,0:00:46.06,0:00:54.65,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 7:{\c&HFFFFFF&} HOST CONTROLS: PAUSE, SKIP, END EARLY\N{\fs14\c&H57E0C3&}Host can pause the timer, skip a tough frame, or finish the match early
+Dialogue: 0,0:00:54.72,0:01:02.30,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 8:{\c&HFFFFFF&} TIMER EXPIRES: ANSWER REVEAL & NEXT ROUND\N{\fs14\c&H57E0C3&}Movie and trivia are revealed • Host clicks Next Round to proceed
+Dialogue: 0,0:01:02.40,0:01:13.50,Banner,,0,0,0,,{\c&H15CCFA&\b1}STEP 9:{\c&HFFFFFF&} CROWN THE CHAMPION PODIUM\N{\fs14\c&H57E0C3&}Highest score wins the crown with confetti! Hit Rematch to play again

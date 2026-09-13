@@ -1,4 +1,10 @@
 module.exports = {
+  testDir: './tests',
+  timeout: 60000,
+  workers: 1,
+  expect: {
+    timeout: 10000,
+  },
   use: {
     baseURL: 'http://localhost:8080',
     headless: true,
@@ -8,9 +14,16 @@ module.exports = {
   projects: [
     { name: 'chromium', use: { browserName: 'chromium' } },
   ],
-  webServer: {
-    command: 'npx http-server -p 8080 -s',
-    port: 8080,
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: [
+    {
+      command: 'node backend/src/server.js',
+      port: 4000,
+      reuseExistingServer: !process.env.CI,
+    },
+    {
+      command: 'npx http-server react-app/dist -p 8080 -s -c-1',
+      port: 8080,
+      reuseExistingServer: !process.env.CI,
+    },
+  ],
 };

@@ -52,8 +52,8 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
 
     // 3. Host updates settings: adjust frame rounds
     const updatedSettings = await page.evaluate(() => {
-      PlayerLobby.adjustRounds('frames', 5); // 10 + 5 = 15 rounds
-      PlayerLobby.adjustTimer(15);           // 30 + 15 = 45s
+      PlayerLobby.adjustRounds('frames', -5); // 20 - 5 = 15 rounds
+      PlayerLobby.adjustTimer(15);            // 30 + 15 = 45s (or delta)
       return MultiplayerEngine.hostSettings;
     });
 

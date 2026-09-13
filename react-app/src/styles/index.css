@@ -1,0 +1,63 @@
+@import './claymorphism.css';
+
+/* Global Background and Smooth Viewport Setup */
+html, body {
+  background: #F4EEDC url('/bg/cinema_bg.webp') no-repeat center center fixed !important;
+  background-size: cover !important;
+  -webkit-background-size: cover !important;
+  overflow-x: hidden !important;
+  margin: 0;
+  padding: 0;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--clay-ink, #4a3d6b);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Ensure backdrop scrims are active */
+.bg-backdrop {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(244, 238, 220, 0.4) 0%, rgba(233, 228, 255, 0.75) 100%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-focus-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.bg-focus-scrim.active {
+  opacity: 1;
+}
+
+#app {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  z-index: 2;
+  transition: background 0.7s ease;
+}
+
+.screen {
+  display: none;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+.screen.active {
+  display: flex;
+}

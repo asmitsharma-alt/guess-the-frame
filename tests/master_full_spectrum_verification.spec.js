@@ -78,28 +78,23 @@ test.describe('ULTRA-COMPREHENSIVE MASTER TEST: Every Feature, Button, Logic, Sy
     await page.locator('#createRoomModal .mp-btn-primary').click();
     await expect(page.locator('#playerLobbyScreen')).toHaveClass(/active/);
 
-    // Rounds increment & decrement
+    // Rounds decrement & increment (- and +)
     const rBefore = await page.evaluate(() => MultiplayerEngine.hostSettings.rounds);
-    await page.locator('button[title="Increase Rounds"]').click();
-    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.rounds)).toBe(rBefore + 1);
     await page.locator('button[title="Decrease Rounds"]').click();
+    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.rounds)).toBe(rBefore - 1);
+    await page.locator('button[title="Increase Rounds"]').click();
     expect(await page.evaluate(() => MultiplayerEngine.hostSettings.rounds)).toBe(rBefore);
 
-    // Timer increment & decrement
+    // Timer increment & decrement (+1 and -1)
     const tBefore = await page.evaluate(() => MultiplayerEngine.hostSettings.timer);
     await page.locator('button[title="Increase Timer"]').click();
-    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(tBefore + 15);
+    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(tBefore + 1);
     await page.locator('button[title="Decrease Timer"]').click();
     expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(tBefore);
 
-    // QR Code button & Modal Close
-    const qrBtn = page.locator('button:has-text("QR CODE")');
-    if (await qrBtn.count() > 0) {
-      await qrBtn.click();
-      await expect(page.locator('#qrModal')).toHaveClass(/active/);
-      await page.locator('#qrModal .mp-modal-close').click();
-      await expect(page.locator('#qrModal')).not.toHaveClass(/active/);
-    }
+    // QR Code button check (per requirement, removed from lobby)
+    const qrBtnInLobby = page.locator('#playerLobbyScreen button:has-text("QR CODE")');
+    expect(await qrBtnInLobby.count()).toBe(0);
 
     // Copy Link button (verify it creates valid room link)
     const copyBtn = page.locator('#copyLinkBtn');

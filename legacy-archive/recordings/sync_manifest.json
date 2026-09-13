@@ -1,0 +1,87 @@
+{
+  "voice": "en-US-BrianMultilingualNeural",
+  "total_duration": 70.536,
+  "scenes": [
+    {
+      "scene": 1,
+      "filename": "scene1_create.mp3",
+      "path": "recordings/audio_v2\\scene1_create.mp3",
+      "text": "Welcome to Guess The Frame! To host a game with your friends, click Create Room.",
+      "start": 0.0,
+      "duration": 5.472,
+      "end": 5.472
+    },
+    {
+      "scene": 2,
+      "filename": "scene2_avatar.mp3",
+      "path": "recordings/audio_v2\\scene2_avatar.mp3",
+      "text": "Type in your player name, pick your favorite animated avatar, and hit Enter to join your lobby.",
+      "start": 5.472,
+      "duration": 6.12,
+      "end": 11.592
+    },
+    {
+      "scene": 3,
+      "filename": "scene3_rounds_invite.mp3",
+      "path": "recordings/audio_v2\\scene3_rounds_invite.mp3",
+      "text": "Now choose your match rounds. Then, click Copy Invite Link or share your room code so your crew can jump into the lobby.",
+      "start": 11.592,
+      "duration": 7.728,
+      "end": 19.32
+    },
+    {
+      "scene": 4,
+      "filename": "scene4_start_guide.mp3",
+      "path": "recordings/audio_v2\\scene4_start_guide.mp3",
+      "text": "Once everyone is in, click Start Game. You'll have ten seconds to review the quick rules, or the host can launch round one immediately.",
+      "start": 19.32,
+      "duration": 8.376,
+      "end": 27.696
+    },
+    {
+      "scene": 5,
+      "filename": "scene5_gameplay_points.mp3",
+      "path": "recordings/audio_v2\\scene5_gameplay_points.mp3",
+      "text": "Round one is live! Look at the screenshot and type your movie guesses into the live chat. First correct answer gets 10 points, second gets 7, and third gets 5 points!",
+      "start": 27.696,
+      "duration": 11.808,
+      "end": 39.504
+    },
+    {
+      "scene": 6,
+      "filename": "scene6_hint.mp3",
+      "path": "recordings/audio_v2\\scene6_hint.mp3",
+      "text": "Stuck on a tricky frame? Tap the Hint button to reveal missing letter blanks and solve the movie title.",
+      "start": 39.504,
+      "duration": 6.552,
+      "end": 46.056
+    },
+    {
+      "scene": 7,
+      "filename": "scene7_host_controls.mp3",
+      "path": "recordings/audio_v2\\scene7_host_controls.mp3",
+      "text": "As the host, you're in full control. You can pause the round timer, skip an impossible frame, or end the game early at any time.",
+      "start": 46.056,
+      "duration": 8.664,
+      "end": 54.72
+    },
+    {
+      "scene": 8,
+      "filename": "scene8_answer_next.mp3",
+      "path": "recordings/audio_v2\\scene8_answer_next.mp3",
+      "text": "When time runs out, the movie and trivia are revealed. The host simply clicks Next Round to keep the competition rolling.",
+      "start": 54.72,
+      "duration": 7.68,
+      "end": 62.4
+    },
+    {
+      "scene": 9,
+      "filename": "scene9_winner.mp3",
+      "path": "recordings/audio_v2\\scene9_winner.mp3",
+      "text": "After the final round, the player with the most points is crowned champion on the victory podium! Rematch your friends and play again.",
+      "start": 62.4,
+      "duration": 8.136,
+      "end": 70.536
+    }
+  ]
+}
