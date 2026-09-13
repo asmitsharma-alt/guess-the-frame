@@ -46,6 +46,54 @@ export const BOLD_AVATAR_COLORS = [
   'ec4899'  // Bold Fuchsia
 ];
 
+export const AVATAR_API_STYLES = [
+  { id: 'lorelei', name: 'Lorelei', icon: '🎨' },
+  { id: 'adventurer', name: 'Adventurer', icon: '⚔️' },
+  { id: 'bottts', name: 'Bottts', icon: '🤖' },
+  { id: 'robohash', name: 'RoboHash', icon: '👾' },
+  { id: 'pixel', name: 'Pixel Art', icon: '🕹️' },
+  { id: 'notionists', name: 'Notionists', icon: '✏️' }
+];
+
+export const buildAvatarDescriptor = (seed, style = 'lorelei', color = '38bdf8') => {
+  let url = '';
+  let label = style;
+  let format = 'SVG';
+
+  switch (style) {
+    case 'lorelei':
+      url = `https://api.dicebear.com/9.x/lorelei/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+      label = 'DiceBear Lorelei';
+      break;
+    case 'adventurer':
+      url = `https://api.dicebear.com/9.x/adventurer/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+      label = 'DiceBear Adventurer';
+      break;
+    case 'bottts':
+      url = `https://api.dicebear.com/9.x/bottts/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+      label = 'DiceBear Bottts';
+      break;
+    case 'robohash':
+      url = `https://robohash.org/${encodeURIComponent(seed)}?set=set1`;
+      label = 'RoboHash Robots';
+      format = 'PNG';
+      break;
+    case 'pixel':
+      url = `https://api.dicebear.com/9.x/pixel-art/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+      label = 'DiceBear Pixel';
+      break;
+    case 'notionists':
+      url = `https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+      label = 'DiceBear Notionists';
+      break;
+    default:
+      url = `https://api.dicebear.com/9.x/lorelei/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+      label = 'DiceBear Lorelei';
+  }
+
+  return { seed, url, label, format, color, style };
+};
+
 export const AVATAR_SEEDS = [
   'Nolan', 'Tarantino', 'Scorsese', 'Kubrick', 'Spielberg', 'Fincher', 'Hitchcock', 'Coppola', 'Villeneuve', 'Bong',
   'Miyazaki', 'Kurosawa', 'Fellini', 'Godard', 'Truffaut', 'Lynch', 'Cronenberg', 'WesAnderson', 'PTA', 'Chivo',

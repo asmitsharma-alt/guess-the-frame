@@ -8602,6 +8602,78 @@
       font-weight: 700;
       color: #64748b;
     }
+    .mp-avatar-category-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px 2px 6px 2px;
+      scrollbar-width: thin;
+    }
+    .mp-avatar-category-bar::-webkit-scrollbar {
+      height: 4px;
+    }
+    .mp-avatar-category-bar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    .mp-category-tab {
+      background: #ffffff;
+      border: 2px solid #1a1a1a;
+      border-radius: 12px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      white-space: nowrap;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 #1a1a1a;
+      transition: all 0.12s ease;
+      color: #1a1a1a;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .mp-category-tab:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0 #1a1a1a;
+    }
+    .mp-category-tab:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 #1a1a1a;
+    }
+    .mp-category-tab.active {
+      background: #facc15;
+      box-shadow: 2.5px 2.5px 0 #1a1a1a;
+    }
+    .mp-shuffle-btn {
+      background: #fde047;
+      border: 2px solid #1a1a1a;
+      border-radius: 12px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      white-space: nowrap;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 #1a1a1a;
+      transition: all 0.12s ease;
+      color: #1a1a1a;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .mp-shuffle-btn:hover {
+      background: #facc15;
+      transform: scale(1.05);
+      box-shadow: 3px 3px 0 #1a1a1a;
+    }
+    .mp-shuffle-btn:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 #1a1a1a;
+    }
     .mp-avatar-scroll-area {
       max-height: 240px;
       overflow-y: auto;
