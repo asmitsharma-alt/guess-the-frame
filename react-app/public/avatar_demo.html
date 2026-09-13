@@ -3,233 +3,455 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Avatar Selection — Bold & Solid</title>
+  <title>Mega Avatar APIs Studio — Guess The Frame</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=Space+Grotesk:wght@700;900&display=swap">
   <style>
     body {
       font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
       background-color: #f8fafc;
-      color: #000000;
+      color: #111827;
     }
     .font-headline {
       font-family: 'Space Grotesk', sans-serif;
     }
     .neo-box {
       border: 3.5px solid #000000;
-      box-shadow: 5px 5px 0px 0px #000000;
+      box-shadow: 6px 6px 0px 0px #000000;
     }
     .neo-box-sm {
       border: 2.5px solid #000000;
-      box-shadow: 2.5px 2.5px 0px 0px #000000;
+      box-shadow: 3px 3px 0px 0px #000000;
     }
     .neo-btn {
       border: 2.5px solid #000000;
       box-shadow: 3px 3px 0px 0px #000000;
-      transition: all 0.1s ease;
+      transition: all 0.12s ease;
       cursor: pointer;
     }
     .neo-btn:hover {
-      transform: translate(-1px, -1px);
-      box-shadow: 4px 4px 0px 0px #000000;
+      transform: translate(-2px, -2px);
+      box-shadow: 5px 5px 0px 0px #000000;
     }
     .neo-btn:active {
       transform: translate(2px, 2px);
       box-shadow: 1px 1px 0px 0px #000000;
     }
-    .avatar-item {
-      border: 3px solid #000000 !important;
-      box-shadow: 3px 3px 0px 0px #000000;
-      transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease;
+    .filter-tab {
+      border: 2.5px solid #000000;
+      box-shadow: 2.5px 2.5px 0px 0px #000000;
+      transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
       cursor: pointer;
     }
-    .avatar-item:hover {
-      transform: scale(1.1) translate(-2px, -2px);
+    .filter-tab:hover {
+      transform: translateY(-2px);
+      box-shadow: 4px 4px 0px 0px #000000;
+    }
+    .filter-tab.active {
+      background-color: #facc15 !important;
+      color: #000000 !important;
+      transform: translateY(-2px);
+      box-shadow: 4px 4px 0px 0px #000000;
+    }
+    .avatar-card {
+      border: 3px solid #000000 !important;
+      box-shadow: 3.5px 3.5px 0px 0px #000000;
+      transition: transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.14s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    .avatar-card:hover {
+      transform: scale(1.08) translateY(-3px);
+      box-shadow: 6px 6px 0px 0px #000000;
+      z-index: 10;
+    }
+    .avatar-card.selected {
+      outline: 5px solid #facc15;
+      transform: scale(1.12) translateY(-4px);
+      box-shadow: 7px 7px 0px 0px #000000;
+      z-index: 20;
+    }
+    .podium-card {
+      border: 3.5px solid #000000;
       box-shadow: 5px 5px 0px 0px #000000;
     }
-    .avatar-item.selected {
-      border-color: #000000 !important;
-      outline: 5px solid #FACC15;
-      transform: scale(1.14) translate(-2px, -2px);
-      box-shadow: 6px 6px 0px 0px #000000;
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #000000;
+      border-radius: 4px;
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-start p-3 sm:p-6 pb-20">
+<body class="min-h-screen flex flex-col items-center p-3 sm:p-6 pb-24">
 
-  <!-- Main Modal Box -->
-  <div class="w-full max-w-2xl bg-white neo-box rounded-3xl p-4 sm:p-6 flex flex-col gap-4">
-
-    <!-- Top Bar with Bold Selected Avatar Preview -->
-    <div class="flex items-center justify-between border-b-4 border-black pb-3.5">
-      <div class="flex items-center gap-3.5">
-        <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full neo-box-sm bg-yellow-400 overflow-hidden shrink-0 relative p-0.5">
-          <img id="selectedPreviewImg" src="https://api.dicebear.com/9.x/lorelei/svg?seed=Nolan&backgroundColor=38bdf8" alt="Selected" class="w-full h-full object-cover rounded-full">
-          <span class="absolute bottom-0 right-0 bg-emerald-400 border-2 border-black text-black text-xs font-black w-5 h-5 rounded-full flex items-center justify-center">✓</span>
-        </div>
-        <div>
-          <h1 class="text-xl sm:text-2xl font-black font-headline uppercase tracking-tight">Choose Your Avatar</h1>
-          <p class="text-xs font-black text-slate-500 uppercase">Bold Cinema Avatars</p>
-        </div>
+  <!-- Header Branding -->
+  <header class="w-full max-w-5xl flex flex-col sm:flex-row items-center justify-between gap-4 mb-6">
+    <div class="flex items-center gap-3">
+      <div class="w-12 h-12 rounded-2xl bg-pink-400 neo-box flex items-center justify-center text-2xl font-black">
+        ⚡
       </div>
-
-      <button onclick="confirmSelection()" class="neo-btn bg-emerald-400 hover:bg-emerald-300 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-wide">
-        ✓ Select
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-black font-headline tracking-tight uppercase">Mega Avatar Studio</h1>
+        <p class="text-xs font-black text-slate-500 uppercase tracking-wider">All Major Free Avatar APIs Live In One Grid</p>
+      </div>
+    </div>
+    
+    <!-- Custom Seed Input Box -->
+    <div class="flex items-center gap-2 w-full sm:w-auto">
+      <input
+        type="text"
+        id="customSeedInput"
+        placeholder="Type any name (e.g. Asmit)..."
+        value="Asmit"
+        class="bg-white border-2 border-black rounded-xl px-4 py-2.5 font-black text-sm w-full sm:w-64 neo-box-sm focus:outline-none focus:ring-2 focus:ring-yellow-400"
+      />
+      <button onclick="updateCustomSeed()" class="neo-btn bg-emerald-400 hover:bg-emerald-300 font-black px-4 py-2.5 rounded-xl text-sm shrink-0 uppercase">
+        ⚡ Render
       </button>
     </div>
+  </header>
 
-    <!-- Infinite Scroll Grid Container -->
-    <div id="scrollContainer" class="h-[500px] sm:h-[560px] overflow-y-auto pr-1 flex flex-col gap-4">
+  <!-- Main Container -->
+  <main class="w-full max-w-5xl flex flex-col gap-6">
+
+    <!-- Selected Avatar Hero Bar & Live Winner Screen Simulator -->
+    <div class="w-full bg-white neo-box rounded-3xl p-5 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-6">
       
-      <!-- Pure Avatar Grid (Zero text, zero tags, bold solid circles) -->
-      <div id="avatarGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3.5 sm:gap-4 p-2">
-        <!-- Injected dynamically via JS -->
+      <!-- Left: Selected Avatar Details -->
+      <div class="flex items-center gap-5 w-full md:w-auto">
+        <div class="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full neo-box bg-yellow-400 overflow-hidden shrink-0 p-1">
+          <img id="heroAvatarImg" src="https://api.dicebear.com/9.x/lorelei/svg?seed=Nolan&backgroundColor=38bdf8" alt="Selected" class="w-full h-full object-cover rounded-full">
+          <span class="absolute bottom-0 right-0 bg-emerald-400 border-2 border-black text-black text-xs font-black w-6 h-6 rounded-full flex items-center justify-center">✓</span>
+        </div>
+        <div class="flex flex-col gap-1">
+          <div class="flex items-center gap-2">
+            <span id="heroApiBadge" class="bg-purple-200 border-2 border-black px-2.5 py-0.5 rounded-lg text-xs font-black uppercase">DiceBear Lorelei</span>
+            <span id="heroFormatBadge" class="bg-blue-200 border-2 border-black px-2 py-0.5 rounded-lg text-[10px] font-black uppercase">Pure SVG</span>
+          </div>
+          <h2 id="heroSeedName" class="text-xl sm:text-2xl font-black font-headline uppercase">Nolan</h2>
+          <div class="flex items-center gap-2">
+            <button onclick="copyAvatarUrl()" class="neo-btn bg-yellow-300 hover:bg-yellow-200 text-xs font-black px-3 py-1.5 rounded-lg uppercase flex items-center gap-1.5">
+              <span>📋 Copy URL</span>
+            </button>
+            <span id="copyFeedback" class="text-xs font-black text-emerald-600 hidden">✓ Copied!</span>
+          </div>
+        </div>
       </div>
 
-      <!-- Infinite Loading Spinner -->
-      <div id="loadingTrigger" class="w-full py-6 flex items-center justify-center gap-2 text-xs font-black uppercase text-slate-500">
-        <span class="animate-spin text-lg">⏳</span>
-        <span>Loading more bold avatars...</span>
+      <!-- Right: Ultra-Crisp Podium Simulator -->
+      <div class="w-full md:w-auto flex flex-col items-center md:items-end gap-2 bg-slate-50 border-2 border-black p-3.5 rounded-2xl">
+        <span class="text-[11px] font-black uppercase text-slate-500 tracking-wider">🏆 Winner Podium Simulator</span>
+        <div class="flex items-end justify-center gap-2.5 pt-2">
+          
+          <!-- 2nd Place -->
+          <div class="flex flex-col items-center gap-1">
+            <div class="w-12 h-12 rounded-full border-2 border-black overflow-hidden bg-sky-300">
+              <img src="/avvtar/aziz.svg" alt="2nd" class="w-full h-full object-cover">
+            </div>
+            <div class="w-14 bg-sky-400 border-2 border-black rounded-t-lg h-10 flex items-center justify-center font-black text-xs">#2</div>
+          </div>
+
+          <!-- 1st Place (Selected Avatar) -->
+          <div class="flex flex-col items-center gap-1">
+            <div class="w-16 h-16 rounded-full border-3 border-black overflow-hidden bg-yellow-400 p-0.5">
+              <img id="podiumChampImg" src="https://api.dicebear.com/9.x/lorelei/svg?seed=Nolan&backgroundColor=38bdf8" alt="1st" class="w-full h-full object-cover rounded-full">
+            </div>
+            <div class="w-16 bg-yellow-400 border-2 border-black rounded-t-lg h-14 flex items-center justify-center font-black text-sm">👑 #1</div>
+          </div>
+
+          <!-- 3rd Place -->
+          <div class="flex flex-col items-center gap-1">
+            <div class="w-12 h-12 rounded-full border-2 border-black overflow-hidden bg-amber-400">
+              <img src="/avvtar/amish.svg" alt="3rd" class="w-full h-full object-cover">
+            </div>
+            <div class="w-14 bg-amber-500 border-2 border-black rounded-t-lg h-8 flex items-center justify-center font-black text-xs">#3</div>
+          </div>
+
+        </div>
       </div>
 
     </div>
 
-  </div>
+    <!-- Category Filter Tabs -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-2 w-full">
+      <button class="filter-tab active bg-white px-4 py-2 rounded-xl text-xs sm:text-sm font-black uppercase whitespace-nowrap" onclick="setCategory('all', this)">⭐ All APIs</button>
+      <button class="filter-tab bg-white px-4 py-2 rounded-xl text-xs sm:text-sm font-black uppercase whitespace-nowrap" onclick="setCategory('founders', this)">👑 Founders (4)</button>
+      <button class="filter-tab bg-white px-4 py-2 rounded-xl text-xs sm:text-sm font-black uppercase whitespace-nowrap" onclick="setCategory('lorelei', this)">🎨 Lorelei (Cinema)</button>
+      <button class="filter-tab bg-white px-4 py-2 rounded-xl text-xs sm:text-sm font-black uppercase whitespace-nowrap" onclick="setCategory('adventurer', this)">⚔️ Adventurer (RPG)</button>
+      <button class="filter-tab bg-white px-4 py-2 rounded-xl text-xs sm:text-sm font-black uppercase whitespace-nowrap" onclick="setCategory('bottts', this)">🤖 Bottts (Robots)</button>
+      <button class="filter-tab bg-white px-4 py-2 rounded-xl text-xs sm:text-sm font-black uppercase whitespace-nowrap" onclick="setCategory('robohash', this)">👾 RoboHash</button>
+      <button class="filter-tab bg-white px-4 py-2 rounded-xl text-xs sm:text-sm font-black uppercase whitespace-nowrap" onclick="setCategory('pixel', this)">🕹️ Pixel Art</button>
+      <button class="filter-tab bg-white px-4 py-2 rounded-xl text-xs sm:text-sm font-black uppercase whitespace-nowrap" onclick="setCategory('multiavatar', this)">🌍 Multiavatar</button>
+      <button class="filter-tab bg-white px-4 py-2 rounded-xl text-xs sm:text-sm font-black uppercase whitespace-nowrap" onclick="setCategory('notionists', this)">✏️ Notionists</button>
+      <button class="filter-tab bg-white px-4 py-2 rounded-xl text-xs sm:text-sm font-black uppercase whitespace-nowrap" onclick="setCategory('boring', this)">🟨 Boring Avatars</button>
+      <button class="filter-tab bg-white px-4 py-2 rounded-xl text-xs sm:text-sm font-black uppercase whitespace-nowrap" onclick="setCategory('ui', this)">🔤 UI Initials</button>
+    </div>
+
+    <!-- Infinite Scroll Grid Box -->
+    <div class="w-full bg-white neo-box rounded-3xl p-4 sm:p-6 flex flex-col gap-4">
+      
+      <!-- Section Title & Item Count -->
+      <div class="flex items-center justify-between border-b-3 border-black pb-3">
+        <span id="gridCategoryTitle" class="font-headline font-black text-lg uppercase tracking-tight">⭐ All Avatar Providers</span>
+        <span id="itemCountBadge" class="bg-slate-100 border-2 border-black px-3 py-1 rounded-full text-xs font-black">0 Avatars</span>
+      </div>
+
+      <!-- Main Avatar Grid -->
+      <div id="avatarGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 sm:gap-4 p-1">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Infinite Scroll Trigger Indicator -->
+      <div id="loadingTrigger" class="w-full py-6 flex items-center justify-center gap-2 text-xs font-black uppercase text-slate-500">
+        <span class="animate-spin text-lg">⏳</span>
+        <span>Scroll down to load more avatars from across all APIs...</span>
+      </div>
+
+    </div>
+
+  </main>
 
   <script>
-    // Audio synthesizer for snappy clicks
+    // Audio synthesizer
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     function playPop() {
       try {
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'triangle';
-        osc.frequency.setValueAtTime(560, audioCtx.currentTime);
+        osc.frequency.setValueAtTime(580, audioCtx.currentTime);
         gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.07);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.08);
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start();
-        osc.stop(audioCtx.currentTime + 0.07);
+        osc.stop(audioCtx.currentTime + 0.08);
       } catch (e) {}
     }
 
-    function playSuccess() {
-      try {
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(440, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
-        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.2);
-      } catch (e) {}
-    }
-
-    // State
-    let selectedAvatarUrl = 'https://api.dicebear.com/9.x/lorelei/svg?seed=Nolan&backgroundColor=38bdf8';
-    let loadedCount = 0;
-    const BATCH_SIZE = 25;
-
-    // BOLD & SOLID Saturated Color Palette (No dull pastels)
-    const BOLD_BG_COLORS = [
-      'facc15', // Electric Yellow
-      'ff6b9d', // Hot Neon Pink
-      '38bdf8', // Vivid Sky Blue
-      '84cc16', // Lime Green
-      'fb923c', // Tangerine Orange
-      'a855f7', // Vivid Purple
-      'ef4444', // Crimson Red
-      '06b6d4', // Cyber Cyan
-      '22c55e', // Emerald Punch
-      'ec4899'  // Bold Fuchsia
+    // Bold solid colors
+    const BOLD_COLORS = [
+      'facc15', 'ff6b9d', '38bdf8', '84cc16', 'fb923c',
+      'a855f7', 'ef4444', '06b6d4', '22c55e', 'ec4899'
     ];
 
     const SEEDS = [
-      'Nolan', 'Aman', 'Amish', 'Aziz', 'Vish', 'Emma', 'Liam', 'Olivia', 'Noah', 'Ava',
-      'Oliver', 'Sophia', 'James', 'Isabella', 'Lucas', 'Mia', 'Henry', 'Charlotte', 'Alexander', 'Amelia',
-      'Ethan', 'Harper', 'Daniel', 'Evelyn', 'Jacob', 'Abigail', 'Logan', 'Emily', 'Jackson', 'Ella',
-      'Sebastian', 'Elizabeth', 'Jack', 'Camila', 'Owen', 'Luna', 'Theodore', 'Sofia', 'Samuel', 'Avery',
-      'Joseph', 'Mila', 'David', 'Aria', 'Wyatt', 'Scarlett', 'Matthew', 'Penelope', 'Luke', 'Layla',
-      'Asher', 'Chloe', 'Carter', 'Victoria', 'Julian', 'Madison', 'Grayson', 'Eleanor', 'Leo', 'Grace',
-      'Jayden', 'Nora', 'Gabriel', 'Riley', 'Isaac', 'Zoey', 'Lincoln', 'Hannah', 'Anthony', 'Hazel',
-      'Hudson', 'Lily', 'Dylan', 'Ellie', 'Ezra', 'Violet', 'Thomas', 'Lillian', 'Charles', 'Zoe',
-      'Christopher', 'Stella', 'Jaxon', 'Aurora', 'Maverick', 'Natalie', 'Josiah', 'Emilia', 'Isaiah', 'Everly',
-      'Andrew', 'Leah', 'Elias', 'Aubrey', 'Joshua', 'Willow', 'Nathan', 'Addison', 'Caleb', 'Lucy'
+      'Nolan', 'Tarantino', 'Scorsese', 'Kubrick', 'Spielberg', 'Fincher', 'Hitchcock', 'Coppola', 'Villeneuve', 'Bong',
+      'Aman', 'Amish', 'Aziz', 'Vish', 'Emma', 'Liam', 'Olivia', 'Noah', 'Ava', 'Oliver',
+      'Sophia', 'James', 'Isabella', 'Lucas', 'Mia', 'Henry', 'Charlotte', 'Alexander', 'Amelia', 'Ethan',
+      'Harper', 'Daniel', 'Evelyn', 'Jacob', 'Abigail', 'Logan', 'Emily', 'Jackson', 'Ella', 'Sebastian',
+      'Elizabeth', 'Jack', 'Camila', 'Owen', 'Luna', 'Theodore', 'Sofia', 'Samuel', 'Avery', 'Joseph'
     ];
 
-    function init() {
-      renderBatch();
-      setupInfiniteScroll();
+    const FOUNDERS = [
+      { id: 'aman', name: 'Aman', url: '/avvtar/aman.svg', api: 'Founders', color: 'ff6b9d' },
+      { id: 'amish', name: 'Amish', url: '/avvtar/amish.svg', api: 'Founders', color: '38bdf8' },
+      { id: 'aziz', name: 'Aziz', url: '/avvtar/aziz.svg', api: 'Founders', color: '84cc16' },
+      { id: 'vish', name: 'Vish', url: '/avvtar/vish.svg', api: 'Founders', color: 'facc15' }
+    ];
+
+    // State
+    let currentCategory = 'all';
+    let currentSeed = 'Asmit';
+    let selectedAvatarUrl = 'https://api.dicebear.com/9.x/lorelei/svg?seed=Nolan&backgroundColor=38bdf8';
+    let loadedCount = 0;
+    const BATCH_SIZE = 24;
+
+    function buildAvatarItem(seed, apiType, color) {
+      let url = '';
+      let label = apiType;
+      let format = 'SVG';
+
+      switch (apiType) {
+        case 'lorelei':
+          url = `https://api.dicebear.com/9.x/lorelei/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+          label = 'DiceBear Lorelei';
+          break;
+        case 'adventurer':
+          url = `https://api.dicebear.com/9.x/adventurer/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+          label = 'DiceBear Adventurer';
+          break;
+        case 'bottts':
+          url = `https://api.dicebear.com/9.x/bottts/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+          label = 'DiceBear Bottts';
+          break;
+        case 'robohash':
+          url = `https://robohash.org/${encodeURIComponent(seed)}?set=set1`;
+          label = 'RoboHash Robots';
+          format = 'PNG';
+          break;
+        case 'pixel':
+          url = `https://api.dicebear.com/9.x/pixel-art/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+          label = 'DiceBear Pixel';
+          break;
+        case 'multiavatar':
+          url = `https://api.multiavatar.com/${encodeURIComponent(seed)}.svg`;
+          label = 'Multiavatar';
+          break;
+        case 'notionists':
+          url = `https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+          label = 'DiceBear Notionists';
+          break;
+        case 'boring':
+          url = `https://source.boringavatars.com/beam/120/${encodeURIComponent(seed)}?colors=facc15,ff6b9d,38bdf8,84cc16,111827`;
+          label = 'Boring Beam';
+          break;
+        case 'ui':
+          url = `https://ui-avatars.com/api/?name=${encodeURIComponent(seed)}&background=${color}&color=000&rounded=true&bold=true`;
+          label = 'UI Avatars';
+          break;
+        default:
+          url = `https://api.dicebear.com/9.x/lorelei/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+          label = 'DiceBear Lorelei';
+      }
+
+      return { seed, url, label, format, color };
     }
 
-    function getAvatarUrl(seed, bgIndex) {
-      const color = BOLD_BG_COLORS[bgIndex % BOLD_BG_COLORS.length];
-      return `https://api.dicebear.com/9.x/lorelei/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
-    }
+    const API_TYPES = ['lorelei', 'adventurer', 'bottts', 'robohash', 'pixel', 'multiavatar', 'notionists', 'boring', 'ui'];
 
     function renderBatch() {
       const grid = document.getElementById('avatarGrid');
       const fragment = document.createDocumentFragment();
 
-      for (let i = 0; i < BATCH_SIZE; i++) {
-        const itemIdx = loadedCount + i;
-        const seedBase = SEEDS[itemIdx % SEEDS.length];
-        const seed = itemIdx < SEEDS.length ? seedBase : `${seedBase}_${Math.floor(itemIdx / SEEDS.length)}`;
-        const url = getAvatarUrl(seed, itemIdx);
+      // If at start and category is all or founders, prepend founders
+      if (loadedCount === 0 && (currentCategory === 'all' || currentCategory === 'founders')) {
+        FOUNDERS.forEach(f => {
+          const card = createCardElement({
+            seed: f.name,
+            url: f.url,
+            label: 'Classic Crew',
+            format: 'SVG',
+            color: f.color
+          });
+          fragment.appendChild(card);
+        });
+      }
 
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = `avatar-item rounded-full aspect-square w-full bg-white overflow-hidden p-0.5 relative ${url === selectedAvatarUrl ? 'selected' : ''}`;
-        btn.setAttribute('data-url', url);
-        btn.onclick = () => selectAvatar(url, btn);
+      if (currentCategory !== 'founders') {
+        const activeApis = currentCategory === 'all' ? API_TYPES : [currentCategory];
 
-        const img = document.createElement('img');
-        img.src = url;
-        img.alt = '';
-        img.loading = 'lazy';
-        img.className = 'w-full h-full object-cover rounded-full pointer-events-none';
+        for (let i = 0; i < BATCH_SIZE; i++) {
+          const itemIdx = loadedCount + i;
+          const seedBase = currentSeed || SEEDS[itemIdx % SEEDS.length];
+          const cycle = Math.floor(itemIdx / SEEDS.length);
+          const seed = (currentSeed ? `${currentSeed}_${itemIdx + 1}` : (cycle === 0 ? seedBase : `${seedBase}_${cycle}`));
+          const apiType = activeApis[itemIdx % activeApis.length];
+          const color = BOLD_COLORS[itemIdx % BOLD_COLORS.length];
 
-        btn.appendChild(img);
-        fragment.appendChild(btn);
+          const item = buildAvatarItem(seed, apiType, color);
+          const card = createCardElement(item);
+          fragment.appendChild(card);
+        }
       }
 
       grid.appendChild(fragment);
       loadedCount += BATCH_SIZE;
+
+      document.getElementById('itemCountBadge').textContent = `${grid.children.length} Avatars Rendered`;
     }
 
-    function selectAvatar(url, el) {
+    function createCardElement(item) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `avatar-card rounded-full aspect-square w-full overflow-hidden p-1 relative flex items-center justify-center ${item.url === selectedAvatarUrl ? 'selected' : ''}`;
+      btn.style.backgroundColor = `#${item.color}`;
+      btn.setAttribute('data-url', item.url);
+      btn.setAttribute('data-label', item.label);
+      btn.setAttribute('data-format', item.format);
+      btn.setAttribute('data-seed', item.seed);
+
+      btn.onclick = () => selectAvatar(item.url, item.label, item.format, item.seed, btn);
+
+      const img = document.createElement('img');
+      img.src = item.url;
+      img.alt = item.seed;
+      img.loading = 'lazy';
+      img.className = 'w-full h-full object-cover rounded-full pointer-events-none';
+      img.onerror = () => {
+        img.onerror = null;
+        img.src = '/avvtar/aman.svg';
+      };
+
+      btn.appendChild(img);
+      return btn;
+    }
+
+    function selectAvatar(url, label, format, seed, el) {
       playPop();
       selectedAvatarUrl = url;
-      document.getElementById('selectedPreviewImg').src = url;
 
-      // Update selection highlight
-      document.querySelectorAll('.avatar-item').forEach(item => item.classList.remove('selected'));
+      // Update Top Hero Display
+      document.getElementById('heroAvatarImg').src = url;
+      document.getElementById('podiumChampImg').src = url;
+      document.getElementById('heroApiBadge').textContent = label;
+      document.getElementById('heroFormatBadge').textContent = format;
+      document.getElementById('heroSeedName').textContent = seed;
+
+      // Highlight Selection
+      document.querySelectorAll('.avatar-card').forEach(c => c.classList.remove('selected'));
       if (el) el.classList.add('selected');
     }
 
-    function confirmSelection() {
-      playSuccess();
-      const preview = document.getElementById('selectedPreviewImg');
-      preview.style.transform = 'scale(1.25)';
-      setTimeout(() => preview.style.transform = 'scale(1)', 200);
-      alert('Avatar selected!');
+    function setCategory(cat, tabEl) {
+      playPop();
+      currentCategory = cat;
+      loadedCount = 0;
+
+      // Update Tabs
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      if (tabEl) tabEl.classList.add('active');
+
+      // Reset Grid
+      const grid = document.getElementById('avatarGrid');
+      grid.innerHTML = '';
+      document.getElementById('gridCategoryTitle').textContent = tabEl.textContent;
+
+      renderBatch();
     }
 
-    function setupInfiniteScroll() {
-      const container = document.getElementById('scrollContainer');
-      container.addEventListener('scroll', () => {
-        if (container.scrollTop + container.clientHeight >= container.scrollHeight - 120) {
+    function updateCustomSeed() {
+      playPop();
+      const val = document.getElementById('customSeedInput').value.trim();
+      if (!val) return;
+      currentSeed = val;
+      loadedCount = 0;
+      const grid = document.getElementById('avatarGrid');
+      grid.innerHTML = '';
+      renderBatch();
+    }
+
+    function copyAvatarUrl() {
+      playPop();
+      navigator.clipboard.writeText(selectedAvatarUrl);
+      const fb = document.getElementById('copyFeedback');
+      fb.classList.remove('hidden');
+      setTimeout(() => fb.classList.add('hidden'), 2000);
+    }
+
+    // Infinite scroll detection
+    window.addEventListener('scroll', () => {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 400) {
+        if (currentCategory !== 'founders' && loadedCount < 300) {
           renderBatch();
         }
-      });
-    }
+      }
+    });
 
-    window.addEventListener('DOMContentLoaded', init);
+    // Enter key triggers custom seed update
+    document.getElementById('customSeedInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') updateCustomSeed();
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderBatch();
+    });
   </script>
 </body>
 </html>
