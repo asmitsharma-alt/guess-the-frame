@@ -5,7 +5,14 @@
 
 export const getApiBaseUrl = () => {
   if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL.replace(/\/+$/, '');
+    let url = import.meta.env.VITE_API_URL.trim().replace(/\/+$/, '');
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = `https://${url}`;
+    }
+    if (!url.endsWith('/api')) {
+      url = `${url}/api`;
+    }
+    return url;
   }
   if (typeof window !== 'undefined' && window.location.port === '8080') {
     return 'http://localhost:4000/api';
@@ -16,6 +23,12 @@ export const getApiBaseUrl = () => {
 export const getWsBaseUrl = () => {
   if (import.meta.env.VITE_WS_URL) {
     return import.meta.env.VITE_WS_URL;
+  }
+  if (import.meta.env.VITE_API_URL) {
+    const apiUrl = import.meta.env.VITE_API_URL.replace(/\/+$/, '').replace(/\/api$/, '');
+    const wsProto = apiUrl.startsWith('https') ? 'wss:' : 'ws:';
+    const hostPart = apiUrl.replace(/^https?:\/\//, '');
+    return `${wsProto}//${hostPart}/ws`;
   }
   if (typeof window !== 'undefined') {
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
