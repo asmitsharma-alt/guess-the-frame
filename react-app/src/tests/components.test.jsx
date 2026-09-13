@@ -1,11 +1,15 @@
 import React from 'react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { HomeScreen } from '../pages/HomeScreen';
 import { HowToAnswerScreen } from '../pages/HowToAnswerScreen';
 import { WinnerScreen } from '../pages/WinnerScreen';
 import { FuzzyMatcher } from '../services/fuzzyMatcher';
 import { SecurityUtil, NetworkSecurity } from '../services/securityUtil';
+
+vi.mock('canvas-confetti', () => ({
+  default: vi.fn()
+}));
 
 describe('Frontend Component & Logic Tests', () => {
   it('renders HomeScreen with hero and cards', () => {

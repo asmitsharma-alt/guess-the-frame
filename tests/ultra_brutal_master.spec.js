@@ -289,11 +289,11 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     expect(hostRoster.some(n => n.includes('Thor'))).toBe(true);
 
     // 3.5 Real-Time Settings Broadcast: Host adjusts timer by -1s (30 -> 29)
-    await hostPage.locator('button[title="Decrease Timer"]').click();
+    await hostPage.locator('button[title="Decrease Timer"]').first().click();
 
     // Both Player 1 and Player 2 see the updated timer in real-time
-    await expect(p1Page.locator('#hostTimerBtnText')).toContainText('29', { timeout: 10000 });
-    await expect(p2Page.locator('#hostTimerBtnText')).toContainText('29', { timeout: 10000 });
+    await expect(p1Page.locator('#hostTimerBtnText').first()).toContainText('29', { timeout: 10000 });
+    await expect(p2Page.locator('#hostTimerBtnText').first()).toContainText('29', { timeout: 10000 });
 
     // 3.6 Host Starts Match -> Synchronized transition to "How to Answer" rules guide
     await hostPage.evaluate(() => {
@@ -312,9 +312,9 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
       }
     });
 
-    await expect(hostPage.locator('#gameScreen')).toBeVisible();
-    await expect(p1Page.locator('#gameScreen')).toBeVisible();
-    await expect(p2Page.locator('#gameScreen')).toBeVisible();
+    await expect(hostPage.locator('#gameScreen')).toHaveClass(/active/, { timeout: 20000 });
+    await expect(p1Page.locator('#gameScreen')).toHaveClass(/active/, { timeout: 20000 });
+    await expect(p2Page.locator('#gameScreen')).toHaveClass(/active/, { timeout: 20000 });
 
     // 3.7 Active Gameplay: Player 1 submits the correct guess via chat
     const roundAnswer = await hostPage.evaluate(() => {

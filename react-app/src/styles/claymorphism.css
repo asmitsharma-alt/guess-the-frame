@@ -5563,9 +5563,12 @@
     #gameScreen .frame-dialogue {
       background: var(--nb-bg, #FFFDF5) !important;
       padding: clamp(24px, 5vw, 48px) !important;
-      display: flex !important;
+      display: none !important;
       align-items: center !important;
       justify-content: center !important;
+    }
+    #gameScreen .frame-dialogue.visible {
+      display: flex !important;
     }
     #gameScreen .frame-dialogue .dialogue-content {
       background: #fff !important;
@@ -9309,6 +9312,10 @@
       align-items: center !important;
       justify-content: center !important;
       overflow: hidden !important;
+    }
+    #gameScreen .frame-image-container.hidden,
+    #gameScreen .frame-image-container[style*="display: none"] {
+      display: none !important;
     }
     #gameScreen .frame-image {
       width: 100% !important;

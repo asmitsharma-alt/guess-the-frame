@@ -20,12 +20,15 @@ test.describe("Asset & Frame Loading Reliability", () => {
     }
   });
 
-  test("Only Section 1 (Guess the Frame) is active; dialogue and eyes modes are removed", async ({ page }) => {
+  test("All 3 Sections (Guess the Frame, Guess the Eyes, Guess the Dialogue) are present and active", async ({ page }) => {
     const sections = await page.evaluate(() => GS.sections);
-    expect(sections.length).toBe(1);
+    expect(sections.length).toBe(3);
     expect(sections[0].id).toBe(1);
     expect(sections[0].name).toBe("Guess the Frame");
-    expect(sections.some(s => s.id === 2 || s.id === 3)).toBe(false);
+    expect(sections[1].id).toBe(2);
+    expect(sections[1].name).toBe("Guess the Eyes");
+    expect(sections[2].id).toBe(3);
+    expect(sections[2].name).toBe("Guess the Dialogue");
   });
 
   test("Tie-breaker frames resolve over HTTP with status 200", async ({ page, request }) => {

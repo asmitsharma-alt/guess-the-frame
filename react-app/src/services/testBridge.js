@@ -83,6 +83,8 @@ export function installTestBridge(gameContextRef) {
   };
 
   window.GS = GS;
+  window.ALL_CATALOG_ITEMS = ALL_CATALOG_ITEMS;
+  window.DEFAULT_TIE_BREAKERS = DEFAULT_TIE_BREAKERS;
 
   // 2. UI Object
   const UI = {
@@ -784,6 +786,14 @@ export function installTestBridge(gameContextRef) {
       if (gameContextRef?.current?.setCurrentFrame && frame) {
         gameContextRef.current.setCurrentFrame(frame);
       }
+      if (gameContextRef?.current?.setIsRoundFinished) {
+        gameContextRef.current.setIsRoundFinished(false);
+      }
+      if (gameContextRef?.current?.setIsAnswerRevealed) {
+        gameContextRef.current.setIsAnswerRevealed(false);
+      }
+      const ansOv = document.getElementById('answerOverlay');
+      if (ansOv) ansOv.classList.remove('visible', 'active');
       if (frame && frame.type === 'dialogue') {
         if (container) container.style.display = 'none';
         if (dialogueContainer) {
@@ -798,12 +808,18 @@ export function installTestBridge(gameContextRef) {
         }
         container.style.display = 'flex';
         const imgPath = frame.content.startsWith('/') ? frame.content : `/${frame.content}`;
-        container.innerHTML = `<img class="frame-image loaded blurred" src="${imgPath}" alt="Frame" />`;
+        const existingImg = container.querySelector('.frame-image');
+        if (existingImg) {
+          existingImg.src = imgPath;
+        } else if (!gameContextRef?.current) {
+          container.innerHTML = `<img class="frame-image loaded blurred" src="${imgPath}" alt="Frame" />`;
+        }
       }
     },
     reset() {
       const container = document.getElementById('imageContainer');
-      if (container) container.innerHTML = '';
+      const img = container?.querySelector('.frame-image');
+      if (img) img.src = '';
       const dialogueContainer = document.getElementById('frameDialogue');
       if (dialogueContainer) {
         dialogueContainer.style.display = 'none';
@@ -851,6 +867,34 @@ export function installTestBridge(gameContextRef) {
     currentPlaylist: DEFAULT_FRAMES,
     currentPlayIndex: 0,
     currentRoundWinners: [],
+    get roundWinners() {
+      return this.currentRoundWinners;
+    },
+    set roundWinners(val) {
+      this.currentRoundWinners = val;
+    },
+
+    sendChatMessage(text) {
+      if (typeof ChatEngine !== 'undefined' && ChatEngine.processOutgoingMessage) {
+        ChatEngine.processOutgoingMessage(text);
+      }
+    },
+
+    submitGuess(text) {
+      if (!text) return;
+      const guessData = {
+        playerId: this.playerId || 'host',
+        playerName: this.playerName || 'Player',
+        playerAvatar: this.playerAvatar || 'aman',
+        guess: text,
+        roundIndex: this.currentPlayIndex || 0
+      };
+      if (this.isHost) {
+        this.validateAndProcessGuess(guessData);
+      } else {
+        this.sendEvent('SUBMIT_GUESS', guessData);
+      }
+    },
     currentMaskedHint: null,
     isMatchActive: false,
     isRoundFinished: false,

@@ -201,7 +201,7 @@ export const GameScreen = ({
 
               {/* Image container with crossfade */}
               <div
-                className="frame-image-container"
+                className={`frame-image-container ${frame?.type === 'dialogue' ? 'hidden' : ''}`}
                 id="imageContainer"
                 style={{ display: frame?.type === 'dialogue' ? 'none' : 'flex' }}
               >
@@ -507,7 +507,9 @@ export const GameScreen = ({
             </div>
 
             <div className="chat-stream" id="liveChatStream" ref={chatStreamRef}>
-              <div className="chat-msg-round">🎬 Welcome to Live Guess Stream!</div>
+              <div id="chatMessages" className="chat-messages-wrap">
+                <div className="chat-msg-round">🎬 Welcome to Live Guess Stream!</div>
+              </div>
             </div>
 
             <form className="chat-input-form" id="chatInputForm" onSubmit={handleGuessSubmit}>

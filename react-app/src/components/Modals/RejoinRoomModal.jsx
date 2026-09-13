@@ -35,7 +35,7 @@ export const RejoinRoomModal = ({ isOpen, roomCode, playerName, avatar, onConfir
             </div>
           </div>
 
-          <div style={{ background: '#FACC15', border: '2px solid #1a1a1a', borderRadius: '8px', padding: '6px 12px', textAlign: 'center', boxShadow: '2px 2px 0 #1a1a1a' }}>
+          <div id="rejoinRoomCode" style={{ background: '#FACC15', border: '2px solid #1a1a1a', borderRadius: '8px', padding: '6px 12px', textAlign: 'center', boxShadow: '2px 2px 0 #1a1a1a' }}>
             <div style={{ fontSize: '9px', fontWeight: 800, textTransform: 'uppercase', color: '#1a1a1a' }}>ROOM</div>
             <div id="rejoinRoomCodeText" style={{ fontSize: '18px', fontWeight: 900, color: '#1a1a1a', letterSpacing: '1px' }}>{roomCode || '----'}</div>
           </div>
