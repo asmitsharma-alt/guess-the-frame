@@ -50,9 +50,9 @@ export const AVATAR_API_STYLES = [
   { id: 'lorelei', name: 'Lorelei', icon: '🎨' },
   { id: 'adventurer', name: 'Adventurer', icon: '⚔️' },
   { id: 'bottts', name: 'Bottts', icon: '🤖' },
-  { id: 'robohash', name: 'RoboHash', icon: '👾' },
   { id: 'pixel', name: 'Pixel Art', icon: '🕹️' },
-  { id: 'notionists', name: 'Notionists', icon: '✏️' }
+  { id: 'notionists', name: 'Notionists', icon: '✏️' },
+  { id: 'avataaars', name: 'Avatars', icon: '✨' }
 ];
 
 export const buildAvatarDescriptor = (seed, style = 'lorelei', color = '38bdf8') => {
@@ -73,11 +73,6 @@ export const buildAvatarDescriptor = (seed, style = 'lorelei', color = '38bdf8')
       url = `https://api.dicebear.com/9.x/bottts/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
       label = 'DiceBear Bottts';
       break;
-    case 'robohash':
-      url = `https://robohash.org/${encodeURIComponent(seed)}?set=set1`;
-      label = 'RoboHash Robots';
-      format = 'PNG';
-      break;
     case 'pixel':
       url = `https://api.dicebear.com/9.x/pixel-art/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
       label = 'DiceBear Pixel';
@@ -85,6 +80,10 @@ export const buildAvatarDescriptor = (seed, style = 'lorelei', color = '38bdf8')
     case 'notionists':
       url = `https://api.dicebear.com/9.x/notionists/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
       label = 'DiceBear Notionists';
+      break;
+    case 'avataaars':
+      url = `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+      label = 'DiceBear Avatars';
       break;
     default:
       url = `https://api.dicebear.com/9.x/lorelei/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;

@@ -262,7 +262,8 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar }) => {
                       loading="lazy"
                       onError={(e) => {
                         e.currentTarget.onerror = null;
-                        e.currentTarget.src = '/avvtar/aman.svg';
+                        // Never fall back to a founder avatar inside the grid
+                        e.currentTarget.src = `https://api.dicebear.com/9.x/bottts/svg?seed=${encodeURIComponent(item.seed)}&backgroundColor=${item.color}`;
                       }}
                     />
                     {isSelected && (
