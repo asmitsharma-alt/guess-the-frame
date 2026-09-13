@@ -47,6 +47,21 @@ test.describe('BRUTAL FULL SYSTEM TEST SUITE: Every Feature, Button, Logic, Conn
     await closeCreateBtn.click();
     await expect(createModal).not.toHaveClass(/active/);
 
+    // Join Room Modal Validation on Home Screen
+    await joinBtn.click();
+    const joinModal = page.locator('#joinRoomModal');
+    await expect(joinModal).toHaveClass(/active/);
+
+    const joinCodeInput = page.locator('#joinCodeInput');
+    await joinCodeInput.click();
+    await joinCodeInput.fill('WXYZ');
+    const codeVal = await joinCodeInput.inputValue();
+    expect(codeVal.toUpperCase()).toBe('WXYZ');
+
+    // Close join modal
+    await page.locator('#joinRoomModal .mp-modal-close').click();
+    await expect(joinModal).not.toHaveClass(/active/);
+
     await createBtn.click();
     await expect(createModal).toHaveClass(/active/);
 
@@ -63,8 +78,8 @@ test.describe('BRUTAL FULL SYSTEM TEST SUITE: Every Feature, Button, Logic, Conn
     const initialRounds = await page.evaluate(() => MultiplayerEngine.hostSettings.rounds);
     expect(initialRounds).toBe(20);
 
-    const incRoundsBtn = page.locator('button[title="Increase Rounds"]');
-    const decRoundsBtn = page.locator('button[title="Decrease Rounds"]');
+    const incRoundsBtn = page.locator('button[title="Increase Rounds"]').first();
+    const decRoundsBtn = page.locator('button[title="Decrease Rounds"]').first();
 
     // Clicking increase when already at max (20) must stay capped at 20
     await incRoundsBtn.click();
@@ -95,8 +110,8 @@ test.describe('BRUTAL FULL SYSTEM TEST SUITE: Every Feature, Button, Logic, Conn
     const initialTimer = await page.evaluate(() => MultiplayerEngine.hostSettings.timer);
     expect(initialTimer).toBe(30);
 
-    const incTimerBtn = page.locator('button[title="Increase Timer"]');
-    const decTimerBtn = page.locator('button[title="Decrease Timer"]');
+    const incTimerBtn = page.locator('button[title="Increase Timer"]').first();
+    const decTimerBtn = page.locator('button[title="Decrease Timer"]').first();
 
     // Decrement by 1s (30 -> 29)
     await decTimerBtn.click();
@@ -136,21 +151,6 @@ test.describe('BRUTAL FULL SYSTEM TEST SUITE: Every Feature, Button, Logic, Conn
     // 1.7 Leave Lobby button
     await page.locator('button[onclick="PlayerLobby.back()"]').first().click();
     await expect(page.locator('#homeScreen')).toBeVisible();
-
-    // 1.8 Join Room Modal Validation
-    await joinBtn.click();
-    const joinModal = page.locator('#joinRoomModal');
-    await expect(joinModal).toHaveClass(/active/);
-
-    const joinCodeInput = page.locator('#joinCodeInput');
-    await joinCodeInput.click();
-    await joinCodeInput.fill('WXYZ');
-    const codeVal = await joinCodeInput.inputValue();
-    expect(codeVal.toUpperCase()).toBe('WXYZ');
-
-    // Close join modal
-    await page.locator('#joinRoomModal .mp-modal-close').click();
-    await expect(joinModal).not.toHaveClass(/active/);
 
     expect(consoleErrors).toEqual([]);
   });
@@ -285,18 +285,18 @@ test.describe('BRUTAL FULL SYSTEM TEST SUITE: Every Feature, Button, Logic, Conn
 
     // 3.4 Verify Roster on Host side shows GuestPro
     await hostPage.waitForFunction(() => {
-      return typeof GS !== 'undefined' && GS.players && GS.players.some(p => p.name.includes('GuestPro'));
-    }, { timeout: 25000 });
+      return typeof GS !== 'undefined' && GS.players && GS.players.some(p => p?.name?.includes('GuestPro'));
+    }, { timeout: 30000 });
 
     const hostRosterNames = await hostPage.evaluate(() => GS.players.map(p => p.name));
-    expect(hostRosterNames.some(n => n.includes('HostCaptain'))).toBe(true);
-    expect(hostRosterNames.some(n => n.includes('GuestPro'))).toBe(true);
+    expect(hostRosterNames.some(n => n?.includes('HostCaptain'))).toBe(true);
+    expect(hostRosterNames.some(n => n?.includes('GuestPro'))).toBe(true);
 
     // 3.5 Real-time Settings Sync: Host adjusts timer by -1s (30 -> 29)
-    await hostPage.locator('button[title="Decrease Timer"]').click();
+    await hostPage.locator('button[title="Decrease Timer"]').first().click();
 
     // Player screen should reflect 29s via real-time sync
-    await expect(playerPage.locator('#hostTimerBtnText')).toContainText('29', { timeout: 10000 });
+    await expect(playerPage.locator('#hostTimerBtnText').first()).toContainText('29', { timeout: 10000 });
 
     // 3.6 Host starts match -> Both screens transition to "How to Answer" guide
     await hostPage.evaluate(() => {

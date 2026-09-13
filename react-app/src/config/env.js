@@ -38,11 +38,27 @@ export const getWsBaseUrl = () => {
   return 'ws://localhost:4000/ws';
 };
 
+export const getMqttBrokers = () => {
+  const custom = import.meta.env.VITE_MQTT_BROKER_URL;
+  const list = [];
+  if (custom && custom.trim()) {
+    list.push({ name: 'Custom Cloud Broker (HiveMQ/CloudMQTT)', url: custom.trim() });
+  }
+  list.push(
+    { name: 'EMQX Cloud Broker', url: 'wss://broker.emqx.io:8084/mqtt' },
+    { name: 'HiveMQ Cloud / WebSockets', url: 'wss://broker.hivemq.com:8884/mqtt' },
+    { name: 'Eclipse Mosquitto', url: 'wss://test.mosquitto.org:8081/mqtt' }
+  );
+  return list;
+};
+
 export const API_BASE_URL = getApiBaseUrl();
 export const WS_BASE_URL = getWsBaseUrl();
+export const MQTT_BROKERS = getMqttBrokers();
 
 export default {
   API_BASE_URL,
   WS_BASE_URL,
+  MQTT_BROKERS,
   isProduction: import.meta.env.PROD
 };

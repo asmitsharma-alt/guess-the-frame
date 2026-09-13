@@ -6,6 +6,7 @@ import { HowToAnswerScreen } from '../pages/HowToAnswerScreen';
 import { WinnerScreen } from '../pages/WinnerScreen';
 import { FuzzyMatcher } from '../services/fuzzyMatcher';
 import { SecurityUtil, NetworkSecurity } from '../services/securityUtil';
+import { MQTT_BROKERS } from '../config/env';
 
 vi.mock('canvas-confetti', () => ({
   default: vi.fn()
@@ -62,5 +63,15 @@ describe('Frontend Component & Logic Tests', () => {
     const token = NetworkSecurity.generateToken('TEST', 'player1', true);
     expect(NetworkSecurity.verifyToken(token, 'TEST', 'player1')).toBe(true);
     expect(NetworkSecurity.verifyToken(token, 'TEST', 'player2')).toBe(false);
+  });
+
+  it('MQTT_BROKERS includes EMQX, HiveMQ Cloud/WebSockets, and Mosquitto fallback pool', () => {
+    expect(MQTT_BROKERS.length).toBeGreaterThanOrEqual(3);
+    const names = MQTT_BROKERS.map(b => b.name);
+    expect(names.some(n => n.includes('EMQX'))).toBe(true);
+    expect(names.some(n => n.includes('HiveMQ'))).toBe(true);
+    expect(names.some(n => n.includes('Mosquitto'))).toBe(true);
+    const urls = MQTT_BROKERS.map(b => b.url);
+    expect(urls.some(u => u.includes('hivemq.com'))).toBe(true);
   });
 });

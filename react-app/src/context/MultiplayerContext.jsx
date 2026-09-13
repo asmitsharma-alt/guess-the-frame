@@ -24,6 +24,13 @@ export const MultiplayerProvider = ({ children }) => {
   const lastHeartbeatRef = useRef(Date.now());
   const [socketStatus, setSocketStatus] = useState('offline'); // 'connected' | 'connecting' | 'offline'
 
+  useEffect(() => {
+    window.__setMultiplayerSocketStatus = (status) => setSocketStatus(status);
+    return () => {
+      window.__setMultiplayerSocketStatus = null;
+    };
+  }, []);
+
   // WebSocket connection management
   const connectSocket = useCallback((roomCodeToJoin, isHostUser = false) => {
     if (wsRef.current) {
@@ -85,12 +92,20 @@ export const MultiplayerProvider = ({ children }) => {
 
       socket.onclose = () => {
         console.log('[WebSocket] Disconnected from room');
-        setSocketStatus('offline');
+        if (typeof window !== 'undefined' && window.MultiplayerEngine?._mqttIsConnected) {
+          setSocketStatus('connected');
+        } else {
+          setSocketStatus('offline');
+        }
       };
 
       socket.onerror = (err) => {
         console.warn('[WebSocket] Error:', err);
-        setSocketStatus('offline');
+        if (typeof window !== 'undefined' && window.MultiplayerEngine?._mqttIsConnected) {
+          setSocketStatus('connected');
+        } else {
+          setSocketStatus('offline');
+        }
       };
     } catch (e) {
       console.error('[WebSocket] Setup exception:', e);
