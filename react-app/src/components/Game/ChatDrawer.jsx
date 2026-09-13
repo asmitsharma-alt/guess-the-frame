@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { SecurityUtil } from '../../services/securityUtil';
+import { getAvatarSrc } from '../../services/gameConstants';
 
 export const ChatDrawer = ({ messages = [], onSendMessage, placeholder = 'Type your guess or chat...' }) => {
   const [inputText, setInputText] = useState('');
@@ -42,7 +43,7 @@ export const ChatDrawer = ({ messages = [], onSendMessage, placeholder = 'Type y
             ) : (
               <div className="chat-msg-row" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                 <div className="chat-av" style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1a1a1a' }}>
-                  <img src={`/avvtar/${m.senderAvatar || 'aman'}.svg`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={getAvatarSrc(m.senderAvatar, 'aman')} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aman.svg'; }} />
                 </div>
                 <div className="chat-body" style={{ flex: 1 }}>
                   <span className="chat-sender" style={{ fontWeight: 800, fontSize: '12px', marginRight: '6px' }}>{m.senderName}:</span>

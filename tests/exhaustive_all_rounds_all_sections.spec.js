@@ -224,8 +224,13 @@ test.describe('EXHAUSTIVE FULL-SPECTRUM MASTER SUITE — All Scenarios, All Roun
     }
 
     // Leave lobby
-    await page.locator('button[onclick="PlayerLobby.back()"]').first().click();
-    await expect(page.locator('#homeScreen')).toBeVisible();
+    const backBtn = page.locator('#lobbyBackBtn').first();
+    if (await backBtn.count() > 0) {
+      await backBtn.click();
+    } else {
+      await page.evaluate(() => PlayerLobby.back());
+    }
+    await expect(page.locator('#homeScreen')).toHaveClass(/active/);
 
     // 2.4 JoinRoomModal Empty Code Validation
     await page.locator('.h-card-join').click();

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SoundManager from '../services/soundManager';
 import { SecurityUtil } from '../services/securityUtil';
-import { AVATAR_MAP } from '../services/gameConstants';
+import { AVATAR_MAP, getAvatarSrc } from '../services/gameConstants';
 
 export const LobbyScreen = ({
   isActive,
@@ -167,6 +167,7 @@ export const LobbyScreen = ({
             {/* Leave Lobby Back Button */}
             <button
               type="button"
+              id="lobbyBackBtn"
               ref={(el) => {
                 if (el) el.setAttribute('onclick', 'PlayerLobby.back()');
               }}
@@ -271,9 +272,9 @@ export const LobbyScreen = ({
                       >
                         <img
                           className="w-full h-full object-cover"
-                          src={`/avvtar/${avKey}.svg`}
+                          src={getAvatarSrc(p.avatar, 'aman')}
                           alt={p.name}
-                          onError={(e) => { e.target.src = '/avvtar/aman.svg'; }}
+                          onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aman.svg'; }}
                         />
                       </div>
                       {isSelf ? (
@@ -644,9 +645,9 @@ export const LobbyScreen = ({
                         >
                           <img
                             className="w-full h-full object-cover"
-                            src={`/avvtar/${avKey}.svg`}
+                            src={getAvatarSrc(p.avatar, 'aman')}
                             alt={p.name}
-                            onError={(e) => { e.target.src = '/avvtar/aman.svg'; }}
+                            onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aman.svg'; }}
                           />
                         </div>
                         {isSelf ? (

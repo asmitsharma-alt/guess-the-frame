@@ -1,0 +1,266 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="nolan-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="50%" stop-color="#0369A1"/>
+      <stop offset="100%" stop-color="#075985"/>
+    </linearGradient>
+
+    <!-- Hair Gradient -->
+    <linearGradient id="hair-grad" x1="0%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#E2B77E"/>
+      <stop offset="40%" stop-color="#C69458"/>
+      <stop offset="80%" stop-color="#9A6B32"/>
+      <stop offset="100%" stop-color="#684218"/>
+    </linearGradient>
+    
+    <!-- Hair Highlight -->
+    <linearGradient id="hair-highlight" x1="0%" y1="0%" x2="100%" y2="50%">
+      <stop offset="0%" stop-color="#FDE68A"/>
+      <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Skin Base & Shading -->
+    <linearGradient id="skin-base" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FCE7D6"/>
+      <stop offset="70%" stop-color="#F5CEB3"/>
+      <stop offset="100%" stop-color="#E8B594"/>
+    </linearGradient>
+    <linearGradient id="skin-shadow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D99B77"/>
+      <stop offset="100%" stop-color="#BF7B54"/>
+    </linearGradient>
+
+    <!-- Suit & Shirt Gradients -->
+    <linearGradient id="suit-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="shirt-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E0F2FE"/>
+      <stop offset="100%" stop-color="#BAE6FD"/>
+    </linearGradient>
+
+    <!-- Gold Totem Gradient (Inception Top) -->
+    <linearGradient id="gold-totem" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FDE047"/>
+      <stop offset="50%" stop-color="#EAB308"/>
+      <stop offset="100%" stop-color="#A16207"/>
+    </linearGradient>
+
+    <!-- Circular Avatar Clip -->
+    <clipPath id="avatar-clip-nolan">
+      <circle cx="500" cy="500" r="460"/>
+    </clipPath>
+  </defs>
+
+  <!-- 1. Background Circle -->
+  <circle cx="500" cy="500" r="460" fill="url(#nolan-bg)" stroke="#000000" stroke-width="24"/>
+
+  <!-- Inside Clipped Group -->
+  <g clip-path="url(#avatar-clip-nolan)">
+
+    <!-- Cinema Film Grid / Perspective Lines in Background -->
+    <g opacity="0.18" stroke="#FFFFFF" stroke-width="4">
+      <circle cx="500" cy="500" r="180" fill="none"/>
+      <circle cx="500" cy="500" r="320" fill="none"/>
+      <line x1="500" y1="40" x2="500" y2="960"/>
+      <line x1="40" y1="500" x2="960" y2="500"/>
+      <line x1="175" y1="175" x2="825" y2="825"/>
+      <line x1="825" y1="175" x2="175" y2="825"/>
+    </g>
+
+    <!-- Ambient Shadow Behind Nolan -->
+    <ellipse cx="500" cy="620" rx="340" ry="380" fill="#034568" opacity="0.4"/>
+
+    <!-- 2. Body / Clothing -->
+    <!-- Shoulders & Coat Base -->
+    <path d="M160 1000 C 170 780, 240 700, 360 670 L 640 670 C 760 700, 830 780, 840 1000 Z" fill="url(#suit-grad)" stroke="#000000" stroke-width="14" stroke-linejoin="round"/>
+
+    <!-- Blue Dress Shirt Center Chest -->
+    <path d="M420 670 L 580 670 L 540 860 L 460 860 Z" fill="url(#shirt-grad)" stroke="#000000" stroke-width="10" stroke-linejoin="round"/>
+    
+    <!-- Shirt Collar (Open British style) -->
+    <!-- Left Collar Wing -->
+    <path d="M420 660 L 485 750 L 455 770 L 390 680 Z" fill="#F0F9FF" stroke="#000000" stroke-width="10" stroke-linejoin="round"/>
+    <!-- Right Collar Wing -->
+    <path d="M580 660 L 515 750 L 545 770 L 610 680 Z" fill="#BAE6FD" stroke="#000000" stroke-width="10" stroke-linejoin="round"/>
+
+    <!-- Throat / Upper Chest Exposed -->
+    <path d="M465 670 L 500 730 L 535 670 Z" fill="url(#skin-shadow)" stroke="#000000" stroke-width="6"/>
+
+    <!-- Suit Lapels (Dark Charcoal / Black) -->
+    <!-- Left Lapel -->
+    <path d="M355 675 L 440 850 L 380 1000 L 260 1000 L 280 730 Z" fill="#1E293B" stroke="#000000" stroke-width="12" stroke-linejoin="round"/>
+    <!-- Right Lapel -->
+    <path d="M645 675 L 560 850 L 620 1000 L 740 1000 L 720 730 Z" fill="#0F172A" stroke="#000000" stroke-width="12" stroke-linejoin="round"/>
+
+    <!-- Center Suit Overlap Line & Button -->
+    <line x1="500" y1="840" x2="500" y2="1000" stroke="#000000" stroke-width="12"/>
+    <circle cx="500" cy="890" r="12" fill="#475569" stroke="#000000" stroke-width="6"/>
+
+    <!-- Inception Spinning Top Lapel Pin -->
+    <g transform="translate(370, 780) scale(0.9)">
+      <!-- Top Tip -->
+      <polygon points="20,0 24,15 16,15" fill="url(#gold-totem)" stroke="#000000" stroke-width="3"/>
+      <!-- Top Disc Body -->
+      <path d="M0 25 C 0 15, 40 15, 40 25 C 40 32, 25 45, 20 50 C 15 45, 0 32, 0 25 Z" fill="url(#gold-totem)" stroke="#000000" stroke-width="3"/>
+      <!-- Shiny Specular Highlight on Pin -->
+      <ellipse cx="20" cy="22" rx="14" ry="4" fill="#FEF08A" opacity="0.8"/>
+    </g>
+
+    <!-- 3. Neck -->
+    <path d="M430 570 L 430 680 C 430 705, 570 705, 570 680 L 570 570 Z" fill="url(#skin-base)" stroke="#000000" stroke-width="14" stroke-linejoin="round"/>
+    <!-- Neck Shadow Under Jaw -->
+    <path d="M430 580 C 470 635, 530 635, 570 580 L 570 630 C 530 665, 470 665, 430 630 Z" fill="url(#skin-shadow)" opacity="0.75"/>
+    <path d="M480 620 L 500 660 L 520 620 Z" fill="#D99B77" opacity="0.5"/> <!-- Adam's apple subtle -->
+
+    <!-- 4. Ears -->
+    <!-- Left Ear -->
+    <path d="M335 440 C 310 440, 310 520, 345 535 C 355 540, 365 520, 360 490 Z" fill="url(#skin-base)" stroke="#000000" stroke-width="12"/>
+    <path d="M335 465 C 325 470, 325 500, 340 510" fill="none" stroke="#BF7B54" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Right Ear -->
+    <path d="M665 440 C 690 440, 690 520, 655 535 C 645 540, 635 520, 640 490 Z" fill="url(#skin-base)" stroke="#000000" stroke-width="12"/>
+    <path d="M665 465 C 675 470, 675 500, 660 510" fill="none" stroke="#BF7B54" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- 5. Head / Face Structure -->
+    <!-- Nolan's strong defined jaw & chin shape -->
+    <path d="M350 400 
+             C 345 490, 360 550, 410 600 
+             C 450 635, 475 642, 500 642 
+             C 525 642, 550 635, 590 600 
+             C 640 550, 655 490, 650 400
+             C 650 300, 350 300, 350 400 Z" 
+          fill="url(#skin-base)" stroke="#000000" stroke-width="14" stroke-linejoin="round"/>
+
+    <!-- Cheek & Jaw Sculpting Shadow -->
+    <path d="M365 460 C 375 530, 420 595, 500 625 C 455 600, 425 550, 415 480 Z" fill="url(#skin-shadow)" opacity="0.35"/>
+    <path d="M635 460 C 625 530, 580 595, 500 625 C 545 600, 575 550, 585 480 Z" fill="url(#skin-shadow)" opacity="0.35"/>
+
+    <!-- Chin Dimple -->
+    <ellipse cx="500" cy="615" rx="10" ry="5" fill="#BF7B54" opacity="0.6"/>
+
+    <!-- 6. Facial Features -->
+    <!-- Contemplative / Serious Mouth -->
+    <!-- Upper Lip -->
+    <path d="M455 565 C 480 560, 500 563, 520 560 C 540 563, 545 565, 545 565" fill="none" stroke="#000000" stroke-width="8" stroke-linecap="round"/>
+    <!-- Subtle lower lip curve -->
+    <path d="M470 580 C 488 587, 512 587, 530 580" fill="none" stroke="#BF7B54" stroke-width="6" stroke-linecap="round"/>
+    <!-- Director's thoughtful expression corner creases -->
+    <path d="M450 563 C 445 568, 448 574, 452 575" fill="none" stroke="#000000" stroke-width="5" stroke-linecap="round"/>
+    <path d="M550 563 C 555 568, 552 574, 548 575" fill="none" stroke="#000000" stroke-width="5" stroke-linecap="round"/>
+
+    <!-- Nolan's Straight Distinct Nose -->
+    <!-- Nose Bridge -->
+    <path d="M495 395 L 490 500 L 475 515 L 500 525 L 525 515 L 510 500" fill="none" stroke="#000000" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Nose Shadow side -->
+    <polygon points="488,420 493,500 480,515 470,510" fill="#D99B77" opacity="0.5"/>
+    <!-- Nostrils -->
+    <path d="M472 516 C 476 523, 486 523, 490 518" fill="none" stroke="#000000" stroke-width="6" stroke-linecap="round"/>
+    <path d="M528 516 C 524 523, 514 523, 510 518" fill="none" stroke="#000000" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Intense Cinematic Eyes -->
+    <!-- Left Eye -->
+    <g>
+      <!-- Eye Outline & Sclera -->
+      <path d="M405 440 C 420 425, 450 425, 465 440 C 450 455, 420 455, 405 440 Z" fill="#FFFFFF" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+      <!-- Iris (Piercing Nolan Blue) -->
+      <circle cx="437" cy="440" r="14" fill="#0284C7"/>
+      <circle cx="437" cy="440" r="9" fill="#0369A1"/>
+      <!-- Pupil -->
+      <circle cx="437" cy="440" r="6" fill="#0F172A"/>
+      <!-- Specular Highlight -->
+      <circle cx="433" cy="436" r="3.5" fill="#FFFFFF"/>
+      <!-- Upper Eyelid crease (Deep-set British eyes) -->
+      <path d="M400 428 C 425 418, 455 420, 470 432" fill="none" stroke="#8A5836" stroke-width="6" stroke-linecap="round"/>
+      <!-- Subtle lower eye bag / concentration line -->
+      <path d="M412 458 C 430 464, 450 462, 462 456" fill="none" stroke="#BF7B54" stroke-width="4" stroke-linecap="round"/>
+    </g>
+
+    <!-- Right Eye -->
+    <g>
+      <!-- Eye Outline & Sclera -->
+      <path d="M535 440 C 550 425, 580 425, 595 440 C 580 455, 550 455, 535 440 Z" fill="#FFFFFF" stroke="#000000" stroke-width="8" stroke-linejoin="round"/>
+      <!-- Iris (Piercing Nolan Blue) -->
+      <circle cx="563" cy="440" r="14" fill="#0284C7"/>
+      <circle cx="563" cy="440" r="9" fill="#0369A1"/>
+      <!-- Pupil -->
+      <circle cx="563" cy="440" r="6" fill="#0F172A"/>
+      <!-- Specular Highlight -->
+      <circle cx="559" cy="436" r="3.5" fill="#FFFFFF"/>
+      <!-- Upper Eyelid crease -->
+      <path d="M530 432 C 545 420, 575 418, 600 428" fill="none" stroke="#8A5836" stroke-width="6" stroke-linecap="round"/>
+      <!-- Lower concentration line -->
+      <path d="M538 456 C 550 462, 570 464, 588 458" fill="none" stroke="#BF7B54" stroke-width="4" stroke-linecap="round"/>
+    </g>
+
+    <!-- Nolan's Characteristic Eyebrows (Focused, slightly arched, strawberry blonde/brown) -->
+    <!-- Left Brow -->
+    <path d="M395 415 C 418 395, 450 400, 475 415 L 470 422 C 445 410, 418 410, 400 423 Z" fill="#9A6B32" stroke="#000000" stroke-width="6" stroke-linejoin="round"/>
+    <!-- Right Brow -->
+    <path d="M605 415 C 582 395, 550 400, 525 415 L 530 422 C 555 410, 582 410, 600 423 Z" fill="#9A6B32" stroke="#000000" stroke-width="6" stroke-linejoin="round"/>
+    <!-- Forehead Focus Furrows -->
+    <path d="M485 412 C 493 400, 497 400, 502 412" fill="none" stroke="#D99B77" stroke-width="4" stroke-linecap="round"/>
+    <path d="M465 375 C 485 370, 515 370, 535 375" fill="none" stroke="#D99B77" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+
+    <!-- 7. Christopher Nolan's Iconic Wavy Swept-Back Hair -->
+    <!-- Main Hair Mass Behind/Around Face -->
+    <!-- Sideburns & Temple hair -->
+    <path d="M350 430 L 335 420 C 330 380, 335 340, 355 300 L 375 350 Z" fill="url(#hair-grad)" stroke="#000000" stroke-width="8"/>
+    <path d="M650 430 L 665 420 C 670 380, 665 340, 645 300 L 625 350 Z" fill="url(#hair-grad)" stroke="#000000" stroke-width="8"/>
+
+    <!-- Big Voluminous Wavy Hairpiece (Swept back from left part) -->
+    <path d="M 330 370 
+             C 320 280, 360 210, 420 180 
+             C 470 150, 560 150, 630 190 
+             C 690 220, 710 290, 690 380 
+             C 670 340, 660 300, 620 270 
+             C 580 240, 510 250, 480 280 
+             C 450 310, 460 330, 420 320 
+             C 390 310, 360 330, 350 365 Z" 
+          fill="url(#hair-grad)" stroke="#000000" stroke-width="14" stroke-linejoin="round"/>
+
+    <!-- Signature Hair Tuft / Wavy Part Strands (The "Nolan Sweep") -->
+    <!-- Front Wave 1 (Sweeping over top forehead) -->
+    <path d="M 370 310 
+             C 410 240, 490 230, 550 260 
+             C 610 290, 640 330, 650 380 
+             C 630 340, 580 320, 530 310 
+             C 470 300, 420 320, 390 340 Z" 
+          fill="#D49E5E" stroke="#000000" stroke-width="10" stroke-linejoin="round"/>
+
+    <!-- Wave 2 (Upper Loft & Highlights) -->
+    <path d="M 440 190 C 490 170, 550 175, 600 210 C 560 200, 510 200, 460 220 Z" fill="url(#hair-highlight)" stroke="#B45309" stroke-width="4"/>
+    <path d="M 390 240 C 440 210, 510 215, 560 245 C 510 235, 450 240, 410 265 Z" fill="url(#hair-highlight)" stroke="#B45309" stroke-width="4"/>
+
+    <!-- Individual Hair Texture Accent Strands -->
+    <path d="M 420 230 C 470 215, 530 225, 580 265" fill="none" stroke="#684218" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 360 280 C 390 250, 450 245, 500 260" fill="none" stroke="#684218" stroke-width="6" stroke-linecap="round"/>
+    <path d="M 480 270 C 530 270, 580 290, 610 330" fill="none" stroke="#684218" stroke-width="5" stroke-linecap="round"/>
+    <path d="M 640 310 C 660 350, 660 380, 655 400" fill="none" stroke="#684218" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- Director's Slate / IMAX Film Clapper Icon Badge at bottom right -->
+    <g transform="translate(680, 720) rotate(12)">
+      <!-- Clapper body -->
+      <rect x="0" y="0" width="140" height="110" rx="12" fill="#0F172A" stroke="#000000" stroke-width="10"/>
+      <!-- Clapper striped top -->
+      <rect x="0" y="0" width="140" height="34" rx="8" fill="#FFFFFF" stroke="#000000" stroke-width="8"/>
+      <polygon points="20,0 38,0 22,34 4,34" fill="#000000"/>
+      <polygon points="55,0 73,0 57,34 39,34" fill="#000000"/>
+      <polygon points="90,0 108,0 92,34 74,34" fill="#000000"/>
+      <polygon points="125,0 140,0 127,34 109,34" fill="#000000"/>
+      <!-- "IMAX 70MM" text badge -->
+      <text x="70" y="72" font-family="'Impact', 'Arial Black', sans-serif" font-size="20" font-weight="900" fill="#38BDF8" text-anchor="middle" letter-spacing="1">70MM</text>
+      <text x="70" y="94" font-family="'Arial', sans-serif" font-size="13" font-weight="900" fill="#FFFFFF" text-anchor="middle" letter-spacing="2">DIR. NOLAN</text>
+    </g>
+
+  </g>
+
+  <!-- 8. Crisp Outer Neobrutalist Ring -->
+  <circle cx="500" cy="500" r="460" fill="none" stroke="#000000" stroke-width="26"/>
+  <!-- Inner ring highlight -->
+  <circle cx="500" cy="500" r="446" fill="none" stroke="#38BDF8" stroke-width="6" opacity="0.8"/>
+</svg>

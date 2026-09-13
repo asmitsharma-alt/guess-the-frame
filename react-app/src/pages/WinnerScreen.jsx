@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import SoundManager from '../services/soundManager';
 import { SecurityUtil } from '../services/securityUtil';
+import { getAvatarSrc } from '../services/gameConstants';
 import confetti from 'canvas-confetti';
 
 export const WinnerScreen = ({
@@ -168,7 +169,7 @@ export const WinnerScreen = ({
                 <div className="cw-runner-card runner-blue" id="silverCard">
                   <div className="runner-rank-tab blue-tab">2</div>
                   <div className="runner-avatar-frame" id="silverAvatarWrap">
-                    <img id="silverAvatarImg" src={`/avvtar/${p2.avatar || 'aziz'}.svg`} alt="2nd Place" onError={(e) => { e.target.src = '/avvtar/aziz.svg'; }} />
+                    <img id="silverAvatarImg" src={getAvatarSrc(p2.avatar, 'aziz')} alt="2nd Place" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aziz.svg'; }} />
                   </div>
                   <div className="runner-nameplate" id="silverName">{(p2.name || 'AZIZ').toUpperCase()}</div>
                   <div className="runner-score-tag blue-score-tag" id="silverScore">{p2.score || 0} POINTS</div>
@@ -185,7 +186,7 @@ export const WinnerScreen = ({
                     </svg>
                   </div>
                   <div className="runner-avatar-frame champ-avatar-frame" id="champAvatarWrap">
-                    <img id="champAvatarImg" src={`/avvtar/${p1.avatar || 'aman'}.svg`} alt="Champion" onError={(e) => { e.target.src = '/avvtar/aman.svg'; }} />
+                    <img id="champAvatarImg" src={getAvatarSrc(p1.avatar, 'aman')} alt="Champion" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aman.svg'; }} />
                   </div>
                   <div className="runner-nameplate champ-nameplate" id="champName">{(p1.name || 'AMAN').toUpperCase()}</div>
                   <div className="runner-score-tag gold-score-tag" id="champScore">{p1.score || 0} POINTS</div>
@@ -203,7 +204,7 @@ export const WinnerScreen = ({
                 <div className="cw-runner-card runner-orange" id="bronzeCard">
                   <div className="runner-rank-tab orange-tab">3</div>
                   <div className="runner-avatar-frame" id="bronzeAvatarWrap">
-                    <img id="bronzeAvatarImg" src={`/avvtar/${p3.avatar || 'amish'}.svg`} alt="3rd Place" onError={(e) => { e.target.src = '/avvtar/amish.svg'; }} />
+                    <img id="bronzeAvatarImg" src={getAvatarSrc(p3.avatar, 'amish')} alt="3rd Place" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/amish.svg'; }} />
                   </div>
                   <div className="runner-nameplate" id="bronzeName">{(p3.name || 'AMISH').toUpperCase()}</div>
                   <div className="runner-score-tag orange-score-tag" id="bronzeScore">{p3.score || 0} POINTS</div>
@@ -222,13 +223,12 @@ export const WinnerScreen = ({
               <div className="cw-sb-list" id="winnerScoreboardList">
                 {sorted.map((p, i) => {
                   const isChamp = i === 0 && (p.score || 0) > 0;
-                  const avKey = (p.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
                   return (
                     <div key={p.id || i} className={`sb-row ${isChamp ? 'sb-champ' : ''}`}>
                       <div className="sb-left">
                         <span className="sb-rank">{i + 1}</span>
                         <div className="sb-avatar-mini">
-                          <img src={`/avvtar/${avKey}.svg`} alt={p.name} onError={(e) => { e.target.src = '/avvtar/aman.svg'; }} />
+                          <img src={getAvatarSrc(p.avatar, 'aman')} alt={p.name} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aman.svg'; }} />
                         </div>
                         <span className="sb-name">{(p.name || 'PLAYER').toUpperCase()}</span>
                       </div>

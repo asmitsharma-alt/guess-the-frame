@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useMultiplayer } from '../../context/MultiplayerContext';
 import SoundManager from '../../services/soundManager';
+import AvatarPicker from '../Common/AvatarPicker';
 
 export const JoinRoomModal = ({ isOpen, roomCode: propRoomCode = '', onClose, onConfirm }) => {
   const { selectedAvatar, setSelectedAvatar } = useMultiplayer();
@@ -14,6 +15,15 @@ export const JoinRoomModal = ({ isOpen, roomCode: propRoomCode = '', onClose, on
   });
   const [playerName, setPlayerName] = useState(() => localStorage.getItem('gtf_player_name') || 'Guest');
   const [isConnecting, setIsConnecting] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      const savedAvatar = localStorage.getItem('gtf_player_avatar');
+      if (savedAvatar && !selectedAvatar) {
+        setSelectedAvatar(savedAvatar);
+      }
+    }
+  }, [isOpen, selectedAvatar, setSelectedAvatar]);
 
   useEffect(() => {
     window.__setJoinModalConnecting = (val) => setIsConnecting(!!val);
@@ -39,16 +49,12 @@ export const JoinRoomModal = ({ isOpen, roomCode: propRoomCode = '', onClose, on
     }
   }, [propRoomCode, isOpen]);
 
-  const avatars = [
-    { id: 'aman', name: 'Aman', src: '/avvtar/aman.svg' },
-    { id: 'amish', name: 'Amish', src: '/avvtar/amish.svg' },
-    { id: 'aziz', name: 'Aziz', src: '/avvtar/aziz.svg' },
-    { id: 'vish', name: 'Vish', src: '/avvtar/vish.svg' }
-  ];
-
   const handleSelectAvatar = (avId) => {
     SoundManager.playClick();
     setSelectedAvatar(avId);
+    try {
+      localStorage.setItem('gtf_player_avatar', avId);
+    } catch (e) {}
     if (typeof window !== 'undefined' && window.MultiplayerEngine) {
       window.MultiplayerEngine.selectedAvatarForModal = avId;
       window.MultiplayerEngine.playerAvatar = avId;
@@ -64,14 +70,15 @@ export const JoinRoomModal = ({ isOpen, roomCode: propRoomCode = '', onClose, on
       return;
     }
 
+    const effectiveAvatar = selectedAvatar || localStorage.getItem('gtf_player_avatar') || 'aman';
     const cleanName = playerName.trim() || 'Player';
     localStorage.setItem('gtf_player_name', cleanName);
-    localStorage.setItem('gtf_player_avatar', selectedAvatar);
+    localStorage.setItem('gtf_player_avatar', effectiveAvatar);
 
     setIsConnecting(true);
 
     if (typeof onConfirm === 'function') {
-      onConfirm(cleanCode, cleanName, selectedAvatar);
+      onConfirm(cleanCode, cleanName, effectiveAvatar);
     }
   };
 
@@ -110,19 +117,10 @@ export const JoinRoomModal = ({ isOpen, roomCode: propRoomCode = '', onClose, on
 
         <div className="mp-form-group">
           <label className="mp-label">Select Your Animated Avatar</label>
-          <div className="mp-avatar-grid">
-            {avatars.map((av) => (
-              <div
-                key={av.id}
-                className={`mp-avatar-option ${selectedAvatar === av.id ? 'selected' : ''}`}
-                data-avatar={av.id}
-                onClick={() => handleSelectAvatar(av.id)}
-              >
-                <img src={av.src} alt={av.name} />
-                <div className="mp-avatar-name">{av.name}</div>
-              </div>
-            ))}
-          </div>
+          <AvatarPicker
+            selectedAvatar={selectedAvatar || 'aman'}
+            onSelectAvatar={handleSelectAvatar}
+          />
         </div>
         <button
           className="mp-btn-primary"

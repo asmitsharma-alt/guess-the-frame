@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avatar Selection — Bold & Solid</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800;900&family=Space+Grotesk:wght@700;900&display=swap">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background-color: #f8fafc;
+      color: #000000;
+    }
+    .font-headline {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .neo-box {
+      border: 3.5px solid #000000;
+      box-shadow: 5px 5px 0px 0px #000000;
+    }
+    .neo-box-sm {
+      border: 2.5px solid #000000;
+      box-shadow: 2.5px 2.5px 0px 0px #000000;
+    }
+    .neo-btn {
+      border: 2.5px solid #000000;
+      box-shadow: 3px 3px 0px 0px #000000;
+      transition: all 0.1s ease;
+      cursor: pointer;
+    }
+    .neo-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 4px 4px 0px 0px #000000;
+    }
+    .neo-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px 0px #000000;
+    }
+    .avatar-item {
+      border: 3px solid #000000 !important;
+      box-shadow: 3px 3px 0px 0px #000000;
+      transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.12s ease;
+      cursor: pointer;
+    }
+    .avatar-item:hover {
+      transform: scale(1.1) translate(-2px, -2px);
+      box-shadow: 5px 5px 0px 0px #000000;
+    }
+    .avatar-item.selected {
+      border-color: #000000 !important;
+      outline: 5px solid #FACC15;
+      transform: scale(1.14) translate(-2px, -2px);
+      box-shadow: 6px 6px 0px 0px #000000;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-start p-3 sm:p-6 pb-20">
+
+  <!-- Main Modal Box -->
+  <div class="w-full max-w-2xl bg-white neo-box rounded-3xl p-4 sm:p-6 flex flex-col gap-4">
+
+    <!-- Top Bar with Bold Selected Avatar Preview -->
+    <div class="flex items-center justify-between border-b-4 border-black pb-3.5">
+      <div class="flex items-center gap-3.5">
+        <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-full neo-box-sm bg-yellow-400 overflow-hidden shrink-0 relative p-0.5">
+          <img id="selectedPreviewImg" src="https://api.dicebear.com/9.x/lorelei/svg?seed=Nolan&backgroundColor=38bdf8" alt="Selected" class="w-full h-full object-cover rounded-full">
+          <span class="absolute bottom-0 right-0 bg-emerald-400 border-2 border-black text-black text-xs font-black w-5 h-5 rounded-full flex items-center justify-center">✓</span>
+        </div>
+        <div>
+          <h1 class="text-xl sm:text-2xl font-black font-headline uppercase tracking-tight">Choose Your Avatar</h1>
+          <p class="text-xs font-black text-slate-500 uppercase">Bold Cinema Avatars</p>
+        </div>
+      </div>
+
+      <button onclick="confirmSelection()" class="neo-btn bg-emerald-400 hover:bg-emerald-300 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-black uppercase tracking-wide">
+        ✓ Select
+      </button>
+    </div>
+
+    <!-- Infinite Scroll Grid Container -->
+    <div id="scrollContainer" class="h-[500px] sm:h-[560px] overflow-y-auto pr-1 flex flex-col gap-4">
+      
+      <!-- Pure Avatar Grid (Zero text, zero tags, bold solid circles) -->
+      <div id="avatarGrid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3.5 sm:gap-4 p-2">
+        <!-- Injected dynamically via JS -->
+      </div>
+
+      <!-- Infinite Loading Spinner -->
+      <div id="loadingTrigger" class="w-full py-6 flex items-center justify-center gap-2 text-xs font-black uppercase text-slate-500">
+        <span class="animate-spin text-lg">⏳</span>
+        <span>Loading more bold avatars...</span>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // Audio synthesizer for snappy clicks
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playPop() {
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(560, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.07);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.07);
+      } catch (e) {}
+    }
+
+    function playSuccess() {
+      try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.2);
+      } catch (e) {}
+    }
+
+    // State
+    let selectedAvatarUrl = 'https://api.dicebear.com/9.x/lorelei/svg?seed=Nolan&backgroundColor=38bdf8';
+    let loadedCount = 0;
+    const BATCH_SIZE = 25;
+
+    // BOLD & SOLID Saturated Color Palette (No dull pastels)
+    const BOLD_BG_COLORS = [
+      'facc15', // Electric Yellow
+      'ff6b9d', // Hot Neon Pink
+      '38bdf8', // Vivid Sky Blue
+      '84cc16', // Lime Green
+      'fb923c', // Tangerine Orange
+      'a855f7', // Vivid Purple
+      'ef4444', // Crimson Red
+      '06b6d4', // Cyber Cyan
+      '22c55e', // Emerald Punch
+      'ec4899'  // Bold Fuchsia
+    ];
+
+    const SEEDS = [
+      'Nolan', 'Aman', 'Amish', 'Aziz', 'Vish', 'Emma', 'Liam', 'Olivia', 'Noah', 'Ava',
+      'Oliver', 'Sophia', 'James', 'Isabella', 'Lucas', 'Mia', 'Henry', 'Charlotte', 'Alexander', 'Amelia',
+      'Ethan', 'Harper', 'Daniel', 'Evelyn', 'Jacob', 'Abigail', 'Logan', 'Emily', 'Jackson', 'Ella',
+      'Sebastian', 'Elizabeth', 'Jack', 'Camila', 'Owen', 'Luna', 'Theodore', 'Sofia', 'Samuel', 'Avery',
+      'Joseph', 'Mila', 'David', 'Aria', 'Wyatt', 'Scarlett', 'Matthew', 'Penelope', 'Luke', 'Layla',
+      'Asher', 'Chloe', 'Carter', 'Victoria', 'Julian', 'Madison', 'Grayson', 'Eleanor', 'Leo', 'Grace',
+      'Jayden', 'Nora', 'Gabriel', 'Riley', 'Isaac', 'Zoey', 'Lincoln', 'Hannah', 'Anthony', 'Hazel',
+      'Hudson', 'Lily', 'Dylan', 'Ellie', 'Ezra', 'Violet', 'Thomas', 'Lillian', 'Charles', 'Zoe',
+      'Christopher', 'Stella', 'Jaxon', 'Aurora', 'Maverick', 'Natalie', 'Josiah', 'Emilia', 'Isaiah', 'Everly',
+      'Andrew', 'Leah', 'Elias', 'Aubrey', 'Joshua', 'Willow', 'Nathan', 'Addison', 'Caleb', 'Lucy'
+    ];
+
+    function init() {
+      renderBatch();
+      setupInfiniteScroll();
+    }
+
+    function getAvatarUrl(seed, bgIndex) {
+      const color = BOLD_BG_COLORS[bgIndex % BOLD_BG_COLORS.length];
+      return `https://api.dicebear.com/9.x/lorelei/svg?seed=${encodeURIComponent(seed)}&backgroundColor=${color}`;
+    }
+
+    function renderBatch() {
+      const grid = document.getElementById('avatarGrid');
+      const fragment = document.createDocumentFragment();
+
+      for (let i = 0; i < BATCH_SIZE; i++) {
+        const itemIdx = loadedCount + i;
+        const seedBase = SEEDS[itemIdx % SEEDS.length];
+        const seed = itemIdx < SEEDS.length ? seedBase : `${seedBase}_${Math.floor(itemIdx / SEEDS.length)}`;
+        const url = getAvatarUrl(seed, itemIdx);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `avatar-item rounded-full aspect-square w-full bg-white overflow-hidden p-0.5 relative ${url === selectedAvatarUrl ? 'selected' : ''}`;
+        btn.setAttribute('data-url', url);
+        btn.onclick = () => selectAvatar(url, btn);
+
+        const img = document.createElement('img');
+        img.src = url;
+        img.alt = '';
+        img.loading = 'lazy';
+        img.className = 'w-full h-full object-cover rounded-full pointer-events-none';
+
+        btn.appendChild(img);
+        fragment.appendChild(btn);
+      }
+
+      grid.appendChild(fragment);
+      loadedCount += BATCH_SIZE;
+    }
+
+    function selectAvatar(url, el) {
+      playPop();
+      selectedAvatarUrl = url;
+      document.getElementById('selectedPreviewImg').src = url;
+
+      // Update selection highlight
+      document.querySelectorAll('.avatar-item').forEach(item => item.classList.remove('selected'));
+      if (el) el.classList.add('selected');
+    }
+
+    function confirmSelection() {
+      playSuccess();
+      const preview = document.getElementById('selectedPreviewImg');
+      preview.style.transform = 'scale(1.25)';
+      setTimeout(() => preview.style.transform = 'scale(1)', 200);
+      alert('Avatar selected!');
+    }
+
+    function setupInfiniteScroll() {
+      const container = document.getElementById('scrollContainer');
+      container.addEventListener('scroll', () => {
+        if (container.scrollTop + container.clientHeight >= container.scrollHeight - 120) {
+          renderBatch();
+        }
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

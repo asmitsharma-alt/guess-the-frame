@@ -9,7 +9,7 @@ import SoundManager from './soundManager';
 import PaletteManager from './paletteManager';
 import { SecurityUtil, NetworkSecurity } from './securityUtil';
 import { FuzzyMatcher } from './fuzzyMatcher';
-import { DEFAULT_FRAMES, DEFAULT_EYES, DEFAULT_DIALOGUES, ALL_CATALOG_ITEMS, DEFAULT_TIE_BREAKERS, AVATAR_MAP } from './gameConstants';
+import { DEFAULT_FRAMES, DEFAULT_EYES, DEFAULT_DIALOGUES, ALL_CATALOG_ITEMS, DEFAULT_TIE_BREAKERS, AVATAR_MAP, getAvatarSrc } from './gameConstants';
 
 export function installTestBridge(gameContextRef) {
   if (typeof window === 'undefined') return;
@@ -358,6 +358,14 @@ export function installTestBridge(gameContextRef) {
       SoundManager.play('gamestart');
       if (window.MultiplayerEngine?.isHost) {
         window.MultiplayerEngine.sendEvent('GUIDE_COMPLETE');
+        const pl = window.MultiplayerEngine.currentPlaylist;
+        if (pl && pl.length > 0) {
+          window.MultiplayerEngine.sendEvent('ROUND_START', {
+            roundIndex: 0,
+            frame: pl[0],
+            duration: 30
+          });
+        }
       }
       if (this._onLaunch) {
         this._onLaunch();
@@ -389,21 +397,21 @@ export function installTestBridge(gameContextRef) {
       const champImg = document.getElementById('champAvatarImg');
       if (champName) champName.textContent = (p1?.name || 'AMAN').toUpperCase();
       if (champScore) champScore.textContent = `${p1?.score || 0} POINTS`;
-      if (champImg) champImg.src = `avvtar/${p1?.avatar || 'aman'}.svg`;
+      if (champImg) champImg.src = getAvatarSrc(p1?.avatar, 'aman');
 
       const silverName = document.getElementById('silverName');
       const silverScore = document.getElementById('silverScore');
       const silverImg = document.getElementById('silverAvatarImg');
       if (silverName) silverName.textContent = (p2?.name || 'AZIZ').toUpperCase();
       if (silverScore) silverScore.textContent = `${p2?.score || 0} POINTS`;
-      if (silverImg) silverImg.src = `avvtar/${p2?.avatar || 'aziz'}.svg`;
+      if (silverImg) silverImg.src = getAvatarSrc(p2?.avatar, 'aziz');
 
       const bronzeName = document.getElementById('bronzeName');
       const bronzeScore = document.getElementById('bronzeScore');
       const bronzeImg = document.getElementById('bronzeAvatarImg');
       if (bronzeName) bronzeName.textContent = (p3?.name || 'AMISH').toUpperCase();
       if (bronzeScore) bronzeScore.textContent = `${p3?.score || 0} POINTS`;
-      if (bronzeImg) bronzeImg.src = `avvtar/${p3?.avatar || 'amish'}.svg`;
+      if (bronzeImg) bronzeImg.src = getAvatarSrc(p3?.avatar, 'amish');
     },
     renderScoreboard(players) {
       if (gameContextRef?.current?.setPlayers) {
@@ -415,12 +423,11 @@ export function installTestBridge(gameContextRef) {
         list.innerHTML = sorted.map((p, i) => {
           const rank = i + 1;
           const isChamp = i === 0 && (p.score || 0) > 0;
-          const avKey = (p.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
           return `
             <div class="sb-row ${isChamp ? 'sb-champ' : ''}">
               <div class="sb-left">
                 <span class="sb-rank">${rank}</span>
-                <div class="sb-avatar-mini"><img src="avvtar/${avKey}.svg" alt="${p.name}" /></div>
+                <div class="sb-avatar-mini"><img src="${getAvatarSrc(p.avatar, 'aman')}" alt="${p.name}" onerror="this.src='avvtar/aman.svg'" /></div>
                 <span class="sb-name">${SecurityUtil.escapeHtml(p.name).toUpperCase()}</span>
               </div>
               <span class="sb-score">${p.score || 0} PTS</span>
@@ -836,10 +843,7 @@ export function installTestBridge(gameContextRef) {
   // 10. Avatar helper
   window.renderAvatar = (p, type) => {
     const rawAv = (p && (p.avatar || p.name?.toLowerCase())) || 'aman';
-    const avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
-    const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
-    const safeAv = validAvatars.includes(avKey) ? avKey : 'aman';
-    const avSrc = (p && p.avatarImg) || `avvtar/${safeAv}.svg`;
+    const avSrc = (p && p.avatarImg) || getAvatarSrc(rawAv, 'aman');
     const safeName = SecurityUtil.escapeHtml(p?.name || '');
 
     return `<img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" class="av-img-elem" style="width:100%;height:100%;object-fit:cover;border-radius:50%;display:block;" onerror="this.onerror=null;this.src='avvtar/aman.svg';">`;
@@ -1216,9 +1220,12 @@ export function installTestBridge(gameContextRef) {
       if (!avatar) return;
       this.selectedAvatarForModal = avatar;
       this.playerAvatar = avatar;
+      try {
+        localStorage.setItem('gtf_player_avatar', avatar);
+      } catch (e) {}
       const modal = el.closest('.mp-modal-box');
       if (modal) {
-        modal.querySelectorAll('.mp-avatar-option').forEach(opt => opt.classList.remove('selected'));
+        modal.querySelectorAll('.mp-avatar-option, .mp-circular-avatar-btn').forEach(opt => opt.classList.remove('selected'));
         el.classList.add('selected');
       }
     },

@@ -3,7 +3,7 @@ import SoundManager from '../services/soundManager';
 import PaletteManager from '../services/paletteManager';
 import { FuzzyMatcher } from '../services/fuzzyMatcher';
 import { SecurityUtil } from '../services/securityUtil';
-import { AVATAR_MAP } from '../services/gameConstants';
+import { AVATAR_MAP, getAvatarSrc } from '../services/gameConstants';
 
 export const GameScreen = ({
   isActive,
@@ -285,7 +285,7 @@ export const GameScreen = ({
                         setShowScoringOverlay(false);
                       }}
                     >
-                      <img src={`/avvtar/${avKey}.svg`} alt={p.name} />
+                      <img src={getAvatarSrc(p.avatar, 'aman')} alt={p.name} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aman.svg'; }} />
                       <span>{p.name}</span>
                     </button>
                   );
@@ -446,7 +446,7 @@ export const GameScreen = ({
                 return (
                   <div key={p.id || idx} className="lb-item">
                     <div className="lb-av-wrap">
-                      <img src={`/avvtar/${avKey}.svg`} alt={p.name} onError={(e) => { e.target.src = '/avvtar/aman.svg'; }} />
+                      <img src={getAvatarSrc(p.avatar, 'aman')} alt={p.name} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aman.svg'; }} />
                     </div>
                     <span className="lb-name">{p.name}</span>
                     <span className="lb-score">{p.score || 0} pts</span>

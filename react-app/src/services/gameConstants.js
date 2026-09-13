@@ -21,6 +21,45 @@ export const AVATAR_MAP = {
   }
 };
 
+export const getAvatarSrc = (avatar, defaultFallback = 'aman') => {
+  if (!avatar) return `/avvtar/${defaultFallback}.svg`;
+  const trimmed = String(avatar).trim();
+  if (trimmed.startsWith('http://') || trimmed.startsWith('https://') || trimmed.startsWith('/') || trimmed.startsWith('data:')) {
+    return trimmed;
+  }
+  const avKey = trimmed.toLowerCase().replace(/[^a-z0-9]/g, '');
+  const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
+  const safeAv = validAvatars.includes(avKey) ? avKey : defaultFallback;
+  return `/avvtar/${safeAv}.svg`;
+};
+
+export const BOLD_AVATAR_COLORS = [
+  'facc15', // Electric Yellow
+  'ff6b9d', // Hot Neon Pink
+  '38bdf8', // Vivid Sky Blue
+  '84cc16', // Lime Green
+  'fb923c', // Tangerine Orange
+  'a855f7', // Vivid Purple
+  'ef4444', // Crimson Red
+  '06b6d4', // Cyber Cyan
+  '22c55e', // Emerald Punch
+  'ec4899'  // Bold Fuchsia
+];
+
+export const AVATAR_SEEDS = [
+  'Nolan', 'Tarantino', 'Scorsese', 'Kubrick', 'Spielberg', 'Fincher', 'Hitchcock', 'Coppola', 'Villeneuve', 'Bong',
+  'Aman', 'Amish', 'Aziz', 'Vish', 'Emma', 'Liam', 'Olivia', 'Noah', 'Ava', 'Oliver',
+  'Sophia', 'James', 'Isabella', 'Lucas', 'Mia', 'Henry', 'Charlotte', 'Alexander', 'Amelia', 'Ethan',
+  'Harper', 'Daniel', 'Evelyn', 'Jacob', 'Abigail', 'Logan', 'Emily', 'Jackson', 'Ella', 'Sebastian',
+  'Elizabeth', 'Jack', 'Camila', 'Owen', 'Luna', 'Theodore', 'Sofia', 'Samuel', 'Avery', 'Joseph',
+  'Mila', 'David', 'Aria', 'Wyatt', 'Scarlett', 'Matthew', 'Penelope', 'Luke', 'Layla', 'Asher',
+  'Chloe', 'Carter', 'Victoria', 'Julian', 'Madison', 'Grayson', 'Eleanor', 'Leo', 'Grace', 'Jayden',
+  'Nora', 'Gabriel', 'Riley', 'Isaac', 'Zoey', 'Lincoln', 'Hannah', 'Anthony', 'Hazel', 'Hudson',
+  'Lily', 'Dylan', 'Ellie', 'Ezra', 'Violet', 'Thomas', 'Lillian', 'Charles', 'Zoe', 'Christopher',
+  'Stella', 'Jaxon', 'Aurora', 'Maverick', 'Natalie', 'Josiah', 'Emilia', 'Isaiah', 'Everly', 'Andrew'
+];
+
+
 export const DEFAULT_FRAMES = [
   { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Backrooms (2026).webp", answer: "BACKROOMS", year: "2026" },
   { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Bandar (2026).webp", answer: "BANDAR", year: "2026" },

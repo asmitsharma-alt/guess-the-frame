@@ -39,7 +39,9 @@ export const GameProvider = ({ children }) => {
     return localStorage.getItem('gtf_player_avatar') || 'aman';
   });
 
-  const [selectedAvatarForModal, setSelectedAvatarForModal] = useState('aman');
+  const [selectedAvatarForModal, setSelectedAvatarForModal] = useState(() => {
+    return localStorage.getItem('gtf_player_avatar') || 'aman';
+  });
   const [isHost, setIsHost] = useState(false);
   const [roomCode, setRoomCode] = useState('');
 

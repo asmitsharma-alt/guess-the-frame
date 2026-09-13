@@ -153,8 +153,10 @@ export const MultiplayerProvider = ({ children }) => {
       case 'PLAYER_JOIN': {
         game.setPlayers(prev => {
           if (prev.some(p => p.id === msg.id || p.id === msg.senderId)) return prev;
-          const avKey = (msg.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
-          const avConfig = AVATAR_MAP[avKey] || AVATAR_MAP.aman;
+          const rawAvatar = msg.avatar || 'aman';
+          const isCustomUrl = rawAvatar.startsWith('http://') || rawAvatar.startsWith('https://') || rawAvatar.startsWith('/') || rawAvatar.startsWith('data:');
+          const avKey = isCustomUrl ? rawAvatar : rawAvatar.toLowerCase().replace(/[^a-z0-9]/g, '');
+          const avConfig = (!isCustomUrl && AVATAR_MAP[avKey]) ? AVATAR_MAP[avKey] : AVATAR_MAP.aman;
           const newPlayer = {
             id: msg.id || msg.senderId,
             name: msg.name || 'Player',
