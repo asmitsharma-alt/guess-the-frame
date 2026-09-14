@@ -98,9 +98,9 @@ const AppContent = () => {
       game.setPlayers([
         { id: game.playerId, name, avatar, score: 0, isHost: false, loaded: true, color: '#3B82F6' }
       ]);
-      game.closeModals();
-      game.showScreen('playerLobbyScreen');
     }
+    game.closeModals();
+    game.showScreen('playerLobbyScreen');
   };
 
   return (

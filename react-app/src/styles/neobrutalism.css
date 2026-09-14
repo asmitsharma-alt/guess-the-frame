@@ -344,3 +344,51 @@ button[id*="Btn"] {
   background-color: #FFFDF0 !important;
 }
 
+/* Mobile Modal Ergonomics & Sticky Submit Buttons */
+@media (max-width: 768px) {
+  .mp-badge-modal-box {
+    width: 95vw !important;
+    max-height: 90vh !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    padding: 14px 14px 20px 14px !important;
+    position: relative !important;
+    border-radius: 16px !important;
+  }
+
+  .mp-badge-modal-box .mp-avatar-scroll-area {
+    max-height: 170px !important;
+    min-height: 100px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border: 2px solid #121212 !important;
+    border-radius: 8px !important;
+    padding: 6px !important;
+    background: #FFFFFF !important;
+  }
+
+  .mp-badge-modal-box .mp-infinite-avatar-grid {
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 6px !important;
+  }
+
+  .mp-badge-modal-box .mp-btn-primary,
+  #joinRoomConfirmBtn,
+  #createRoomConfirmBtn {
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 100 !important;
+    width: 100% !important;
+    margin-top: 12px !important;
+    padding: 14px 20px !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.05em !important;
+    box-shadow: 4px 4px 0 #121212 !important;
+  }
+}
+
+

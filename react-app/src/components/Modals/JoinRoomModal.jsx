@@ -139,6 +139,7 @@ export const JoinRoomModal = ({ isOpen, roomCode: propRoomCode = '', onClose, on
         </div>
 
         <button
+          id="joinRoomConfirmBtn"
           className="mp-btn-primary"
           disabled={isConnecting}
           onClick={handleConfirm}

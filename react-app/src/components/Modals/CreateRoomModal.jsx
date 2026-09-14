@@ -89,7 +89,7 @@ export const CreateRoomModal = ({ isOpen, onClose, onConfirm }) => {
             hideHeroPreview={true}
           />
         </div>
-        <button className="mp-btn-primary" onClick={handleConfirm}>
+        <button id="createRoomConfirmBtn" className="mp-btn-primary" onClick={handleConfirm}>
           CREATE ROOM &amp; GET CODE →
         </button>
       </div>

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { MQTT_BROKERS } from '../config/env';
 import { validateMqttMessage } from '../services/mqttSchemas';
+import { NetworkSecurity } from '../services/securityUtil';
 
 /**
  * Enterprise Resilient Distributed MQTT Client Hook
@@ -28,6 +29,10 @@ export const useMqttClient = ({
   const heartbeatTimerRef = useRef(null);
   const onMessageRef = useRef(onMessage);
   onMessageRef.current = onMessage;
+  const isHostRef = useRef(isHost);
+  isHostRef.current = isHost;
+  const playerNameRef = useRef(playerName);
+  playerNameRef.current = playerName;
 
   // Compute exponential backoff with ±20% random jitter
   const getBackoffDelay = useCallback(() => {
@@ -115,13 +120,13 @@ export const useMqttClient = ({
     setConnectionState(reconnectAttemptRef.current > 0 ? 'RECONNECTING' : 'CONNECTING');
 
     const cleanRoom = roomCode.trim().toUpperCase();
-    const presenceTopic = `gtf/${cleanRoom}/presence/${playerId}`;
-    const roomEventsTopic = `gtf/${cleanRoom}/events`;
+    const roomEventsTopic = NetworkSecurity.getRoomTopic(cleanRoom);
+    const presenceTopic = `${roomEventsTopic}/presence/${playerId}`;
 
     const lwtPayload = JSON.stringify({
       type: 'PLAYER_OFFLINE',
       playerId,
-      playerName,
+      playerName: playerNameRef.current || 'Player',
       status: 'offline',
       lastSeen: Date.now()
     });
@@ -170,9 +175,9 @@ export const useMqttClient = ({
         const onlinePayload = JSON.stringify({
           type: 'PLAYER_ONLINE',
           playerId,
-          playerName,
+          playerName: playerNameRef.current || 'Player',
           status: 'online',
-          isHost: !!isHost,
+          isHost: !!isHostRef.current,
           timestamp: Date.now()
         });
         client.publish(presenceTopic, onlinePayload, { qos: 1 });
@@ -223,7 +228,7 @@ export const useMqttClient = ({
       console.error('[MQTT Client Exception]', e);
       setConnectionState('ERROR');
     }
-  }, [roomCode, playerId, playerName, isHost, getBackoffDelay, flushOfflineQueue]);
+  }, [roomCode, playerId, getBackoffDelay, flushOfflineQueue]);
 
   // Keep-alive heartbeat monitor (every 15s checks if connection is stale)
   useEffect(() => {
