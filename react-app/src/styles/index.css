@@ -1,17 +1,32 @@
 @import './claymorphism.css';
 
-/* Global Background and Smooth Viewport Setup */
+/* Global Background: Retro Computer Grid Canvas + Cinema Vibe */
 html, body {
-  background: #F4EEDC url('/bg/cinema_bg.webp') no-repeat center center fixed !important;
-  background-size: cover !important;
-  -webkit-background-size: cover !important;
+  background-color: #FFFDF5 !important;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.07) 1.5px, transparent 1.5px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.07) 1.5px, transparent 1.5px) !important;
+  background-size: 32px 32px !important;
+  background-position: center center !important;
+  background-attachment: fixed !important;
   overflow-x: hidden !important;
   margin: 0;
   padding: 0;
-  font-family: 'DM Sans', sans-serif;
-  color: var(--clay-ink, #4a3d6b);
+  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+  color: #000000;
   user-select: none;
   -webkit-user-select: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #F9E900 !important;
+  color: #000000 !important;
+}
+
+::-moz-selection {
+  background: #F9E900 !important;
+  color: #000000 !important;
 }
 
 #root {
@@ -20,11 +35,11 @@ html, body {
   position: relative;
 }
 
-/* Ensure backdrop scrims are active */
+/* Neo-Brutalist Ambient Backdrop */
 .bg-backdrop {
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(244, 238, 220, 0.4) 0%, rgba(233, 228, 255, 0.75) 100%);
+  background: radial-gradient(circle at 50% 50%, rgba(255, 253, 245, 0.2) 0%, rgba(245, 240, 225, 0.6) 100%);
   pointer-events: none;
   z-index: 0;
 }
@@ -32,11 +47,12 @@ html, body {
 .bg-focus-scrim {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
   pointer-events: none;
   z-index: 1;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .bg-focus-scrim.active {
