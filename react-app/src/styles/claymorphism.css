@@ -8603,10 +8603,38 @@
       grid-template-columns: 1fr 1.35fr;
       gap: 14px;
     }
-    @media (max-width: 600px) {
-      .mp-credentials-row {
+    .mp-credentials-row-create {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 14px;
+      align-items: flex-end;
+    }
+    .mp-credentials-row-join {
+      display: grid;
+      grid-template-columns: 1.1fr 1.3fr 1.3fr;
+      gap: 12px;
+      align-items: flex-end;
+    }
+    @media (max-width: 768px) {
+      .mp-credentials-row-create {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 8px;
+      }
+      .mp-credentials-row-join {
+        grid-template-columns: 1fr 1.2fr;
+        gap: 8px;
+      }
+      .mp-credentials-row-join .mp-form-group:last-child {
+        grid-column: span 2;
+      }
+    }
+    @media (max-width: 520px) {
+      .mp-credentials-row-join {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .mp-credentials-row-join .mp-form-group:last-child {
+        grid-column: span 1;
       }
     }
 
@@ -8616,6 +8644,76 @@
       flex-direction: column;
       gap: 8px;
       width: 100%;
+      flex: 1;
+      min-height: 0;
+    }
+
+    /* Inline Character Preview Badge on the SAME LINE as name input */
+    .mp-inline-preview-badge {
+      height: 52px !important;
+      min-height: 52px !important;
+      max-height: 52px !important;
+      box-sizing: border-box;
+      padding: 4px 12px 4px 6px !important;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #ffffff;
+      border: 3px solid #1a1a1a !important;
+      border-radius: 12px !important;
+      box-shadow: 3px 3px 0 rgba(0,0,0,0.1) !important;
+      margin: 0 !important;
+    }
+    .mp-inline-preview-badge .mp-hero-preview-frame {
+      width: 40px !important;
+      height: 40px !important;
+      min-width: 40px !important;
+      min-height: 40px !important;
+      border-radius: 9px !important;
+      border: 2px solid #1a1a1a !important;
+      box-shadow: 2px 2px 0 #1a1a1a !important;
+      padding: 1px !important;
+    }
+    .mp-inline-preview-badge .mp-hero-preview-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow: hidden;
+      line-height: 1.15;
+    }
+    .mp-inline-preview-badge .mp-hero-char-name {
+      font-size: 13px !important;
+      font-weight: 900;
+      color: #1a1a1a;
+      text-transform: capitalize;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .mp-inline-preview-badge .mp-hero-tags-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 1px;
+    }
+    .mp-inline-preview-badge .mp-hero-cat-tag {
+      font-size: 10px !important;
+      font-weight: 800;
+      background: #facc15;
+      color: #1a1a1a;
+      border: 1.5px solid #1a1a1a;
+      border-radius: 5px;
+      padding: 1px 5px;
+      white-space: nowrap;
+    }
+    .mp-inline-preview-badge .mp-hero-format-tag {
+      font-size: 9px !important;
+      font-weight: 800;
+      background: #e2e8f0;
+      color: #475569;
+      border: 1.5px solid #1a1a1a;
+      border-radius: 5px;
+      padding: 1px 4px;
     }
 
     /* Big Hero Avatar Live Preview Badge */
@@ -8840,16 +8938,22 @@
       box-shadow: 2.5px 2.5px 0 #1a1a1a;
     }
 
-    /* Avatar Grid Scrollable Area */
+    /* Avatar Grid Scrollable Area: expanded height showing multiple rows */
     .mp-avatar-scroll-area {
       flex: 1;
-      min-height: 120px;
-      max-height: 190px;
+      min-height: 280px;
+      max-height: 480px;
       overflow-y: auto;
       padding-right: 6px;
       display: flex;
       flex-direction: column;
       gap: 8px;
+    }
+    @media (max-height: 750px) {
+      .mp-avatar-scroll-area {
+        min-height: 200px;
+        max-height: 320px;
+      }
     }
     .mp-avatar-scroll-area::-webkit-scrollbar {
       width: 6px;
@@ -8893,9 +8997,9 @@
       position: relative;
       aspect-ratio: 1 / 1 !important;
       width: 100%;
-      border-radius: 14px !important;
-      border: 2.5px solid #1a1a1a;
-      box-shadow: 2px 2px 0 #1a1a1a;
+      border-radius: 16px !important;
+      border: 3px solid #1a1a1a;
+      box-shadow: 3px 3px 0 #1a1a1a;
       cursor: pointer;
       padding: 2px;
       background: #fff;

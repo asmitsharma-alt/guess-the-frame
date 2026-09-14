@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useMultiplayer } from '../../context/MultiplayerContext';
 import SoundManager from '../../services/soundManager';
-import AvatarPicker from '../Common/AvatarPicker';
+import AvatarPicker, { CharacterPreviewBadge } from '../Common/AvatarPicker';
 
 export const CreateRoomModal = ({ isOpen, onClose, onConfirm }) => {
   const { selectedAvatar, setSelectedAvatar } = useMultiplayer();
@@ -59,24 +59,34 @@ export const CreateRoomModal = ({ isOpen, onClose, onConfirm }) => {
           <button className="mp-modal-close" onClick={onClose}>✕</button>
         </div>
 
-        <div className="mp-form-group" style={{ marginBottom: 4 }}>
-          <label className="mp-label">Your Host Player Name</label>
-          <input
-            type="text"
-            id="hostPlayerNameInput"
-            className="mp-input font-bold"
-            placeholder="Enter your name (e.g. Maverick)"
-            maxLength={16}
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
-          />
+        {/* Top Line: Host Name & Selected Character Preview in SAME LINE */}
+        <div className="mp-credentials-row mp-credentials-row-create">
+          <div className="mp-form-group" style={{ marginBottom: 0 }}>
+            <label className="mp-label">Your Host Player Name</label>
+            <input
+              type="text"
+              id="hostPlayerNameInput"
+              className="mp-input font-bold"
+              placeholder="Enter your name (e.g. Maverick)"
+              maxLength={16}
+              value={playerName}
+              onChange={(e) => setPlayerName(e.target.value)}
+            />
+          </div>
+
+          <div className="mp-form-group" style={{ marginBottom: 0 }}>
+            <label className="mp-label">Character Preview</label>
+            <CharacterPreviewBadge selectedAvatar={selectedAvatar || 'aman'} />
+          </div>
         </div>
 
-        <div className="mp-form-group" style={{ marginBottom: 2 }}>
-          <label className="mp-label">Select Your Character Avatar</label>
+        {/* All Avatars Studio with expanded preview grid */}
+        <div className="mp-form-group" style={{ marginBottom: 0, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+          <label className="mp-label">Choose Character From All Avatars</label>
           <AvatarPicker
             selectedAvatar={selectedAvatar || 'aman'}
             onSelectAvatar={handleSelectAvatar}
+            hideHeroPreview={true}
           />
         </div>
         <button className="mp-btn-primary" onClick={handleConfirm}>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useMultiplayer } from '../../context/MultiplayerContext';
 import SoundManager from '../../services/soundManager';
-import AvatarPicker from '../Common/AvatarPicker';
+import AvatarPicker, { CharacterPreviewBadge } from '../Common/AvatarPicker';
 
 export const JoinRoomModal = ({ isOpen, roomCode: propRoomCode = '', onClose, onConfirm }) => {
   const { selectedAvatar, setSelectedAvatar } = useMultiplayer();
@@ -94,8 +94,8 @@ export const JoinRoomModal = ({ isOpen, roomCode: propRoomCode = '', onClose, on
           <button className="mp-modal-close" onClick={onClose}>✕</button>
         </div>
 
-        {/* Side-by-side Room Code & Player Name Credentials */}
-        <div className="mp-credentials-row">
+        {/* Side-by-side Room Code, Player Name & Character Preview Credentials on the SAME LINE */}
+        <div className="mp-credentials-row mp-credentials-row-join">
           <div className="mp-form-group" style={{ marginBottom: 0 }}>
             <label className="mp-label">4-Letter Room Code</label>
             <input
@@ -121,14 +121,20 @@ export const JoinRoomModal = ({ isOpen, roomCode: propRoomCode = '', onClose, on
               onChange={(e) => setPlayerName(e.target.value)}
             />
           </div>
+
+          <div className="mp-form-group" style={{ marginBottom: 0 }}>
+            <label className="mp-label">Character Preview</label>
+            <CharacterPreviewBadge selectedAvatar={selectedAvatar || 'aman'} />
+          </div>
         </div>
 
-        {/* Avatar Section: Live Preview Badge, Typo Search, Categories, 100% Square Grid, Custom SVG/GIF Upload */}
-        <div className="mp-form-group" style={{ marginBottom: 2 }}>
-          <label className="mp-label">Select Your Character Avatar</label>
+        {/* All Avatars Studio with expanded preview grid */}
+        <div className="mp-form-group" style={{ marginBottom: 0, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+          <label className="mp-label">Choose Character From All Avatars</label>
           <AvatarPicker
             selectedAvatar={selectedAvatar || 'aman'}
             onSelectAvatar={handleSelectAvatar}
+            hideHeroPreview={true}
           />
         </div>
 

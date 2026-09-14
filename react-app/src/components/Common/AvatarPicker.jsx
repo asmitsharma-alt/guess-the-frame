@@ -8,10 +8,49 @@ import {
   getAvatarMeta
 } from '../../services/avatarCatalog';
 
-const INITIAL_BATCH = 36;
-const BATCH_INCREMENT = 24;
+const INITIAL_BATCH = 48;
+const BATCH_INCREMENT = 32;
 
-export const AvatarPicker = ({ selectedAvatar, onSelectAvatar }) => {
+export const CharacterPreviewBadge = ({ selectedAvatar }) => {
+  const meta = useMemo(() => getAvatarMeta(selectedAvatar), [selectedAvatar]);
+  const previewSrc = getAvatarSrc(meta.url || selectedAvatar, 'aman');
+  const previewBg = meta.isKnownDark ? '#111827' : `#${meta.color || 'facc15'}`;
+  const previewZoom = meta.isVector ? 'img-contain-fit' : (meta.isKnownPortrait ? 'img-portrait-zoom' : 'img-cover-zoom');
+
+  return (
+    <div className="mp-hero-preview-badge mp-inline-preview-badge">
+      <div 
+        className="mp-hero-preview-frame"
+        style={{ backgroundColor: previewBg }}
+      >
+        <img
+          src={previewSrc}
+          alt={meta.name}
+          className={`mp-hero-preview-img ${previewZoom}`}
+          loading="eager"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = '/avvtar/aman.svg';
+          }}
+        />
+        <span className="mp-hero-check-pill">✓</span>
+      </div>
+      <div className="mp-hero-preview-info">
+        <div className="mp-hero-char-name">{meta.name || 'Selected Avatar'}</div>
+        <div className="mp-hero-tags-row">
+          <span className="mp-hero-cat-tag">
+            {meta.categoryLabel || '👑 Founders'}
+          </span>
+          <span className="mp-hero-format-tag">
+            {meta.format || 'SQUARE'}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview = false }) => {
   const [category, setCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [loadedCount, setLoadedCount] = useState(INITIAL_BATCH);
@@ -150,36 +189,38 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar }) => {
 
   return (
     <div className="mp-avatar-picker-wrap">
-      {/* 1. Live Square Avatar Hero Preview Badge */}
-      <div className="mp-hero-preview-badge">
-        <div 
-          className="mp-hero-preview-frame"
-          style={{ backgroundColor: previewBg }}
-        >
-          <img
-            src={previewSrc}
-            alt={currentAvatarMeta.name}
-            className={`mp-hero-preview-img ${previewZoom}`}
-            loading="eager"
-            onError={(e) => {
-              e.currentTarget.onerror = null;
-              e.currentTarget.src = '/avvtar/aman.svg';
-            }}
-          />
-          <span className="mp-hero-check-pill">✓</span>
-        </div>
-        <div className="mp-hero-preview-info">
-          <div className="mp-hero-char-name">{currentAvatarMeta.name || 'Selected Avatar'}</div>
-          <div className="mp-hero-tags-row">
-            <span className="mp-hero-cat-tag">
-              {currentAvatarMeta.categoryLabel || '👑 Founders'}
-            </span>
-            <span className="mp-hero-format-tag">
-              {currentAvatarMeta.format || 'SQUARE'}
-            </span>
+      {/* 1. Live Square Avatar Hero Preview Badge (if not rendered in credentials row) */}
+      {!hideHeroPreview && (
+        <div className="mp-hero-preview-badge">
+          <div 
+            className="mp-hero-preview-frame"
+            style={{ backgroundColor: previewBg }}
+          >
+            <img
+              src={previewSrc}
+              alt={currentAvatarMeta.name}
+              className={`mp-hero-preview-img ${previewZoom}`}
+              loading="eager"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = '/avvtar/aman.svg';
+              }}
+            />
+            <span className="mp-hero-check-pill">✓</span>
+          </div>
+          <div className="mp-hero-preview-info">
+            <div className="mp-hero-char-name">{currentAvatarMeta.name || 'Selected Avatar'}</div>
+            <div className="mp-hero-tags-row">
+              <span className="mp-hero-cat-tag">
+                {currentAvatarMeta.categoryLabel || '👑 Founders'}
+              </span>
+              <span className="mp-hero-format-tag">
+                {currentAvatarMeta.format || 'SQUARE'}
+              </span>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {/* 2. Typo-Tolerant Search & Custom SVG/GIF Upload Bar */}
       <div className="mp-avatar-search-bar">
