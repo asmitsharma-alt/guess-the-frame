@@ -1,8 +1,12 @@
 /**
- * Avatar Catalog & Typo-Tolerant Search Service
- * Curated 1,825+ character avatars across Movies, Cartoon Network & Cartoons, TV Series, Anime (with Doraemon) and Gaming.
- * Categories ordered: Movies -> Cartoons & Cartoon Network -> TV Series -> Anime -> Other
- * Randomized All Avatars mix for fresh player discovery.
+ * MEGA AVATAR CATALOG (1,800+ Icons)
+ * Fully curated, audited, and verified across Movies, Cartoons, TV Series, Anime (with Doraemon), and Gaming.
+ * Categories sequenced per UX design:
+ * 1. Movies
+ * 2. Cartoon Network & Cartoons
+ * 3. TV Series
+ * 4. Anime (with Doraemon)
+ * 5. Other
  */
 
 export const AVATAR_CATEGORIES = [
@@ -264,77 +268,6 @@ export const AVATAR_CATEGORIES = [
   }
 ];
 
-export const CATEGORY_GROUPS = {
-  "movies": [
-    "superheroes",
-    "dc-comics",
-    "star-wars",
-    "harry-potter",
-    "lord-of-the-rings",
-    "disney",
-    "dreamworks",
-    "spider-verse"
-  ],
-  "cartoons": [
-    "cartoon-network",
-    "ben-10",
-    "teen-titans",
-    "adventure-time",
-    "gravity-falls",
-    "steven-universe",
-    "spongebob",
-    "the-simpsons",
-    "south-park",
-    "futurama",
-    "rick-morty",
-    "invincible",
-    "avatar-airbender"
-  ],
-  "tv-series": [
-    "breaking-bad",
-    "better-call-saul",
-    "game-of-thrones",
-    "house-of-dragon",
-    "the-boys",
-    "stranger-things",
-    "the-office",
-    "friends",
-    "peaky-blinders",
-    "the-witcher",
-    "the-walking-dead",
-    "supernatural",
-    "house-md"
-  ],
-  "anime": [
-    "doraemon",
-    "naruto",
-    "one-piece",
-    "dragon-ball",
-    "attack-on-titan",
-    "jujutsu-kaisen",
-    "demon-slayer",
-    "death-note",
-    "bleach",
-    "hunter-x-hunter",
-    "fullmetal-alchemist",
-    "chainsaw-man",
-    "spy-x-family",
-    "my-hero-academia",
-    "jojo",
-    "cyberpunk-edgerunners",
-    "pokemon",
-    "yugioh",
-    "digimon"
-  ],
-  "other": [
-    "arcane-league",
-    "overwatch",
-    "genshin",
-    "minecraft",
-    "founders"
-  ]
-};
-
 export const AVATAR_CATALOG = [
   {
     "id": "av_doraemon_1",
@@ -371,7 +304,7 @@ export const AVATAR_CATALOG = [
     "name": "Nobita Nobi",
     "category": "doraemon",
     "categoryLabel": "🔔 Doraemon",
-    "url": "https://s4.anilist.co/file/anilistcdn/character/large/4303.jpg",
+    "url": "https://static.wikia.nocookie.net/doraemon/images/6/62/NobitaNobi2005R.png/revision/latest?cb=20260806024520&path-prefix=en",
     "format": "JPG",
     "color": "facc15",
     "aliases": [
@@ -384,7 +317,7 @@ export const AVATAR_CATALOG = [
     "isVector": false,
     "isKnownDark": false,
     "isKnownPortrait": true,
-    "isTransparent": false,
+    "isTransparent": true,
     "normName": "nobita nobi",
     "words": [
       "nobita",
@@ -526,7 +459,7 @@ export const AVATAR_CATALOG = [
     "name": "Jaiko Gouda",
     "category": "doraemon",
     "categoryLabel": "🔔 Doraemon",
-    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b264317-nI3OThgT0CI4.jpg",
+    "url": "https://static.wikia.nocookie.net/doraemon/images/1/10/Jaiko2005R.png/revision/latest?cb=20260807013153&path-prefix=en",
     "format": "JPG",
     "color": "f87171",
     "aliases": [
@@ -539,7 +472,7 @@ export const AVATAR_CATALOG = [
     "isVector": false,
     "isKnownDark": false,
     "isKnownPortrait": true,
-    "isTransparent": false,
+    "isTransparent": true,
     "normName": "jaiko gouda",
     "words": [
       "jaiko",
@@ -603,7 +536,7 @@ export const AVATAR_CATALOG = [
     "name": "Sewashi Nobi",
     "category": "doraemon",
     "categoryLabel": "🔔 Doraemon",
-    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b163719-YcJdWAUtoPe1.jpg",
+    "url": "https://static.wikia.nocookie.net/doraemon/images/6/66/Sewashi2005R.png/revision/latest?cb=20260807013203&path-prefix=en",
     "format": "JPG",
     "color": "38bdf8",
     "aliases": [
@@ -616,7 +549,7 @@ export const AVATAR_CATALOG = [
     "isVector": false,
     "isKnownDark": false,
     "isKnownPortrait": true,
-    "isTransparent": false,
+    "isTransparent": true,
     "normName": "sewashi nobi",
     "words": [
       "sewashi",
@@ -695,7 +628,7 @@ export const AVATAR_CATALOG = [
     "isVector": false,
     "isKnownDark": false,
     "isKnownPortrait": true,
-    "isTransparent": false,
+    "isTransparent": true,
     "normName": "piisuke",
     "words": [
       "piisuke",
@@ -722,7 +655,7 @@ export const AVATAR_CATALOG = [
     "isVector": false,
     "isKnownDark": false,
     "isKnownPortrait": true,
-    "isTransparent": false,
+    "isTransparent": true,
     "normName": "kibo",
     "words": [
       "kibo"
@@ -755,7 +688,7 @@ export const AVATAR_CATALOG = [
       "fujio"
     ]
   },
-{
+  {
     "id": "av_0",
     "name": "Aman",
     "category": "founders",
@@ -777,7 +710,8 @@ export const AVATAR_CATALOG = [
     "normName": "aman",
     "words": [
       "aman"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1",
@@ -801,7 +735,8 @@ export const AVATAR_CATALOG = [
     "normName": "amish",
     "words": [
       "amish"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_2",
@@ -825,7 +760,8 @@ export const AVATAR_CATALOG = [
     "normName": "aziz",
     "words": [
       "aziz"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_3",
@@ -849,7 +785,8 @@ export const AVATAR_CATALOG = [
     "normName": "vish",
     "words": [
       "vish"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_4",
@@ -4889,7 +4826,8 @@ export const AVATAR_CATALOG = [
     "normName": "ana",
     "words": [
       "ana"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_172",
@@ -4910,7 +4848,8 @@ export const AVATAR_CATALOG = [
     "normName": "anran",
     "words": [
       "anran"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_173",
@@ -4931,7 +4870,8 @@ export const AVATAR_CATALOG = [
     "normName": "ashe",
     "words": [
       "ashe"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_174",
@@ -4952,7 +4892,8 @@ export const AVATAR_CATALOG = [
     "normName": "baptiste",
     "words": [
       "baptiste"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_175",
@@ -4973,7 +4914,8 @@ export const AVATAR_CATALOG = [
     "normName": "bastion",
     "words": [
       "bastion"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_176",
@@ -4994,7 +4936,8 @@ export const AVATAR_CATALOG = [
     "normName": "brigitte",
     "words": [
       "brigitte"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_177",
@@ -5015,7 +4958,8 @@ export const AVATAR_CATALOG = [
     "normName": "cassidy",
     "words": [
       "cassidy"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_178",
@@ -5036,7 +4980,8 @@ export const AVATAR_CATALOG = [
     "normName": "dmon",
     "words": [
       "dmon"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_179",
@@ -5057,7 +5002,8 @@ export const AVATAR_CATALOG = [
     "normName": "domina",
     "words": [
       "domina"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_180",
@@ -5078,7 +5024,8 @@ export const AVATAR_CATALOG = [
     "normName": "doomfist",
     "words": [
       "doomfist"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_181",
@@ -5099,7 +5046,8 @@ export const AVATAR_CATALOG = [
     "normName": "dva",
     "words": [
       "dva"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_182",
@@ -5120,7 +5068,8 @@ export const AVATAR_CATALOG = [
     "normName": "echo",
     "words": [
       "echo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_183",
@@ -5141,7 +5090,8 @@ export const AVATAR_CATALOG = [
     "normName": "emre",
     "words": [
       "emre"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_184",
@@ -5162,7 +5112,8 @@ export const AVATAR_CATALOG = [
     "normName": "freja",
     "words": [
       "freja"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_185",
@@ -5183,7 +5134,8 @@ export const AVATAR_CATALOG = [
     "normName": "genji",
     "words": [
       "genji"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_186",
@@ -5204,7 +5156,8 @@ export const AVATAR_CATALOG = [
     "normName": "hanzo",
     "words": [
       "hanzo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_187",
@@ -5225,7 +5178,8 @@ export const AVATAR_CATALOG = [
     "normName": "hazard",
     "words": [
       "hazard"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_188",
@@ -5246,7 +5200,8 @@ export const AVATAR_CATALOG = [
     "normName": "illari",
     "words": [
       "illari"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_189",
@@ -5268,7 +5223,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "jetpack",
       "cat"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_190",
@@ -5290,7 +5246,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "junker",
       "queen"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_191",
@@ -5311,7 +5268,8 @@ export const AVATAR_CATALOG = [
     "normName": "junkrat",
     "words": [
       "junkrat"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_192",
@@ -5332,7 +5290,8 @@ export const AVATAR_CATALOG = [
     "normName": "juno",
     "words": [
       "juno"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_193",
@@ -5353,7 +5312,8 @@ export const AVATAR_CATALOG = [
     "normName": "kiriko",
     "words": [
       "kiriko"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_194",
@@ -5374,7 +5334,8 @@ export const AVATAR_CATALOG = [
     "normName": "lifeweaver",
     "words": [
       "lifeweaver"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_195",
@@ -5395,7 +5356,8 @@ export const AVATAR_CATALOG = [
     "normName": "lucio",
     "words": [
       "lucio"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_196",
@@ -5416,7 +5378,8 @@ export const AVATAR_CATALOG = [
     "normName": "mauga",
     "words": [
       "mauga"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_197",
@@ -5437,7 +5400,8 @@ export const AVATAR_CATALOG = [
     "normName": "mei",
     "words": [
       "mei"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_198",
@@ -5458,7 +5422,8 @@ export const AVATAR_CATALOG = [
     "normName": "mercy",
     "words": [
       "mercy"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_199",
@@ -5479,7 +5444,8 @@ export const AVATAR_CATALOG = [
     "normName": "mizuki",
     "words": [
       "mizuki"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_200",
@@ -5500,7 +5466,8 @@ export const AVATAR_CATALOG = [
     "normName": "moira",
     "words": [
       "moira"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_201",
@@ -5521,7 +5488,8 @@ export const AVATAR_CATALOG = [
     "normName": "orisa",
     "words": [
       "orisa"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_202",
@@ -5542,7 +5510,8 @@ export const AVATAR_CATALOG = [
     "normName": "pharah",
     "words": [
       "pharah"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_203",
@@ -5563,7 +5532,8 @@ export const AVATAR_CATALOG = [
     "normName": "ramattra",
     "words": [
       "ramattra"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_204",
@@ -5584,7 +5554,8 @@ export const AVATAR_CATALOG = [
     "normName": "reaper",
     "words": [
       "reaper"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_205",
@@ -5605,7 +5576,8 @@ export const AVATAR_CATALOG = [
     "normName": "reinhardt",
     "words": [
       "reinhardt"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_206",
@@ -5626,7 +5598,8 @@ export const AVATAR_CATALOG = [
     "normName": "roadhog",
     "words": [
       "roadhog"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_207",
@@ -5647,7 +5620,8 @@ export const AVATAR_CATALOG = [
     "normName": "shion",
     "words": [
       "shion"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_208",
@@ -5668,7 +5642,8 @@ export const AVATAR_CATALOG = [
     "normName": "sierra",
     "words": [
       "sierra"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_209",
@@ -5689,7 +5664,8 @@ export const AVATAR_CATALOG = [
     "normName": "sigma",
     "words": [
       "sigma"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_210",
@@ -5710,7 +5686,8 @@ export const AVATAR_CATALOG = [
     "normName": "sojourn",
     "words": [
       "sojourn"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_211",
@@ -5732,7 +5709,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "soldier",
       "76"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_212",
@@ -5753,7 +5731,8 @@ export const AVATAR_CATALOG = [
     "normName": "sombra",
     "words": [
       "sombra"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_213",
@@ -5774,7 +5753,8 @@ export const AVATAR_CATALOG = [
     "normName": "symmetra",
     "words": [
       "symmetra"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_214",
@@ -5795,7 +5775,8 @@ export const AVATAR_CATALOG = [
     "normName": "torbjorn",
     "words": [
       "torbjorn"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_215",
@@ -5816,7 +5797,8 @@ export const AVATAR_CATALOG = [
     "normName": "tracer",
     "words": [
       "tracer"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_216",
@@ -5837,7 +5819,8 @@ export const AVATAR_CATALOG = [
     "normName": "vendetta",
     "words": [
       "vendetta"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_217",
@@ -5858,7 +5841,8 @@ export const AVATAR_CATALOG = [
     "normName": "venture",
     "words": [
       "venture"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_218",
@@ -5879,7 +5863,8 @@ export const AVATAR_CATALOG = [
     "normName": "widowmaker",
     "words": [
       "widowmaker"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_219",
@@ -5900,7 +5885,8 @@ export const AVATAR_CATALOG = [
     "normName": "winston",
     "words": [
       "winston"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_220",
@@ -5922,7 +5908,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "wrecking",
       "ball"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_221",
@@ -5943,7 +5930,8 @@ export const AVATAR_CATALOG = [
     "normName": "wuyang",
     "words": [
       "wuyang"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_222",
@@ -5964,7 +5952,8 @@ export const AVATAR_CATALOG = [
     "normName": "zarya",
     "words": [
       "zarya"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_223",
@@ -5985,7 +5974,8 @@ export const AVATAR_CATALOG = [
     "normName": "zenyatta",
     "words": [
       "zenyatta"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_224",
@@ -6007,7 +5997,8 @@ export const AVATAR_CATALOG = [
     "normName": "albedo",
     "words": [
       "albedo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_225",
@@ -6029,7 +6020,8 @@ export const AVATAR_CATALOG = [
     "normName": "alhaitham",
     "words": [
       "alhaitham"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_226",
@@ -6051,7 +6043,8 @@ export const AVATAR_CATALOG = [
     "normName": "aloy",
     "words": [
       "aloy"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_227",
@@ -6073,7 +6066,8 @@ export const AVATAR_CATALOG = [
     "normName": "amber",
     "words": [
       "amber"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_228",
@@ -6096,7 +6090,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "arataki",
       "itto"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_229",
@@ -6118,7 +6113,8 @@ export const AVATAR_CATALOG = [
     "normName": "arlecchino",
     "words": [
       "arlecchino"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_230",
@@ -6140,7 +6136,8 @@ export const AVATAR_CATALOG = [
     "normName": "ayaka",
     "words": [
       "ayaka"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_231",
@@ -6162,7 +6159,8 @@ export const AVATAR_CATALOG = [
     "normName": "ayato",
     "words": [
       "ayato"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_232",
@@ -6184,7 +6182,8 @@ export const AVATAR_CATALOG = [
     "normName": "baizhu",
     "words": [
       "baizhu"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_233",
@@ -6206,7 +6205,8 @@ export const AVATAR_CATALOG = [
     "normName": "barbara",
     "words": [
       "barbara"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_234",
@@ -6228,7 +6228,8 @@ export const AVATAR_CATALOG = [
     "normName": "beidou",
     "words": [
       "beidou"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_235",
@@ -6250,7 +6251,8 @@ export const AVATAR_CATALOG = [
     "normName": "bennett",
     "words": [
       "bennett"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_236",
@@ -6272,7 +6274,8 @@ export const AVATAR_CATALOG = [
     "normName": "candace",
     "words": [
       "candace"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_237",
@@ -6294,7 +6297,8 @@ export const AVATAR_CATALOG = [
     "normName": "charlotte",
     "words": [
       "charlotte"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_238",
@@ -6316,7 +6320,8 @@ export const AVATAR_CATALOG = [
     "normName": "chevreuse",
     "words": [
       "chevreuse"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_239",
@@ -6338,7 +6343,8 @@ export const AVATAR_CATALOG = [
     "normName": "chiori",
     "words": [
       "chiori"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_240",
@@ -6360,7 +6366,8 @@ export const AVATAR_CATALOG = [
     "normName": "chongyun",
     "words": [
       "chongyun"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_241",
@@ -6382,7 +6389,8 @@ export const AVATAR_CATALOG = [
     "normName": "clorinde",
     "words": [
       "clorinde"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_242",
@@ -6404,7 +6412,8 @@ export const AVATAR_CATALOG = [
     "normName": "collei",
     "words": [
       "collei"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_243",
@@ -6426,7 +6435,8 @@ export const AVATAR_CATALOG = [
     "normName": "cyno",
     "words": [
       "cyno"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_244",
@@ -6448,7 +6458,8 @@ export const AVATAR_CATALOG = [
     "normName": "dehya",
     "words": [
       "dehya"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_245",
@@ -6470,7 +6481,8 @@ export const AVATAR_CATALOG = [
     "normName": "diluc",
     "words": [
       "diluc"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_246",
@@ -6492,7 +6504,8 @@ export const AVATAR_CATALOG = [
     "normName": "diona",
     "words": [
       "diona"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_247",
@@ -6514,7 +6527,8 @@ export const AVATAR_CATALOG = [
     "normName": "dori",
     "words": [
       "dori"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_248",
@@ -6536,7 +6550,8 @@ export const AVATAR_CATALOG = [
     "normName": "emilie",
     "words": [
       "emilie"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_249",
@@ -6558,7 +6573,8 @@ export const AVATAR_CATALOG = [
     "normName": "eula",
     "words": [
       "eula"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_250",
@@ -6580,7 +6596,8 @@ export const AVATAR_CATALOG = [
     "normName": "faruzan",
     "words": [
       "faruzan"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_251",
@@ -6602,7 +6619,8 @@ export const AVATAR_CATALOG = [
     "normName": "fischl",
     "words": [
       "fischl"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_252",
@@ -6624,7 +6642,8 @@ export const AVATAR_CATALOG = [
     "normName": "freminet",
     "words": [
       "freminet"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_253",
@@ -6646,7 +6665,8 @@ export const AVATAR_CATALOG = [
     "normName": "furina",
     "words": [
       "furina"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_254",
@@ -6668,7 +6688,8 @@ export const AVATAR_CATALOG = [
     "normName": "gaming",
     "words": [
       "gaming"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_255",
@@ -6690,7 +6711,8 @@ export const AVATAR_CATALOG = [
     "normName": "ganyu",
     "words": [
       "ganyu"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_256",
@@ -6712,7 +6734,8 @@ export const AVATAR_CATALOG = [
     "normName": "gorou",
     "words": [
       "gorou"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_257",
@@ -6735,7 +6758,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "hu",
       "tao"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_258",
@@ -6757,7 +6781,8 @@ export const AVATAR_CATALOG = [
     "normName": "jean",
     "words": [
       "jean"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_259",
@@ -6779,7 +6804,8 @@ export const AVATAR_CATALOG = [
     "normName": "kachina",
     "words": [
       "kachina"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_260",
@@ -6801,7 +6827,8 @@ export const AVATAR_CATALOG = [
     "normName": "kaeya",
     "words": [
       "kaeya"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_261",
@@ -6823,7 +6850,8 @@ export const AVATAR_CATALOG = [
     "normName": "kaveh",
     "words": [
       "kaveh"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_262",
@@ -6845,7 +6873,8 @@ export const AVATAR_CATALOG = [
     "normName": "kazuha",
     "words": [
       "kazuha"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_263",
@@ -6867,7 +6896,8 @@ export const AVATAR_CATALOG = [
     "normName": "keqing",
     "words": [
       "keqing"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_264",
@@ -6889,7 +6919,8 @@ export const AVATAR_CATALOG = [
     "normName": "kinich",
     "words": [
       "kinich"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_265",
@@ -6911,7 +6942,8 @@ export const AVATAR_CATALOG = [
     "normName": "kirara",
     "words": [
       "kirara"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_266",
@@ -6933,7 +6965,8 @@ export const AVATAR_CATALOG = [
     "normName": "klee",
     "words": [
       "klee"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_267",
@@ -6955,7 +6988,8 @@ export const AVATAR_CATALOG = [
     "normName": "kokomi",
     "words": [
       "kokomi"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_268",
@@ -6978,7 +7012,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "kuki",
       "shinobu"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_269",
@@ -7000,7 +7035,8 @@ export const AVATAR_CATALOG = [
     "normName": "layla",
     "words": [
       "layla"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_270",
@@ -7022,7 +7058,8 @@ export const AVATAR_CATALOG = [
     "normName": "lisa",
     "words": [
       "lisa"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_271",
@@ -7044,7 +7081,8 @@ export const AVATAR_CATALOG = [
     "normName": "lynette",
     "words": [
       "lynette"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_272",
@@ -7066,7 +7104,8 @@ export const AVATAR_CATALOG = [
     "normName": "lyney",
     "words": [
       "lyney"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_273",
@@ -7088,7 +7127,8 @@ export const AVATAR_CATALOG = [
     "normName": "mika",
     "words": [
       "mika"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_274",
@@ -7110,7 +7150,8 @@ export const AVATAR_CATALOG = [
     "normName": "mona",
     "words": [
       "mona"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_275",
@@ -7132,7 +7173,8 @@ export const AVATAR_CATALOG = [
     "normName": "mualani",
     "words": [
       "mualani"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_276",
@@ -7154,7 +7196,8 @@ export const AVATAR_CATALOG = [
     "normName": "nahida",
     "words": [
       "nahida"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_277",
@@ -7176,7 +7219,8 @@ export const AVATAR_CATALOG = [
     "normName": "navia",
     "words": [
       "navia"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_278",
@@ -7198,7 +7242,8 @@ export const AVATAR_CATALOG = [
     "normName": "neuvillette",
     "words": [
       "neuvillette"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_279",
@@ -7220,7 +7265,8 @@ export const AVATAR_CATALOG = [
     "normName": "nilou",
     "words": [
       "nilou"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_280",
@@ -7242,7 +7288,8 @@ export const AVATAR_CATALOG = [
     "normName": "ningguang",
     "words": [
       "ningguang"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_281",
@@ -7264,7 +7311,8 @@ export const AVATAR_CATALOG = [
     "normName": "noelle",
     "words": [
       "noelle"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_282",
@@ -7286,7 +7334,8 @@ export const AVATAR_CATALOG = [
     "normName": "qiqi",
     "words": [
       "qiqi"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_283",
@@ -7308,7 +7357,8 @@ export const AVATAR_CATALOG = [
     "normName": "raiden",
     "words": [
       "raiden"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_284",
@@ -7330,7 +7380,8 @@ export const AVATAR_CATALOG = [
     "normName": "razor",
     "words": [
       "razor"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_285",
@@ -7352,7 +7403,8 @@ export const AVATAR_CATALOG = [
     "normName": "rosaria",
     "words": [
       "rosaria"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_286",
@@ -7374,7 +7426,8 @@ export const AVATAR_CATALOG = [
     "normName": "sara",
     "words": [
       "sara"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_287",
@@ -7396,7 +7449,8 @@ export const AVATAR_CATALOG = [
     "normName": "sayu",
     "words": [
       "sayu"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_288",
@@ -7418,7 +7472,8 @@ export const AVATAR_CATALOG = [
     "normName": "sethos",
     "words": [
       "sethos"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_289",
@@ -7440,7 +7495,8 @@ export const AVATAR_CATALOG = [
     "normName": "shenhe",
     "words": [
       "shenhe"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_290",
@@ -7463,7 +7519,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "shikanoin",
       "heizou"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_291",
@@ -7485,7 +7542,8 @@ export const AVATAR_CATALOG = [
     "normName": "sigewinne",
     "words": [
       "sigewinne"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_292",
@@ -7507,7 +7565,8 @@ export const AVATAR_CATALOG = [
     "normName": "sucrose",
     "words": [
       "sucrose"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_293",
@@ -7529,7 +7588,8 @@ export const AVATAR_CATALOG = [
     "normName": "tartaglia",
     "words": [
       "tartaglia"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_294",
@@ -7551,7 +7611,8 @@ export const AVATAR_CATALOG = [
     "normName": "thoma",
     "words": [
       "thoma"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_295",
@@ -7573,7 +7634,8 @@ export const AVATAR_CATALOG = [
     "normName": "tighnari",
     "words": [
       "tighnari"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_296",
@@ -7596,7 +7658,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "traveler",
       "anemo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_297",
@@ -7619,7 +7682,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "traveler",
       "dendro"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_298",
@@ -7642,7 +7706,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "traveler",
       "electro"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_299",
@@ -7665,7 +7730,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "traveler",
       "geo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_300",
@@ -7688,7 +7754,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "traveler",
       "hydro"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_301",
@@ -7710,7 +7777,8 @@ export const AVATAR_CATALOG = [
     "normName": "venti",
     "words": [
       "venti"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_302",
@@ -7732,7 +7800,8 @@ export const AVATAR_CATALOG = [
     "normName": "wanderer",
     "words": [
       "wanderer"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_303",
@@ -7754,7 +7823,8 @@ export const AVATAR_CATALOG = [
     "normName": "wriothesley",
     "words": [
       "wriothesley"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_304",
@@ -7776,7 +7846,8 @@ export const AVATAR_CATALOG = [
     "normName": "xiangling",
     "words": [
       "xiangling"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_305",
@@ -7798,7 +7869,8 @@ export const AVATAR_CATALOG = [
     "normName": "xianyun",
     "words": [
       "xianyun"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_306",
@@ -7820,7 +7892,8 @@ export const AVATAR_CATALOG = [
     "normName": "xiao",
     "words": [
       "xiao"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_307",
@@ -7842,7 +7915,8 @@ export const AVATAR_CATALOG = [
     "normName": "xingqiu",
     "words": [
       "xingqiu"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_308",
@@ -7864,7 +7938,8 @@ export const AVATAR_CATALOG = [
     "normName": "xinyan",
     "words": [
       "xinyan"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_309",
@@ -7887,7 +7962,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "yae",
       "miko"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_310",
@@ -7909,7 +7985,8 @@ export const AVATAR_CATALOG = [
     "normName": "yanfei",
     "words": [
       "yanfei"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_311",
@@ -7931,7 +8008,8 @@ export const AVATAR_CATALOG = [
     "normName": "yaoyao",
     "words": [
       "yaoyao"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_312",
@@ -7953,7 +8031,8 @@ export const AVATAR_CATALOG = [
     "normName": "yelan",
     "words": [
       "yelan"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_313",
@@ -7975,7 +8054,8 @@ export const AVATAR_CATALOG = [
     "normName": "yoimiya",
     "words": [
       "yoimiya"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_314",
@@ -7998,7 +8078,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "yun",
       "jin"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_315",
@@ -8020,7 +8101,8 @@ export const AVATAR_CATALOG = [
     "normName": "zhongli",
     "words": [
       "zhongli"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_316",
@@ -8339,7 +8421,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "guy",
       "might"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_330",
@@ -8384,7 +8467,8 @@ export const AVATAR_CATALOG = [
     "normName": "orochimaru",
     "words": [
       "orochimaru"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_332",
@@ -8453,7 +8537,8 @@ export const AVATAR_CATALOG = [
       "monkey",
       "d",
       "luffy"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_335",
@@ -8498,7 +8583,8 @@ export const AVATAR_CATALOG = [
     "normName": "sanji",
     "words": [
       "sanji"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_337",
@@ -8772,7 +8858,8 @@ export const AVATAR_CATALOG = [
     "normName": "franky",
     "words": [
       "franky"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_349",
@@ -8817,7 +8904,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "rosinante",
       "donquixote"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_351",
@@ -9103,7 +9191,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "krista",
       "lenz"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_363",
@@ -9150,7 +9239,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "connie",
       "springer"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_365",
@@ -9579,7 +9669,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "kasumi",
       "miwa"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_383",
@@ -9626,7 +9717,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "shouko",
       "ieiri"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_385",
@@ -9766,7 +9858,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "zenitsu",
       "agatsuma"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_391",
@@ -9995,7 +10088,8 @@ export const AVATAR_CATALOG = [
     "normName": "sabito",
     "words": [
       "sabito"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_401",
@@ -10200,7 +10294,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mihael",
       "keehl"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_410",
@@ -10246,7 +10341,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "touta",
       "matsuda"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_412",
@@ -10268,7 +10364,8 @@ export const AVATAR_CATALOG = [
     "normName": "rem",
     "words": [
       "rem"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_413",
@@ -10337,7 +10434,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mail",
       "jeevas"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_416",
@@ -10383,7 +10481,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "quillsh",
       "wammy"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_418",
@@ -10406,7 +10505,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "stephen",
       "loud"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_419",
@@ -10429,7 +10529,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "shuuichi",
       "aizawa"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_420",
@@ -10452,7 +10553,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "sayu",
       "yagami"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_421",
@@ -10475,7 +10577,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "kiyomi",
       "takada"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_422",
@@ -10498,7 +10601,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "ichigo",
       "kurosaki"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_423",
@@ -10521,7 +10625,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "kisuke",
       "urahara"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_424",
@@ -10544,7 +10649,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "rukia",
       "kuchiki"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_425",
@@ -10590,7 +10696,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "sosuke",
       "aizen"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_427",
@@ -10636,7 +10743,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "ulquiorra",
       "cifer"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_429",
@@ -10728,7 +10836,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "byakuya",
       "kuchiki"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_433",
@@ -10799,7 +10908,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "gin",
       "ichimaru"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_436",
@@ -10822,7 +10932,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "renji",
       "abarai"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_437",
@@ -11233,7 +11344,8 @@ export const AVATAR_CATALOG = [
     "normName": "canary",
     "words": [
       "canary"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_455",
@@ -11278,7 +11390,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "zeno",
       "zoldyck"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_457",
@@ -11507,7 +11620,8 @@ export const AVATAR_CATALOG = [
       "olivier",
       "mira",
       "armstrong"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_467",
@@ -11599,7 +11713,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "king",
       "bradley"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_471",
@@ -11645,7 +11760,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "lan",
       "fan"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_473",
@@ -11713,7 +11829,8 @@ export const AVATAR_CATALOG = [
     "normName": "denji",
     "words": [
       "denji"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_476",
@@ -11830,7 +11947,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "kobeni",
       "higashiyama"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_481",
@@ -11855,7 +11973,8 @@ export const AVATAR_CATALOG = [
       "tenshi",
       "no",
       "akuma"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_482",
@@ -11878,7 +11997,8 @@ export const AVATAR_CATALOG = [
     "normName": "himeno",
     "words": [
       "himeno"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_483",
@@ -11901,7 +12021,8 @@ export const AVATAR_CATALOG = [
     "normName": "kishibe",
     "words": [
       "kishibe"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_484",
@@ -12139,7 +12260,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "anya",
       "forger"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_494",
@@ -12299,7 +12421,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "sylvia",
       "sherwood"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_501",
@@ -12434,7 +12557,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "emile",
       "elman"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_507",
@@ -12457,7 +12581,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "ewen",
       "egeburg"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_508",
@@ -12480,7 +12605,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "garden",
       "tenchou"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_509",
@@ -12504,7 +12630,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "shoto",
       "todoroki"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_510",
@@ -12649,7 +12776,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "ochako",
       "uraraka"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_516",
@@ -12697,7 +12825,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "denki",
       "kaminari"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_518",
@@ -12745,7 +12874,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "kyouka",
       "jirou"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_520",
@@ -12769,7 +12899,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "fumikage",
       "tokoyami"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_521",
@@ -12793,7 +12924,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "momo",
       "yaoyorozu"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_522",
@@ -12817,7 +12949,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mina",
       "ashido"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_523",
@@ -12841,7 +12974,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "tenya",
       "iida"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_524",
@@ -12865,7 +12999,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "hanta",
       "sero"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_525",
@@ -12889,7 +13024,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "nemuri",
       "kayama"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_526",
@@ -12913,7 +13049,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "yuu",
       "takeyama"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_527",
@@ -13152,7 +13289,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "holly",
       "kuujou"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_537",
@@ -13199,7 +13337,8 @@ export const AVATAR_CATALOG = [
     "normName": "ndoul",
     "words": [
       "ndoul"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_539",
@@ -13293,7 +13432,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "david",
       "martinez"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_543",
@@ -13433,7 +13573,8 @@ export const AVATAR_CATALOG = [
     "normName": "dorio",
     "words": [
       "dorio"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_549",
@@ -13525,7 +13666,8 @@ export const AVATAR_CATALOG = [
     "normName": "delamain",
     "words": [
       "delamain"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_553",
@@ -13597,7 +13739,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "wakako",
       "okada"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_556",
@@ -13620,7 +13763,8 @@ export const AVATAR_CATALOG = [
     "normName": "julio",
     "words": [
       "julio"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_557",
@@ -13667,7 +13811,8 @@ export const AVATAR_CATALOG = [
     "normName": "finn",
     "words": [
       "finn"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_559",
@@ -13689,7 +13834,8 @@ export const AVATAR_CATALOG = [
     "normName": "jake",
     "words": [
       "jake"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_560",
@@ -13711,7 +13857,8 @@ export const AVATAR_CATALOG = [
     "normName": "marceline",
     "words": [
       "marceline"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_561",
@@ -13734,7 +13881,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "princess",
       "bubblegum"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_562",
@@ -13757,7 +13905,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "ice",
       "king"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_563",
@@ -13781,7 +13930,8 @@ export const AVATAR_CATALOG = [
       "lumpy",
       "space",
       "princess"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_564",
@@ -13803,7 +13953,8 @@ export const AVATAR_CATALOG = [
     "normName": "bmo",
     "words": [
       "bmo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_565",
@@ -13826,7 +13977,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "the",
       "litch"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_566",
@@ -13849,7 +14001,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "snow",
       "golem"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_567",
@@ -13871,7 +14024,8 @@ export const AVATAR_CATALOG = [
     "normName": "melissa",
     "words": [
       "melissa"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_568",
@@ -13894,7 +14048,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "flame",
       "princess"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_569",
@@ -13916,7 +14071,8 @@ export const AVATAR_CATALOG = [
     "normName": "flambo",
     "words": [
       "flambo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_570",
@@ -13939,7 +14095,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "flame",
       "king"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_571",
@@ -13961,7 +14118,8 @@ export const AVATAR_CATALOG = [
     "normName": "gunter",
     "words": [
       "gunter"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_572",
@@ -14364,7 +14522,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "rose",
       "quartz"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_590",
@@ -14386,7 +14545,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "lapis",
       "lazuli"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_591",
@@ -14408,7 +14568,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "connie",
       "maheswaran"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_592",
@@ -14429,7 +14590,8 @@ export const AVATAR_CATALOG = [
     "normName": "spinel",
     "words": [
       "spinel"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_593",
@@ -14451,7 +14613,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "white",
       "diamond"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_594",
@@ -14472,14 +14635,15 @@ export const AVATAR_CATALOG = [
     "normName": "jasper",
     "words": [
       "jasper"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_595",
     "name": "Ben Tennyson",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/3/39/5.5_ben.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/1/16/Ben_Tennyson_%28Classic%29_Original_Series_Pose_1.png/revision/latest/scale-to-width-down/400?cb=20231206010858",
     "format": "PNG",
     "color": "14b8a6",
     "aliases": [
@@ -14494,14 +14658,15 @@ export const AVATAR_CATALOG = [
     "words": [
       "ben",
       "tennyson"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_596",
     "name": "Gwen Tennyson",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/5/53/Gwen.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/9/99/Gwen_Tennyson_%28Classic%29_Original_Series_Pose_1.png/revision/latest/scale-to-width-down/400?cb=20231206011910",
     "format": "PNG",
     "color": "eab308",
     "aliases": [
@@ -14516,14 +14681,15 @@ export const AVATAR_CATALOG = [
     "words": [
       "gwen",
       "tennyson"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_597",
     "name": "Kevin Levin",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/6/6d/Kevin_Transformation.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/d/db/Kevovmain.png/revision/latest/scale-to-width-down/400?cb=20231208212003",
     "format": "PNG",
     "color": "6366f1",
     "aliases": [
@@ -14538,14 +14704,15 @@ export const AVATAR_CATALOG = [
     "words": [
       "kevin",
       "levin"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_598",
     "name": "Grandpa Max",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/5/5d/Max_Standing.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/f/f2/Max_Pose.png/revision/latest/scale-to-width-down/400?cb=20171212133207",
     "format": "PNG",
     "color": "f43f5e",
     "aliases": [
@@ -14560,14 +14727,15 @@ export const AVATAR_CATALOG = [
     "words": [
       "grandpa",
       "max"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_599",
     "name": "Heatblast",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/6/61/Shadow_Heatblast.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/2/20/Heatblast_omniverse_official.png/revision/latest/scale-to-width-down/400?cb=20230814111634",
     "format": "PNG",
     "color": "10b981",
     "aliases": [
@@ -14581,14 +14749,15 @@ export const AVATAR_CATALOG = [
     "normName": "heatblast",
     "words": [
       "heatblast"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_600",
     "name": "Diamondhead",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/6/6d/DE_Diamondhead.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/2/27/Standing_Diamondhead.png/revision/latest/scale-to-width-down/400?cb=20260226075125",
     "format": "PNG",
     "color": "facc15",
     "aliases": [
@@ -14602,14 +14771,15 @@ export const AVATAR_CATALOG = [
     "normName": "diamondhead",
     "words": [
       "diamondhead"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_601",
     "name": "XLR8",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/a/a4/DE_XLR8.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/2/24/XLR8_OS.png/revision/latest/scale-to-width-down/400?cb=20170401222738",
     "format": "PNG",
     "color": "ff6b9d",
     "aliases": [
@@ -14623,14 +14793,15 @@ export const AVATAR_CATALOG = [
     "normName": "xlr8",
     "words": [
       "xlr8"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_602",
     "name": "Four Arms",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/a/ad/Billy-Arms.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/b/bc/Four_Arms_OV_Model.png/revision/latest/scale-to-width-down/400?cb=20210515171133",
     "format": "PNG",
     "color": "38bdf8",
     "aliases": [
@@ -14645,14 +14816,15 @@ export const AVATAR_CATALOG = [
     "words": [
       "four",
       "arms"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_603",
     "name": "Cannonbolt",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/b/bb/DE_Cannonbolt.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/f/f0/Cannonbolt_true_colors.png/revision/latest/scale-to-width-down/400?cb=20240930175154",
     "format": "PNG",
     "color": "84cc16",
     "aliases": [
@@ -14666,7 +14838,8 @@ export const AVATAR_CATALOG = [
     "normName": "cannonbolt",
     "words": [
       "cannonbolt"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_604",
@@ -14687,7 +14860,8 @@ export const AVATAR_CATALOG = [
     "normName": "wildmutt",
     "words": [
       "wildmutt"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_605",
@@ -14708,14 +14882,15 @@ export const AVATAR_CATALOG = [
     "normName": "ghostfreak",
     "words": [
       "ghostfreak"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_606",
     "name": "Grey Matter",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/3/39/DE_Grey_Matter_Profile.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/9/96/Grey_Matter_OS.png/revision/latest/scale-to-width-down/400?cb=20210318140808",
     "format": "PNG",
     "color": "ef4444",
     "aliases": [
@@ -14730,14 +14905,15 @@ export const AVATAR_CATALOG = [
     "words": [
       "grey",
       "matter"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_607",
     "name": "Upgrade",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/a/ae/Upgrade_Carey_Cover.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/6/62/Upgrade_Model.png/revision/latest/scale-to-width-down/400?cb=20200511092500",
     "format": "PNG",
     "color": "06b6d4",
     "aliases": [
@@ -14751,14 +14927,15 @@ export const AVATAR_CATALOG = [
     "normName": "upgrade",
     "words": [
       "upgrade"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_608",
     "name": "Stinkfly",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/3/34/DE_Stinkfly.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/1/13/Standing_Stinkfly.png/revision/latest/scale-to-width-down/400?cb=20260226073855",
     "format": "PNG",
     "color": "22c55e",
     "aliases": [
@@ -14772,14 +14949,15 @@ export const AVATAR_CATALOG = [
     "normName": "stinkfly",
     "words": [
       "stinkfly"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_609",
     "name": "Ripjaws",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/5/59/Ripjaws_AXT.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/a/ad/Ripjaws_OV.png/revision/latest/scale-to-width-down/400?cb=20150925140842",
     "format": "PNG",
     "color": "ec4899",
     "aliases": [
@@ -14793,7 +14971,8 @@ export const AVATAR_CATALOG = [
     "normName": "ripjaws",
     "words": [
       "ripjaws"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_610",
@@ -14815,7 +14994,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "alien",
       "x"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_611",
@@ -14837,7 +15017,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "way",
       "big"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_612",
@@ -14858,14 +15039,15 @@ export const AVATAR_CATALOG = [
     "normName": "swampfire",
     "words": [
       "swampfire"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_613",
     "name": "Humungousaur",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/2/27/Reboot_Humungousaur_Standing_Pose.PNG/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/4/41/Humungousaur_omniverse_official.png/revision/latest/scale-to-width-down/400?cb=20220727052611",
     "format": "PNG",
     "color": "f43f5e",
     "aliases": [
@@ -14879,7 +15061,8 @@ export const AVATAR_CATALOG = [
     "normName": "humungousaur",
     "words": [
       "humungousaur"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_614",
@@ -14901,7 +15084,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "big",
       "chill"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_615",
@@ -14923,14 +15107,15 @@ export const AVATAR_CATALOG = [
     "words": [
       "echo",
       "echo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_616",
     "name": "Chromastone",
     "category": "ben-10",
     "categoryLabel": "👽 Ben 10 & Omniverse",
-    "url": "https://static.wikia.nocookie.net/ben10/images/c/cc/Chromastone_Reboot.png/revision/latest",
+    "url": "https://static.wikia.nocookie.net/ben10/images/c/cc/Chromastone_Reboot.png/revision/latest/scale-to-width-down/400?cb=20210412170122",
     "format": "PNG",
     "color": "ff6b9d",
     "aliases": [
@@ -14944,7 +15129,8 @@ export const AVATAR_CATALOG = [
     "normName": "chromastone",
     "words": [
       "chromastone"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_617",
@@ -15265,7 +15451,7 @@ export const AVATAR_CATALOG = [
     "name": "Spider-Gwen (Gwen Stacy)",
     "category": "spider-verse",
     "categoryLabel": "🕷️ Spider-Verse",
-    "url": "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/sm/625-spider-gwen.jpg",
+    "url": "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/sm/619-spider-gwen.jpg",
     "format": "PNG",
     "color": "ff6b9d",
     "aliases": [
@@ -15314,7 +15500,7 @@ export const AVATAR_CATALOG = [
     "name": "Spider-Man 2099 (Miguel)",
     "category": "spider-verse",
     "categoryLabel": "🕷️ Spider-Verse",
-    "url": "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/sm/622-spider-man-2099.jpg",
+    "url": "https://static.wikia.nocookie.net/intothespiderverse/images/b/bd/GH0khxnXkAABQR1.jpg/revision/latest?cb=20240318075815",
     "format": "PNG",
     "color": "84cc16",
     "aliases": [
@@ -15362,7 +15548,7 @@ export const AVATAR_CATALOG = [
     "name": "Spider-Woman",
     "category": "spider-verse",
     "categoryLabel": "🕷️ Spider-Verse",
-    "url": "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/sm/624-spider-woman.jpg",
+    "url": "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/sm/623-spider-woman.jpg",
     "format": "PNG",
     "color": "a855f7",
     "aliases": [
@@ -15385,7 +15571,7 @@ export const AVATAR_CATALOG = [
     "name": "Spider-Girl",
     "category": "spider-verse",
     "categoryLabel": "🕷️ Spider-Verse",
-    "url": "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/sm/623-spider-girl.jpg",
+    "url": "https://cdn.jsdelivr.net/gh/akabab/superhero-api@0.3.0/api/images/sm/618-spider-girl.jpg",
     "format": "PNG",
     "color": "ef4444",
     "aliases": [
@@ -15496,7 +15682,7 @@ export const AVATAR_CATALOG = [
     "name": "The Spot",
     "category": "spider-verse",
     "categoryLabel": "🕷️ Spider-Verse",
-    "url": "https://static.wikia.nocookie.net/intothespiderverse/images/9/9b/Thespotfinallook.jpg/revision/latest",
+    "url": "https://static.wikia.nocookie.net/intothespiderverse/images/9/9b/Thespotfinallook.jpg/revision/latest/scale-to-width-down/400",
     "format": "PNG",
     "color": "eab308",
     "aliases": [
@@ -15519,7 +15705,7 @@ export const AVATAR_CATALOG = [
     "name": "Hobie Brown (Spider-Punk)",
     "category": "spider-verse",
     "categoryLabel": "🕷️ Spider-Verse",
-    "url": "https://static.wikia.nocookie.net/intothespiderverse/images/4/48/Hobiebrown.jpg/revision/latest",
+    "url": "https://static.wikia.nocookie.net/intothespiderverse/images/4/48/Hobiebrown.jpg/revision/latest/scale-to-width-down/400",
     "format": "PNG",
     "color": "6366f1",
     "aliases": [
@@ -15544,7 +15730,7 @@ export const AVATAR_CATALOG = [
     "name": "Pavitr Prabhakar (India)",
     "category": "spider-verse",
     "categoryLabel": "🕷️ Spider-Verse",
-    "url": "https://static.wikia.nocookie.net/intothespiderverse/images/4/43/Pavitr_Prabhakar.jpg/revision/latest",
+    "url": "https://static.wikia.nocookie.net/intothespiderverse/images/4/43/Pavitr_Prabhakar.jpg/revision/latest/scale-to-width-down/400",
     "format": "PNG",
     "color": "f43f5e",
     "aliases": [
@@ -15631,7 +15817,8 @@ export const AVATAR_CATALOG = [
     "normName": "dexter",
     "words": [
       "dexter"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_647",
@@ -15655,7 +15842,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "dee",
       "dee"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_648",
@@ -15678,7 +15866,8 @@ export const AVATAR_CATALOG = [
     "normName": "blossom",
     "words": [
       "blossom"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_649",
@@ -15724,7 +15913,8 @@ export const AVATAR_CATALOG = [
     "normName": "buttercup",
     "words": [
       "buttercup"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_651",
@@ -15748,7 +15938,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mojo",
       "jojo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_652",
@@ -15772,7 +15963,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "johnny",
       "bravo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_653",
@@ -15798,7 +15990,8 @@ export const AVATAR_CATALOG = [
       "the",
       "cowardly",
       "dog"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_654",
@@ -15917,7 +16110,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "atom",
       "eve"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_659",
@@ -15963,7 +16157,8 @@ export const AVATAR_CATALOG = [
     "normName": "robot",
     "words": [
       "robot"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_661",
@@ -15986,7 +16181,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "monster",
       "girl"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_662",
@@ -16009,7 +16205,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "cecil",
       "stedman"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_663",
@@ -16032,7 +16229,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "battle",
       "beast"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_664",
@@ -16055,7 +16253,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "dupli",
       "kate"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_665",
@@ -16078,7 +16277,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "the",
       "immortal"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_666",
@@ -20881,7 +21081,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "daenerystargaryen",
     "words": [
       "daenerys",
@@ -20904,7 +21104,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "samwelltarly",
     "words": [
       "samwell",
@@ -20927,7 +21127,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "jonsnow",
     "words": [
       "jon",
@@ -20950,7 +21150,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "aryastark",
     "words": [
       "arya",
@@ -20973,7 +21173,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "sansastark",
     "words": [
       "sansa",
@@ -20996,7 +21196,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "brandonstark",
     "words": [
       "brandon",
@@ -21019,7 +21219,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "nedstark",
     "words": [
       "ned",
@@ -21042,7 +21242,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "robertbaratheon",
     "words": [
       "robert",
@@ -21065,7 +21265,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "jamielannister",
     "words": [
       "jamie",
@@ -21088,7 +21288,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "cerseilannister",
     "words": [
       "cersei",
@@ -21111,7 +21311,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "catelynstark",
     "words": [
       "catelyn",
@@ -21134,7 +21334,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "robstark",
     "words": [
       "rob",
@@ -21157,7 +21357,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "theongreyjoy",
     "words": [
       "theon",
@@ -21180,7 +21380,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "joffreybaratheon",
     "words": [
       "joffrey",
@@ -21203,7 +21403,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "tyrionlannister",
     "words": [
       "tyrion",
@@ -21226,7 +21426,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "thehound",
     "words": [
       "the",
@@ -21249,7 +21449,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "petyrbaelish",
     "words": [
       "petyr",
@@ -21272,12 +21472,13 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "davosseaworth",
     "words": [
       "davos",
       "seaworth"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_897",
@@ -21295,7 +21496,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "stannisbaratheon",
     "words": [
       "stannis",
@@ -21318,7 +21519,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "varys",
     "words": [
       "varys"
@@ -21340,7 +21541,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "khaldrogo",
     "words": [
       "khal",
@@ -21363,7 +21564,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "margaerytyrell",
     "words": [
       "margaery",
@@ -21386,7 +21587,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "ygritte",
     "words": [
       "ygritte"
@@ -21408,7 +21609,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "brienneoftarth",
     "words": [
       "brienne",
@@ -21432,7 +21633,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "missandei",
     "words": [
       "missandei"
@@ -21454,7 +21655,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "gilly",
     "words": [
       "gilly"
@@ -21476,7 +21677,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "viserystargaryn",
     "words": [
       "viserys",
@@ -21499,7 +21700,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "rickonstark",
     "words": [
       "rickon",
@@ -21522,7 +21723,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "roosebolton",
     "words": [
       "roose",
@@ -21545,7 +21746,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "daario",
     "words": [
       "daario"
@@ -21567,7 +21768,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "shae",
     "words": [
       "shae"
@@ -21589,7 +21790,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "tommenbaratheon",
     "words": [
       "tommen",
@@ -21612,7 +21813,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "gendrybaratheon",
     "words": [
       "gendry",
@@ -21635,7 +21836,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "jorahmormont",
     "words": [
       "jorah",
@@ -21658,7 +21859,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "robertbaratheon",
     "words": [
       "robert",
@@ -21681,7 +21882,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "ramseybolton",
     "words": [
       "ramsey",
@@ -21704,7 +21905,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "talisastark",
     "words": [
       "talisa",
@@ -21727,7 +21928,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "jeormormont",
     "words": [
       "jeor",
@@ -21750,7 +21951,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "thehighsparrow",
     "words": [
       "the",
@@ -21774,7 +21975,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "oberynmartell",
     "words": [
       "oberyn",
@@ -21797,7 +21998,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "melisandre",
     "words": [
       "melisandre"
@@ -21819,7 +22020,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "jaqenhghar",
     "words": [
       "jaqen",
@@ -21842,7 +22043,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "tywinlannister",
     "words": [
       "tywin",
@@ -21865,7 +22066,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "ellariasand",
     "words": [
       "ellaria",
@@ -21888,7 +22089,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "tormundgiantsbane",
     "words": [
       "tormund",
@@ -21911,7 +22112,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "yaragreyjoy",
     "words": [
       "yara",
@@ -21934,7 +22135,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "eurongreyjoy",
     "words": [
       "euron",
@@ -21957,7 +22158,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "hodor",
     "words": [
       "hodor"
@@ -21979,7 +22180,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "pycelle",
     "words": [
       "pycelle"
@@ -22001,7 +22202,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "greyworm",
     "words": [
       "grey",
@@ -22024,7 +22225,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "olennatyrell",
     "words": [
       "olenna",
@@ -22047,7 +22248,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "qyburn",
     "words": [
       "qyburn"
@@ -22069,7 +22270,7 @@ export const AVATAR_CATALOG = [
     ],
     "isVector": false,
     "isKnownDark": true,
-    "isKnownPortrait": true,
+    "isKnownPortrait": false,
     "normName": "lordbronn",
     "words": [
       "lord",
@@ -26808,7 +27009,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mr",
       "burns"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1139",
@@ -26830,7 +27032,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "nelson",
       "muntz"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1140",
@@ -26853,7 +27056,8 @@ export const AVATAR_CATALOG = [
       "comic",
       "book",
       "guy"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1141",
@@ -26875,7 +27079,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "barney",
       "gumble"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1142",
@@ -26898,7 +27103,8 @@ export const AVATAR_CATALOG = [
       "krusty",
       "the",
       "clown"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1143",
@@ -26920,7 +27126,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "seymour",
       "skinner"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1144",
@@ -26942,7 +27149,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "groundskeeper",
       "willie"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1145",
@@ -26964,7 +27172,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "chief",
       "wiggum"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1146",
@@ -26986,7 +27195,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "apu",
       "nahasapeemapetilon"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1147",
@@ -27008,7 +27218,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "ralph",
       "wiggum"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1148",
@@ -27030,7 +27241,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "sideshow",
       "bob"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1149",
@@ -27052,7 +27264,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "homer",
       "simpson"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1150",
@@ -27074,7 +27287,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "bart",
       "simpson"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1151",
@@ -27096,7 +27310,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "marge",
       "simpson"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1152",
@@ -27118,7 +27333,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "lisa",
       "simpson"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1153",
@@ -27140,7 +27356,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "maggie",
       "simpson"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1154",
@@ -27162,7 +27379,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "moe",
       "szyslak"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1155",
@@ -27185,7 +27403,8 @@ export const AVATAR_CATALOG = [
       "milhouse",
       "van",
       "houten"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1156",
@@ -27207,7 +27426,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "ned",
       "flanders"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1157",
@@ -27230,7 +27450,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "turanga",
       "leela"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1158",
@@ -27254,7 +27475,8 @@ export const AVATAR_CATALOG = [
       "bender",
       "bending",
       "rodriguez"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1159",
@@ -27278,7 +27500,8 @@ export const AVATAR_CATALOG = [
       "hubert",
       "j",
       "farnsworth"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1160",
@@ -27301,7 +27524,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "amy",
       "wong"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1161",
@@ -27324,7 +27548,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "carol",
       "mom"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1162",
@@ -27346,7 +27571,8 @@ export const AVATAR_CATALOG = [
     "normName": "lrrr",
     "words": [
       "lrrr"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1163",
@@ -27369,7 +27595,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "scruffy",
       "scruffington"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1164",
@@ -27393,7 +27620,8 @@ export const AVATAR_CATALOG = [
       "cubert",
       "j",
       "farnsworth"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1165",
@@ -27416,7 +27644,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "kif",
       "kroker"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1166",
@@ -27439,7 +27668,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "dwight",
       "conrad"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1167",
@@ -27462,7 +27692,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "labarbara",
       "conrad"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1168",
@@ -27485,7 +27716,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "turanga2",
       "leela1"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1169",
@@ -27508,7 +27740,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "ajith",
       "a"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1170",
@@ -27529,7 +27762,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "dottie",
       "minerva"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1171",
@@ -27549,7 +27783,8 @@ export const AVATAR_CATALOG = [
     "normName": "adam",
     "words": [
       "adam"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1172",
@@ -27569,7 +27804,8 @@ export const AVATAR_CATALOG = [
     "normName": "adrian",
     "words": [
       "adrian"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1173",
@@ -27589,7 +27825,8 @@ export const AVATAR_CATALOG = [
     "normName": "al",
     "words": [
       "al"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1174",
@@ -27610,7 +27847,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "alex",
       "papasian"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1175",
@@ -27630,7 +27868,8 @@ export const AVATAR_CATALOG = [
     "normName": "alfred",
     "words": [
       "alfred"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1176",
@@ -27650,7 +27889,8 @@ export const AVATAR_CATALOG = [
     "normName": "aliah",
     "words": [
       "aliah"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1177",
@@ -27670,7 +27910,8 @@ export const AVATAR_CATALOG = [
     "normName": "alice",
     "words": [
       "alice"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1178",
@@ -27691,7 +27932,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "alice",
       "lombard"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1179",
@@ -27711,7 +27953,8 @@ export const AVATAR_CATALOG = [
     "normName": "allen",
     "words": [
       "allen"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1180",
@@ -27731,7 +27974,8 @@ export const AVATAR_CATALOG = [
     "normName": "allison",
     "words": [
       "allison"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1181",
@@ -27751,7 +27995,8 @@ export const AVATAR_CATALOG = [
     "normName": "amanda",
     "words": [
       "amanda"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1182",
@@ -27771,7 +28016,8 @@ export const AVATAR_CATALOG = [
     "normName": "amity",
     "words": [
       "amity"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1183",
@@ -27791,7 +28037,8 @@ export const AVATAR_CATALOG = [
     "normName": "amy",
     "words": [
       "amy"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1184",
@@ -27811,7 +28058,8 @@ export const AVATAR_CATALOG = [
     "normName": "andrew",
     "words": [
       "andrew"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1185",
@@ -27834,7 +28082,8 @@ export const AVATAR_CATALOG = [
       "and",
       "ollie",
       "pesto"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1186",
@@ -27854,7 +28103,8 @@ export const AVATAR_CATALOG = [
     "normName": "angel",
     "words": [
       "angel"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1187",
@@ -27874,7 +28124,8 @@ export const AVATAR_CATALOG = [
     "normName": "angela",
     "words": [
       "angela"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1188",
@@ -27895,7 +28146,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "angelica",
       "flavia"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1189",
@@ -27915,7 +28167,8 @@ export const AVATAR_CATALOG = [
     "normName": "angie",
     "words": [
       "angie"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1190",
@@ -27936,7 +28189,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "angie",
       "moscatone"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1191",
@@ -27957,7 +28211,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "annie",
       "cragston"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1192",
@@ -27978,7 +28233,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "april",
       "buzzby"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1193",
@@ -27999,7 +28255,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "arnold",
       "evans"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1194",
@@ -28019,7 +28276,8 @@ export const AVATAR_CATALOG = [
     "normName": "art",
     "words": [
       "art"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1195",
@@ -28039,7 +28297,8 @@ export const AVATAR_CATALOG = [
     "normName": "arthur",
     "words": [
       "arthur"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1196",
@@ -28059,7 +28318,8 @@ export const AVATAR_CATALOG = [
     "normName": "asch",
     "words": [
       "asch"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1197",
@@ -28079,7 +28339,8 @@ export const AVATAR_CATALOG = [
     "normName": "ashley",
     "words": [
       "ashley"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1198",
@@ -28100,7 +28361,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "august",
       "scharffenheimer"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1199",
@@ -28120,7 +28382,8 @@ export const AVATAR_CATALOG = [
     "normName": "austin",
     "words": [
       "austin"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1200",
@@ -28141,7 +28404,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "barbara",
       "bunkley"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1201",
@@ -28163,7 +28427,8 @@ export const AVATAR_CATALOG = [
       "barry",
       "b",
       "foldin"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1202",
@@ -28183,7 +28448,8 @@ export const AVATAR_CATALOG = [
     "normName": "beatrice",
     "words": [
       "beatrice"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1203",
@@ -28203,7 +28469,8 @@ export const AVATAR_CATALOG = [
     "normName": "becca",
     "words": [
       "becca"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1204",
@@ -28223,7 +28490,8 @@ export const AVATAR_CATALOG = [
     "normName": "becket",
     "words": [
       "becket"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1205",
@@ -28245,7 +28513,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "gary",
       "goodspeed"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1206",
@@ -28266,7 +28535,8 @@ export const AVATAR_CATALOG = [
     "normName": "mooncake",
     "words": [
       "mooncake"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1207",
@@ -28288,7 +28558,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "quinn",
       "ergon"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1208",
@@ -28310,7 +28581,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "little",
       "cato"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1209",
@@ -28331,7 +28603,8 @@ export const AVATAR_CATALOG = [
     "normName": "avocato",
     "words": [
       "avocato"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1210",
@@ -28352,7 +28625,8 @@ export const AVATAR_CATALOG = [
     "normName": "kvn",
     "words": [
       "kvn"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1211",
@@ -28374,7 +28648,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "ash",
       "graven"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1212",
@@ -28395,7 +28670,8 @@ export const AVATAR_CATALOG = [
     "normName": "fox",
     "words": [
       "fox"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1213",
@@ -28416,7 +28692,8 @@ export const AVATAR_CATALOG = [
     "normName": "hue",
     "words": [
       "hue"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1214",
@@ -28438,7 +28715,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "tribore",
       "menendez"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1215",
@@ -28459,7 +28737,8 @@ export const AVATAR_CATALOG = [
     "normName": "clarence",
     "words": [
       "clarence"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1216",
@@ -28480,7 +28759,8 @@ export const AVATAR_CATALOG = [
     "normName": "biskit",
     "words": [
       "biskit"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1217",
@@ -28502,7 +28782,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "quatronostro",
       "menendez"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1218",
@@ -28524,7 +28805,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "lord",
       "commander"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1219",
@@ -28546,7 +28828,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "sheryl",
       "goodspeed"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1220",
@@ -28567,7 +28850,8 @@ export const AVATAR_CATALOG = [
     "normName": "bolo",
     "words": [
       "bolo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1221",
@@ -28588,7 +28872,8 @@ export const AVATAR_CATALOG = [
     "normName": "invictus",
     "words": [
       "invictus"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1222",
@@ -28612,7 +28897,8 @@ export const AVATAR_CATALOG = [
       "goodspeed",
       "nightfalls",
       "timeline"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1223",
@@ -28633,7 +28919,8 @@ export const AVATAR_CATALOG = [
     "normName": "nightfall",
     "words": [
       "nightfall"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1224",
@@ -28655,7 +28942,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "john",
       "goodspeed"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1225",
@@ -28676,7 +28964,8 @@ export const AVATAR_CATALOG = [
     "normName": "ava",
     "words": [
       "ava"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1226",
@@ -28697,7 +28986,8 @@ export const AVATAR_CATALOG = [
     "normName": "evra",
     "words": [
       "evra"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1227",
@@ -28720,7 +29010,8 @@ export const AVATAR_CATALOG = [
       "queen",
       "of",
       "ventrexia"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1228",
@@ -28743,7 +29034,8 @@ export const AVATAR_CATALOG = [
       "king",
       "of",
       "ventrexia"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1229",
@@ -28765,7 +29057,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mega",
       "kvn"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1230",
@@ -28786,7 +29079,8 @@ export const AVATAR_CATALOG = [
     "normName": "gatekeeper",
     "words": [
       "gatekeeper"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1231",
@@ -28808,7 +29102,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "melanie",
       "dewinter"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1232",
@@ -28830,7 +29125,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "harp",
       "graven"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1233",
@@ -28852,7 +29148,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "shannon",
       "thunder"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1234",
@@ -28873,7 +29170,8 @@ export const AVATAR_CATALOG = [
     "normName": "chuck",
     "words": [
       "chuck"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1235",
@@ -28894,7 +29192,8 @@ export const AVATAR_CATALOG = [
     "normName": "septim",
     "words": [
       "septim"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1236",
@@ -28915,7 +29214,8 @@ export const AVATAR_CATALOG = [
     "normName": "fraskenhaur",
     "words": [
       "fraskenhaur"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1237",
@@ -28936,7 +29236,8 @@ export const AVATAR_CATALOG = [
     "normName": "dartrichio",
     "words": [
       "dartrichio"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1238",
@@ -28958,7 +29259,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "david",
       "dewinter"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1239",
@@ -28980,7 +29282,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "general",
       "cataloupe"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1240",
@@ -29001,7 +29304,8 @@ export const AVATAR_CATALOG = [
     "normName": "jeff",
     "words": [
       "jeff"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1241",
@@ -29022,7 +29326,8 @@ export const AVATAR_CATALOG = [
     "normName": "meowlapeno",
     "words": [
       "meowlapeno"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1242",
@@ -29043,7 +29348,8 @@ export const AVATAR_CATALOG = [
     "normName": "oreskis",
     "words": [
       "oreskis"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1243",
@@ -29064,7 +29370,8 @@ export const AVATAR_CATALOG = [
     "normName": "sal",
     "words": [
       "sal"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1244",
@@ -29085,7 +29392,8 @@ export const AVATAR_CATALOG = [
     "normName": "terk",
     "words": [
       "terk"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1245",
@@ -29107,7 +29415,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "the",
       "blade"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1246",
@@ -29128,7 +29437,8 @@ export const AVATAR_CATALOG = [
     "normName": "thud",
     "words": [
       "thud"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1247",
@@ -29151,7 +29461,8 @@ export const AVATAR_CATALOG = [
       "time",
       "swap",
       "sammy"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1248",
@@ -29174,7 +29485,8 @@ export const AVATAR_CATALOG = [
       "todd",
       "h",
       "watson"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1249",
@@ -29195,7 +29507,8 @@ export const AVATAR_CATALOG = [
     "normName": "viro",
     "words": [
       "viro"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1250",
@@ -29216,7 +29529,8 @@ export const AVATAR_CATALOG = [
     "normName": "werthrent",
     "words": [
       "werthrent"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1251",
@@ -29238,7 +29552,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "zargon",
       "tukalishi"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1252",
@@ -29260,7 +29575,8 @@ export const AVATAR_CATALOG = [
     "normName": "aladdin",
     "words": [
       "aladdin"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1253",
@@ -29282,7 +29598,8 @@ export const AVATAR_CATALOG = [
     "normName": "scar",
     "words": [
       "scar"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1254",
@@ -29304,7 +29621,8 @@ export const AVATAR_CATALOG = [
     "normName": "pluto",
     "words": [
       "pluto"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1255",
@@ -29326,7 +29644,8 @@ export const AVATAR_CATALOG = [
     "normName": "genie",
     "words": [
       "genie"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1256",
@@ -29348,7 +29667,8 @@ export const AVATAR_CATALOG = [
     "normName": "mufasa",
     "words": [
       "mufasa"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1257",
@@ -29370,7 +29690,8 @@ export const AVATAR_CATALOG = [
     "normName": "gaston",
     "words": [
       "gaston"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1258",
@@ -29392,7 +29713,8 @@ export const AVATAR_CATALOG = [
     "normName": "woody",
     "words": [
       "woody"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1259",
@@ -29414,7 +29736,8 @@ export const AVATAR_CATALOG = [
     "normName": "belle",
     "words": [
       "belle"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1260",
@@ -29437,7 +29760,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "buzz",
       "lightyear"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1261",
@@ -29459,7 +29783,8 @@ export const AVATAR_CATALOG = [
     "normName": "tarzan",
     "words": [
       "tarzan"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1262",
@@ -29481,7 +29806,8 @@ export const AVATAR_CATALOG = [
     "normName": "beast",
     "words": [
       "beast"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1263",
@@ -29503,7 +29829,8 @@ export const AVATAR_CATALOG = [
     "normName": "mater",
     "words": [
       "mater"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1264",
@@ -29526,7 +29853,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "lightning",
       "mcqueen"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1265",
@@ -29548,7 +29876,8 @@ export const AVATAR_CATALOG = [
     "normName": "remy",
     "words": [
       "remy"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1266",
@@ -29570,7 +29899,8 @@ export const AVATAR_CATALOG = [
     "normName": "hercules",
     "words": [
       "hercules"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1267",
@@ -29593,7 +29923,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "minnie",
       "mouse"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1268",
@@ -29616,7 +29947,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "donald",
       "duck"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1269",
@@ -29638,7 +29970,8 @@ export const AVATAR_CATALOG = [
     "normName": "ursula",
     "words": [
       "ursula"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1270",
@@ -29660,7 +29993,8 @@ export const AVATAR_CATALOG = [
     "normName": "simba",
     "words": [
       "simba"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1271",
@@ -29682,7 +30016,8 @@ export const AVATAR_CATALOG = [
     "normName": "jasmine",
     "words": [
       "jasmine"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1272",
@@ -29704,7 +30039,8 @@ export const AVATAR_CATALOG = [
     "normName": "anna",
     "words": [
       "anna"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1273",
@@ -29726,7 +30062,8 @@ export const AVATAR_CATALOG = [
     "normName": "olaf",
     "words": [
       "olaf"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1274",
@@ -29748,7 +30085,8 @@ export const AVATAR_CATALOG = [
     "normName": "jafar",
     "words": [
       "jafar"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1275",
@@ -29771,7 +30109,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "daisy",
       "duck"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1276",
@@ -29793,7 +30132,8 @@ export const AVATAR_CATALOG = [
     "normName": "elsa",
     "words": [
       "elsa"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1277",
@@ -29816,7 +30156,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mickey",
       "mouse"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1278",
@@ -29838,7 +30179,8 @@ export const AVATAR_CATALOG = [
     "normName": "ariel",
     "words": [
       "ariel"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1279",
@@ -29860,7 +30202,8 @@ export const AVATAR_CATALOG = [
     "normName": "stitch",
     "words": [
       "stitch"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1280",
@@ -29883,7 +30226,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "wall",
       "e"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1281",
@@ -29905,7 +30249,8 @@ export const AVATAR_CATALOG = [
     "normName": "goofy",
     "words": [
       "goofy"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1282",
@@ -29927,7 +30272,8 @@ export const AVATAR_CATALOG = [
     "normName": "mulan",
     "words": [
       "mulan"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1283",
@@ -30025,7 +30371,8 @@ export const AVATAR_CATALOG = [
       "monkey",
       "one",
       "piece"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1287",
@@ -30202,7 +30549,8 @@ export const AVATAR_CATALOG = [
       "kaneki",
       "tokyo",
       "ghoul"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1294",
@@ -30249,7 +30597,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "guts",
       "berserk"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1296",
@@ -30295,7 +30644,8 @@ export const AVATAR_CATALOG = [
       "kurisu",
       "makise",
       "steinsgate"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1298",
@@ -30590,7 +30940,8 @@ export const AVATAR_CATALOG = [
       "denji",
       "chainsaw",
       "man"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1310",
@@ -30762,7 +31113,8 @@ export const AVATAR_CATALOG = [
       "my",
       "hero",
       "academia"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1317",
@@ -31118,7 +31470,8 @@ export const AVATAR_CATALOG = [
       "of",
       "the",
       "elite"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1331",
@@ -31172,794 +31525,840 @@ export const AVATAR_CATALOG = [
   },
   {
     "id": "av_1333",
-    "name": "Anime Art #1 (Goback)",
+    "name": "Itsuki Nakano",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/68f934c9-2aba-4170-841f-3381b1a3d10a.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b126375-dEe9IyQ9By09.png",
     "format": "PNG",
     "color": "f43f5e",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "itsuki",
+      "nakano"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart1goback",
+    "isKnownPortrait": true,
+    "normName": "itsukinakano",
     "words": [
-      "anime",
-      "art",
-      "1",
-      "goback"
-    ]
+      "itsuki",
+      "nakano"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1334",
-    "name": "Anime Art #2 (PengRani)",
+    "name": "Saitama",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/6c690f02-1c5c-4b0e-affb-57be6b7ca077.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b73935-ON5d0mAcrItd.jpg",
     "format": "PNG",
     "color": "10b981",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "saitama"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart2pengrani",
+    "isKnownPortrait": true,
+    "normName": "saitama",
     "words": [
-      "anime",
-      "art",
-      "2",
-      "pengrani"
-    ]
+      "saitama"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1335",
-    "name": "Anime Art #3 (色谷あすか)",
+    "name": "Shouyou Hinata",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/6cd1f5c8-d575-4da0-a31d-e65ef9cd063c.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b64769-WoWlCMLLgJ14.png",
     "format": "PNG",
     "color": "facc15",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "shouyou",
+      "hinata"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart3",
+    "isKnownPortrait": true,
+    "normName": "shouyouhinata",
     "words": [
-      "anime",
-      "art",
-      "3"
-    ]
+      "shouyou",
+      "hinata"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1336",
-    "name": "Anime Art #4 (WERI)",
+    "name": "Kusuo Saiki",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/2eadc70a-f225-4a5b-9f39-0ce9f77c0872.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b90107-ZULW5HlPX1uU.png",
     "format": "PNG",
     "color": "ff6b9d",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "kusuo",
+      "saiki"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart4weri",
+    "isKnownPortrait": true,
+    "normName": "kusuosaiki",
     "words": [
-      "anime",
-      "art",
-      "4",
-      "weri"
-    ]
+      "kusuo",
+      "saiki"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1337",
-    "name": "Anime Art #5 (一YUTOU)",
+    "name": "Subaru Natsuki",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/991fc735-b370-4869-9d48-6c8f05606d93.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b88573-F8yMTK9GhnTA.png",
     "format": "PNG",
     "color": "38bdf8",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "subaru",
+      "natsuki"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart5yutou",
+    "isKnownPortrait": true,
+    "normName": "subarunatsuki",
     "words": [
-      "anime",
-      "art",
-      "5",
-      "yutou"
-    ]
+      "subaru",
+      "natsuki"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1338",
-    "name": "Anime Art #6 (シャンデガ)",
+    "name": "Miko Iino",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/10f471e6-a802-4391-a163-12585a7d14e5.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b125886-TQbmqAaSgBLS.png",
     "format": "PNG",
     "color": "84cc16",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "miko",
+      "iino"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart6",
+    "isKnownPortrait": true,
+    "normName": "mikoiino",
     "words": [
-      "anime",
-      "art",
-      "6"
-    ]
+      "miko",
+      "iino"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1339",
-    "name": "Anime Art #7 (真の点P)",
+    "name": "Jin-U Seong",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/34391cb8-5d0f-4249-939b-e6e5cb9b7fa9.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b129928-BCEjVaP0AQSw.png",
     "format": "PNG",
     "color": "fb923c",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "jin-u",
+      "seong"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart7p",
+    "isKnownPortrait": true,
+    "normName": "jinuseong",
     "words": [
-      "anime",
-      "art",
-      "7",
-      "p"
-    ]
+      "jin",
+      "u",
+      "seong"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1340",
-    "name": "Anime Art #8 (Eichi)",
+    "name": "Hitagi Senjougahara",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/2e6bf678-5b11-4e96-bca0-d203792f9609.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b22037-sY7GWSKYr2Nl.jpg",
     "format": "PNG",
     "color": "a855f7",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "hitagi",
+      "senjougahara"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart8eichi",
+    "isKnownPortrait": true,
+    "normName": "hitagisenjougahara",
     "words": [
-      "anime",
-      "art",
-      "8",
-      "eichi"
-    ]
+      "hitagi",
+      "senjougahara"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1341",
-    "name": "Anime Art #9 (椎野せら)",
+    "name": "Asuka Langley Souryuu",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/0bf7dc62-4081-4e5f-9dc9-c7fc6f72d729.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b94-d631a3Z2KPvd.png",
     "format": "PNG",
     "color": "ef4444",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "asuka",
+      "langley",
+      "souryuu"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart9",
+    "isKnownPortrait": true,
+    "normName": "asukalangleysouryuu",
     "words": [
-      "anime",
-      "art",
-      "9"
-    ]
+      "asuka",
+      "langley",
+      "souryuu"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1342",
-    "name": "Anime Art #10 (まつもとゆう)",
+    "name": "Joutarou Kuujou",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/9f8026c0-135b-43ef-b9a8-243a6e12c7e6.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b4003-gWDSEGbeOAll.png",
     "format": "PNG",
     "color": "06b6d4",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "joutarou",
+      "kuujou"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart10",
+    "isKnownPortrait": true,
+    "normName": "joutaroukuujou",
     "words": [
-      "anime",
-      "art",
-      "10"
-    ]
+      "joutarou",
+      "kuujou"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1343",
-    "name": "Anime Art #11 (ẅata)",
+    "name": "Spike Spiegel",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/fa1c7b9e-0c66-4ccf-9a58-def306e036a2.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b1-ChxaldmieFlQ.png",
     "format": "PNG",
     "color": "22c55e",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "spike",
+      "spiegel"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart11wata",
+    "isKnownPortrait": true,
+    "normName": "spikespiegel",
     "words": [
-      "anime",
-      "art",
-      "11",
-      "wata"
-    ]
+      "spike",
+      "spiegel"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1344",
-    "name": "Anime Art #12 (鶉好)",
+    "name": "Tobio Kageyama",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/8b7c4b7a-3eab-43ca-af62-c00628d9f5d7.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b64771-BuCVs7B8bBdh.png",
     "format": "PNG",
     "color": "ec4899",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "tobio",
+      "kageyama"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart12",
+    "isKnownPortrait": true,
+    "normName": "tobiokageyama",
     "words": [
-      "anime",
-      "art",
-      "12"
-    ]
+      "tobio",
+      "kageyama"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1345",
-    "name": "Anime Art #13 (タマモ)",
+    "name": "Rimuru Tempest",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/d09ecc87-06c8-47b9-94b8-4108b1db9fcb.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b123962-eL9yGV0NLMF7.png",
     "format": "PNG",
     "color": "14b8a6",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "rimuru",
+      "tempest"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart13",
+    "isKnownPortrait": true,
+    "normName": "rimurutempest",
     "words": [
-      "anime",
-      "art",
-      "13"
-    ]
+      "rimuru",
+      "tempest"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1346",
-    "name": "Anime Art #14 (noRio2)",
+    "name": "Yato",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/efba6641-e911-4473-9a20-ba107af95165.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b84677-PFmohzIXD1ud.png",
     "format": "PNG",
     "color": "eab308",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "yato"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart14norio2",
+    "isKnownPortrait": true,
+    "normName": "yato",
     "words": [
-      "anime",
-      "art",
-      "14",
-      "norio2"
-    ]
+      "yato"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1347",
-    "name": "Anime Art #15 (arigieP)",
+    "name": "Giyuu Tomioka",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/2fe593a6-e366-4ca1-8ef8-083e65f12005.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b130050-qsLThJs5VIbz.png",
     "format": "PNG",
     "color": "6366f1",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "giyuu",
+      "tomioka"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart15arigiep",
+    "isKnownPortrait": true,
+    "normName": "giyuutomioka",
     "words": [
-      "anime",
-      "art",
-      "15",
-      "arigiep"
-    ]
+      "giyuu",
+      "tomioka"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1348",
-    "name": "Anime Art #16 (タブヘッド)",
+    "name": "Rin Toosaka",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/061f10be-ef10-4f6b-b2fc-503e12e12519.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b498-lwawtSpLyATL.png",
     "format": "PNG",
     "color": "f43f5e",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "rin",
+      "toosaka"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart16",
+    "isKnownPortrait": true,
+    "normName": "rintoosaka",
     "words": [
-      "anime",
-      "art",
-      "16"
-    ]
+      "rin",
+      "toosaka"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1349",
-    "name": "Anime Art #17 (now_os_)",
+    "name": "Hachiman Hikigaya",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/f0a1d6e2-4c7a-4e53-a42b-9745188ef0ae.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b67065-Dhec6tE2yWA9.png",
     "format": "PNG",
     "color": "10b981",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "hachiman",
+      "hikigaya"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart17nowos",
+    "isKnownPortrait": true,
+    "normName": "hachimanhikigaya",
     "words": [
-      "anime",
-      "art",
-      "17",
-      "now",
-      "os"
-    ]
+      "hachiman",
+      "hikigaya"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1350",
-    "name": "Anime Art #18 (TorinoAqua)",
+    "name": "Koyomi Araragi",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/28cafa23-479a-44b2-9ffa-2ca36cadae22.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b22036-Ed3CjwPlDLp4.png",
     "format": "PNG",
     "color": "facc15",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "koyomi",
+      "araragi"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart18torinoaqua",
+    "isKnownPortrait": true,
+    "normName": "koyomiararagi",
     "words": [
-      "anime",
-      "art",
-      "18",
-      "torinoaqua"
-    ]
+      "koyomi",
+      "araragi"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1351",
-    "name": "Anime Art #19 (Swon)",
+    "name": "Artoria Pendragon",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/f3bdbd63-0ae5-4545-a516-fefee29c7554.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b497-Yg5pNmC8kxzs.png",
     "format": "PNG",
     "color": "ff6b9d",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "artoria",
+      "pendragon"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart19swon",
+    "isKnownPortrait": true,
+    "normName": "artoriapendragon",
     "words": [
-      "anime",
-      "art",
-      "19",
-      "swon"
-    ]
+      "artoria",
+      "pendragon"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1352",
-    "name": "Anime Art #20 (こあ)",
+    "name": "Homura Akemi",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/waifu/8ac5d947-ff01-465f-9a46-2569bb1460ea.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b38005-T3NR8p2f021x.jpg",
     "format": "PNG",
     "color": "38bdf8",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "homura",
+      "akemi"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart20",
+    "isKnownPortrait": true,
+    "normName": "homuraakemi",
     "words": [
-      "anime",
-      "art",
-      "20"
-    ]
+      "homura",
+      "akemi"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1353",
-    "name": "Anime Art #21 (Nokkusuart)",
+    "name": "Kyouko Hori",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/dfcbcaf8-4e66-4dfb-a41d-85788bbf12cb.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b66171-o2vk3689wWFK.png",
     "format": "PNG",
     "color": "84cc16",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "kyouko",
+      "hori"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart21nokkusuart",
+    "isKnownPortrait": true,
+    "normName": "kyoukohori",
     "words": [
-      "anime",
-      "art",
-      "21",
-      "nokkusuart"
-    ]
+      "kyouko",
+      "hori"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1354",
-    "name": "Anime Art #22 (隻奈)",
+    "name": "Hitori Gotou",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/c4c26660-10c4-4867-9178-9ce3f95272c3.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b257562-Ru35NYPfsqhY.png",
     "format": "PNG",
     "color": "fb923c",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "hitori",
+      "gotou"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart22",
+    "isKnownPortrait": true,
+    "normName": "hitorigotou",
     "words": [
-      "anime",
-      "art",
-      "22"
-    ]
+      "hitori",
+      "gotou"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1355",
-    "name": "Anime Art #23 (フカヒレ)",
+    "name": "Miku Nakano",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/53099ce7-4016-4092-a353-37cebc2bc68f.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b126373-CWeyXb822uDN.png",
     "format": "PNG",
     "color": "a855f7",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "miku",
+      "nakano"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart23",
+    "isKnownPortrait": true,
+    "normName": "mikunakano",
     "words": [
-      "anime",
-      "art",
-      "23"
-    ]
+      "miku",
+      "nakano"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1356",
-    "name": "Anime Art #24 (おやき)",
+    "name": "Kyoujurou Rengoku",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/41af0799-df78-4eac-be0b-a58fef362c04.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b129133-VlTPowwt68rJ.png",
     "format": "PNG",
     "color": "ef4444",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "kyoujurou",
+      "rengoku"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart24",
+    "isKnownPortrait": true,
+    "normName": "kyoujurourengoku",
     "words": [
-      "anime",
-      "art",
-      "24"
-    ]
+      "kyoujurou",
+      "rengoku"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1357",
-    "name": "Anime Art #25 (xiwa)",
+    "name": "Rei Ayanami",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/0a735338-697a-4804-b51d-bf3c973b8dd2.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/86-cA1zL7fyls8E.jpg",
     "format": "PNG",
     "color": "06b6d4",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "rei",
+      "ayanami"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart25xiwa",
+    "isKnownPortrait": true,
+    "normName": "reiayanami",
     "words": [
-      "anime",
-      "art",
-      "25",
-      "xiwa"
-    ]
+      "rei",
+      "ayanami"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1358",
-    "name": "Anime Art #26 (のくはし)",
+    "name": "Roxy Migurdia",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/3dcbd9a7-a6ed-406c-9a31-f400469eb5c9.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b88350-QU1iwgZ887U8.png",
     "format": "PNG",
     "color": "22c55e",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "roxy",
+      "migurdia"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart26",
+    "isKnownPortrait": true,
+    "normName": "roxymigurdia",
     "words": [
-      "anime",
-      "art",
-      "26"
-    ]
+      "roxy",
+      "migurdia"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1359",
-    "name": "Anime Art #27 (Theo)",
+    "name": "Yuuta Okkotsu",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/0ad5bf45-f59a-4aff-a629-d719722a11b0.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b129571-GHJk7gviHOOw.jpg",
     "format": "PNG",
     "color": "ec4899",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "yuuta",
+      "okkotsu"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart27theo",
+    "isKnownPortrait": true,
+    "normName": "yuutaokkotsu",
     "words": [
-      "anime",
-      "art",
-      "27",
-      "theo"
-    ]
+      "yuuta",
+      "okkotsu"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1360",
-    "name": "Anime Art #28 (十飴)",
+    "name": "Kana Arima",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/6ff33df4-c3b6-49ca-b497-05c2350cc14f.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b188783-77orwP7vNuNg.png",
     "format": "PNG",
     "color": "14b8a6",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "kana",
+      "arima"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart28",
+    "isKnownPortrait": true,
+    "normName": "kanaarima",
     "words": [
-      "anime",
-      "art",
-      "28"
-    ]
+      "kana",
+      "arima"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1361",
-    "name": "Anime Art #29 (ikuri)",
+    "name": "Sakuta Azusagawa",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/2ec90886-b2d3-4cd3-9390-8ab68b3855e0.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/n127221-Wxg4xFtW4kaJ.png",
     "format": "PNG",
     "color": "eab308",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "sakuta",
+      "azusagawa"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart29ikuri",
+    "isKnownPortrait": true,
+    "normName": "sakutaazusagawa",
     "words": [
-      "anime",
-      "art",
-      "29",
-      "ikuri"
-    ]
+      "sakuta",
+      "azusagawa"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1362",
-    "name": "Anime Art #30 (むおん)",
+    "name": "Kyou Souma",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/d89ab5c1-5422-4334-a638-48b6463bcd15.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b209-NOAbiLvJt1QA.png",
     "format": "PNG",
     "color": "6366f1",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "kyou",
+      "souma"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart30",
+    "isKnownPortrait": true,
+    "normName": "kyousouma",
     "words": [
-      "anime",
-      "art",
-      "30"
-    ]
+      "kyou",
+      "souma"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1363",
-    "name": "Anime Art #31 (ruthie)",
+    "name": "Johan Liebert",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/7edc391a-8f4e-4fa8-b8ec-ea497e80c13e.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b719-y984mDWyGf5n.jpg",
     "format": "PNG",
     "color": "f43f5e",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "johan",
+      "liebert"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart31ruthie",
+    "isKnownPortrait": true,
+    "normName": "johanliebert",
     "words": [
-      "anime",
-      "art",
-      "31",
-      "ruthie"
-    ]
+      "johan",
+      "liebert"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1364",
-    "name": "Anime Art #32 (To___e)",
+    "name": "Misato Katsuragi",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/430ac997-2831-452c-8a24-ab2104ca5988.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b1259-afTQkZ5SVMOn.png",
     "format": "PNG",
     "color": "10b981",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "misato",
+      "katsuragi"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart32toe",
+    "isKnownPortrait": true,
+    "normName": "misatokatsuragi",
     "words": [
-      "anime",
-      "art",
-      "32",
-      "to",
-      "e"
-    ]
+      "misato",
+      "katsuragi"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1365",
-    "name": "Anime Art #33 (Resan)",
+    "name": "Shouya Ishida",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/29d49c6e-c1c6-4cea-a919-32fdf6d8ba87.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b80491-NK6pxb6oH61P.png",
     "format": "PNG",
     "color": "facc15",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "shouya",
+      "ishida"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart33resan",
+    "isKnownPortrait": true,
+    "normName": "shouyaishida",
     "words": [
-      "anime",
-      "art",
-      "33",
-      "resan"
-    ]
+      "shouya",
+      "ishida"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1366",
-    "name": "Anime Art #34 (ひをかわ_)",
+    "name": "Ray",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/781fc99c-6cd7-4642-a20e-6b38c34d59bd.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b121724-SJTdODjeO7e6.jpg",
     "format": "PNG",
     "color": "ff6b9d",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "ray"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart34",
+    "isKnownPortrait": true,
+    "normName": "ray",
     "words": [
-      "anime",
-      "art",
-      "34"
-    ]
+      "ray"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1367",
-    "name": "Anime Art #35 (いむた)",
+    "name": "Ai Hayasaka",
     "category": "anime-art",
-    "categoryLabel": "🌸 Anime Art",
-    "url": "https://nekos.best/api/v2/husbando/77e3e0c3-7727-4e75-b8d9-62453ebed1d6.png",
+    "categoryLabel": "⛩️ Anime Legends",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b121104-7TYRl3EEsDYU.png",
     "format": "PNG",
     "color": "38bdf8",
     "aliases": [
       "anime",
-      "waifu"
+      "legend",
+      "ai",
+      "hayasaka"
     ],
     "isVector": false,
     "isKnownDark": false,
-    "isKnownPortrait": false,
-    "normName": "animeart35",
+    "isKnownPortrait": true,
+    "normName": "aihayasaka",
     "words": [
-      "anime",
-      "art",
-      "35"
-    ]
+      "ai",
+      "hayasaka"
+    ],
+    "isTransparent": false
   },
   {
     "id": "av_1368",
@@ -35579,7 +35978,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "patrick",
       "star"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1534",
@@ -35601,7 +36001,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "sandy",
       "cheeks"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1535",
@@ -35623,7 +36024,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "flying",
       "dutchman"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1536",
@@ -35645,7 +36047,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "karen",
       "plankton"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1537",
@@ -35668,7 +36071,8 @@ export const AVATAR_CATALOG = [
       "gary",
       "the",
       "snail"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1538",
@@ -35690,7 +36094,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mrs",
       "puff"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1539",
@@ -35713,7 +36118,8 @@ export const AVATAR_CATALOG = [
       "spongebob",
       "squarepants",
       "character"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1540",
@@ -35734,7 +36140,8 @@ export const AVATAR_CATALOG = [
     "normName": "plankton",
     "words": [
       "plankton"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1541",
@@ -35756,7 +36163,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "squidward",
       "tentacles"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1542",
@@ -35778,7 +36186,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "pearl",
       "krabs"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1543",
@@ -35800,7 +36209,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mr",
       "krabs"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1544",
@@ -35823,7 +36233,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "eric",
       "cartman"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1545",
@@ -35846,7 +36257,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "wendy",
       "testaburger"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1546",
@@ -35869,7 +36281,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "tweek",
       "tweak"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1547",
@@ -35892,7 +36305,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "butters",
       "stotch"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1548",
@@ -35915,7 +36329,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "tolkien",
       "black"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1549",
@@ -35938,7 +36353,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mr",
       "garrison"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1550",
@@ -35961,7 +36377,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "craig",
       "tucker"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1551",
@@ -35984,7 +36401,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "jimmy",
       "valmer"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1552",
@@ -36007,7 +36425,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "randy",
       "marsh"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1553",
@@ -36030,7 +36449,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "stan",
       "marsh"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1554",
@@ -36053,7 +36473,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "kyle",
       "broflovski"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1555",
@@ -36076,7 +36497,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "kenny",
       "mccormick"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1556",
@@ -36100,7 +36522,8 @@ export const AVATAR_CATALOG = [
     "normName": "goku",
     "words": [
       "goku"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1557",
@@ -36124,7 +36547,8 @@ export const AVATAR_CATALOG = [
     "normName": "vegeta",
     "words": [
       "vegeta"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1558",
@@ -36148,7 +36572,8 @@ export const AVATAR_CATALOG = [
     "normName": "piccolo",
     "words": [
       "piccolo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1559",
@@ -36172,7 +36597,8 @@ export const AVATAR_CATALOG = [
     "normName": "bulma",
     "words": [
       "bulma"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1560",
@@ -36196,7 +36622,8 @@ export const AVATAR_CATALOG = [
     "normName": "freezer",
     "words": [
       "freezer"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1561",
@@ -36220,7 +36647,8 @@ export const AVATAR_CATALOG = [
     "normName": "zarbon",
     "words": [
       "zarbon"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1562",
@@ -36244,7 +36672,8 @@ export const AVATAR_CATALOG = [
     "normName": "dodoria",
     "words": [
       "dodoria"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1563",
@@ -36268,7 +36697,8 @@ export const AVATAR_CATALOG = [
     "normName": "ginyu",
     "words": [
       "ginyu"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1564",
@@ -36292,7 +36722,8 @@ export const AVATAR_CATALOG = [
     "normName": "celula",
     "words": [
       "celula"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1565",
@@ -36316,7 +36747,8 @@ export const AVATAR_CATALOG = [
     "normName": "gohan",
     "words": [
       "gohan"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1566",
@@ -36340,7 +36772,8 @@ export const AVATAR_CATALOG = [
     "normName": "krillin",
     "words": [
       "krillin"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1567",
@@ -36364,7 +36797,8 @@ export const AVATAR_CATALOG = [
     "normName": "tenshinhan",
     "words": [
       "tenshinhan"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1568",
@@ -36388,7 +36822,8 @@ export const AVATAR_CATALOG = [
     "normName": "yamcha",
     "words": [
       "yamcha"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1569",
@@ -36413,7 +36848,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "chi",
       "chi"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1570",
@@ -36437,7 +36873,8 @@ export const AVATAR_CATALOG = [
     "normName": "gotenks",
     "words": [
       "gotenks"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1571",
@@ -36461,7 +36898,8 @@ export const AVATAR_CATALOG = [
     "normName": "trunks",
     "words": [
       "trunks"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1572",
@@ -36486,7 +36924,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "master",
       "roshi"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1573",
@@ -36510,7 +36949,8 @@ export const AVATAR_CATALOG = [
     "normName": "bardock",
     "words": [
       "bardock"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1574",
@@ -36534,7 +36974,8 @@ export const AVATAR_CATALOG = [
     "normName": "launch",
     "words": [
       "launch"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1575",
@@ -36559,7 +37000,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mr",
       "satan"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1576",
@@ -36583,7 +37025,8 @@ export const AVATAR_CATALOG = [
     "normName": "dende",
     "words": [
       "dende"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1577",
@@ -36608,7 +37051,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "android",
       "17"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1578",
@@ -36633,7 +37077,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "android",
       "16"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1579",
@@ -36658,7 +37103,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "android",
       "19"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1580",
@@ -36685,7 +37131,8 @@ export const AVATAR_CATALOG = [
       "20",
       "dr",
       "gero"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1581",
@@ -36710,7 +37157,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "android",
       "13"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1582",
@@ -36735,7 +37183,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "android",
       "14"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1583",
@@ -36760,7 +37209,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "android",
       "15"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1584",
@@ -36784,7 +37234,8 @@ export const AVATAR_CATALOG = [
     "normName": "nail",
     "words": [
       "nail"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1585",
@@ -36808,7 +37259,8 @@ export const AVATAR_CATALOG = [
     "normName": "raditz",
     "words": [
       "raditz"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1586",
@@ -36832,7 +37284,8 @@ export const AVATAR_CATALOG = [
     "normName": "babidi",
     "words": [
       "babidi"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1587",
@@ -36857,7 +37310,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "majin",
       "buu"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1588",
@@ -36881,7 +37335,8 @@ export const AVATAR_CATALOG = [
     "normName": "bills",
     "words": [
       "bills"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1589",
@@ -36905,7 +37360,8 @@ export const AVATAR_CATALOG = [
     "normName": "whis",
     "words": [
       "whis"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1590",
@@ -36929,7 +37385,8 @@ export const AVATAR_CATALOG = [
     "normName": "zeno",
     "words": [
       "zeno"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1591",
@@ -36954,7 +37411,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "kibito",
       "shin"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1592",
@@ -36978,7 +37436,8 @@ export const AVATAR_CATALOG = [
     "normName": "jiren",
     "words": [
       "jiren"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1593",
@@ -37002,7 +37461,8 @@ export const AVATAR_CATALOG = [
     "normName": "toppo",
     "words": [
       "toppo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1594",
@@ -37026,7 +37486,8 @@ export const AVATAR_CATALOG = [
     "normName": "dyspo",
     "words": [
       "dyspo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1595",
@@ -37050,7 +37511,8 @@ export const AVATAR_CATALOG = [
     "normName": "marcarita",
     "words": [
       "marcarita"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1596",
@@ -38412,7 +38874,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "c",
       "3po"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1658",
@@ -38436,7 +38899,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "r2",
       "d2"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1659",
@@ -38484,7 +38948,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "leia",
       "organa"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1661",
@@ -38508,7 +38973,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "owen",
       "lars"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1662",
@@ -38557,7 +39023,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "r5",
       "d4"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1664",
@@ -38677,7 +39144,8 @@ export const AVATAR_CATALOG = [
     "normName": "chewbacca",
     "words": [
       "chewbacca"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1669",
@@ -38749,7 +39217,8 @@ export const AVATAR_CATALOG = [
       "jabba",
       "desilijic",
       "tiure"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1672",
@@ -38773,7 +39242,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "wedge",
       "antilles"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1673",
@@ -38844,7 +39314,8 @@ export const AVATAR_CATALOG = [
     "normName": "palpatine",
     "words": [
       "palpatine"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1676",
@@ -38868,7 +39339,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "boba",
       "fett"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1677",
@@ -38892,7 +39364,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "ig",
       "88"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1678",
@@ -38962,7 +39435,8 @@ export const AVATAR_CATALOG = [
     "normName": "lobot",
     "words": [
       "lobot"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1681",
@@ -38985,7 +39459,8 @@ export const AVATAR_CATALOG = [
     "normName": "ackbar",
     "words": [
       "ackbar"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1682",
@@ -39009,7 +39484,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mon",
       "mothma"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1683",
@@ -39082,7 +39558,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "nien",
       "nunb"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1686",
@@ -39699,7 +40176,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "morty",
       "smith"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1713",
@@ -39762,7 +40240,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "jerry",
       "smith"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1716",
@@ -40722,7 +41201,8 @@ export const AVATAR_CATALOG = [
     "normName": "pikachu",
     "words": [
       "pikachu"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1762",
@@ -40742,7 +41222,8 @@ export const AVATAR_CATALOG = [
     "normName": "bulbasaur",
     "words": [
       "bulbasaur"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1763",
@@ -40762,7 +41243,8 @@ export const AVATAR_CATALOG = [
     "normName": "charmander",
     "words": [
       "charmander"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1764",
@@ -40782,7 +41264,8 @@ export const AVATAR_CATALOG = [
     "normName": "squirtle",
     "words": [
       "squirtle"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1765",
@@ -40802,7 +41285,8 @@ export const AVATAR_CATALOG = [
     "normName": "charizard",
     "words": [
       "charizard"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1766",
@@ -40822,7 +41306,8 @@ export const AVATAR_CATALOG = [
     "normName": "blastoise",
     "words": [
       "blastoise"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1767",
@@ -40842,7 +41327,8 @@ export const AVATAR_CATALOG = [
     "normName": "venusaur",
     "words": [
       "venusaur"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1768",
@@ -40862,7 +41348,8 @@ export const AVATAR_CATALOG = [
     "normName": "snorlax",
     "words": [
       "snorlax"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1769",
@@ -40882,7 +41369,8 @@ export const AVATAR_CATALOG = [
     "normName": "mewtwo",
     "words": [
       "mewtwo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1770",
@@ -40902,7 +41390,8 @@ export const AVATAR_CATALOG = [
     "normName": "mew",
     "words": [
       "mew"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1771",
@@ -40922,7 +41411,8 @@ export const AVATAR_CATALOG = [
     "normName": "gengar",
     "words": [
       "gengar"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1772",
@@ -40942,7 +41432,8 @@ export const AVATAR_CATALOG = [
     "normName": "eevee",
     "words": [
       "eevee"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1773",
@@ -40962,7 +41453,8 @@ export const AVATAR_CATALOG = [
     "normName": "vaporeon",
     "words": [
       "vaporeon"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1774",
@@ -40982,7 +41474,8 @@ export const AVATAR_CATALOG = [
     "normName": "jolteon",
     "words": [
       "jolteon"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1775",
@@ -41002,7 +41495,8 @@ export const AVATAR_CATALOG = [
     "normName": "flareon",
     "words": [
       "flareon"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1776",
@@ -41022,7 +41516,8 @@ export const AVATAR_CATALOG = [
     "normName": "espeon",
     "words": [
       "espeon"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1777",
@@ -41042,7 +41537,8 @@ export const AVATAR_CATALOG = [
     "normName": "umbreon",
     "words": [
       "umbreon"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1778",
@@ -41062,7 +41558,8 @@ export const AVATAR_CATALOG = [
     "normName": "gyarados",
     "words": [
       "gyarados"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1779",
@@ -41082,7 +41579,8 @@ export const AVATAR_CATALOG = [
     "normName": "lapras",
     "words": [
       "lapras"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1780",
@@ -41102,7 +41600,8 @@ export const AVATAR_CATALOG = [
     "normName": "psyduck",
     "words": [
       "psyduck"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1781",
@@ -41122,7 +41621,8 @@ export const AVATAR_CATALOG = [
     "normName": "jigglypuff",
     "words": [
       "jigglypuff"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1782",
@@ -41142,7 +41642,8 @@ export const AVATAR_CATALOG = [
     "normName": "meowth",
     "words": [
       "meowth"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1783",
@@ -41162,7 +41663,8 @@ export const AVATAR_CATALOG = [
     "normName": "arcanine",
     "words": [
       "arcanine"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1784",
@@ -41182,7 +41684,8 @@ export const AVATAR_CATALOG = [
     "normName": "alakazam",
     "words": [
       "alakazam"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1785",
@@ -41202,7 +41705,8 @@ export const AVATAR_CATALOG = [
     "normName": "machamp",
     "words": [
       "machamp"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1786",
@@ -41222,7 +41726,8 @@ export const AVATAR_CATALOG = [
     "normName": "golem",
     "words": [
       "golem"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1787",
@@ -41242,7 +41747,8 @@ export const AVATAR_CATALOG = [
     "normName": "rapidash",
     "words": [
       "rapidash"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1788",
@@ -41262,7 +41768,8 @@ export const AVATAR_CATALOG = [
     "normName": "exeggutor",
     "words": [
       "exeggutor"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1789",
@@ -41282,7 +41789,8 @@ export const AVATAR_CATALOG = [
     "normName": "hitmonchan",
     "words": [
       "hitmonchan"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1790",
@@ -41302,7 +41810,8 @@ export const AVATAR_CATALOG = [
     "normName": "scyther",
     "words": [
       "scyther"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1791",
@@ -41323,7 +41832,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mhf",
       "steve"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1792",
@@ -41344,7 +41854,8 @@ export const AVATAR_CATALOG = [
     "words": [
       "mhf",
       "alex"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1793",
@@ -41364,7 +41875,8 @@ export const AVATAR_CATALOG = [
     "normName": "notch",
     "words": [
       "notch"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1794",
@@ -41384,7 +41896,8 @@ export const AVATAR_CATALOG = [
     "normName": "jeb",
     "words": [
       "jeb"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1795",
@@ -41404,7 +41917,8 @@ export const AVATAR_CATALOG = [
     "normName": "dinnerbone",
     "words": [
       "dinnerbone"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1796",
@@ -41424,7 +41938,8 @@ export const AVATAR_CATALOG = [
     "normName": "grumm",
     "words": [
       "grumm"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1797",
@@ -41444,7 +41959,8 @@ export const AVATAR_CATALOG = [
     "normName": "dream",
     "words": [
       "dream"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1798",
@@ -41464,7 +41980,8 @@ export const AVATAR_CATALOG = [
     "normName": "technoblade",
     "words": [
       "technoblade"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1799",
@@ -41484,7 +42001,8 @@ export const AVATAR_CATALOG = [
     "normName": "georgenotfound",
     "words": [
       "georgenotfound"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1800",
@@ -41504,7 +42022,8 @@ export const AVATAR_CATALOG = [
     "normName": "dantdm",
     "words": [
       "dantdm"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1801",
@@ -41524,7 +42043,8 @@ export const AVATAR_CATALOG = [
     "normName": "captainsparklez",
     "words": [
       "captainsparklez"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1802",
@@ -41544,7 +42064,8 @@ export const AVATAR_CATALOG = [
     "normName": "stampy",
     "words": [
       "stampy"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1803",
@@ -41564,7 +42085,8 @@ export const AVATAR_CATALOG = [
     "normName": "mumbo",
     "words": [
       "mumbo"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1804",
@@ -41584,7 +42106,8 @@ export const AVATAR_CATALOG = [
     "normName": "grian",
     "words": [
       "grian"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1805",
@@ -41604,7 +42127,8 @@ export const AVATAR_CATALOG = [
     "normName": "etho",
     "words": [
       "etho"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1806",
@@ -41624,7 +42148,8 @@ export const AVATAR_CATALOG = [
     "normName": "bdoubleo100",
     "words": [
       "bdoubleo100"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1807",
@@ -41644,7 +42169,8 @@ export const AVATAR_CATALOG = [
     "normName": "docm77",
     "words": [
       "docm77"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1808",
@@ -41664,7 +42190,8 @@ export const AVATAR_CATALOG = [
     "normName": "xisuma",
     "words": [
       "xisuma"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1809",
@@ -41684,7 +42211,8 @@ export const AVATAR_CATALOG = [
     "normName": "keralis",
     "words": [
       "keralis"
-    ]
+    ],
+    "isTransparent": true
   },
   {
     "id": "av_1810",
@@ -41704,271 +42232,115 @@ export const AVATAR_CATALOG = [
     "normName": "iskall85",
     "words": [
       "iskall85"
-    ]
+    ],
+    "isTransparent": true
   }
 ];
 
-export function normalizeText(str) {
-  return (str || '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]/g, '');
-}
+// Fast in-memory index for search
+const NAME_INDEX = AVATAR_CATALOG.map((item, idx) => ({
+  idx,
+  id: item.id,
+  normName: item.normName,
+  words: item.words,
+  category: item.category,
+  aliases: item.aliases || []
+}));
 
-export function damerauLevenshtein(a, b) {
-  const al = a.length;
-  const bl = b.length;
-  if (!al) return bl;
-  if (!bl) return al;
+export function searchAvatars(query, selectedCategory = 'all') {
+  if (!query || query.trim() === '') {
+    if (selectedCategory === 'all') return AVATAR_CATALOG;
+    return AVATAR_CATALOG.filter(a => a.category === selectedCategory);
+  }
 
-  const m = [];
-  for (let i = 0; i <= al; i++) m[i] = [i];
-  for (let j = 0; j <= bl; j++) m[0][j] = j;
+  const q = query.toLowerCase().trim();
+  const qClean = q.replace(/[^a-z0-9]/g, '');
+  const qWords = q.split(/[^a-z0-9]+/).filter(Boolean);
 
-  for (let i = 1; i <= al; i++) {
-    for (let j = 1; j <= bl; j++) {
-      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
-      m[i][j] = Math.min(
-        m[i - 1][j] + 1,
-        m[i][j - 1] + 1,
-        m[i - 1][j - 1] + cost
-      );
-      if (i > 1 && j > 1 && a[i - 1] === b[j - 2] && a[i - 2] === b[j - 1]) {
-        m[i][j] = Math.min(m[i][j], m[i - 2][j - 2] + cost);
+  const matchedIndices = [];
+
+  for (let i = 0; i < NAME_INDEX.length; i++) {
+    const item = NAME_INDEX[i];
+    if (selectedCategory !== 'all' && item.category !== selectedCategory) {
+      continue;
+    }
+
+    // Exact name match or substring
+    if (item.normName.includes(qClean)) {
+      matchedIndices.push({ idx: i, score: 100 });
+      continue;
+    }
+
+    // Check words match
+    let wordMatches = 0;
+    for (const qw of qWords) {
+      if (item.words.some(w => w.startsWith(qw) || qw.startsWith(w))) {
+        wordMatches++;
       }
     }
-  }
-  return m[al][bl];
-}
-
-export function computeFuzzyScore(query, item) {
-  const q = normalizeText(query);
-  if (!q) return 0;
-
-  const t = item.normName;
-  let score = 0;
-
-  // 1. Exact full name match
-  if (t === q) {
-    return 1000;
-  }
-
-  // 2. Exact word / token match
-  for (const w of item.words) {
-    if (w === q) {
-      return 850;
+    if (wordMatches > 0) {
+      matchedIndices.push({ idx: i, score: 50 + wordMatches * 10 });
+      continue;
     }
-  }
 
-  // 3. Name starts with query
-  if (t.startsWith(q)) {
-    return 750 + Math.min(50, (q.length / t.length) * 50);
-  }
-
-  // 4. Any word starts with query
-  for (const w of item.words) {
-    if (w.startsWith(q)) {
-      score = Math.max(score, 650 + Math.min(40, (q.length / w.length) * 40));
+    // Check aliases
+    if (item.aliases.some(a => a.includes(q))) {
+      matchedIndices.push({ idx: i, score: 40 });
+      continue;
     }
-  }
 
-  // 5. Name contains query
-  if (t.includes(q)) {
-    score = Math.max(score, 550 + Math.min(30, (q.length / t.length) * 30));
-  }
-
-  // 6. Check aliases & keywords
-  for (const al of item.aliases) {
-    const nal = normalizeText(al);
-    if (nal === q) {
-      score = Math.max(score, 500);
-    } else if (nal.startsWith(q)) {
-      score = Math.max(score, 450);
-    } else if (nal.includes(q)) {
-      score = Math.max(score, 380);
-    }
-  }
-
-  // 7. Category name match
-  const catNorm = normalizeText(item.categoryLabel);
-  if (catNorm.includes(q)) {
-    score = Math.max(score, 350);
-  }
-
-  // 8. Typo-Tolerant Matching (Damerau-Levenshtein distance)
-  let minDistance = damerauLevenshtein(q, t);
-
-  for (const w of item.words) {
-    const wd = damerauLevenshtein(q, w);
-    if (wd < minDistance) minDistance = wd;
-  }
-
-  for (const al of item.aliases) {
-    const ad = damerauLevenshtein(q, normalizeText(al));
-    if (ad < minDistance) minDistance = ad;
-  }
-
-  const maxAllowed = q.length <= 3 ? 1 : q.length <= 6 ? 2 : 3;
-
-  if (minDistance <= maxAllowed) {
-    let typoScore = 320 - (minDistance * 70);
-    if (t.length > 0 && q.length > 0 && t[0] === q[0]) {
-      typoScore += 30;
-    }
-    const lenDiff = Math.abs(q.length - t.length);
-    typoScore -= Math.min(20, lenDiff * 2);
-
-    score = Math.max(score, typoScore);
-  }
-
-  // 9. Subsequence match
-  if (q.length >= 3) {
-    let qi = 0;
-    for (let ti = 0; ti < t.length && qi < q.length; ti++) {
-      if (t[ti] === q[qi]) qi++;
-    }
-    if (qi === q.length) {
-      score = Math.max(score, 180 + (q.length / t.length) * 40);
-    }
-  }
-
-  return score;
-}
-
-export function searchAvatars(query, category = 'all', limit = 60) {
-  const cleanQuery = (query || '').trim();
-  if (!cleanQuery) {
-    return getAvatarsByCategory(category, 0, limit);
-  }
-
-  const isGroup = CATEGORY_GROUPS[category];
-  const groupSet = isGroup ? new Set(CATEGORY_GROUPS[category]) : null;
-
-  const results = [];
-  for (let i = 0; i < AVATAR_CATALOG.length; i++) {
-    const item = AVATAR_CATALOG[i];
-    if (category !== 'all') {
-      if (groupSet) {
-        if (!groupSet.has(item.category)) continue;
-      } else if (item.category !== category) {
-        continue;
+    // Fuzzy tolerance (typo tolerance: 1 character difference for queries > 3 chars)
+    if (qClean.length >= 3) {
+      let matchedFuzzy = false;
+      for (const w of item.words) {
+        if (Math.abs(w.length - qClean.length) <= 2) {
+          let diff = 0;
+          const minL = Math.min(w.length, qClean.length);
+          for (let c = 0; c < minL; c++) {
+            if (w[c] !== qClean[c]) diff++;
+          }
+          diff += Math.abs(w.length - qClean.length);
+          if (diff <= 2) {
+            matchedIndices.push({ idx: i, score: 20 });
+            matchedFuzzy = true;
+            break;
+          }
+        }
       }
-    }
-
-    const score = computeFuzzyScore(cleanQuery, item);
-    if (score >= 120) {
-      results.push({ item, score });
+      if (matchedFuzzy) continue;
     }
   }
 
-  results.sort((a, b) => b.score - a.score);
-  return results.slice(0, limit).map(r => r.item);
+  matchedIndices.sort((a, b) => b.score - a.score);
+  return matchedIndices.map(m => AVATAR_CATALOG[m.idx]);
 }
 
-// Session-randomized all-avatars list (Fisher-Yates shuffle)
-let SHUFFLED_ALL_CATALOG = null;
-
-export function getRandomizedAllAvatars(forceReshuffle = false) {
-  if (!SHUFFLED_ALL_CATALOG || forceReshuffle) {
-    const copy = [...AVATAR_CATALOG];
-    for (let i = copy.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [copy[i], copy[j]] = [copy[j], copy[i]];
-    }
-    SHUFFLED_ALL_CATALOG = copy;
-  }
-  return SHUFFLED_ALL_CATALOG;
-}
-
-export function reshuffleAllAvatars() {
-  return getRandomizedAllAvatars(true);
-}
-
-export function getAvatarsByCategory(category = 'all', offset = 0, limit = 32) {
-  let filtered;
-  if (category === 'all') {
-    filtered = getRandomizedAllAvatars();
-  } else if (CATEGORY_GROUPS[category]) {
-    const groupSet = new Set(CATEGORY_GROUPS[category]);
-    filtered = AVATAR_CATALOG.filter(it => groupSet.has(it.category));
-  } else {
-    filtered = AVATAR_CATALOG.filter(it => it.category === category);
-  }
-  return filtered.slice(offset, offset + limit);
+export function getAvatarsByCategory(categoryId) {
+  if (!categoryId || categoryId === 'all') return AVATAR_CATALOG;
+  return AVATAR_CATALOG.filter(a => a.category === categoryId);
 }
 
 export function getAvatarMeta(urlOrId) {
-  if (!urlOrId) {
-    return {
-      name: 'Aman',
-      category: 'founders',
-      categoryLabel: '👑 Founders',
-      url: '/avvtar/aman.svg',
-      format: 'SVG',
-      color: 'ff6b9d',
-      isKnownDark: false,
-      isKnownPortrait: false,
-      isTransparent: true,
-      isVector: true
-    };
-  }
-
-  const trimmed = (urlOrId || '').trim();
-
-  // If data URI (custom upload)
-  if (trimmed.startsWith('data:')) {
-    const isSvg = trimmed.includes('image/svg+xml');
-    const isGif = trimmed.includes('image/gif');
-    return {
-      name: 'Custom Avatar',
-      category: 'custom',
-      categoryLabel: '📤 Custom Upload',
-      url: trimmed,
-      format: isSvg ? 'SVG' : (isGif ? 'GIF' : 'IMG'),
-      color: '38bdf8',
-      isKnownDark: false,
-      isKnownPortrait: false,
-      isTransparent: isSvg || isGif,
-      isVector: isSvg
-    };
-  }
-
-  // Lookup in catalog by URL, id, or name
-  const lower = trimmed.toLowerCase();
-  const found = AVATAR_CATALOG.find(it => 
-    it.url === trimmed || 
-    it.id === trimmed || 
-    it.name.toLowerCase() === lower ||
-    (it.category === 'founders' && (it.url.includes(trimmed) || it.name.toLowerCase() === lower))
-  );
-
-  if (found) return found;
-
-  // Fallback for Dicebear, local or external url
-  const isSvg = trimmed.endsWith('.svg');
-  return {
+  if (!urlOrId) return AVATAR_CATALOG[0];
+  const found = AVATAR_CATALOG.find(a => a.url === urlOrId || a.id === urlOrId);
+  return found || {
+    id: 'unknown',
     name: 'Player Avatar',
     category: 'custom',
-    categoryLabel: '✨ Avatar',
-    url: trimmed,
-    format: isSvg ? 'SVG' : 'PNG',
+    categoryLabel: '✨ Custom Avatar',
+    url: urlOrId,
+    format: urlOrId.includes('.svg') ? 'SVG' : 'PNG',
     color: 'facc15',
-    isKnownDark: trimmed.includes('thronesapi.com') || trimmed.includes('tvmaze.com'),
-    isKnownPortrait: trimmed.includes('anilist.co') || trimmed.includes('tvmaze.com'),
-    isTransparent: isSvg || trimmed.includes('dicebear.com') || trimmed.includes('/avvtar/'),
-    isVector: isSvg
+    isTransparent: urlOrId.includes('.svg') || urlOrId.includes('/avvtar/'),
+    isVector: urlOrId.includes('.svg')
   };
 }
 
-export default {
-  AVATAR_CATEGORIES,
-  CATEGORY_GROUPS,
-  AVATAR_CATALOG,
-  searchAvatars,
-  getAvatarsByCategory,
-  getRandomizedAllAvatars,
-  reshuffleAllAvatars,
-  getAvatarMeta,
-  computeFuzzyScore
-};
+export function reshuffleAllAvatars() {
+  const mix = [...AVATAR_CATALOG];
+  for (let i = mix.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [mix[i], mix[j]] = [mix[j], mix[i]];
+  }
+  return mix;
+}

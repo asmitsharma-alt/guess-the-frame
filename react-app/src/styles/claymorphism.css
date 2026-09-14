@@ -9050,28 +9050,27 @@
       box-shadow: 5px 5px 0 #1a1a1a;
     }
 
-    /* Uncropped Portrait Zoom: top-anchored (center 2%) with scale so head/hair is never cropped */
+    /* Perfectly Centered Portrait Fit: centered with gentle top balance without forehead cutoffs */
     .mp-circular-avatar-btn img.img-portrait-zoom,
     .mp-hero-preview-img.img-portrait-zoom {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 2%;
-      transform: scale(1.15);
-      transform-origin: center top;
+      object-position: center 10%;
+      transform: none;
       border-radius: 11px;
       pointer-events: none;
       display: block;
     }
 
-    /* Standard Cover Zoom */
+    /* Standard Centered Cover Fit: balanced 1:1 square crop without edge-cutting transforms */
     .mp-circular-avatar-btn img.img-cover-zoom,
     .mp-hero-preview-img.img-cover-zoom {
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center center;
-      transform: scale(1.05);
+      transform: none;
       border-radius: 11px;
       pointer-events: none;
       display: block;
@@ -9088,7 +9087,7 @@
       border-radius: 11px;
       pointer-events: none;
       display: block;
-      padding: 3px !important;
+      padding: 4px !important;
       box-sizing: border-box !important;
     }
 

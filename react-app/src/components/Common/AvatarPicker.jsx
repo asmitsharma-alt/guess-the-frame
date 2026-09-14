@@ -12,13 +12,37 @@ import {
 const INITIAL_BATCH = 48;
 const BATCH_INCREMENT = 32;
 
+export const TRANSPARENT_CATEGORIES = new Set([
+  'doraemon', 'pokemon', 'minecraft', 'dragon-ball', 'south-park',
+  'spongebob', 'ben-10', 'adventure-time', 'founders', 'the-simpsons',
+  'futurama', 'bobs-burgers', 'final-space', 'disney', 'overwatch', 'genshin'
+]);
+
+export function isAvatarTransparent(item, detectedMap = {}) {
+  if (!item) return false;
+  if (item.isTransparent || item.isVector) return true;
+  const url = item.url || '';
+  if (url.includes('/avvtar/') || url.endsWith('.svg') || url.includes('dicebear.com') ||
+      url.includes('showdown') || url.includes('mc-heads.net') ||
+      url.includes('dragonball-api.com') || url.includes('finalspaceapi.com')) {
+    return true;
+  }
+  if (item.category && TRANSPARENT_CATEGORIES.has(item.category)) {
+    return true;
+  }
+  if (detectedMap[url]) {
+    return true;
+  }
+  return false;
+}
+
 export const CharacterPreviewBadge = ({ selectedAvatar }) => {
   const meta = useMemo(() => getAvatarMeta(selectedAvatar), [selectedAvatar]);
   const previewSrc = getAvatarSrc(meta.url || selectedAvatar, 'aman');
   const previewBg = meta.isKnownDark ? '#111827' : `#${meta.color || 'facc15'}`;
   
   // If background is transparent or image is vector: NEVER zoom, show full image
-  const isTransparent = meta.isTransparent || meta.isVector || (meta.url && (meta.url.includes('/avvtar/') || meta.url.endsWith('.svg') || meta.url.includes('dicebear.com')));
+  const isTransparent = isAvatarTransparent(meta);
   const previewZoom = isTransparent ? 'img-contain-fit' : (meta.isKnownPortrait ? 'img-portrait-zoom' : 'img-cover-zoom');
 
   return (
@@ -32,6 +56,7 @@ export const CharacterPreviewBadge = ({ selectedAvatar }) => {
           alt={meta.name}
           className={`mp-hero-preview-img ${previewZoom}`}
           loading="eager"
+          referrerPolicy="no-referrer"
           onError={(e) => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = '/avvtar/aman.svg';
@@ -91,10 +116,18 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
 
   // Search or category filtered avatars
   const displayedAvatars = useMemo(() => {
+    let list;
     if (searchQuery.trim()) {
-      return searchAvatars(searchQuery.trim(), category, loadedCount);
+      const q = searchQuery.trim();
+      list = searchAvatars(q, category);
+      // If user typed a search query in a specific sub-category and got no results, fall back to global search across all categories
+      if (list.length === 0 && category !== 'all') {
+        list = searchAvatars(q, 'all');
+      }
+    } else {
+      list = getAvatarsByCategory(category);
     }
-    return getAvatarsByCategory(category, 0, loadedCount);
+    return list.slice(0, loadedCount);
   }, [searchQuery, category, loadedCount, shuffleTick]);
 
   // Infinite scroll loader
@@ -215,7 +248,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
 
   const previewSrc = getAvatarSrc(currentAvatarMeta.url, 'aman');
   const previewBg = detectedBgColors[currentAvatarMeta.url] || (currentAvatarMeta.isKnownDark ? '#111827' : `#${currentAvatarMeta.color || 'facc15'}`);
-  const isPreviewTransparent = currentAvatarMeta.isTransparent || currentAvatarMeta.isVector || detectedTransparent[currentAvatarMeta.url] || (currentAvatarMeta.url && (currentAvatarMeta.url.includes('/avvtar/') || currentAvatarMeta.url.endsWith('.svg') || currentAvatarMeta.url.includes('dicebear.com')));
+  const isPreviewTransparent = isAvatarTransparent(currentAvatarMeta, detectedTransparent);
   const previewZoom = isPreviewTransparent ? 'img-contain-fit' : (currentAvatarMeta.isKnownPortrait ? 'img-portrait-zoom' : 'img-cover-zoom');
 
   return (
@@ -232,6 +265,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
               alt={currentAvatarMeta.name}
               className={`mp-hero-preview-img ${previewZoom}`}
               loading="eager"
+              referrerPolicy="no-referrer"
               onError={(e) => {
                 e.currentTarget.onerror = null;
                 e.currentTarget.src = '/avvtar/aman.svg';
@@ -331,7 +365,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
           {displayedAvatars.map((item, idx) => {
             const isSelected = selectedAvatar === item.url || (item.category === 'founders' && selectedAvatar === item.id);
             const cardBg = detectedBgColors[item.url] || (item.isKnownDark ? '#111827' : `#${item.color || 'ffffff'}`);
-            const isCardTransparent = item.isTransparent || item.isVector || detectedTransparent[item.url] || (item.url && (item.url.includes('/avvtar/') || item.url.endsWith('.svg') || item.url.includes('dicebear.com')));
+            const isCardTransparent = isAvatarTransparent(item, detectedTransparent);
             const zoomClass = isCardTransparent ? 'img-contain-fit' : (item.isKnownPortrait ? 'img-portrait-zoom' : 'img-cover-zoom');
 
             return (
@@ -346,8 +380,9 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
                 <img
                   src={item.url}
                   alt={item.name}
-                  loading="lazy"
+                  loading="eager"
                   decoding="async"
+                  referrerPolicy="no-referrer"
                   className={zoomClass}
                   onLoad={(e) => handleImageLoad(e, item)}
                   onError={(e) => {

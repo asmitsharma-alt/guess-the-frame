@@ -17,6 +17,7 @@ export const Avatar = ({ player, className = 'av-img-elem', style = {} }) => {
       src={avSrc}
       alt={safeName}
       className={className}
+      referrerPolicy="no-referrer"
       style={{
         width: '100%',
         height: '100%',
