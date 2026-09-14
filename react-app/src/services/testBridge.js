@@ -1260,16 +1260,20 @@ export function installTestBridge(gameContextRef) {
           this.backendWs = null;
         }
 
-        const wsHost = (typeof window !== 'undefined' && window.location.port === '8080')
-          ? 'localhost:4000'
-          : (typeof window !== 'undefined' ? window.location.host : 'localhost:4000');
-        const wsProto = (typeof window !== 'undefined' && window.location.protocol === 'https:') ? 'wss:' : 'ws:';
-        const wsUrl = `${wsProto}//${wsHost}/ws?room=${this.roomCode}&playerId=${this.playerId}`;
+        const isVercel = typeof window !== 'undefined' && window.location.hostname.endsWith('.vercel.app');
+        const hasExternalWs = Boolean(typeof import.meta !== 'undefined' && import.meta.env?.VITE_WS_URL);
 
-        const socket = new WebSocket(wsUrl);
-        this.backendWs = socket;
+        if (!isVercel || hasExternalWs) {
+          const wsHost = (typeof window !== 'undefined' && window.location.port === '8080')
+            ? 'localhost:4000'
+            : (typeof window !== 'undefined' ? window.location.host : 'localhost:4000');
+          const wsProto = (typeof window !== 'undefined' && window.location.protocol === 'https:') ? 'wss:' : 'ws:';
+          const wsUrl = hasExternalWs ? import.meta.env.VITE_WS_URL : `${wsProto}//${wsHost}/ws?room=${this.roomCode}&playerId=${this.playerId}`;
 
-        socket.onopen = () => {
+          const socket = new WebSocket(wsUrl);
+          this.backendWs = socket;
+
+          socket.onopen = () => {
           this.flushWsQueue();
           if (this.isHost) {
             this.sendEvent('CREATE_ROOM', {
@@ -1305,7 +1309,8 @@ export function installTestBridge(gameContextRef) {
           } catch(e) {}
         };
 
-        socket.onerror = () => {};
+          socket.onerror = () => {};
+        }
       } catch(e) {}
 
       // 3. Multi-Broker MQTT over WebSocket with Automatic Failover (EMQX -> HiveMQ -> Mosquitto)

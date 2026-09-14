@@ -49,14 +49,18 @@ export const CreateRoomModal = ({ isOpen, onClose, onConfirm }) => {
 
   return (
     <div className={`mp-modal-overlay ${isOpen ? 'active' : ''}`} id="createRoomModal">
-      <div className="mp-modal-box">
-        <div className="mp-modal-header">
-          <div className="mp-modal-title">⚡ Create Online Room</div>
+      <div className="mp-modal-box mp-badge-modal-box">
+        {/* Big Badge Header Strip */}
+        <div className="mp-badge-pass-header">
+          <div className="mp-badge-pass-title">
+            <span>⚡ CREATE ONLINE ROOM</span>
+            <span className="mp-badge-pill-tag">HOST PASS</span>
+          </div>
           <button className="mp-modal-close" onClick={onClose}>✕</button>
         </div>
 
-        <div className="mp-form-group">
-          <label className="mp-label">Your Player Name</label>
+        <div className="mp-form-group" style={{ marginBottom: 4 }}>
+          <label className="mp-label">Your Host Player Name</label>
           <input
             type="text"
             id="hostPlayerNameInput"
@@ -68,8 +72,8 @@ export const CreateRoomModal = ({ isOpen, onClose, onConfirm }) => {
           />
         </div>
 
-        <div className="mp-form-group">
-          <label className="mp-label">Select Your Animated Avatar</label>
+        <div className="mp-form-group" style={{ marginBottom: 2 }}>
+          <label className="mp-label">Select Your Character Avatar</label>
           <AvatarPicker
             selectedAvatar={selectedAvatar || 'aman'}
             onSelectAvatar={handleSelectAvatar}
