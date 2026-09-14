@@ -1,4 +1,5 @@
 import React from 'react';
+import { Zap, Gamepad2 } from 'lucide-react';
 import SoundManager from '../services/soundManager';
 
 export const HomeScreen = ({ isActive, onCreateRoom, onJoinRoom }) => {
@@ -56,7 +57,7 @@ export const HomeScreen = ({ isActive, onCreateRoom, onJoinRoom }) => {
             if (typeof onCreateRoom === 'function') onCreateRoom();
           }}
         >
-          <div className="h-card-title-lg">⚡ CREATE ROOM</div>
+          <div className="h-card-title-lg"><Zap size={20} strokeWidth={3} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} /> CREATE ROOM</div>
         </div>
 
         <div
@@ -67,7 +68,7 @@ export const HomeScreen = ({ isActive, onCreateRoom, onJoinRoom }) => {
             if (typeof onJoinRoom === 'function') onJoinRoom();
           }}
         >
-          <div className="h-card-title-lg">🎮 JOIN ROOM</div>
+          <div className="h-card-title-lg"><Gamepad2 size={20} strokeWidth={3} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} /> JOIN ROOM</div>
         </div>
 
 

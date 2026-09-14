@@ -494,10 +494,10 @@ export function installTestBridge(gameContextRef) {
       if (stream) {
         const banner = document.createElement('div');
         banner.className = 'chat-msg-winner';
-        banner.innerHTML = '<div style="font-size:24px;">🎉</div>' +
+        banner.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg></div>' +
           '<div class="chat-winner-text">' +
           '<strong>' + SecurityUtil.escapeHtml(winner.playerName || 'Player') + '</strong> guessed the answer! ' +
-          '<span style="color:#b45309; font-weight:900;">(+' + (winner.points || 10) + ' pts - ' + (winner.position === 1 ? '🥇 1st' : winner.position === 2 ? '🥈 2nd' : '🥉 3rd') + ')</span>' +
+          '<span style="color:#b45309; font-weight:900;">(+' + (winner.points || 10) + ' pts - ' + (winner.position === 1 ? '1st' : winner.position === 2 ? '2nd' : '3rd') + ')</span>' +
           '</div>';
         stream.appendChild(banner);
         stream.scrollTop = stream.scrollHeight;
@@ -528,7 +528,7 @@ export function installTestBridge(gameContextRef) {
           '<div class="chat-msg-body">' +
           '<div class="chat-msg-header">' +
           '<span style="color:#1a1a1a;">' + SecurityUtil.escapeHtml(msg.senderName || 'Player') + '</span>' +
-          (msg.isGuessed ? '<span class="chat-badge-guessed">🏆 GUESSED</span>' : '') +
+          (msg.isGuessed ? '<span class="chat-badge-guessed"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:3px;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>GUESSED</span>' : '') +
           '</div>' +
           '<div class="chat-msg-text">' + SecurityUtil.escapeHtml(msg.text || '') + '</div>' +
           '</div>';
@@ -565,7 +565,7 @@ export function installTestBridge(gameContextRef) {
           this.setPlaceholder('You guessed it! Chat freely (no spoilers)...');
           return;
         } else {
-          this.renderSystemMessage('⚠️ <strong>Shh!</strong> That\'s the answer! Don\'t spoil it in chat! 🤫');
+          this.renderSystemMessage('<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><strong>Shh!</strong> That\'s the answer! Don\'t spoil it in chat!');
           if (typeof SoundManager !== 'undefined' && SoundManager.playPop) {
             SoundManager.playPop();
           }
@@ -574,7 +574,7 @@ export function installTestBridge(gameContextRef) {
       }
 
       if (roundActive && currentAns && this.isAnswerOrSpoiler(text, currentAns)) {
-        this.renderSystemMessage('⚠️ <strong>Shh!</strong> That\'s the answer! Don\'t spoil it in chat! 🤫');
+        this.renderSystemMessage('<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline;vertical-align:middle;margin-right:4px;"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><strong>Shh!</strong> That\'s the answer! Don\'t spoil it in chat!');
         if (typeof SoundManager !== 'undefined' && SoundManager.playPop) {
           SoundManager.playPop();
         }

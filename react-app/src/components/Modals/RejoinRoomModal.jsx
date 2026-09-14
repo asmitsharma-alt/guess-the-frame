@@ -1,4 +1,5 @@
 import React from 'react';
+import { RefreshCw, X } from 'lucide-react';
 import SoundManager from '../../services/soundManager';
 
 export const RejoinRoomModal = ({ isOpen, roomCode, playerName, avatar, onConfirm, onDismiss }) => {
@@ -6,7 +7,7 @@ export const RejoinRoomModal = ({ isOpen, roomCode, playerName, avatar, onConfir
     <div className={`mp-modal-overlay ${isOpen ? 'active' : ''}`} id="rejoinRoomModal">
       <div className="mp-modal-box" style={{ textAlign: 'center', maxWidth: '440px' }}>
         <div className="mp-modal-header" style={{ justifyContent: 'center', position: 'relative' }}>
-          <div className="mp-modal-title" style={{ fontSize: '20px' }}>🔄 Active Match Found!</div>
+          <div className="mp-modal-title" style={{ fontSize: '20px' }}><RefreshCw size={18} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} /> Active Match Found!</div>
           <button
             className="mp-modal-close"
             onClick={() => {
@@ -16,7 +17,7 @@ export const RejoinRoomModal = ({ isOpen, roomCode, playerName, avatar, onConfir
             }}
             style={{ position: 'absolute', right: '12px', top: '12px' }}
           >
-            ✕
+            <X size={16} strokeWidth={3} />
           </button>
         </div>
 

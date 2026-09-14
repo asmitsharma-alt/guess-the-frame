@@ -72,7 +72,7 @@ export const GameProvider = ({ children }) => {
   const [maskedHint, setMaskedHint] = useState(null);
   const [roundWinners, setRoundWinners] = useState([]);
   const [chatMessages, setChatMessages] = useState([
-    { id: 'welcome', type: 'system', text: '🎬 Welcome to Live Guess Stream!' }
+    { id: 'welcome', type: 'system', text: 'Welcome to Live Guess Stream!' }
   ]);
   const [pendingRejoinSession, setPendingRejoinSession] = useState(null);
 

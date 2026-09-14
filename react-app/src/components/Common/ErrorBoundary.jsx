@@ -1,4 +1,5 @@
 import React from 'react';
+import { ClipboardList, Zap, Check } from 'lucide-react';
 
 /**
  * Enterprise Neobrutalist Error Boundary
@@ -83,14 +84,14 @@ export class ErrorBoundary extends React.Component {
                 onClick={this.handleCopyTrace}
                 className="nb-btn nb-btn-info flex-1 py-3 text-xs"
               >
-                {this.state.copied ? '✓ COPIED TO CLIPBOARD' : '📋 COPY ERROR TRACE'}
+                {this.state.copied ? <><Check size={14} strokeWidth={3} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> COPIED TO CLIPBOARD</> : <><ClipboardList size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> COPY ERROR TRACE</>}
               </button>
               <button
                 type="button"
                 onClick={this.handleReboot}
                 className="nb-btn nb-btn-primary flex-1 py-3 text-xs"
               >
-                ⚡ REBOOT INTERFACE
+                <Zap size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> REBOOT INTERFACE
               </button>
             </div>
           </div>

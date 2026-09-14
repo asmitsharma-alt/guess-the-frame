@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Crown, Gamepad2, SkipForward, Play, Pause, Flag, Lightbulb, MessageCircle, Clapperboard, X, Hourglass } from 'lucide-react';
 import SoundManager from '../services/soundManager';
 import PaletteManager from '../services/paletteManager';
 import { FuzzyMatcher } from '../services/fuzzyMatcher';
@@ -172,7 +173,7 @@ export const GameScreen = ({
                 className={`mobile-timer-pill ${timeRemaining <= 5 ? 'pulse-urgent' : ''}`}
                 title="Time Remaining"
               >
-                <span className="mtp-icon">⏱</span>
+                <span className="mtp-icon"><Hourglass size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /></span>
                 <span className="mtp-val" id="mobileTimerVal">{timeRemaining}s</span>
               </div>
             </div>
@@ -255,7 +256,7 @@ export const GameScreen = ({
                         if (onNextRound) onNextRound();
                       }}
                     >
-                      NEXT ROUND ⏭
+                      NEXT ROUND <SkipForward size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginLeft: '4px' }} />
                     </button>
                     <div
                       className="ans-waiting-host-pill"
@@ -306,17 +307,17 @@ export const GameScreen = ({
                 <svg className="svg-icon"><use href="#icon-check" /></svg> Points Awarded — Moving to Next Round...
               </div>
               <div className="skipped-ind" id="skippedInd" style={{ display: 'none' }}>
-                ⏭ Skipped — No One Knew
+                <SkipForward size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Skipped — No One Knew
               </div>
               <div className="waiting-host-ind" id="waitingHostInd" style={{ display: 'none' }}>
-                ⌛ Waiting for host to award points...
+                <Hourglass size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Waiting for host to award points...
               </div>
             </div>
           </div>
 
           {/* Host Controls */}
           <div className="host-floating-bar" id="hostFloatingBar" style={{ display: effectiveIsHost ? 'flex' : 'none' }}>
-            <span className="hfb-label" id="hfbLabel">👑 HOST CONTROLS:</span>
+            <span className="hfb-label" id="hfbLabel"><Crown size={16} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> HOST CONTROLS:</span>
             <div className="hfb-host-only" id="hfbHostOnly" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
               <button
                 type="button"
@@ -330,7 +331,7 @@ export const GameScreen = ({
                   if (onSkipRound) onSkipRound();
                 }}
               >
-                ⏭ Skip Frame
+                <SkipForward size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Skip Frame
               </button>
               <button
                 type="button"
@@ -342,7 +343,7 @@ export const GameScreen = ({
                 }}
                 style={{ display: isRoundFinished ? 'inline-block' : 'none', background: '#10B981 !important', color: '#fff !important' }}
               >
-                ▶ Next Round
+                <Play size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Next Round
               </button>
               <button
                 type="button"
@@ -356,7 +357,7 @@ export const GameScreen = ({
                   if (onTogglePause) onTogglePause();
                 }}
               >
-                {isPaused ? '▶ Resume' : '⏸ Pause'}
+                {isPaused ? <><Play size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Resume</> : <><Pause size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Pause</>}
               </button>
               <button
                 type="button"
@@ -369,7 +370,7 @@ export const GameScreen = ({
                   }
                 }}
               >
-                🏁 End Match
+                <Flag size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> End Match
               </button>
             </div>
             <button
@@ -385,7 +386,7 @@ export const GameScreen = ({
               }}
               style={{ background: '#FDE047 !important' }}
             >
-              💡 Hint (-2 pts)
+              <Lightbulb size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Hint (-2 pts)
             </button>
 
             {/* Active Hint Display */}
@@ -394,7 +395,7 @@ export const GameScreen = ({
               id="hfbActiveHintPill"
               style={{ display: maskedHint ? 'inline-flex' : 'none' }}
             >
-              <span className="hahp-badge">💡 HINT:</span>
+              <span className="hahp-badge"><Lightbulb size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> HINT:</span>
               <span className="hahp-text" id="hfbActiveHintText">{maskedHint || ''}</span>
             </div>
           </div>
@@ -484,7 +485,7 @@ export const GameScreen = ({
           <div className={`live-chat-panel ${mobileDrawerOpen ? 'mobile-open active' : ''}`} id="liveChatPanel">
             <div className="chat-header">
               <div className="chat-header-title">
-                <span>💬 Live Chat &amp; Guesses</span>
+                <span><MessageCircle size={16} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Live Chat &amp; Guesses</span>
               </div>
               <button
                 type="button"
@@ -496,7 +497,7 @@ export const GameScreen = ({
                 }}
                 title="Get a masked letter hint for -2 points"
               >
-                💡 Hint (-2 pts)
+                <Lightbulb size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Hint (-2 pts)
               </button>
               <button
                 type="button"
@@ -504,7 +505,7 @@ export const GameScreen = ({
                 id="mobileChatCloseBtn"
                 onClick={() => setMobileDrawerOpen(false)}
               >
-                ✕ Close
+                <X size={14} strokeWidth={3} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Close
               </button>
             </div>
 
@@ -513,13 +514,13 @@ export const GameScreen = ({
               id="chatActiveHint"
               style={{ display: maskedHint ? 'block' : 'none' }}
             >
-              <div className="cah-label">💡 HINT (-2 PTS):</div>
+              <div className="cah-label"><Lightbulb size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> HINT (-2 PTS):</div>
               <div className="cah-text" id="chatActiveHintText">{maskedHint || ''}</div>
             </div>
 
             <div className="chat-stream" id="liveChatStream" ref={chatStreamRef}>
               <div id="chatMessages" className="chat-messages-wrap">
-                <div className="chat-msg-round">🎬 Welcome to Live Guess Stream!</div>
+                <div className="chat-msg-round"><Clapperboard size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Welcome to Live Guess Stream!</div>
               </div>
             </div>
 
@@ -556,7 +557,7 @@ export const GameScreen = ({
           className="mobile-hint-banner"
           style={{ display: maskedHint ? 'block' : 'none' }}
         >
-          <span className="mhb-badge">💡 HINT:</span>
+          <span className="mhb-badge"><Lightbulb size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> HINT:</span>
           <span className="mhb-text" id="mobileHintText">{maskedHint || ''}</span>
         </div>
         <div className="mobile-bottom-bar-row">
@@ -588,7 +589,7 @@ export const GameScreen = ({
             }}
             title="Get Hint (-2 pts)"
           >
-            <span>💡</span>
+            <span><Lightbulb size={18} strokeWidth={2.5} /></span>
           </button>
           <button
             type="button"
@@ -597,7 +598,7 @@ export const GameScreen = ({
             onClick={() => setMobileDrawerOpen(prev => !prev)}
             title="Open Live Chat"
           >
-            <span style={{ fontSize: '18px' }}>💬</span>
+            <span style={{ fontSize: '18px' }}><MessageCircle size={18} strokeWidth={2.5} /></span>
             <span id="mobileChatBadge" className="mobile-chat-badge" style={{ display: 'none' }}>0</span>
           </button>
         </div>

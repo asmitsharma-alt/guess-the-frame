@@ -1,4 +1,5 @@
 import React from 'react';
+import { Scale, Crown } from 'lucide-react';
 
 export const JudgeOverlay = ({ isOn, chosenJudge = null, candidates = [] }) => {
   return (
@@ -17,7 +18,7 @@ export const JudgeOverlay = ({ isOn, chosenJudge = null, candidates = [] }) => {
             <span className="jo-dot jo-dot-yellow"></span>
             <span className="jo-dot jo-dot-green"></span>
           </div>
-          <div className="jo-win-tag">⚖️ JUDGE SELECTION</div>
+          <div className="jo-win-tag"><Scale size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> JUDGE SELECTION</div>
         </div>
 
         <div className="jo-win-body">
@@ -36,7 +37,7 @@ export const JudgeOverlay = ({ isOn, chosenJudge = null, candidates = [] }) => {
           </div>
 
           <div className={`jo-sel-msg ${chosenJudge ? 'on' : ''}`} id="joSelMsg">
-            👑 <span className="sn" id="joSelName">{chosenJudge?.name || 'Player'}</span> IS THE JUDGE!
+            <Crown size={16} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> <span className="sn" id="joSelName">{chosenJudge?.name || 'Player'}</span> IS THE JUDGE!
           </div>
 
           <div className="jo-footer">

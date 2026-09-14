@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Sparkles, Trophy, Users, Home, Play } from 'lucide-react';
 import SoundManager from '../services/soundManager';
 import { SecurityUtil } from '../services/securityUtil';
 import { getAvatarSrc } from '../services/gameConstants';
@@ -86,7 +87,7 @@ export const WinnerScreen = ({
             <path d="M19 14C21 16 25 16 27 14" stroke="#38BDF8" strokeWidth="3.5" strokeLinecap="round" />
             <circle cx="23" cy="8" r="3" fill="#FDE047" />
           </svg>
-          <span className="popper-tooltip">🎉 POP ME!</span>
+          <span className="popper-tooltip"><Sparkles size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> POP ME!</span>
         </div>
 
         <div
@@ -106,7 +107,7 @@ export const WinnerScreen = ({
             <path d="M19 14C21 16 25 16 27 14" stroke="#4ADE80" strokeWidth="3.5" strokeLinecap="round" />
             <circle cx="23" cy="8" r="3" fill="#FACC15" />
           </svg>
-          <span className="popper-tooltip">🎉 POP ME!</span>
+          <span className="popper-tooltip"><Sparkles size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> POP ME!</span>
         </div>
 
         {/* Victory Header */}
@@ -150,7 +151,7 @@ export const WinnerScreen = ({
               </div>
               <p className="cw-info-text">
                 Umeed hai ki aapko yeh khel pasand aaya hoga. Agar koi sujhav ya pratikriya ho toh humein zaroor batayega. Phir milte hain agle hafte ek naye anubhav ke saath. <br />
-                <span className="cw-info-closing">Dhanyavaad! 🙌</span>
+                <span className="cw-info-closing">Dhanyavaad! <Sparkles size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginLeft: '4px' }} /></span>
               </p>
             </div>
           </div>
@@ -217,7 +218,7 @@ export const WinnerScreen = ({
           <div className="cw-right-col">
             <div className="cw-scoreboard-card">
               <div className="cw-scoreboard-header">
-                <span className="trophy-icon">🏆</span>
+                <span className="trophy-icon"><Trophy size={20} strokeWidth={2.5} /></span>
                 <span>SCOREBOARD</span>
               </div>
               <div className="cw-sb-list" id="winnerScoreboardList">
@@ -266,7 +267,7 @@ export const WinnerScreen = ({
               if (onPlayAgain) onPlayAgain();
             }}
           >
-            <span className="cw-btn-icon">▶</span>
+            <span className="cw-btn-icon"><Play size={18} strokeWidth={2.5} /></span>
             <span className="cw-btn-text">PLAY AGAIN</span>
           </button>
           <button
@@ -277,7 +278,7 @@ export const WinnerScreen = ({
               if (onRematch) onRematch();
             }}
           >
-            <span className="cw-btn-icon">👥</span>
+            <span className="cw-btn-icon"><Users size={18} strokeWidth={2.5} /></span>
             <span className="cw-btn-text">REMATCH</span>
           </button>
           <button
@@ -291,7 +292,7 @@ export const WinnerScreen = ({
               if (onReturnToLobby) onReturnToLobby();
             }}
           >
-            <span className="cw-btn-icon">🏠</span>
+            <span className="cw-btn-icon"><Home size={18} strokeWidth={2.5} /></span>
             <span className="cw-btn-text">RETURN TO LOBBY</span>
           </button>
         </div>

@@ -47,12 +47,12 @@ export const BOLD_AVATAR_COLORS = [
 ];
 
 export const AVATAR_API_STYLES = [
-  { id: 'lorelei', name: 'Lorelei', icon: '🎨' },
-  { id: 'adventurer', name: 'Adventurer', icon: '⚔️' },
-  { id: 'bottts', name: 'Bottts', icon: '🤖' },
-  { id: 'pixel', name: 'Pixel Art', icon: '🕹️' },
-  { id: 'notionists', name: 'Notionists', icon: '✏️' },
-  { id: 'avataaars', name: 'Avatars', icon: '✨' }
+  { id: 'lorelei', name: 'Lorelei', icon: 'palette' },
+  { id: 'adventurer', name: 'Adventurer', icon: 'swords' },
+  { id: 'bottts', name: 'Bottts', icon: 'bot' },
+  { id: 'pixel', name: 'Pixel Art', icon: 'gamepad' },
+  { id: 'notionists', name: 'Notionists', icon: 'pencil' },
+  { id: 'avataaars', name: 'Avatars', icon: 'sparkles' }
 ];
 
 export const buildAvatarDescriptor = (seed, style = 'lorelei', color = '38bdf8') => {

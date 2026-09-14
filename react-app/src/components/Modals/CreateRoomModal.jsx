@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Zap, X, Palette, ArrowRight, Check } from 'lucide-react';
 import { useMultiplayer } from '../../context/MultiplayerContext';
 import SoundManager from '../../services/soundManager';
 import AvatarPicker, { CharacterPreviewBadge } from '../Common/AvatarPicker';
@@ -82,7 +83,7 @@ export const CreateRoomModal = ({ isOpen, onClose, onConfirm }) => {
                   className="mp-done-btn"
                   onClick={() => setShowMobileAvatarPicker(false)}
                 >
-                  Done ✓
+                  Done <Check size={14} strokeWidth={3} style={{ display: 'inline', verticalAlign: 'middle', marginLeft: '4px' }} />
                 </button>
               </div>
 
@@ -102,10 +103,10 @@ export const CreateRoomModal = ({ isOpen, onClose, onConfirm }) => {
             <>
               <div className="mp-badge-pass-header">
                 <div className="mp-badge-pass-title">
-                  <span>⚡ CREATE ONLINE ROOM</span>
+                  <span><Zap size={16} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} /> CREATE ONLINE ROOM</span>
                   <span className="mp-badge-pill-tag">HOST PASS</span>
                 </div>
-                <button className="mp-modal-close" onClick={onClose}>✕</button>
+                <button className="mp-modal-close" onClick={onClose}><X size={16} strokeWidth={3} /></button>
               </div>
 
               <div className="mp-credentials-row mp-credentials-row-create">
@@ -135,8 +136,8 @@ export const CreateRoomModal = ({ isOpen, onClose, onConfirm }) => {
                   >
                     <CharacterPreviewBadge selectedAvatar={selectedAvatar || 'aman'} />
                     <div className="mp-mobile-avatar-change-hint">
-                      <span>🎨 Select</span>
-                      <span className="mp-arrow">➔</span>
+                      <span><Palette size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Select</span>
+                      <span className="mp-arrow"><ArrowRight size={14} strokeWidth={2.5} /></span>
                     </div>
                   </div>
                 </div>
@@ -157,10 +158,10 @@ export const CreateRoomModal = ({ isOpen, onClose, onConfirm }) => {
           <>
             <div className="mp-badge-pass-header">
               <div className="mp-badge-pass-title">
-                <span>⚡ CREATE ONLINE ROOM</span>
+                <span><Zap size={16} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} /> CREATE ONLINE ROOM</span>
                 <span className="mp-badge-pill-tag">HOST PASS</span>
               </div>
-              <button className="mp-modal-close" onClick={onClose}>✕</button>
+              <button className="mp-modal-close" onClick={onClose}><X size={16} strokeWidth={3} /></button>
             </div>
 
             <div className="mp-credentials-row mp-credentials-row-create">

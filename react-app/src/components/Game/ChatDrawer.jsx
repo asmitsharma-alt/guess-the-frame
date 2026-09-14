@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { SecurityUtil } from '../../services/securityUtil';
 import { getAvatarSrc } from '../../services/gameConstants';
+import { Lightbulb } from 'lucide-react';
 
 export const ChatDrawer = ({ messages = [], onSendMessage, placeholder = 'Type your guess or chat...' }) => {
   const [inputText, setInputText] = useState('');
@@ -37,7 +38,7 @@ export const ChatDrawer = ({ messages = [], onSendMessage, placeholder = 'Type y
               <span className="cns-text" dangerouslySetInnerHTML={{ __html: m.text }} />
             ) : m.isHint ? (
               <div className="chat-msg-hint">
-                <div className="cmh-header">💡 YOUR PRIVATE HINT (-2 PTS)</div>
+                <div className="cmh-header"><Lightbulb size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> YOUR PRIVATE HINT (-2 PTS)</div>
                 <div className="cmh-body">{m.text}</div>
               </div>
             ) : (

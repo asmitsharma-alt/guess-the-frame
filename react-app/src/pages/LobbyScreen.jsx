@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { X, Pencil, CheckCircle } from 'lucide-react';
 import SoundManager from '../services/soundManager';
 import { SecurityUtil } from '../services/securityUtil';
 import { AVATAR_MAP, getAvatarSrc } from '../services/gameConstants';
@@ -263,7 +264,7 @@ export const LobbyScreen = ({
                           className="absolute -top-2 -right-2 bg-[#ff6b6b] text-white hover:bg-red-600 border-2 border-on-surface w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] transition-all z-10 cursor-pointer"
                           title="Remove Player"
                         >
-                          ✕
+                          <X size={12} strokeWidth={3} />
                         </button>
                       )}
                       <div
@@ -288,7 +289,7 @@ export const LobbyScreen = ({
                             onChange={(e) => onRenamePlayer && onRenamePlayer(i, e.target.value)}
                           />
                           <span className="absolute right-1 top-1/2 -translate-y-1/2 text-[9px] pointer-events-none opacity-60">
-                            ✏️
+                            <Pencil size={10} strokeWidth={2.5} />
                           </span>
                         </div>
                       ) : (
@@ -300,7 +301,7 @@ export const LobbyScreen = ({
                         </div>
                       )}
                       <div className="mt-1 bg-[#86EFAC] text-[#14532D] border border-on-surface px-1.5 py-0.2 rounded-full font-label-bold text-[8px] uppercase font-black flex items-center gap-0.5 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
-                        <span>✅ READY</span>
+                        <span><CheckCircle size={10} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '3px' }} /> READY</span>
                       </div>
                     </div>
                   );
@@ -639,7 +640,7 @@ export const LobbyScreen = ({
                             className="absolute -top-2.5 -right-2.5 bg-[#ff6b6b] text-white hover:bg-red-600 border-2 border-on-surface w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] transition-all z-10 cursor-pointer"
                             title="Remove Player"
                           >
-                            ✕
+                            <X size={12} strokeWidth={3} />
                           </button>
                         )}
                         <div
@@ -664,7 +665,7 @@ export const LobbyScreen = ({
                               onChange={(e) => onRenamePlayer && onRenamePlayer(i, e.target.value)}
                             />
                             <span className="absolute right-1.5 top-1/2 -translate-y-1/2 text-[10px] pointer-events-none opacity-60 group-hover:opacity-100 transition-opacity">
-                              ✏️
+                              <Pencil size={10} strokeWidth={2.5} />
                             </span>
                           </div>
                         ) : (
@@ -676,7 +677,7 @@ export const LobbyScreen = ({
                           </div>
                         )}
                         <div className="mt-2.5 bg-[#86EFAC] text-[#14532D] border-2 border-on-surface px-2.5 py-0.5 rounded-full font-label-bold text-[10px] uppercase font-black flex items-center gap-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                          <span>✅ READY</span>
+                          <span><CheckCircle size={10} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '3px' }} /> READY</span>
                         </div>
                       </div>
                     );

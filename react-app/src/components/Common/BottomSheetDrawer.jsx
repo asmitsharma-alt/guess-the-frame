@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useCallback } from 'react';
+import { X } from 'lucide-react';
 import SoundManager from '../../services/soundManager';
 
 export const BottomSheetDrawer = ({
@@ -116,7 +117,7 @@ export const BottomSheetDrawer = ({
               }}
               aria-label="Close dialog"
             >
-              ✕
+              <X size={16} strokeWidth={3} />
             </button>
           </div>
         )}

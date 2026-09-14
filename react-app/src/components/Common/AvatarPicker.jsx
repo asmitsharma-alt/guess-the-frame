@@ -1,4 +1,13 @@
 import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react';
+import {
+  Search, X, Shuffle, Upload, Check, Loader2, Tag,
+  Sparkles, Clapperboard, Swords, Wand2, Disc, Zap, ShieldAlert, Bug, Castle, Moon,
+  Tv, Bot, Flame, Compass, Trees, Gem, Waves, Smile, MountainSnow, Rocket,
+  FlaskConical, Shield, Wind, Film, TestTubes, Scale, Crown, Skull, Radio,
+  Briefcase, Coffee, Glasses, MoonStar, Ghost, Cross, Stethoscope, Bell, Anchor,
+  Eye, Book, Sparkle, Target, ShieldCheck, Axe, UserCheck, Star, Cpu,
+  Layers, Activity, Gamepad2, Flower2, Pickaxe
+} from 'lucide-react';
 import SoundManager from '../../services/soundManager';
 import { getAvatarSrc } from '../../services/gameConstants';
 import {
@@ -8,6 +17,78 @@ import {
   getAvatarMeta,
   reshuffleAllAvatars
 } from '../../services/avatarCatalog';
+
+export function cleanCategoryLabel(label) {
+  return label ? label.replace(/[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2702}-\u{27B0}\u{2B50}\u{26A1}\u{2694}\u{2B55}\u{FE0F}]/gu, '').trim() : '';
+}
+
+export const CATEGORY_ICONS = {
+  'all': Sparkles,
+  'movies': Clapperboard,
+  'star-wars': Swords,
+  'harry-potter': Wand2,
+  'lord-of-the-rings': Disc,
+  'superheroes': Zap,
+  'dc-comics': ShieldAlert,
+  'spider-verse': Bug,
+  'disney': Castle,
+  'dreamworks': Moon,
+  'cartoons': Tv,
+  'cartoon-network': Tv,
+  'ben-10': Bot,
+  'teen-titans': Flame,
+  'adventure-time': Compass,
+  'gravity-falls': Trees,
+  'steven-universe': Gem,
+  'spongebob': Waves,
+  'the-simpsons': Smile,
+  'south-park': MountainSnow,
+  'futurama': Rocket,
+  'rick-morty': FlaskConical,
+  'invincible': Shield,
+  'avatar-airbender': Wind,
+  'tv-series': Film,
+  'breaking-bad': TestTubes,
+  'better-call-saul': Scale,
+  'game-of-thrones': Crown,
+  'house-of-dragon': Flame,
+  'the-boys': Skull,
+  'stranger-things': Radio,
+  'the-office': Briefcase,
+  'friends': Coffee,
+  'peaky-blinders': Glasses,
+  'the-witcher': MoonStar,
+  'the-walking-dead': Ghost,
+  'supernatural': Cross,
+  'house-md': Stethoscope,
+  'anime': Sparkles,
+  'doraemon': Bell,
+  'naruto': Flame,
+  'one-piece': Anchor,
+  'dragon-ball': Flame,
+  'attack-on-titan': Shield,
+  'jujutsu-kaisen': Eye,
+  'demon-slayer': Swords,
+  'death-note': Book,
+  'bleach': Sparkle,
+  'hunter-x-hunter': Target,
+  'fullmetal-alchemist': ShieldCheck,
+  'chainsaw-man': Axe,
+  'spy-x-family': UserCheck,
+  'my-hero-academia': Zap,
+  'jojo': Star,
+  'cyberpunk-edgerunners': Cpu,
+  'pokemon': Zap,
+  'yugioh': Layers,
+  'digimon': Activity,
+  'other': Gamepad2,
+  'arcane-league': Zap,
+  'overwatch': Shield,
+  'genshin': Flower2,
+  'minecraft': Pickaxe,
+  'founders': Crown,
+  'custom': Upload
+};
 
 const INITIAL_BATCH = 48;
 const BATCH_INCREMENT = 32;
@@ -62,13 +143,14 @@ export const CharacterPreviewBadge = ({ selectedAvatar }) => {
             e.currentTarget.src = '/avvtar/aman.svg';
           }}
         />
-        <span className="mp-hero-check-pill">✓</span>
+        <span className="mp-hero-check-pill"><Check size={12} strokeWidth={3} /></span>
       </div>
       <div className="mp-hero-preview-info">
         <div className="mp-hero-char-name">{meta.name || 'Selected Avatar'}</div>
         <div className="mp-hero-tags-row">
           <span className="mp-hero-cat-tag">
-            {meta.categoryLabel || '👑 Founders'}
+            <Tag size={10} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '3px' }} />
+            {cleanCategoryLabel(meta.categoryLabel) || 'Founders'}
           </span>
           <span className="mp-hero-format-tag">
             {meta.format || 'SQUARE'}
@@ -184,7 +266,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
           id: 'custom_upload',
           name: file.name.replace(/\.[^/.]+$/, ''),
           category: 'custom',
-          categoryLabel: '📤 Custom Upload',
+          categoryLabel: 'Custom Upload',
           url: dataUrl,
           format: isSvg ? 'SVG' : (isGif ? 'GIF' : 'IMG'),
           color: '38bdf8',
@@ -271,13 +353,14 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
                 e.currentTarget.src = '/avvtar/aman.svg';
               }}
             />
-            <span className="mp-hero-check-pill">✓</span>
+            <span className="mp-hero-check-pill"><Check size={12} strokeWidth={3} /></span>
           </div>
           <div className="mp-hero-preview-info">
             <div className="mp-hero-char-name">{currentAvatarMeta.name || 'Selected Avatar'}</div>
             <div className="mp-hero-tags-row">
               <span className="mp-hero-cat-tag">
-                {currentAvatarMeta.categoryLabel || '👑 Founders'}
+                <Tag size={10} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '3px' }} />
+                {cleanCategoryLabel(currentAvatarMeta.categoryLabel) || 'Founders'}
               </span>
               <span className="mp-hero-format-tag">
                 {currentAvatarMeta.format || 'SQUARE'}
@@ -290,7 +373,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
       {/* 2. Typo-Tolerant Search & Custom SVG/GIF Upload Bar */}
       <div className="mp-avatar-search-bar">
         <div className="mp-avatar-search-input-wrap">
-          <span className="search-icon">🔍</span>
+          <span className="search-icon"><Search size={14} strokeWidth={2.5} /></span>
           <input
             type="text"
             className="mp-avatar-search-input"
@@ -308,7 +391,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
               onClick={handleClearSearch}
               title="Clear search"
             >
-              ✕
+              <X size={14} strokeWidth={3} />
             </button>
           )}
         </div>
@@ -320,7 +403,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
           onClick={handleReshuffle}
           title="Reshuffle avatars mix"
         >
-          <span>🎲</span> Shuffle
+          <Shuffle size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Shuffle
         </button>
 
         {/* Custom SVG / GIF Upload Button */}
@@ -330,7 +413,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
           onClick={() => fileInputRef.current?.click()}
           title="Upload your own SVG or GIF avatar"
         >
-          <span>📤</span> Upload SVG / GIF
+          <Upload size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Upload SVG / GIF
         </button>
         <input
           type="file"
@@ -343,21 +426,26 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
 
       {/* 3. Category Filter Tabs Bar */}
       <div className="mp-avatar-category-bar">
-        {AVATAR_CATEGORIES.map(cat => (
-          <button
-            key={cat.id}
-            type="button"
-            className={`mp-category-tab ${category === cat.id ? 'active' : ''}`}
-            onClick={(e) => {
-              handleCategoryChange(cat.id);
-              try {
-                e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-              } catch (err) {}
-            }}
-          >
-            {cat.label}
-          </button>
-        ))}
+        {AVATAR_CATEGORIES.map(cat => {
+          const IconComp = CATEGORY_ICONS[cat.id] || Sparkles;
+          const clean = cleanCategoryLabel(cat.label);
+          return (
+            <button
+              key={cat.id}
+              type="button"
+              className={`mp-category-tab ${category === cat.id ? 'active' : ''}`}
+              onClick={(e) => {
+                handleCategoryChange(cat.id);
+                try {
+                  e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                } catch (err) {}
+              }}
+            >
+              <IconComp size={14} strokeWidth={2.5} style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '6px' }} />
+              {clean}
+            </button>
+          );
+        })}
       </div>
 
       {/* 4. 100% Square Avatar Grid */}
@@ -397,7 +485,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
                   }}
                 />
                 {isSelected && (
-                  <span className="mp-avatar-item-check">✓</span>
+                  <span className="mp-avatar-item-check"><Check size={12} strokeWidth={3} /></span>
                 )}
               </button>
             );
@@ -406,7 +494,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
 
         {displayedAvatars.length >= loadedCount && (
           <div className="mp-infinite-loading-indicator">
-            <span>⏳ Scroll for more avatars...</span>
+            <span><Loader2 size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} className="animate-spin" /> Scroll for more avatars...</span>
           </div>
         )}
       </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Search, Trophy, Gamepad2, Loader2 } from 'lucide-react';
 import SoundManager from '../services/soundManager';
 
 export const HowToAnswerScreen = ({ isActive, isHost, onLaunchGame }) => {
@@ -136,7 +137,7 @@ export const HowToAnswerScreen = ({ isActive, isHost, onLaunchGame }) => {
             <h3 className="hta-step-title">STEP 2: TYPE GUESS</h3>
             <p className="hta-step-desc">Typos are forgiven! Acronyms accepted.</p>
             <div className="hta-search-pill">
-              <span className="hsp-search-icon">🔍</span>
+              <span className="hsp-search-icon"><Search size={14} strokeWidth={2.5} /></span>
               <span className="hsp-search-text">Inception</span>
               <span className="hsp-typo-badge">TYPO OK</span>
             </div>
@@ -169,7 +170,7 @@ export const HowToAnswerScreen = ({ isActive, isHost, onLaunchGame }) => {
         {/* POINTING SYSTEM SECTION */}
         <div className="hta-pointing-header">
           <div className="hta-pointing-title">
-            <span>🏆</span>
+            <Trophy size={18} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} />
             <span>POINTING SYSTEM</span>
           </div>
           <div className="hta-divider-line"></div>
@@ -254,11 +255,11 @@ export const HowToAnswerScreen = ({ isActive, isHost, onLaunchGame }) => {
         <div className="hta-footer-center">
           {!effectiveIsHost && (
             <div id="htaClientStatus" className="hta-client-status">
-              <span className="hta-spinner">⏳</span>
+              <span className="hta-spinner"><Loader2 size={16} strokeWidth={2.5} className="animate-spin" /></span>
               <span id="htaClientStatusText">
                 {secondsLeft > 0
                   ? `Reading rules... Waiting for host (${secondsLeft}s)`
-                  : '🎮 Host can now launch Round 1! Get ready...'}
+                  : <><Gamepad2 size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Host can now launch Round 1! Get ready...</>}
               </span>
             </div>
           )}
