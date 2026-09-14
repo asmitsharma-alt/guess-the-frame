@@ -117,26 +117,26 @@ export const AVATAR_SEEDS = [
 
 
 export const DEFAULT_FRAMES = [
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Backrooms (2026).webp", answer: "BACKROOMS", year: "2026" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Bandar (2026).webp", answer: "BANDAR", year: "2026" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Bhavesh Joshi Superhero (2018).webp", answer: "BHAVESH JOSHI SUPERHERO", year: "2018" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Booksmart (2019).webp", answer: "BOOKSMART", year: "2019" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Days of Thunder (1990).webp", answer: "DAYS OF THUNDER", year: "1990" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/DC (2026).webp", answer: "DC", year: "2026" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Dhoodte reh jaaoge (2009).webp", answer: "DHOONDTE REH JAAOGE", year: "2009" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Dil Se.. (1998).webp", answer: "DIL SE", year: "1998" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Hostel Daze (2019).webp", answer: "HOSTEL DAZE", year: "2019" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Manchester by the Sea (2016).webp", answer: "MANCHESTER BY THE SEA", year: "2016" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Margarita with a Straw (2014).webp", answer: "MARGARITA WITH A STRAW", year: "2014" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Maruti Mera Dosst (2009).webp", answer: "MARUTI MERA DOSST", year: "2009" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Memento (2000).webp", answer: "MEMENTO", year: "2000" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Midnight in Paris (2011).webp", answer: "MIDNIGHT IN PARIS", year: "2011" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Nobody Knows (2004).webp", answer: "NOBODY KNOWS", year: "2004" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Oye Lucky! Lucky Oye! (2008).webp", answer: "OYE LUCKY LUCKY OYE", year: "2008" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Queen (2013).webp", answer: "QUEEN", year: "2013" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Taarzan The Wonder Car (2004).webp", answer: "TAARZAN THE WONDER CAR", year: "2004" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/The Handmaiden (2016).webp", answer: "THE HANDMAIDEN", year: "2016" },
-  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/Zodiac (2007).webp", answer: "ZODIAC", year: "2007" }
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/12 angry men (1957).png", answer: "12 ANGRY MEN", year: "1957" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/8 am metro(2023).png", answer: "8 AM METRO", year: "2023" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/animal (2023).png", answer: "ANIMAL", year: "2023" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/blackmail(2018).jpeg", answer: "BLACKMAIL", year: "2018" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/blue velvet(1986).jpeg", answer: "BLUE VELVET", year: "1986" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/chennai express (2013).png", answer: "CHENNAI EXPRESS", year: "2013" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/dangal (2016).png", answer: "DANGAL", year: "2016" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/eko (2025).png", answer: "EKO", year: "2025" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/evangelion3.0youcan(not)redo.jpeg", answer: "EVANGELION 3.0 YOU CAN NOT REDO", year: "2012" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/fall (2022).png", answer: "FALL", year: "2022" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/monarch legacy of monsters.png", answer: "MONARCH LEGACY OF MONSTERS", year: "2023" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/padmaavat (2018).png", answer: "PADMAAVAT", year: "2018" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/raazi (2018).png", answer: "RAAZI", year: "2018" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/rango(2011).jpeg", answer: "RANGO", year: "2011" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/sore.png", answer: "SORE", year: "2024" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/succesion.jpeg", answer: "SUCCESSION", year: "2018" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/super sharanya (2022).png", answer: "SUPER SHARANYA", year: "2022" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/superhero movie (2008).png", answer: "SUPERHERO MOVIE", year: "2008" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/the suicide squad (2021).png", answer: "THE SUICIDE SQUAD", year: "2021" },
+  { sectionId: 1, sectionName: "Guess the Frame", category: "frames", type: "image", content: "GUESSTHEFRAME/with love (2026).png", answer: "WITH LOVE", year: "2026" }
 ];
 
 export const DEFAULT_EYES = [
