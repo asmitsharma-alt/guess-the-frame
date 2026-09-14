@@ -1,7 +1,8 @@
 /**
  * Avatar Catalog & Typo-Tolerant Search Service
- * Curated 1,800+ character avatars across 55+ anime, gaming, superhero, TV and cartoon franchises.
- * Auto-generated with upfront portrait zoom & solid-background detection tags.
+ * Curated 1,825+ character avatars across Movies, Cartoon Network & Cartoons, TV Series, Anime (with Doraemon) and Gaming.
+ * Categories ordered: Movies -> Cartoons & Cartoon Network -> TV Series -> Anime -> Other
+ * Randomized All Avatars mix for fresh player discovery.
  */
 
 export const AVATAR_CATEGORIES = [
@@ -10,20 +11,160 @@ export const AVATAR_CATEGORIES = [
     "label": "⭐ All Mega-Mix"
   },
   {
-    "id": "founders",
-    "label": "👑 Founders"
+    "id": "movies",
+    "label": "🎬 All Movies"
   },
   {
-    "id": "arcane-league",
-    "label": "⚡ Arcane & League"
+    "id": "star-wars",
+    "label": "⚔️ Star Wars"
   },
   {
-    "id": "overwatch",
-    "label": "🛡️ Overwatch 2"
+    "id": "harry-potter",
+    "label": "⚡ Harry Potter"
   },
   {
-    "id": "genshin",
-    "label": "🌸 Genshin Impact"
+    "id": "lord-of-the-rings",
+    "label": "💍 Lord of Rings"
+  },
+  {
+    "id": "superheroes",
+    "label": "💥 Superheroes"
+  },
+  {
+    "id": "dc-comics",
+    "label": "🦇 DC Universe"
+  },
+  {
+    "id": "spider-verse",
+    "label": "🕷️ Spider-Verse"
+  },
+  {
+    "id": "disney",
+    "label": "🏰 Disney & Pixar"
+  },
+  {
+    "id": "dreamworks",
+    "label": "🌙 DreamWorks"
+  },
+  {
+    "id": "cartoons",
+    "label": "📺 All Cartoons & CN"
+  },
+  {
+    "id": "cartoon-network",
+    "label": "📺 Cartoon Network"
+  },
+  {
+    "id": "ben-10",
+    "label": "👽 Ben 10"
+  },
+  {
+    "id": "teen-titans",
+    "label": "⚡ Teen Titans"
+  },
+  {
+    "id": "adventure-time",
+    "label": "🗡️ Adventure Time"
+  },
+  {
+    "id": "gravity-falls",
+    "label": "🌲 Gravity Falls"
+  },
+  {
+    "id": "steven-universe",
+    "label": "💎 Steven Universe"
+  },
+  {
+    "id": "spongebob",
+    "label": "🍍 SpongeBob"
+  },
+  {
+    "id": "the-simpsons",
+    "label": "🍩 The Simpsons"
+  },
+  {
+    "id": "south-park",
+    "label": "🏔️ South Park"
+  },
+  {
+    "id": "futurama",
+    "label": "🚀 Futurama"
+  },
+  {
+    "id": "rick-morty",
+    "label": "🧪 Rick & Morty"
+  },
+  {
+    "id": "invincible",
+    "label": "🩸 Invincible"
+  },
+  {
+    "id": "avatar-airbender",
+    "label": "💨 Airbender"
+  },
+  {
+    "id": "tv-series",
+    "label": "📺 All TV Series"
+  },
+  {
+    "id": "breaking-bad",
+    "label": "🧪 Breaking Bad"
+  },
+  {
+    "id": "better-call-saul",
+    "label": "⚖️ Better Call Saul"
+  },
+  {
+    "id": "game-of-thrones",
+    "label": "👑 Game of Thrones"
+  },
+  {
+    "id": "house-of-dragon",
+    "label": "🐉 House of Dragon"
+  },
+  {
+    "id": "the-boys",
+    "label": "🩸 The Boys"
+  },
+  {
+    "id": "stranger-things",
+    "label": "🚲 Stranger Things"
+  },
+  {
+    "id": "the-office",
+    "label": "💼 The Office"
+  },
+  {
+    "id": "friends",
+    "label": "☕ Friends"
+  },
+  {
+    "id": "peaky-blinders",
+    "label": "🥃 Peaky Blinders"
+  },
+  {
+    "id": "the-witcher",
+    "label": "🐺 The Witcher"
+  },
+  {
+    "id": "the-walking-dead",
+    "label": "🧟 Walking Dead"
+  },
+  {
+    "id": "supernatural",
+    "label": "👻 Supernatural"
+  },
+  {
+    "id": "house-md",
+    "label": "🩺 House M.D."
+  },
+  {
+    "id": "anime",
+    "label": "🍥 All Anime"
+  },
+  {
+    "id": "doraemon",
+    "label": "🔔 Doraemon"
   },
   {
     "id": "naruto",
@@ -32,6 +173,10 @@ export const AVATAR_CATEGORIES = [
   {
     "id": "one-piece",
     "label": "🏴‍☠️ One Piece"
+  },
+  {
+    "id": "dragon-ball",
+    "label": "🐉 Dragon Ball"
   },
   {
     "id": "attack-on-titan",
@@ -44,18 +189,6 @@ export const AVATAR_CATEGORIES = [
   {
     "id": "demon-slayer",
     "label": "🗡️ Demon Slayer"
-  },
-  {
-    "id": "superheroes",
-    "label": "💥 Superheroes"
-  },
-  {
-    "id": "dc-comics",
-    "label": "🦇 DC Universe"
-  },
-  {
-    "id": "dragon-ball",
-    "label": "🐉 Dragon Ball"
   },
   {
     "id": "death-note",
@@ -98,149 +231,531 @@ export const AVATAR_CATEGORIES = [
     "label": "⚡ Pokémon"
   },
   {
-    "id": "minecraft",
-    "label": "⛏️ Minecraft"
-  },
-  {
-    "id": "rick-morty",
-    "label": "🧪 Rick & Morty"
-  },
-  {
-    "id": "breaking-bad",
-    "label": "🧪 Breaking Bad"
-  },
-  {
-    "id": "better-call-saul",
-    "label": "⚖️ Better Call Saul"
-  },
-  {
-    "id": "game-of-thrones",
-    "label": "👑 Game of Thrones"
-  },
-  {
-    "id": "house-of-dragon",
-    "label": "🐉 House of Dragon"
-  },
-  {
-    "id": "the-boys",
-    "label": "🩸 The Boys"
-  },
-  {
-    "id": "stranger-things",
-    "label": "🚲 Stranger Things"
-  },
-  {
-    "id": "the-office",
-    "label": "💼 The Office"
-  },
-  {
-    "id": "friends",
-    "label": "☕ Friends"
-  },
-  {
-    "id": "peaky-blinders",
-    "label": "🥃 Peaky Blinders"
-  },
-  {
-    "id": "star-wars",
-    "label": "⚔️ Star Wars"
-  },
-  {
-    "id": "harry-potter",
-    "label": "⚡ Harry Potter"
-  },
-  {
-    "id": "lord-of-the-rings",
-    "label": "💍 Lord of Rings"
-  },
-  {
-    "id": "adventure-time",
-    "label": "🗡️ Adventure Time"
-  },
-  {
-    "id": "gravity-falls",
-    "label": "🌲 Gravity Falls"
-  },
-  {
-    "id": "steven-universe",
-    "label": "💎 Steven Universe"
-  },
-  {
-    "id": "ben-10",
-    "label": "👽 Ben 10"
-  },
-  {
-    "id": "teen-titans",
-    "label": "⚡ Teen Titans"
-  },
-  {
-    "id": "spider-verse",
-    "label": "🕷️ Spider-Verse"
-  },
-  {
-    "id": "cartoon-network",
-    "label": "📺 Cartoon Network"
-  },
-  {
-    "id": "invincible",
-    "label": "🩸 Invincible"
-  },
-  {
-    "id": "avatar-airbender",
-    "label": "💨 Airbender"
-  },
-  {
-    "id": "disney",
-    "label": "🏰 Disney & Pixar"
-  },
-  {
-    "id": "dreamworks",
-    "label": "🌙 DreamWorks"
-  },
-  {
-    "id": "spongebob",
-    "label": "🍍 SpongeBob"
-  },
-  {
-    "id": "south-park",
-    "label": "🏔️ South Park"
-  },
-  {
-    "id": "the-simpsons",
-    "label": "🍩 The Simpsons"
-  },
-  {
-    "id": "futurama",
-    "label": "🚀 Futurama"
-  },
-  {
-    "id": "the-witcher",
-    "label": "🐺 The Witcher"
-  },
-  {
-    "id": "the-walking-dead",
-    "label": "🧟 Walking Dead"
-  },
-  {
-    "id": "supernatural",
-    "label": "👻 Supernatural"
-  },
-  {
-    "id": "house-md",
-    "label": "🩺 House M.D."
-  },
-  {
     "id": "yugioh",
     "label": "🃏 Yu-Gi-Oh!"
   },
   {
     "id": "digimon",
     "label": "🦖 Digimon"
+  },
+  {
+    "id": "other",
+    "label": "🎲 Other & Gaming"
+  },
+  {
+    "id": "arcane-league",
+    "label": "⚡ Arcane & League"
+  },
+  {
+    "id": "overwatch",
+    "label": "🛡️ Overwatch 2"
+  },
+  {
+    "id": "genshin",
+    "label": "🌸 Genshin Impact"
+  },
+  {
+    "id": "minecraft",
+    "label": "⛏️ Minecraft"
+  },
+  {
+    "id": "founders",
+    "label": "👑 Founders"
   }
 ];
 
+export const CATEGORY_GROUPS = {
+  "movies": [
+    "superheroes",
+    "dc-comics",
+    "star-wars",
+    "harry-potter",
+    "lord-of-the-rings",
+    "disney",
+    "dreamworks",
+    "spider-verse"
+  ],
+  "cartoons": [
+    "cartoon-network",
+    "ben-10",
+    "teen-titans",
+    "adventure-time",
+    "gravity-falls",
+    "steven-universe",
+    "spongebob",
+    "the-simpsons",
+    "south-park",
+    "futurama",
+    "rick-morty",
+    "invincible",
+    "avatar-airbender"
+  ],
+  "tv-series": [
+    "breaking-bad",
+    "better-call-saul",
+    "game-of-thrones",
+    "house-of-dragon",
+    "the-boys",
+    "stranger-things",
+    "the-office",
+    "friends",
+    "peaky-blinders",
+    "the-witcher",
+    "the-walking-dead",
+    "supernatural",
+    "house-md"
+  ],
+  "anime": [
+    "doraemon",
+    "naruto",
+    "one-piece",
+    "dragon-ball",
+    "attack-on-titan",
+    "jujutsu-kaisen",
+    "demon-slayer",
+    "death-note",
+    "bleach",
+    "hunter-x-hunter",
+    "fullmetal-alchemist",
+    "chainsaw-man",
+    "spy-x-family",
+    "my-hero-academia",
+    "jojo",
+    "cyberpunk-edgerunners",
+    "pokemon",
+    "yugioh",
+    "digimon"
+  ],
+  "other": [
+    "arcane-league",
+    "overwatch",
+    "genshin",
+    "minecraft",
+    "founders"
+  ]
+};
+
 export const AVATAR_CATALOG = [
   {
+    "id": "av_doraemon_1",
+    "name": "Doraemon",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b4304-4eXX8C1O4Pda.png",
+    "format": "PNG",
+    "color": "38bdf8",
+    "aliases": [
+      "doraemon",
+      "doremon",
+      "cat robot",
+      "gadget cat",
+      "ding dong",
+      "anime",
+      "dora",
+      "nobita"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": false,
+    "isTransparent": true,
+    "normName": "doraemon",
+    "words": [
+      "doraemon",
+      "doremon",
+      "cat",
+      "robot"
+    ]
+  },
+  {
+    "id": "av_doraemon_2",
+    "name": "Nobita Nobi",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/4303.jpg",
+    "format": "JPG",
+    "color": "facc15",
+    "aliases": [
+      "nobita",
+      "nobi nobita",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": true,
+    "isTransparent": false,
+    "normName": "nobita nobi",
+    "words": [
+      "nobita",
+      "nobi"
+    ]
+  },
+  {
+    "id": "av_doraemon_3",
+    "name": "Shizuka Minamoto",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b8260-Hz17eZuElZ7U.png",
+    "format": "PNG",
+    "color": "f472b6",
+    "aliases": [
+      "shizuka",
+      "sizuka",
+      "minamoto",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": false,
+    "isTransparent": true,
+    "normName": "shizuka minamoto",
+    "words": [
+      "shizuka",
+      "minamoto"
+    ]
+  },
+  {
+    "id": "av_doraemon_4",
+    "name": "Takeshi Gouda (Gian)",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b8262-N2Lsf46EjZBf.png",
+    "format": "PNG",
+    "color": "fb923c",
+    "aliases": [
+      "gian",
+      "takeshi",
+      "gouda",
+      "big g",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": false,
+    "isTransparent": true,
+    "normName": "takeshi gouda gian",
+    "words": [
+      "takeshi",
+      "gouda",
+      "gian"
+    ]
+  },
+  {
+    "id": "av_doraemon_5",
+    "name": "Suneo Honekawa",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b8261-qGxKWau5iZrf.png",
+    "format": "PNG",
+    "color": "60a5fa",
+    "aliases": [
+      "suneo",
+      "honekawa",
+      "sneech",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": false,
+    "isTransparent": true,
+    "normName": "suneo honekawa",
+    "words": [
+      "suneo",
+      "honekawa"
+    ]
+  },
+  {
+    "id": "av_doraemon_6",
+    "name": "Dorami",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b61815-iYem2dlcvRU9.png",
+    "format": "PNG",
+    "color": "facc15",
+    "aliases": [
+      "dorami",
+      "doraemon sister",
+      "doremi",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": false,
+    "isTransparent": true,
+    "normName": "dorami",
+    "words": [
+      "dorami"
+    ]
+  },
+  {
+    "id": "av_doraemon_7",
+    "name": "Hidetoshi Dekisugi",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b31870-GGFedy239Ddk.png",
+    "format": "PNG",
+    "color": "34d399",
+    "aliases": [
+      "dekisugi",
+      "hidetoshi",
+      "ace goodall",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": false,
+    "isTransparent": true,
+    "normName": "hidetoshi dekisugi",
+    "words": [
+      "hidetoshi",
+      "dekisugi"
+    ]
+  },
+  {
+    "id": "av_doraemon_8",
+    "name": "Jaiko Gouda",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b264317-nI3OThgT0CI4.jpg",
+    "format": "JPG",
+    "color": "f87171",
+    "aliases": [
+      "jaiko",
+      "gian sister",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": true,
+    "isTransparent": false,
+    "normName": "jaiko gouda",
+    "words": [
+      "jaiko",
+      "gouda"
+    ]
+  },
+  {
+    "id": "av_doraemon_9",
+    "name": "Tamako Nobi",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b163725-HLpX1CACQtVL.png",
+    "format": "PNG",
+    "color": "a78bfa",
+    "aliases": [
+      "tamako",
+      "nobita mom",
+      "mrs nobi",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": false,
+    "isTransparent": true,
+    "normName": "tamako nobi",
+    "words": [
+      "tamako",
+      "nobi"
+    ]
+  },
+  {
+    "id": "av_doraemon_10",
+    "name": "Nobisuke Nobi",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b163726-PR4mAPmZpfnw.png",
+    "format": "PNG",
+    "color": "64748b",
+    "aliases": [
+      "nobisuke",
+      "nobita dad",
+      "mr nobi",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": false,
+    "isTransparent": true,
+    "normName": "nobisuke nobi",
+    "words": [
+      "nobisuke",
+      "nobi"
+    ]
+  },
+  {
+    "id": "av_doraemon_11",
+    "name": "Sewashi Nobi",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b163719-YcJdWAUtoPe1.jpg",
+    "format": "JPG",
+    "color": "38bdf8",
+    "aliases": [
+      "sewashi",
+      "22nd century",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": true,
+    "isTransparent": false,
+    "normName": "sewashi nobi",
+    "words": [
+      "sewashi",
+      "nobi"
+    ]
+  },
+  {
+    "id": "av_doraemon_12",
+    "name": "Noramyako",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b163720-9C0xEGHn41wn.png",
+    "format": "PNG",
+    "color": "fb7185",
+    "aliases": [
+      "noramyako",
+      "doraemon girlfriend",
+      "cat robot",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": false,
+    "isTransparent": true,
+    "normName": "noramyako",
+    "words": [
+      "noramyako"
+    ]
+  },
+  {
+    "id": "av_doraemon_13",
+    "name": "Riruru (Lilulu)",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b45743-SYlioGR8oIXj.png",
+    "format": "PNG",
+    "color": "ec4899",
+    "aliases": [
+      "riruru",
+      "lilulu",
+      "steel troops",
+      "doraemon movie",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": false,
+    "isTransparent": true,
+    "normName": "riruru lilulu",
+    "words": [
+      "riruru",
+      "lilulu"
+    ]
+  },
+  {
+    "id": "av_doraemon_14",
+    "name": "Piisuke",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b62725-Fv3PyWjWMjI1.jpg",
+    "format": "JPG",
+    "color": "4ade80",
+    "aliases": [
+      "piisuke",
+      "dinosaur",
+      "nobita dinosaur",
+      "doraemon movie",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": true,
+    "isTransparent": false,
+    "normName": "piisuke",
+    "words": [
+      "piisuke",
+      "dinosaur"
+    ]
+  },
+  {
+    "id": "av_doraemon_15",
+    "name": "Kibo",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b315850-HnUsmJ6jwf7o.jpg",
+    "format": "JPG",
+    "color": "22c55e",
+    "aliases": [
+      "kibo",
+      "green giant",
+      "tree sapling",
+      "doraemon movie",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": true,
+    "isTransparent": false,
+    "normName": "kibo",
+    "words": [
+      "kibo"
+    ]
+  },
+  {
+    "id": "av_doraemon_16",
+    "name": "Fujiko F. Fujio",
+    "category": "doraemon",
+    "categoryLabel": "🔔 Doraemon",
+    "url": "https://s4.anilist.co/file/anilistcdn/character/large/b163717-xqLY0HEyeRGn.png",
+    "format": "PNG",
+    "color": "facc15",
+    "aliases": [
+      "fujiko",
+      "creator",
+      "author",
+      "doraemon creator",
+      "doraemon",
+      "doremon",
+      "anime"
+    ],
+    "isVector": false,
+    "isKnownDark": false,
+    "isKnownPortrait": false,
+    "isTransparent": true,
+    "normName": "fujiko f fujio",
+    "words": [
+      "fujiko",
+      "fujio"
+    ]
+  },
+{
     "id": "av_0",
     "name": "Aman",
     "category": "founders",
@@ -41327,10 +41842,19 @@ export function searchAvatars(query, category = 'all', limit = 60) {
     return getAvatarsByCategory(category, 0, limit);
   }
 
+  const isGroup = CATEGORY_GROUPS[category];
+  const groupSet = isGroup ? new Set(CATEGORY_GROUPS[category]) : null;
+
   const results = [];
   for (let i = 0; i < AVATAR_CATALOG.length; i++) {
     const item = AVATAR_CATALOG[i];
-    if (category !== 'all' && item.category !== category) continue;
+    if (category !== 'all') {
+      if (groupSet) {
+        if (!groupSet.has(item.category)) continue;
+      } else if (item.category !== category) {
+        continue;
+      }
+    }
 
     const score = computeFuzzyScore(cleanQuery, item);
     if (score >= 120) {
@@ -41342,10 +41866,32 @@ export function searchAvatars(query, category = 'all', limit = 60) {
   return results.slice(0, limit).map(r => r.item);
 }
 
+// Session-randomized all-avatars list (Fisher-Yates shuffle)
+let SHUFFLED_ALL_CATALOG = null;
+
+export function getRandomizedAllAvatars(forceReshuffle = false) {
+  if (!SHUFFLED_ALL_CATALOG || forceReshuffle) {
+    const copy = [...AVATAR_CATALOG];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    SHUFFLED_ALL_CATALOG = copy;
+  }
+  return SHUFFLED_ALL_CATALOG;
+}
+
+export function reshuffleAllAvatars() {
+  return getRandomizedAllAvatars(true);
+}
+
 export function getAvatarsByCategory(category = 'all', offset = 0, limit = 32) {
   let filtered;
   if (category === 'all') {
-    filtered = AVATAR_CATALOG;
+    filtered = getRandomizedAllAvatars();
+  } else if (CATEGORY_GROUPS[category]) {
+    const groupSet = new Set(CATEGORY_GROUPS[category]);
+    filtered = AVATAR_CATALOG.filter(it => groupSet.has(it.category));
   } else {
     filtered = AVATAR_CATALOG.filter(it => it.category === category);
   }
@@ -41363,6 +41909,7 @@ export function getAvatarMeta(urlOrId) {
       color: 'ff6b9d',
       isKnownDark: false,
       isKnownPortrait: false,
+      isTransparent: true,
       isVector: true
     };
   }
@@ -41382,6 +41929,7 @@ export function getAvatarMeta(urlOrId) {
       color: '38bdf8',
       isKnownDark: false,
       isKnownPortrait: false,
+      isTransparent: isSvg || isGif,
       isVector: isSvg
     };
   }
@@ -41398,24 +41946,29 @@ export function getAvatarMeta(urlOrId) {
   if (found) return found;
 
   // Fallback for Dicebear, local or external url
+  const isSvg = trimmed.endsWith('.svg');
   return {
     name: 'Player Avatar',
     category: 'custom',
     categoryLabel: '✨ Avatar',
     url: trimmed,
-    format: trimmed.endsWith('.svg') ? 'SVG' : 'PNG',
+    format: isSvg ? 'SVG' : 'PNG',
     color: 'facc15',
     isKnownDark: trimmed.includes('thronesapi.com') || trimmed.includes('tvmaze.com'),
     isKnownPortrait: trimmed.includes('anilist.co') || trimmed.includes('tvmaze.com'),
-    isVector: trimmed.endsWith('.svg')
+    isTransparent: isSvg || trimmed.includes('dicebear.com') || trimmed.includes('/avvtar/'),
+    isVector: isSvg
   };
 }
 
 export default {
   AVATAR_CATEGORIES,
+  CATEGORY_GROUPS,
   AVATAR_CATALOG,
   searchAvatars,
   getAvatarsByCategory,
+  getRandomizedAllAvatars,
+  reshuffleAllAvatars,
   getAvatarMeta,
   computeFuzzyScore
 };

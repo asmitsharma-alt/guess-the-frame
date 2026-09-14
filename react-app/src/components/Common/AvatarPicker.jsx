@@ -1,11 +1,12 @@
-import React, { useState, useRef, useMemo, useCallback } from 'react';
+import React, { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import SoundManager from '../../services/soundManager';
 import { getAvatarSrc } from '../../services/gameConstants';
 import {
   AVATAR_CATEGORIES,
   searchAvatars,
   getAvatarsByCategory,
-  getAvatarMeta
+  getAvatarMeta,
+  reshuffleAllAvatars
 } from '../../services/avatarCatalog';
 
 const INITIAL_BATCH = 48;
@@ -15,7 +16,10 @@ export const CharacterPreviewBadge = ({ selectedAvatar }) => {
   const meta = useMemo(() => getAvatarMeta(selectedAvatar), [selectedAvatar]);
   const previewSrc = getAvatarSrc(meta.url || selectedAvatar, 'aman');
   const previewBg = meta.isKnownDark ? '#111827' : `#${meta.color || 'facc15'}`;
-  const previewZoom = meta.isVector ? 'img-contain-fit' : (meta.isKnownPortrait ? 'img-portrait-zoom' : 'img-cover-zoom');
+  
+  // If background is transparent or image is vector: NEVER zoom, show full image
+  const isTransparent = meta.isTransparent || meta.isVector || (meta.url && (meta.url.includes('/avvtar/') || meta.url.endsWith('.svg') || meta.url.includes('dicebear.com')));
+  const previewZoom = isTransparent ? 'img-contain-fit' : (meta.isKnownPortrait ? 'img-portrait-zoom' : 'img-cover-zoom');
 
   return (
     <div className="mp-hero-preview-badge mp-inline-preview-badge">
@@ -56,8 +60,26 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
   const [loadedCount, setLoadedCount] = useState(INITIAL_BATCH);
   const [customAvatar, setCustomAvatar] = useState(null);
   const [detectedBgColors, setDetectedBgColors] = useState({});
+  const [detectedTransparent, setDetectedTransparent] = useState({});
+  const [shuffleTick, setShuffleTick] = useState(0);
   const fileInputRef = useRef(null);
   const scrollContainerRef = useRef(null);
+
+  // Randomize all section on initial mount so players get fresh discovery
+  useEffect(() => {
+    reshuffleAllAvatars();
+    setShuffleTick(t => t + 1);
+  }, []);
+
+  const handleReshuffle = () => {
+    try { SoundManager.playClick(); } catch (e) {}
+    reshuffleAllAvatars();
+    setShuffleTick(t => t + 1);
+    setLoadedCount(INITIAL_BATCH);
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+    }
+  };
 
   // Active avatar metadata
   const currentAvatarMeta = useMemo(() => {
@@ -73,7 +95,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
       return searchAvatars(searchQuery.trim(), category, loadedCount);
     }
     return getAvatarsByCategory(category, 0, loadedCount);
-  }, [searchQuery, category, loadedCount]);
+  }, [searchQuery, category, loadedCount, shuffleTick]);
 
   // Infinite scroll loader
   const handleScroll = useCallback(() => {
@@ -145,7 +167,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
     if (e.target) e.target.value = '';
   };
 
-  // Dynamic solid background color detection from image corners
+  // Dynamic solid background color and transparent corner detection
   const handleImageLoad = (e, item) => {
     const img = e.currentTarget;
     if (!img) return;
@@ -154,7 +176,7 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
       setDetectedBgColors(prev => ({ ...prev, [item.url]: '#111827' }));
       return;
     }
-    if (item.isVector || item.url.includes('/avvtar/') || item.url.endsWith('.svg')) {
+    if (item.isVector || item.isTransparent || item.url.includes('/avvtar/') || item.url.endsWith('.svg')) {
       return;
     }
 
@@ -169,6 +191,14 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
 
         const tl = { r: data[0], g: data[1], b: data[2], a: data[3] };
         const tr = { r: data[60], g: data[61], b: data[62], a: data[63] };
+        const bl = { r: data[960], g: data[961], b: data[962], a: data[963] };
+        const br = { r: data[1020], g: data[1021], b: data[1022], a: data[1023] };
+
+        // If any corner is transparent, mark as transparent so it is NOT zoomed
+        if (tl.a < 180 || tr.a < 180 || bl.a < 180 || br.a < 180) {
+          setDetectedTransparent(prev => ({ ...prev, [item.url]: true }));
+          return;
+        }
 
         if (tl.a > 30 && tr.a > 30) {
           const diff = Math.abs(tl.r - tr.r) + Math.abs(tl.g - tr.g) + Math.abs(tl.b - tr.b);
@@ -185,7 +215,8 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
 
   const previewSrc = getAvatarSrc(currentAvatarMeta.url, 'aman');
   const previewBg = detectedBgColors[currentAvatarMeta.url] || (currentAvatarMeta.isKnownDark ? '#111827' : `#${currentAvatarMeta.color || 'facc15'}`);
-  const previewZoom = currentAvatarMeta.isVector ? 'img-contain-fit' : (currentAvatarMeta.isKnownPortrait ? 'img-portrait-zoom' : 'img-cover-zoom');
+  const isPreviewTransparent = currentAvatarMeta.isTransparent || currentAvatarMeta.isVector || detectedTransparent[currentAvatarMeta.url] || (currentAvatarMeta.url && (currentAvatarMeta.url.includes('/avvtar/') || currentAvatarMeta.url.endsWith('.svg') || currentAvatarMeta.url.includes('dicebear.com')));
+  const previewZoom = isPreviewTransparent ? 'img-contain-fit' : (currentAvatarMeta.isKnownPortrait ? 'img-portrait-zoom' : 'img-cover-zoom');
 
   return (
     <div className="mp-avatar-picker-wrap">
@@ -248,6 +279,16 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
           )}
         </div>
 
+        {/* Shuffle Random Mix Button */}
+        <button
+          type="button"
+          className="mp-shuffle-btn"
+          onClick={handleReshuffle}
+          title="Reshuffle avatars mix"
+        >
+          <span>🎲</span> Shuffle
+        </button>
+
         {/* Custom SVG / GIF Upload Button */}
         <button
           type="button"
@@ -290,7 +331,8 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
           {displayedAvatars.map((item, idx) => {
             const isSelected = selectedAvatar === item.url || (item.category === 'founders' && selectedAvatar === item.id);
             const cardBg = detectedBgColors[item.url] || (item.isKnownDark ? '#111827' : `#${item.color || 'ffffff'}`);
-            const zoomClass = item.isVector ? 'img-contain-fit' : (item.isKnownPortrait ? 'img-portrait-zoom' : 'img-cover-zoom');
+            const isCardTransparent = item.isTransparent || item.isVector || detectedTransparent[item.url] || (item.url && (item.url.includes('/avvtar/') || item.url.endsWith('.svg') || item.url.includes('dicebear.com')));
+            const zoomClass = isCardTransparent ? 'img-contain-fit' : (item.isKnownPortrait ? 'img-portrait-zoom' : 'img-cover-zoom');
 
             return (
               <button

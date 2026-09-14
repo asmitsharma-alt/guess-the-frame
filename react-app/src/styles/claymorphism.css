@@ -8890,6 +8890,32 @@
       transform: translate(1px, 1px);
       box-shadow: 1px 1px 0 #1a1a1a;
     }
+    .mp-shuffle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #fef08a;
+      border: 2.5px solid #1a1a1a;
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 900;
+      color: #1a1a1a;
+      cursor: pointer;
+      box-shadow: 2.5px 2.5px 0 #1a1a1a;
+      transition: all 0.12s ease;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .mp-shuffle-btn:hover {
+      background: #fde047;
+      transform: translate(-1px, -1px);
+      box-shadow: 3.5px 3.5px 0 #1a1a1a;
+    }
+    .mp-shuffle-btn:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0 #1a1a1a;
+    }
 
     /* Category Tabs Bar */
     .mp-avatar-category-bar {
@@ -9051,16 +9077,19 @@
       display: block;
     }
 
-    /* Contain Fit for Transparent Vectors (Founders, Pokemon, SVGs) */
+    /* Contain Fit for Transparent Images & Vectors: DO NOT ZOOM, SHOW FULL IMAGE */
     .mp-circular-avatar-btn img.img-contain-fit,
     .mp-hero-preview-img.img-contain-fit {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: center center;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      object-position: center center !important;
+      transform: none !important;
       border-radius: 11px;
       pointer-events: none;
       display: block;
+      padding: 3px !important;
+      box-sizing: border-box !important;
     }
 
     .mp-avatar-item-check {
