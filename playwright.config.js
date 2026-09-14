@@ -1,5 +1,5 @@
 module.exports = {
-  testDir: './tests',
+  testMatch: ['tests/**/*.spec.js', 'e2e/**/*.spec.js'],
   timeout: 60000,
   workers: 1,
   expect: {

@@ -1,0 +1,346 @@
+/* ==========================================================================
+   NEOBRUTALIST DESIGN SYSTEM TOKENS & RESPONSIVE TOUCH UTILITIES
+   Strictly complies with Neobrutalism specification & touch ergonomics
+   ========================================================================== */
+
+:root {
+  /* Concrete Backgrounds */
+  --nb-canvas: #FFFDF5;
+  --nb-newsprint: #F4F0EA;
+  --nb-ink: #121212;
+  --nb-card-bg: #FFFFFF;
+
+  /* High-Saturation Accent Palette */
+  --nb-cyber-yellow: #FFDE59;
+  --nb-electric-lime: #00FF66;
+  --nb-salmon-crimson: #FF5252;
+  --nb-bright-tangerine: #FF9100;
+  --nb-acid-cyan: #00F0FF;
+  --nb-hyper-violet: #B388FF;
+  --nb-hot-pink: #FF6B9D;
+
+  /* Directional Hard Drop Shadows (Zero blur radius) */
+  --nb-shadow-xs: 1px 1px 0px #121212;
+  --nb-shadow-sm: 2px 2px 0px #121212;
+  --nb-shadow-md: 4px 4px 0px #121212;
+  --nb-shadow-lg: 8px 8px 0px #121212;
+  --nb-shadow-xl: 12px 12px 0px #121212;
+
+  /* Concrete Borders */
+  --nb-border-mobile: 2px solid #121212;
+  --nb-border-desktop: 3px solid #121212;
+  --nb-border-heavy: 4px solid #121212;
+}
+
+/* Base Viewport & Touch Ergonomics */
+*, *::before, *::after {
+  -webkit-tap-highlight-color: transparent !important;
+}
+
+body {
+  background-color: var(--nb-canvas);
+  color: var(--nb-ink);
+  overscroll-behavior-y: contain;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Enforce font-size >= 16px to completely eliminate iOS auto-zooming on focus */
+input, select, textarea {
+  font-size: 16px !important;
+}
+
+/* --- Tactile Physical Buttons --- */
+.nb-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  border: 3px solid var(--nb-ink);
+  box-shadow: var(--nb-shadow-md);
+  padding: 12px 20px;
+  min-height: 48px;
+  min-width: 48px;
+  cursor: pointer;
+  user-select: none;
+  background-color: var(--nb-card-bg);
+  color: var(--nb-ink);
+  transition: transform 75ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 75ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nb-btn:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--nb-ink);
+}
+
+.nb-btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px var(--nb-ink);
+}
+
+.nb-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: 2px 2px 0px var(--nb-ink);
+}
+
+/* Color Variants */
+.nb-btn-primary {
+  background-color: var(--nb-cyber-yellow);
+}
+.nb-btn-success {
+  background-color: var(--nb-electric-lime);
+}
+.nb-btn-danger {
+  background-color: var(--nb-salmon-crimson);
+  color: #fff;
+}
+.nb-btn-info {
+  background-color: var(--nb-acid-cyan);
+}
+.nb-btn-action {
+  background-color: var(--nb-hot-pink);
+}
+
+/* --- Concrete Structural Cards --- */
+.nb-card {
+  background: var(--nb-card-bg);
+  border: 3px solid var(--nb-ink);
+  box-shadow: var(--nb-shadow-md);
+}
+
+.nb-card-hero {
+  border: 4px solid var(--nb-ink);
+  box-shadow: var(--nb-shadow-lg);
+}
+
+/* --- Neobrutalist Badges --- */
+.nb-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 2px solid var(--nb-ink);
+  box-shadow: var(--nb-shadow-xs);
+  font-family: 'JetBrains Mono', 'Space Mono', monospace;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: #FFF;
+}
+
+/* --- Retro Square Status Lights --- */
+.nb-status-square {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--nb-ink);
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.nb-status-square.connected {
+  background-color: var(--nb-electric-lime);
+  box-shadow: 0 0 0 1px var(--nb-ink);
+}
+
+.nb-status-square.reconnecting,
+.nb-status-square.connecting {
+  background-color: var(--nb-bright-tangerine);
+  animation: nbBlink 0.8s infinite alternate;
+}
+
+.nb-status-square.offline,
+.nb-status-square.error {
+  background-color: var(--nb-salmon-crimson);
+}
+
+@keyframes nbBlink {
+  from { opacity: 1; }
+  to { opacity: 0.3; }
+}
+
+/* --- Bottom Sheet Drawer for Mobile Screens (< 768px) --- */
+.nb-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nb-drawer-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nb-drawer-box {
+  width: 100%;
+  max-width: 680px;
+  background: var(--nb-canvas);
+  border-top: 4px solid var(--nb-ink);
+  border-left: 4px solid var(--nb-ink);
+  border-right: 4px solid var(--nb-ink);
+  box-shadow: 0 -8px 0px 0px rgba(0,0,0,0.15);
+  border-radius: 16px 16px 0 0;
+  padding: 16px 20px calc(20px + env(safe-area-inset-bottom, 0px));
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nb-drawer-overlay.active .nb-drawer-box {
+  transform: translateY(0);
+}
+
+/* Drag Handle */
+.nb-drawer-handle-bar {
+  width: 48px;
+  height: 6px;
+  background: var(--nb-ink);
+  border-radius: 3px;
+  margin: 0 auto 14px;
+  cursor: grab;
+}
+
+/* Desktop Modal Centering (>= 768px) */
+@media (min-width: 768px) {
+  .nb-drawer-overlay {
+    align-items: center;
+  }
+
+  .nb-drawer-box {
+    border: 4px solid var(--nb-ink);
+    border-radius: 8px;
+    box-shadow: var(--nb-shadow-xl);
+    padding: 24px;
+    max-height: 85vh;
+    transform: scale(0.95);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .nb-drawer-overlay.active .nb-drawer-box {
+    transform: scale(1);
+  }
+
+  .nb-drawer-handle-bar {
+    display: none;
+  }
+}
+
+/* Safe Area Utility */
+.safe-bottom {
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
+}
+
+/* ==========================================================================
+   MOBILE BOTTOM-DRAWER & TOUCH ERGONOMICS OVERRIDES
+   Upgrades all modals to slide-up bottom sheets on mobile (<768px)
+   ========================================================================== */
+
+@media (max-width: 767px) {
+  .mp-modal-overlay {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+
+  .mp-modal-box {
+    max-width: 100% !important;
+    border-radius: 20px 20px 0 0 !important;
+    border-top: 4px solid #121212 !important;
+    border-left: 4px solid #121212 !important;
+    border-right: 4px solid #121212 !important;
+    border-bottom: none !important;
+    box-shadow: 0 -8px 0px 0px rgba(0,0,0,0.15) !important;
+    padding: 16px 20px calc(20px + env(safe-area-inset-bottom, 0px)) !important;
+    max-height: 90vh !important;
+    animation: drawerSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  @keyframes drawerSlideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  /* Sticky pull bar indicator on mobile modals */
+  .mp-badge-pass-header::before {
+    content: '';
+    display: block;
+    width: 48px;
+    height: 5px;
+    background: #121212;
+    border-radius: 3px;
+    margin: 0 auto 12px auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .mp-modal-box {
+    border: 4px solid #121212 !important;
+    box-shadow: 10px 10px 0 #121212 !important;
+    border-radius: 12px !important;
+  }
+}
+
+/* Minimum 48px touch targets & tactile Neobrutalist buttons */
+.mp-btn-primary,
+.mp-btn-secondary,
+.h-card-mp,
+button[id*="Btn"] {
+  min-height: 48px !important;
+  min-width: 48px !important;
+  cursor: pointer !important;
+  user-select: none !important;
+  border: 3px solid #121212 !important;
+  box-shadow: 4px 4px 0 #121212 !important;
+  transition: transform 75ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 75ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.mp-btn-primary:hover,
+.mp-btn-secondary:hover,
+.h-card-mp:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0 #121212 !important;
+}
+
+.mp-btn-primary:active,
+.mp-btn-secondary:active,
+.h-card-mp:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 0px 0px 0 #121212 !important;
+}
+
+/* Prevent auto-zooming on mobile inputs */
+.mp-input,
+#hostPlayerNameInput,
+#joinPlayerNameInput,
+#joinCodeInput,
+#mobileQuickInput {
+  font-size: 16px !important;
+  min-height: 48px !important;
+  border: 3px solid #121212 !important;
+  box-shadow: 3px 3px 0 #121212 !important;
+  background-color: #FFFFFF !important;
+  color: #121212 !important;
+  border-radius: 6px !important;
+}
+
+.mp-input:focus,
+#hostPlayerNameInput:focus,
+#joinPlayerNameInput:focus,
+#joinCodeInput:focus,
+#mobileQuickInput:focus {
+  outline: none !important;
+  box-shadow: 5px 5px 0 #121212 !important;
+  background-color: #FFFDF0 !important;
+}
+

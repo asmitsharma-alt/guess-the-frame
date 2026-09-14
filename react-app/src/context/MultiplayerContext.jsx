@@ -5,6 +5,7 @@ import { NetworkSecurity, SecurityUtil } from '../services/securityUtil';
 import { FuzzyMatcher } from '../services/fuzzyMatcher';
 import { AVATAR_MAP } from '../services/gameConstants';
 import { WS_BASE_URL } from '../config/env';
+import { useMqttClient } from '../hooks/useMqttClient';
 
 const MultiplayerContext = createContext(null);
 
@@ -25,6 +26,34 @@ export const MultiplayerProvider = ({ children }) => {
   const [socketStatus, setSocketStatus] = useState('offline'); // 'connected' | 'connecting' | 'offline'
   const handleIncomingMessageRef = useRef(null);
 
+  // Inbound MQTT message router
+  const handleMqttMessage = useCallback((msg, topic) => {
+    if (handleIncomingMessageRef.current) {
+      handleIncomingMessageRef.current(msg);
+    }
+  }, []);
+
+  // Resilient Distributed MQTT Client Hook
+  const mqtt = useMqttClient({
+    roomCode: game.roomCode,
+    playerId: game.playerId,
+    playerName: game.playerName,
+    isHost: game.isHost,
+    onMessage: handleMqttMessage
+  });
+
+  // Reactive Connection Status Sync without polling
+  useEffect(() => {
+    if (mqtt.connectionState === 'CONNECTED') {
+      setSocketStatus('connected');
+    } else if (mqtt.connectionState === 'CONNECTING' || mqtt.connectionState === 'RECONNECTING') {
+      setSocketStatus('connecting');
+    } else if (mqtt.connectionState === 'OFFLINE' || mqtt.connectionState === 'ERROR') {
+      const isWs = Boolean(wsRef.current && wsRef.current.readyState === WebSocket.OPEN);
+      setSocketStatus(isWs ? 'connected' : 'offline');
+    }
+  }, [mqtt.connectionState]);
+
   useEffect(() => {
     window.__setMultiplayerSocketStatus = (status) => setSocketStatus(status);
     window.__handleMultiplayerIncomingMessage = (msg) => {
@@ -37,22 +66,9 @@ export const MultiplayerProvider = ({ children }) => {
       }
     };
 
-    const statusInterval = setInterval(() => {
-      const isMqtt = Boolean(typeof window !== 'undefined' && window.MultiplayerEngine?._mqttIsConnected);
-      const isWs = Boolean(wsRef.current && wsRef.current.readyState === WebSocket.OPEN);
-      if (isMqtt || isWs) {
-        setSocketStatus('connected');
-      } else if (wsRef.current?.readyState === WebSocket.CONNECTING) {
-        setSocketStatus('connecting');
-      } else {
-        setSocketStatus('offline');
-      }
-    }, 1500);
-
     return () => {
       window.__setMultiplayerSocketStatus = null;
       window.__handleMultiplayerIncomingMessage = null;
-      clearInterval(statusInterval);
     };
   }, []);
 
@@ -142,7 +158,7 @@ export const MultiplayerProvider = ({ children }) => {
     }
   }, [game.playerId, game.playerName, game.playerAvatar]);
 
-  // Dispatch events to WebSocket, BroadcastChannel & MQTT over WebSockets
+  // Dispatch events to WebSocket, BroadcastChannel & Resilient MQTT Hook
   const sendEvent = useCallback((type, payload = {}) => {
     const msg = {
       type,
@@ -152,21 +168,27 @@ export const MultiplayerProvider = ({ children }) => {
       ...payload
     };
 
-    // 1. Cross-tab broadcast
+    // 1. Publish via Resilient MQTT Hook (Primary Cloud Transport with offline buffer)
+    const cleanRoom = game.roomCode ? game.roomCode.trim().toUpperCase() : '';
+    if (cleanRoom) {
+      mqtt.publish(`gtf/${cleanRoom}/events`, msg, 1);
+    }
+
+    // 2. Cross-tab broadcast (for local fast sync)
     try {
       if (broadcastChannelRef.current) {
         broadcastChannelRef.current.postMessage(msg);
       }
     } catch (e) {}
 
-    // 2. Native WebSocket send (if open)
+    // 3. Native WebSocket send (if open)
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
       try {
         wsRef.current.send(JSON.stringify(msg));
       } catch (e) {}
     }
 
-    // 3. MQTT over WebSockets via MultiplayerEngine (for cloud/Vercel cross-device)
+    // 4. Fallback dispatch to window.MultiplayerEngine (for test suites)
     if (typeof window !== 'undefined' && window.MultiplayerEngine?.sendEvent) {
       if (game.roomCode && !window.MultiplayerEngine.roomCode) {
         window.MultiplayerEngine.roomCode = game.roomCode;
@@ -176,7 +198,7 @@ export const MultiplayerProvider = ({ children }) => {
         window.MultiplayerEngine.sendEvent(type, payload);
       } catch (e) {}
     }
-  }, [game.roomCode, game.playerId]);
+  }, [game.roomCode, game.playerId, mqtt]);
 
   // Incoming event router
   const handleIncomingMessage = useCallback((msg) => {
@@ -534,6 +556,10 @@ export const MultiplayerProvider = ({ children }) => {
     sendEvent,
     handleIncomingMessage,
     socketStatus,
+    mqttState: mqtt.connectionState,
+    mqttBrokerName: mqtt.currentBrokerName,
+    mqttQueuedCount: mqtt.queuedCount,
+    reconnectMqtt: mqtt.reconnect,
     selectedAvatar: game.selectedAvatarForModal,
     setSelectedAvatar: game.setSelectedAvatarForModal
   };
