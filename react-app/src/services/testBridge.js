@@ -1745,6 +1745,13 @@ export function installTestBridge(gameContextRef) {
       if (incomingRoom && currentRoom && incomingRoom !== currentRoom) return;
       if (event.senderId === this.playerId && event.type !== 'SYNC_ROOM_STATE') return;
 
+      // Forward to React MultiplayerContext immediately
+      try {
+        if (typeof window !== 'undefined' && window.__handleMultiplayerIncomingMessage) {
+          window.__handleMultiplayerIncomingMessage(event);
+        }
+      } catch (e) {}
+
       switch (event.type) {
         case 'PLAYER_JOIN': {
           if (this.isHost) {
@@ -2065,6 +2072,107 @@ export function installTestBridge(gameContextRef) {
           }
           break;
         }
+
+        case 'ROUND_START': {
+          const nextIdx = event.roundIndex ?? event.currentPlayIndex ?? 0;
+          this.currentPlayIndex = nextIdx;
+          this.isRoundFinished = false;
+          this.currentRoundWinners = [];
+          this.currentMaskedHint = null;
+          const frame = event.frame || (this.currentPlaylist && this.currentPlaylist[nextIdx]);
+          if (frame) {
+            FrameDisplay.showFrame(frame);
+          }
+          const ansOv = document.getElementById('answerOverlay');
+          if (ansOv) ansOv.classList.remove('visible', 'active');
+          if (gameContextRef?.current?.setCurrentPlayIndex) {
+            gameContextRef.current.setCurrentPlayIndex(nextIdx);
+            if (frame) gameContextRef.current.setCurrentFrame(frame);
+            gameContextRef.current.setIsRoundFinished(false);
+            gameContextRef.current.setIsAnswerRevealed(false);
+            gameContextRef.current.setRoundWinners([]);
+            gameContextRef.current.setMaskedHint(null);
+            const dur = event.duration || this.hostSettings?.timer || 30;
+            gameContextRef.current.setTimeRemaining(dur);
+            gameContextRef.current.setTimerMax(dur);
+          }
+          UI.showScreen('gameScreen');
+          SoundManager.playRoundStart();
+          break;
+        }
+
+        case 'ROUND_FINISH_BROADCAST':
+        case 'ANSWER_REVEALED': {
+          this.isRoundFinished = true;
+          const curFrame = this.currentPlaylist ? this.currentPlaylist[this.currentPlayIndex] : null;
+          if (curFrame && curFrame.revealContent) {
+            const img = document.querySelector('#imageContainer .frame-image');
+            const revealPath = curFrame.revealContent.startsWith('/') ? curFrame.revealContent : `/${curFrame.revealContent}`;
+            if (img) img.src = revealPath;
+          }
+          const ansOv = document.getElementById('answerOverlay');
+          if (ansOv) ansOv.classList.add('visible', 'active');
+          const nextBtn = document.getElementById('ansNextRoundBtn');
+          if (nextBtn) nextBtn.style.display = this.isHost ? 'block' : 'none';
+          if (gameContextRef?.current?.setIsRoundFinished) {
+            gameContextRef.current.setIsRoundFinished(true);
+            gameContextRef.current.setIsAnswerRevealed(true);
+          }
+          SoundManager.playReveal();
+          break;
+        }
+
+        case 'PAUSE_TOGGLE': {
+          this.isPaused = Boolean(event.isPaused);
+          const btn = document.getElementById('hfbPauseBtn');
+          if (btn) btn.textContent = this.isPaused ? '▶ Resume' : '⏸ Pause';
+          if (gameContextRef?.current?.setIsPaused) {
+            gameContextRef.current.setIsPaused(this.isPaused);
+          }
+          break;
+        }
+
+        case 'HINT_BROADCAST': {
+          const hint = event.maskedHint;
+          this.currentMaskedHint = hint;
+          const pill = document.getElementById('hfbActiveHintPill');
+          const text = document.getElementById('hfbActiveHintText');
+          if (pill) pill.style.display = 'inline-flex';
+          if (text) text.textContent = hint;
+          const chatHint = document.getElementById('chatActiveHint');
+          const chatHintText = document.getElementById('chatActiveHintText');
+          if (chatHint) chatHint.style.display = 'block';
+          if (chatHintText) chatHintText.textContent = hint;
+          if (gameContextRef?.current?.setMaskedHint) {
+            gameContextRef.current.setMaskedHint(hint);
+          }
+          SoundManager.play('flare');
+          break;
+        }
+
+        case 'GAME_OVER_BROADCAST': {
+          if (event.scoreboard && Array.isArray(event.scoreboard)) {
+            GS.players = event.scoreboard;
+          }
+          this.isMatchActive = false;
+          this.finishGame();
+          break;
+        }
+
+        case 'REMATCH_STARTED': {
+          if (event.players) GS.players = event.players;
+          GS.players.forEach(p => { p.score = 0; });
+          if (gameContextRef?.current?.setPlayers) {
+            gameContextRef.current.setPlayers(GS.players);
+          }
+          break;
+        }
+
+        case 'RETURN_TO_LOBBY': {
+          if (event.players) GS.players = event.players;
+          this.returnToLobby();
+          break;
+        }
       }
     },
 
@@ -2085,6 +2193,12 @@ export function installTestBridge(gameContextRef) {
       const nextBtn = document.getElementById('ansNextRoundBtn');
       if (nextBtn) nextBtn.style.display = 'block';
       SoundManager.playSkip();
+
+      // Realtime network broadcast to all players
+      this.sendEvent('ROUND_FINISH_BROADCAST', {
+        roundIndex: this.currentPlayIndex,
+        isAnswerRevealed: true
+      });
     },
 
     hostNextRound() {
@@ -2106,21 +2220,45 @@ export function installTestBridge(gameContextRef) {
         gameContextRef.current.setIsRoundFinished(false);
         gameContextRef.current.setIsAnswerRevealed(false);
         gameContextRef.current.setRoundWinners([]);
+        gameContextRef.current.setMaskedHint(null);
+        const dur = this.hostSettings?.timer || 30;
+        gameContextRef.current.setTimeRemaining(dur);
+        gameContextRef.current.setTimerMax(dur);
       }
       const ansOv = document.getElementById('answerOverlay');
       if (ansOv) ansOv.classList.remove('visible', 'active');
+
+      // Realtime network broadcast to all players
+      this.sendEvent('ROUND_START', {
+        roundIndex: this.currentPlayIndex,
+        frame: curFrame,
+        duration: this.hostSettings?.timer || 30
+      });
     },
 
     hostTogglePause() {
       this.isPaused = !this.isPaused;
       const btn = document.getElementById('hfbPauseBtn');
       if (btn) btn.textContent = this.isPaused ? '▶ Resume' : '⏸ Pause';
+      if (gameContextRef?.current?.setIsPaused) {
+        gameContextRef.current.setIsPaused(this.isPaused);
+      }
+      this.sendEvent('PAUSE_TOGGLE', { isPaused: this.isPaused });
     },
 
     finishGame() {
       this.clearActiveSession();
       this.isMatchActive = false;
       WinnerScreen.show(GS.players);
+      if (gameContextRef?.current?.setIsMatchActive) {
+        gameContextRef.current.setIsMatchActive(false);
+      }
+      if (gameContextRef?.current?.showScreen) {
+        gameContextRef.current.showScreen('winnerScreen');
+      }
+      if (this.isHost) {
+        this.sendEvent('GAME_OVER_BROADCAST', { scoreboard: GS.players });
+      }
     },
 
     hostEndGame() {
@@ -2129,12 +2267,24 @@ export function installTestBridge(gameContextRef) {
 
     rematch() {
       GS.players.forEach(p => { p.score = 0; });
+      if (gameContextRef?.current?.setPlayers) {
+        gameContextRef.current.setPlayers([...GS.players]);
+      }
+      if (this.isHost) {
+        this.sendEvent('REMATCH_STARTED', { players: GS.players });
+      }
       this.startMatch();
     },
 
     returnToLobby() {
       UI.showScreen('playerLobbyScreen');
       this.renderLobbyUI();
+      if (gameContextRef?.current?.showScreen) {
+        gameContextRef.current.showScreen('playerLobbyScreen');
+      }
+      if (this.isHost) {
+        this.sendEvent('RETURN_TO_LOBBY', { players: GS.players });
+      }
     },
 
     leaveRoom() {

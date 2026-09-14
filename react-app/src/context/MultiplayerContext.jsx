@@ -23,11 +23,36 @@ export const MultiplayerProvider = ({ children }) => {
   const heartbeatTimerRef = useRef(null);
   const lastHeartbeatRef = useRef(Date.now());
   const [socketStatus, setSocketStatus] = useState('offline'); // 'connected' | 'connecting' | 'offline'
+  const handleIncomingMessageRef = useRef(null);
 
   useEffect(() => {
     window.__setMultiplayerSocketStatus = (status) => setSocketStatus(status);
+    window.__handleMultiplayerIncomingMessage = (msg) => {
+      try {
+        if (handleIncomingMessageRef.current) {
+          handleIncomingMessageRef.current(msg);
+        }
+      } catch (e) {
+        console.error('[MultiplayerContext] Incoming message error:', e);
+      }
+    };
+
+    const statusInterval = setInterval(() => {
+      const isMqtt = Boolean(typeof window !== 'undefined' && window.MultiplayerEngine?._mqttIsConnected);
+      const isWs = Boolean(wsRef.current && wsRef.current.readyState === WebSocket.OPEN);
+      if (isMqtt || isWs) {
+        setSocketStatus('connected');
+      } else if (wsRef.current?.readyState === WebSocket.CONNECTING) {
+        setSocketStatus('connecting');
+      } else {
+        setSocketStatus('offline');
+      }
+    }, 1500);
+
     return () => {
       window.__setMultiplayerSocketStatus = null;
+      window.__handleMultiplayerIncomingMessage = null;
+      clearInterval(statusInterval);
     };
   }, []);
 
@@ -62,7 +87,9 @@ export const MultiplayerProvider = ({ children }) => {
           if (broadcastChannelRef.current) broadcastChannelRef.current.close();
           broadcastChannelRef.current = new BroadcastChannel('gtf_bc_' + topicHash);
           broadcastChannelRef.current.onmessage = (event) => {
-            if (event?.data) handleIncomingMessage(event.data);
+            if (event?.data && handleIncomingMessageRef.current) {
+              handleIncomingMessageRef.current(event.data);
+            }
           };
         } catch (e) {}
 
@@ -84,7 +111,9 @@ export const MultiplayerProvider = ({ children }) => {
       socket.onmessage = (event) => {
         try {
           const data = JSON.parse(event.data);
-          handleIncomingMessage(data);
+          if (handleIncomingMessageRef.current) {
+            handleIncomingMessageRef.current(data);
+          }
         } catch (e) {
           console.error('[WebSocket] Failed to parse message:', e);
         }
@@ -113,7 +142,7 @@ export const MultiplayerProvider = ({ children }) => {
     }
   }, [game.playerId, game.playerName, game.playerAvatar]);
 
-  // Dispatch events to WebSocket & BroadcastChannel
+  // Dispatch events to WebSocket, BroadcastChannel & MQTT over WebSockets
   const sendEvent = useCallback((type, payload = {}) => {
     const msg = {
       type,
@@ -123,16 +152,29 @@ export const MultiplayerProvider = ({ children }) => {
       ...payload
     };
 
-    // Cross-tab broadcast
+    // 1. Cross-tab broadcast
     try {
       if (broadcastChannelRef.current) {
         broadcastChannelRef.current.postMessage(msg);
       }
     } catch (e) {}
 
-    // WebSocket send
+    // 2. Native WebSocket send (if open)
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify(msg));
+      try {
+        wsRef.current.send(JSON.stringify(msg));
+      } catch (e) {}
+    }
+
+    // 3. MQTT over WebSockets via MultiplayerEngine (for cloud/Vercel cross-device)
+    if (typeof window !== 'undefined' && window.MultiplayerEngine?.sendEvent) {
+      if (game.roomCode && !window.MultiplayerEngine.roomCode) {
+        window.MultiplayerEngine.roomCode = game.roomCode;
+        window.MultiplayerEngine.roomId = 'room_' + game.roomCode;
+      }
+      try {
+        window.MultiplayerEngine.sendEvent(type, payload);
+      } catch (e) {}
     }
   }, [game.roomCode, game.playerId]);
 
@@ -294,25 +336,95 @@ export const MultiplayerProvider = ({ children }) => {
       }
 
       case 'ROUND_FINISH_EARLY':
-      case 'ROUND_FINISH_BROADCAST': {
+      case 'ROUND_FINISH_BROADCAST':
+      case 'ANSWER_REVEALED': {
         game.setIsRoundFinished(true);
         game.setIsAnswerRevealed(true);
         SoundManager.playReveal();
         break;
       }
 
+      case 'SYNC_ROOM_STATE':
+      case 'ROOM_STATE': {
+        if (msg.players && Array.isArray(msg.players) && msg.players.length > 0) {
+          game.setPlayers(msg.players);
+        }
+        if (msg.hostSettings) {
+          game.setHostSettings(msg.hostSettings);
+        }
+        if (msg.currentPlaylist && Array.isArray(msg.currentPlaylist) && msg.currentPlaylist.length > 0) {
+          game.setCurrentPlaylist(msg.currentPlaylist);
+        }
+        if (msg.currentPlayIndex !== undefined) {
+          game.setCurrentPlayIndex(msg.currentPlayIndex);
+        }
+        if (msg.currentRoundWinners) {
+          game.setRoundWinners(msg.currentRoundWinners);
+        }
+        break;
+      }
+
+      case 'MATCH_START':
       case 'MATCH_STARTED': {
-        if (msg.playlist && msg.playlist.length > 0) {
-          game.setCurrentPlaylist(msg.playlist);
-          game.setCurrentFrame(msg.currentFrame || msg.playlist[0]);
-          game.setCurrentPlayIndex(0);
+        const playlist = msg.currentPlaylist || msg.playlist;
+        if (playlist && playlist.length > 0) {
+          game.setCurrentPlaylist(playlist);
+          game.setCurrentFrame(playlist[msg.currentPlayIndex || 0]);
+          game.setCurrentPlayIndex(msg.currentPlayIndex || 0);
         }
         if (msg.players) {
           game.setPlayers(msg.players);
         }
+        game.setIsMatchActive(true);
         game.setIsRoundFinished(false);
         game.setIsAnswerRevealed(false);
         game.setRoundWinners([]);
+        game.setMaskedHint(null);
+        const timerDuration = msg.duration || game.hostSettings?.timer || 30;
+        game.setTimeRemaining(timerDuration);
+        game.setTimerMax(timerDuration);
+        game.showScreen('gameScreen');
+        SoundManager.playRoundStart();
+        break;
+      }
+
+      case 'NEXT_ROUND':
+      case 'ROUND_CHANGED': {
+        const nextIdx = msg.currentPlayIndex ?? msg.roundIndex ?? (game.currentPlayIndex + 1);
+        const pl = msg.currentPlaylist || game.currentPlaylist;
+        if (pl && pl[nextIdx]) {
+          game.setCurrentFrame(pl[nextIdx]);
+          game.setCurrentPlayIndex(nextIdx);
+        }
+        game.setIsRoundFinished(false);
+        game.setIsAnswerRevealed(false);
+        game.setMaskedHint(null);
+        game.setRoundWinners([]);
+        const duration = msg.duration || game.hostSettings?.timer || 30;
+        game.setTimeRemaining(duration);
+        game.setTimerMax(duration);
+        game.showScreen('gameScreen');
+        SoundManager.playRoundStart();
+        break;
+      }
+
+      case 'REMATCH':
+      case 'REMATCH_STARTED': {
+        game.setPlayers(prev => prev.map(p => ({ ...p, score: 0 })));
+        const playlist = msg.currentPlaylist || msg.playlist;
+        if (playlist && playlist.length > 0) {
+          game.setCurrentPlaylist(playlist);
+          game.setCurrentFrame(playlist[0]);
+          game.setCurrentPlayIndex(0);
+        }
+        game.setIsMatchActive(true);
+        game.setIsRoundFinished(false);
+        game.setIsAnswerRevealed(false);
+        game.setRoundWinners([]);
+        game.setMaskedHint(null);
+        const timerDuration = msg.duration || game.hostSettings?.timer || 30;
+        game.setTimeRemaining(timerDuration);
+        game.setTimerMax(timerDuration);
         game.showScreen('gameScreen');
         SoundManager.playRoundStart();
         break;
@@ -394,6 +506,8 @@ export const MultiplayerProvider = ({ children }) => {
         break;
     }
   }, [game, sendEvent]);
+
+  handleIncomingMessageRef.current = handleIncomingMessage;
 
   // Host heartbeat
   useEffect(() => {

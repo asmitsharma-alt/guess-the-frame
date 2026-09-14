@@ -74,20 +74,20 @@ export const GameScreen = ({
 
   const effectiveIsHost = Boolean(isHost || (typeof window !== 'undefined' && window.MultiplayerEngine?.isHost));
 
-  const handleGuessSubmit = (e) => {
-    e.preventDefault();
-    const val = guessInput.trim();
-    if (!val) return;
+  const submitGuess = (val) => {
+    const clean = val.trim();
+    if (!clean) return;
     setGuessInput('');
+    setMobileGuessInput('');
     if (typeof window !== 'undefined' && window.ChatEngine?.processOutgoingMessage) {
-      window.ChatEngine.processOutgoingMessage(val);
+      window.ChatEngine.processOutgoingMessage(clean);
     } else if (typeof window !== 'undefined' && window.MultiplayerEngine) {
       if (window.MultiplayerEngine.isHost) {
         window.MultiplayerEngine.validateAndProcessGuess({
           playerId: window.MultiplayerEngine.playerId || playerId,
           playerName: window.MultiplayerEngine.playerName || playerName,
           playerAvatar: window.MultiplayerEngine.playerAvatar || playerAvatar,
-          guess: val,
+          guess: clean,
           roundIndex: window.MultiplayerEngine.currentPlayIndex ?? currentPlayIndex ?? 0
         });
       } else {
@@ -95,20 +95,22 @@ export const GameScreen = ({
           playerId: window.MultiplayerEngine.playerId || playerId,
           playerName: window.MultiplayerEngine.playerName || playerName,
           playerAvatar: window.MultiplayerEngine.playerAvatar || playerAvatar,
-          guess: val,
+          guess: clean,
           roundIndex: window.MultiplayerEngine.currentPlayIndex ?? currentPlayIndex ?? 0
         });
       }
     }
-    if (onSubmitGuess) onSubmitGuess(val);
+    if (onSubmitGuess) onSubmitGuess(clean);
+  };
+
+  const handleGuessSubmit = (e) => {
+    e.preventDefault();
+    submitGuess(guessInput);
   };
 
   const handleMobileGuessSubmit = (e) => {
     e.preventDefault();
-    const val = mobileGuessInput.trim();
-    if (!val) return;
-    setMobileGuessInput('');
-    if (onSubmitGuess) onSubmitGuess(val);
+    submitGuess(mobileGuessInput);
   };
 
   // Timer SVG circle calculations

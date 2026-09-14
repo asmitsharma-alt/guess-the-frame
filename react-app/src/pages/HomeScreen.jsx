@@ -49,6 +49,7 @@ export const HomeScreen = ({ isActive, onCreateRoom, onJoinRoom }) => {
       {/* Action cards for Online Multiplayer & Local */}
       <div className="h-cards-multiplayer">
         <div
+          id="homeCreateBtn"
           className="h-card-mp h-card-create"
           onClick={() => {
             SoundManager.playClick();
@@ -59,6 +60,7 @@ export const HomeScreen = ({ isActive, onCreateRoom, onJoinRoom }) => {
         </div>
 
         <div
+          id="homeJoinBtn"
           className="h-card-mp h-card-join"
           onClick={() => {
             SoundManager.playClick();
