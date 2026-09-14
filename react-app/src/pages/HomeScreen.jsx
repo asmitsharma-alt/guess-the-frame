@@ -34,17 +34,6 @@ export const HomeScreen = ({ isActive, onCreateRoom, onJoinRoom }) => {
         ))}
       </div>
 
-      {/* Retro OS Window Title Badge */}
-      <div className="nb-retro-os-badge">
-        <div className="nb-os-dots">
-          <span className="nb-os-dot nb-os-dot-red"></span>
-          <span className="nb-os-dot nb-os-dot-yellow"></span>
-          <span className="nb-os-dot nb-os-dot-green"></span>
-        </div>
-        <span className="nb-os-title">GTF_SYSTEM_V3.0 // CINEMA FRAME GUESSING ENGINE</span>
-        <span className="nb-os-status">● LIVE REALTIME</span>
-      </div>
-
       {/* Hero Logo Image */}
       <div className="h-hero">
         <img
@@ -57,23 +46,7 @@ export const HomeScreen = ({ isActive, onCreateRoom, onJoinRoom }) => {
         />
       </div>
 
-      {/* Floating Sticker Badges */}
-      <div className="h-stickers-row">
-        <div className="nb-sticker" style={{ background: '#F9E900', '--sticker-rot': '-2deg', '--sticker-rot-hover': '-4deg' }}>
-          <span>⚡</span> 100% REALTIME
-        </div>
-        <div className="nb-sticker" style={{ background: '#B8FF00', '--sticker-rot': '1.5deg', '--sticker-rot-hover': '3deg' }}>
-          <span>🎬</span> 2,000+ FRAMES
-        </div>
-        <div className="nb-sticker" style={{ background: '#65F4FF', '--sticker-rot': '-1deg', '--sticker-rot-hover': '2deg' }}>
-          <span>👾</span> ZERO SIGNUP
-        </div>
-        <div className="nb-sticker" style={{ background: '#FF2E93', color: '#fff', '--sticker-rot': '2deg', '--sticker-rot-hover': '-2deg' }}>
-          <span>🍿</span> PARTY GAME
-        </div>
-      </div>
-
-      {/* Action cards for Online Multiplayer */}
+      {/* Action cards for Online Multiplayer & Local */}
       <div className="h-cards-multiplayer">
         <div
           className="h-card-mp h-card-create"
@@ -82,9 +55,7 @@ export const HomeScreen = ({ isActive, onCreateRoom, onJoinRoom }) => {
             if (typeof onCreateRoom === 'function') onCreateRoom();
           }}
         >
-          <span className="h-card-tag">HOST PASS</span>
           <div className="h-card-title-lg">⚡ CREATE ROOM</div>
-          <span className="h-card-sub">START PARTY LOBBY →</span>
         </div>
 
         <div
@@ -94,16 +65,14 @@ export const HomeScreen = ({ isActive, onCreateRoom, onJoinRoom }) => {
             if (typeof onJoinRoom === 'function') onJoinRoom();
           }}
         >
-          <span className="h-card-tag">JOIN PASS</span>
           <div className="h-card-title-lg">🎮 JOIN ROOM</div>
-          <span className="h-card-sub">ENTER 4-LETTER CODE →</span>
         </div>
+
+
       </div>
 
       {/* Bottom caption */}
-      <div className="h-footer">
-        [GTF_ENGINE // ARCHIVE_01] — CAN <em>YOU</em> NAME EVERY FRAME?
-      </div>
+      <div className="h-footer">How many can <em>you</em> name?</div>
 
       {/* invisible secret trigger — Space x5 opens admin */}
       <div id="hSecretHint" className="h-secret-hint"></div>
