@@ -348,7 +348,12 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar, hideHeroPreview =
             key={cat.id}
             type="button"
             className={`mp-category-tab ${category === cat.id ? 'active' : ''}`}
-            onClick={() => handleCategoryChange(cat.id)}
+            onClick={(e) => {
+              handleCategoryChange(cat.id);
+              try {
+                e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+              } catch (err) {}
+            }}
           >
             {cat.label}
           </button>

@@ -166,6 +166,15 @@ export const GameScreen = ({
               <div className="round-info" id="roundInfo">
                 Round {roundNum} / {totalRounds}
               </div>
+
+              {/* Mobile-Only Live Countdown Timer Badge */}
+              <div
+                className={`mobile-timer-pill ${timeRemaining <= 5 ? 'pulse-urgent' : ''}`}
+                title="Time Remaining"
+              >
+                <span className="mtp-icon">⏱</span>
+                <span className="mtp-val" id="mobileTimerVal">{timeRemaining}s</span>
+              </div>
             </div>
           </header>
 

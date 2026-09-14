@@ -415,11 +415,11 @@ export const LobbyScreen = ({
                       {totalRounds}
                     </span>
                   </div>
-                  <div className="grid grid-cols-2 gap-1.5 w-full mt-1">
+                  <div className="grid grid-cols-2 gap-2 w-full mt-1.5">
                     <button
                       type="button"
                       onClick={() => handleAdjustRounds(-1)}
-                      className="bg-[#ffd8df] hover:bg-[#ffb6c1] border border-on-surface font-black text-sm py-1 rounded flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+                      className="bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-xl h-11 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                       title="Decrease Rounds"
                     >
                       −
@@ -427,7 +427,7 @@ export const LobbyScreen = ({
                     <button
                       type="button"
                       onClick={() => handleAdjustRounds(1)}
-                      className="bg-[#cae6ff] hover:bg-[#a6d5ff] border border-on-surface font-black text-sm py-1 rounded flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+                      className="bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-xl h-11 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                       title="Increase Rounds"
                     >
                       +
@@ -454,11 +454,11 @@ export const LobbyScreen = ({
                       {timerSec}s
                     </span>
                   </div>
-                  <div className="grid grid-cols-2 gap-1.5 w-full mt-1">
+                  <div className="grid grid-cols-2 gap-2 w-full mt-1.5">
                     <button
                       type="button"
                       onClick={() => handleAdjustTimer(-1)}
-                      className="bg-[#ffd8df] hover:bg-[#ffb6c1] border border-on-surface font-black text-sm py-1 rounded flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+                      className="bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-xl h-11 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                       title="Decrease Timer"
                     >
                       −
@@ -466,7 +466,7 @@ export const LobbyScreen = ({
                     <button
                       type="button"
                       onClick={() => handleAdjustTimer(1)}
-                      className="bg-[#cae6ff] hover:bg-[#a6d5ff] border border-on-surface font-black text-sm py-1 rounded flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+                      className="bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-xl h-11 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                       title="Increase Timer"
                     >
                       +
@@ -502,7 +502,10 @@ export const LobbyScreen = ({
         </main>
 
         {/* Mobile Sticky Bottom Action Dock */}
-        <div className="fixed bottom-0 left-0 w-full p-3 bg-background/95 backdrop-blur-md border-t-2 border-on-surface z-30 shadow-[0px_-4px_10px_rgba(0,0,0,0.15)] flex flex-col gap-1.5">
+        <div
+          className="fixed bottom-0 left-0 w-full p-3 bg-background/95 backdrop-blur-md border-t-2 border-on-surface z-30 shadow-[0px_-4px_10px_rgba(0,0,0,0.15)] flex flex-col gap-1.5"
+          style={{ paddingBottom: 'max(14px, env(safe-area-inset-bottom, 14px))' }}
+        >
           <button
             type="button"
             id="mobileLobbyStartBtn"
@@ -511,7 +514,7 @@ export const LobbyScreen = ({
               SoundManager.playClick();
               if (onStartMatch) onStartMatch();
             }}
-            className={`w-full bg-neo-green hover:bg-[#72e89d] border-2 border-on-surface py-3 px-4 font-headline-lg text-lg uppercase flex items-center justify-center gap-2 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer font-black ${
+            className={`w-full min-h-[52px] bg-neo-green hover:bg-[#72e89d] border-2 border-on-surface py-3 px-4 font-headline-lg text-lg uppercase flex items-center justify-center gap-2 rounded-xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer font-black ${
               !isHost ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >

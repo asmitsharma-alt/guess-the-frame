@@ -8921,13 +8921,24 @@
     .mp-avatar-category-bar {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       overflow-x: auto;
-      padding: 2px 2px 6px 2px;
+      overflow-y: hidden;
+      flex-shrink: 0;
+      min-height: 46px;
+      height: 46px;
+      padding: 4px 4px 8px 4px;
+      box-sizing: border-box;
+      -webkit-overflow-scrolling: touch;
       scrollbar-width: thin;
+      scrollbar-color: #1a1a1a #f1f5f9;
     }
     .mp-avatar-category-bar::-webkit-scrollbar {
-      height: 5px;
+      height: 4px;
+    }
+    .mp-avatar-category-bar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 4px;
     }
     .mp-avatar-category-bar::-webkit-scrollbar-thumb {
       background: #1a1a1a;
@@ -8936,10 +8947,13 @@
     .mp-category-tab {
       background: #ffffff;
       border: 2px solid #1a1a1a;
-      border-radius: 12px;
-      padding: 5px 12px;
+      border-radius: 8px;
+      height: 32px;
+      min-height: 32px;
+      max-height: 32px;
+      padding: 0 12px;
       font-size: 12px;
-      font-weight: 900;
+      font-weight: 800;
       white-space: nowrap;
       cursor: pointer;
       box-shadow: 2px 2px 0 #1a1a1a;
@@ -8947,13 +8961,16 @@
       color: #1a1a1a;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      justify-content: center;
+      gap: 6px;
       flex-shrink: 0;
+      box-sizing: border-box;
+      user-select: none;
     }
     .mp-category-tab:hover {
       transform: translate(-1px, -1px);
       box-shadow: 3px 3px 0 #1a1a1a;
-      background: #f8fafc;
+      background: #fef08a;
     }
     .mp-category-tab:active {
       transform: translate(1px, 1px);
@@ -8961,7 +8978,9 @@
     }
     .mp-category-tab.active {
       background: #facc15 !important;
-      box-shadow: 2.5px 2.5px 0 #1a1a1a;
+      border-color: #1a1a1a !important;
+      box-shadow: 2.5px 2.5px 0 #1a1a1a !important;
+      font-weight: 900 !important;
     }
 
     /* Avatar Grid Scrollable Area: expanded height showing multiple rows */
