@@ -37,4 +37,5 @@ live_*.png
 backend/.env
 # Local sample/demo files (never deploy)
 sample_avatar_studio.html
+sample.html
 serve_sample.py

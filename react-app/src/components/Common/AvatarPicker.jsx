@@ -1,103 +1,56 @@
 import React, { useState, useRef, useMemo, useCallback } from 'react';
 import SoundManager from '../../services/soundManager';
+import { getAvatarSrc } from '../../services/gameConstants';
 import {
-  getAvatarSrc,
-  BOLD_AVATAR_COLORS,
-  AVATAR_SEEDS,
-  AVATAR_API_STYLES,
-  buildAvatarDescriptor
-} from '../../services/gameConstants';
+  AVATAR_CATEGORIES,
+  searchAvatars,
+  getAvatarsByCategory,
+  getAvatarMeta
+} from '../../services/avatarCatalog';
 
-const FOUNDER_AVATARS = [
-  { id: 'aman', name: 'Aman', src: '/avvtar/aman.svg', color: 'ff6b9d' },
-  { id: 'amish', name: 'Amish', src: '/avvtar/amish.svg', color: '38bdf8' },
-  { id: 'aziz', name: 'Aziz', src: '/avvtar/aziz.svg', color: '84cc16' },
-  { id: 'vish', name: 'Vish', src: '/avvtar/vish.svg', color: 'facc15' }
-];
-
-const INITIAL_BATCH = 30;
-const BATCH_INCREMENT = 25;
+const INITIAL_BATCH = 36;
+const BATCH_INCREMENT = 24;
 
 export const AvatarPicker = ({ selectedAvatar, onSelectAvatar }) => {
   const [category, setCategory] = useState('all');
-  const [shuffleKey, setShuffleKey] = useState(0);
+  const [searchQuery, setSearchQuery] = useState('');
   const [loadedCount, setLoadedCount] = useState(INITIAL_BATCH);
+  const [customAvatar, setCustomAvatar] = useState(null);
+  const [detectedBgColors, setDetectedBgColors] = useState({});
+  const fileInputRef = useRef(null);
   const scrollContainerRef = useRef(null);
 
-  // Pre-generate shuffled pool for 'all' mode (excluding founders)
-  const allRandomizedPool = useMemo(() => {
-    const pool = [];
-    const founderNames = new Set(['aman', 'amish', 'aziz', 'vish']);
-    const styleIds = AVATAR_API_STYLES.map(s => s.id);
-
-    for (const style of styleIds) {
-      for (const seed of AVATAR_SEEDS) {
-        if (founderNames.has(seed.toLowerCase())) continue;
-        pool.push({ seed, style });
-      }
+  // Active avatar metadata
+  const currentAvatarMeta = useMemo(() => {
+    if (customAvatar && selectedAvatar === customAvatar.url) {
+      return customAvatar;
     }
+    return getAvatarMeta(selectedAvatar);
+  }, [selectedAvatar, customAvatar]);
 
-    // Fisher-Yates shuffle with shuffleKey dependency to randomize order
-    for (let i = pool.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [pool[i], pool[j]] = [pool[j], pool[i]];
+  // Search or category filtered avatars
+  const displayedAvatars = useMemo(() => {
+    if (searchQuery.trim()) {
+      return searchAvatars(searchQuery.trim(), category, loadedCount);
     }
+    return getAvatarsByCategory(category, 0, loadedCount);
+  }, [searchQuery, category, loadedCount]);
 
-    return pool;
-  }, [shuffleKey]);
-
-  // Compute avatar list based on active category with strict zero-duplication
-  const displayAvatars = useMemo(() => {
-    const list = [];
-    const seenUrls = new Set();
-    const founderNames = new Set(['aman', 'amish', 'aziz', 'vish']);
-
-    if (category === 'founders') {
-      return []; // Founders are rendered in the dedicated Classic Crew section
-    }
-
-    if (category === 'all') {
-      for (let i = 0; i < loadedCount && i < allRandomizedPool.length; i++) {
-        const item = allRandomizedPool[i];
-        const color = BOLD_AVATAR_COLORS[i % BOLD_AVATAR_COLORS.length];
-        const descriptor = buildAvatarDescriptor(item.seed, item.style, color);
-        if (!seenUrls.has(descriptor.url)) {
-          seenUrls.add(descriptor.url);
-          list.push(descriptor);
-        }
-      }
-    } else {
-      let idx = 0;
-      for (let i = 0; idx < loadedCount && i < AVATAR_SEEDS.length; i++) {
-        const seed = AVATAR_SEEDS[i];
-        if (founderNames.has(seed.toLowerCase())) continue;
-        const color = BOLD_AVATAR_COLORS[idx % BOLD_AVATAR_COLORS.length];
-        const descriptor = buildAvatarDescriptor(seed, category, color);
-        if (!seenUrls.has(descriptor.url)) {
-          seenUrls.add(descriptor.url);
-          list.push(descriptor);
-          idx++;
-        }
-      }
-    }
-
-    return list;
-  }, [category, loadedCount, allRandomizedPool]);
-
+  // Infinite scroll loader
   const handleScroll = useCallback(() => {
     const el = scrollContainerRef.current;
     if (!el) return;
-    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 140) {
+    if (el.scrollTop + el.clientHeight >= el.scrollHeight - 160) {
       setLoadedCount(prev => prev + BATCH_INCREMENT);
     }
   }, []);
 
-  const handleSelect = (avIdOrUrl) => {
+  const handleSelect = (urlOrId) => {
     try {
       SoundManager.playClick();
     } catch (e) {}
     if (typeof onSelectAvatar === 'function') {
-      onSelectAvatar(avIdOrUrl);
+      onSelectAvatar(urlOrId);
     }
   };
 
@@ -112,174 +65,226 @@ export const AvatarPicker = ({ selectedAvatar, onSelectAvatar }) => {
     }
   };
 
-  const handleShuffle = () => {
-    try {
-      SoundManager.playClick();
-    } catch (e) {}
-    setCategory('all');
-    setShuffleKey(prev => prev + 1);
+  const handleClearSearch = () => {
+    setSearchQuery('');
     setLoadedCount(INITIAL_BATCH);
-    if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollTop = 0;
+  };
+
+  // Custom File Upload (SVG, GIF, Images)
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (file.size > 2.5 * 1024 * 1024) {
+      alert('Avatar file is too large! Please choose an SVG, GIF, or image under 2.5 MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const dataUrl = event.target?.result;
+      if (typeof dataUrl === 'string') {
+        const isSvg = file.type.includes('svg') || file.name.endsWith('.svg');
+        const isGif = file.type.includes('gif') || file.name.endsWith('.gif');
+        const customObj = {
+          id: 'custom_upload',
+          name: file.name.replace(/\.[^/.]+$/, ''),
+          category: 'custom',
+          categoryLabel: '📤 Custom Upload',
+          url: dataUrl,
+          format: isSvg ? 'SVG' : (isGif ? 'GIF' : 'IMG'),
+          color: '38bdf8',
+          isKnownDark: false,
+          isKnownPortrait: false,
+          isVector: isSvg
+        };
+        setCustomAvatar(customObj);
+        handleSelect(dataUrl);
+      }
+    };
+    reader.readAsDataURL(file);
+    if (e.target) e.target.value = '';
+  };
+
+  // Dynamic solid background color detection from image corners
+  const handleImageLoad = (e, item) => {
+    const img = e.currentTarget;
+    if (!img) return;
+
+    if (item.isKnownDark) {
+      setDetectedBgColors(prev => ({ ...prev, [item.url]: '#111827' }));
+      return;
+    }
+    if (item.isVector || item.url.includes('/avvtar/') || item.url.endsWith('.svg')) {
+      return;
+    }
+
+    try {
+      if (img.naturalWidth > 10 && img.naturalHeight > 10) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 16;
+        canvas.height = 16;
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        ctx.drawImage(img, 0, 0, 16, 16);
+        const data = ctx.getImageData(0, 0, 16, 16).data;
+
+        const tl = { r: data[0], g: data[1], b: data[2], a: data[3] };
+        const tr = { r: data[60], g: data[61], b: data[62], a: data[63] };
+
+        if (tl.a > 30 && tr.a > 30) {
+          const diff = Math.abs(tl.r - tr.r) + Math.abs(tl.g - tr.g) + Math.abs(tl.b - tr.b);
+          if (diff < 35) {
+            const hex = '#' + ((1 << 24) + (tl.r << 16) + (tl.g << 8) + tl.b).toString(16).slice(1);
+            setDetectedBgColors(prev => ({ ...prev, [item.url]: hex }));
+          }
+        }
+      }
+    } catch (err) {
+      // Fallback to default
     }
   };
 
-  const previewSrc = getAvatarSrc(selectedAvatar, 'aman');
-
-  // Category Header Label
-  const getCategoryTitle = () => {
-    if (category === 'all') return '✨ RANDOMIZED MIX';
-    if (category === 'founders') return '👑 THE ORIGINAL FOUNDERS';
-    const found = AVATAR_API_STYLES.find(s => s.id === category);
-    return found ? `${found.icon} ${found.name.toUpperCase()}` : 'CHARACTERS';
-  };
+  const previewSrc = getAvatarSrc(currentAvatarMeta.url, 'aman');
+  const previewBg = detectedBgColors[currentAvatarMeta.url] || (currentAvatarMeta.isKnownDark ? '#111827' : `#${currentAvatarMeta.color || 'facc15'}`);
+  const previewZoom = currentAvatarMeta.isVector ? 'img-contain-fit' : (currentAvatarMeta.isKnownPortrait ? 'img-portrait-zoom' : 'img-cover-zoom');
 
   return (
     <div className="mp-avatar-picker-wrap">
-      {/* Selected Avatar Live Preview Pill */}
-      <div className="mp-avatar-selected-preview">
-        <div className="mp-preview-circle-wrap">
+      {/* 1. Live Square Avatar Hero Preview Badge */}
+      <div className="mp-hero-preview-badge">
+        <div 
+          className="mp-hero-preview-frame"
+          style={{ backgroundColor: previewBg }}
+        >
           <img
             src={previewSrc}
-            alt="Selected Avatar"
-            className="mp-preview-circle-img"
+            alt={currentAvatarMeta.name}
+            className={`mp-hero-preview-img ${previewZoom}`}
+            loading="eager"
             onError={(e) => {
               e.currentTarget.onerror = null;
               e.currentTarget.src = '/avvtar/aman.svg';
             }}
           />
-          <span className="mp-preview-check-badge">✓</span>
+          <span className="mp-hero-check-pill">✓</span>
         </div>
-        <div className="mp-preview-meta">
-          <span className="mp-preview-label">CURRENT AVATAR</span>
-          <span className="mp-preview-sub">Tap any character below to change</span>
+        <div className="mp-hero-preview-info">
+          <div className="mp-hero-char-name">{currentAvatarMeta.name || 'Selected Avatar'}</div>
+          <div className="mp-hero-tags-row">
+            <span className="mp-hero-cat-tag">
+              {currentAvatarMeta.categoryLabel || '👑 Founders'}
+            </span>
+            <span className="mp-hero-format-tag">
+              {currentAvatarMeta.format || 'SQUARE'}
+            </span>
+          </div>
         </div>
       </div>
 
-      {/* Category Tabs & Shuffle Button Bar */}
+      {/* 2. Typo-Tolerant Search & Custom SVG/GIF Upload Bar */}
+      <div className="mp-avatar-search-bar">
+        <div className="mp-avatar-search-input-wrap">
+          <span className="search-icon">🔍</span>
+          <input
+            type="text"
+            className="mp-avatar-search-input"
+            placeholder="Search 1,800+ avatars (e.g. 'naroto', 'gku', 'waltr', 'batmn')..."
+            value={searchQuery}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              setLoadedCount(INITIAL_BATCH);
+            }}
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              className="mp-avatar-search-clear"
+              onClick={handleClearSearch}
+              title="Clear search"
+            >
+              ✕
+            </button>
+          )}
+        </div>
+
+        {/* Custom SVG / GIF Upload Button */}
+        <button
+          type="button"
+          className="mp-custom-upload-btn"
+          onClick={() => fileInputRef.current?.click()}
+          title="Upload your own SVG or GIF avatar"
+        >
+          <span>📤</span> Upload SVG / GIF
+        </button>
+        <input
+          type="file"
+          ref={fileInputRef}
+          accept=".svg,.gif,.png,.jpg,.jpeg,.webp,image/*"
+          style={{ display: 'none' }}
+          onChange={handleFileUpload}
+        />
+      </div>
+
+      {/* 3. Category Filter Tabs Bar */}
       <div className="mp-avatar-category-bar">
-        <button
-          type="button"
-          className={`mp-category-tab ${category === 'all' ? 'active' : ''}`}
-          onClick={() => handleCategoryChange('all')}
-        >
-          ⭐ All
-        </button>
-        <button
-          type="button"
-          className="mp-shuffle-btn"
-          onClick={handleShuffle}
-          title="Shuffle randomized avatars"
-        >
-          🎲 Shuffle
-        </button>
-        <button
-          type="button"
-          className={`mp-category-tab ${category === 'founders' ? 'active' : ''}`}
-          onClick={() => handleCategoryChange('founders')}
-        >
-          👑 Founders
-        </button>
-        {AVATAR_API_STYLES.map(st => (
+        {AVATAR_CATEGORIES.map(cat => (
           <button
-            key={st.id}
+            key={cat.id}
             type="button"
-            className={`mp-category-tab ${category === st.id ? 'active' : ''}`}
-            onClick={() => handleCategoryChange(st.id)}
+            className={`mp-category-tab ${category === cat.id ? 'active' : ''}`}
+            onClick={() => handleCategoryChange(cat.id)}
           >
-            <span>{st.icon}</span> {st.name}
+            {cat.label}
           </button>
         ))}
       </div>
 
-      {/* Scrollable Container with Founders Row + Infinite Grid */}
+      {/* 4. 100% Square Avatar Grid */}
       <div
         className="mp-avatar-scroll-area"
         ref={scrollContainerRef}
         onScroll={handleScroll}
       >
-        {/* Founders Row ("Classic Crew") - Fixed in place, never randomized */}
-        {(category === 'all' || category === 'founders') && (
-          <>
-            <div className="mp-picker-section-label">
-              <span>⭐ CLASSIC CREW</span>
-              <span className="mp-infinite-sublabel">Original Founders</span>
-            </div>
-            <div className="mp-avatar-grid mp-founders-grid">
-              {FOUNDER_AVATARS.map((av) => {
-                const isSelected = selectedAvatar === av.id || selectedAvatar === av.src;
-                return (
-                  <div
-                    key={av.id}
-                    className={`mp-avatar-option ${isSelected ? 'selected' : ''}`}
-                    data-avatar={av.id}
-                    onClick={() => handleSelect(av.id)}
-                    role="button"
-                    tabIndex={0}
-                  >
-                    <img
-                      src={av.src}
-                      alt={av.name}
-                      onError={(e) => {
-                        e.currentTarget.onerror = null;
-                        e.currentTarget.src = '/avvtar/aman.svg';
-                      }}
-                    />
-                    <div className="mp-avatar-name">{av.name}</div>
-                  </div>
-                );
-              })}
-            </div>
-          </>
-        )}
+        <div className="mp-infinite-avatar-grid">
+          {displayedAvatars.map((item, idx) => {
+            const isSelected = selectedAvatar === item.url || (item.category === 'founders' && selectedAvatar === item.id);
+            const cardBg = detectedBgColors[item.url] || (item.isKnownDark ? '#111827' : `#${item.color || 'ffffff'}`);
+            const zoomClass = item.isVector ? 'img-contain-fit' : (item.isKnownPortrait ? 'img-portrait-zoom' : 'img-cover-zoom');
 
-        {/* Dynamic / Randomized Grid */}
-        {category !== 'founders' && (
-          <>
-            <div className="mp-picker-section-label mp-infinite-header">
-              <span>{getCategoryTitle()}</span>
-              <span className="mp-infinite-sublabel">
-                {category === 'all' ? 'Randomized Styles' : 'Infinite Avatars'}
-              </span>
-            </div>
+            return (
+              <button
+                key={`${item.url}_${idx}`}
+                type="button"
+                className={`mp-circular-avatar-btn ${isSelected ? 'selected' : ''}`}
+                style={{ backgroundColor: cardBg }}
+                onClick={() => handleSelect(item.url)}
+                title={`${item.name} (${item.categoryLabel})`}
+              >
+                <img
+                  src={item.url}
+                  alt={item.name}
+                  loading="lazy"
+                  decoding="async"
+                  className={zoomClass}
+                  onLoad={(e) => handleImageLoad(e, item)}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src = `https://api.dicebear.com/9.x/bottts/svg?seed=${encodeURIComponent(item.name)}&backgroundColor=${item.color || 'facc15'}`;
+                    e.currentTarget.className = 'img-contain-fit';
+                  }}
+                />
+                {isSelected && (
+                  <span className="mp-avatar-item-check">✓</span>
+                )}
+              </button>
+            );
+          })}
+        </div>
 
-            <div className="mp-infinite-avatar-grid">
-              {displayAvatars.map((item, idx) => {
-                const isSelected = selectedAvatar === item.url;
-                return (
-                  <button
-                    key={`${item.url}_${idx}`}
-                    type="button"
-                    className={`mp-circular-avatar-btn ${isSelected ? 'selected' : ''}`}
-                    data-avatar={item.url}
-                    onClick={() => handleSelect(item.url)}
-                    title={item.label || `Avatar ${idx + 1}`}
-                    style={{ backgroundColor: `#${item.color}` }}
-                  >
-                    <img
-                      src={item.url}
-                      alt={item.seed}
-                      loading="lazy"
-                      onError={(e) => {
-                        e.currentTarget.onerror = null;
-                        // Never fall back to a founder avatar inside the grid
-                        e.currentTarget.src = `https://api.dicebear.com/9.x/bottts/svg?seed=${encodeURIComponent(item.seed)}&backgroundColor=${item.color}`;
-                      }}
-                    />
-                    {isSelected && (
-                      <span className="mp-avatar-item-check">✓</span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Infinite Loader Indicator */}
-            <div className="mp-infinite-loading-indicator">
-              <span className="mp-spinner-icon">⏳</span>
-              <span>Scroll down for more unique avatars...</span>
-            </div>
-          </>
+        {displayedAvatars.length >= loadedCount && (
+          <div className="mp-infinite-loading-indicator">
+            <span>⏳ Scroll for more avatars...</span>
+          </div>
         )}
       </div>
     </div>

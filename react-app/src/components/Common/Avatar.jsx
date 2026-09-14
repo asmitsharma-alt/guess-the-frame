@@ -5,6 +5,12 @@ import { SecurityUtil } from '../../services/securityUtil';
 export const Avatar = ({ player, className = 'av-img-elem', style = {} }) => {
   const safeName = SecurityUtil.escapeHtml(player?.name || 'Player');
   const avSrc = player?.avatarImg || getAvatarSrc(player?.avatar, 'aman');
+  const isPortrait = avSrc && (
+    avSrc.includes('anilist.co') || 
+    avSrc.includes('tvmaze.com') || 
+    avSrc.includes('thronesapi.com') || 
+    avSrc.includes('superhero-api')
+  );
 
   return (
     <img
@@ -17,7 +23,7 @@ export const Avatar = ({ player, className = 'av-img-elem', style = {} }) => {
         maxWidth: '100%',
         maxHeight: '100%',
         objectFit: 'cover',
-        objectPosition: 'center',
+        objectPosition: isPortrait ? 'center 4%' : 'center',
         borderRadius: '50%',
         display: 'block',
         ...style

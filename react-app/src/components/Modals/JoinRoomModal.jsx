@@ -84,44 +84,54 @@ export const JoinRoomModal = ({ isOpen, roomCode: propRoomCode = '', onClose, on
 
   return (
     <div className={`mp-modal-overlay ${isOpen ? 'active' : ''}`} id="joinRoomModal">
-      <div className="mp-modal-box">
-        <div className="mp-modal-header">
-          <div className="mp-modal-title">🎮 Join Online Room</div>
+      <div className="mp-modal-box mp-badge-modal-box">
+        {/* Big Badge Header Strip */}
+        <div className="mp-badge-pass-header">
+          <div className="mp-badge-pass-title">
+            <span>🎟️ ONLINE ROOM PASS</span>
+            <span className="mp-badge-pill-tag">BADGE PASS</span>
+          </div>
           <button className="mp-modal-close" onClick={onClose}>✕</button>
         </div>
-        <div className="mp-form-group">
-          <label className="mp-label">4-Letter Room Code</label>
-          <input
-            type="text"
-            id="joinCodeInput"
-            className="mp-input mp-code-input"
-            placeholder="FILM"
-            maxLength={6}
-            value={roomCode}
-            onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
-          />
+
+        {/* Side-by-side Room Code & Player Name Credentials */}
+        <div className="mp-credentials-row">
+          <div className="mp-form-group" style={{ marginBottom: 0 }}>
+            <label className="mp-label">4-Letter Room Code</label>
+            <input
+              type="text"
+              id="joinCodeInput"
+              className="mp-input mp-code-input"
+              placeholder="FILM"
+              maxLength={6}
+              value={roomCode}
+              onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
+            />
+          </div>
+
+          <div className="mp-form-group" style={{ marginBottom: 0 }}>
+            <label className="mp-label">Your Player Name</label>
+            <input
+              type="text"
+              id="joinPlayerNameInput"
+              className="mp-input font-bold"
+              placeholder="Enter your name (e.g. Neo)"
+              maxLength={16}
+              value={playerName}
+              onChange={(e) => setPlayerName(e.target.value)}
+            />
+          </div>
         </div>
 
-        <div className="mp-form-group">
-          <label className="mp-label">Your Player Name</label>
-          <input
-            type="text"
-            id="joinPlayerNameInput"
-            className="mp-input font-bold"
-            placeholder="Enter your name (e.g. Neo)"
-            maxLength={16}
-            value={playerName}
-            onChange={(e) => setPlayerName(e.target.value)}
-          />
-        </div>
-
-        <div className="mp-form-group">
-          <label className="mp-label">Select Your Animated Avatar</label>
+        {/* Avatar Section: Live Preview Badge, Typo Search, Categories, 100% Square Grid, Custom SVG/GIF Upload */}
+        <div className="mp-form-group" style={{ marginBottom: 2 }}>
+          <label className="mp-label">Select Your Character Avatar</label>
           <AvatarPicker
             selectedAvatar={selectedAvatar || 'aman'}
             onSelectAvatar={handleSelectAvatar}
           />
         </div>
+
         <button
           className="mp-btn-primary"
           disabled={isConnecting}
