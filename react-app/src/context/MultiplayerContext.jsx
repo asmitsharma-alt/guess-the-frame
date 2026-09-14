@@ -254,7 +254,8 @@ export const MultiplayerProvider = ({ children }) => {
       }
 
       case 'GAME_START_COUNTDOWN': {
-        game.showScreen('howToAnswerScreen');
+        game.setIsMatchActive(true);
+        game.showScreen('gameScreen');
         break;
       }
 

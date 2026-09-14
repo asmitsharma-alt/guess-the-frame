@@ -310,42 +310,21 @@ export function installTestBridge(gameContextRef) {
   // 5. HowToAnswerGuide
   const HowToAnswerGuide = {
     _timerId: null,
-    _secondsLeft: 10,
+    _secondsLeft: 0,
     _isHost: false,
     _onLaunch: null,
     start(isHost = false, onLaunchCallback = null) {
       this.stop();
       this._isHost = !!isHost;
       this._onLaunch = onLaunchCallback;
-      this._secondsLeft = 10;
-      UI.showScreen('howToAnswerScreen');
+      this._secondsLeft = 0;
+      UI.showScreen('gameScreen');
       if (gameContextRef?.current?.setIsHost) {
         gameContextRef.current.setIsHost(!!isHost);
       }
-      const startBtn = document.getElementById('htaHostStartBtn');
-      const btnContainer = document.querySelector('.hta-btn-container');
-      if (btnContainer && (isHost || window.MultiplayerEngine?.isHost)) {
-        btnContainer.style.display = 'flex';
+      if (typeof onLaunchCallback === 'function') {
+        onLaunchCallback();
       }
-      if (startBtn) {
-        startBtn.disabled = true;
-        startBtn.textContent = '⏳ Host can start in 10s...';
-        startBtn.style.display = 'inline-flex';
-      }
-      this._timerId = setInterval(() => {
-        this._secondsLeft--;
-        const remaining = Math.max(0, this._secondsLeft);
-        const count = document.getElementById('htaTimerCount');
-        if (count) count.textContent = `${remaining}s`;
-        if (remaining <= 0) {
-          if (startBtn) {
-            startBtn.disabled = false;
-            startBtn.innerHTML = '<span class="hta-play-icon">▶</span> <span class="hta-btn-text">START GAME</span>';
-          }
-          clearInterval(this._timerId);
-          this._timerId = null;
-        }
-      }, 1000);
     },
     stop() {
       if (this._timerId) {
@@ -1662,6 +1641,14 @@ export function installTestBridge(gameContextRef) {
           currentPlaylist: this.currentPlaylist,
           currentPlayIndex: this.currentPlayIndex
         });
+        const pl = this.currentPlaylist;
+        if (pl && pl.length > 0) {
+          this.sendEvent('ROUND_START', {
+            roundIndex: 0,
+            frame: pl[0],
+            duration: 30
+          });
+        }
       }
 
       HowToAnswerGuide.start(this.isHost, () => {

@@ -5,7 +5,6 @@ import { SvgIcons } from './components/Common/SvgIcons';
 import { ScreenFlash } from './components/Common/ScreenFlash';
 import { HomeScreen } from './pages/HomeScreen';
 import { LobbyScreen } from './pages/LobbyScreen';
-import { HowToAnswerScreen } from './pages/HowToAnswerScreen';
 import { GameScreen } from './pages/GameScreen';
 import { WinnerScreen } from './pages/WinnerScreen';
 import { CreateRoomModal } from './components/Modals/CreateRoomModal';
@@ -149,36 +148,23 @@ const AppContent = () => {
             game.setIsMatchActive(true);
             game.setCurrentPlayIndex(0);
             game.setRoundWinners([]);
-            game.showScreen('howToAnswerScreen');
+            game.showScreen('gameScreen');
             if (typeof window !== 'undefined' && window.MultiplayerEngine?.startMatch) {
               window.MultiplayerEngine.startMatch();
             } else if (typeof window !== 'undefined' && window.PlayerLobby?.start) {
               window.PlayerLobby.start();
-            } else {
-              multiplayer.sendEvent('GAME_START_COUNTDOWN', { totalRounds: game.hostSettings.rounds });
-            }
-          }}
-          onLeaveLobby={() => {
-            if (typeof window !== 'undefined' && window.PlayerLobby?.back) {
-              window.PlayerLobby.back();
-            }
-            game.showScreen('homeScreen');
-          }}
-        />
-
-        <HowToAnswerScreen
-          isActive={game.currentScreen === 'howToAnswerScreen'}
-          isHost={game.isHost}
-          onLaunchGame={() => {
-            game.showScreen('gameScreen');
-            if (typeof window !== 'undefined' && window.MultiplayerEngine) {
-              window.MultiplayerEngine.sendEvent('GUIDE_COMPLETE', {});
             }
             multiplayer.sendEvent('ROUND_START', {
               roundIndex: 0,
               frame: game.currentPlaylist[0],
               duration: game.hostSettings.timer || 30
             });
+          }}
+          onLeaveLobby={() => {
+            if (typeof window !== 'undefined' && window.PlayerLobby?.back) {
+              window.PlayerLobby.back();
+            }
+            game.showScreen('homeScreen');
           }}
         />
 
