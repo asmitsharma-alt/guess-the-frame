@@ -268,7 +268,7 @@ export const LobbyScreen = ({
                         </button>
                       )}
                       <div
-                        className="w-14 h-14 rounded-full border-2 border-on-surface overflow-hidden mb-1.5 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                        className="w-14 h-14 rounded-xl border-2 border-on-surface overflow-hidden mb-1.5 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                         style={{ backgroundColor: avConfig.color }}
                       >
                         <img
@@ -644,7 +644,7 @@ export const LobbyScreen = ({
                           </button>
                         )}
                         <div
-                          className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-on-surface overflow-hidden mb-3 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                          className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-4 border-on-surface overflow-hidden mb-3 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                           style={{ backgroundColor: avConfig.color }}
                         >
                           <img

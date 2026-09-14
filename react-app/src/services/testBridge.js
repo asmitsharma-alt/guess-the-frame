@@ -685,7 +685,7 @@ export function installTestBridge(gameContextRef) {
           return `
             <div class="lobby-player lp-card bg-surface border-4 border-on-surface p-4 flex flex-col items-center justify-center relative neo-shadow rounded-xl">
               ${p.isHost ? '<div class="absolute -top-3 -left-3 bg-neo-yellow border-2 border-on-surface px-2 py-0.5 font-label-bold text-[10px] uppercase font-bold">Host</div>' : ''}
-              <div class="w-20 h-20 rounded-full border-4 border-on-surface overflow-hidden mb-3">
+              <div class="w-20 h-20 rounded-2xl border-4 border-on-surface overflow-hidden mb-3">
                 <img class="w-full h-full object-cover" src="avvtar/${avKey}.svg" alt="${p.name}" />
               </div>
               <div class="font-bold text-sm uppercase">${SecurityUtil.escapeHtml(p.name)}</div>

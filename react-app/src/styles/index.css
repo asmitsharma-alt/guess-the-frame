@@ -62,3 +62,134 @@ html, body {
 .screen.active {
   display: flex;
 }
+
+/* =========================================================================
+   GLOBAL AVATAR SHAPE OVERRIDE — Square Avatars (Neo-Brutalist)
+   Converts every avatar element from circle (50%) to rounded-square.
+   This block sits at the END of the cascade so it wins over claymorphism.css.
+   ========================================================================= */
+
+/* ---- Game Screen Leaderboard Avatars ---- */
+.lb-item .lb-av-wrap,
+.lb-av-wrap,
+#gameScreen .lb-av-wrap {
+  border-radius: 8px !important;
+}
+
+/* ---- Lobby Screen Player Avatars (Tailwind + CSS) ---- */
+.lp-avatar-wrap {
+  border-radius: 12px !important;
+}
+
+/* ---- Judge Overlay Candidate Circles ---- */
+.jo-circle,
+.jo-cand .jo-circle,
+.jo-cand.was .jo-circle,
+.jo-cand.hl .jo-circle,
+.jo-cand.sel .jo-circle,
+.judge-ov .jo-cand .jo-circle {
+  border-radius: 12px !important;
+}
+.jo-circle img,
+.jo-cand .jo-circle img,
+.jo-cand .jo-circle .c-avatar.av-img,
+.judge-ov .jo-cand .jo-circle img {
+  border-radius: 10px !important;
+}
+
+/* ---- Chat Avatars ---- */
+.chat-avatar {
+  border-radius: 8px !important;
+}
+
+/* ---- Avatar Picker Hero Preview ---- */
+.mp-hero-preview-frame {
+  border-radius: 14px !important;
+}
+
+/* ---- Avatar Picker Grid Items (already square — ensure consistency) ---- */
+.mp-circular-avatar-btn {
+  border-radius: 14px !important;
+}
+
+/* ---- Winner Screen — Champion & Runner Avatar Frames ---- */
+.champ-avatar-frame,
+.runner-avatar-frame {
+  border-radius: 16px !important;
+}
+.champ-avatar-circle,
+.runner-avatar-circle {
+  border-radius: 14px !important;
+}
+.champ-avatar-circle img,
+.runner-avatar-circle img,
+.champ-avatar-frame img,
+.runner-avatar-frame img {
+  border-radius: 12px !important;
+}
+
+/* ---- Winner Scoreboard Mini Avatars ---- */
+.sb-avatar-mini {
+  border-radius: 6px !important;
+}
+.sb-avatar-mini img {
+  border-radius: 4px !important;
+}
+
+/* ---- Lobby Avatar (old layout) ---- */
+.lb-avatar,
+.lb-avatar.av-img {
+  border-radius: 12px !important;
+}
+
+/* ---- Podium & Sidebar Player Buttons ---- */
+.podium-av,
+.spbtn {
+  border-radius: 12px !important;
+}
+.podium-av img,
+.spbtn img,
+.av-img-elem {
+  border-radius: 10px !important;
+}
+
+/* ---- Mobile Avatar Grid & Picker ---- */
+.mp-avatar-option,
+.mp-avatar-option img {
+  border-radius: 12px !important;
+}
+
+/* ---- Rejoin Modal Avatar ---- */
+.rejoin-avatar,
+.rejoin-avatar img {
+  border-radius: 12px !important;
+}
+
+/* ---- Inline Avatar Preview Badge ---- */
+.mp-inline-preview-badge .mp-hero-preview-frame {
+  border-radius: 12px !important;
+}
+
+/* ---- Mobile Avatar Trigger Card Preview ---- */
+.mp-mobile-avatar-trigger-card .mp-hero-preview-frame {
+  border-radius: 12px !important;
+}
+
+/* ---- Responsive overrides for all breakpoints ---- */
+@media (max-width: 768px) {
+  .lb-av-wrap,
+  .jo-circle,
+  .chat-avatar,
+  .lp-avatar-wrap,
+  .podium-av,
+  .spbtn,
+  .sb-avatar-mini {
+    border-radius: 8px !important;
+  }
+  .champ-avatar-frame,
+  .runner-avatar-frame,
+  .champ-avatar-circle,
+  .runner-avatar-circle {
+    border-radius: 12px !important;
+  }
+}
