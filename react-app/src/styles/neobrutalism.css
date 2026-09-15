@@ -331,6 +331,10 @@ button[id*="Btn"] {
   box-shadow: 3px 3px 0 #121212 !important;
   background-color: #FFFFFF !important;
   color: #121212 !important;
+  -webkit-text-fill-color: #121212 !important;
+  caret-color: #2563EB !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
   border-radius: 6px !important;
 }
 
@@ -342,6 +346,8 @@ button[id*="Btn"] {
   outline: none !important;
   box-shadow: 5px 5px 0 #121212 !important;
   background-color: #FFFDF0 !important;
+  color: #121212 !important;
+  -webkit-text-fill-color: #121212 !important;
 }
 
 /* Avatar Category Bar & Neobrutalist Tabs (Desktop & Base) */

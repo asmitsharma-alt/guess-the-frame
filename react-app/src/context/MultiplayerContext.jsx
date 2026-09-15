@@ -319,15 +319,41 @@ export const MultiplayerProvider = ({ children }) => {
       }
 
       case 'ROUND_START': {
-        if (msg.frame) {
-          game.setCurrentFrame(msg.frame);
-          game.setCurrentPlayIndex(msg.roundIndex || 0);
+        const nextIdx = msg.roundIndex ?? msg.currentPlayIndex ?? 0;
+        const targetPlaylist = (msg.currentPlaylist && msg.currentPlaylist.length > 0)
+          ? msg.currentPlaylist
+          : ((typeof window !== 'undefined' && window.MultiplayerEngine?.currentPlaylist?.length > 0)
+            ? window.MultiplayerEngine.currentPlaylist
+            : game.currentPlaylist);
+        const targetFrame = msg.frame || (targetPlaylist && targetPlaylist[nextIdx]);
+
+        if (targetPlaylist && Array.isArray(targetPlaylist) && targetPlaylist.length > 0) {
+          game.setCurrentPlaylist(targetPlaylist);
+          if (typeof window !== 'undefined' && window.MultiplayerEngine) {
+            window.MultiplayerEngine.currentPlaylist = targetPlaylist;
+          }
         }
+        game.setCurrentPlayIndex(nextIdx);
+        if (targetFrame) {
+          game.setCurrentFrame(targetFrame);
+          if (typeof window !== 'undefined' && window.FrameDisplay?.showFrame) {
+            window.FrameDisplay.showFrame(targetFrame);
+          }
+        }
+        if (typeof window !== 'undefined' && window.MultiplayerEngine) {
+          window.MultiplayerEngine.currentPlayIndex = nextIdx;
+          window.MultiplayerEngine.currentRoundWinners = [];
+          window.MultiplayerEngine.isRoundFinished = false;
+          window.MultiplayerEngine.currentMaskedHint = null;
+        }
+        game.setIsMatchActive(true);
         game.setIsRoundFinished(false);
         game.setIsAnswerRevealed(false);
         game.setMaskedHint(null);
-        game.setTimeRemaining(msg.duration || game.hostSettings.timer || 30);
-        game.setTimerMax(msg.duration || game.hostSettings.timer || 30);
+        game.setRoundWinners([]);
+        const timerDur = msg.duration || game.hostSettings?.timer || 30;
+        game.setTimeRemaining(timerDur);
+        game.setTimerMax(timerDur);
         game.showScreen('gameScreen');
         SoundManager.playRoundStart();
         break;
@@ -347,27 +373,44 @@ export const MultiplayerProvider = ({ children }) => {
       case 'SUBMIT_GUESS': {
         if (game.isHost) {
           // Authoritative evaluation
-          const curFrame = game.currentPlaylist[game.currentPlayIndex];
+          const guesserId = msg.playerId || msg.senderId;
+          const activePlaylist = (typeof window !== 'undefined' && window.MultiplayerEngine?.currentPlaylist?.length > 0)
+            ? window.MultiplayerEngine.currentPlaylist
+            : game.currentPlaylist;
+          const activeIndex = (typeof window !== 'undefined' && window.MultiplayerEngine?.currentPlayIndex !== undefined)
+            ? window.MultiplayerEngine.currentPlayIndex
+            : game.currentPlayIndex;
+          const curFrame = activePlaylist ? activePlaylist[activeIndex] : null;
+
           if (curFrame && FuzzyMatcher.isMatch(msg.guess, curFrame.answer)) {
             // Correct guess!
-            const alreadyWon = game.roundWinners.some(w => w.playerId === msg.senderId);
+            const alreadyWon = game.roundWinners.some(w => (w.playerId === guesserId));
             if (!alreadyWon) {
               const pos = game.roundWinners.length + 1;
               const points = pos === 1 ? 10 : pos === 2 ? 7 : pos === 3 ? 5 : 0;
               const winnerRecord = {
-                playerId: msg.senderId,
-                playerName: msg.playerName,
-                playerAvatar: msg.playerAvatar,
+                playerId: guesserId,
+                playerName: msg.playerName || 'Player',
+                playerAvatar: msg.playerAvatar || 'aman',
                 position: pos,
                 points
               };
-              game.setRoundWinners(prev => [...prev, winnerRecord]);
+              const updatedWinners = [...game.roundWinners, winnerRecord];
+              game.setRoundWinners(updatedWinners);
               if (points > 0) {
-                game.adjustPlayerScore(msg.senderId, points);
+                game.adjustPlayerScore(guesserId, points);
               }
+              const updatedPlayers = game.players.map(p => {
+                if (p.id === guesserId) {
+                  return { ...p, score: (p.score || 0) + points };
+                }
+                return p;
+              });
               sendEvent('GUESS_CORRECT_BROADCAST', {
                 winner: winnerRecord,
-                roundIndex: game.currentPlayIndex
+                roundWinners: updatedWinners,
+                players: updatedPlayers,
+                roundIndex: activeIndex
               });
               SoundManager.play('correct');
             }
@@ -423,11 +466,24 @@ export const MultiplayerProvider = ({ children }) => {
         if (msg.hostSettings) {
           game.setHostSettings(msg.hostSettings);
         }
-        if (msg.currentPlaylist && Array.isArray(msg.currentPlaylist) && msg.currentPlaylist.length > 0) {
-          game.setCurrentPlaylist(msg.currentPlaylist);
+        const syncPlaylist = msg.currentPlaylist;
+        const syncIndex = msg.currentPlayIndex !== undefined ? msg.currentPlayIndex : (game.currentPlayIndex || 0);
+        if (syncPlaylist && Array.isArray(syncPlaylist) && syncPlaylist.length > 0) {
+          game.setCurrentPlaylist(syncPlaylist);
+          if (typeof window !== 'undefined' && window.MultiplayerEngine) {
+            window.MultiplayerEngine.currentPlaylist = syncPlaylist;
+            window.MultiplayerEngine.currentPlayIndex = syncIndex;
+          }
         }
         if (msg.currentPlayIndex !== undefined) {
-          game.setCurrentPlayIndex(msg.currentPlayIndex);
+          game.setCurrentPlayIndex(syncIndex);
+        }
+        const syncFrame = msg.frame || (syncPlaylist && syncPlaylist[syncIndex]);
+        if (syncFrame) {
+          game.setCurrentFrame(syncFrame);
+          if (typeof window !== 'undefined' && window.FrameDisplay?.showFrame) {
+            window.FrameDisplay.showFrame(syncFrame);
+          }
         }
         if (msg.currentRoundWinners) {
           game.setRoundWinners(msg.currentRoundWinners);
@@ -438,10 +494,21 @@ export const MultiplayerProvider = ({ children }) => {
       case 'MATCH_START':
       case 'MATCH_STARTED': {
         const playlist = msg.currentPlaylist || msg.playlist;
-        if (playlist && playlist.length > 0) {
+        const startIdx = msg.currentPlayIndex || 0;
+        const targetFrame = msg.frame || (playlist && playlist[startIdx]);
+        if (playlist && Array.isArray(playlist) && playlist.length > 0) {
           game.setCurrentPlaylist(playlist);
-          game.setCurrentFrame(playlist[msg.currentPlayIndex || 0]);
-          game.setCurrentPlayIndex(msg.currentPlayIndex || 0);
+          game.setCurrentPlayIndex(startIdx);
+          if (typeof window !== 'undefined' && window.MultiplayerEngine) {
+            window.MultiplayerEngine.currentPlaylist = playlist;
+            window.MultiplayerEngine.currentPlayIndex = startIdx;
+          }
+        }
+        if (targetFrame) {
+          game.setCurrentFrame(targetFrame);
+          if (typeof window !== 'undefined' && window.FrameDisplay?.showFrame) {
+            window.FrameDisplay.showFrame(targetFrame);
+          }
         }
         if (msg.players) {
           game.setPlayers(msg.players);
@@ -462,10 +529,22 @@ export const MultiplayerProvider = ({ children }) => {
       case 'NEXT_ROUND':
       case 'ROUND_CHANGED': {
         const nextIdx = msg.currentPlayIndex ?? msg.roundIndex ?? (game.currentPlayIndex + 1);
-        const pl = msg.currentPlaylist || game.currentPlaylist;
+        const pl = msg.currentPlaylist || (typeof window !== 'undefined' && window.MultiplayerEngine?.currentPlaylist) || game.currentPlaylist;
+        const targetFrame = msg.frame || (pl && pl[nextIdx]);
         if (pl && pl[nextIdx]) {
-          game.setCurrentFrame(pl[nextIdx]);
           game.setCurrentPlayIndex(nextIdx);
+        }
+        if (targetFrame) {
+          game.setCurrentFrame(targetFrame);
+          if (typeof window !== 'undefined' && window.FrameDisplay?.showFrame) {
+            window.FrameDisplay.showFrame(targetFrame);
+          }
+        }
+        if (typeof window !== 'undefined' && window.MultiplayerEngine) {
+          window.MultiplayerEngine.currentPlayIndex = nextIdx;
+          window.MultiplayerEngine.currentRoundWinners = [];
+          window.MultiplayerEngine.isRoundFinished = false;
+          window.MultiplayerEngine.currentMaskedHint = null;
         }
         game.setIsRoundFinished(false);
         game.setIsAnswerRevealed(false);

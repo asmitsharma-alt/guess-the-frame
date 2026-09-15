@@ -36,6 +36,8 @@ export const GameScreen = ({
   const [mobileGuessInput, setMobileGuessInput] = useState('');
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [showScoringOverlay, setShowScoringOverlay] = useState(false);
+  const [lastSubmittedGuess, setLastSubmittedGuess] = useState(null);
+  const guessFeedbackTimerRef = useRef(null);
   const chatStreamRef = useRef(null);
   const imgRef = useRef(null);
 
@@ -80,24 +82,39 @@ export const GameScreen = ({
     if (!clean) return;
     setGuessInput('');
     setMobileGuessInput('');
+    setLastSubmittedGuess({ text: clean, timestamp: Date.now() });
+    if (guessFeedbackTimerRef.current) clearTimeout(guessFeedbackTimerRef.current);
+    guessFeedbackTimerRef.current = setTimeout(() => {
+      setLastSubmittedGuess(null);
+    }, 3500);
+
+    const senderPid = (typeof window !== 'undefined' && window.MultiplayerEngine?.playerId) || playerId;
+    const senderPname = (typeof window !== 'undefined' && window.MultiplayerEngine?.playerName) || playerName;
+    const senderPav = (typeof window !== 'undefined' && window.MultiplayerEngine?.playerAvatar) || playerAvatar;
+    const curIdx = (typeof window !== 'undefined' && window.MultiplayerEngine?.currentPlayIndex !== undefined)
+      ? window.MultiplayerEngine.currentPlayIndex
+      : (currentPlayIndex ?? 0);
+
     if (typeof window !== 'undefined' && window.ChatEngine?.processOutgoingMessage) {
       window.ChatEngine.processOutgoingMessage(clean);
     } else if (typeof window !== 'undefined' && window.MultiplayerEngine) {
       if (window.MultiplayerEngine.isHost) {
         window.MultiplayerEngine.validateAndProcessGuess({
-          playerId: window.MultiplayerEngine.playerId || playerId,
-          playerName: window.MultiplayerEngine.playerName || playerName,
-          playerAvatar: window.MultiplayerEngine.playerAvatar || playerAvatar,
+          playerId: senderPid,
+          senderId: senderPid,
+          playerName: senderPname,
+          playerAvatar: senderPav,
           guess: clean,
-          roundIndex: window.MultiplayerEngine.currentPlayIndex ?? currentPlayIndex ?? 0
+          roundIndex: curIdx
         });
       } else {
         window.MultiplayerEngine.sendEvent('SUBMIT_GUESS', {
-          playerId: window.MultiplayerEngine.playerId || playerId,
-          playerName: window.MultiplayerEngine.playerName || playerName,
-          playerAvatar: window.MultiplayerEngine.playerAvatar || playerAvatar,
+          playerId: senderPid,
+          senderId: senderPid,
+          playerName: senderPname,
+          playerAvatar: senderPav,
           guess: clean,
-          roundIndex: window.MultiplayerEngine.currentPlayIndex ?? currentPlayIndex ?? 0
+          roundIndex: curIdx
         });
       }
     }
@@ -553,6 +570,34 @@ export const GameScreen = ({
 
       {/* Mobile Sticky Bottom Guess & Chat Bar */}
       <div className="mobile-bottom-bar" id="mobileBottomBar">
+        {/* Floating Live Typing Preview Banner (Ensures 100% visibility of what is being typed) */}
+        {mobileGuessInput && mobileGuessInput.trim().length > 0 && (
+          <div className="mobile-typing-preview-bubble" id="mobileTypingPreview">
+            <div className="mtp-inner">
+              <span className="mtp-label">Typing:</span>
+              <span className="mtp-text">{mobileGuessInput}</span>
+              <button
+                type="button"
+                className="mtp-clear-btn"
+                onClick={() => setMobileGuessInput('')}
+                title="Clear text"
+              >
+                <X size={14} strokeWidth={3} />
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Floating Guess Submission Feedback Chip (Shows submitted answer even with drawer closed) */}
+        {!mobileGuessInput && lastSubmittedGuess && (
+          <div className="mobile-submitted-guess-bubble" id="mobileSubmittedFeedback">
+            <div className="msgb-inner">
+              <span className="msgb-badge">GUESS SENT:</span>
+              <span className="msgb-text">"{lastSubmittedGuess.text}"</span>
+            </div>
+          </div>
+        )}
+
         <div
           id="mobileHintBanner"
           className="mobile-hint-banner"

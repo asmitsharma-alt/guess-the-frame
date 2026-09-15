@@ -10133,41 +10133,35 @@
       }
 
       /* ══════════════════════════════════════════════════════════
-         MOBILE TYPING & KEYBOARD-VISIBLE LOCKED ZERO-SCROLL MODE
-         Ensures both the movie frame AND typed answer remain 100% in view!
+         MOBILE TYPING & KEYBOARD-VISIBLE ADAPTIVE VIEWPORT MODE
+         Ensures both the movie frame AND typed answer remain 100% visible!
          ══════════════════════════════════════════════════════════ */
       body.mobile-typing,
       body.keyboard-visible,
       body:has(#mobileQuickInput:focus) {
         height: 100% !important;
-        overflow: hidden !important;
-        position: fixed !important;
         width: 100% !important;
+        overflow-x: hidden !important;
       }
       body.mobile-typing #app,
       body.keyboard-visible #app,
       body:has(#mobileQuickInput:focus) #app {
         height: 100% !important;
         width: 100% !important;
-        overflow: hidden !important;
+        overflow-x: hidden !important;
       }
       body.mobile-typing #gameScreen,
       body.keyboard-visible #gameScreen,
       body:has(#mobileQuickInput:focus) #gameScreen {
-        position: fixed !important;
-        top: 0 !important;
-        left: 0 !important;
         width: 100vw !important;
-        /* Use the JS-driven visual viewport height; fallback to 100dvh */
-        height: calc(var(--visual-vh, 100) * 1px) !important;
-        max-height: calc(var(--visual-vh, 100) * 1px) !important;
+        height: 100% !important;
+        max-height: 100dvh !important;
         overflow: hidden !important;
         display: flex !important;
         flex-direction: column !important;
-        padding: 4px 6px !important;
+        padding: 4px 6px 74px 6px !important;
         box-sizing: border-box !important;
         gap: 4px !important;
-        /* Kill any transform/scroll that iOS might inject */
         transform: translateY(0) !important;
       }
       body.mobile-typing #gameScreen .game-main-row,
@@ -10179,7 +10173,7 @@
         flex-direction: column !important;
         width: 100% !important;
         overflow: hidden !important;
-        gap: 6px !important;
+        gap: 4px !important;
       }
       body.mobile-typing #gameScreen .game-stage-col,
       body.keyboard-visible #gameScreen .game-stage-col,
@@ -10190,7 +10184,7 @@
         flex-direction: column !important;
         width: 100% !important;
         overflow: hidden !important;
-        gap: 6px !important;
+        gap: 4px !important;
         position: relative !important;
         top: auto !important;
       }
@@ -10256,30 +10250,26 @@
       body:has(#mobileQuickInput:focus) #gameScreen .host-floating-bar {
         display: none !important;
       }
+      /* CRITICAL: Keep mobile bottom bar solidly FIXED at bottom during typing! */
       body.mobile-typing .mobile-bottom-bar,
       body.keyboard-visible .mobile-bottom-bar,
       body:has(#mobileQuickInput:focus) .mobile-bottom-bar {
-        flex: 0 0 auto !important;
-        position: relative !important;
-        bottom: auto !important;
-        left: auto !important;
-        right: auto !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
         width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        box-shadow: none !important;
-        border-top: none !important;
-      }
-      body.mobile-typing #sndBtn,
-      body.keyboard-visible #sndBtn,
-      body:has(#mobileQuickInput:focus) #sndBtn {
-        display: none !important;
+        z-index: 999999 !important;
+        background: #ffffff !important;
+        border-top: 3px solid #1a1a1a !important;
+        padding: 6px 8px max(8px, env(safe-area-inset-bottom, 8px)) !important;
+        box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.25) !important;
       }
       #gameScreen .chat-close-btn {
         display: block !important;
       }
       #gameScreen .chat-input-box {
-        font-size: 16px !important; /* CRITICAL: Prevents iOS Safari auto-zoom */
+        font-size: 16px !important; /* Prevents iOS auto-zoom */
         min-height: 46px !important;
         height: 46px !important;
         background: #ffffff !important;
@@ -10289,6 +10279,8 @@
         border-radius: 12px !important;
         padding: 0 12px !important;
         caret-color: #2563EB !important;
+        font-weight: 700 !important;
+        opacity: 1 !important;
       }
       #gameScreen .chat-send-btn {
         height: 46px !important;
@@ -10311,13 +10303,109 @@
         width: 100% !important;
         max-width: 100vw !important;
         box-sizing: border-box !important;
-        z-index: 99990 !important;
+        z-index: 999999 !important;
         background: #ffffff !important;
         border-top: 3px solid #1a1a1a !important;
         padding: 6px 8px max(10px, env(safe-area-inset-bottom, 10px)) !important;
         box-shadow: 0 -6px 20px rgba(0,0,0,0.18) !important;
         gap: 6px !important;
-        overflow-x: hidden !important;
+        overflow: visible !important;
+      }
+      /* Floating Live Typing Preview & Guess Feedback Bubbles */
+      .mobile-typing-preview-bubble,
+      .mobile-submitted-guess-bubble {
+        position: absolute !important;
+        bottom: 100% !important;
+        left: 8px !important;
+        right: 8px !important;
+        margin-bottom: 8px !important;
+        z-index: 1000000 !important;
+        pointer-events: auto !important;
+        animation: typingPopUp 0.15s ease-out forwards !important;
+      }
+      @keyframes typingPopUp {
+        from {
+          opacity: 0;
+          transform: translateY(6px) scale(0.98);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      .mtp-inner {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        background: #0f172a !important;
+        color: #ffffff !important;
+        border: 2.5px solid #FACC15 !important;
+        border-radius: 12px !important;
+        padding: 8px 12px !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.4) !important;
+      }
+      .mtp-label {
+        font-size: 11px !important;
+        font-weight: 900 !important;
+        letter-spacing: 1px !important;
+        color: #FACC15 !important;
+        text-transform: uppercase !important;
+        flex-shrink: 0 !important;
+      }
+      .mtp-text {
+        font-family: 'Space Grotesk', 'DM Sans', sans-serif !important;
+        font-size: 16px !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+        flex: 1 !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
+      }
+      .mtp-clear-btn {
+        background: rgba(255,255,255,0.2) !important;
+        border: none !important;
+        color: #ffffff !important;
+        border-radius: 50% !important;
+        width: 24px !important;
+        height: 24px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        flex-shrink: 0 !important;
+        transition: background 0.15s ease !important;
+      }
+      .mtp-clear-btn:active {
+        background: rgba(255,255,255,0.4) !important;
+      }
+      .msgb-inner {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        background: #064E3B !important;
+        color: #ECFDF5 !important;
+        border: 2.5px solid #34D399 !important;
+        border-radius: 12px !important;
+        padding: 8px 12px !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.35) !important;
+      }
+      .msgb-badge {
+        font-size: 11px !important;
+        font-weight: 900 !important;
+        letter-spacing: 0.8px !important;
+        color: #34D399 !important;
+        text-transform: uppercase !important;
+        flex-shrink: 0 !important;
+      }
+      .msgb-text {
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        color: #ECFDF5 !important;
+        flex: 1 !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        white-space: nowrap !important;
       }
       .mobile-bottom-bar-row {
         display: flex !important;

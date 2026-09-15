@@ -154,21 +154,6 @@ export function installTestBridge(gameContextRef) {
       };
       updateVH();
 
-      const lockToTop = () => {
-        window.scrollTo(0, 0);
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
-        const gs = document.getElementById('gameScreen');
-        if (gs) { gs.scrollTop = 0; gs.scrollLeft = 0; }
-      };
-
-      document.addEventListener('scroll', () => {
-        if (document.body.classList.contains('mobile-typing') ||
-            document.body.classList.contains('keyboard-visible')) {
-          lockToTop();
-        }
-      }, { passive: false, capture: true });
-
       const setupInputListeners = () => {
         const qInput = document.getElementById('mobileQuickInput');
         const cInput = document.getElementById('chatTextInput');
@@ -176,11 +161,6 @@ export function installTestBridge(gameContextRef) {
         const handleFocus = () => {
           document.body.classList.add('mobile-typing');
           updateVH();
-          lockToTop();
-          setTimeout(() => { updateVH(); lockToTop(); }, 50);
-          setTimeout(() => { updateVH(); lockToTop(); }, 150);
-          setTimeout(() => { updateVH(); lockToTop(); }, 300);
-          setTimeout(() => { updateVH(); lockToTop(); }, 500);
         };
 
         const handleBlur = (input) => {
@@ -188,6 +168,8 @@ export function installTestBridge(gameContextRef) {
             if (document.activeElement !== input) {
               document.body.classList.remove('mobile-typing');
               updateVH();
+              const bottomBar = document.getElementById('mobileBottomBar');
+              if (bottomBar) bottomBar.style.bottom = '0px';
             }
           }, 120);
         };
@@ -222,9 +204,10 @@ export function installTestBridge(gameContextRef) {
           const chatPanel = document.getElementById('liveChatPanel');
           const offset = Math.max(0, window.innerHeight - window.visualViewport.height);
 
-          if (offset > 60) {
+          if (offset > 50) {
             document.body.classList.add('keyboard-visible');
-            lockToTop();
+            if (bottomBar) bottomBar.style.bottom = `${offset}px`;
+            if (chatPanel) chatPanel.style.bottom = `${offset}px`;
           } else {
             document.body.classList.remove('keyboard-visible');
             if (bottomBar) bottomBar.style.bottom = '0px';
@@ -232,11 +215,7 @@ export function installTestBridge(gameContextRef) {
           }
         };
         window.visualViewport.addEventListener('resize', onViewportChange);
-        window.visualViewport.addEventListener('scroll', () => {
-          if (document.body.classList.contains('mobile-typing') || document.body.classList.contains('keyboard-visible')) {
-            lockToTop();
-          }
-        });
+        window.visualViewport.addEventListener('scroll', onViewportChange);
       }
       window.addEventListener('resize', updateVH);
     }
@@ -1690,14 +1669,16 @@ export function installTestBridge(gameContextRef) {
       if (this.isHost) {
         this.sendEvent('MATCH_START', {
           currentPlaylist: this.currentPlaylist,
-          currentPlayIndex: this.currentPlayIndex
+          currentPlayIndex: 0,
+          frame: this.currentPlaylist[0],
+          duration: this.hostSettings?.timer || 30
         });
         const pl = this.currentPlaylist;
         if (pl && pl.length > 0) {
           this.sendEvent('ROUND_START', {
             roundIndex: 0,
             frame: pl[0],
-            duration: 30
+            duration: this.hostSettings?.timer || 30
           });
         }
       }
@@ -1708,12 +1689,13 @@ export function installTestBridge(gameContextRef) {
     },
 
     validateAndProcessGuess(data) {
-      if (!data || !data.playerId || !data.guess) return;
-      const curFrame = this.currentPlaylist[this.currentPlayIndex];
+      const pId = data?.playerId || data?.senderId;
+      if (!data || !pId || !data.guess) return;
+      const curFrame = this.currentPlaylist ? this.currentPlaylist[this.currentPlayIndex] : null;
       if (!curFrame) return;
 
       if (FuzzyMatcher.isMatch(data.guess, curFrame.answer)) {
-        if (this.currentRoundWinners.some(w => w.playerId === data.playerId)) {
+        if (this.currentRoundWinners.some(w => w.playerId === pId)) {
           return;
         }
 
@@ -1722,20 +1704,24 @@ export function installTestBridge(gameContextRef) {
 
         if (pos <= 3) {
           const winnerRecord = {
-            playerId: data.playerId,
-            playerName: data.playerName,
-            playerAvatar: data.playerAvatar,
+            playerId: pId,
+            playerName: data.playerName || 'Player',
+            playerAvatar: data.playerAvatar || 'aman',
             position: pos,
             points
           };
           this.currentRoundWinners.push(winnerRecord);
           ChatEngine.renderWinnerBanner(winnerRecord);
           if (this.isHost) {
-            this.sendEvent('GUESS_CORRECT_BROADCAST', { winner: winnerRecord });
+            this.sendEvent('GUESS_CORRECT_BROADCAST', {
+              winner: winnerRecord,
+              roundWinners: this.currentRoundWinners,
+              roundIndex: this.currentPlayIndex
+            });
           }
         }
 
-        const p = GS.players.find(pl => pl.id === data.playerId);
+        const p = GS.players.find(pl => pl.id === pId);
         if (p) {
           p.score = (p.score || 0) + points;
         }
@@ -1745,7 +1731,10 @@ export function installTestBridge(gameContextRef) {
         if (this.isHost) {
           this.sendEvent('SYNC_ROOM_STATE', {
             players: GS.players,
-            currentRoundWinners: this.currentRoundWinners
+            currentRoundWinners: this.currentRoundWinners,
+            currentPlaylist: this.currentPlaylist,
+            currentPlayIndex: this.currentPlayIndex,
+            frame: curFrame
           });
         }
       }
@@ -1948,11 +1937,36 @@ export function installTestBridge(gameContextRef) {
 
         case 'MATCH_START': {
           this.isMatchActive = true;
-          if (event.currentPlaylist) this.currentPlaylist = event.currentPlaylist;
-          this.currentPlayIndex = event.currentPlayIndex || 0;
+          if (event.currentPlaylist && Array.isArray(event.currentPlaylist) && event.currentPlaylist.length > 0) {
+            this.currentPlaylist = event.currentPlaylist;
+            if (gameContextRef?.current?.setCurrentPlaylist) {
+              gameContextRef.current.setCurrentPlaylist(event.currentPlaylist);
+            }
+          }
+          const startIdx = event.currentPlayIndex || 0;
+          this.currentPlayIndex = startIdx;
           this.currentRoundWinners = [];
           this.isRoundFinished = false;
           this.saveActiveSession();
+          const targetFrame = event.frame || (this.currentPlaylist && this.currentPlaylist[startIdx]);
+          if (targetFrame) {
+            FrameDisplay.showFrame(targetFrame);
+            if (gameContextRef?.current?.setCurrentFrame) {
+              gameContextRef.current.setCurrentFrame(targetFrame);
+            }
+          }
+          if (gameContextRef?.current?.setCurrentPlayIndex) {
+            gameContextRef.current.setCurrentPlayIndex(startIdx);
+          }
+          if (gameContextRef?.current?.setRoundWinners) {
+            gameContextRef.current.setRoundWinners([]);
+          }
+          if (gameContextRef?.current?.setIsRoundFinished) {
+            gameContextRef.current.setIsRoundFinished(false);
+          }
+          if (gameContextRef?.current?.setIsAnswerRevealed) {
+            gameContextRef.current.setIsAnswerRevealed(false);
+          }
           HowToAnswerGuide.start(this.isHost, () => {
             UI.showScreen('gameScreen');
           });
@@ -2122,6 +2136,12 @@ export function installTestBridge(gameContextRef) {
           this.isRoundFinished = false;
           this.currentRoundWinners = [];
           this.currentMaskedHint = null;
+          if (event.currentPlaylist && Array.isArray(event.currentPlaylist) && event.currentPlaylist.length > 0) {
+            this.currentPlaylist = event.currentPlaylist;
+            if (gameContextRef?.current?.setCurrentPlaylist) {
+              gameContextRef.current.setCurrentPlaylist(event.currentPlaylist);
+            }
+          }
           const frame = event.frame || (this.currentPlaylist && this.currentPlaylist[nextIdx]);
           if (frame) {
             FrameDisplay.showFrame(frame);

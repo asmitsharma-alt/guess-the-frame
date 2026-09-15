@@ -154,12 +154,13 @@ const AppContent = () => {
               window.MultiplayerEngine.startMatch();
             } else if (typeof window !== 'undefined' && window.PlayerLobby?.start) {
               window.PlayerLobby.start();
+            } else {
+              multiplayer.sendEvent('ROUND_START', {
+                roundIndex: 0,
+                frame: game.currentPlaylist[0],
+                duration: game.hostSettings.timer || 30
+              });
             }
-            multiplayer.sendEvent('ROUND_START', {
-              roundIndex: 0,
-              frame: game.currentPlaylist[0],
-              duration: game.hostSettings.timer || 30
-            });
           }}
           onLeaveLobby={() => {
             if (typeof window !== 'undefined' && window.PlayerLobby?.back) {
@@ -193,21 +194,34 @@ const AppContent = () => {
           }}
           onNextRound={() => {
             const nextIdx = game.currentPlayIndex + 1;
-            if (nextIdx >= game.currentPlaylist.length) {
+            const activePlaylist = (typeof window !== 'undefined' && window.MultiplayerEngine?.currentPlaylist?.length > 0)
+              ? window.MultiplayerEngine.currentPlaylist
+              : game.currentPlaylist;
+            if (nextIdx >= activePlaylist.length) {
               game.showScreen('winnerScreen');
               multiplayer.sendEvent('GAME_OVER_BROADCAST', {});
               return;
             }
+            const nextFrame = activePlaylist[nextIdx];
             game.setCurrentPlayIndex(nextIdx);
-            game.setCurrentFrame(game.currentPlaylist[nextIdx]);
+            game.setCurrentFrame(nextFrame);
             game.setIsRoundFinished(false);
             game.setIsAnswerRevealed(false);
             game.setMaskedHint(null);
             game.setTimeRemaining(game.hostSettings.timer || 30);
             game.setRoundWinners([]);
+            if (typeof window !== 'undefined' && window.MultiplayerEngine) {
+              window.MultiplayerEngine.currentPlayIndex = nextIdx;
+              window.MultiplayerEngine.isRoundFinished = false;
+              window.MultiplayerEngine.currentRoundWinners = [];
+              window.MultiplayerEngine.currentMaskedHint = null;
+            }
+            if (typeof window !== 'undefined' && window.FrameDisplay?.showFrame && nextFrame) {
+              window.FrameDisplay.showFrame(nextFrame);
+            }
             multiplayer.sendEvent('ROUND_START', {
               roundIndex: nextIdx,
-              frame: game.currentPlaylist[nextIdx],
+              frame: nextFrame,
               duration: game.hostSettings.timer || 30
             });
           }}
@@ -241,6 +255,7 @@ const AppContent = () => {
           onSubmitGuess={(text) => {
             multiplayer.sendEvent('SUBMIT_GUESS', {
               guess: text,
+              playerId: game.playerId,
               senderId: game.playerId,
               playerName: game.playerName,
               playerAvatar: game.playerAvatar
