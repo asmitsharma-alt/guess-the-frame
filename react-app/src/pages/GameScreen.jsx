@@ -234,19 +234,22 @@ export const GameScreen = ({
                 id="imageContainer"
                 style={{ display: frame?.type === 'dialogue' ? 'none' : 'flex' }}
               >
-                {frame && frame.type === 'image' && (
-                  <img
-                    ref={imgRef}
-                    className={`frame-image loaded ${isRoundFinished || isAnswerRevealed ? 'revealed' : 'blurred'}`}
-                    src={`/${(isRoundFinished || isAnswerRevealed) && frame.revealContent ? frame.revealContent : frame.content}`}
-                    alt={frame?.sectionName || "Movie Frame"}
-                    loading="eager"
-                    onError={(e) => {
-                      // Graceful fallback
-                      e.target.style.display = 'none';
-                    }}
-                  />
-                )}
+                {frame && frame.type === 'image' && (() => {
+                  const rawSrc = (isRoundFinished || isAnswerRevealed) && frame.revealContent ? frame.revealContent : frame.content;
+                  const safeSrc = rawSrc ? (rawSrc.startsWith('/') ? rawSrc : `/${rawSrc}`) : '';
+                  return (
+                    <img
+                      ref={imgRef}
+                      className={`frame-image loaded ${isRoundFinished || isAnswerRevealed ? 'revealed' : 'blurred'}`}
+                      src={safeSrc}
+                      alt={frame?.sectionName || "Movie Frame"}
+                      loading="eager"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  );
+                })()}
               </div>
 
               {/* Answer Overlay */}
@@ -255,26 +258,28 @@ export const GameScreen = ({
                   <div className="ans-badge">
                     {frame?.type === 'dialogue' ? 'Movie Quote' : (frame?.category === 'eyes' || frame?.sectionName === 'Guess the Eyes' ? 'Celebrity' : 'Answer')}
                   </div>
-                  <div className="ans-year" id="ansYear">{frame?.year || ''}</div>
-                  <div className="ans-divider"></div>
-                  <div className="ans-title" id="ansTitle">{frame?.answer || ''}</div>
-                  <div className="ans-dialogue" id="ansDialogue">{frame?.type === 'dialogue' ? `"${frame?.content}"` : ''}</div>
-                  <div className="ans-action-bar" id="ansActionBar">
-                    <button
-                      type="button"
-                      className="ans-next-round-btn"
-                      id="ansNextRoundBtn"
-                      style={{ display: effectiveIsHost ? 'block' : 'none' }}
-                      onClick={() => {
-                        SoundManager.playClick();
-                        if (typeof window !== 'undefined' && window.MultiplayerEngine?.hostNextRound) {
-                          window.MultiplayerEngine.hostNextRound();
-                        }
-                        if (onNextRound) onNextRound();
-                      }}
-                    >
-                      NEXT ROUND <SkipForward size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginLeft: '4px' }} />
-                    </button>
+                  <div className="ans-title" id="ansCorrectTitle">
+                    {frame?.answer || (frame?.type === 'dialogue' ? frame?.movie : 'Answer')}
+                  </div>
+                  <div className="ans-subtitle" id="ansSubtitle">
+                    {frame?.year ? `${frame.year} ${frame?.category ? `• ${frame.category.toUpperCase()}` : ''}` : ''}
+                  </div>
+
+                  <div className="ans-action-zone">
+                    {/* Host Next Round Button */}
+                    <div className="ans-host-actions" id="ansHostActions">
+                      <button
+                        className="ans-btn-primary"
+                        id="ansNextRoundBtn"
+                        style={{ display: effectiveIsHost ? 'block' : 'none' }}
+                        onClick={() => {
+                          SoundManager.playClick();
+                          if (onNextRound) onNextRound();
+                        }}
+                      >
+                        NEXT ROUND <SkipForward size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginLeft: '4px' }} />
+                      </button>
+                    </div>
                     <div
                       className="ans-waiting-host-pill"
                       id="ansWaitingHostPill"

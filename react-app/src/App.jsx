@@ -193,10 +193,13 @@ const AppContent = () => {
             multiplayer.sendEvent('ROUND_FINISH_BROADCAST', {});
           }}
           onNextRound={() => {
-            const nextIdx = game.currentPlayIndex + 1;
+            const currentIdx = (typeof window !== 'undefined' && window.MultiplayerEngine?.currentPlayIndex !== undefined)
+              ? window.MultiplayerEngine.currentPlayIndex
+              : game.currentPlayIndex;
+            const nextIdx = currentIdx + 1;
             const activePlaylist = (typeof window !== 'undefined' && window.MultiplayerEngine?.currentPlaylist?.length > 0)
               ? window.MultiplayerEngine.currentPlaylist
-              : game.currentPlaylist;
+              : (game.currentPlaylist && game.currentPlaylist.length > 0 ? game.currentPlaylist : DEFAULT_FRAMES);
             if (nextIdx >= activePlaylist.length) {
               game.showScreen('winnerScreen');
               multiplayer.sendEvent('GAME_OVER_BROADCAST', {});
@@ -212,6 +215,7 @@ const AppContent = () => {
             game.setRoundWinners([]);
             if (typeof window !== 'undefined' && window.MultiplayerEngine) {
               window.MultiplayerEngine.currentPlayIndex = nextIdx;
+              window.MultiplayerEngine.currentPlaylist = activePlaylist;
               window.MultiplayerEngine.isRoundFinished = false;
               window.MultiplayerEngine.currentRoundWinners = [];
               window.MultiplayerEngine.currentMaskedHint = null;
@@ -222,6 +226,7 @@ const AppContent = () => {
             multiplayer.sendEvent('ROUND_START', {
               roundIndex: nextIdx,
               frame: nextFrame,
+              currentPlaylist: activePlaylist,
               duration: game.hostSettings.timer || 30
             });
           }}
