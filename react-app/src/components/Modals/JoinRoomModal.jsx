@@ -74,14 +74,16 @@ export const JoinRoomModal = ({ isOpen, roomCode: propRoomCode = '', onClose, on
   const handleConfirm = () => {
     if (isConnecting) return;
     SoundManager.playClick();
-    const cleanCode = roomCode.trim().toUpperCase();
+    const codeEl = document.getElementById('joinCodeInput');
+    const cleanCode = ((codeEl && codeEl.value) ? codeEl.value : roomCode).trim().toUpperCase();
     if (!cleanCode) {
       alert('Please enter a valid 4-letter room code.');
       return;
     }
 
     const effectiveAvatar = selectedAvatar || localStorage.getItem('gtf_player_avatar') || 'aman';
-    const cleanName = playerName.trim() || 'Player';
+    const nameEl = document.getElementById('joinPlayerNameInput');
+    const cleanName = ((nameEl && nameEl.value) ? nameEl.value : playerName).trim() || 'Player';
     localStorage.setItem('gtf_player_name', cleanName);
     localStorage.setItem('gtf_player_avatar', effectiveAvatar);
 

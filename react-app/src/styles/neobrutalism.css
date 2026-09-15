@@ -262,8 +262,8 @@ input, select, textarea {
     border-bottom: none !important;
     box-shadow: 0 -8px 0px 0px rgba(0,0,0,0.15) !important;
     padding: 16px 20px calc(20px + env(safe-area-inset-bottom, 0px)) !important;
-    max-height: 90vh !important;
-    animation: drawerSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transform: translateY(0) !important;
+    animation: drawerSlideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
   }
 
   @keyframes drawerSlideUp {
