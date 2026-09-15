@@ -122,6 +122,10 @@ export const NetworkSecurity = {
     ];
 
     if (HOST_COMMANDS.includes(msg.type)) {
+      // Allow authoritative state sync for joining/rejoining players who don't yet have the host registered locally
+      if (!isLocalHost && (msg.type === 'SYNC_ROOM_STATE' || msg.type === 'JOIN_ACK' || msg.type === 'REJOIN_SYNC_STATE')) {
+        return true;
+      }
       const registeredHost = (players || []).find(p => p.isHost);
       if (registeredHost && msg.senderId !== registeredHost.id) {
         return false;

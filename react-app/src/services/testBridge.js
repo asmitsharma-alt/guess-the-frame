@@ -1257,10 +1257,14 @@ export function installTestBridge(gameContextRef) {
           this.backendWs = null;
         }
 
-        const isVercel = typeof window !== 'undefined' && window.location.hostname.endsWith('.vercel.app');
+        const isVercel = typeof window !== 'undefined' && (
+          window.location.hostname.endsWith('.vercel.app') ||
+          window.location.hostname === 'scoopcast.me' ||
+          window.location.hostname.endsWith('scoopcast.me')
+        );
         const hasExternalWs = Boolean(typeof import.meta !== 'undefined' && import.meta.env?.VITE_WS_URL);
 
-        if (!isVercel || hasExternalWs) {
+        if (!isVercel && hasExternalWs) {
           const wsHost = (typeof window !== 'undefined' && window.location.port === '8080')
             ? 'localhost:4000'
             : (typeof window !== 'undefined' ? window.location.host : 'localhost:4000');
@@ -1332,105 +1336,108 @@ export function installTestBridge(gameContextRef) {
       return pool;
     },
 
+    _seenMsgMap: new Map(),
+    _isDuplicateMessage(msg) {
+      if (!msg || !msg.type) return false;
+      if (!this._seenMsgMap) this._seenMsgMap = new Map();
+      const key = `${msg.type}_${msg.id || msg.senderId || ''}_${msg.timestamp || ''}_${msg.roundIndex ?? ''}`;
+      const now = Date.now();
+      if (this._seenMsgMap.has(key)) {
+        const prev = this._seenMsgMap.get(key);
+        if (now - prev < 6000) return true;
+      }
+      this._seenMsgMap.set(key, now);
+      if (this._seenMsgMap.size > 200) {
+        for (const [k, t] of this._seenMsgMap.entries()) {
+          if (now - t > 10000) this._seenMsgMap.delete(k);
+        }
+      }
+      return false;
+    },
+
     connectMqttWithFailover(topic) {
       const mqttLib = (typeof window !== 'undefined' && (window.mqtt || (typeof mqtt !== 'undefined' ? mqtt : null)));
       if (!mqttLib) return;
 
-      if (this.mqttClient) {
-        try { this.mqttClient.end(true); } catch(e) {}
-        this.mqttClient = null;
-      }
+      if (!this.mqttClients) this.mqttClients = [];
+      // Clean up previous clients if any
+      this.mqttClients.forEach(c => {
+        try { c.end(true); } catch(e) {}
+      });
+      this.mqttClients = [];
+      this.mqttClient = null;
+
       if (this._mqttConnectTimeout) {
         clearTimeout(this._mqttConnectTimeout);
         this._mqttConnectTimeout = null;
       }
 
       const pool = this.getBrokerPool();
-      const broker = pool[this._mqttBrokerIndex % pool.length];
-      this._mqttCurrentBrokerName = broker.name;
-      console.log(`[MQTT Transport] Attempting connection to ${broker.name} (${broker.url})...`);
+      // Connect to top 2 primary brokers concurrently (EMQX + HiveMQ)
+      // This ensures cross-device connections work even if one device is routed through a carrier that blocks or delays one broker.
+      const targetBrokers = pool.slice(0, 2);
+      const secTopic = NetworkSecurity.getRoomTopic(this.roomCode);
+      const legacyTopic = `gtf/${this.roomCode}/events`;
 
-      // 4-second timeout: if connection not established, automatically fail over to backup broker
-      this._mqttConnectTimeout = setTimeout(() => {
-        if (!this.mqttClient || !this.mqttClient.connected) {
-          console.warn(`[MQTT Failover] Connection to ${broker.name} timed out (>4s). Switching to backup broker...`);
-          this._mqttBrokerIndex = (this._mqttBrokerIndex + 1) % pool.length;
-          this.connectMqttWithFailover(topic);
+      targetBrokers.forEach((broker, idx) => {
+        console.log(`[MQTT Dual-Transport] Connecting to ${broker.name} (${broker.url})...`);
+        try {
+          const clientInstance = mqttLib.connect(broker.url, {
+            keepalive: 30,
+            reconnectPeriod: 3000,
+            connectTimeout: 7000,
+            clientId: 'gtf_' + this.playerId + '_' + (idx === 0 ? 'e' : 'h') + '_' + Math.random().toString(16).substr(2, 6)
+          });
+
+          clientInstance.on('connect', () => {
+            this._mqttIsConnected = true;
+            this.mqttClient = clientInstance; // For backwards compatibility
+            console.log(`[MQTT Dual-Transport] Connected to ${broker.name}! Subscribing to: ${secTopic}`);
+
+            if (typeof window !== 'undefined' && window.__setMultiplayerSocketStatus) {
+              window.__setMultiplayerSocketStatus('connected');
+            }
+
+            clientInstance.subscribe(secTopic, { qos: 1 });
+            clientInstance.subscribe(legacyTopic, { qos: 1 });
+            this.flushMessageQueue();
+
+            if (!this.isHost) {
+              this.sendEvent('PLAYER_JOIN', {
+                id: this.playerId,
+                name: this.playerName,
+                avatar: this.playerAvatar
+              });
+            } else {
+              this.sendEvent('SYNC_ROOM_STATE', {
+                players: GS.players,
+                hostSettings: this.hostSettings
+              });
+            }
+          });
+
+          clientInstance.on('message', (t, payload) => {
+            try {
+              const msg = JSON.parse(payload.toString());
+              if (this._isDuplicateMessage(msg)) return;
+              this.handleIncomingEvent(msg);
+            } catch(e) {}
+          });
+
+          clientInstance.on('error', (err) => {
+            console.warn(`[MQTT Notice from ${broker.name}]`, err.message);
+          });
+
+          clientInstance.on('close', () => {
+            const anyOpen = (this.mqttClients || []).some(c => c && c.connected);
+            this._mqttIsConnected = anyOpen;
+          });
+
+          this.mqttClients.push(clientInstance);
+        } catch(err) {
+          console.warn(`[MQTT Dual-Transport Exception on ${broker.name}]`, err);
         }
-      }, 4000);
-
-      try {
-        const clientInstance = mqttLib.connect(broker.url, {
-          keepalive: 30,
-          reconnectPeriod: 3000,
-          connectTimeout: 4000,
-          clientId: 'gtf_' + this.playerId + '_' + Math.random().toString(16).substr(2, 6)
-        });
-        this.mqttClient = clientInstance;
-
-        clientInstance.on('connect', () => {
-          if (!this.mqttClient || this.mqttClient !== clientInstance) return;
-          if (this._mqttConnectTimeout) {
-            clearTimeout(this._mqttConnectTimeout);
-            this._mqttConnectTimeout = null;
-          }
-          this._mqttIsConnected = true;
-          console.log(`[MQTT Transport] Successfully connected to ${broker.name}!`);
-
-          if (typeof window !== 'undefined' && window.__setMultiplayerSocketStatus) {
-            window.__setMultiplayerSocketStatus('connected');
-          }
-
-          clientInstance.subscribe(topic, { qos: 1 });
-          this.flushMessageQueue();
-
-          if (!this.isHost) {
-            this.sendEvent('PLAYER_JOIN', {
-              id: this.playerId,
-              name: this.playerName,
-              avatar: this.playerAvatar
-            });
-          } else {
-            this.sendEvent('SYNC_ROOM_STATE', {
-              players: GS.players,
-              hostSettings: this.hostSettings
-            });
-          }
-        });
-
-        clientInstance.on('message', (t, payload) => {
-          if (!this.mqttClient || this.mqttClient !== clientInstance) return;
-          try {
-            const msg = JSON.parse(payload.toString());
-            this.handleIncomingEvent(msg);
-          } catch(e) {}
-        });
-
-        clientInstance.on('error', (err) => {
-          console.warn(`[MQTT Notice from ${broker.name}]`, err.message);
-          if (!clientInstance.connected && this._mqttConnectTimeout) {
-            clearTimeout(this._mqttConnectTimeout);
-            this._mqttConnectTimeout = null;
-            console.warn(`[MQTT Failover] Connection error on ${broker.name}. Switching to backup broker...`);
-            this._mqttBrokerIndex = (this._mqttBrokerIndex + 1) % pool.length;
-            this.connectMqttWithFailover(topic);
-          }
-        });
-
-        clientInstance.on('close', () => {
-          if (this.mqttClient === clientInstance) {
-            this._mqttIsConnected = false;
-          }
-        });
-      } catch(err) {
-        console.warn(`[MQTT Exception on ${broker.name}]`, err);
-        if (this._mqttConnectTimeout) {
-          clearTimeout(this._mqttConnectTimeout);
-          this._mqttConnectTimeout = null;
-        }
-        this._mqttBrokerIndex = (this._mqttBrokerIndex + 1) % pool.length;
-        this.connectMqttWithFailover(topic);
-      }
+      });
     },
 
     sendEvent(eventType, payload = {}) {
@@ -1451,20 +1458,33 @@ export function installTestBridge(gameContextRef) {
 
       const jsonStr = JSON.stringify(msg);
 
-      // Send to local/cloud backend WebSocket
+      // Send to local/cloud backend WebSocket (if connected)
       if (this.backendWs && this.backendWs.readyState === WebSocket.OPEN) {
         try { this.backendWs.send(jsonStr); } catch(e) {}
-      } else {
+      } else if (this.backendWs) {
         if (!this.wsQueue) this.wsQueue = [];
         this.wsQueue.push(jsonStr);
       }
 
-      if (this.mqttClient && this.mqttClient.connected) {
-        const topic = NetworkSecurity.getRoomTopic(this.roomCode);
-        this.mqttClient.publish(topic, jsonStr, { qos: 1 });
+      // Publish to ALL connected MQTT brokers simultaneously
+      const secTopic = NetworkSecurity.getRoomTopic(this.roomCode);
+      const legacyTopic = `gtf/${this.roomCode}/events`;
+      const connectedClients = (this.mqttClients || []).filter(c => c && c.connected);
+      if (connectedClients.length > 0) {
+        connectedClients.forEach(c => {
+          try {
+            c.publish(secTopic, jsonStr, { qos: 1 });
+            c.publish(legacyTopic, jsonStr, { qos: 1 });
+          } catch(e) {}
+        });
+      } else if (this.mqttClient && this.mqttClient.connected) {
+        try {
+          this.mqttClient.publish(secTopic, jsonStr, { qos: 1 });
+          this.mqttClient.publish(legacyTopic, jsonStr, { qos: 1 });
+        } catch(e) {}
       } else {
         if (!this.messageQueue) this.messageQueue = [];
-        this.messageQueue.push({ topic: NetworkSecurity.getRoomTopic(this.roomCode), payload: jsonStr });
+        this.messageQueue.push({ topic: secTopic, payload: jsonStr });
       }
     },
 
@@ -1477,10 +1497,19 @@ export function installTestBridge(gameContextRef) {
     },
 
     flushMessageQueue() {
-      if (!this.mqttClient || !this.mqttClient.connected || !this.messageQueue) return;
+      if (!this.messageQueue || this.messageQueue.length === 0) return;
+      const connected = (this.mqttClients || []).filter(c => c && c.connected);
+      if (connected.length === 0 && (!this.mqttClient || !this.mqttClient.connected)) return;
+
       while (this.messageQueue.length > 0) {
         const item = this.messageQueue.shift();
-        this.mqttClient.publish(item.topic, item.payload, { qos: 1 });
+        if (connected.length > 0) {
+          connected.forEach(c => {
+            try { c.publish(item.topic, item.payload, { qos: 1 }); } catch(e) {}
+          });
+        } else if (this.mqttClient && this.mqttClient.connected) {
+          try { this.mqttClient.publish(item.topic, item.payload, { qos: 1 }); } catch(e) {}
+        }
       }
     },
 
@@ -1542,6 +1571,10 @@ export function installTestBridge(gameContextRef) {
             clearInterval(this.joinRetryTimer);
             this.joinRetryTimer = null;
           }
+          if (this.mqttClients) {
+            this.mqttClients.forEach(c => { try { c.end(true); } catch(e) {} });
+            this.mqttClients = [];
+          }
           if (this.mqttClient) {
             try { this.mqttClient.end(true); } catch(e) {}
             this.mqttClient = null;
@@ -1560,7 +1593,7 @@ export function installTestBridge(gameContextRef) {
           }
           alert('Lobby not found. Please verify your room code and make sure the host is online.');
         }
-      }, 15000);
+      }, 20000);
 
       this.startClientHeartbeat();
       this.startHostWatchdog();
@@ -1584,7 +1617,7 @@ export function installTestBridge(gameContextRef) {
           name: this.playerName,
           avatar: this.playerAvatar
         });
-      }, 1000);
+      }, 800);
     },
 
     renderLobbyUI() {
@@ -1802,6 +1835,11 @@ export function installTestBridge(gameContextRef) {
               hostSettings: this.hostSettings,
               currentPlaylist: this.currentPlaylist,
               currentPlayIndex: this.currentPlayIndex
+            });
+            this.sendEvent('JOIN_ACK', {
+              targetPlayerId: playerId,
+              players: GS.players,
+              hostSettings: this.hostSettings
             });
           }
           break;

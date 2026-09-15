@@ -25,6 +25,7 @@ export const MultiplayerProvider = ({ children }) => {
   const lastHeartbeatRef = useRef(Date.now());
   const [socketStatus, setSocketStatus] = useState('offline'); // 'connected' | 'connecting' | 'offline'
   const handleIncomingMessageRef = useRef(null);
+  const seenMessagesRef = useRef(new Map());
 
   // Inbound MQTT message router
   const handleMqttMessage = useCallback((msg, topic) => {
@@ -77,6 +78,18 @@ export const MultiplayerProvider = ({ children }) => {
     if (wsRef.current) {
       try { wsRef.current.close(); } catch (e) {}
       wsRef.current = null;
+    }
+
+    const isVercelHost = typeof window !== 'undefined' && (
+      window.location.hostname.endsWith('.vercel.app') ||
+      window.location.hostname === 'scoopcast.me' ||
+      window.location.hostname.endsWith('scoopcast.me')
+    );
+    const hasExternalWs = Boolean(typeof import.meta !== 'undefined' && import.meta.env?.VITE_WS_URL);
+
+    // Skip native WebSocket on static SPA hosts (Vercel/scoopcast.me) if no explicit external WS server is configured
+    if (isVercelHost && !hasExternalWs) {
+      return;
     }
 
     setSocketStatus('connecting');
@@ -171,6 +184,8 @@ export const MultiplayerProvider = ({ children }) => {
     // 1. Publish via Resilient MQTT Hook (Primary Cloud Transport with offline buffer)
     const cleanRoom = game.roomCode ? game.roomCode.trim().toUpperCase() : '';
     if (cleanRoom) {
+      const secTopic = NetworkSecurity.getRoomTopic(cleanRoom);
+      mqtt.publish(secTopic, msg, 1);
       mqtt.publish(`gtf/${cleanRoom}/events`, msg, 1);
     }
 
@@ -204,6 +219,22 @@ export const MultiplayerProvider = ({ children }) => {
   const handleIncomingMessage = useCallback((msg) => {
     if (!msg || !msg.type) return;
 
+    // Deduplicate packets arriving via multiple transports/brokers
+    const msgKey = `${msg.type}_${msg.senderId || msg.id || ''}_${msg.timestamp || ''}_${msg.roundIndex ?? ''}`;
+    const now = Date.now();
+    if (seenMessagesRef.current.has(msgKey)) {
+      const seenTime = seenMessagesRef.current.get(msgKey);
+      if (now - seenTime < 6000) {
+        return; // Duplicate ignored
+      }
+    }
+    seenMessagesRef.current.set(msgKey, now);
+    if (seenMessagesRef.current.size > 200) {
+      for (const [k, time] of seenMessagesRef.current.entries()) {
+        if (now - time > 10000) seenMessagesRef.current.delete(k);
+      }
+    }
+
     // Security validation
     if (typeof NetworkSecurity !== 'undefined' && NetworkSecurity.validateIncomingMessage) {
       if (!NetworkSecurity.validateIncomingMessage(msg, game.roomCode, game.players, game.isHost)) {
@@ -215,22 +246,38 @@ export const MultiplayerProvider = ({ children }) => {
 
     switch (msg.type) {
       case 'PLAYER_JOIN': {
+        const joinId = msg.id || msg.senderId;
+        const rawAvatar = msg.avatar || 'aman';
+        const isCustomUrl = rawAvatar.startsWith('http://') || rawAvatar.startsWith('https://') || rawAvatar.startsWith('/') || rawAvatar.startsWith('data:');
+        const avKey = isCustomUrl ? rawAvatar : rawAvatar.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const playerColor = getAvatarColor(rawAvatar);
+        const newPlayer = {
+          id: joinId,
+          name: msg.name || 'Player',
+          avatar: avKey,
+          score: msg.score || 0,
+          isHost: !!msg.isHost,
+          loaded: true,
+          color: playerColor
+        };
         game.setPlayers(prev => {
-          if (prev.some(p => p.id === msg.id || p.id === msg.senderId)) return prev;
-          const rawAvatar = msg.avatar || 'aman';
-          const isCustomUrl = rawAvatar.startsWith('http://') || rawAvatar.startsWith('https://') || rawAvatar.startsWith('/') || rawAvatar.startsWith('data:');
-          const avKey = isCustomUrl ? rawAvatar : rawAvatar.toLowerCase().replace(/[^a-z0-9]/g, '');
-          const playerColor = getAvatarColor(rawAvatar);
-          const newPlayer = {
-            id: msg.id || msg.senderId,
-            name: msg.name || 'Player',
-            avatar: avKey,
-            score: msg.score || 0,
-            isHost: !!msg.isHost,
-            loaded: true,
-            color: playerColor
-          };
-          return [...prev, newPlayer];
+          if (prev.some(p => p.id === joinId)) return prev;
+          const nextList = [...prev, newPlayer];
+          if (game.isHost) {
+            // Immediate authoritative response to joining player
+            sendEvent('SYNC_ROOM_STATE', {
+              players: nextList,
+              hostSettings: game.hostSettings,
+              currentPlaylist: game.currentPlaylist,
+              currentPlayIndex: game.currentPlayIndex
+            });
+            sendEvent('JOIN_ACK', {
+              targetPlayerId: joinId,
+              players: nextList,
+              hostSettings: game.hostSettings
+            });
+          }
+          return nextList;
         });
         SoundManager.playPop();
         break;
@@ -367,6 +414,7 @@ export const MultiplayerProvider = ({ children }) => {
         break;
       }
 
+      case 'JOIN_ACK':
       case 'SYNC_ROOM_STATE':
       case 'ROOM_STATE': {
         if (msg.players && Array.isArray(msg.players) && msg.players.length > 0) {

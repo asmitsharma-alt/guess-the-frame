@@ -47,7 +47,7 @@ export const GameProvider = ({ children }) => {
 
   // Players list in current game/lobby
   const [players, setPlayers] = useState([
-    { id: playerId, name: playerName, avatar: playerAvatar, score: 0, isHost: true, loaded: true, color: getAvatarColor(playerAvatar) }
+    { id: playerId, name: playerName, avatar: playerAvatar, score: 0, isHost: false, loaded: true, color: getAvatarColor(playerAvatar) }
   ]);
 
   // Host game settings

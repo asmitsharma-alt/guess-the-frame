@@ -31,6 +31,12 @@ export const getWsBaseUrl = () => {
     return `${wsProto}//${hostPart}/ws`;
   }
   if (typeof window !== 'undefined') {
+    const isVercelHost = window.location.hostname.endsWith('.vercel.app') ||
+                         window.location.hostname === 'scoopcast.me' ||
+                         window.location.hostname.endsWith('scoopcast.me');
+    if (isVercelHost && !import.meta.env.VITE_WS_URL) {
+      return ''; // Static SPA on Vercel has no native WS backend
+    }
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
     const host = window.location.port === '8080' ? 'localhost:4000' : window.location.host;
     return `${protocol}//${host}/ws`;

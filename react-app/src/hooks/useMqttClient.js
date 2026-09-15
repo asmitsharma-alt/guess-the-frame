@@ -20,13 +20,13 @@ export const useMqttClient = ({
   const [currentBrokerName, setCurrentBrokerName] = useState('');
   const [queuedCount, setQueuedCount] = useState(0);
 
-  const clientRef = useRef(null);
-  const brokerIndexRef = useRef(0);
+  const clientsRef = useRef([]);
   const reconnectAttemptRef = useRef(0);
   const reconnectTimerRef = useRef(null);
   const offlineQueueRef = useRef([]);
   const lastPacketReceivedRef = useRef(Date.now());
   const heartbeatTimerRef = useRef(null);
+  const seenMessagesRef = useRef(new Map());
   const onMessageRef = useRef(onMessage);
   onMessageRef.current = onMessage;
   const isHostRef = useRef(isHost);
@@ -34,54 +34,43 @@ export const useMqttClient = ({
   const playerNameRef = useRef(playerName);
   playerNameRef.current = playerName;
 
-  // Compute exponential backoff with ±20% random jitter
-  const getBackoffDelay = useCallback(() => {
-    const baseDelay = 1000;
-    const factor = 1.5;
-    const maxDelay = 30000;
-    const attempt = reconnectAttemptRef.current;
-    const computed = Math.min(baseDelay * Math.pow(factor, attempt), maxDelay);
-    const jitter = computed * 0.2 * (Math.random() * 2 - 1); // ±20% jitter
-    return Math.max(500, Math.floor(computed + jitter));
-  }, []);
-
-  // Flush queued messages with rate limiting upon reconnection
+  // Flush queued messages across active connected brokers
   const flushOfflineQueue = useCallback(() => {
-    if (!clientRef.current || !clientRef.current.connected) return;
+    const activeClients = (clientsRef.current || []).filter(c => c && c.connected);
+    if (activeClients.length === 0) return;
     const queue = offlineQueueRef.current;
     if (queue.length === 0) return;
 
     console.log(`[MQTT Buffer] Flushing ${queue.length} offline queued messages...`);
     while (queue.length > 0) {
       const item = queue.shift();
-      try {
-        clientRef.current.publish(item.topic, item.payload, { qos: item.qos || 1 });
-      } catch (err) {
-        console.error('[MQTT Buffer] Failed to flush queued message:', err);
-        queue.unshift(item);
-        break;
-      }
+      activeClients.forEach(client => {
+        try {
+          client.publish(item.topic, item.payload, { qos: item.qos || 1 });
+        } catch (err) {
+          console.error('[MQTT Buffer] Failed to flush queued message:', err);
+        }
+      });
     }
-    setQueuedCount(queue.length);
+    setQueuedCount(0);
   }, []);
 
-  // Publish message with offline fallback
+  // Publish message with offline fallback across all connected brokers
   const publish = useCallback((topic, messageObj, qos = 1) => {
     const payload = typeof messageObj === 'string' ? messageObj : JSON.stringify(messageObj);
+    const activeClients = (clientsRef.current || []).filter(c => c && c.connected);
 
-    if (clientRef.current && clientRef.current.connected) {
-      try {
-        clientRef.current.publish(topic, payload, { qos }, (err) => {
-          if (err) {
-            console.warn(`[MQTT Publish Warn] Retrying via offline buffer for topic: ${topic}`, err);
-            offlineQueueRef.current.push({ topic, payload, qos });
-            setQueuedCount(offlineQueueRef.current.length);
-          }
-        });
-        return true;
-      } catch (e) {
-        console.error('[MQTT Publish Error] Queuing message:', e);
-      }
+    if (activeClients.length > 0) {
+      let published = false;
+      activeClients.forEach(client => {
+        try {
+          client.publish(topic, payload, { qos });
+          published = true;
+        } catch (e) {
+          console.warn('[MQTT Client Publish Error]:', e);
+        }
+      });
+      if (published) return true;
     }
 
     // Queue in memory when offline
@@ -93,7 +82,7 @@ export const useMqttClient = ({
     return false;
   }, []);
 
-  // Connect to broker with automatic failover and LWT
+  // Connect to multiple brokers concurrently for cross-network reliability
   const connect = useCallback(() => {
     if (!roomCode || !playerId) return;
 
@@ -103,11 +92,13 @@ export const useMqttClient = ({
       return;
     }
 
-    // Teardown previous instance cleanly
-    if (clientRef.current) {
-      try { clientRef.current.end(true); } catch (e) {}
-      clientRef.current = null;
+    // Teardown previous instances cleanly
+    if (clientsRef.current && Array.isArray(clientsRef.current)) {
+      clientsRef.current.forEach(c => {
+        try { c.end(true); } catch (e) {}
+      });
     }
+    clientsRef.current = [];
 
     if (reconnectTimerRef.current) {
       clearTimeout(reconnectTimerRef.current);
@@ -115,12 +106,14 @@ export const useMqttClient = ({
     }
 
     const pool = MQTT_BROKERS;
-    const currentBroker = pool[brokerIndexRef.current % pool.length];
-    setCurrentBrokerName(currentBroker.name);
+    // Connect to top 2 brokers concurrently (EMQX + HiveMQ)
+    const targetBrokers = pool.slice(0, 2);
+    setCurrentBrokerName(targetBrokers.map(b => b.name.split(' ')[0]).join(' + '));
     setConnectionState(reconnectAttemptRef.current > 0 ? 'RECONNECTING' : 'CONNECTING');
 
     const cleanRoom = roomCode.trim().toUpperCase();
     const roomEventsTopic = NetworkSecurity.getRoomTopic(cleanRoom);
+    const legacyEventsTopic = `gtf/${cleanRoom}/events`;
     const presenceTopic = `${roomEventsTopic}/presence/${playerId}`;
 
     const lwtPayload = JSON.stringify({
@@ -131,104 +124,98 @@ export const useMqttClient = ({
       lastSeen: Date.now()
     });
 
-    console.log(`[MQTT Engine] Connecting to ${currentBroker.name} (${currentBroker.url})...`);
+    targetBrokers.forEach((broker, idx) => {
+      console.log(`[MQTT Engine] Connecting to ${broker.name} (${broker.url})...`);
 
-    try {
-      const client = mqttLib.connect(currentBroker.url, {
-        keepalive: 30,
-        reconnectPeriod: 0, // Handled manually with backoff + failover
-        connectTimeout: 5000,
-        clientId: `gtf_${playerId}_${Math.random().toString(16).substr(2, 6)}`,
-        clean: true,
-        will: {
-          topic: presenceTopic,
-          payload: lwtPayload,
-          qos: 1,
-          retain: false
-        }
-      });
-
-      clientRef.current = client;
-
-      // Failover timeout if broker doesn't reply within 5s
-      const failoverTimer = setTimeout(() => {
-        if (!client.connected) {
-          console.warn(`[MQTT Failover] Connection to ${currentBroker.name} timed out. Failing over...`);
-          brokerIndexRef.current = (brokerIndexRef.current + 1) % pool.length;
-          reconnectAttemptRef.current += 1;
-          connect();
-        }
-      }, 5000);
-
-      client.on('connect', () => {
-        clearTimeout(failoverTimer);
-        reconnectAttemptRef.current = 0;
-        setConnectionState('CONNECTED');
-        lastPacketReceivedRef.current = Date.now();
-        console.log(`[MQTT Engine] Connected to ${currentBroker.name}! Subscribing to room topic: ${roomEventsTopic}`);
-
-        // Subscribe to room events topic
-        client.subscribe(roomEventsTopic, { qos: 1 });
-        client.subscribe(presenceTopic, { qos: 1 });
-
-        // Announce online presence
-        const onlinePayload = JSON.stringify({
-          type: 'PLAYER_ONLINE',
-          playerId,
-          playerName: playerNameRef.current || 'Player',
-          status: 'online',
-          isHost: !!isHostRef.current,
-          timestamp: Date.now()
-        });
-        client.publish(presenceTopic, onlinePayload, { qos: 1 });
-
-        // Flush buffered messages
-        flushOfflineQueue();
-      });
-
-      client.on('message', (receivedTopic, payloadBuffer) => {
-        lastPacketReceivedRef.current = Date.now();
-        try {
-          const raw = JSON.parse(payloadBuffer.toString());
-          const validated = validateMqttMessage(raw);
-          if (validated.success) {
-            if (onMessageRef.current) {
-              onMessageRef.current(validated.data, receivedTopic);
-            }
-          } else {
-            console.warn('[MQTT Validation Warning] Quarantined invalid message:', validated.error);
+      try {
+        const client = mqttLib.connect(broker.url, {
+          keepalive: 30,
+          reconnectPeriod: 3000,
+          connectTimeout: 7000,
+          clientId: `gtf_${playerId}_${idx === 0 ? 'e' : 'h'}_${Math.random().toString(16).substr(2, 6)}`,
+          clean: true,
+          will: {
+            topic: presenceTopic,
+            payload: lwtPayload,
+            qos: 1,
+            retain: false
           }
-        } catch (err) {
-          console.warn('[MQTT Parse Warning] Malformed JSON message ignored:', err.message);
-        }
-      });
+        });
 
-      client.on('error', (err) => {
-        clearTimeout(failoverTimer);
-        console.warn(`[MQTT Notice from ${currentBroker.name}]:`, err.message);
-        setConnectionState('ERROR');
-      });
+        client.on('connect', () => {
+          reconnectAttemptRef.current = 0;
+          setConnectionState('CONNECTED');
+          lastPacketReceivedRef.current = Date.now();
+          console.log(`[MQTT Engine] Connected to ${broker.name}! Subscribing to: ${roomEventsTopic}`);
 
-      client.on('close', () => {
-        clearTimeout(failoverTimer);
-        setConnectionState('OFFLINE');
-        // Schedule auto-reconnect with exponential backoff + jitter
-        if (!reconnectTimerRef.current) {
-          const delay = getBackoffDelay();
-          console.log(`[MQTT Engine] Disconnected. Reconnecting in ${delay}ms...`);
-          reconnectTimerRef.current = setTimeout(() => {
-            reconnectTimerRef.current = null;
-            brokerIndexRef.current = (brokerIndexRef.current + 1) % pool.length;
-            reconnectAttemptRef.current += 1;
-            connect();
-          }, delay);
-        }
-      });
-    } catch (e) {
-      console.error('[MQTT Client Exception]', e);
-      setConnectionState('ERROR');
-    }
-  }, [roomCode, playerId, getBackoffDelay, flushOfflineQueue]);
+          // Subscribe to secure topic, legacy topic, and presence
+          client.subscribe(roomEventsTopic, { qos: 1 });
+          client.subscribe(legacyEventsTopic, { qos: 1 });
+          client.subscribe(presenceTopic, { qos: 1 });
+
+          // Announce online presence
+          const onlinePayload = JSON.stringify({
+            type: 'PLAYER_ONLINE',
+            playerId,
+            playerName: playerNameRef.current || 'Player',
+            status: 'online',
+            isHost: !!isHostRef.current,
+            timestamp: Date.now()
+          });
+          client.publish(presenceTopic, onlinePayload, { qos: 1 });
+
+          // Flush buffered messages
+          flushOfflineQueue();
+        });
+
+        client.on('message', (receivedTopic, payloadBuffer) => {
+          lastPacketReceivedRef.current = Date.now();
+          try {
+            const raw = JSON.parse(payloadBuffer.toString());
+            // Packet deduplication for dual-broker stream
+            const msgKey = `${raw.type}_${raw.senderId || raw.id || ''}_${raw.timestamp || ''}_${raw.roundIndex ?? ''}`;
+            const now = Date.now();
+            if (seenMessagesRef.current.has(msgKey)) {
+              const prev = seenMessagesRef.current.get(msgKey);
+              if (now - prev < 6000) return;
+            }
+            seenMessagesRef.current.set(msgKey, now);
+            if (seenMessagesRef.current.size > 200) {
+              for (const [k, t] of seenMessagesRef.current.entries()) {
+                if (now - t > 10000) seenMessagesRef.current.delete(k);
+              }
+            }
+
+            const validated = validateMqttMessage(raw);
+            if (validated.success) {
+              if (onMessageRef.current) {
+                onMessageRef.current(validated.data, receivedTopic);
+              }
+            } else {
+              console.warn('[MQTT Validation Warning] Quarantined invalid message:', validated.error);
+            }
+          } catch (err) {
+            console.warn('[MQTT Parse Warning] Malformed JSON message ignored:', err.message);
+          }
+        });
+
+        client.on('error', (err) => {
+          console.warn(`[MQTT Notice from ${broker.name}]:`, err.message);
+        });
+
+        client.on('close', () => {
+          const anyConnected = (clientsRef.current || []).some(c => c && c.connected);
+          if (!anyConnected) {
+            setConnectionState('OFFLINE');
+          }
+        });
+
+        clientsRef.current.push(client);
+      } catch (e) {
+        console.error(`[MQTT Client Exception on ${broker.name}]`, e);
+      }
+    });
+  }, [roomCode, playerId, flushOfflineQueue]);
 
   // Keep-alive heartbeat monitor (every 15s checks if connection is stale)
   useEffect(() => {
@@ -236,10 +223,7 @@ export const useMqttClient = ({
       if (connectionState === 'CONNECTED') {
         const timeSinceLastPacket = Date.now() - lastPacketReceivedRef.current;
         if (timeSinceLastPacket > 45000) { // 1.5 * 30s keepalive
-          console.warn('[MQTT Watchdog] No packet received for 45s. Forcing client teardown & reconnect.');
-          if (clientRef.current) {
-            try { clientRef.current.end(true); } catch (e) {}
-          }
+          console.warn('[MQTT Watchdog] No packet received for 45s. Forcing client reconnect.');
           connect();
         }
       }
@@ -263,11 +247,11 @@ export const useMqttClient = ({
         clearTimeout(reconnectTimerRef.current);
         reconnectTimerRef.current = null;
       }
-      if (clientRef.current) {
-        try {
-          clientRef.current.end(true);
-        } catch (e) {}
-        clientRef.current = null;
+      if (clientsRef.current && Array.isArray(clientsRef.current)) {
+        clientsRef.current.forEach(c => {
+          try { c.end(true); } catch (e) {}
+        });
+        clientsRef.current = [];
       }
       setConnectionState('IDLE');
     };
