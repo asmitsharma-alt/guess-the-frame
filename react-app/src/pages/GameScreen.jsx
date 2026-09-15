@@ -85,7 +85,7 @@ export const GameScreen = ({
     }
   }, [chatMessages]);
 
-  const effectiveIsHost = Boolean(isHost || (typeof window !== 'undefined' && window.MultiplayerEngine?.isHost));
+  const effectiveIsHost = typeof isHost === 'boolean' ? isHost : Boolean(typeof window !== 'undefined' && window.MultiplayerEngine?.isHost);
 
   const submitGuess = (val) => {
     const clean = val.trim();
