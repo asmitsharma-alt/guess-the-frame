@@ -58,13 +58,29 @@ export const getMqttBrokers = () => {
   return list;
 };
 
+export const getPartyKitHost = () => {
+  if (import.meta.env.VITE_PARTYKIT_HOST) {
+    return import.meta.env.VITE_PARTYKIT_HOST.trim();
+  }
+  if (typeof window !== 'undefined') {
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    if (isLocal) {
+      return '127.0.0.1:1999';
+    }
+  }
+  return 'guess-the-frame-party.asmit-sharma.workers.dev';
+};
+
 export const API_BASE_URL = getApiBaseUrl();
 export const WS_BASE_URL = getWsBaseUrl();
 export const MQTT_BROKERS = getMqttBrokers();
+export const PARTYKIT_HOST = getPartyKitHost();
 
 export default {
   API_BASE_URL,
   WS_BASE_URL,
   MQTT_BROKERS,
+  PARTYKIT_HOST,
   isProduction: import.meta.env.PROD
 };
+

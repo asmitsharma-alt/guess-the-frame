@@ -241,9 +241,6 @@ const AppContent = () => {
           onEndMatch={() => {
             game.setIsMatchActive(false);
             game.showScreen('winnerScreen');
-            if (typeof window !== 'undefined' && window.WinnerScreen?.show) {
-              window.WinnerScreen.show(game.players);
-            }
             multiplayer.sendEvent('GAME_OVER_BROADCAST', {});
           }}
           onRequestHint={() => {

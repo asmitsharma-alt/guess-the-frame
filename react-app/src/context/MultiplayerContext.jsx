@@ -6,6 +6,7 @@ import { FuzzyMatcher } from '../services/fuzzyMatcher';
 import { AVATAR_MAP, getAvatarColor } from '../services/gameConstants';
 import { WS_BASE_URL } from '../config/env';
 import { useMqttClient } from '../hooks/useMqttClient';
+import { usePartySocket } from '../hooks/usePartySocket';
 
 const MultiplayerContext = createContext(null);
 
@@ -27,7 +28,25 @@ export const MultiplayerProvider = ({ children }) => {
   const handleIncomingMessageRef = useRef(null);
   const seenMessagesRef = useRef(new Map());
 
-  // Inbound MQTT message router
+  // Inbound PartyKit message router
+  const handlePartyMessage = useCallback((msg) => {
+    if (handleIncomingMessageRef.current) {
+      handleIncomingMessageRef.current(msg);
+    }
+  }, []);
+
+  // Enterprise Edge PartyKit Socket Hook
+  const party = usePartySocket({
+    roomCode: game.roomCode,
+    playerId: game.playerId,
+    playerName: game.playerName,
+    playerAvatar: game.playerAvatar,
+    playerColor: game.playerColor,
+    isHost: game.isHost,
+    onMessage: handlePartyMessage
+  });
+
+  // Inbound MQTT message router (Secondary Fallback)
   const handleMqttMessage = useCallback((msg, topic) => {
     if (handleIncomingMessageRef.current) {
       handleIncomingMessageRef.current(msg);
@@ -45,15 +64,15 @@ export const MultiplayerProvider = ({ children }) => {
 
   // Reactive Connection Status Sync without polling
   useEffect(() => {
-    if (mqtt.connectionState === 'CONNECTED') {
+    if (party.connectionState === 'CONNECTED' || mqtt.connectionState === 'CONNECTED') {
       setSocketStatus('connected');
-    } else if (mqtt.connectionState === 'CONNECTING' || mqtt.connectionState === 'RECONNECTING') {
+    } else if (party.connectionState === 'CONNECTING' || party.connectionState === 'RECONNECTING' || mqtt.connectionState === 'CONNECTING') {
       setSocketStatus('connecting');
-    } else if (mqtt.connectionState === 'OFFLINE' || mqtt.connectionState === 'ERROR') {
+    } else {
       const isWs = Boolean(wsRef.current && wsRef.current.readyState === WebSocket.OPEN);
       setSocketStatus(isWs ? 'connected' : 'offline');
     }
-  }, [mqtt.connectionState]);
+  }, [party.connectionState, mqtt.connectionState]);
 
   useEffect(() => {
     window.__setMultiplayerSocketStatus = (status) => setSocketStatus(status);
@@ -171,7 +190,7 @@ export const MultiplayerProvider = ({ children }) => {
     }
   }, [game.playerId, game.playerName, game.playerAvatar]);
 
-  // Dispatch events to WebSocket, BroadcastChannel & Resilient MQTT Hook
+  // Dispatch events to PartyKit Edge Socket, MQTT, BroadcastChannel & WebSocket
   const sendEvent = useCallback((type, payload = {}) => {
     const msg = {
       type,
@@ -181,7 +200,10 @@ export const MultiplayerProvider = ({ children }) => {
       ...payload
     };
 
-    // 1. Publish via Resilient MQTT Hook (Primary Cloud Transport with offline buffer)
+    // 1. Dispatch via PartyKit Edge Socket (Primary Edge Transport)
+    party.send(msg);
+
+    // 2. Publish via Resilient MQTT Hook (Secondary Cloud Fallback)
     const cleanRoom = game.roomCode ? game.roomCode.trim().toUpperCase() : '';
     if (cleanRoom) {
       const secTopic = NetworkSecurity.getRoomTopic(cleanRoom);
@@ -189,21 +211,21 @@ export const MultiplayerProvider = ({ children }) => {
       mqtt.publish(`gtf/${cleanRoom}/events`, msg, 1);
     }
 
-    // 2. Cross-tab broadcast (for local fast sync)
+    // 3. Cross-tab broadcast (for local fast sync)
     try {
       if (broadcastChannelRef.current) {
         broadcastChannelRef.current.postMessage(msg);
       }
     } catch (e) {}
 
-    // 3. Native WebSocket send (if open)
+    // 4. Native WebSocket send (if open)
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
       try {
         wsRef.current.send(JSON.stringify(msg));
       } catch (e) {}
     }
 
-    // 4. Fallback dispatch to window.MultiplayerEngine (for test suites)
+    // 5. Fallback dispatch to window.MultiplayerEngine (for test suites)
     if (typeof window !== 'undefined' && window.MultiplayerEngine?.sendEvent) {
       if (game.roomCode && !window.MultiplayerEngine.roomCode) {
         window.MultiplayerEngine.roomCode = game.roomCode;

@@ -125,6 +125,7 @@ export function installTestBridge(gameContextRef) {
       if (txt) txt.textContent = `${percent}%`;
     },
     showScoringOv(show) {
+      if (gameContextRef?.current) return;
       const ov = document.getElementById('scoringOv');
       if (!ov) return;
       if (show) {
@@ -338,6 +339,16 @@ export function installTestBridge(gameContextRef) {
   // 6. WinnerScreen
   const WinnerScreen = {
     show(players) {
+      if (gameContextRef?.current) {
+        if (gameContextRef.current.setPlayers && players) {
+          gameContextRef.current.setPlayers([...players]);
+        }
+        if (gameContextRef.current.showScreen) {
+          gameContextRef.current.showScreen('winnerScreen');
+        }
+        SoundManager.playWinner();
+        return;
+      }
       UI.showScreen('winnerScreen');
       SoundManager.playWinner();
       const list = players || GS.players || [];
@@ -759,21 +770,24 @@ export function installTestBridge(gameContextRef) {
   // 9. FrameDisplay
   const FrameDisplay = {
     showFrame(frame) {
+      if (gameContextRef?.current) {
+        if (gameContextRef.current.setCurrentFrame && frame) {
+          gameContextRef.current.setCurrentFrame(frame);
+        }
+        if (gameContextRef.current.setIsRoundFinished) {
+          gameContextRef.current.setIsRoundFinished(false);
+        }
+        if (gameContextRef.current.setIsAnswerRevealed) {
+          gameContextRef.current.setIsAnswerRevealed(false);
+        }
+        return;
+      }
       const container = document.getElementById('imageContainer');
       const dialogueContainer = document.getElementById('frameDialogue');
       const dialogueQuote = document.getElementById('dialogueQuote');
       const curSec = document.getElementById('curSecName');
       if (curSec && frame) {
         curSec.textContent = frame.sectionName || (frame.type === 'dialogue' ? 'Guess the Dialogue' : (frame.category === 'eyes' ? 'Guess the Eyes' : 'Guess the Frame'));
-      }
-      if (gameContextRef?.current?.setCurrentFrame && frame) {
-        gameContextRef.current.setCurrentFrame(frame);
-      }
-      if (gameContextRef?.current?.setIsRoundFinished) {
-        gameContextRef.current.setIsRoundFinished(false);
-      }
-      if (gameContextRef?.current?.setIsAnswerRevealed) {
-        gameContextRef.current.setIsAnswerRevealed(false);
       }
       const ansOv = document.getElementById('answerOverlay');
       if (ansOv) ansOv.classList.remove('visible', 'active');
@@ -2187,8 +2201,10 @@ export function installTestBridge(gameContextRef) {
 
         case 'PAUSE_TOGGLE': {
           this.isPaused = Boolean(event.isPaused);
-          const btn = document.getElementById('hfbPauseBtn');
-          if (btn) btn.textContent = this.isPaused ? '▶ Resume' : '⏸ Pause';
+          if (!gameContextRef?.current) {
+            const btn = document.getElementById('hfbPauseBtn');
+            if (btn) btn.textContent = this.isPaused ? '▶ Resume' : '⏸ Pause';
+          }
           if (gameContextRef?.current?.setIsPaused) {
             gameContextRef.current.setIsPaused(this.isPaused);
           }
@@ -2198,14 +2214,16 @@ export function installTestBridge(gameContextRef) {
         case 'HINT_BROADCAST': {
           const hint = event.maskedHint;
           this.currentMaskedHint = hint;
-          const pill = document.getElementById('hfbActiveHintPill');
-          const text = document.getElementById('hfbActiveHintText');
-          if (pill) pill.style.display = 'inline-flex';
-          if (text) text.textContent = hint;
-          const chatHint = document.getElementById('chatActiveHint');
-          const chatHintText = document.getElementById('chatActiveHintText');
-          if (chatHint) chatHint.style.display = 'block';
-          if (chatHintText) chatHintText.textContent = hint;
+          if (!gameContextRef?.current) {
+            const pill = document.getElementById('hfbActiveHintPill');
+            const text = document.getElementById('hfbActiveHintText');
+            if (pill) pill.style.display = 'inline-flex';
+            if (text) text.textContent = hint;
+            const chatHint = document.getElementById('chatActiveHint');
+            const chatHintText = document.getElementById('chatActiveHintText');
+            if (chatHint) chatHint.style.display = 'block';
+            if (chatHintText) chatHintText.textContent = hint;
+          }
           if (gameContextRef?.current?.setMaskedHint) {
             gameContextRef.current.setMaskedHint(hint);
           }
@@ -2301,8 +2319,10 @@ export function installTestBridge(gameContextRef) {
 
     hostTogglePause() {
       this.isPaused = !this.isPaused;
-      const btn = document.getElementById('hfbPauseBtn');
-      if (btn) btn.textContent = this.isPaused ? '▶ Resume' : '⏸ Pause';
+      if (!gameContextRef?.current) {
+        const btn = document.getElementById('hfbPauseBtn');
+        if (btn) btn.textContent = this.isPaused ? '▶ Resume' : '⏸ Pause';
+      }
       if (gameContextRef?.current?.setIsPaused) {
         gameContextRef.current.setIsPaused(this.isPaused);
       }
@@ -2312,7 +2332,9 @@ export function installTestBridge(gameContextRef) {
     finishGame() {
       this.clearActiveSession();
       this.isMatchActive = false;
-      WinnerScreen.show(GS.players);
+      if (!gameContextRef?.current) {
+        WinnerScreen.show(GS.players);
+      }
       if (gameContextRef?.current?.setIsMatchActive) {
         gameContextRef.current.setIsMatchActive(false);
       }
