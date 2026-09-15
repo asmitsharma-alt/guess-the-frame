@@ -111,7 +111,7 @@
     .nb-circle {
       width: 48px;
       height: 48px;
-      border-radius: 50%;
+      border-radius: 10px;
     }
 
     .nb-square {
@@ -957,7 +957,7 @@
       width: 38px;
       height: 38px;
       border: none;
-      border-radius: 50%;
+      border-radius: 10px;
       background: var(--glass);
       color: var(--gray);
       font-size: 22px;
@@ -2130,7 +2130,7 @@
     .lb-item .lb-av-wrap {
       width: 36px;
       height: 36px;
-      border-radius: 50%;
+      border-radius: 10px;
       overflow: hidden;
       flex-shrink: 0;
       position: relative;
@@ -2164,7 +2164,7 @@
     .lb-item .lb-rank {
       width: 20px;
       height: 20px;
-      border-radius: 50%;
+      border-radius: 10px;
       background: rgba(255, 255, 255, 0.08);
       font-size: 10px;
       font-weight: 700;
@@ -2482,7 +2482,7 @@
       height: clamp(90px, 16vw, 130px);
       padding: 0;
       border: 3px solid var(--glass-border);
-      border-radius: 50%;
+      border-radius: 10px;
       background: var(--glass);
       cursor: pointer;
       transition: all .2s;
@@ -2810,7 +2810,7 @@
     .tie-vs-avatar {
       width: clamp(82px, 15vw, 140px);
       height: clamp(82px, 15vw, 140px);
-      border-radius: 50%;
+      border-radius: 10px;
       border: 3px solid rgba(255, 215, 0, .65);
       background: rgba(255, 255, 255, .06);
       box-shadow: 0 0 34px rgba(255, 215, 0, .28), inset 0 0 18px rgba(255, 255, 255, .06);
@@ -2899,7 +2899,7 @@
       position: absolute;
       width: min(90vw, 600px);
       height: min(90vw, 600px);
-      border-radius: 50%;
+      border-radius: 10px;
       background: radial-gradient(circle, rgba(179, 71, 234, .28) 0%, rgba(0, 212, 255, .12) 45%, transparent 70%);
       filter: blur(60px);
       animation: orbPulse 3s ease-in-out infinite;
@@ -2930,7 +2930,7 @@
 
     .sio-particle {
       position: absolute;
-      border-radius: 50%;
+      border-radius: 10px;
       background: rgba(255, 255, 255, .55);
       animation: particleDrift linear infinite;
     }
@@ -3077,7 +3077,7 @@
     .sio-dot {
       width: 8px;
       height: 8px;
-      border-radius: 50%;
+      border-radius: 10px;
       background: rgba(255, 255, 255, .15);
       transition: all .3s;
     }
@@ -3194,7 +3194,7 @@
     .rio-dot {
       width: clamp(10px, 2.5vw, 16px);
       height: clamp(10px, 2.5vw, 16px);
-      border-radius: 50%;
+      border-radius: 10px;
       background: rgba(255, 255, 255, .12);
       border: 1.5px solid rgba(255, 255, 255, .08);
       transition: all .3s;
@@ -3281,7 +3281,7 @@
     .jo-cand .jo-circle {
       width: clamp(75px, 14vw, 110px);
       height: clamp(75px, 14vw, 110px);
-      border-radius: 50%;
+      border-radius: 10px;
       border: 3px solid var(--glass-border);
       overflow: hidden;
       position: relative;
@@ -3514,7 +3514,7 @@
 
     /* Individual player circle inside a podium slot */
     .p-circle {
-      border-radius: 50%;
+      border-radius: 10px;
       overflow: hidden;
       position: relative;
       flex-shrink: 0;
@@ -3808,7 +3808,7 @@
       left: 14px;
       width: 42px;
       height: 42px;
-      border-radius: 50%;
+      border-radius: 10px;
       background: var(--glass);
       border: 1px solid var(--glass-border);
       color: var(--white);
@@ -3996,7 +3996,7 @@
     .lobby-player .lp-avatar {
       width: 42px;
       height: 42px;
-      border-radius: 50%;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -4041,7 +4041,7 @@
     .lb-avatar.av-img {
       width: 26px;
       height: 26px;
-      border-radius: 50%;
+      border-radius: 10px;
       vertical-align: middle;
       margin-right: 6px;
       border: 1.5px solid rgba(255, 255, 255, 0.25);
@@ -4091,7 +4091,7 @@
     .w-avatar.av-img {
       width: clamp(80px, 18vw, 140px);
       height: clamp(80px, 18vw, 140px);
-      border-radius: 50%;
+      border-radius: 10px;
       margin: 0 auto -8px;
       border: 3px solid var(--gold);
       box-shadow: 0 0 32px rgba(255, 215, 0, 0.5);
@@ -4117,7 +4117,7 @@
     .lp-avatar.av-img {
       width: 42px;
       height: 42px;
-      border-radius: 50%;
+      border-radius: 10px;
       border: none;
       box-shadow: none;
     }
@@ -4127,7 +4127,7 @@
     .player-item .av-pick {
       width: 38px;
       height: 38px;
-      border-radius: 50%;
+      border-radius: 10px;
       border: 1px solid var(--glass-border);
       background: rgba(0, 0, 0, .3);
       font-size: 18px;
@@ -4189,7 +4189,7 @@
       width: 34px;
       height: 34px;
       border: none;
-      border-radius: 50%;
+      border-radius: 10px;
       background: rgba(239, 68, 68, .15);
       color: var(--danger);
       font-size: 18px;
@@ -4285,7 +4285,7 @@
     .lobby-load-dots span {
       width: 5px;
       height: 5px;
-      border-radius: 50%;
+      border-radius: 10px;
       background: var(--neon-blue);
       opacity: .35;
       animation: loadDot 1s ease-in-out infinite;
@@ -4442,7 +4442,7 @@
       left: 3px;
       top: 3px;
       background: #fff;
-      border-radius: 50%;
+      border-radius: 10px;
       transition: transform .2s;
     }
 
@@ -4494,7 +4494,7 @@
     .snd-play-btn {
       width: 28px;
       height: 28px;
-      border-radius: 50%;
+      border-radius: 10px;
       border: 1px solid var(--neon-pink);
       background: rgba(255, 46, 146, .1);
       color: var(--neon-pink);
@@ -4604,7 +4604,7 @@
     .spectator-panel .sp-live-dot {
       width: 8px;
       height: 8px;
-      border-radius: 50%;
+      border-radius: 10px;
       background: #ef4444;
       box-shadow: 0 0 8px #ef4444;
       animation: livePulse 1.2s ease infinite;
@@ -4679,7 +4679,7 @@
       right: -10px;
       width: 26px;
       height: 26px;
-      border-radius: 50%;
+      border-radius: 10px;
       border: 1px solid var(--glass-border);
       background: rgba(20, 20, 40, .95);
       color: var(--gray);
@@ -4744,7 +4744,7 @@
     .spectating-banner .sb-dot {
       width: 8px;
       height: 8px;
-      border-radius: 50%;
+      border-radius: 10px;
       background: #ef4444;
       box-shadow: 0 0 8px #ef4444;
       animation: livePulse 1.2s ease infinite;
@@ -4793,7 +4793,7 @@
     .connection-status .cs-dot {
       width: 6px;
       height: 6px;
-      border-radius: 50%;
+      border-radius: 10px;
       background: var(--success);
       box-shadow: 0 0 8px var(--success);
       animation: livePulse 1.2s ease infinite;
@@ -5160,7 +5160,7 @@
       width: 100% !important;
       height: 100% !important;
       object-fit: cover !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
     }
 
     .jo-cname {
@@ -5802,7 +5802,7 @@
     #gameScreen .spbtn {
       width: 108px !important;
       height: 108px !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       border: 3.5px solid var(--nb-ink, #1a1a1a) !important;
       box-shadow: 6px 6px 0 var(--nb-ink, #1a1a1a) !important;
       background: #fff !important;
@@ -5845,7 +5845,7 @@
       height: 100% !important;
       object-fit: cover !important;
       object-position: center !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       display: block !important;
     }
     #gameScreen .sp-key {
@@ -5990,7 +5990,7 @@
     #gameScreen .timer-circle {
       width: 100px !important;
       height: 100px !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       border: 3.5px solid var(--nb-ink, #1a1a1a) !important;
       box-shadow: 4px 4px 0 var(--nb-ink, #1a1a1a) !important;
       background: var(--nb-bg, #FFFDF5) !important;
@@ -6138,7 +6138,7 @@
       height: 32px !important;
       min-width: 32px !important;
       border: 1.8px solid var(--nb-ink, #1a1a1a) !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       background: #fff !important;
       position: relative !important;
       overflow: hidden !important;
@@ -6290,7 +6290,7 @@
     .sio-icon {
       width: 72px !important;
       height: 72px !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       border: 3px solid var(--nb-ink, #1a1a1a) !important;
       box-shadow: 4px 4px 0 var(--nb-ink, #1a1a1a) !important;
       background: #fff !important;
@@ -6556,7 +6556,7 @@
     #winnerScreen .p-circle {
       width: 76px !important;
       height: 76px !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       border: 3px solid var(--nb-ink, #1a1a1a) !important;
       box-shadow: 4px 4px 0 var(--nb-ink, #1a1a1a) !important;
       background: #fff !important;
@@ -6570,7 +6570,7 @@
       height: 100% !important;
       object-fit: cover !important;
       object-position: center !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
     }
     #winnerScreen .p1 .p-circle {
       width: 96px !important;
@@ -6581,7 +6581,7 @@
     #winnerScreen .trophy-fig.is-fallback {
       width: 84px !important;
       height: 84px !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       border: 3px solid var(--nb-ink, #1a1a1a) !important;
       box-shadow: 4px 4px 0 var(--nb-ink, #1a1a1a) !important;
       display: grid !important;
@@ -6904,7 +6904,7 @@
     .lobby-chat-inputrow input::placeholder { color: #a99ac9; font-weight: 500; }
     .lobby-chat-inputrow input:focus { outline: none; box-shadow: inset 3px 3px 7px #ddd0f2, inset -3px -3px 7px #fff, 0 0 0 3px #ffb7d5; }
     .lobby-chat-inputrow button {
-      width: 44px; height: 44px; border: none; border-radius: 50%; cursor: pointer;
+      width: 44px; height: 44px; border: none; border-radius: 10px; cursor: pointer;
       background: linear-gradient(135deg, #ff9ecb, #ff7eb6); color: #fff; font-size: 16px;
       box-shadow: 5px 5px 12px #e491b8, -3px -3px 8px #fff;
       transition: transform .15s ease;
@@ -7025,7 +7025,7 @@
     #playerLobbyScreen .lobby-dot {
       width: 7px !important;
       height: 7px !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       border: 1.5px solid var(--nb-ink, #1a1a1a) !important;
       background: #d1d5db !important;
       display: inline-block !important;
@@ -7131,7 +7131,7 @@
       aspect-ratio: 1 / 1 !important;
       border: none !important;
       box-shadow: none !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       flex-shrink: 0 !important;
       position: relative !important;
       background: transparent !important;
@@ -7147,7 +7147,7 @@
       height: 100% !important;
       object-fit: contain !important;
       display: block !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       filter: drop-shadow(3px 3px 0px var(--nb-ink, #1a1a1a)) !important;
     }
     
@@ -7406,7 +7406,7 @@
     .judge-ov .jo-cand .jo-circle {
       width: 72px !important;
       height: 72px !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       border: 2.5px solid var(--nb-ink, #1a1a1a) !important;
       box-shadow: 2px 2px 0 var(--nb-ink, #1a1a1a) !important;
       overflow: hidden !important;
@@ -7423,7 +7423,7 @@
       height: 100% !important;
       object-fit: cover !important;
       object-position: center !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       display: block !important;
     }
     .judge-ov .jo-cand .jo-cname {
@@ -7645,7 +7645,7 @@
     .nb-av-popover .nb-popover-circle {
       width: 140px !important;
       height: 140px !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       border: 4px solid var(--nb-ink, #1a1a1a) !important;
       box-shadow: 6px 6px 0 var(--nb-ink, #1a1a1a) !important;
       background: #fff !important;
@@ -7659,7 +7659,7 @@
       height: 100% !important;
       object-fit: cover !important;
       object-position: center !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       display: block !important;
       transform: scale(1.08) !important;
     }
@@ -7846,7 +7846,7 @@
 
     /* ── 1. AVATAR CIRCLE COMPONENT ── */
     .lp-avatar-wrap, .lb-av-wrap, .jo-cwrap, .podium-av, .spbtn {
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       position: relative !important;
       overflow: hidden !important;
       background: #fff !important;
@@ -7864,7 +7864,7 @@
       height: 100% !important;
       object-fit: cover !important;
       object-position: center 15% !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       display: block !important;
     }
 
@@ -7977,7 +7977,7 @@
 
     /* ── 1. AVATAR CIRCLE FRAME STANDARDIZATION ── */
     .lp-avatar-wrap, .lb-av-wrap, .jo-cwrap, .podium-av, .spbtn {
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       position: relative !important;
       overflow: hidden !important;
       background: #fff !important;
@@ -7995,7 +7995,7 @@
       max-height: 100% !important;
       object-fit: cover !important;
       object-position: center 20% !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       display: block !important;
       image-rendering: -webkit-optimize-contrast !important;
       image-rendering: crisp-edges !important;
@@ -8055,7 +8055,7 @@
       min-width: 32px !important;
       border: 2px solid var(--nb-ink, #1a1a1a) !important;
       box-shadow: 1px 1px 0 var(--nb-ink, #1a1a1a) !important;
-      border-radius: 50% !important;
+      border-radius: 10px !important;
       flex-shrink: 0 !important;
     }
     #gameScreen .lb-name {
@@ -9539,7 +9539,7 @@
     .chat-avatar {
       width: 32px;
       height: 32px;
-      border-radius: 50%;
+      border-radius: 10px;
       border: 2px solid #1a1a1a;
       overflow: hidden;
       flex-shrink: 0;
@@ -11063,7 +11063,7 @@
     .champ-avatar-circle {
       width: clamp(86px, 10.5vw, 116px);
       height: clamp(86px, 10.5vw, 116px);
-      border-radius: 50%;
+      border-radius: 10px;
       background: #ffffff;
       border: 4px solid #111827;
       box-shadow: 5px 5px 0 #111827, 0 0 35px rgba(250, 204, 21, 0.7);
@@ -11200,7 +11200,7 @@
     .runner-avatar-circle {
       width: clamp(60px, 7.2vw, 76px);
       height: clamp(60px, 7.2vw, 76px);
-      border-radius: 50%;
+      border-radius: 10px;
       border: 3.5px solid #111827;
       box-shadow: 3.5px 3.5px 0 #111827;
       background: #ffffff;
@@ -11369,7 +11369,7 @@
     .bo-avatar-mini {
       width: 28px;
       height: 28px;
-      border-radius: 50%;
+      border-radius: 10px;
       border: 1.5px solid #111827;
       background: #ffffff;
       overflow: hidden;
@@ -12026,7 +12026,7 @@
     .runner-avatar-frame {
       width: 68px;
       height: 68px;
-      border-radius: 50%;
+      border-radius: 10px;
       box-shadow: 0 0 0 2.5px #FFFFFF, 0 0 0 5px #000000;
       overflow: hidden;
       display: flex;
@@ -12220,7 +12220,7 @@
     .sb-avatar-mini {
       width: 26px;
       height: 26px;
-      border-radius: 50%;
+      border-radius: 10px;
       border: 1.5px solid #000000;
       overflow: hidden;
       display: flex;
