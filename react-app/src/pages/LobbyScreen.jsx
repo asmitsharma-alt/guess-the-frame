@@ -115,6 +115,7 @@ export const LobbyScreen = ({
   };
 
   const handleAdjustRounds = (delta) => {
+    if (!isHost) return;
     SoundManager.playClick();
     if (typeof window !== 'undefined' && window.PlayerLobby?.adjustRounds) {
       window.PlayerLobby.adjustRounds('frames', delta);
@@ -142,6 +143,7 @@ export const LobbyScreen = ({
   };
 
   const handleAdjustTimer = (delta) => {
+    if (!isHost) return;
     SoundManager.playClick();
     if (typeof window !== 'undefined' && window.PlayerLobby?.adjustTimer) {
       window.PlayerLobby.adjustTimer(delta);
@@ -348,14 +350,14 @@ export const LobbyScreen = ({
           <section className="bg-surface border-2 border-on-surface shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col rounded-xl overflow-hidden">
             <div className="bg-neo-blue border-b-2 border-on-surface px-3 py-2 flex items-center justify-between">
               <h3 className="font-headline-sm text-xs uppercase text-on-surface flex items-center gap-1.5 font-black">
-                <span className="material-symbols-outlined text-base">tune</span>
-                Match Setup
+                <span className="material-symbols-outlined text-base">{isHost ? 'tune' : 'rule'}</span>
+                {isHost ? 'Match Setup' : 'Match Rules'}
               </h3>
               <span
                 className="bg-surface border-2 border-on-surface px-2 py-0.5 font-label-bold text-[10px] uppercase shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] font-black"
                 id="gameSettingsTotalBadge"
               >
-                {totalRounds} Rounds
+                {isHost ? `${totalRounds} Rounds` : 'Host Configured'}
               </span>
             </div>
 
@@ -371,7 +373,7 @@ export const LobbyScreen = ({
                       ? 'bg-[#cae6ff] text-on-surface'
                       : 'bg-surface-variant text-outline opacity-60 border-dashed'
                   } ${isHost ? 'cursor-pointer active:translate-y-[1px]' : 'cursor-default'}`}
-                  title="Toggle Movie Frames Mode"
+                  title={isHost ? 'Toggle Movie Frames Mode' : 'Movie Frames Mode (Configured by Host)'}
                 >
                   <div className="flex items-center gap-1">
                     <span className="material-symbols-outlined text-xs">panorama</span>
@@ -389,7 +391,7 @@ export const LobbyScreen = ({
                       ? 'bg-[#fef08a] text-on-surface'
                       : 'bg-surface-variant text-outline opacity-60 border-dashed'
                   } ${isHost ? 'cursor-pointer active:translate-y-[1px]' : 'cursor-default'}`}
-                  title="Toggle Guess The Eyes Mode"
+                  title={isHost ? 'Toggle Guess The Eyes Mode' : 'Guess The Eyes Mode (Configured by Host)'}
                 >
                   <div className="flex items-center gap-1">
                     <span className="material-symbols-outlined text-xs">visibility</span>
@@ -407,7 +409,7 @@ export const LobbyScreen = ({
                       ? 'bg-[#bbf7d0] text-on-surface'
                       : 'bg-surface-variant text-outline opacity-60 border-dashed'
                   } ${isHost ? 'cursor-pointer active:translate-y-[1px]' : 'cursor-default'}`}
-                  title="Toggle Movie Dialogues Mode"
+                  title={isHost ? 'Toggle Movie Dialogues Mode' : 'Movie Dialogues Mode (Configured by Host)'}
                 >
                   <div className="flex items-center gap-1">
                     <span className="material-symbols-outlined text-xs">chat</span>
@@ -439,24 +441,30 @@ export const LobbyScreen = ({
                       {totalRounds}
                     </span>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 w-full mt-1.5">
-                    <button
-                      type="button"
-                      onClick={() => handleAdjustRounds(-1)}
-                      className="bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-xl h-11 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                      title="Decrease Rounds"
-                    >
-                      −
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleAdjustRounds(1)}
-                      className="bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-xl h-11 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                      title="Increase Rounds"
-                    >
-                      +
-                    </button>
-                  </div>
+                  {isHost ? (
+                    <div className="grid grid-cols-2 gap-2 w-full mt-1.5">
+                      <button
+                        type="button"
+                        onClick={() => handleAdjustRounds(-1)}
+                        className="bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-xl h-11 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                        title="Decrease Rounds"
+                      >
+                        −
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleAdjustRounds(1)}
+                        className="bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-xl h-11 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                        title="Increase Rounds"
+                      >
+                        +
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="w-full mt-1.5 py-1 text-center font-label-bold text-[9px] uppercase font-bold text-outline bg-surface-variant/40 rounded border border-outline/20">
+                      Host Setting
+                    </div>
+                  )}
                 </div>
                 {/* Hidden elements for backward-compatibility */}
                 <div id="modeCard-eyes" style={{ display: 'none' }}><span id="hostEyesRoundsBtn">0</span><span id="modeStatusDot-eyes"></span></div>
@@ -478,24 +486,30 @@ export const LobbyScreen = ({
                       {timerSec}s
                     </span>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 w-full mt-1.5">
-                    <button
-                      type="button"
-                      onClick={() => handleAdjustTimer(-1)}
-                      className="bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-xl h-11 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                      title="Decrease Timer"
-                    >
-                      −
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleAdjustTimer(1)}
-                      className="bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-xl h-11 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                      title="Increase Timer"
-                    >
-                      +
-                    </button>
-                  </div>
+                  {isHost ? (
+                    <div className="grid grid-cols-2 gap-2 w-full mt-1.5">
+                      <button
+                        type="button"
+                        onClick={() => handleAdjustTimer(-1)}
+                        className="bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-xl h-11 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                        title="Decrease Timer"
+                      >
+                        −
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleAdjustTimer(1)}
+                        className="bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-xl h-11 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                        title="Increase Timer"
+                      >
+                        +
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="w-full mt-1.5 py-1 text-center font-label-bold text-[9px] uppercase font-bold text-outline bg-surface-variant/40 rounded border border-outline/20">
+                      Host Setting
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -813,14 +827,14 @@ export const LobbyScreen = ({
             <section className="bg-surface border-4 border-on-surface shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between rounded-xl overflow-hidden h-auto md:h-full flex-1">
               <div className="bg-neo-purple border-b-4 border-on-surface p-3.5 flex items-center justify-between shrink-0">
                 <h3 className="font-headline-sm text-headline-sm uppercase text-on-surface flex items-center gap-2 font-black">
-                  <span className="material-symbols-outlined font-black">tune</span>
-                  Match Configuration
+                  <span className="material-symbols-outlined font-black">{isHost ? 'tune' : 'rule'}</span>
+                  {isHost ? 'Match Configuration' : 'Match Rules'}
                 </h3>
                 <span
                   className="bg-surface border-2 border-on-surface px-2.5 py-1 font-label-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-black"
                   id="gameSettingsTotalBadge"
                 >
-                  {totalRounds} Rounds
+                  {isHost ? `${totalRounds} Rounds` : 'Host Rules'}
                 </span>
               </div>
 
@@ -845,7 +859,7 @@ export const LobbyScreen = ({
                           ? 'bg-[#cae6ff] text-on-surface'
                           : 'bg-surface-variant text-outline opacity-50 border-dashed'
                       } ${isHost ? 'cursor-pointer hover:translate-y-[-1px] active:translate-y-[1px]' : 'cursor-default'}`}
-                      title={isHost ? 'Click to toggle Movie Frames' : 'Movie Frames Mode'}
+                      title={isHost ? 'Click to toggle Movie Frames' : 'Movie Frames Mode (Configured by Host)'}
                     >
                       <div className="flex items-center gap-1">
                         <span className="material-symbols-outlined text-sm">panorama</span>
@@ -863,7 +877,7 @@ export const LobbyScreen = ({
                           ? 'bg-[#fef08a] text-on-surface'
                           : 'bg-surface-variant text-outline opacity-50 border-dashed'
                       } ${isHost ? 'cursor-pointer hover:translate-y-[-1px] active:translate-y-[1px]' : 'cursor-default'}`}
-                      title={isHost ? 'Click to toggle Guess The Eyes' : 'Guess The Eyes Mode'}
+                      title={isHost ? 'Click to toggle Guess The Eyes' : 'Guess The Eyes Mode (Configured by Host)'}
                     >
                       <div className="flex items-center gap-1">
                         <span className="material-symbols-outlined text-sm">visibility</span>
@@ -881,7 +895,7 @@ export const LobbyScreen = ({
                           ? 'bg-[#bbf7d0] text-on-surface'
                           : 'bg-surface-variant text-outline opacity-50 border-dashed'
                       } ${isHost ? 'cursor-pointer hover:translate-y-[-1px] active:translate-y-[1px]' : 'cursor-default'}`}
-                      title={isHost ? 'Click to toggle Movie Dialogues' : 'Movie Dialogues Mode'}
+                      title={isHost ? 'Click to toggle Movie Dialogues' : 'Movie Dialogues Mode (Configured by Host)'}
                     >
                       <div className="flex items-center gap-1">
                         <span className="material-symbols-outlined text-sm">chat</span>
@@ -926,24 +940,30 @@ export const LobbyScreen = ({
                           Total Rounds
                         </span>
                       </div>
-                      <div className="grid grid-cols-2 gap-2 mt-auto pt-2.5 border-t-2 border-dashed border-outline/20">
-                        <button
-                          type="button"
-                          onClick={() => handleAdjustRounds(-1)}
-                          className="w-full bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-lg py-2 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                          title="Decrease Rounds"
-                        >
-                          −
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleAdjustRounds(1)}
-                          className="w-full bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-lg py-2 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                          title="Increase Rounds"
-                        >
-                          +
-                        </button>
-                      </div>
+                      {isHost ? (
+                        <div className="grid grid-cols-2 gap-2 mt-auto pt-2.5 border-t-2 border-dashed border-outline/20">
+                          <button
+                            type="button"
+                            onClick={() => handleAdjustRounds(-1)}
+                            className="w-full bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-lg py-2 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                            title="Decrease Rounds"
+                          >
+                            −
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => handleAdjustRounds(1)}
+                            className="w-full bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-lg py-2 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                            title="Increase Rounds"
+                          >
+                            +
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="mt-auto pt-2.5 border-t-2 border-dashed border-outline/20 text-center font-label-bold text-[10px] uppercase font-bold text-outline">
+                          Configured by Host
+                        </div>
+                      )}
                     </div>
                     {/* Hidden elements for backward-compatibility */}
                     <div id="modeCard-eyes" style={{ display: 'none' }}><span id="hostEyesRoundsBtn">0</span><span id="modeStatusDot-eyes"></span></div>
@@ -963,28 +983,32 @@ export const LobbyScreen = ({
                     <span className="font-label-sm text-[10px] text-outline uppercase font-bold">Per movie frame</span>
                   </div>
                   <div className="flex items-center bg-primary-container border-2 border-on-surface rounded-lg p-1.5 neo-shadow-sm">
-                    <button
-                      type="button"
-                      onClick={() => handleAdjustTimer(-1)}
-                      className="w-8 h-8 bg-surface hover:bg-surface-variant border-2 border-on-surface font-black text-sm flex items-center justify-center rounded-lg cursor-pointer active:translate-y-[1px] transition-all shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
-                      title="Decrease Timer"
-                    >
-                      −
-                    </button>
+                    {isHost && (
+                      <button
+                        type="button"
+                        onClick={() => handleAdjustTimer(-1)}
+                        className="w-8 h-8 bg-surface hover:bg-surface-variant border-2 border-on-surface font-black text-sm flex items-center justify-center rounded-lg cursor-pointer active:translate-y-[1px] transition-all shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+                        title="Decrease Timer"
+                      >
+                        −
+                      </button>
+                    )}
                     <div
                       className="px-3.5 font-headline-sm text-base uppercase font-black tracking-wide text-on-surface min-w-[55px] text-center"
                       id="hostTimerBtn"
                     >
                       <span id="hostTimerBtnText">{timerSec}s</span>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => handleAdjustTimer(1)}
-                      className="w-8 h-8 bg-surface hover:bg-surface-variant border-2 border-on-surface font-black text-sm flex items-center justify-center rounded-lg cursor-pointer active:translate-y-[1px] transition-all shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
-                      title="Increase Timer"
-                    >
-                      +
-                    </button>
+                    {isHost && (
+                      <button
+                        type="button"
+                        onClick={() => handleAdjustTimer(1)}
+                        className="w-8 h-8 bg-surface hover:bg-surface-variant border-2 border-on-surface font-black text-sm flex items-center justify-center rounded-lg cursor-pointer active:translate-y-[1px] transition-all shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]"
+                        title="Increase Timer"
+                      >
+                        +
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>

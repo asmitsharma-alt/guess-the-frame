@@ -15,6 +15,10 @@ class AssetPreloaderService {
     this.isLoading = false;
     this.listeners = new Set();
     this.preloadPromise = null;
+
+    if (typeof window !== 'undefined') {
+      window.AssetPreloader = this;
+    }
   }
 
   /**
@@ -111,7 +115,13 @@ class AssetPreloaderService {
       img.decoding = 'async';
       img.loading = 'eager';
 
+      let done = false;
+      let timer = null;
+
       const finish = () => {
+        if (done) return;
+        done = true;
+        if (timer) clearTimeout(timer);
         this.cache.set(url, img);
         this.loaded += 1;
         this.percent = Math.min(100, Math.round((this.loaded / Math.max(1, this.total)) * 100));
@@ -119,9 +129,11 @@ class AssetPreloaderService {
         resolve(img);
       };
 
+      // Safety timeout: 7s per image max to never stall on network lag
+      timer = setTimeout(finish, 7000);
+
       img.onload = () => {
-        // img.decode() forces the browser to decode compressed image data into memory off-thread
-        // so that rendering the image inside React causes 0ms paint lag.
+        // img.decode() forces off-thread GPU decode for 0ms paint lag
         if (typeof img.decode === 'function') {
           img.decode().then(finish).catch(finish);
         } else {
@@ -130,8 +142,6 @@ class AssetPreloaderService {
       };
 
       img.onerror = () => {
-        console.warn(`[AssetPreloader] Failed to preload: ${url}`);
-        // Count as loaded so progress bar does not hang
         finish();
       };
 
