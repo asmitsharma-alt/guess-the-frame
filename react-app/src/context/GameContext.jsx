@@ -75,6 +75,13 @@ export const GameProvider = ({ children }) => {
     { id: 'welcome', type: 'system', text: 'Welcome to Live Guess Stream!' }
   ]);
   const [pendingRejoinSession, setPendingRejoinSession] = useState(null);
+  const [preloadProgress, setPreloadProgress] = useState({
+    loaded: 0,
+    total: 0,
+    percent: 0,
+    isComplete: false,
+    isLoading: false
+  });
 
   // Tie breaker state
   const [tieBreakerState, setTieBreakerState] = useState({
@@ -240,7 +247,9 @@ export const GameProvider = ({ children }) => {
     pendingRejoinSession,
     setPendingRejoinSession,
     tieBreakerState,
-    setTieBreakerState
+    setTieBreakerState,
+    preloadProgress,
+    setPreloadProgress
   };
 
   return (

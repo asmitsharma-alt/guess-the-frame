@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Pencil, CheckCircle } from 'lucide-react';
+import { X, Pencil, CheckCircle, Hourglass } from 'lucide-react';
 import SoundManager from '../services/soundManager';
 import { SecurityUtil } from '../services/securityUtil';
 import { AVATAR_MAP, getAvatarSrc, getAvatarColor } from '../services/gameConstants';
@@ -10,9 +10,10 @@ export const LobbyScreen = ({
   isHost,
   playerId,
   playerName,
-  players,
+  players = [],
   hostSettings,
   socketStatus = 'connected',
+  preloadProgress,
   onUpdateSettings,
   onRenamePlayer,
   onRemovePlayer,
@@ -21,6 +22,23 @@ export const LobbyScreen = ({
 }) => {
   const [copied, setCopied] = useState(false);
   const [isMobile, setIsMobile] = useState(() => (typeof window !== 'undefined' ? window.innerWidth < 768 : false));
+
+  const myPreloaded = Boolean(preloadProgress?.isComplete || (preloadProgress?.percent ?? 0) >= 100);
+  const otherPlayers = (players || []).filter(p => p.id !== playerId && p.connected !== false);
+  const otherPlayersPreloaded = otherPlayers.length === 0 || otherPlayers.every(p => p.preloaded === true || p.loaded === true);
+  const allPlayersPreloaded = myPreloaded && otherPlayersPreloaded;
+  const canStartMatch = Boolean(isHost && allPlayersPreloaded);
+  const readyCount = (players || []).filter(p => p.preloaded || p.id === playerId).length;
+
+  const getStartButtonText = () => {
+    if (!isHost) return 'WAITING FOR HOST...';
+    if (!myPreloaded) return `PRELOADING ASSETS (${preloadProgress?.percent || 0}%)...`;
+    if (!otherPlayersPreloaded) return `WAITING FOR PLAYERS (${readyCount}/${players.length} READY)...`;
+    return 'START MATCH';
+  };
+
+  const progressPercent = preloadProgress?.percent ?? (myPreloaded ? 100 : 0);
+  const isFullyReady = allPlayersPreloaded;
 
   useEffect(() => {
     const onResize = () => {
@@ -299,9 +317,15 @@ export const LobbyScreen = ({
                           {p.name}
                         </div>
                       )}
-                      <div className="mt-1 bg-[#86EFAC] text-[#14532D] border border-on-surface px-1.5 py-0.2 rounded-full font-label-bold text-[8px] uppercase font-black flex items-center gap-0.5 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
-                        <span><CheckCircle size={10} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '3px' }} /> READY</span>
-                      </div>
+                      {(isSelf ? myPreloaded : (p.preloaded || p.loaded)) ? (
+                        <div className="mt-1 bg-[#86EFAC] text-[#14532D] border border-on-surface px-1.5 py-0.2 rounded-full font-label-bold text-[8px] uppercase font-black flex items-center gap-0.5 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
+                          <span><CheckCircle size={10} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '3px' }} /> READY</span>
+                        </div>
+                      ) : (
+                        <div className="mt-1 bg-[#FEF08A] text-[#854D0E] border border-on-surface px-1.5 py-0.2 rounded-full font-label-bold text-[8px] uppercase font-black flex items-center gap-0.5 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] animate-pulse">
+                          <span><Hourglass size={10} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '3px' }} /> LOADING...</span>
+                        </div>
+                      )}
                     </div>
                   );
                 })}
@@ -479,22 +503,28 @@ export const LobbyScreen = ({
               <div className="bg-surface-variant/30 border border-on-surface rounded-lg p-2 flex flex-col gap-1">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-1.5">
-                    <span className="w-2 h-2 rounded-full bg-neo-green"></span>
-                    <span className="font-headline-sm text-[11px] font-black uppercase" id="loadTitleText">Match Ready!</span>
-                    <span className="font-label-sm text-[9px] text-outline uppercase font-bold" id="loadSubtitleText">(Assets Loaded)</span>
+                    <span className={`w-2 h-2 rounded-full ${isFullyReady ? 'bg-neo-green' : 'bg-neo-yellow animate-pulse'}`}></span>
+                    <span className="font-headline-sm text-[11px] font-black uppercase" id="loadTitleText">
+                      {isFullyReady ? 'Match Ready!' : (myPreloaded ? 'Host Ready!' : 'Preloading Assets...')}
+                    </span>
+                    <span className="font-label-sm text-[9px] text-outline uppercase font-bold" id="loadSubtitleText">
+                      {!myPreloaded ? `(${preloadProgress?.loaded || 0}/${preloadProgress?.total || 44} Cached)` : (otherPlayersPreloaded ? '(All Assets Preloaded & Synced)' : `(${readyCount}/${players.length} Ready)`)}
+                    </span>
                   </div>
-                  <span className="font-mono font-bold text-[10px] bg-neo-yellow px-1 rounded border border-on-surface" id="loadPercent">100%</span>
+                  <span className="font-mono font-bold text-[10px] bg-neo-yellow px-1 rounded border border-on-surface" id="loadPercent">
+                    {progressPercent}%
+                  </span>
                 </div>
                 <div className="w-full h-2 bg-surface-variant border border-on-surface rounded-full overflow-hidden">
                   <div
                     className="h-full bg-neo-green transition-all duration-300"
-                    style={{ width: '100%' }}
+                    style={{ width: `${progressPercent}%` }}
                     id="loadBar"
                   ></div>
                 </div>
                 <div className="flex justify-between text-[9px] font-bold text-outline uppercase" id="prepStatusFrames">
-                  <span>Movie Frames Ready</span>
-                  <span>Sync OK</span>
+                  <span>Movie Frames: {myPreloaded ? 'Ready' : `${progressPercent}%`}</span>
+                  <span>Sync: {otherPlayersPreloaded ? 'All Ready' : `${readyCount}/${players.length} Ready`}</span>
                 </div>
               </div>
             </div>
@@ -509,16 +539,19 @@ export const LobbyScreen = ({
           <button
             type="button"
             id="mobileLobbyStartBtn"
-            disabled={!isHost}
+            disabled={!canStartMatch}
             onClick={() => {
+              if (!canStartMatch) return;
               SoundManager.playClick();
               if (onStartMatch) onStartMatch();
             }}
-            className={`w-full min-h-[52px] bg-neo-green hover:bg-[#72e89d] border-2 border-on-surface py-3 px-4 font-headline-lg text-lg uppercase flex items-center justify-center gap-2 rounded-xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer font-black ${
-              !isHost ? 'opacity-50 cursor-not-allowed' : ''
+            className={`w-full min-h-[52px] border-2 border-on-surface py-3 px-4 font-headline-lg text-lg uppercase flex items-center justify-center gap-2 rounded-xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all font-black ${
+              canStartMatch
+                ? 'bg-neo-green hover:bg-[#72e89d] cursor-pointer'
+                : 'bg-surface-variant/80 text-outline opacity-60 cursor-not-allowed'
             }`}
           >
-            <span id="mobileLobbyStartBtnText">{isHost ? 'START MATCH' : 'WAITING FOR HOST...'}</span>
+            <span id="mobileLobbyStartBtnText">{getStartButtonText()}</span>
             <span className="material-symbols-outlined text-2xl">arrow_forward</span>
           </button>
           {/* Hidden alias for any test checking lobbyStartBtn on mobile */}
@@ -526,13 +559,14 @@ export const LobbyScreen = ({
             type="button"
             id="lobbyStartBtn"
             style={{ display: 'none' }}
-            disabled={!isHost}
+            disabled={!canStartMatch}
             onClick={() => {
+              if (!canStartMatch) return;
               SoundManager.playClick();
               if (onStartMatch) onStartMatch();
             }}
           >
-            <span id="lobbyStartBtnText">{isHost ? 'START MATCH' : 'WAITING FOR HOST...'}</span>
+            <span id="lobbyStartBtnText">{getStartButtonText()}</span>
           </button>
         </div>
       </div>
@@ -674,9 +708,15 @@ export const LobbyScreen = ({
                             {p.name}
                           </div>
                         )}
-                        <div className="mt-2.5 bg-[#86EFAC] text-[#14532D] border-2 border-on-surface px-2.5 py-0.5 rounded-full font-label-bold text-[10px] uppercase font-black flex items-center gap-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                          <span><CheckCircle size={10} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '3px' }} /> READY</span>
-                        </div>
+                        {(isSelf ? myPreloaded : (p.preloaded || p.loaded)) ? (
+                          <div className="mt-2.5 bg-[#86EFAC] text-[#14532D] border-2 border-on-surface px-2.5 py-0.5 rounded-full font-label-bold text-[10px] uppercase font-black flex items-center gap-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                            <span><CheckCircle size={10} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '3px' }} /> READY</span>
+                          </div>
+                        ) : (
+                          <div className="mt-2.5 bg-[#FEF08A] text-[#854D0E] border-2 border-on-surface px-2.5 py-0.5 rounded-full font-label-bold text-[10px] uppercase font-black flex items-center gap-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] animate-pulse">
+                            <span><Hourglass size={10} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '3px' }} /> LOADING...</span>
+                          </div>
+                        )}
                       </div>
                     );
                   })}
@@ -716,23 +756,27 @@ export const LobbyScreen = ({
                 <div className="flex-1 w-full flex flex-col gap-3">
                   <div className="flex justify-between items-end">
                     <div>
-                      <h4 className="font-headline-md text-2xl font-black uppercase" id="loadTitleText">Match Ready!</h4>
+                      <h4 className="font-headline-md text-2xl font-black uppercase" id="loadTitleText">
+                        {isFullyReady ? 'Match Ready!' : (myPreloaded ? 'Host Ready!' : 'Preloading Assets...')}
+                      </h4>
                       <p className="font-label-sm text-label-sm text-outline uppercase font-bold" id="loadSubtitleText">
-                        All Assets Loaded &amp; Ready
+                        {!myPreloaded
+                          ? `Preloading Frames & Reveals (${preloadProgress?.loaded || 0}/${preloadProgress?.total || 44} Cached)`
+                          : (otherPlayersPreloaded ? 'All Assets Preloaded & Synced' : `Waiting for other players (${readyCount}/${players.length} ready)...`)}
                       </p>
                     </div>
                     <div
                       className="bg-neo-yellow border-2 border-on-surface px-2 py-1 font-mono font-bold text-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
                       id="loadPercent"
                     >
-                      100%
+                      {progressPercent}%
                     </div>
                   </div>
                   {/* Progress Bar */}
                   <div className="w-full h-6 bg-surface-variant border-2 border-on-surface p-0.5 overflow-hidden">
                     <div
                       className="h-full bg-neo-green border-r-2 border-on-surface transition-all duration-300 relative"
-                      style={{ width: '100%' }}
+                      style={{ width: `${progressPercent}%` }}
                       id="loadBar"
                     >
                       <div className="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.2)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0.2)_75%,transparent_75%,transparent)] bg-[length:1rem_1rem]"></div>
@@ -740,13 +784,22 @@ export const LobbyScreen = ({
                   </div>
                   <div className="flex gap-4 font-label-bold text-[11px] uppercase font-bold overflow-x-auto text-on-surface">
                     <span className="flex items-center gap-1" id="prepStatusFrames">
-                      <span className="material-symbols-outlined fill text-neo-green text-sm">check_box</span> Movie Frames Loaded
+                      <span className={`material-symbols-outlined fill text-sm ${myPreloaded ? 'text-neo-green' : 'text-neo-yellow'}`}>
+                        {myPreloaded ? 'check_box' : 'hourglass_top'}
+                      </span>
+                      Movie Frames: {myPreloaded ? 'Loaded & Decoded' : `Loading (${progressPercent}%)`}
                     </span>
                     <span className="flex items-center gap-1">
-                      <span className="material-symbols-outlined fill text-neo-green text-sm">check_box</span> Player Connections Stable
+                      <span className={`material-symbols-outlined fill text-sm ${socketStatus === 'connected' ? 'text-neo-green' : 'text-neo-yellow'}`}>
+                        {socketStatus === 'connected' ? 'check_box' : 'sync'}
+                      </span>
+                      Player Connections: {socketStatus === 'connected' ? 'Stable' : socketStatus}
                     </span>
                     <span className="flex items-center gap-1">
-                      <span className="material-symbols-outlined fill text-neo-green text-sm">check_box</span> Game Data Synchronized
+                      <span className={`material-symbols-outlined fill text-sm ${otherPlayersPreloaded ? 'text-neo-green' : 'text-neo-yellow'}`}>
+                        {otherPlayersPreloaded ? 'check_box' : 'hourglass_top'}
+                      </span>
+                      Asset Sync: {otherPlayersPreloaded ? 'All Ready' : `Waiting (${readyCount}/${players.length})`}
                     </span>
                   </div>
                 </div>
@@ -944,14 +997,19 @@ export const LobbyScreen = ({
           <button
             type="button"
             id="lobbyStartBtn"
-            disabled={!isHost}
+            disabled={!canStartMatch}
             onClick={() => {
+              if (!canStartMatch) return;
               SoundManager.playClick();
               if (onStartMatch) onStartMatch();
             }}
-            className={`w-1/2 bg-neo-green border-4 border-on-surface py-3.5 px-6 font-headline-lg text-headline-lg uppercase flex items-center justify-between shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all group cursor-pointer font-black ${!isHost ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`w-1/2 border-4 border-on-surface py-3.5 px-6 font-headline-lg text-headline-lg uppercase flex items-center justify-between shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all group font-black ${
+              canStartMatch
+                ? 'bg-neo-green hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] cursor-pointer'
+                : 'bg-surface-variant/80 text-outline opacity-60 cursor-not-allowed'
+            }`}
           >
-            <span id="lobbyStartBtnText">{isHost ? 'START MATCH' : 'WAITING FOR HOST...'}</span>
+            <span id="lobbyStartBtnText">{getStartButtonText()}</span>
             <span className="material-symbols-outlined text-3xl group-hover:translate-x-2 transition-transform">arrow_forward</span>
           </button>
           <button

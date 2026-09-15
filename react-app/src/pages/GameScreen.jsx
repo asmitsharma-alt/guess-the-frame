@@ -5,6 +5,7 @@ import PaletteManager from '../services/paletteManager';
 import { FuzzyMatcher } from '../services/fuzzyMatcher';
 import { SecurityUtil } from '../services/securityUtil';
 import { AVATAR_MAP, getAvatarSrc, getAvatarColor } from '../services/gameConstants';
+import { AssetPreloader } from '../services/assetPreloader';
 
 export const GameScreen = ({
   isActive,
@@ -57,13 +58,22 @@ export const GameScreen = ({
     }
   }, [frame]);
 
-  // Preload next frame image in background to eliminate round transition latency
+  // Preload and GPU-decode upcoming frame images and reveals in background to eliminate transition latency
   useEffect(() => {
-    if (currentPlaylist && currentPlaylist[currentPlayIndex + 1]) {
-      const nextItem = currentPlaylist[currentPlayIndex + 1];
-      if (nextItem && nextItem.content && nextItem.type === 'image') {
-        const preloadImg = new Image();
-        preloadImg.src = nextItem.content.startsWith('/') ? nextItem.content : `/${nextItem.content}`;
+    AssetPreloader.preloadAll();
+    if (currentPlaylist && currentPlaylist.length > 0) {
+      for (let i = currentPlayIndex; i <= Math.min(currentPlaylist.length - 1, currentPlayIndex + 3); i++) {
+        const item = currentPlaylist[i];
+        if (item && item.type === 'image') {
+          if (item.content) {
+            const u = item.content.startsWith('/') ? item.content : `/${item.content}`;
+            AssetPreloader.preloadImage(u);
+          }
+          if (item.revealContent) {
+            const u = item.revealContent.startsWith('/') ? item.revealContent : `/${item.revealContent}`;
+            AssetPreloader.preloadImage(u);
+          }
+        }
       }
     }
   }, [currentPlaylist, currentPlayIndex]);
@@ -240,10 +250,16 @@ export const GameScreen = ({
                   return (
                     <img
                       ref={imgRef}
+                      key={safeSrc}
                       className={`frame-image loaded ${isRoundFinished || isAnswerRevealed ? 'revealed' : 'blurred'}`}
                       src={safeSrc}
                       alt={frame?.sectionName || "Movie Frame"}
                       loading="eager"
+                      decoding="async"
+                      style={{
+                        transition: 'filter 0.25s ease, opacity 0.2s ease',
+                        willChange: 'filter, opacity'
+                      }}
                       onError={(e) => {
                         e.target.style.display = 'none';
                       }}

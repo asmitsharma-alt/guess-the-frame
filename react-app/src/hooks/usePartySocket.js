@@ -14,6 +14,7 @@ export const usePartySocket = ({
   playerAvatar,
   playerColor,
   isHost,
+  preloaded = false,
   onMessage
 }) => {
   const [connectionState, setConnectionState] = useState('IDLE');
@@ -34,6 +35,8 @@ export const usePartySocket = ({
   playerColorRef.current = playerColor;
   const isHostRef = useRef(isHost);
   isHostRef.current = isHost;
+  const preloadedRef = useRef(preloaded);
+  preloadedRef.current = preloaded;
 
   const cleanRoom = roomCode ? roomCode.trim().toUpperCase() : '';
 
@@ -104,6 +107,7 @@ export const usePartySocket = ({
           avatar: playerAvatarRef.current || 'aman',
           color: playerColorRef.current || '#FACC15',
           isHost: Boolean(isHostRef.current),
+          preloaded: Boolean(preloadedRef.current),
           timestamp: Date.now()
         }));
 

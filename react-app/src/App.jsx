@@ -128,6 +128,7 @@ const AppContent = () => {
           players={game.players}
           hostSettings={game.hostSettings}
           socketStatus={multiplayer.socketStatus}
+          preloadProgress={game.preloadProgress}
           onUpdateSettings={(s) => {
             game.setHostSettings(s);
             multiplayer.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
@@ -150,6 +151,11 @@ const AppContent = () => {
             game.setCurrentPlayIndex(0);
             game.setRoundWinners([]);
             game.showScreen('gameScreen');
+            multiplayer.sendEvent('START_GAME', {
+              playlist: game.currentPlaylist,
+              currentPlaylist: game.currentPlaylist,
+              duration: game.hostSettings.timer || 30
+            });
             if (typeof window !== 'undefined' && window.MultiplayerEngine?.startMatch) {
               window.MultiplayerEngine.startMatch();
             } else if (typeof window !== 'undefined' && window.PlayerLobby?.start) {

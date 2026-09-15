@@ -8,6 +8,7 @@ export interface Player {
   score: number;
   isHost: boolean;
   connected: boolean;
+  preloaded?: boolean;
 }
 
 export interface HostSettings {
@@ -229,6 +230,9 @@ export class GameRoomServer extends Server {
             player.avatar = playerAvatar;
             player.color = playerColor;
             player.connected = true;
+            if (typeof msg.preloaded === 'boolean') {
+              player.preloaded = msg.preloaded;
+            }
             if (shouldBeHost && !this.state.hostId) {
               player.isHost = true;
               this.state.hostId = player.id;
@@ -242,7 +246,8 @@ export class GameRoomServer extends Server {
               color: playerColor,
               score: 0,
               isHost: shouldBeHost,
-              connected: true
+              connected: true,
+              preloaded: Boolean(msg.preloaded)
             };
             this.state.players.push(player);
             if (shouldBeHost && !this.state.hostId) {
@@ -262,6 +267,17 @@ export class GameRoomServer extends Server {
 
           // Broadcast updated player list to room
           this.broadcastState('SYNC_ROOM_STATE');
+          break;
+        }
+
+        case 'PLAYER_PRELOAD_STATUS':
+        case 'PLAYER_PRELOAD_READY': {
+          const playerId = msg.playerId || msg.senderId || sender.id;
+          const player = this.state.players.find(p => p.id === playerId);
+          if (player) {
+            player.preloaded = Boolean(msg.ready ?? true);
+            this.broadcastState('SYNC_ROOM_STATE');
+          }
           break;
         }
 

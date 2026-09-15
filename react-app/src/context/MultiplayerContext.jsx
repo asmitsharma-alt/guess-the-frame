@@ -7,6 +7,7 @@ import { AVATAR_MAP, getAvatarColor } from '../services/gameConstants';
 import { WS_BASE_URL } from '../config/env';
 import { useMqttClient } from '../hooks/useMqttClient';
 import { usePartySocket } from '../hooks/usePartySocket';
+import { AssetPreloader } from '../services/assetPreloader';
 
 const MultiplayerContext = createContext(null);
 
@@ -43,6 +44,7 @@ export const MultiplayerProvider = ({ children }) => {
     playerAvatar: game.playerAvatar,
     playerColor: game.playerColor,
     isHost: game.isHost,
+    preloaded: Boolean(game.preloadProgress?.isComplete),
     onMessage: handlePartyMessage
   });
 
@@ -237,6 +239,27 @@ export const MultiplayerProvider = ({ children }) => {
     }
   }, [game.roomCode, game.playerId, mqtt]);
 
+  // Background parallel asset preloading & peer status broadcast
+  useEffect(() => {
+    const unsub = AssetPreloader.subscribe((prog) => {
+      if (game.setPreloadProgress) {
+        game.setPreloadProgress(prog);
+      }
+    });
+
+    AssetPreloader.preloadAll().then((finalProg) => {
+      if (game.roomCode) {
+        sendEvent('PLAYER_PRELOAD_STATUS', {
+          playerId: game.playerId,
+          percent: 100,
+          ready: true
+        });
+      }
+    });
+
+    return () => unsub();
+  }, [game.roomCode, game.playerId, sendEvent]);
+
   // Incoming event router
   const handleIncomingMessage = useCallback((msg) => {
     if (!msg || !msg.type) return;
@@ -280,6 +303,7 @@ export const MultiplayerProvider = ({ children }) => {
           score: msg.score || 0,
           isHost: !!msg.isHost,
           loaded: true,
+          preloaded: Boolean(msg.preloaded),
           color: playerColor
         };
         game.setPlayers(prev => {
@@ -309,6 +333,19 @@ export const MultiplayerProvider = ({ children }) => {
         game.setPlayers(prev => prev.map(p => {
           if (p.id === msg.playerId || p.id === msg.senderId) {
             return { ...p, name: msg.name };
+          }
+          return p;
+        }));
+        break;
+      }
+
+      case 'PLAYER_PRELOAD_STATUS':
+      case 'PLAYER_PRELOAD_READY': {
+        const targetPid = msg.playerId || msg.senderId;
+        const isReady = Boolean(msg.ready ?? (msg.percent === 100));
+        game.setPlayers(prev => prev.map(p => {
+          if (p.id === targetPid) {
+            return { ...p, preloaded: isReady };
           }
           return p;
         }));
