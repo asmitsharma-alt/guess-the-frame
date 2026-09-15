@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Sparkles, Trophy, Users, Home, Play } from 'lucide-react';
 import SoundManager from '../services/soundManager';
 import { SecurityUtil } from '../services/securityUtil';
-import { getAvatarSrc } from '../services/gameConstants';
+import { getAvatarSrc, getAvatarColor } from '../services/gameConstants';
 import confetti from 'canvas-confetti';
 
 export const WinnerScreen = ({
@@ -169,7 +169,7 @@ export const WinnerScreen = ({
                 </div>
                 <div className="cw-runner-card runner-blue" id="silverCard">
                   <div className="runner-rank-tab blue-tab">2</div>
-                  <div className="runner-avatar-frame" id="silverAvatarWrap">
+                  <div className="runner-avatar-frame" id="silverAvatarWrap" style={{ backgroundColor: p2.color || getAvatarColor(p2.avatar), '--avatar-bg': p2.color || getAvatarColor(p2.avatar) }}>
                     <img id="silverAvatarImg" src={getAvatarSrc(p2.avatar, 'aziz')} alt="2nd Place" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aziz.svg'; }} />
                   </div>
                   <div className="runner-nameplate" id="silverName">{(p2.name || 'AZIZ').toUpperCase()}</div>
@@ -186,7 +186,7 @@ export const WinnerScreen = ({
                       <rect x="3.5" y="17.5" width="17" height="2.5" rx="1" />
                     </svg>
                   </div>
-                  <div className="runner-avatar-frame champ-avatar-frame" id="champAvatarWrap">
+                  <div className="runner-avatar-frame champ-avatar-frame" id="champAvatarWrap" style={{ backgroundColor: p1.color || getAvatarColor(p1.avatar), '--avatar-bg': p1.color || getAvatarColor(p1.avatar) }}>
                     <img id="champAvatarImg" src={getAvatarSrc(p1.avatar, 'aman')} alt="Champion" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aman.svg'; }} />
                   </div>
                   <div className="runner-nameplate champ-nameplate" id="champName">{(p1.name || 'AMAN').toUpperCase()}</div>
@@ -204,7 +204,7 @@ export const WinnerScreen = ({
                 </div>
                 <div className="cw-runner-card runner-orange" id="bronzeCard">
                   <div className="runner-rank-tab orange-tab">3</div>
-                  <div className="runner-avatar-frame" id="bronzeAvatarWrap">
+                  <div className="runner-avatar-frame" id="bronzeAvatarWrap" style={{ backgroundColor: p3.color || getAvatarColor(p3.avatar), '--avatar-bg': p3.color || getAvatarColor(p3.avatar) }}>
                     <img id="bronzeAvatarImg" src={getAvatarSrc(p3.avatar, 'amish')} alt="3rd Place" onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/amish.svg'; }} />
                   </div>
                   <div className="runner-nameplate" id="bronzeName">{(p3.name || 'AMISH').toUpperCase()}</div>
@@ -228,7 +228,7 @@ export const WinnerScreen = ({
                     <div key={p.id || i} className={`sb-row ${isChamp ? 'sb-champ' : ''}`}>
                       <div className="sb-left">
                         <span className="sb-rank">{i + 1}</span>
-                        <div className="sb-avatar-mini">
+                        <div className="sb-avatar-mini" style={{ backgroundColor: p.color || getAvatarColor(p.avatar), '--avatar-bg': p.color || getAvatarColor(p.avatar) }}>
                           <img src={getAvatarSrc(p.avatar, 'aman')} alt={p.name} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aman.svg'; }} />
                         </div>
                         <span className="sb-name">{(p.name || 'PLAYER').toUpperCase()}</span>

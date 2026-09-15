@@ -42340,18 +42340,52 @@ export function getAvatarsByCategory(categoryId) {
 
 export function getAvatarMeta(urlOrId) {
   if (!urlOrId) return AVATAR_CATALOG[0];
-  const found = AVATAR_CATALOG.find(a => a.url === urlOrId || a.id === urlOrId);
-  return found || {
+  const clean = String(urlOrId).trim();
+  const lower = clean.toLowerCase();
+
+  // 1. Exact match on url or id
+  let found = AVATAR_CATALOG.find(a => a.url === clean || a.id === clean);
+  if (found) return found;
+
+  // 2. Normalize and check if clean is a founder name or path (e.g. 'aman', 'amish', 'vish', 'aziz', '/avvtar/aman.svg', 'avvtar/aman.svg')
+  found = AVATAR_CATALOG.find(a => 
+    a.normName === lower ||
+    a.name.toLowerCase() === lower ||
+    a.url.toLowerCase() === lower ||
+    a.url.toLowerCase().endsWith('/' + lower + '.svg') ||
+    a.url.toLowerCase().endsWith(lower) ||
+    lower.endsWith(a.url.toLowerCase())
+  );
+  if (found) return found;
+
+  // 3. Check aliases
+  found = AVATAR_CATALOG.find(a => a.aliases && a.aliases.includes(lower));
+  if (found) return found;
+
+  return {
     id: 'unknown',
     name: 'Player Avatar',
     category: 'custom',
     categoryLabel: 'Custom Avatar',
     url: urlOrId,
-    format: urlOrId.includes('.svg') ? 'SVG' : 'PNG',
+    format: clean.includes('.svg') ? 'SVG' : 'PNG',
     color: 'facc15',
-    isTransparent: urlOrId.includes('.svg') || urlOrId.includes('/avvtar/'),
-    isVector: urlOrId.includes('.svg')
+    isTransparent: clean.includes('.svg') || clean.includes('/avvtar/'),
+    isVector: clean.includes('.svg')
   };
+}
+
+export function getAvatarColor(urlOrId, defaultFallback = '#facc15') {
+  if (!urlOrId) return defaultFallback;
+  const meta = getAvatarMeta(urlOrId);
+  if (meta) {
+    if (meta.isKnownDark) return '#111827';
+    if (meta.color) {
+      const c = String(meta.color).trim();
+      return c.startsWith('#') ? c : `#${c}`;
+    }
+  }
+  return defaultFallback;
 }
 
 export function reshuffleAllAvatars() {

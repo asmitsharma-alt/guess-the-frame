@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback, use
 import SoundManager from '../services/soundManager';
 import PaletteManager from '../services/paletteManager';
 import { SecurityUtil } from '../services/securityUtil';
-import { DEFAULT_FRAMES, DEFAULT_TIE_BREAKERS, AVATAR_MAP } from '../services/gameConstants';
+import { DEFAULT_FRAMES, DEFAULT_TIE_BREAKERS, AVATAR_MAP, getAvatarColor } from '../services/gameConstants';
 
 const GameContext = createContext(null);
 
@@ -47,7 +47,7 @@ export const GameProvider = ({ children }) => {
 
   // Players list in current game/lobby
   const [players, setPlayers] = useState([
-    { id: playerId, name: playerName, avatar: playerAvatar, score: 0, isHost: true, loaded: true, color: '#FF6B9D' }
+    { id: playerId, name: playerName, avatar: playerAvatar, score: 0, isHost: true, loaded: true, color: getAvatarColor(playerAvatar) }
   ]);
 
   // Host game settings
@@ -94,8 +94,11 @@ export const GameProvider = ({ children }) => {
   }, [playerName]);
 
   useEffect(() => {
-    if (playerAvatar) localStorage.setItem('gtf_player_avatar', playerAvatar);
-  }, [playerAvatar]);
+    if (playerAvatar) {
+      localStorage.setItem('gtf_player_avatar', playerAvatar);
+      setPlayers(prev => prev.map(p => p.id === playerId ? { ...p, avatar: playerAvatar, color: getAvatarColor(playerAvatar) } : p));
+    }
+  }, [playerAvatar, playerId]);
 
   // Screen change wrapper
   const showScreen = useCallback((screenId) => {

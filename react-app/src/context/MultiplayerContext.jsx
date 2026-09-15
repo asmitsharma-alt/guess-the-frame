@@ -3,7 +3,7 @@ import { useGame } from './GameContext';
 import SoundManager from '../services/soundManager';
 import { NetworkSecurity, SecurityUtil } from '../services/securityUtil';
 import { FuzzyMatcher } from '../services/fuzzyMatcher';
-import { AVATAR_MAP } from '../services/gameConstants';
+import { AVATAR_MAP, getAvatarColor } from '../services/gameConstants';
 import { WS_BASE_URL } from '../config/env';
 import { useMqttClient } from '../hooks/useMqttClient';
 
@@ -220,7 +220,7 @@ export const MultiplayerProvider = ({ children }) => {
           const rawAvatar = msg.avatar || 'aman';
           const isCustomUrl = rawAvatar.startsWith('http://') || rawAvatar.startsWith('https://') || rawAvatar.startsWith('/') || rawAvatar.startsWith('data:');
           const avKey = isCustomUrl ? rawAvatar : rawAvatar.toLowerCase().replace(/[^a-z0-9]/g, '');
-          const avConfig = (!isCustomUrl && AVATAR_MAP[avKey]) ? AVATAR_MAP[avKey] : AVATAR_MAP.aman;
+          const playerColor = getAvatarColor(rawAvatar);
           const newPlayer = {
             id: msg.id || msg.senderId,
             name: msg.name || 'Player',
@@ -228,7 +228,7 @@ export const MultiplayerProvider = ({ children }) => {
             score: msg.score || 0,
             isHost: !!msg.isHost,
             loaded: true,
-            color: avConfig.color
+            color: playerColor
           };
           return [...prev, newPlayer];
         });

@@ -4,7 +4,7 @@ import SoundManager from '../services/soundManager';
 import PaletteManager from '../services/paletteManager';
 import { FuzzyMatcher } from '../services/fuzzyMatcher';
 import { SecurityUtil } from '../services/securityUtil';
-import { AVATAR_MAP, getAvatarSrc } from '../services/gameConstants';
+import { AVATAR_MAP, getAvatarSrc, getAvatarColor } from '../services/gameConstants';
 
 export const GameScreen = ({
   isActive,
@@ -285,12 +285,13 @@ export const GameScreen = ({
               <div className="scoring-sub" id="scoringSub">Click the player who answered correctly</div>
               <div className="scoring-grid" id="scoringGrid">
                 {players.map((p, i) => {
-                  const avKey = (p.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+                  const avColor = p.color || getAvatarColor(p.avatar);
                   return (
                     <button
                       key={p.id || i}
                       type="button"
                       className="spbtn"
+                      style={{ backgroundColor: avColor, '--avatar-bg': avColor }}
                       onClick={() => {
                         SoundManager.playSelPlayer();
                         if (onAdjustScore) onAdjustScore(i, 10);
@@ -454,10 +455,10 @@ export const GameScreen = ({
             </h3>
             <div className="leaderboard" id="leaderboard">
               {[...players].sort((a, b) => (b.score || 0) - (a.score || 0)).map((p, idx) => {
-                const avKey = (p.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+                const avColor = p.color || getAvatarColor(p.avatar);
                 return (
                   <div key={p.id || idx} className="lb-item">
-                    <div className="lb-av-wrap">
+                    <div className="lb-av-wrap" style={{ backgroundColor: avColor, '--avatar-bg': avColor }}>
                       <img src={getAvatarSrc(p.avatar, 'aman')} alt={p.name} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aman.svg'; }} />
                     </div>
                     <span className="lb-name">{p.name}</span>

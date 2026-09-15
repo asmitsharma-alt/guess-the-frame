@@ -9,7 +9,7 @@ import SoundManager from './soundManager';
 import PaletteManager from './paletteManager';
 import { SecurityUtil, NetworkSecurity } from './securityUtil';
 import { FuzzyMatcher } from './fuzzyMatcher';
-import { DEFAULT_FRAMES, DEFAULT_EYES, DEFAULT_DIALOGUES, ALL_CATALOG_ITEMS, DEFAULT_TIE_BREAKERS, AVATAR_MAP, getAvatarSrc } from './gameConstants';
+import { DEFAULT_FRAMES, DEFAULT_EYES, DEFAULT_DIALOGUES, ALL_CATALOG_ITEMS, DEFAULT_TIE_BREAKERS, AVATAR_MAP, getAvatarSrc, getAvatarColor } from './gameConstants';
 
 export function installTestBridge(gameContextRef) {
   if (typeof window === 'undefined') return;
@@ -377,6 +377,12 @@ export function installTestBridge(gameContextRef) {
       if (champName) champName.textContent = (p1?.name || 'AMAN').toUpperCase();
       if (champScore) champScore.textContent = `${p1?.score || 0} POINTS`;
       if (champImg) champImg.src = getAvatarSrc(p1?.avatar, 'aman');
+      const champWrap = document.getElementById('champAvatarWrap');
+      if (champWrap && p1) {
+        const c = p1.color || getAvatarColor(p1.avatar);
+        champWrap.style.backgroundColor = c;
+        champWrap.style.setProperty('--avatar-bg', c);
+      }
 
       const silverName = document.getElementById('silverName');
       const silverScore = document.getElementById('silverScore');
@@ -384,6 +390,12 @@ export function installTestBridge(gameContextRef) {
       if (silverName) silverName.textContent = (p2?.name || 'AZIZ').toUpperCase();
       if (silverScore) silverScore.textContent = `${p2?.score || 0} POINTS`;
       if (silverImg) silverImg.src = getAvatarSrc(p2?.avatar, 'aziz');
+      const silverWrap = document.getElementById('silverAvatarWrap');
+      if (silverWrap && p2) {
+        const c = p2.color || getAvatarColor(p2.avatar);
+        silverWrap.style.backgroundColor = c;
+        silverWrap.style.setProperty('--avatar-bg', c);
+      }
 
       const bronzeName = document.getElementById('bronzeName');
       const bronzeScore = document.getElementById('bronzeScore');
@@ -391,6 +403,12 @@ export function installTestBridge(gameContextRef) {
       if (bronzeName) bronzeName.textContent = (p3?.name || 'AMISH').toUpperCase();
       if (bronzeScore) bronzeScore.textContent = `${p3?.score || 0} POINTS`;
       if (bronzeImg) bronzeImg.src = getAvatarSrc(p3?.avatar, 'amish');
+      const bronzeWrap = document.getElementById('bronzeAvatarWrap');
+      if (bronzeWrap && p3) {
+        const c = p3.color || getAvatarColor(p3.avatar);
+        bronzeWrap.style.backgroundColor = c;
+        bronzeWrap.style.setProperty('--avatar-bg', c);
+      }
     },
     renderScoreboard(players) {
       if (gameContextRef?.current?.setPlayers) {
@@ -406,7 +424,7 @@ export function installTestBridge(gameContextRef) {
             <div class="sb-row ${isChamp ? 'sb-champ' : ''}">
               <div class="sb-left">
                 <span class="sb-rank">${rank}</span>
-                <div class="sb-avatar-mini"><img src="${getAvatarSrc(p.avatar, 'aman')}" alt="${p.name}" onerror="this.src='avvtar/aman.svg'" /></div>
+                <div class="sb-avatar-mini" style="background-color: ${p.color || getAvatarColor(p.avatar)}; --avatar-bg: ${p.color || getAvatarColor(p.avatar)};"><img src="${getAvatarSrc(p.avatar, 'aman')}" alt="${p.name}" onerror="this.src='avvtar/aman.svg'" /></div>
                 <span class="sb-name">${SecurityUtil.escapeHtml(p.name).toUpperCase()}</span>
               </div>
               <span class="sb-score">${p.score || 0} PTS</span>
@@ -685,8 +703,8 @@ export function installTestBridge(gameContextRef) {
           return `
             <div class="lobby-player lp-card bg-surface border-4 border-on-surface p-4 flex flex-col items-center justify-center relative neo-shadow rounded-xl">
               ${p.isHost ? '<div class="absolute -top-3 -left-3 bg-neo-yellow border-2 border-on-surface px-2 py-0.5 font-label-bold text-[10px] uppercase font-bold">Host</div>' : ''}
-              <div class="w-20 h-20 rounded-2xl border-4 border-on-surface overflow-hidden mb-3">
-                <img class="w-full h-full object-cover" src="avvtar/${avKey}.svg" alt="${p.name}" />
+              <div class="w-20 h-20 rounded-2xl border-4 border-on-surface overflow-hidden mb-3" style="background-color: ${p.color || getAvatarColor(p.avatar)}; --avatar-bg: ${p.color || getAvatarColor(p.avatar)};">
+                <img class="w-full h-full object-cover" src="${getAvatarSrc(p.avatar, 'aman')}" alt="${p.name}" />
               </div>
               <div class="font-bold text-sm uppercase">${SecurityUtil.escapeHtml(p.name)}</div>
             </div>

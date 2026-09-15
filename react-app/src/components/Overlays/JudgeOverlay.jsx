@@ -1,5 +1,6 @@
 import React from 'react';
 import { Scale, Crown } from 'lucide-react';
+import { getAvatarColor, getAvatarSrc } from '../../services/gameConstants';
 
 export const JudgeOverlay = ({ isOn, chosenJudge = null, candidates = [] }) => {
   return (
@@ -26,14 +27,17 @@ export const JudgeOverlay = ({ isOn, chosenJudge = null, candidates = [] }) => {
           <p className="jo-sub">WHO WILL RULE THIS ROUND?</p>
 
           <div className="jo-candidates" id="joCandidates">
-            {candidates.map((p, idx) => (
-              <div key={idx} className={`jo-cand ${chosenJudge?.name === p.name ? 'sel' : ''}`}>
-                <div className="jo-circle" style={{ background: p.color || '#cae6ff' }}>
-                  <img src={p.avatarImg || `/avvtar/${p.avatar || 'aman'}.svg`} alt={p.name} />
+            {candidates.map((p, idx) => {
+              const avColor = p.color || getAvatarColor(p.avatar || p.avatarImg);
+              return (
+                <div key={idx} className={`jo-cand ${chosenJudge?.name === p.name ? 'sel' : ''}`}>
+                  <div className="jo-circle" style={{ background: avColor, '--avatar-bg': avColor }}>
+                    <img src={getAvatarSrc(p.avatar || p.avatarImg, 'aman')} alt={p.name} />
+                  </div>
+                  <div className="jo-cname">{p.name}</div>
                 </div>
-                <div className="jo-cname">{p.name}</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className={`jo-sel-msg ${chosenJudge ? 'on' : ''}`} id="joSelMsg">

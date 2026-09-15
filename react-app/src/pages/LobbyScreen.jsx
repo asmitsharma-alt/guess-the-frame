@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Pencil, CheckCircle } from 'lucide-react';
 import SoundManager from '../services/soundManager';
 import { SecurityUtil } from '../services/securityUtil';
-import { AVATAR_MAP, getAvatarSrc } from '../services/gameConstants';
+import { AVATAR_MAP, getAvatarSrc, getAvatarColor } from '../services/gameConstants';
 
 export const LobbyScreen = ({
   isActive,
@@ -242,8 +242,7 @@ export const LobbyScreen = ({
             <div className="p-3">
               <div className="grid grid-cols-2 gap-2" id="lobbyPlayerList">
                 {players.map((p, i) => {
-                  const avKey = (p.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
-                  const avConfig = AVATAR_MAP[avKey] || AVATAR_MAP.aman;
+                  const avColor = p.color || getAvatarColor(p.avatar);
                   const isSelf = p.id === playerId || p.name === playerName;
                   const canRemove = isHost && p.id !== playerId && !p.isHost;
 
@@ -269,7 +268,7 @@ export const LobbyScreen = ({
                       )}
                       <div
                         className="w-14 h-14 rounded-xl border-2 border-on-surface overflow-hidden mb-1.5 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                        style={{ backgroundColor: avConfig.color }}
+                        style={{ backgroundColor: avColor, '--avatar-bg': avColor }}
                       >
                         <img
                           className="w-full h-full object-cover"
@@ -283,7 +282,7 @@ export const LobbyScreen = ({
                           <input
                             type="text"
                             className="w-full text-center font-black uppercase text-xs px-1.5 py-0.5 border-2 border-on-surface rounded-md shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] focus:outline-none focus:ring-1 focus:ring-black transition-all cursor-text font-sans font-bold"
-                            style={{ backgroundColor: avConfig.color, color: '#1a1a1a' }}
+                            style={{ backgroundColor: avColor, color: '#1a1a1a' }}
                             value={p.name}
                             maxLength={14}
                             onChange={(e) => onRenamePlayer && onRenamePlayer(i, e.target.value)}
@@ -295,7 +294,7 @@ export const LobbyScreen = ({
                       ) : (
                         <div
                           className="border-2 border-on-surface px-2 py-0.5 rounded-md font-headline-sm text-xs uppercase font-black tracking-wide text-on-surface truncate max-w-full text-center shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] font-bold"
-                          style={{ backgroundColor: avConfig.color }}
+                          style={{ backgroundColor: avColor }}
                         >
                           {p.name}
                         </div>
@@ -618,8 +617,7 @@ export const LobbyScreen = ({
               <div className="p-6">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4" id="lobbyPlayerList">
                   {players.map((p, i) => {
-                    const avKey = (p.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
-                    const avConfig = AVATAR_MAP[avKey] || AVATAR_MAP.aman;
+                    const avColor = p.color || getAvatarColor(p.avatar);
                     const isSelf = p.id === playerId || p.name === playerName;
                     const canRemove = isHost && p.id !== playerId && !p.isHost;
 
@@ -645,7 +643,7 @@ export const LobbyScreen = ({
                         )}
                         <div
                           className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-4 border-on-surface overflow-hidden mb-3 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                          style={{ backgroundColor: avConfig.color }}
+                          style={{ backgroundColor: avColor, '--avatar-bg': avColor }}
                         >
                           <img
                             className="w-full h-full object-cover"
@@ -659,7 +657,7 @@ export const LobbyScreen = ({
                             <input
                               type="text"
                               className="w-full text-center font-black uppercase text-xs sm:text-sm px-2 py-1 border-2 border-on-surface rounded-lg shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:outline-none focus:ring-2 focus:ring-black transition-all cursor-text font-sans"
-                              style={{ backgroundColor: avConfig.color, color: '#1a1a1a' }}
+                              style={{ backgroundColor: avColor, color: '#1a1a1a' }}
                               value={p.name}
                               maxLength={14}
                               onChange={(e) => onRenamePlayer && onRenamePlayer(i, e.target.value)}
@@ -671,7 +669,7 @@ export const LobbyScreen = ({
                         ) : (
                           <div
                             className="border-2 border-on-surface px-3 py-1 rounded-lg font-headline-sm text-sm sm:text-base uppercase font-black tracking-wide text-on-surface truncate max-w-full text-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-                            style={{ backgroundColor: avConfig.color }}
+                            style={{ backgroundColor: avColor }}
                           >
                             {p.name}
                           </div>

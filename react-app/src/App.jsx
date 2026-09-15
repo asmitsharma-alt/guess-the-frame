@@ -17,6 +17,7 @@ import { JudgeOverlay } from './components/Overlays/JudgeOverlay';
 import { TieVsOverlay } from './components/Overlays/TieVsOverlay';
 import { installTestBridge } from './services/testBridge';
 import SoundManager from './services/soundManager';
+import { getAvatarColor } from './services/gameConstants';
 
 const AppContent = () => {
   const game = useGame();
@@ -72,7 +73,7 @@ const AppContent = () => {
       const newCode = Math.random().toString(36).substring(2, 6).toUpperCase();
       game.setRoomCode(newCode);
       game.setPlayers([
-        { id: game.playerId, name, avatar, score: 0, isHost: true, loaded: true, color: '#FF6B9D' }
+        { id: game.playerId, name, avatar, score: 0, isHost: true, loaded: true, color: getAvatarColor(avatar) }
       ]);
     }
     game.closeModals();
@@ -95,7 +96,7 @@ const AppContent = () => {
       }
     } else {
       game.setPlayers([
-        { id: game.playerId, name, avatar, score: 0, isHost: false, loaded: true, color: '#3B82F6' }
+        { id: game.playerId, name, avatar, score: 0, isHost: false, loaded: true, color: getAvatarColor(avatar) }
       ]);
     }
     game.closeModals();

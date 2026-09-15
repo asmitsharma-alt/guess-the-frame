@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { SecurityUtil } from '../../services/securityUtil';
-import { getAvatarSrc } from '../../services/gameConstants';
+import { getAvatarSrc, getAvatarColor } from '../../services/gameConstants';
 import { Lightbulb } from 'lucide-react';
 
 export const ChatDrawer = ({ messages = [], onSendMessage, placeholder = 'Type your guess or chat...' }) => {
@@ -43,7 +43,7 @@ export const ChatDrawer = ({ messages = [], onSendMessage, placeholder = 'Type y
               </div>
             ) : (
               <div className="chat-msg-row" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                <div className="chat-av" style={{ width: '28px', height: '28px', borderRadius: '50%', overflow: 'hidden', border: '2px solid #1a1a1a' }}>
+                <div className="chat-av" style={{ width: '28px', height: '28px', borderRadius: '8px', overflow: 'hidden', border: '2px solid #1a1a1a', backgroundColor: getAvatarColor(m.senderAvatar), '--avatar-bg': getAvatarColor(m.senderAvatar), display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                   <img src={getAvatarSrc(m.senderAvatar, 'aman')} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aman.svg'; }} />
                 </div>
                 <div className="chat-body" style={{ flex: 1 }}>

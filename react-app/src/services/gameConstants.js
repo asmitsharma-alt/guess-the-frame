@@ -1,22 +1,26 @@
+import { getAvatarColor } from './avatarCatalog';
+
+export { getAvatarColor };
+
 export const AVATAR_MAP = {
   aman: {
-    color: '#FF6B9D',
-    bg: '#FF6B9D',
+    color: '#FACC15',
+    bg: '#FACC15',
     img: 'avvtar/aman.svg'
   },
   amish: {
-    color: '#3B82F6',
-    bg: '#3B82F6',
+    color: '#FF6B9D',
+    bg: '#FF6B9D',
     img: 'avvtar/amish.svg'
   },
   aziz: {
-    color: '#84CC16',
-    bg: '#84CC16',
+    color: '#38BDF8',
+    bg: '#38BDF8',
     img: 'avvtar/aziz.svg'
   },
   vish: {
-    color: '#FACC15',
-    bg: '#FACC15',
+    color: '#84CC16',
+    bg: '#84CC16',
     img: 'avvtar/vish.svg'
   }
 };

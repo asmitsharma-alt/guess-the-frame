@@ -1,10 +1,11 @@
 import React from 'react';
-import { AVATAR_MAP, getAvatarSrc } from '../../services/gameConstants';
+import { AVATAR_MAP, getAvatarSrc, getAvatarColor } from '../../services/gameConstants';
 import { SecurityUtil } from '../../services/securityUtil';
 
 export const Avatar = ({ player, className = 'av-img-elem', style = {} }) => {
   const safeName = SecurityUtil.escapeHtml(player?.name || 'Player');
   const avSrc = player?.avatarImg || getAvatarSrc(player?.avatar, 'aman');
+  const avColor = player?.color || getAvatarColor(player?.avatar);
   const isPortrait = avSrc && (
     avSrc.includes('anilist.co') || 
     avSrc.includes('tvmaze.com') || 
@@ -25,7 +26,9 @@ export const Avatar = ({ player, className = 'av-img-elem', style = {} }) => {
         maxHeight: '100%',
         objectFit: 'cover',
         objectPosition: isPortrait ? 'center 4%' : 'center',
-        borderRadius: '50%',
+        borderRadius: '8px',
+        backgroundColor: avColor,
+        '--avatar-bg': avColor,
         display: 'block',
         ...style
       }}

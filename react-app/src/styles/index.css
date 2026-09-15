@@ -193,3 +193,28 @@ html, body {
     border-radius: 12px !important;
   }
 }
+
+/* =========================================================================
+   GLOBAL AVATAR BACKGROUND COLOR SYNC
+   Ensures every avatar container across the site dynamically reflects the
+   exact avatar background color defined in avatar selection.
+   ========================================================================= */
+.lb-item .lb-av-wrap,
+.lb-av-wrap,
+#gameScreen .lb-av-wrap,
+.lp-avatar-wrap,
+.jo-circle,
+.jo-cand .jo-circle,
+.chat-avatar,
+.chat-av,
+.spbtn,
+#gameScreen .spbtn,
+.podium-av,
+.runner-avatar-frame,
+.champ-avatar-frame,
+.sb-avatar-mini,
+.rejoin-avatar,
+#rejoinAvatarContainer {
+  background-color: var(--avatar-bg, inherit) !important;
+}
+

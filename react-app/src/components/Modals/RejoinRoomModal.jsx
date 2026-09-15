@@ -1,6 +1,7 @@
 import React from 'react';
 import { RefreshCw, X } from 'lucide-react';
 import SoundManager from '../../services/soundManager';
+import { getAvatarColor, getAvatarSrc } from '../../services/gameConstants';
 
 export const RejoinRoomModal = ({ isOpen, roomCode, playerName, avatar, onConfirm, onDismiss }) => {
   return (
@@ -27,8 +28,8 @@ export const RejoinRoomModal = ({ isOpen, roomCode, playerName, avatar, onConfir
 
         <div style={{ background: '#fafaf4', border: '3px solid #1a1a1a', borderRadius: '12px', padding: '14px', marginBottom: '16px', boxShadow: '4px 4px 0 #1a1a1a', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div id="rejoinAvatarContainer" style={{ width: '52px', height: '52px', borderRadius: '50%', border: '3px solid #1a1a1a', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FF6B9D' }}>
-              <img id="rejoinAvatarImg" src={`/avvtar/${avatar || 'aman'}.svg`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Avatar" />
+            <div id="rejoinAvatarContainer" style={{ width: '52px', height: '52px', borderRadius: '12px', border: '3px solid #1a1a1a', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', background: getAvatarColor(avatar), '--avatar-bg': getAvatarColor(avatar) }}>
+              <img id="rejoinAvatarImg" src={getAvatarSrc(avatar, 'aman')} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="Avatar" />
             </div>
             <div style={{ textAlign: 'left' }}>
               <div id="rejoinPlayerName" style={{ fontSize: '16px', fontWeight: 900, color: '#1a1a1a', textTransform: 'uppercase' }}>{playerName || 'AMAN'}</div>

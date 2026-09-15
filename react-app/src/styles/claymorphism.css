@@ -5805,7 +5805,7 @@
       border-radius: 10px !important;
       border: 3.5px solid var(--nb-ink, #1a1a1a) !important;
       box-shadow: 6px 6px 0 var(--nb-ink, #1a1a1a) !important;
-      background: #fff !important;
+      background: var(--avatar-bg, #fff) !important;
       cursor: pointer !important;
       display: grid !important;
       place-items: center !important;
@@ -6139,7 +6139,7 @@
       min-width: 32px !important;
       border: 1.8px solid var(--nb-ink, #1a1a1a) !important;
       border-radius: 10px !important;
-      background: #fff !important;
+      background: var(--avatar-bg, #fff) !important;
       position: relative !important;
       overflow: hidden !important;
       flex-shrink: 0 !important;
@@ -7849,7 +7849,7 @@
       border-radius: 10px !important;
       position: relative !important;
       overflow: hidden !important;
-      background: #fff !important;
+      background: var(--avatar-bg, #fff) !important;
       box-sizing: border-box !important;
       flex-shrink: 0 !important;
       display: flex !important;
@@ -7980,7 +7980,7 @@
       border-radius: 10px !important;
       position: relative !important;
       overflow: hidden !important;
-      background: #fff !important;
+      background: var(--avatar-bg, #fff) !important;
       box-sizing: border-box !important;
       transform: translateZ(0) !important;
       -webkit-transform: translateZ(0) !important;
