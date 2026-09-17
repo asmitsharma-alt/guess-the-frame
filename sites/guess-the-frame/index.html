@@ -8,12 +8,48 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%AC%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Anybody:wght@800;900&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&family=JetBrains+Mono:wght@500;700&family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;0,9..40,800;0,9..40,900;1,9..40,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
   <link rel="preload" as="image" href="bg/guess_the_frame.webp" type="image/webp" fetchpriority="high">
   <link rel="preload" as="image" href="bg/cinema_bg.webp" type="image/webp">
-  <title>Guess The Frame By Asmit</title>
-  <meta name="description" content="Guess The Frame - The Ultimate Movie Frame Guessing Party Game by Asmit. Gather your crew and guess iconic cinema frames!">
+  <title>Scoopcast: Guess The Frame - Online Movie Frame Guessing Game</title>
+  <meta name="description" content="Play Scoopcast Guess The Frame - The ultimate multiplayer movie frame trivia party game. Challenge your friends in real-time to guess iconic cinema frames!">
+  <meta name="keywords" content="scoopcast, guess the frame, movie trivia, film frame guessing game, cinema party game, scoopcast live, asmit">
+  <link rel="canonical" href="https://www.scoopcast-live.in/">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.scoopcast-live.in/">
+  <meta property="og:site_name" content="Scoopcast">
+  <meta property="og:title" content="Scoopcast: Guess The Frame - Online Movie Frame Game">
+  <meta property="og:description" content="Gather your friends and guess iconic cinema frames in real-time on Scoopcast!">
+  <meta property="og:image" content="https://www.scoopcast-live.in/bg/guess_the_frame.webp">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Scoopcast: Guess The Frame">
+  <meta name="twitter:description" content="Real-time multiplayer movie frame guessing party game.">
+  <meta name="twitter:image" content="https://www.scoopcast-live.in/bg/guess_the_frame.webp">
+
+  <!-- JSON-LD Structured Data Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Scoopcast: Guess The Frame",
+    "alternateName": ["Scoopcast", "Guess The Frame", "Scoopcast Live"],
+    "url": "https://www.scoopcast-live.in/",
+    "applicationCategory": "GameApplication",
+    "genre": "Trivia",
+    "operatingSystem": "All",
+    "browserRequirements": "Requires JavaScript. Requires HTML5.",
+    "description": "Multiplayer cinema frame trivia party game created by Asmit. Guess iconic movie scenes in real-time.",
+    "author": {
+      "@type": "Person",
+      "name": "Asmit"
+    }
+  }
+  </script>
   <link rel="stylesheet" href="css/tailwind.min.css">
 <style>
     * {
@@ -1598,16 +1634,8 @@
       color: var(--gold);
     }
 
-    .judge-badge {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      padding: 4px 11px;
-      background: linear-gradient(135deg, rgba(255, 215, 0, .2), rgba(255, 170, 0, .1));
-      border: 1px solid rgba(255, 215, 0, .3);
-      border-radius: 18px;
-      font-size: clamp(10px, 1.3vw, 12px);
-      transition: all .3s;
+    .judge-badge, #judgeBadge {
+      display: none !important;
     }
 
     .judge-badge.jp {
@@ -2231,11 +2259,8 @@
       text-align: right;
     }
 
-    .lb-score-tools {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      flex-shrink: 0;
+    .lb-score-tools, .score-controls, .lb-score-btn {
+      display: none !important;
     }
 
     .lb-score-btn {
@@ -5408,7 +5433,9 @@
        ESPORTS CINEMA ARENA — PRODUCTION-GRADE NEOBRUTALISM
        ══════════════════════════════════════════════════════════════ */
     #gameScreen {
-      background: var(--nb-bg, #FFFDF5) !important;
+      background: #ffffff !important;
+      background-color: #ffffff !important;
+      background-image: none !important;
       color: var(--nb-ink, #1a1a1a) !important;
       padding: 0 !important;
       overflow: hidden !important;
@@ -5706,6 +5733,106 @@
       font-family: 'DM Sans', sans-serif !important;
       font-weight: 700 !important;
       font-size: 14px !important;
+    }
+
+    /* ════ EYE SECTION SPECIFIC REVEAL STYLES: FULL IMAGE + BOTTOM ANSWER ════ */
+    #gameScreen .answer-overlay.eye-answer,
+    #frameDisplay .answer-overlay.eye-answer {
+      justify-content: flex-end !important;
+      align-items: center !important;
+      padding: 10px 16px 20px 16px !important;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.45) 75%, rgba(0, 0, 0, 0.88) 100%) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      pointer-events: none !important;
+    }
+
+    #gameScreen .answer-overlay.eye-answer .ans-card,
+    #frameDisplay .answer-overlay.eye-answer .ans-card {
+      margin-top: auto !important;
+      margin-bottom: 0 !important;
+      width: 100% !important;
+      max-width: min(94%, 560px) !important;
+      background: rgba(255, 253, 245, 0.96) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+      border: 3.5px solid var(--nb-ink, #1a1a1a) !important;
+      box-shadow: 6px 6px 0 var(--nb-ink, #1a1a1a) !important;
+      border-radius: 16px !important;
+      padding: 14px 20px 16px 20px !important;
+      gap: 6px !important;
+      pointer-events: auto !important;
+      animation: eyeCardSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+      z-index: 105 !important;
+    }
+
+    #gameScreen .answer-overlay.eye-answer .ans-year,
+    #frameDisplay .answer-overlay.eye-answer .ans-year {
+      display: none !important;
+    }
+
+    #gameScreen .answer-overlay.eye-answer .ans-divider,
+    #frameDisplay .answer-overlay.eye-answer .ans-divider {
+      display: none !important;
+    }
+
+    #gameScreen .answer-overlay.eye-answer .ans-title,
+    #frameDisplay .answer-overlay.eye-answer .ans-title {
+      font-size: clamp(22px, 4.2vw, 34px) !important;
+      line-height: 1.15 !important;
+      letter-spacing: 0.5px !important;
+      margin: 2px 0 !important;
+    }
+
+    #gameScreen .answer-overlay.eye-answer .ans-dialogue,
+    #frameDisplay .answer-overlay.eye-answer .ans-dialogue {
+      margin: 2px 0 !important;
+      padding: 6px 12px !important;
+    }
+
+    #gameScreen .answer-overlay.eye-answer .ans-action-bar,
+    #frameDisplay .answer-overlay.eye-answer .ans-action-bar {
+      margin-top: 8px !important;
+    }
+
+    #gameScreen .answer-overlay.eye-answer .ans-next-round-btn,
+    #frameDisplay .answer-overlay.eye-answer .ans-next-round-btn {
+      padding: 8px 24px !important;
+      font-size: 13.5px !important;
+    }
+
+    /* Full reveal photo: 100% visible, centered, unblocked and crisp */
+    .frame-image.eye-full-reveal,
+    #gameScreen .frame-image.eye-full-reveal {
+      position: absolute !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100% !important;
+      max-height: 100% !important;
+      object-fit: contain !important;
+      z-index: 4 !important;
+      opacity: 0;
+      transform: scale(1.02);
+      filter: none !important;
+      transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .frame-image.eye-full-reveal.visible,
+    #gameScreen .frame-image.eye-full-reveal.visible {
+      opacity: 1 !important;
+      transform: scale(1) !important;
+    }
+
+    @keyframes eyeCardSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
     }
 
     /* ── SCORING OVERLAY (1.5X SCALE) ── */
@@ -9163,7 +9290,9 @@
       padding: 10px 14px !important;
       box-sizing: border-box !important;
       overflow: hidden !important;
-      background: transparent !important;
+      background: #ffffff !important;
+      background-color: #ffffff !important;
+      background-image: none !important;
       position: fixed !important;
       inset: 0 !important;
     }
@@ -9171,6 +9300,25 @@
       display: flex !important;
       flex-direction: row !important;
       align-items: stretch !important;
+      background: #ffffff !important;
+      background-color: #ffffff !important;
+      background-image: none !important;
+    }
+
+    /* ONLY GAME PAGE BACKGROUND TO FULL WHITE */
+    body.in-game-screen,
+    body:has(#gameScreen.active) {
+      background: #ffffff !important;
+      background-color: #ffffff !important;
+      background-image: none !important;
+    }
+    body.in-game-screen #bgBackdrop,
+    body.in-game-screen #bgFocusScrim,
+    body:has(#gameScreen.active) #bgBackdrop,
+    body:has(#gameScreen.active) #bgFocusScrim {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
     }
 
     /* TOP HEADER BAR (FULL WIDTH ROW 1) */
@@ -11849,29 +11997,9 @@
     }
   
     /* ════ HOW TO ANSWER GUIDE SCREEN (NEOBRUTAL ARCADE HOW TO PLAY) ════ */
-    #howToAnswerScreen {
-      display: none;
-      width: 100%;
-      min-height: 100vh;
-      height: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 99990;
-      background: radial-gradient(circle at 50% 35%, rgba(20, 15, 35, 0.88) 0%, rgba(8, 6, 15, 0.96) 100%) !important;
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      padding: 16px;
-      box-sizing: border-box;
-      justify-content: center;
-      align-items: center;
-    }
+    #howToAnswerScreen,
     #howToAnswerScreen.active {
-      display: flex !important;
+      display: none !important;
     }
     .hta-modal-card {
       background: #ffffff !important;
@@ -12580,9 +12708,9 @@
       </div>
 
       <!-- Hero Logo Image -->
-      <div class="h-hero">
+      <h1 class="h-hero m-0 p-0 leading-none">
         <img src="bg/guess_the_frame.webp" alt="Guess The Frame by Asmit" class="h-logo-img" decoding="async" fetchpriority="high" loading="eager" />
-      </div>
+      </h1>
 
       <!-- Action cards for Online Multiplayer & Local -->
       <div class="h-cards-multiplayer">
@@ -12595,14 +12723,6 @@
         <div class="h-card-mp h-card-local" onclick="showHowToPlay()" style="display: none !important;" aria-hidden="true">
           <div class="h-card-title-lg">🎬 PLAY OFFLINE</div>
         </div>
-      </div>
-      <div style="margin-top: 12px; display: flex; justify-content: center;">
-        <button class="h-card h-card-resume" id="homeResumeBtn" onclick="GameController.resumeGame()" style="display:none">
-          <div class="h-card-body">
-            <div class="h-card-title">↻ Resume Game</div>
-            <div class="h-card-desc" id="resumeMeta">In progress</div>
-          </div>
-        </button>
       </div>
 
       <!-- Bottom caption -->
@@ -12733,7 +12853,7 @@
           </button>
           
           <button type="button" class="mp-btn-secondary" onclick="MultiplayerEngine.dismissRejoinAndStartNew()" style="background: #ffffff; border: 2px solid #1a1a1a; font-size: 12px; padding: 10px; width: 100%; font-weight: 800; cursor: pointer; text-transform: uppercase; box-shadow: 2px 2px 0 #1a1a1a;">
-            Join As New / Different Room
+            Start Fresh / New Game
           </button>
         </div>
       </div>
@@ -12748,11 +12868,11 @@
         </div>
         <div id="qrcodeCanvasContainer" style="display:flex; justify-content:center; padding:16px; background:#fff; border-radius:12px; border:2px solid #1a1a1a; margin-bottom:16px;"></div>
         <div style="font-size:16px; font-weight:800; color:#1a1a1a;">Room Code: <span id="qrRoomCodeText" style="font-size:22px; font-weight:900; background:#FFF9DB; padding:2px 8px; border-radius:6px; border:2px solid #1a1a1a;"></span></div>
-        <button class="mp-btn-primary" onclick="MultiplayerEngine.copyRoomLink()" style="margin-top:14px;">📋 COPY INVITE LINK</button>
+        <button class="mp-btn-primary" onclick="MultiplayerEngine.copyRoomLink(this)" style="margin-top:14px;">📋 COPY INVITE LINK</button>
       </div>
     </div>
 
-    <div id="playerLobbyScreen" class="screen flex flex-col font-sans text-on-surface p-4 md:p-6 h-screen max-h-screen overflow-hidden justify-center items-center bg-transparent" style="background: transparent !important;">
+    <div id="playerLobbyScreen" class="screen flex flex-col font-sans text-on-surface p-4 md:p-6 h-screen max-h-screen overflow-hidden justify-center items-center bg-transparent" style="background: rgba(255, 253, 245, 0.4) !important; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
       
 
       <main class="max-w-[1200px] mx-auto px-4 md:px-6 flex flex-col gap-6 w-full">
@@ -12761,7 +12881,7 @@
           <div class="flex items-center gap-6 flex-1 w-full md:w-auto">
             <div class="bg-neo-yellow border-4 border-on-surface p-4 flex flex-col items-center justify-center relative transform rotate-1 neo-shadow w-full md:w-auto min-w-[250px]">
               <span class="font-label-sm text-label-sm uppercase absolute top-2 left-2 font-bold">Room Code</span>
-              <h2 class="font-headline-xl text-4xl font-black uppercase tracking-wider mt-4" id="displayRoomCode">6WDY</h2>
+              <h2 class="font-headline-xl text-4xl font-black uppercase tracking-wider mt-4" id="displayRoomCode">----</h2>
               <div class="absolute top-0 left-0 w-2 h-2 border-r-2 border-b-2 border-on-surface"></div>
               <div class="absolute top-0 right-0 w-2 h-2 border-l-2 border-b-2 border-on-surface"></div>
               <div class="absolute bottom-0 left-0 w-2 h-2 border-r-2 border-t-2 border-on-surface"></div>
@@ -12770,13 +12890,9 @@
             <span class="material-symbols-outlined text-4xl hidden md:block text-neo-yellow">bolt</span>
           </div>
           <div class="flex items-center gap-4 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
-            <button type="button" class="bg-primary-container border-2 border-on-surface px-4 py-3 font-label-bold text-label-bold uppercase flex items-center gap-2 neo-shadow-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all whitespace-nowrap cursor-pointer font-bold" onclick="MultiplayerEngine.copyRoomLink()">
+            <button type="button" id="copyLinkBtn" class="bg-primary-container border-2 border-on-surface px-4 py-3 font-label-bold text-label-bold uppercase flex items-center gap-2 neo-shadow-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all whitespace-nowrap cursor-pointer font-bold" onclick="MultiplayerEngine.copyRoomLink(this)">
               <span class="material-symbols-outlined">content_copy</span>
               Copy Link
-            </button>
-            <button type="button" class="bg-surface border-2 border-on-surface px-4 py-3 font-label-bold text-label-bold uppercase flex items-center gap-2 neo-shadow-sm hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] transition-all whitespace-nowrap cursor-pointer font-bold" onclick="MultiplayerEngine.showQrCode()">
-              <span class="material-symbols-outlined">qr_code_2</span>
-              QR Code
             </button>
             <div class="h-8 border-r-2 border-dashed border-outline hidden md:block"></div>
             <div class="bg-neo-green border-2 border-on-surface px-4 py-2 flex items-center gap-2 font-label-bold text-label-bold uppercase whitespace-nowrap font-bold" id="lobbyConnectionStatus">
@@ -12792,9 +12908,9 @@
         <!-- Main 2-Column Grid Layout -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
           <!-- Left Column (Span 2) -->
-          <div class="md:col-span-2 flex flex-col gap-6">
+          <div class="md:col-span-2 flex flex-col gap-6 h-full justify-between">
             <!-- Player Lobby Section -->
-            <section class="bg-surface border-4 border-on-surface shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col rounded-xl overflow-hidden">
+            <section class="bg-surface border-4 border-on-surface shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col rounded-xl overflow-hidden shrink-0">
               <div class="bg-neo-purple border-b-4 border-on-surface p-3 flex justify-between items-center">
                 <h3 class="font-headline-sm text-headline-sm uppercase text-on-surface flex items-center gap-2 font-black">
                   <span class="material-symbols-outlined">group</span>
@@ -12810,10 +12926,10 @@
             </section>
 
             <!-- Match Preparation Section -->
-            <section class="bg-surface border-4 border-on-surface shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col rounded-xl overflow-hidden">
+            <section class="bg-surface border-4 border-on-surface shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between rounded-xl overflow-hidden flex-1">
               <div class="bg-neo-blue border-b-4 border-on-surface p-3 flex items-center">
-                <h3 class="font-headline-sm text-headline-sm uppercase text-on-surface flex items-center gap-2 font-black">
-                  <span class="material-symbols-outlined">movie</span>
+                <h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2 font-black">
+                  <span class="material-symbols-outlined" aria-hidden="true">movie</span>
                   Match Preparation
                 </h3>
               </div>
@@ -12830,8 +12946,8 @@
                 <div class="flex-1 w-full flex flex-col gap-3">
                   <div class="flex justify-between items-end">
                     <div>
-                      <h4 class="font-headline-md text-2xl font-black uppercase" id="loadTitleText">Match Ready!</h4>
-                      <p class="font-label-sm text-label-sm text-outline uppercase font-bold" id="loadSubtitleText">All Assets Loaded &amp; Ready</p>
+                      <h4 class="font-headline-md text-2xl font-black text-on-surface" id="loadTitleText">Match Ready!</h4>
+                      <p class="font-label-sm text-label-sm text-outline font-medium" id="loadSubtitleText">All Assets Loaded &amp; Ready</p>
                     </div>
                     <div class="bg-neo-yellow border-2 border-on-surface px-2 py-1 font-mono font-bold text-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" id="loadPercent">100%</div>
                   </div>
@@ -12841,10 +12957,10 @@
                       <div class="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.2)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0.2)_75%,transparent_75%,transparent)] bg-[length:1rem_1rem]"></div>
                     </div>
                   </div>
-                  <div class="flex gap-4 font-label-bold text-[11px] uppercase font-bold overflow-x-auto text-on-surface">
-                    <span class="flex items-center gap-1" id="prepStatusFrames"><span class="material-symbols-outlined fill text-neo-green text-sm">check_box</span> Movie Frames Loaded</span>
-                    <span class="flex items-center gap-1"><span class="material-symbols-outlined fill text-neo-green text-sm">check_box</span> Player Connections Stable</span>
-                    <span class="flex items-center gap-1"><span class="material-symbols-outlined fill text-neo-green text-sm">check_box</span> Game Data Synchronized</span>
+                  <div class="flex gap-4 font-label-bold text-xs font-semibold overflow-x-auto text-on-surface">
+                    <span class="flex items-center gap-1" id="prepStatusFrames"><span class="material-symbols-outlined fill text-neo-green text-sm" aria-hidden="true">check_box</span> Movie Frames Loaded</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined fill text-neo-green text-sm" aria-hidden="true">check_box</span> Player Connections Stable</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined fill text-neo-green text-sm" aria-hidden="true">check_box</span> Game Data Synchronized</span>
                   </div>
                 </div>
               </div>
@@ -12861,7 +12977,7 @@
                   <span class="material-symbols-outlined font-black">tune</span>
                   Match Configuration
                 </h3>
-                <span class="bg-surface border-2 border-on-surface px-2.5 py-1 font-label-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-black" id="gameSettingsTotalBadge">10 Rounds</span>
+                <span class="bg-surface border-2 border-on-surface px-2.5 py-1 font-label-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-black" id="gameSettingsTotalBadge">40 Rounds</span>
               </div>
 
               <div class="p-5 flex flex-col justify-between flex-1 gap-4">
@@ -12874,15 +12990,22 @@
                     </span>
                     <span class="font-label-sm text-[10px] text-outline uppercase font-bold">Active Mode</span>
                   </div>
-                  <div class="flex gap-2.5" id="categoryModeBadges">
+                  <div class="grid grid-cols-3 gap-2.5" id="categoryModeBadges">
                     <!-- Frames Badge -->
-                    <button type="button" id="modeBadge-frames" class="w-full mode-badge border-2 border-on-surface py-2.5 px-3 rounded-xl font-label-bold text-xs uppercase flex items-center justify-center gap-2 neo-shadow-sm transition-all cursor-default font-black select-none" style="background-color: #cae6ff;">
+                    <button type="button" id="modeBadge-frames" onclick="PlayerLobby.toggleMode('frames')" class="mode-badge border-2 border-on-surface py-2.5 px-2 rounded-xl font-label-bold text-xs uppercase flex items-center justify-center gap-1.5 neo-shadow-sm active:translate-y-[1px] transition-all cursor-pointer font-black select-none" style="background-color: #cae6ff;">
                       <span class="material-symbols-outlined text-base">panorama</span>
-                      <span>Movie Frames (20 Movies In Pool)</span>
+                      <span>Frames</span>
                     </button>
-                    <!-- Eyes & Dialogue hidden for current rotation -->
-                    <button type="button" id="modeBadge-eyes" style="display: none;"></button>
-                    <button type="button" id="modeBadge-dialogue" style="display: none;"></button>
+                    <!-- Eyes Badge -->
+                    <button type="button" id="modeBadge-eyes" onclick="PlayerLobby.toggleMode('eyes')" class="mode-badge border-2 border-on-surface py-2.5 px-2 rounded-xl font-label-bold text-xs uppercase flex items-center justify-center gap-1.5 neo-shadow-sm active:translate-y-[1px] transition-all cursor-pointer font-black select-none" style="background-color: #86EFAC;">
+                      <span class="material-symbols-outlined text-base">visibility</span>
+                      <span>Eyes</span>
+                    </button>
+                    <!-- Dialogue Badge -->
+                    <button type="button" id="modeBadge-dialogue" onclick="PlayerLobby.toggleMode('dialogue')" class="mode-badge border-2 border-on-surface py-2.5 px-2 rounded-xl font-label-bold text-xs uppercase flex items-center justify-center gap-1.5 neo-shadow-sm active:translate-y-[1px] transition-all cursor-pointer font-black select-none" style="background-color: #FEF08A;">
+                      <span class="material-symbols-outlined text-base">chat</span>
+                      <span>Dialogue</span>
+                    </button>
                   </div>
                 </div>
 
@@ -12892,32 +13015,65 @@
                 <div class="flex-1 flex flex-col justify-between my-1">
                   <div class="flex items-center justify-between mb-2">
                     <span class="font-label-bold text-xs uppercase tracking-wider text-on-surface flex items-center gap-1.5 font-bold">
-                      <span class="material-symbols-outlined text-base text-neo-purple">grid_view</span> Match Rounds
+                      <span class="material-symbols-outlined text-base text-neo-purple">grid_view</span> Rounds by Mode
                     </span>
-                    <span class="font-label-sm text-[10px] text-outline uppercase font-bold">1 to 20 Rounds</span>
+                    <span class="font-label-sm text-[10px] text-outline uppercase font-bold">20 Frames • 10 Eyes • 10 Dialogue</span>
                   </div>
 
-                  <div class="flex-1 flex flex-col items-stretch">
+                  <div class="grid grid-cols-3 gap-2.5 flex-1 items-stretch">
                     <!-- Frames Stepper Card -->
-                    <div id="modeCard-frames" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-4 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden h-full" style="border-top: 4px solid #3b82f6;">
-                      <div class="flex items-center justify-between mb-2 pb-2 border-b-2 border-outline/20">
-                        <span class="font-label-bold text-xs uppercase font-black text-on-surface flex items-center gap-1.5">
-                          <span class="material-symbols-outlined text-base text-[#3b82f6]">panorama</span> Movie Frame Rounds
+                    <div id="modeCard-frames" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-3 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden h-full" style="border-top: 4px solid #3b82f6;">
+                      <div class="flex items-center justify-between mb-1.5 pb-1.5 border-b-2 border-outline/20 cursor-pointer" onclick="PlayerLobby.toggleMode('frames')">
+                        <span class="font-label-bold text-xs uppercase font-black text-on-surface flex items-center gap-1">
+                          <span class="material-symbols-outlined text-sm">panorama</span> Frame
                         </span>
                         <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface" id="modeStatusDot-frames"></span>
                       </div>
                       <div class="flex flex-col items-center justify-center py-4 flex-1">
-                        <span class="font-headline-xl text-5xl font-black text-on-surface leading-none" id="hostFramesRoundsBtn">10</span>
-                        <span class="text-[10px] font-label-bold uppercase text-outline mt-2 tracking-wider font-black">Total Rounds</span>
+                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostFramesRoundsBtn">20</span>
+                        <span class="text-[9px] font-label-bold uppercase text-outline mt-1.5 tracking-wider font-black">Rounds</span>
                       </div>
-                      <div class="grid grid-cols-2 gap-2 mt-auto pt-2.5 border-t-2 border-dashed border-outline/20">
-                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', -1)" class="w-full bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-lg py-2 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Decrease Rounds">−</button>
-                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', 1)" class="w-full bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-lg py-2 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Increase Rounds">+</button>
+                      <div class="grid grid-cols-2 gap-1.5 mt-auto pt-2 border-t-2 border-dashed border-outline/20">
+                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', -1)" class="w-full bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Decrease Frame Rounds">−</button>
+                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', 1)" class="w-full bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Increase Frame Rounds">+</button>
                       </div>
                     </div>
-                    <!-- Hidden elements to preserve ID bindings -->
-                    <div id="modeCard-eyes" style="display: none;"><span id="hostEyesRoundsBtn">0</span><span id="modeStatusDot-eyes"></span></div>
-                    <div id="modeCard-dialogue" style="display: none;"><span id="hostDialogueRoundsBtn">0</span><span id="modeStatusDot-dialogue"></span></div>
+
+                    <!-- Eyes Stepper Card -->
+                    <div id="modeCard-eyes" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-3 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden h-full" style="border-top: 4px solid #22c55e;">
+                      <div class="flex items-center justify-between mb-1.5 pb-1.5 border-b-2 border-outline/20 cursor-pointer" onclick="PlayerLobby.toggleMode('eyes')">
+                        <span class="font-label-bold text-xs uppercase font-black text-on-surface flex items-center gap-1">
+                          <span class="material-symbols-outlined text-sm">visibility</span> Eyes
+                        </span>
+                        <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface" id="modeStatusDot-eyes"></span>
+                      </div>
+                      <div class="flex flex-col items-center justify-center py-4 flex-1">
+                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostEyesRoundsBtn">10</span>
+                        <span class="text-[9px] font-label-bold uppercase text-outline mt-1.5 tracking-wider font-black">Rounds</span>
+                      </div>
+                      <div class="grid grid-cols-2 gap-1.5 mt-auto pt-2 border-t-2 border-dashed border-outline/20">
+                        <button type="button" onclick="PlayerLobby.adjustRounds('eyes', -1)" class="w-full bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Decrease Eyes Rounds">−</button>
+                        <button type="button" onclick="PlayerLobby.adjustRounds('eyes', 1)" class="w-full bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Increase Eyes Rounds">+</button>
+                      </div>
+                    </div>
+
+                    <!-- Dialogue Stepper Card -->
+                    <div id="modeCard-dialogue" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-3 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden h-full" style="border-top: 4px solid #eab308;">
+                      <div class="flex items-center justify-between mb-1.5 pb-1.5 border-b-2 border-outline/20 cursor-pointer" onclick="PlayerLobby.toggleMode('dialogue')">
+                        <span class="font-label-bold text-xs uppercase font-black text-on-surface flex items-center gap-1">
+                          <span class="material-symbols-outlined text-sm">chat</span> Dialogue
+                        </span>
+                        <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface" id="modeStatusDot-dialogue"></span>
+                      </div>
+                      <div class="flex flex-col items-center justify-center py-4 flex-1">
+                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostDialogueRoundsBtn">10</span>
+                        <span class="text-[9px] font-label-bold uppercase text-outline mt-1.5 tracking-wider font-black">Rounds</span>
+                      </div>
+                      <div class="grid grid-cols-2 gap-1.5 mt-auto pt-2 border-t-2 border-dashed border-outline/20">
+                        <button type="button" onclick="PlayerLobby.adjustRounds('dialogue', -1)" class="w-full bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Decrease Dialogue Rounds">−</button>
+                        <button type="button" onclick="PlayerLobby.adjustRounds('dialogue', 1)" class="w-full bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Increase Dialogue Rounds">+</button>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -12933,11 +13089,11 @@
                     <span class="font-label-sm text-[10px] text-outline uppercase font-bold">Per movie frame</span>
                   </div>
                   <div class="flex items-center bg-primary-container border-2 border-on-surface rounded-lg p-1.5 neo-shadow-sm">
-                    <button type="button" onclick="PlayerLobby.adjustTimer(-15)" class="w-8 h-8 bg-surface hover:bg-surface-variant border-2 border-on-surface font-black text-sm flex items-center justify-center rounded-lg cursor-pointer active:translate-y-[1px] transition-all shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]" title="Decrease Timer">−</button>
+                    <button type="button" onclick="PlayerLobby.adjustTimer(-1)" class="w-8 h-8 bg-surface hover:bg-surface-variant border-2 border-on-surface font-black text-sm flex items-center justify-center rounded-lg cursor-pointer active:translate-y-[1px] transition-all shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]" title="Decrease Timer">−</button>
                     <div class="px-3.5 font-headline-sm text-base uppercase font-black tracking-wide text-on-surface min-w-[55px] text-center" id="hostTimerBtn">
                       <span id="hostTimerBtnText">30s</span>
                     </div>
-                    <button type="button" onclick="PlayerLobby.adjustTimer(15)" class="w-8 h-8 bg-surface hover:bg-surface-variant border-2 border-on-surface font-black text-sm flex items-center justify-center rounded-lg cursor-pointer active:translate-y-[1px] transition-all shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]" title="Increase Timer">+</button>
+                    <button type="button" onclick="PlayerLobby.adjustTimer(1)" class="w-8 h-8 bg-surface hover:bg-surface-variant border-2 border-on-surface font-black text-sm flex items-center justify-center rounded-lg cursor-pointer active:translate-y-[1px] transition-all shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]" title="Increase Timer">+</button>
                   </div>
                 </div>
 
@@ -13231,19 +13387,12 @@
               <img class="header-logo-img" src="logo.png" alt="ScoopCast">
             </div>
 
-            <!-- PROGRESS & JUDGE BADGES -->
+            <!-- PROGRESS BADGES -->
             <div class="game-progress">
               <div class="sec-badge"><span id="curSecIcon"><svg class="svg-icon">
                     <use href="#icon-clapperboard" />
                   </svg></span><span id="curSecName">Guess the Frame</span></div>
               <div class="round-info" id="roundInfo">Round 1 / 10</div>
-              <div class="judge-badge" id="judgeBadge">
-                <span><svg class="svg-icon">
-                    <use href="#icon-gavel" />
-                  </svg></span>
-                <span class="jname" id="curJudge">-</span>
-                <span class="jrounds" id="judgeRoundsLeft">3 left</span>
-              </div>
             </div>
           </header>
 
@@ -13276,7 +13425,7 @@
           <!-- Answer Overlay -->
           <div class="answer-overlay" id="answerOverlay">
             <div class="ans-card">
-              <div class="ans-badge">Answer</div>
+              <div class="ans-badge" id="ansBadge">Answer</div>
               <div class="ans-year" id="ansYear"></div>
               <div class="ans-divider"></div>
               <div class="ans-title" id="ansTitle"></div>
@@ -13536,7 +13685,7 @@
               <span>MESSAGE</span>
             </div>
             <p class="cw-info-text">
-              Umeed hai aap sabko game pasand aaya hoga. Agar aapko koi feedback ho, to humein zaroor batayein. Hum aapke suggestions se aur bhi behtar anubhav banane ki koshish karenge. Koi bhi problem ho to Super Chat ya email se zaroor batayein.<br>
+              Umeed hai ki aapko yeh khel pasand aaya hoga. Agar koi sujhav ya pratikriya ho toh humein zaroor batayega. Phir milte hain agle hafte ek naye anubhav ke saath. <br>
               <span class="cw-info-closing">Dhanyavaad! 🙌</span>
             </p>
           </div>
@@ -13650,12 +13799,12 @@
       <div class="cw-credits-pill-bar">
         <div class="cw-credit-item">
           <span class="cw-credit-badge">FRAMES BY</span>
-          <span class="cw-credit-names" id="creatorMsg">tammayr, Tanuj, Darshan, Akash, Anmol &amp; smoo crew</span>
+          <span class="cw-credit-names" id="creatorMsg">tanmay, Tanuj, Darshan, Akash, Anmol (timestamp guy) and members of smoc.</span>
         </div>
         <div class="cw-credit-divider" aria-hidden="true">•</div>
         <div class="cw-credit-item">
           <span class="cw-credit-badge credit-badge-blue">WEBSITE BY</span>
-          <span class="cw-credit-names">Built with ❤️ by Asmit</span>
+          <span class="cw-credit-names">Asmit </span>
         </div>
       </div>
 
@@ -13762,7 +13911,7 @@
                   <use href="#icon-image" />
                 </svg> Frames By</h3>
               <div class="input-group"><textarea id="cfgMsg"
-                   placeholder="Enter names...">tanmayy, Tanuj, Darshan, Akash, Anmol and members of smoc.</textarea>
+                   placeholder="Enter names...">tanmay, Tanuj, Darshan, Akash, Anmol (timestamp guy) and members of smoc.</textarea>
               </div>
             </div>
             <div class="admin-section full-width">
@@ -13973,10 +14122,14 @@
 
       validateIncomingMessage(msg, currentRoomCode, players = [], isLocalHost = false) {
         if (!msg || typeof msg !== 'object') return false;
-        if (msg.roomCode !== currentRoomCode) return false;
+        const msgCode = String(msg.roomCode || '').trim().toUpperCase();
+        const expectedCode = String(currentRoomCode || '').trim().toUpperCase();
+        if (msgCode !== expectedCode) return false;
 
-        // Timestamp drift check (replay attack protection: max 60s)
-        if (msg.timestamp && Math.abs(Date.now() - msg.timestamp) > 60000) {
+        // Timestamp drift check (replay attack protection: 60s for game/chat, 5min for join/sync handshakes)
+        const isJoinHandshake = msg.type === 'PLAYER_JOIN' || msg.type === 'SYNC_ROOM_STATE';
+        const maxDrift = isJoinHandshake ? 300000 : 60000;
+        if (msg.timestamp && Math.abs(Date.now() - msg.timestamp) > maxDrift) {
           console.warn('[NetworkSecurity] Dropped stale/replay message from sender:', msg.senderId);
           return false;
         }
@@ -14004,10 +14157,14 @@
         ];
 
         if (HOST_COMMANDS.includes(msg.type)) {
-          const registeredHost = (players || []).find(p => p.isHost);
-          if (registeredHost && msg.senderId !== registeredHost.id) {
-            console.warn('[NetworkSecurity] BLOCKED unauthorized host command:', msg.type, 'from non-host:', msg.senderId);
-            return false;
+          const isRejoining = typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.isRejoining;
+          const isJoining = typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.isJoining;
+          if (!isRejoining && !isJoining && msg.type !== 'SYNC_ROOM_STATE') {
+            const registeredHost = (players || []).find(p => p.isHost);
+            if (registeredHost && msg.senderId !== registeredHost.id) {
+              console.warn('[NetworkSecurity] BLOCKED unauthorized host command:', msg.type, 'from non-host:', msg.senderId);
+              return false;
+            }
           }
         }
 
@@ -14036,6 +14193,190 @@
       }
     };
 
+    /* ═══ PRODUCTION APPWRITE BACKEND SERVICE ═══ */
+    const AppwriteService = {
+      ENDPOINT: 'https://sgp.cloud.appwrite.io/v1',
+      PROJECT_ID: '6a95a01e0028db20a16f',
+      DATABASE_ID: 'guess_the_frame',
+      COLLECTIONS: {
+        ROOMS: 'rooms',
+        PLAYERS: 'players',
+        GAME_STATE: 'game_state',
+        MATCH_HISTORY: 'match_history'
+      },
+      client: null,
+      account: null,
+      databases: null,
+      isInitialized: false,
+      user: null,
+      realtimeSubscription: null,
+
+      async init() {
+        if (this.isInitialized) return true;
+        if (typeof Appwrite === 'undefined') {
+          console.warn('[Appwrite] SDK not loaded; running in fallback mode.');
+          return false;
+        }
+        try {
+          this.client = new Appwrite.Client()
+            .setEndpoint(this.ENDPOINT)
+            .setProject(this.PROJECT_ID);
+          this.account = new Appwrite.Account(this.client);
+          this.databases = new Appwrite.Databases(this.client);
+
+          // Establish or retrieve anonymous user session
+          try {
+            this.user = await this.account.get();
+          } catch(e) {
+            this.user = await this.account.createAnonymousSession();
+          }
+          this.isInitialized = true;
+          console.log('[Appwrite] Session established:', this.user.userId || this.user.$id);
+          return true;
+        } catch(err) {
+          console.warn('[Appwrite] Connection notice:', err.message);
+          return false;
+        }
+      },
+
+      async createRoom(roomCode, hostPlayer, hostSettings = {}) {
+        if (!await this.init()) return null;
+        const roomId = 'room_' + roomCode;
+        try {
+          const doc = {
+            roomId: roomId,
+            roomCode: roomCode,
+            hostId: hostPlayer.id || 'p_host',
+            status: 'lobby',
+            currentSection: 'frames',
+            currentRound: 0,
+            timer: hostSettings.timer || 30,
+            totalRounds: hostSettings.rounds || 10,
+            categories: (hostSettings.categories || ['frames', 'eyes', 'dialogue']).join(','),
+            createdAt: Date.now(),
+            updatedAt: Date.now()
+          };
+          return await this.databases.createDocument(this.DATABASE_ID, this.COLLECTIONS.ROOMS, roomId, doc);
+        } catch(err) {
+          try {
+            return await this.databases.updateDocument(this.DATABASE_ID, this.COLLECTIONS.ROOMS, roomId, {
+              status: 'lobby',
+              hostId: hostPlayer.id || 'p_host',
+              updatedAt: Date.now()
+            });
+          } catch(e) {
+            return null;
+          }
+        }
+      },
+
+      async registerPlayer(roomCode, player) {
+        if (!await this.init()) return null;
+        const safePid = (player.id || 'p_' + Math.random().toString(36).substr(2, 6)).replace(/[^a-zA-Z0-9_-]/g, '_');
+        const docId = 'p_' + roomCode + '_' + safePid;
+        try {
+          const doc = {
+            playerId: player.id,
+            roomId: 'room_' + roomCode,
+            name: player.name || 'Player',
+            avatar: player.avatar || 'aman',
+            status: 'connected',
+            score: player.score || 0,
+            isHost: !!player.isHost,
+            color: player.color || '#57c3e0',
+            lastHeartbeat: Date.now()
+          };
+          return await this.databases.createDocument(this.DATABASE_ID, this.COLLECTIONS.PLAYERS, docId, doc);
+        } catch(err) {
+          try {
+            return await this.databases.updateDocument(this.DATABASE_ID, this.COLLECTIONS.PLAYERS, docId, {
+              status: 'connected',
+              score: player.score || 0,
+              lastHeartbeat: Date.now()
+            });
+          } catch(e) {
+            return null;
+          }
+        }
+      },
+
+      async updateGameState(roomCode, stateData) {
+        if (!await this.init()) return null;
+        const docId = 'state_' + roomCode;
+        try {
+          const doc = {
+            roomId: 'room_' + roomCode,
+            roundNumber: stateData.roundNumber || 1,
+            phase: stateData.phase || 'guessing',
+            currentImage: stateData.currentImage || '',
+            dialogueText: stateData.dialogueText || '',
+            dialogueContext: stateData.dialogueContext || '',
+            maskedHint: stateData.maskedHint || '',
+            revealedAnswer: stateData.revealedAnswer || '',
+            winners: JSON.stringify(stateData.winners || []),
+            startedAt: stateData.startedAt || Date.now(),
+            version: (stateData.version || 1) + 1
+          };
+          return await this.databases.createDocument(this.DATABASE_ID, this.COLLECTIONS.GAME_STATE, docId, doc);
+        } catch(err) {
+          try {
+            return await this.databases.updateDocument(this.DATABASE_ID, this.COLLECTIONS.GAME_STATE, docId, {
+              roundNumber: stateData.roundNumber || 1,
+              phase: stateData.phase || 'guessing',
+              currentImage: stateData.currentImage || '',
+              dialogueText: stateData.dialogueText || '',
+              dialogueContext: stateData.dialogueContext || '',
+              maskedHint: stateData.maskedHint || '',
+              revealedAnswer: stateData.revealedAnswer || '',
+              winners: JSON.stringify(stateData.winners || []),
+              startedAt: stateData.startedAt || Date.now()
+            });
+          } catch(e) {
+            return null;
+          }
+        }
+      },
+
+      subscribeToRoom(roomCode, callback) {
+        if (!this.client || typeof this.client.subscribe !== 'function') return null;
+        try {
+          if (this.realtimeSubscription) {
+            this.realtimeSubscription();
+            this.realtimeSubscription = null;
+          }
+          const channel = `databases.${this.DATABASE_ID}.collections.${this.COLLECTIONS.GAME_STATE}.documents`;
+          this.realtimeSubscription = this.client.subscribe(channel, (response) => {
+            if (response && response.payload && response.payload.roomId === 'room_' + roomCode) {
+              if (callback) callback(response.payload);
+            }
+          });
+          return this.realtimeSubscription;
+        } catch(err) {
+          console.warn('[Appwrite] Realtime subscribe notice:', err.message);
+          return null;
+        }
+      },
+
+      async recordMatchHistory(roomCode, winner, players, scores) {
+        if (!await this.init()) return null;
+        const matchId = 'm_' + roomCode + '_' + Date.now();
+        try {
+          const doc = {
+            matchId: matchId,
+            roomId: 'room_' + roomCode,
+            winner: winner || 'Champion',
+            date: new Date().toISOString(),
+            players: JSON.stringify(players || []),
+            scores: JSON.stringify(scores || {})
+          };
+          return await this.databases.createDocument(this.DATABASE_ID, this.COLLECTIONS.MATCH_HISTORY, matchId, doc);
+        } catch(err) {
+          return null;
+        }
+      }
+    };
+    window.AppwriteService = AppwriteService;
+
     /* ═══ PLAYER LOBBY ═══ */
     const AVATAR_MAP = {
       aman: {
@@ -14060,10 +14401,10 @@
       }
     };
 
-    /* ════ HOW TO ANSWER GUIDE CONTROLLER ════ */
+    /* ════ HOW TO ANSWER GUIDE CONTROLLER (Bypassed) ════ */
     const HowToAnswerGuide = {
       _timerId: null,
-      _secondsLeft: 10,
+      _secondsLeft: 0,
       _isHost: false,
       _onLaunch: null,
 
@@ -14071,87 +14412,19 @@
         this.stop();
         this._isHost = !!isHost;
         this._onLaunch = onLaunchCallback;
-        this._secondsLeft = 10;
-
-        UI.showScreen('howToAnswerScreen');
-
-        const timerCount = document.getElementById('htaTimerCount');
-        const timerBar = document.getElementById('htaTimerBar');
-        const hostBtn = document.getElementById('htaHostStartBtn');
-        const clientStatus = document.getElementById('htaClientStatus');
-        const clientStatusText = document.getElementById('htaClientStatusText');
-
-        if (timerCount) timerCount.textContent = '10s';
-        if (timerBar) {
-          timerBar.style.transition = 'none';
-          timerBar.style.width = '100%';
-          // Trigger reflow to restart CSS transition
-          void timerBar.offsetWidth;
-          timerBar.style.transition = 'width 10s linear';
-          timerBar.style.width = '0%';
+        this._secondsLeft = 0;
+        if (typeof onLaunchCallback === 'function') {
+          onLaunchCallback();
         }
-
-        if (this._isHost) {
-          if (hostBtn) {
-            hostBtn.style.display = 'inline-flex';
-            hostBtn.disabled = true;
-            hostBtn.style.animation = 'none';
-            hostBtn.innerHTML = '<span>⏳ Host can start in 10s...</span>';
-            hostBtn.onclick = () => this.handleHostClick();
-          }
-          if (clientStatus) clientStatus.style.display = 'none';
-        } else {
-          if (hostBtn) hostBtn.style.display = 'none';
-          if (clientStatus) {
-            clientStatus.style.display = 'inline-flex';
-            if (clientStatusText) clientStatusText.textContent = 'Reading rules... Waiting for host (10s)';
-          }
-        }
-
-        this._timerId = setInterval(() => {
-          this._secondsLeft--;
-          const remaining = Math.max(0, this._secondsLeft);
-          if (timerCount) {
-            timerCount.textContent = `${remaining}s`;
-          }
-
-          if (this._isHost && hostBtn) {
-            if (remaining > 0) {
-              hostBtn.innerHTML = `<span>⏳ Host can start in ${remaining}s...</span>`;
-            } else {
-              hostBtn.disabled = false;
-              hostBtn.innerHTML = '<span class="hta-play-icon">▶</span> <span class="hta-btn-text">START GAME</span>';
-              hostBtn.style.animation = 'pulse 1.2s infinite';
-              if (typeof SoundManager !== 'undefined' && SoundManager.play) {
-                SoundManager.play('click');
-              }
-            }
-          }
-
-          if (!this._isHost && clientStatusText) {
-            if (remaining > 0) {
-              clientStatusText.textContent = `Reading rules... Waiting for host (${remaining}s)`;
-            } else {
-              clientStatusText.textContent = '🎮 Host can now launch Round 1! Get ready...';
-            }
-          }
-
-          if (this._secondsLeft <= 0) {
-            clearInterval(this._timerId);
-            this._timerId = null;
-          }
-        }, 1000);
       },
 
       handleHostClick() {
-        if (!this._isHost || this._secondsLeft > 0) return;
-        if (typeof SoundManager !== 'undefined' && SoundManager.play) {
-          SoundManager.play('gamestart');
-        }
         const cb = this._onLaunch;
         this.stop();
         if (typeof cb === 'function') {
           cb();
+        } else if (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.isHost && MultiplayerEngine.executeGameStart) {
+          MultiplayerEngine.executeGameStart();
         }
       },
 
@@ -14187,14 +14460,14 @@
         const codeDisplay = document.getElementById('displayRoomCode');
 
         if (codeDisplay) {
-          codeDisplay.textContent = MultiplayerEngine.roomCode || '6WDY';
+          codeDisplay.textContent = MultiplayerEngine.roomCode || '----';
         }
 
         const bgOrder = ['bg-primary-fixed', 'bg-secondary-fixed', 'bg-tertiary-fixed', 'bg-primary-container'];
 
         if (list) {
           const playersHtml = GS.players.map((p, i) => {
-            const isH = p.isHost || i === 0;
+            const isH = GameController._onlineMode ? !!p.isHost : (p.isHost || i === 0);
             const avKey = (p.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
             const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
             const safeAvKey = validAvatars.includes(avKey) ? avKey : 'aman';
@@ -14202,7 +14475,8 @@
             const safeName = SecurityUtil.escapeHtml(p.name || `Player ${i+1}`);
             const isMe = !GameController._onlineMode ||
               (MultiplayerEngine.isHost ? (p.isHost || p.id === MultiplayerEngine.playerId || i === 0) : (p.id === MultiplayerEngine.playerId || p.name === MultiplayerEngine.playerName));
-            const canRemove = !GameController._onlineMode && GS.players.length > 1;
+            const canRemove = (!GameController._onlineMode && GS.players.length > 1) ||
+              (GameController._onlineMode && MultiplayerEngine.isHost && GS.players.length > 1 && !p.isHost && p.id !== MultiplayerEngine.playerId);
 
             return `
               <div class="bg-surface border-4 border-on-surface p-4 flex flex-col items-center justify-center relative neo-shadow rounded-xl transform transition-transform hover:-translate-y-1">
@@ -14274,13 +14548,13 @@
 
         // Settings sync
         const settings = (GameController._onlineMode && MultiplayerEngine.hostSettings) ? MultiplayerEngine.hostSettings : (MultiplayerEngine.hostSettings || {
-          category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 },
-          rounds: 10,
+          category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+          rounds: 40,
           timer: 30
         });
 
-        const activeCategories = settings.categories || ['frames'];
-        const counts = settings.roundsByMode || { frames: 10 };
+        const activeCategories = settings.categories || ['frames', 'eyes', 'dialogue'];
+        const counts = settings.roundsByMode || { frames: 20, eyes: 10, dialogue: 10 };
 
         const modeColors = {
           frames: { active: '#cae6ff', inactive: '#f4f4ee' },
@@ -14328,12 +14602,12 @@
         const rFrames = document.getElementById('hostFramesRoundsBtn');
         const rEyes = document.getElementById('hostEyesRoundsBtn');
         const rDialogue = document.getElementById('hostDialogueRoundsBtn');
-        if (rFrames) rFrames.textContent = (counts.frames !== undefined) ? counts.frames : 3;
-        if (rEyes) rEyes.textContent = (counts.eyes !== undefined) ? counts.eyes : 3;
-        if (rDialogue) rDialogue.textContent = (counts.dialogue !== undefined) ? counts.dialogue : 4;
+        if (rFrames) rFrames.textContent = (counts.frames !== undefined) ? counts.frames : 20;
+        if (rEyes) rEyes.textContent = (counts.eyes !== undefined) ? counts.eyes : 10;
+        if (rDialogue) rDialogue.textContent = (counts.dialogue !== undefined) ? counts.dialogue : 10;
 
         // Update Total Rounds in Settings Header
-        const totalR = (settings.roundsByMode ? Object.values(settings.roundsByMode).reduce((a, b) => a + b, 0) : settings.rounds) || 10;
+        const totalR = (settings.roundsByMode ? Object.values(settings.roundsByMode).reduce((a, b) => a + b, 0) : settings.rounds) || 40;
         const totalBadge = document.getElementById('gameSettingsTotalBadge');
         if (totalBadge) totalBadge.textContent = `${totalR} Rounds`;
 
@@ -14403,25 +14677,26 @@
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 },
-            rounds: 10,
+            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+            rounds: 40,
             timer: 30
           };
         }
         const s = MultiplayerEngine.hostSettings;
         s.categories = ['frames', 'eyes', 'dialogue'];
         if (preset === 'quick') {
-          s.roundsByMode = { frames: 2, eyes: 2, dialogue: 2 };
-        } else if (preset === 'classic') {
-          s.roundsByMode = { frames: 3, eyes: 3, dialogue: 4 };
-        } else if (preset === 'long') {
           s.roundsByMode = { frames: 5, eyes: 5, dialogue: 5 };
+        } else if (preset === 'classic') {
+          s.roundsByMode = { frames: 10, eyes: 5, dialogue: 5 };
+        } else if (preset === 'long') {
+          s.roundsByMode = { frames: 15, eyes: 8, dialogue: 8 };
         } else if (preset === 'max') {
-          s.roundsByMode = { frames: 10, eyes: 10, dialogue: 10 };
+          s.roundsByMode = { frames: 20, eyes: 10, dialogue: 10 };
         }
         s.rounds = Object.values(s.roundsByMode).reduce((a, b) => a + b, 0);
         if (GameController._onlineMode && MultiplayerEngine.isHost) {
           MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
+          MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
         }
         this.render();
       },
@@ -14431,14 +14706,14 @@
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 },
-            rounds: 10,
+            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+            rounds: 40,
             timer: 30
           };
         }
         const s = MultiplayerEngine.hostSettings;
         if (!s.categories) s.categories = ['frames', 'eyes', 'dialogue'];
-        if (!s.roundsByMode) s.roundsByMode = { frames: 3, eyes: 3, dialogue: 4 };
+        if (!s.roundsByMode) s.roundsByMode = { frames: 20, eyes: 10, dialogue: 10 };
 
         if (s.categories.includes(mode) && (s.roundsByMode[mode] > 0)) {
           // Disable mode
@@ -14449,11 +14724,16 @@
         } else {
           // Enable mode
           if (!s.categories.includes(mode)) s.categories.push(mode);
-          if (s.roundsByMode[mode] === 0) s.roundsByMode[mode] = 3;
+          if (s.roundsByMode[mode] === 0) s.roundsByMode[mode] = (mode === 'frames' ? 20 : 10);
         }
         s.rounds = Object.values(s.roundsByMode).reduce((a, b) => a + b, 0);
+        if (s.categories.length === 3) s.category = 'all';
+        else if (s.categories.length === 1) s.category = s.categories[0];
+        else s.category = 'mixed';
+
         if (GameController._onlineMode && MultiplayerEngine.isHost) {
           MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
+          MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
         }
         this.render();
       },
@@ -14463,24 +14743,36 @@
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 },
-            rounds: 10,
+            category: 'all',
+            categories: ['frames', 'eyes', 'dialogue'],
+            roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+            rounds: 40,
             timer: 30
           };
         }
         const s = MultiplayerEngine.hostSettings;
-        if (!s.roundsByMode) s.roundsByMode = { frames: 3, eyes: 3, dialogue: 4 };
+        if (!s.roundsByMode) s.roundsByMode = { frames: 20, eyes: 10, dialogue: 10 };
         if (!s.categories) s.categories = ['frames', 'eyes', 'dialogue'];
         
-        let current = Number(s.roundsByMode[mode] || s.roundsByMode.frames) || 10;
-        current = Math.max(1, Math.min(20, current + delta));
-        s.roundsByMode = { frames: current };
-        s.rounds = current;
-        s.category = 'frames';
-        s.categories = ['frames'];
+        let current = Number(s.roundsByMode[mode]) || 0;
+        const maxRounds = mode === 'frames' ? 20 : 10;
+        current = Math.max(0, Math.min(maxRounds, current + delta));
+        s.roundsByMode[mode] = current;
+
+        if (current > 0 && !s.categories.includes(mode)) {
+          s.categories.push(mode);
+        } else if (current === 0 && s.categories.includes(mode) && s.categories.length > 1) {
+          s.categories = s.categories.filter(c => c !== mode);
+        }
+
+        s.rounds = Object.values(s.roundsByMode).reduce((a, b) => a + b, 0);
+        if (s.categories.length === 3) s.category = 'all';
+        else if (s.categories.length === 1) s.category = s.categories[0];
+        else s.category = 'mixed';
 
         if (GameController._onlineMode && MultiplayerEngine.isHost) {
           MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
+          MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
         }
         this.render();
       },
@@ -14494,30 +14786,23 @@
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 },
-            rounds: 10,
+            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+            rounds: 40,
             timer: 30
           };
         }
-        const timerOptions = [15, 30, 45, 60, 75, 90];
-        const current = MultiplayerEngine.hostSettings.timer || 30;
-        let newTimer = current + delta;
-        if (delta > 0) {
-          const nextHigher = timerOptions.find(t => t > current);
-          newTimer = nextHigher !== undefined ? nextHigher : 90;
-        } else {
-          const prevLower = [...timerOptions].reverse().find(t => t < current);
-          newTimer = prevLower !== undefined ? prevLower : 15;
-        }
+        const current = Number(MultiplayerEngine.hostSettings.timer) || 30;
+        const newTimer = Math.max(1, Math.min(180, current + delta));
         MultiplayerEngine.hostSettings.timer = newTimer;
         if (GameController._onlineMode && MultiplayerEngine.isHost) {
           MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: MultiplayerEngine.hostSettings });
+          MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
         }
         this.render();
       },
 
       cycleTimer() {
-        this.adjustTimer(15);
+        this.adjustTimer(1);
       },
 
       remove(i) {
@@ -14527,9 +14812,16 @@
         }
         SoundManager.playClick();
         const player = GS.players[i];
+        if (!player) return;
+        if (GameController._onlineMode && !MultiplayerEngine.isHost) return;
         const idx = GS.players.indexOf(player);
         if (idx !== -1) GS.players.splice(idx, 1);
+        if (GameController._onlineMode && MultiplayerEngine.isHost) {
+          MultiplayerEngine.sendEvent('PLAYER_KICKED', { targetPlayerId: player.id });
+          MultiplayerEngine.broadcastState('PLAYER_KICKED');
+        }
         this.render();
+        UI.renderLB();
       },
 
       renamePlayer(i, newName) {
@@ -14588,9 +14880,7 @@
         }
         if (GS.players.length < 1) return;
         SoundManager.playClick();
-        HowToAnswerGuide.start(true, () => {
-          GameController.startGame();
-        });
+        GameController.startGame();
       },
 
       back() {
@@ -14969,126 +15259,154 @@
       sections: [
         {
           id: 1, name: 'Guess the Frame', icon: '<svg class="svg-icon"><use href="#icon-film" /></svg>', collapsed: false, frames: [
-{
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Backrooms (2026).webp",
-                        "answer": "BACKROOMS",
-                        "year": "2026"
+            {
+              "type": "image",
+              "content": "GUESSTHEFRAME/12th Fail (2023).webp",
+              "answer": "12TH FAIL",
+              "year": "2023"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Bandar (2026).webp",
-                        "answer": "BANDAR",
-                        "year": "2026"
+              "type": "image",
+              "content": "GUESSTHEFRAME/After Hours (1985).webp",
+              "answer": "AFTER HOURS",
+              "year": "1985"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Bhavesh Joshi Superhero (2018).webp",
-                        "answer": "BHAVESH JOSHI SUPERHERO",
-                        "year": "2018"
+              "type": "image",
+              "content": "GUESSTHEFRAME/Bramayugam (2024).webp",
+              "answer": "BRAMAYUGAM",
+              "year": "2024"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Booksmart (2019).webp",
-                        "answer": "BOOKSMART",
-                        "year": "2019"
+              "type": "image",
+              "content": "GUESSTHEFRAME/Brothers (2009).webp",
+              "answer": "BROTHERS",
+              "year": "2009"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Days of Thunder (1990).webp",
-                        "answer": "DAYS OF THUNDER",
-                        "year": "1990"
+              "type": "image",
+              "content": "GUESSTHEFRAME/Cocktail 2 (2026).webp",
+              "answer": "COCKTAIL 2",
+              "year": "2026"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/DC (2026).webp",
-                        "answer": "DC",
-                        "year": "2026"
+              "type": "image",
+              "content": "GUESSTHEFRAME/Detective Byomkesh Bakshy (2015).webp",
+              "answer": "DETECTIVE BYOMKESH BAKSHY",
+              "year": "2015"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Dhoodte reh jaaoge (2009).webp",
-                        "answer": "DHOONDTE REH JAAOGE",
-                        "year": "2009"
+              "type": "image",
+              "content": "GUESSTHEFRAME/Ghanchakkar (2013).webp",
+              "answer": "GHANCHAKKAR",
+              "year": "2013"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Dil Se.. (1998).webp",
-                        "answer": "DIL SE",
-                        "year": "1998"
+              "type": "image",
+              "content": "GUESSTHEFRAME/Lapata Ladies (2023).webp",
+              "answer": "LAPATA LADIES",
+              "year": "2023"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Lanterns (TV Series 2026).webp",
-                        "answer": "LANTERNS",
-                        "year": "2026"
+              "type": "image",
+              "content": "GUESSTHEFRAME/Lars and the Real Girl (2007).webp",
+              "answer": "LARS AND THE REAL GIRL",
+              "year": "2007"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Manchester by the Sea (2016).webp",
-                        "answer": "MANCHESTER BY THE SEA",
-                        "year": "2016"
+              "type": "image",
+              "content": "GUESSTHEFRAME/Mahaan (2022).webp",
+              "answer": "MAHAAN",
+              "year": "2022"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Margarita with a Straw (2014).webp",
-                        "answer": "MARGARITA WITH A STRAW",
-                        "year": "2014"
+              "type": "image",
+              "content": "GUESSTHEFRAME/One Night Only (2026).webp",
+              "answer": "ONE NIGHT ONLY",
+              "year": "2026"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Maruti Mera Dosst (2009).webp",
-                        "answer": "MARUTI MERA DOSST",
-                        "year": "2009"
+              "type": "image",
+              "content": "GUESSTHEFRAME/Piku (2015).webp",
+              "answer": "PIKU",
+              "year": "2015"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Memento (2000).webp",
-                        "answer": "MEMENTO",
-                        "year": "2000"
+              "type": "image",
+              "content": "GUESSTHEFRAME/Satluj (2026).webp",
+              "answer": "SATLUJ",
+              "year": "2026"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Midnight in Paris (2011).webp",
-                        "answer": "MIDNIGHT IN PARIS",
-                        "year": "2011"
+              "type": "image",
+              "content": "GUESSTHEFRAME/The End of Oak Street (2026).webp",
+              "answer": "THE END OF OAK STREET",
+              "year": "2026"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Nobody Knows (2004).webp",
-                        "answer": "NOBODY KNOWS",
-                        "year": "2004"
+              "type": "image",
+              "content": "GUESSTHEFRAME/The French Dispatch (2021).webp",
+              "answer": "THE FRENCH DISPATCH",
+              "year": "2021"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Oye Lucky! Lucky Oye! (2008).webp",
-                        "answer": "OYE LUCKY LUCKY OYE",
-                        "year": "2008"
+              "type": "image",
+              "content": "GUESSTHEFRAME/The Menu (2022).webp",
+              "answer": "THE MENU",
+              "year": "2022"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Queen (2013).webp",
-                        "answer": "QUEEN",
-                        "year": "2013"
+              "type": "image",
+              "content": "GUESSTHEFRAME/The Revenant (2015).webp",
+              "answer": "THE REVENANT",
+              "year": "2015"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Taarzan The Wonder Car (2004).webp",
-                        "answer": "TAARZAN THE WONDER CAR",
-                        "year": "2004"
+              "type": "image",
+              "content": "GUESSTHEFRAME/The Rivals of Amziah King (2026).webp",
+              "answer": "THE RIVALS OF AMZIAH KING",
+              "year": "2026"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/The Handmaiden (2016).webp",
-                        "answer": "THE HANDMAIDEN",
-                        "year": "2016"
+              "type": "image",
+              "content": "GUESSTHEFRAME/khosla ka gholsa(2006).webp",
+              "answer": "KHOSLA KA GHOSLA",
+              "year": "2006"
             },
             {
-                        "type": "image",
-                        "content": "GUESSTHEFRAME/Zodiac (2007).webp",
-                        "answer": "ZODIAC",
-                        "year": "2007"
+              "type": "image",
+              "content": "GUESSTHEFRAME/tony (2026).webp",
+              "answer": "TONY",
+              "year": "2026"
             }
+          ]
+        },
+        {
+          id: 2, name: 'Guess the Dialogue', icon: '<svg class="svg-icon"><use href="#icon-message-circle" /></svg>', collapsed: false, frames: [
+            { type: 'dialogue', dialogue: "Dur Chale Gaye ho kya Ram. Main wahi khad hu jaha tum mujhe chor kar gayi thi", answer: "96", year: "2018" },
+            { type: 'dialogue', dialogue: "That haircut should be against your vows", answer: "SUPERMAN", year: "2025" },
+            { type: 'dialogue', dialogue: "They replace me. They'll replace you.", answer: "LANTERNS", year: "2026" },
+            { type: 'dialogue', dialogue: "Rohit kuch piyoge Tea, Coffee. Bournvita", answer: "KOI MIL GAYA", year: "2003" },
+            { type: 'dialogue', dialogue: "1 baat yaad rakhna beta is duniya mein bas 2 kism ke insaan hai, ache insaan jo acha kaam karte hai aur bure jo bura, bas yahi 1 farq hai insaano mein aur koi nahi", answer: "MY NAME IS KHAN", year: "2010" },
+            { type: 'dialogue', dialogue: "The Hardest Choices Requires The Strongest wills", answer: "AVENGERS INFINITY WAR", year: "2018" },
+            { type: 'dialogue', dialogue: "Look how they massacred my boy.", answer: "THE GODFATHER", year: "1972" },
+            { type: 'dialogue', dialogue: "You can't handle the truth", answer: "A FEW GOOD MEN", year: "1992" },
+            { type: 'dialogue', dialogue: "Why do we Fall sir", answer: "BATMAN BEGINS", year: "2005" },
+            { type: 'dialogue', dialogue: "Saalo se muh cheepata hua phir raha hu aur ye gala faad ke Gafoor, Gafoor, Gafoor chilla raha hai", answer: "THE BADS OF BOLLYWOOD", year: "2025" }
+          ]
+        },
+        {
+          id: 3, name: 'Guess the Eye', icon: '<svg class="svg-icon"><use href="#icon-eye" /></svg>', collapsed: false, frames: [
+            { type: 'eye', content: 'GUESSTHEEYES/Aaron Pierre copy.webp', revealContent: 'GUESSTHEEYES/Aaron Pierre.webp', answer: 'AARON PIERRE', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Alexandra Daddario copy.webp', revealContent: 'GUESSTHEEYES/Alexandra Daddario.webp', answer: 'ALEXANDRA DADDARIO', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Angelina Jolie copy.webp', revealContent: 'GUESSTHEEYES/Angelina Jolie.webp', answer: 'ANGELINA JOLIE', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Disha Patani copy.webp', revealContent: 'GUESSTHEEYES/Disha Patani.webp', answer: 'DISHA PATANI', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Hunter Schafer copy.webp', revealContent: 'GUESSTHEEYES/Hunter Schafer.webp', answer: 'HUNTER SCHAFER', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Leonardo DiCaprio copy.webp', revealContent: 'GUESSTHEEYES/Leonardo DiCaprio.webp', answer: 'LEONARDO DICAPRIO', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Meryl Streep copy.webp', revealContent: 'GUESSTHEEYES/Meryl Streep.webp', answer: 'MERYL STREEP', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Nicole Kidman copy.webp', revealContent: 'GUESSTHEEYES/Nicole Kidman.webp', answer: 'NICOLE KIDMAN', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Wamiqa Gabbi copy.webp', revealContent: 'GUESSTHEEYES/Wamiqa Gabbi.webp', answer: 'WAMIQA GABBI', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Yash copy.webp', revealContent: 'GUESSTHEEYES/Yash.webp', answer: 'YASH', year: '' }
           ]
         }
       ],
@@ -15126,7 +15444,7 @@
       },
       currentSection: 0, currentSectionRound: 0,
       settings: {
-        timerDuration: 20, judgePhaseDuration: 5, answerRevealDuration: 2, pointsPerAnswer: 10, judgePoints: 20, creatorMessage: 'tanmayy, Tanuj, Darshan, Akash, Anmol and members of smoc.',
+        timerDuration: 20, judgePhaseDuration: 5, answerRevealDuration: 2, pointsPerAnswer: 10, judgePoints: 20, creatorMessage: 'tanmay, Tanuj, Darshan, Akash, Anmol (timestamp guy) and members of smoc.',
 
       },
       activeTimerId: null, timeRemaining: 0, nextSectionId: 4,
@@ -15492,23 +15810,31 @@
         if (idx < 0 || idx >= GS.players.length) return null;
         const p = GS.players[idx];
         const before = Number.isFinite(p.score) ? p.score : 0;
-        p.score = before + pts;
+        p.score = Math.max(0, before + pts);
+        if (typeof MultiplayerEngine !== 'undefined' && p.id) {
+          if (!MultiplayerEngine.playerScoresArchive) MultiplayerEngine.playerScoresArchive = {};
+          MultiplayerEngine.playerScoresArchive[p.id] = p.score;
+        }
         UI.renderLB();
 
         return p.score - before;
       },
       adjust(idx, pts) {
-        if (GameController._onlineMode && typeof RoomLobby !== 'undefined' && !RoomLobby.isHost) return;
+        const isOnline = (typeof GameController !== 'undefined' && GameController._onlineMode) || (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.roomCode);
+        const isHost = (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.isHost) || (typeof RoomLobby !== 'undefined' && RoomLobby.isHost);
+        if (isOnline && !isHost) return;
         SoundManager.playClick();
         if (typeof idx === 'string') {
-          idx = GS.players.findIndex(p => p.name === idx);
+          idx = GS.players.findIndex(p => p.name === idx || p.id === idx);
         }
         if (idx < 0 || idx >= GS.players.length) return;
         const delta = this.add(idx, pts);
         if (delta !== null && delta !== 0) {
           this.popup(idx, delta);
         }
-        if (typeof GameController !== 'undefined' && GameController._broadcast) {
+        if (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.roomCode && MultiplayerEngine.isHost) {
+          MultiplayerEngine.broadcastState('MANUAL_SCORE_UPDATE');
+        } else if (typeof GameController !== 'undefined' && GameController._broadcast) {
           GameController._broadcast('manual-score', { index: idx, delta: pts });
         }
       },
@@ -15671,19 +15997,46 @@
        SMART FUZZY MATCHER (Levenshtein Distance + Article/Year Normalization)
        ══════════════════════════════════════════════════════════════════ */
     const FuzzyMatcher = {
+      STOP_WORDS: new Set([
+        'the', 'a', 'an', 'and', 'or', 'but', 'nor', 'for', 'yet', 'so',
+        'in', 'on', 'at', 'to', 'by', 'of', 'off', 'up', 'out', 'over', 'into', 'with', 'from', 'as', 'down', 'about', 'under', 'between', 'through', 'after', 'before', 'without', 'against', 'during', 'around', 'among',
+        'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did',
+        'it', 'its', 'this', 'that', 'these', 'those', 'there', 'here',
+        'i', 'you', 'he', 'she', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'my', 'your', 'his', 'our', 'their',
+        'what', 'which', 'who', 'whom', 'whose', 'why', 'where', 'when', 'how',
+        'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such',
+        'can', 'could', 'will', 'would', 'shall', 'should', 'may', 'might', 'must',
+        'not', 'no', 'yes', 'just', 'too', 'very', 'really',
+        'movie', 'film', 'cinema', 'frame', 'guess', 'scene'
+      ]),
+
       normalize(text) {
         if (!text) return '';
         let t = String(text).toLowerCase();
+        // Normalize unicode diacritics / accents (e.g. Amélie -> Amelie)
+        t = t.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         // Remove year patterns like (1968) or 1968
         t = t.replace(/\(\d{4}\)|\b\d{4}\b/g, '');
-        // Remove all punctuation
-        t = t.replace(/[^\w\s]/g, '');
+        // Replace '&' with 'and'
+        t = t.replace(/&/g, ' and ');
+        // Remove all punctuation except alphanumeric and whitespace
+        t = t.replace(/[^\w\s]/g, ' ');
+        // Normalize word numbers and roman numerals to digits for consistent matching
+        t = t.replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => {
+          const map = { 'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9', 'ten': '10' };
+          return map[m] || m;
+        });
+        t = t.replace(/\b(ii|iii|iv|v)\b/g, m => {
+          const map = { 'ii': '2', 'iii': '3', 'iv': '4', 'v': '5' };
+          return map[m] || m;
+        });
         // Strip leading common articles
-        t = t.replace(/^(the|a|an|el|la)\s+/i, '').trim();
+        t = t.replace(/^(the|a|an|el|la|le|les)\s+/i, '').trim();
         // Collapse multiple spaces
-        t = t.replace(/\s+/g, ' ');
+        t = t.replace(/\s+/g, ' ').trim();
         return t;
       },
+
       levenshtein(s1, s2) {
         if (s1.length < s2.length) return this.levenshtein(s2, s1);
         if (s2.length === 0) return s1.length;
@@ -15701,19 +16054,156 @@
         }
         return prev[s2.length];
       },
+
+      canonicalWord(w) {
+        if (!w) return '';
+        // Simple singularization (strip trailing 's' if length >= 4)
+        if (w.length >= 4 && w.endsWith('s') && !w.endsWith('ss')) {
+          return w.slice(0, -1);
+        }
+        return w;
+      },
+
+      isWordMatch(w1, w2) {
+        if (!w1 || !w2) return false;
+        if (w1 === w2) return true;
+        const c1 = this.canonicalWord(w1);
+        const c2 = this.canonicalWord(w2);
+        if (c1 === c2) return true;
+
+        // Length check: genuine typos don't differ drastically in length
+        const lenDiff = Math.abs(c1.length - c2.length);
+        if (lenDiff > 2) return false;
+
+        // Words must be at least 4 characters to allow typos
+        if (Math.min(c1.length, c2.length) >= 4) {
+          const dist = this.levenshtein(c1, c2);
+          if (Math.max(c1.length, c2.length) <= 6 && dist <= 1) return true;
+          if (Math.max(c1.length, c2.length) > 6 && dist <= 2) return true;
+        }
+        return false;
+      },
+
+      getSignificantWords(normalizedStr) {
+        if (!normalizedStr) return [];
+        return normalizedStr.split(' ')
+          .map(w => w.trim())
+          .filter(w => w.length >= 3 && !this.STOP_WORDS.has(w));
+      },
+
       isMatch(guess, answer) {
+        if (!guess || !answer) return false;
         const nGuess = this.normalize(guess);
         const nAns = this.normalize(answer);
         if (!nGuess || !nAns) return false;
-        // Exact normalized match
+
+        // 1. Exact normalized match
         if (nGuess === nAns) return true;
-        // Substring match if guess is at least 4 characters long
-        if (nGuess.length >= 4 && (nAns.includes(nGuess) || nGuess.includes(nAns))) return true;
-        // Levenshtein distance check (tolerance 1 for short, 2 for longer titles)
-        const dist = this.levenshtein(nGuess, nAns);
-        const maxLen = Math.max(nGuess.length, nAns.length);
-        if (maxLen >= 8 && dist <= 2) return true;
-        if (maxLen >= 4 && dist <= 1) return true;
+
+        // Direct compact comparison without spaces (e.g. "spiderman" vs "spider man", "wall e" vs "walle", "d c" vs "dc", "book smart" vs "booksmart")
+        const compactGuess = nGuess.replace(/\s+/g, '');
+        const compactAns = nAns.replace(/\s+/g, '');
+        if (compactGuess === compactAns) return true;
+        if (Math.abs(compactGuess.length - compactAns.length) <= 2) {
+          const cDist = this.levenshtein(compactGuess, compactAns);
+          if (compactAns.length <= 6 && cDist <= 1) return true;
+          if (compactAns.length > 6 && cDist <= 2) return true;
+        }
+
+        // 2. Whole-string Levenshtein distance (for full phrase typos)
+        const lenDiff = Math.abs(nGuess.length - nAns.length);
+        if (lenDiff <= 3) {
+          const dist = this.levenshtein(nGuess, nAns);
+          if (nAns.length <= 4) {
+            if (dist === 0) return true;
+          } else if (nAns.length <= 8) {
+            if (dist <= 1) return true;
+          } else if (nAns.length <= 15) {
+            if (dist <= 2) return true;
+          } else {
+            if (dist <= 3) return true;
+          }
+        }
+
+        // 3. Subtitle handling (e.g. "Bhavesh Joshi: Superhero" -> "Bhavesh Joshi" or "Superhero",
+        //    "Spider-Man: No Way Home" -> "Spider-Man" or "No Way Home")
+        if (answer.includes(':') || answer.includes(' - ') || answer.includes('–')) {
+          const parts = answer.split(/[:–]|\s-\s/).map(p => this.normalize(p)).filter(Boolean);
+          for (const part of parts) {
+            if (part.length >= 3) {
+              if (nGuess === part) return true;
+              const compactPart = part.replace(/\s+/g, '');
+              if (compactGuess === compactPart) return true;
+              if (Math.abs(compactGuess.length - compactPart.length) <= 2 && this.levenshtein(compactGuess, compactPart) <= 1) return true;
+              if (Math.abs(nGuess.length - part.length) <= 2 && this.levenshtein(nGuess, part) <= 1) return true;
+            }
+          }
+        }
+
+        // Extract significant words from both answer and guess
+        const ansSigWords = this.getSignificantWords(nAns);
+        const guessSigWords = this.getSignificantWords(nGuess);
+
+        // Also include compact compound words if hyphenated/multi-word (e.g. "spider-man" -> ansSigWords includes "spiderman")
+        if (answer.includes('-') || answer.includes(' ')) {
+          const rawAnsWords = String(answer).toLowerCase().split(/[\s\-:]+/).filter(w => w.length >= 3 && !this.STOP_WORDS.has(w));
+          for (const rw of rawAnsWords) {
+            if (!ansSigWords.includes(rw)) ansSigWords.push(rw);
+          }
+          // Add joined prefix pairs (e.g. "spiderman" from "spider" + "man")
+          for (let i = 0; i < rawAnsWords.length - 1; i++) {
+            const joined = rawAnsWords[i] + rawAnsWords[i + 1];
+            if (joined.length >= 5 && !ansSigWords.includes(joined)) {
+              ansSigWords.push(joined);
+            }
+          }
+        }
+
+        // If answer has no significant words (e.g. title is very short like "DC" or "Up" or all stop words)
+        if (ansSigWords.length === 0) {
+          return nGuess === nAns || compactGuess === compactAns || this.levenshtein(nGuess, nAns) <= 1;
+        }
+
+        // 4. Multi-word guess matching:
+        if (guessSigWords.length > 1) {
+          let matchedCount = 0;
+          for (const gw of guessSigWords) {
+            if (ansSigWords.some(aw => this.isWordMatch(gw, aw))) {
+              matchedCount++;
+            }
+          }
+          // If ALL words in guess match answer words (e.g. "grand hotel", "top gun", "silver lake", "mad max")
+          if (matchedCount === guessSigWords.length) {
+            return true;
+          }
+          // If guess has 3+ words and at least 2/3 (>=66%) match (e.g. "taarzan fast car" matching "Taarzan The Wonder Car")
+          if (guessSigWords.length >= 3 && (matchedCount / guessSigWords.length) >= 0.66) {
+            return true;
+          }
+          // If 50% or fewer matched and there are foreign words (e.g. "star wars" vs "star trek"), do NOT match
+          return false;
+        }
+
+        // 5. Single significant word guess:
+        // "even the player give one word from the anser it should be accepted as right answer"
+        const singleWord = guessSigWords.length === 1 ? guessSigWords[0] : (nGuess.split(' ').length === 1 ? nGuess : null);
+        if (singleWord) {
+          // Must not be a stop word
+          if (!this.STOP_WORDS.has(singleWord) && singleWord.length >= 3) {
+            for (const aw of ansSigWords) {
+              if (this.isWordMatch(singleWord, aw)) {
+                return true;
+              }
+            }
+          }
+        }
+
+        // 6. Substring inclusion check (e.g. "I think it is Inception" or "watch Inception")
+        if (nAns.length >= 4) {
+          const ansBoundaryRegex = new RegExp('(?:^|\\s)' + nAns + '(?:$|\\s)', 'i');
+          if (ansBoundaryRegex.test(nGuess)) return true;
+        }
+
         return false;
       }
     };
@@ -15743,10 +16233,11 @@
           if (MultiplayerEngine.currentClientFrame.answer) return MultiplayerEngine.currentClientFrame.answer;
           const targetContent = MultiplayerEngine.currentClientFrame.content;
           const targetId = MultiplayerEngine.currentClientFrame.id;
+          const targetDialogue = MultiplayerEngine.currentClientFrame.dialogue;
           if (Array.isArray(GS.sections)) {
             for (const sec of GS.sections) {
               if (!sec || !sec.frames) continue;
-              const match = sec.frames.find(f => (targetId && f.id === targetId) || (targetContent && f.content === targetContent));
+              const match = sec.frames.find(f => (targetId && f.id === targetId) || (targetContent && f.content === targetContent) || (targetDialogue && f.dialogue === targetDialogue));
               if (match && match.answer) return match.answer;
             }
           }
@@ -15787,20 +16278,26 @@
         // 1. Direct Fuzzy Match
         if (FuzzyMatcher.isMatch(text, answer)) return true;
 
-        // 2. Normalized substring & contains checks
+        // 2. Normalized contains checks for substantial answers
         const nText = FuzzyMatcher.normalize(text);
         const nAns = FuzzyMatcher.normalize(answer);
         if (!nText || !nAns) return false;
 
         if (nText === nAns) return true;
-        if (nAns.length >= 3 && nText.includes(nAns)) return true;
-        if (nText.length >= 4 && nAns.includes(nText)) return true;
 
-        // 3. Significant word check from answer (distinct words >= 4 chars)
-        const commonChatWords = new Set(['what', 'that', 'this', 'with', 'from', 'have', 'were', 'will', 'good', 'time', 'like', 'just', 'know', 'take', 'some', 'them', 'come']);
+        const commonChatWords = new Set(['what', 'that', 'this', 'with', 'from', 'have', 'were', 'will', 'good', 'time', 'like', 'just', 'know', 'take', 'some', 'them', 'come', 'here', 'there', 'think', 'about', 'really', 'and', 'the', 'for', 'you', 'can', 'not']);
+
+        if (nAns.length >= 3 && !commonChatWords.has(nAns)) {
+          const ansBoundaryRegex = new RegExp('(?:^|\\s)' + nAns + '(?:$|\\s)', 'i');
+          if (ansBoundaryRegex.test(nText)) return true;
+        }
+
+        if (nAns.length >= 5 && nText.includes(nAns)) return true;
+
+        // 3. Significant distinct word check (words >= 4 chars not in common chat vocabulary)
         const ansWords = nAns.split(' ').filter(w => w.length >= 4 && !commonChatWords.has(w));
         for (const w of ansWords) {
-          const wordRegex = new RegExp('\\b' + w + '\\b', 'i');
+          const wordRegex = new RegExp('(?:^|\\s)' + w + '(?:$|\\s)', 'i');
           if (wordRegex.test(nText)) {
             return true;
           }
@@ -15873,10 +16370,10 @@
         const roundActive = this.isRoundActive();
         const alreadyWon = MultiplayerEngine.currentRoundWinners.some(w => w.playerId === MultiplayerEngine.playerId);
 
-        // Check if message matches the active round answer or contains spoiler words
-        const isAnswer = roundActive && currentAns && this.isAnswerOrSpoiler(text, currentAns);
+        // Check if message matches the active round answer via strict whole-title FuzzyMatcher
+        const isMatch = roundActive && currentAns && FuzzyMatcher.isMatch(text, currentAns);
 
-        if (isAnswer) {
+        if (isMatch) {
           if (!alreadyWon) {
             // Legitimate correct guess: forward directly to host guess validation for scoring and winner banner
             MultiplayerEngine.submitGuessDirect(text);
@@ -15887,7 +16384,7 @@
             // CRITICAL: Suppress chat rendering and network broadcast so answer stays completely hidden
             return;
           } else {
-            // Already won or spoiler attempt during active round: block message from chat
+            // Already won: block spoiling in chat
             this.renderSystemMessage('⚠️ <strong>Shh!</strong> That\'s the answer! Don\'t spoil it in chat! 🤫');
             if (typeof SoundManager !== 'undefined' && SoundManager.playPop) {
               SoundManager.playPop();
@@ -15896,12 +16393,13 @@
           }
         }
 
-        // If not the answer, still submit to guess validation if player hasn't won yet
-        if (roundActive && !alreadyWon) {
-          MultiplayerEngine.submitGuessDirect(text);
+        // If player already won or round is active, check for obvious spoiler leaks
+        if (roundActive && currentAns && this.isAnswerOrSpoiler(text, currentAns)) {
+          this.renderSystemMessage('⚠️ <strong>Shh!</strong> That\'s the answer! Don\'t spoil it in chat! 🤫');
+          return;
         }
 
-        // Regular chat or non-winning guess
+        // Regular chat message (NOT an answer guess)
         const msg = {
           id: 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
           senderId: MultiplayerEngine.playerId,
@@ -16262,18 +16760,31 @@
       currentPlayIndex: 0,
       hostSettings: {
         category: 'all',
-        rounds: 10,
+        categories: ['frames', 'eyes', 'dialogue'],
+        roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+        rounds: 40,
         timer: 30
       },
       isPaused: false,
       joinRetryTimer: null,
       hasJoinedAck: false,
+      isJoining: false,
+      _joinTimeoutTimer: null,
       isConnected: false,
       _heartbeatInterval: null,
       _watchdogInterval: null,
       _hostAutoAdvanceTimer: null,
       _clientWaitTimer: null,
       lastHostHeartbeat: 0,
+      sessionStats: {
+        roundsWon: 0,
+        totalGuesses: 0,
+        correctGuesses: 0,
+        fastestGuessSeconds: null,
+        roundStartTime: 0
+      },
+      clientHeartbeatTimer: null,
+      presenceWatchdogTimer: null,
 
       init() {
         const savedName = localStorage.getItem('gtf_player_name');
@@ -16283,8 +16794,12 @@
           this.playerAvatar = savedAvatar;
           this.selectedAvatarForModal = savedAvatar;
         }
-        if (!this.playerId) {
+        const savedPlayerId = localStorage.getItem('gtf_player_id');
+        if (savedPlayerId) {
+          this.playerId = savedPlayerId;
+        } else if (!this.playerId) {
           this.playerId = 'p_' + Math.random().toString(36).substr(2, 9);
+          localStorage.setItem('gtf_player_id', this.playerId);
         }
         this.checkUrlParams();
         ChatEngine.initVisualViewport();
@@ -16299,6 +16814,15 @@
             playerName: this.playerName,
             playerAvatar: this.playerAvatar,
             isHost: this.isHost,
+            isMatchActive: !!this.isMatchActive,
+            isRoundFinished: !!this.isRoundFinished,
+            gameState: this.isMatchActive ? (this.isRoundFinished ? 'round_end' : 'playing') : 'lobby',
+            currentPlayIndex: this.currentPlayIndex || 0,
+            currentPlaylist: (this.currentPlaylist && this.currentPlaylist.length > 0) ? this.currentPlaylist : [],
+            hostSettings: this.hostSettings || null,
+            players: (typeof GS !== 'undefined' && Array.isArray(GS.players)) ? GS.players : [],
+            playerScoresArchive: this.playerScoresArchive || {},
+            sessionStats: this.sessionStats || null,
             timestamp: Date.now()
           };
           localStorage.setItem('gtf_active_session', JSON.stringify(session));
@@ -16321,7 +16845,7 @@
           if (raw) savedSession = JSON.parse(raw);
         } catch(e) {}
 
-        const isRecent = savedSession && savedSession.roomCode && (Date.now() - (savedSession.timestamp || 0) < 6 * 3600 * 1000);
+        const isRecent = savedSession && savedSession.roomCode && (Date.now() - (savedSession.timestamp || 0) < 15 * 60 * 1000);
 
         if (roomParam) {
           const upperCode = roomParam.trim().toUpperCase();
@@ -16334,6 +16858,8 @@
           this.openJoinModal();
         } else if (isRecent) {
           this.promptRejoinModal(savedSession);
+        } else if (savedSession) {
+          this.clearActiveSession();
         }
       },
 
@@ -16365,10 +16891,20 @@
             if (this.rejoinRetryTimer) clearInterval(this.rejoinRetryTimer);
             return;
           }
+          let mySavedScore = 0;
+          const session = this.pendingRejoinSession;
+          if (session && Array.isArray(session.players)) {
+            const me = session.players.find(p => p.id === this.playerId);
+            if (me && typeof me.score === 'number') mySavedScore = me.score;
+          } else if (typeof GS !== 'undefined' && Array.isArray(GS.players)) {
+            const me = GS.players.find(p => p.id === this.playerId);
+            if (me && typeof me.score === 'number') mySavedScore = me.score;
+          }
           this.sendEvent('REQUEST_REJOIN_SYNC', {
             playerId: this.playerId,
             name: this.playerName,
             avatar: this.playerAvatar,
+            lastKnownScore: mySavedScore,
             timestamp: Date.now()
           });
         };
@@ -16384,26 +16920,88 @@
         this.playerId = session.playerId;
         this.playerName = session.playerName;
         this.playerAvatar = session.playerAvatar;
-        this.isHost = session.isHost;
         this.roomCode = session.roomCode;
         this.roomId = 'room_' + this.roomCode;
         this.hasJoinedAck = false;
-        this.isRejoining = !this.isHost;
+        this.isRejoining = true;
 
-        this.saveActiveSession();
-        this.setupCloudTransport();
+        if (session.playerScoresArchive) {
+          this.playerScoresArchive = session.playerScoresArchive;
+        }
+        if (session.sessionStats) {
+          this.sessionStats = session.sessionStats;
+        }
 
+        if (session.hostSettings) {
+          this.hostSettings = session.hostSettings;
+        } else if (!this.hostSettings) {
+          this.hostSettings = {
+            category: 'all',
+            categories: ['frames', 'eyes', 'dialogue'],
+            roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+            rounds: 40,
+            timer: 30
+          };
+        }
+
+        if (session.players && Array.isArray(session.players) && session.players.length > 0) {
+          GS.players = session.players;
+        } else {
+          GS.players = [{
+            id: this.playerId,
+            name: this.playerName,
+            avatar: this.playerAvatar,
+            score: 0,
+            isHost: !!session.isHost,
+            loaded: true,
+            color: '#57c3e0'
+          }];
+        }
+
+        if (session.currentPlaylist && session.currentPlaylist.length > 0) {
+          this.currentPlaylist = session.currentPlaylist;
+          this.currentPlayIndex = session.currentPlayIndex || 0;
+        }
+
+        this.isHost = false;
         GameController._onlineMode = true;
-        GameController._isRemoteSession = !this.isHost;
+        GameController._isRemoteSession = true;
 
-        if (this.isHost) {
-          UI.showScreen('playerLobbyScreen');
-          this.renderLobbyUI();
-          this.broadcastState('HOST_ONLINE');
+        const isMatch = !!(session.isMatchActive || session.gameState === 'playing' || session.gameState === 'round_end');
+        if (isMatch) {
+          this.isMatchActive = true;
+          this.isRoundFinished = (session.gameState === 'round_end');
+          GameController._isMatchActive = true;
+          UI.showScreen('gameScreen');
+
+          const gPanel = document.getElementById('onlineGuessPanel');
+          if (gPanel) gPanel.classList.add('active');
+          const hBar = document.getElementById('hostFloatingBar');
+          if (hBar) hBar.style.display = 'flex';
+          const hfbHostOnly = document.getElementById('hfbHostOnly');
+          if (hfbHostOnly) hfbHostOnly.style.display = 'none';
+          const hfbLabel = document.getElementById('hfbLabel');
+          if (hfbLabel) hfbLabel.textContent = '🎮 CONTROLS:';
+
+          if (this.currentPlaylist && this.currentPlaylist[this.currentPlayIndex]) {
+            const curFrame = this.currentPlaylist[this.currentPlayIndex];
+            FrameDisplay.showFrame(curFrame);
+            const roundInfo = document.getElementById('roundInfo');
+            if (roundInfo) roundInfo.textContent = `Round ${this.currentPlayIndex + 1} / ${this.currentPlaylist.length}`;
+            const secName = document.getElementById('curSecName');
+            if (secName) secName.textContent = curFrame.sectionName || 'Guess the Frame';
+          }
+          UI.renderLB();
         } else {
           UI.showScreen('playerLobbyScreen');
-          this.renderLobbyUI();
-          this.sendRejoinWithRetry();
+        }
+
+        this.startClientHeartbeat();
+        this.startHostWatchdog();
+        this.setupCloudTransport();
+
+        if (typeof FrameDisplay !== 'undefined' && FrameDisplay.preloadAll) {
+          FrameDisplay.preloadAll(p => { if (typeof UI !== 'undefined' && UI.updateLoadProgress) UI.updateLoadProgress(p, 'lobby'); });
         }
       },
 
@@ -16446,6 +17044,15 @@
         this.highlightSelectedAvatar('join', this.playerAvatar);
         const nameInput = document.getElementById('joinPlayerNameInput');
         if (nameInput) nameInput.value = this.playerName;
+
+        // FIX: Always reset join button state when modal opens
+        this.isJoining = false;
+        const joinBtn = document.querySelector('#joinRoomModal .mp-btn-primary');
+        if (joinBtn) {
+          joinBtn.disabled = false;
+          joinBtn.innerHTML = 'ENTER ROOM →';
+        }
+
         document.getElementById('joinRoomModal').classList.add('active');
         if (nameInput) setTimeout(() => nameInput.focus(), 150);
       },
@@ -16478,17 +17085,54 @@
         if (modal) modal.classList.add('active');
       },
 
-      copyRoomLink() {
+      copyRoomLink(btn) {
         const joinUrl = window.location.origin + window.location.pathname + '?room=' + (this.roomCode || 'FILM');
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(joinUrl).then(() => {
-            alert('Room Invite Link Copied to Clipboard!');
-          }).catch(() => {
-            prompt('Copy Room Invite Link:', joinUrl);
+          navigator.clipboard.writeText(joinUrl).catch(() => {
+            this._fallbackCopy(joinUrl);
           });
         } else {
-          prompt('Copy Room Invite Link:', joinUrl);
+          this._fallbackCopy(joinUrl);
         }
+
+        if (typeof SoundManager !== 'undefined' && SoundManager.playClick) {
+          SoundManager.playClick();
+        }
+
+        const buttonsToUpdate = [];
+        if (btn && btn instanceof HTMLElement) {
+          buttonsToUpdate.push(btn);
+        }
+        const lobbyCopyBtn = document.getElementById('copyLinkBtn');
+        if (lobbyCopyBtn && !buttonsToUpdate.includes(lobbyCopyBtn)) {
+          buttonsToUpdate.push(lobbyCopyBtn);
+        }
+
+        buttonsToUpdate.forEach(b => {
+          if (b._copyTimeout) clearTimeout(b._copyTimeout);
+          const origHtml = b.getAttribute('data-orig-html') || b.innerHTML;
+          b.setAttribute('data-orig-html', origHtml);
+          b.innerHTML = '<span class="material-symbols-outlined" style="color:#00e676;">check_circle</span> Copied!';
+          b._copyTimeout = setTimeout(() => {
+            b.innerHTML = origHtml;
+          }, 2000);
+        });
+      },
+
+      _fallbackCopy(text) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.left = '-9999px';
+          ta.style.top = '-9999px';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        } catch(e) {}
       },
 
       closeModals() {
@@ -16546,7 +17190,7 @@
         this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
         this.isHost = true;
         this.roomCode = this.generateRoomCode();
-        this.hostSettings = { category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 }, rounds: 10, timer: 30 };
+        this.hostSettings = { category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 }, rounds: 40, timer: 30 };
         this.roomId = 'room_' + this.roomCode;
 
         localStorage.setItem('gtf_player_name', this.playerName);
@@ -16556,6 +17200,7 @@
         this.closeModals();
         this.setupCloudTransport();
         this.startHostHeartbeat();
+        this.startHostPresenceWatchdog();
 
         GS.players = [{
           id: this.playerId,
@@ -16572,13 +17217,19 @@
 
         UI.showScreen('playerLobbyScreen');
         this.renderLobbyUI();
+        if (typeof FrameDisplay !== 'undefined' && FrameDisplay.preloadAll) {
+          FrameDisplay.preloadAll(p => { if (typeof UI !== 'undefined' && UI.updateLoadProgress) UI.updateLoadProgress(p, 'lobby'); });
+        }
       },
 
       confirmJoinRoom() {
+        // FIX: In-flight guard prevents double-click race (Root Cause 3)
+        if (this.isJoining) return;
+
         const input = document.getElementById('joinCodeInput');
         const urlParams = new URLSearchParams(window.location.search);
         let code = (input ? input.value : '') || urlParams.get('room') || '';
-        code = code.trim().toUpperCase();
+        code = code.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
         if (!code || code.length < 3) {
           alert('Please enter a valid Room Code.');
           return;
@@ -16591,16 +17242,21 @@
         this.roomCode = code;
         this.roomId = 'room_' + this.roomCode;
         this.hasJoinedAck = false;
+        this.isJoining = true;
 
         localStorage.setItem('gtf_player_name', this.playerName);
         localStorage.setItem('gtf_player_avatar', this.playerAvatar);
-        this.saveActiveSession();
 
-        this.closeModals();
-        this.setupCloudTransport();
+        // FIX: Show connecting feedback on the join button (Root Cause 1)
+        const joinBtn = document.querySelector('#joinRoomModal .mp-btn-primary');
+        const joinBtnOrigHtml = joinBtn ? joinBtn.innerHTML : '';
+        if (joinBtn) {
+          joinBtn.disabled = true;
+          joinBtn.innerHTML = '⏳ Connecting to room...';
+        }
 
-        GameController._onlineMode = true;
-        GameController._isRemoteSession = true;
+        // FIX: Do NOT navigate to playerLobbyScreen yet (Root Cause 1)
+        // Navigation will happen ONLY on SYNC_ROOM_STATE ACK from host
 
         GS.players = [{
           id: this.playerId,
@@ -16612,12 +17268,21 @@
           color: '#57c3e0'
         }];
 
-        UI.showScreen('playerLobbyScreen');
-        this.renderLobbyUI();
-        this.startHostWatchdog();
+        GameController._onlineMode = true;
+        GameController._isRemoteSession = true;
+
+        this.setupCloudTransport();
+
+        if (typeof FrameDisplay !== 'undefined' && FrameDisplay.preloadAll) {
+          FrameDisplay.preloadAll(p => { if (typeof UI !== 'undefined' && UI.updateLoadProgress) UI.updateLoadProgress(p, 'lobby'); });
+        }
 
         // Send Join Request with automatic retry until acknowledged by Host
         this.sendJoinWithRetry();
+        // FIX: Join timeout starts AFTER MQTT connects (see setupCloudTransport connect handler)
+        // This avoids false "Lobby not found" when MQTT broker takes 3-5s to connect
+        this._joinBtnRef = joinBtn;
+        this._joinBtnOrigHtml = joinBtnOrigHtml;
       },
 
       setupCloudTransport() {
@@ -16647,28 +17312,103 @@
           const brokerUrl = brokerList[0];
 
           try {
-            this.mqttClient = mqtt.connect(brokerUrl, {
+            const clientInstance = mqtt.connect(brokerUrl, {
               keepalive: 30,
               reconnectPeriod: 2000,
               connectTimeout: 5000,
               clientId: 'gtf_' + this.playerId + '_' + Math.random().toString(16).substr(2, 6)
             });
+            this.mqttClient = clientInstance;
 
-            this.mqttClient.on('connect', () => {
+            clientInstance.on('connect', () => {
+              if (!this.mqttClient || this.mqttClient !== clientInstance) return;
               this.isConnected = true;
               console.log('[Realtime] Connected to Cloud WebSocket Broker!');
               this.updateConnectionStatus(true);
-              this.mqttClient.subscribe(topic, { qos: 1 });
+              clientInstance.subscribe(topic, { qos: 1 });
               this.flushMessageQueue();
 
               if (!this.isHost && !this.hasJoinedAck) {
-                this.sendJoinWithRetry();
+                if (this.isRejoining) {
+                  this.sendRejoinWithRetry();
+                  const session = this.pendingRejoinSession;
+                  if (session && session.isHost) {
+                    if (this._rejoinHostCheckTimer) clearTimeout(this._rejoinHostCheckTimer);
+                    this._rejoinHostCheckTimer = setTimeout(() => {
+                      if (!this.hasJoinedAck) {
+                        console.log('[Rejoin] No other host responded. Resuming original host authority.');
+                        if (this.rejoinRetryTimer) clearInterval(this.rejoinRetryTimer);
+                        this.isHost = true;
+                        this.isRejoining = false;
+                        this.hasJoinedAck = true;
+                        GameController._isRemoteSession = false;
+                        this.stopClientHeartbeat();
+                        this.stopHostWatchdog();
+                        this.startHostHeartbeat();
+                        this.startHostPresenceWatchdog();
+                        this.saveActiveSession();
+                        const hfbHostOnly = document.getElementById('hfbHostOnly');
+                        if (hfbHostOnly) hfbHostOnly.style.display = 'inline-flex';
+                        const hfbLabel = document.getElementById('hfbLabel');
+                        if (hfbLabel) hfbLabel.textContent = '👑 HOST CONTROLS:';
+                        if (this.isMatchActive) {
+                          UI.showScreen('gameScreen');
+                          this.broadcastState('HOST_RECONNECTED');
+                        } else {
+                          this.renderLobbyUI();
+                          this.broadcastState('HOST_ONLINE');
+                        }
+                        ChatEngine.renderSystemMessage('👑 <strong>' + SecurityUtil.escapeHtml(this.playerName) + '</strong> (Host) reconnected!');
+                      }
+                    }, 2500);
+                  }
+                } else {
+                  this.sendJoinWithRetry();
+                  // FIX: Start join timeout AFTER MQTT connects (Root Cause 4)
+                  // Gives 15 seconds for host handshake to accommodate real-world network variations
+                  if (this.isJoining && !this.hasJoinedAck) {
+                    if (this._joinTimeoutTimer) clearTimeout(this._joinTimeoutTimer);
+                    this._joinTimeoutTimer = setTimeout(() => {
+                      if (!this.hasJoinedAck && this.isJoining) {
+                        console.warn('[JoinTimeout] No host responded within 15s after MQTT connect. Aborting join.');
+                        this.isJoining = false;
+                        if (this.joinRetryTimer) clearInterval(this.joinRetryTimer);
+                        this.joinRetryTimer = null;
+
+                        // Clean up transport
+                        const cToEnd = this.mqttClient;
+                        const chToClose = this.broadcastChannel;
+                        this.mqttClient = null;
+                        this.broadcastChannel = null;
+                        if (cToEnd) { try { cToEnd.end(true); } catch(e) {} }
+                        if (chToClose) { try { chToClose.close(); } catch(e) {} }
+
+                        // Reset state
+                        GameController._onlineMode = false;
+                        GameController._isRemoteSession = false;
+                        this.roomCode = null;
+                        this.roomId = null;
+                        this.isConnected = false;
+
+                        // Restore join button
+                        const jBtn = this._joinBtnRef;
+                        if (jBtn) {
+                          jBtn.disabled = false;
+                          jBtn.innerHTML = this._joinBtnOrigHtml || 'ENTER ROOM →';
+                        }
+
+                        alert('Lobby not found. Please verify your room code and make sure the host is online.');
+                      }
+                    }, 15000);
+                  }
+                }
               } else if (this.isHost) {
                 this.broadcastState('HOST_ONLINE');
               }
             });
 
-            this.mqttClient.on('message', (t, payload) => {
+            clientInstance.on('message', (t, payload) => {
+              if (!this.mqttClient || this.mqttClient !== clientInstance) return;
               try {
                 const msg = JSON.parse(payload.toString());
                 this.handleIncomingEvent(msg);
@@ -16677,12 +17417,13 @@
               }
             });
 
-            this.mqttClient.on('offline', () => {
+            clientInstance.on('offline', () => {
+              if (this.mqttClient !== clientInstance) return;
               this.isConnected = false;
               this.updateConnectionStatus(false);
             });
 
-            this.mqttClient.on('error', (err) => {
+            clientInstance.on('error', (err) => {
               console.warn('[Realtime] WebSocket Notice:', err.message);
             });
           } catch(err) {
@@ -16783,7 +17524,10 @@
       },
 
       handleIncomingEvent(msg) {
-        if (!msg || msg.roomCode !== this.roomCode) return;
+        if (!msg) return;
+        const incomingRoom = String(msg.roomCode || '').trim().toUpperCase();
+        const currentRoom = String(this.roomCode || '').trim().toUpperCase();
+        if (!incomingRoom || !currentRoom || incomingRoom !== currentRoom) return;
         if (msg.senderId === this.playerId && msg.type !== 'SYNC_ROOM_STATE') return;
 
         // Phase 4: Network Security Validation (host auth, tokens, rate limits)
@@ -16791,14 +17535,80 @@
           return;
         }
 
+        if (this.isHost && msg.senderId) {
+          const senderPlayer = GS.players.find(p => p.id === msg.senderId);
+          if (senderPlayer) {
+            senderPlayer.lastSeen = Date.now();
+          }
+        }
+
         switch (msg.type) {
+          case 'CLIENT_HEARTBEAT':
+            if (this.isHost && msg.senderId) {
+              const p = GS.players.find(x => x.id === msg.senderId);
+              if (p) p.lastSeen = Date.now();
+            }
+            break;
+
+          case 'PLAYER_LEAVE': {
+            const leavingPlayerId = msg.playerId || msg.senderId;
+            if (leavingPlayerId) {
+              const idx = GS.players.findIndex(p => p.id === leavingPlayerId);
+              if (idx !== -1) {
+                const [leftPlayer] = GS.players.splice(idx, 1);
+                // Archive player's score so it is NEVER lost upon rejoin
+                if (!this.playerScoresArchive) this.playerScoresArchive = {};
+                if (typeof leftPlayer.score === 'number') {
+                  this.playerScoresArchive[leftPlayer.id] = leftPlayer.score;
+                }
+                this.saveActiveSession();
+                this.renderLobbyUI();
+                UI.renderLB();
+                ChatEngine.renderSystemMessage(`🚪 <strong>${SecurityUtil.escapeHtml(leftPlayer.name || 'A player')}</strong> left the room.`);
+                if (this.isHost) {
+                  this.broadcastState('PLAYER_LEFT');
+                } else if (leftPlayer.isHost || msg.isHost) {
+                  console.log('[MultiplayerEngine] Host left the room. Promoting next host immediately.');
+                  this.checkHostMigration();
+                }
+              }
+            }
+            break;
+          }
+
+          case 'PLAYER_KICKED': {
+            if (msg.targetPlayerId === this.playerId) {
+              this.leaveRoom();
+              UI.showScreen('homeScreen');
+              alert('You have been removed from the room by the host.');
+            } else if (msg.targetPlayerId) {
+              const idx = GS.players.findIndex(p => p.id === msg.targetPlayerId);
+              if (idx !== -1) {
+                const [kickedPlayer] = GS.players.splice(idx, 1);
+                this.renderLobbyUI();
+                UI.renderLB();
+                ChatEngine.renderSystemMessage(`👢 <strong>${SecurityUtil.escapeHtml(kickedPlayer.name || 'A player')}</strong> was removed by the host.`);
+              }
+            }
+            break;
+          }
           case 'REQUEST_REJOIN_SYNC':
             if (this.isHost) {
+              let restoredScore = 0;
+              if (this.playerScoresArchive && typeof this.playerScoresArchive[msg.playerId] === 'number') {
+                restoredScore = this.playerScoresArchive[msg.playerId];
+              } else if (typeof msg.lastKnownScore === 'number' && msg.lastKnownScore > 0) {
+                restoredScore = msg.lastKnownScore;
+              }
+
               const existingPlayer = GS.players.find(p => p.id === msg.playerId);
               if (existingPlayer) {
                 existingPlayer.name = msg.name || existingPlayer.name;
                 existingPlayer.avatar = msg.avatar || existingPlayer.avatar;
                 existingPlayer.loaded = true;
+                if ((existingPlayer.score === undefined || existingPlayer.score === 0) && restoredScore > 0) {
+                  existingPlayer.score = restoredScore;
+                }
               } else {
                 const av = (msg.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
                 const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#57c3e0' };
@@ -16806,13 +17616,22 @@
                   id: msg.playerId,
                   name: msg.name,
                   avatar: msg.avatar,
-                  score: 0,
+                  score: restoredScore,
                   isHost: false,
                   loaded: true,
                   color: avConfig.color || '#57c3e0'
                 });
               }
+
+              if (!this.playerScoresArchive) this.playerScoresArchive = {};
+              const finalPlayer = GS.players.find(p => p.id === msg.playerId);
+              if (finalPlayer && typeof finalPlayer.score === 'number') {
+                this.playerScoresArchive[msg.playerId] = finalPlayer.score;
+              }
+
               this.renderLobbyUI();
+              UI.renderLB();
+              this.saveActiveSession();
 
               const totalTimer = (this.hostSettings && this.hostSettings.timer) || 30;
               const elapsed = this.currentRoundStartTime ? Math.max(0, (Date.now() - this.currentRoundStartTime) / 1000) : 0;
@@ -16826,7 +17645,7 @@
                 players: GS.players,
                 currentPlaylist: this.currentPlaylist,
                 currentPlayIndex: this.currentPlayIndex,
-                currentFrame: this.currentPlaylist[this.currentPlayIndex],
+                currentFrame: (this.currentPlaylist && this.currentPlaylist[this.currentPlayIndex]) || this.currentClientFrame,
                 currentRoundWinners: this.currentRoundWinners,
                 timerDuration: totalTimer,
                 remainingSeconds: remainingSeconds,
@@ -16843,16 +17662,52 @@
             this.isRejoining = false;
             if (this.rejoinRetryTimer) clearInterval(this.rejoinRetryTimer);
             if (this.joinRetryTimer) clearInterval(this.joinRetryTimer);
+            if (this._rejoinHostCheckTimer) clearTimeout(this._rejoinHostCheckTimer);
 
-            if (msg.players) GS.players = msg.players;
+            if (msg.players) {
+              GS.players = msg.players;
+              if (!this.playerScoresArchive) this.playerScoresArchive = {};
+              for (const p of msg.players) {
+                if (p && p.id && typeof p.score === 'number') {
+                  this.playerScoresArchive[p.id] = p.score;
+                }
+              }
+              UI.renderLB();
+            }
+
+            // Check if there is already an active host in the room who is not me
+            const existingHost = GS.players.find(p => p.isHost && p.id !== this.playerId);
+            if (existingHost) {
+              this.isHost = false;
+              GameController._isRemoteSession = true;
+              this.stopHostHeartbeat();
+              this.stopHostPresenceWatchdog();
+              this.startClientHeartbeat();
+              this.startHostWatchdog();
+              this.saveActiveSession();
+            } else if (this.pendingRejoinSession && this.pendingRejoinSession.isHost) {
+              this.isHost = true;
+              GameController._isRemoteSession = false;
+              this.startHostHeartbeat();
+              this.startHostPresenceWatchdog();
+              this.stopClientHeartbeat();
+              this.stopHostWatchdog();
+              this.saveActiveSession();
+            }
+
             if (msg.hostSettings) this.hostSettings = msg.hostSettings;
             if (msg.currentPlaylist && msg.currentPlaylist.length > 0) this.currentPlaylist = msg.currentPlaylist;
             if (msg.currentPlayIndex !== undefined) this.currentPlayIndex = msg.currentPlayIndex;
             if (msg.currentRoundWinners) this.currentRoundWinners = msg.currentRoundWinners;
             if (msg.maskedHint) this.currentMaskedHint = msg.maskedHint;
 
-            if (msg.gameState === 'playing' && msg.currentFrame) {
+            const isMatchState = (msg.gameState === 'playing' || msg.gameState === 'round_end');
+            if (isMatchState) {
+              this.isMatchActive = true;
+              GameController._onlineMode = true;
+              GameController._isMatchActive = true;
               UI.showScreen('gameScreen');
+
               const gPanel = document.getElementById('onlineGuessPanel');
               if (gPanel) gPanel.classList.add('active');
               const hBar = document.getElementById('hostFloatingBar');
@@ -16862,33 +17717,48 @@
               const hfbLabel = document.getElementById('hfbLabel');
               if (hfbLabel) hfbLabel.textContent = this.isHost ? '👑 HOST CONTROLS:' : '🎮 CONTROLS:';
 
-              const roundInfo = document.getElementById('roundInfo');
-              if (roundInfo) roundInfo.textContent = `Round ${msg.currentPlayIndex + 1} / ${this.currentPlaylist.length}`;
-              const secName = document.getElementById('curSecName');
-              if (secName) secName.textContent = msg.currentFrame.sectionName || 'Guess the Frame';
-
-              FrameDisplay.showFrame(msg.currentFrame);
-              const ansOv = document.getElementById('answerOverlay');
-              if (ansOv) ansOv.classList.remove('visible', 'active');
-              const scOv = document.getElementById('scoringOv');
-              if (scOv) scOv.classList.remove('active');
-
-              const input = document.getElementById('onlineGuessInput');
-              const submitBtn = document.getElementById('onlineGuessSubmitBtn');
-              const alreadyGuessed = (this.currentRoundWinners || []).some(w => w.playerId === this.playerId);
-              if (input) {
-                input.value = '';
-                input.disabled = alreadyGuessed;
-                if (!alreadyGuessed) input.focus();
+              const curFrame = msg.currentFrame || (this.currentPlaylist && this.currentPlaylist[this.currentPlayIndex]) || this.currentClientFrame;
+              if (curFrame) {
+                const roundInfo = document.getElementById('roundInfo');
+                if (roundInfo && this.currentPlaylist) roundInfo.textContent = `Round ${this.currentPlayIndex + 1} / ${this.currentPlaylist.length}`;
+                const secName = document.getElementById('curSecName');
+                if (secName) secName.textContent = curFrame.sectionName || 'Guess the Frame';
+                FrameDisplay.showFrame(curFrame);
               }
-              if (submitBtn) submitBtn.disabled = alreadyGuessed;
 
-              // Synchronize round timer with exact remaining seconds
-              TC.start(msg.remainingSeconds || msg.timerDuration || 30, () => {
-                this.endRound();
-              });
+              if (msg.gameState === 'round_end') {
+                this.isRoundFinished = true;
+                const ansOv = document.getElementById('answerOverlay');
+                if (ansOv) ansOv.classList.add('visible', 'active');
+                const ansTitle = document.getElementById('ansTitle');
+                if (ansTitle && curFrame) ansTitle.textContent = curFrame.answer || '';
+                const ansYear = document.getElementById('ansYear');
+                if (ansYear && curFrame) ansYear.textContent = curFrame.year ? `(${curFrame.year})` : '';
+              } else {
+                this.isRoundFinished = false;
+                const ansOv = document.getElementById('answerOverlay');
+                if (ansOv) ansOv.classList.remove('visible', 'active');
+                const scOv = document.getElementById('scoringOv');
+                if (scOv) scOv.classList.remove('active');
+
+                const input = document.getElementById('onlineGuessInput');
+                const submitBtn = document.getElementById('onlineGuessSubmitBtn');
+                const alreadyGuessed = (this.currentRoundWinners || []).some(w => w.playerId === this.playerId);
+                if (input) {
+                  input.value = '';
+                  input.disabled = alreadyGuessed;
+                  if (!alreadyGuessed) input.focus();
+                }
+                if (submitBtn) submitBtn.disabled = alreadyGuessed;
+
+                TC.start(msg.remainingSeconds || msg.timerDuration || 30, () => {
+                  this.endRound();
+                });
+              }
               UI.renderLB();
+              this.saveActiveSession();
             } else {
+              this.isMatchActive = false;
               UI.showScreen('playerLobbyScreen');
               this.renderLobbyUI();
             }
@@ -16897,8 +17767,9 @@
           case 'CHAT_MESSAGE':
             if (msg.msg) {
               const currentAns = ChatEngine.getCurrentRoundAnswer();
-              if (ChatEngine.isRoundActive() && currentAns && ChatEngine.isAnswerOrSpoiler(msg.msg.text, currentAns)) {
-                // Incoming message matches or contains the answer during an active round!
+              const isMatch = ChatEngine.isRoundActive() && currentAns && FuzzyMatcher.isMatch(msg.msg.text, currentAns);
+              if (isMatch) {
+                // Incoming message matches the answer during an active round!
                 // Suppress from chat stream. If host and player hasn't won yet, process as a guess.
                 if (this.isHost && !this.currentRoundWinners.some(w => w.playerId === msg.msg.senderId)) {
                   this.validateAndProcessGuess({
@@ -16909,6 +17780,10 @@
                     roundIndex: this.currentPlayIndex
                   });
                 }
+                break;
+              }
+              // If it leaked a spoiler without matching the full answer, suppress from chat
+              if (ChatEngine.isRoundActive() && currentAns && ChatEngine.isAnswerOrSpoiler(msg.msg.text, currentAns)) {
                 break;
               }
               ChatEngine.renderMessage(msg.msg);
@@ -16935,6 +17810,7 @@
             if (pLoaded) {
               pLoaded.loaded = !!msg.loaded;
               pLoaded.loadProgress = Number(msg.progress) || (msg.loaded ? 100 : 0);
+              pLoaded.lastSeen = Date.now();
               this.renderLobbyUI();
               if (this.isHost) {
                 this.broadcastState('PLAYER_LOAD_STATUS');
@@ -16944,7 +17820,30 @@
 
           case 'PLAYER_JOIN':
             if (this.isHost) {
+              // FIX: Authoritative host validation (Root Cause 2)
+              const maxPlayers = (this.hostSettings && this.hostSettings.maxPlayers) || 8;
               const existingIdx = GS.players.findIndex(p => p.id === msg.id);
+
+              // Reject if lobby is full (new player, not reconnecting)
+              if (existingIdx === -1 && GS.players.length >= maxPlayers) {
+                this.sendEvent('JOIN_REJECTED', {
+                  targetPlayerId: msg.id,
+                  reason: 'LOBBY_FULL',
+                  message: 'This lobby is full (' + maxPlayers + '/' + maxPlayers + ' players).'
+                });
+                break;
+              }
+
+              // Reject if match is already in progress (new player, not reconnecting)
+              if (existingIdx === -1 && this.isMatchActive) {
+                this.sendEvent('JOIN_REJECTED', {
+                  targetPlayerId: msg.id,
+                  reason: 'GAME_ALREADY_STARTED',
+                  message: 'A match is already in progress. Please wait for it to end.'
+                });
+                break;
+              }
+
               if (existingIdx === -1) {
                 const colors = ['#ff7eb6', '#57c3e0', '#f0a828', '#84cc16', '#a06bd6', '#3fb9ad'];
                 const nextColor = colors[GS.players.length % colors.length];
@@ -16955,27 +17854,111 @@
                   score: 0,
                   isHost: false,
                   loaded: true,
+                  lastSeen: Date.now(),
                   color: nextColor
                 });
               } else {
                 GS.players[existingIdx].name = msg.name;
                 GS.players[existingIdx].avatar = msg.avatar;
+                GS.players[existingIdx].lastSeen = Date.now();
               }
               this.renderLobbyUI();
               this.broadcastState('PLAYER_JOINED');
             }
             break;
 
+          case 'JOIN_REJECTED':
+            // FIX: Handle host rejection with specific reason (Root Cause 2 client-side)
+            if (msg.targetPlayerId === this.playerId) {
+              console.warn('[JoinRejected] Host rejected join:', msg.reason, msg.message);
+              this.isJoining = false;
+              if (this.joinRetryTimer) clearInterval(this.joinRetryTimer);
+              this.joinRetryTimer = null;
+              if (this._joinTimeoutTimer) clearTimeout(this._joinTimeoutTimer);
+              this._joinTimeoutTimer = null;
+
+              // Clean up transport
+              const rClientToEnd = this.mqttClient;
+              const rChannelToClose = this.broadcastChannel;
+              this.mqttClient = null;
+              this.broadcastChannel = null;
+              if (rClientToEnd) { try { rClientToEnd.end(true); } catch(e) {} }
+              if (rChannelToClose) { try { rChannelToClose.close(); } catch(e) {} }
+
+              // Reset state
+              GameController._onlineMode = false;
+              GameController._isRemoteSession = false;
+              this.roomCode = null;
+              this.roomId = null;
+              this.isConnected = false;
+
+              // Restore join button
+              const rJoinBtn = document.querySelector('#joinRoomModal .mp-btn-primary');
+              if (rJoinBtn) {
+                rJoinBtn.disabled = false;
+                rJoinBtn.innerHTML = 'ENTER ROOM →';
+              }
+
+              alert(msg.message || 'Unable to join this room.');
+            }
+            break;
+
           case 'SYNC_ROOM_STATE':
             if (msg.players && msg.players.length > 0) {
+              const wasJoining = this.isJoining && !this.hasJoinedAck;
+              const isMeIncluded = msg.players.some(p => p.id === this.playerId || p.name === this.playerName);
+
+              if (wasJoining && !isMeIncluded && !this.isHost) {
+                // Host broadcast received (room is live!), but host hasn't processed our join packet yet.
+                // Immediately re-transmit join packet.
+                this.sendEvent('PLAYER_JOIN', {
+                  id: this.playerId,
+                  name: this.playerName,
+                  avatar: this.playerAvatar
+                });
+                return;
+              }
+
               this.hasJoinedAck = true;
+              this.isJoining = false;
               if (this.joinRetryTimer) clearInterval(this.joinRetryTimer);
+              if (this.rejoinRetryTimer) clearInterval(this.rejoinRetryTimer);
+              if (this._rejoinHostCheckTimer) clearTimeout(this._rejoinHostCheckTimer);
+              if (this._joinTimeoutTimer) clearTimeout(this._joinTimeoutTimer);
+              this._joinTimeoutTimer = null;
 
               GS.players = msg.players;
+              if (!this.playerScoresArchive) this.playerScoresArchive = {};
+              for (const p of msg.players) {
+                if (p && p.id && typeof p.score === 'number') {
+                  this.playerScoresArchive[p.id] = p.score;
+                }
+              }
+
+              const existingHost = GS.players.find(p => p.isHost && p.id !== this.playerId);
+              if (existingHost) {
+                this.isHost = false;
+                GameController._isRemoteSession = true;
+                this.stopHostHeartbeat();
+                this.stopHostPresenceWatchdog();
+                this.startClientHeartbeat();
+                this.startHostWatchdog();
+                this.saveActiveSession();
+              }
+
               if (msg.hostSettings) this.hostSettings = msg.hostSettings;
               if (msg.currentPlaylist && msg.currentPlaylist.length > 0) this.currentPlaylist = msg.currentPlaylist;
               if (msg.currentPlayIndex !== undefined) this.currentPlayIndex = msg.currentPlayIndex;
               if (msg.currentRoundWinners) this.currentRoundWinners = msg.currentRoundWinners;
+
+              // FIX: Navigate to lobby ONLY when initially joining room
+              if (wasJoining) {
+                this.saveActiveSession();
+                this.closeModals();
+                this.startClientHeartbeat();
+                this.startHostWatchdog();
+                UI.showScreen('playerLobbyScreen');
+              }
 
               this.renderLobbyUI();
               UI.renderLB();
@@ -17008,6 +17991,7 @@
             break;
 
           case 'GUESS_RESULT':
+            if (this._guessTimeoutId) clearTimeout(this._guessTimeoutId);
             if (msg.targetPlayerId === this.playerId && !msg.isCorrect) {
               SoundManager.play('wrong');
               this.showGuessFeedback(false, '❌ Not quite, try again!');
@@ -17020,6 +18004,7 @@
             break;
 
           case 'GUESS_CORRECT_BROADCAST':
+            if (this._guessTimeoutId) clearTimeout(this._guessTimeoutId);
             this.handleRemoteCorrectGuess(msg);
             break;
 
@@ -17057,6 +18042,7 @@
 
           case 'HOST_HEARTBEAT':
             this.lastHostHeartbeat = Date.now();
+            this._hostWarnActive = false;
             break;
 
           case 'HOST_MIGRATED':
@@ -17093,16 +18079,16 @@
         let pool = [];
         if (!this.hostSettings) {
           this.hostSettings = {
-            category: 'frames', categories: ['frames'], roundsByMode: { frames: 10 },
-            rounds: 10,
+            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+            rounds: 40,
             timer: 30
           };
         }
 
-        const counts = this.hostSettings.roundsByMode || { frames: 3, eyes: 3, dialogue: 4 };
+        const counts = this.hostSettings.roundsByMode || { frames: 20, eyes: 10, dialogue: 10 };
 
         // 1. All Frames first (shuffled internally, not mixed across categories)
-        const numFrames = counts.frames !== undefined ? counts.frames : 3;
+        const numFrames = counts.frames !== undefined ? counts.frames : 20;
         if (numFrames > 0) {
           const s1 = GS.sections.find(s => s.id === 1);
           if (s1 && s1.frames) {
@@ -17112,7 +18098,7 @@
         }
 
         // 2. All Dialogue second (shuffled internally, not mixed across categories)
-        const numDialogue = counts.dialogue !== undefined ? counts.dialogue : 4;
+        const numDialogue = counts.dialogue !== undefined ? counts.dialogue : 10;
         if (numDialogue > 0) {
           const s2 = GS.sections.find(s => s.id === 2);
           if (s2 && s2.frames) {
@@ -17122,7 +18108,7 @@
         }
 
         // 3. All Eyes third (shuffled internally, not mixed across categories)
-        const numEyes = counts.eyes !== undefined ? counts.eyes : 3;
+        const numEyes = counts.eyes !== undefined ? counts.eyes : 10;
         if (numEyes > 0) {
           const s3 = GS.sections.find(s => s.id === 3);
           if (s3 && s3.frames) {
@@ -17134,7 +18120,7 @@
         if (pool.length === 0) {
           // Fallback to section 1 frames if empty
           const s1 = GS.sections.find(s => s.id === 1);
-          if (s1) pool = [...s1.frames.slice(0, 10).map(f => ({ ...f, sectionName: 'Guess the Frame', sectionId: 1 }))];
+          if (s1) pool = [...s1.frames.slice(0, 20).map(f => ({ ...f, sectionName: 'Guess the Frame', sectionId: 1 }))];
         }
 
         this.currentPlaylist = pool;
@@ -17144,34 +18130,39 @@
         this.currentRoundStartTime = Date.now();
 
         GS.players.forEach(p => p.score = 0);
+        this.sessionStats = {
+          roundsWon: 0,
+          totalGuesses: 0,
+          correctGuesses: 0,
+          fastestGuessSeconds: null,
+          roundStartTime: 0
+        };
+        this.saveActiveSession();
 
-        // Tell all clients to show the How To Answer guide screen
-        this.sendEvent('SHOW_HOW_TO_ANSWER', {
+        // Directly broadcast GAME_START_COUNTDOWN to all clients, skipping How To Play screen
+        this.sendEvent('GAME_START_COUNTDOWN', {
           totalRounds: this.currentPlaylist.length,
           hostSettings: this.hostSettings,
-          players: GS.players
+          players: GS.players,
+          playlist: this.currentPlaylist
         });
-
-        // Host shows How To Answer guide with 10s timer, unlocks Host Start button at 0s
-        HowToAnswerGuide.start(true, () => {
-          this.sendEvent('GAME_START_COUNTDOWN', {
-            totalRounds: this.currentPlaylist.length,
-            hostSettings: this.hostSettings,
-            players: GS.players
-          });
-          this.executeGameStart();
-        });
+        this.executeGameStart();
       },
 
       handleRemoteHowToAnswer(msg) {
-        this.totalMatchRounds = msg.totalRounds || (msg.playlist ? msg.playlist.length : 10);
+        this.totalMatchRounds = msg.totalRounds || (msg.playlist ? msg.playlist.length : 40);
         this.hostSettings = msg.hostSettings || this.hostSettings;
         GS.players = msg.players || GS.players;
-        HowToAnswerGuide.start(false, null);
+        if (msg.playlist && msg.playlist.length > 0) {
+          this.currentPlaylist = msg.playlist;
+        }
+        this.executeGameStart();
       },
 
       handleRemoteGameStart(msg) {
         HowToAnswerGuide.stop();
+        this.isMatchActive = true;
+        this.isRoundFinished = false;
         this.totalMatchRounds = msg.totalRounds || (msg.playlist ? msg.playlist.length : 10);
         this.hostSettings = msg.hostSettings || this.hostSettings;
         GS.players = msg.players || GS.players;
@@ -17184,10 +18175,13 @@
         if (hfbHostOnly) hfbHostOnly.style.display = this.isHost ? 'inline-flex' : 'none';
         const hfbLabel = document.getElementById('hfbLabel');
         if (hfbLabel) hfbLabel.textContent = this.isHost ? '👑 HOST CONTROLS:' : '🎮 CONTROLS:';
+        this.saveActiveSession();
       },
 
       executeGameStart() {
         HowToAnswerGuide.stop();
+        this.isMatchActive = true;
+        this.isRoundFinished = false;
         UI.showScreen('gameScreen');
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.add('active');
         if (this.isHost) {
@@ -17196,6 +18190,7 @@
         } else {
           document.getElementById('hostFloatingBar').style.display = 'none';
         }
+        this.saveActiveSession();
       },
 
       startHostHeartbeat() {
@@ -17217,13 +18212,77 @@
         }
       },
 
+      startClientHeartbeat() {
+        this.stopClientHeartbeat();
+        if (this.isHost) return;
+        this.clientHeartbeatTimer = setInterval(() => {
+          if (!this.roomCode || this.isHost) {
+            this.stopClientHeartbeat();
+            return;
+          }
+          this.sendEvent('CLIENT_HEARTBEAT', {
+            playerId: this.playerId,
+            name: this.playerName
+          });
+        }, 3000);
+      },
+
+      stopClientHeartbeat() {
+        if (this.clientHeartbeatTimer) {
+          clearInterval(this.clientHeartbeatTimer);
+          this.clientHeartbeatTimer = null;
+        }
+      },
+
+      startHostPresenceWatchdog() {
+        this.stopHostPresenceWatchdog();
+        if (!this.isHost) return;
+        this.presenceWatchdogTimer = setInterval(() => {
+          if (!this.roomCode || !this.isHost) {
+            this.stopHostPresenceWatchdog();
+            return;
+          }
+          const now = Date.now();
+          const initialLen = GS.players.length;
+          GS.players = GS.players.filter(p => {
+            if (p.isHost || p.id === this.playerId) return true;
+            const lastSeen = p.lastSeen || p.joinTime || now;
+            const isAlive = (now - lastSeen) < 9500;
+            if (!isAlive) {
+              console.log('[Presence] Auto-pruning inactive/disconnected player:', p.name, p.id);
+            }
+            return isAlive;
+          });
+
+          if (GS.players.length !== initialLen) {
+            this.renderLobbyUI();
+            UI.renderLB();
+            this.broadcastState('PLAYER_DISCONNECTED');
+          }
+        }, 3000);
+      },
+
+      stopHostPresenceWatchdog() {
+        if (this.presenceWatchdogTimer) {
+          clearInterval(this.presenceWatchdogTimer);
+          this.presenceWatchdogTimer = null;
+        }
+      },
+
       startHostWatchdog() {
         this.stopHostWatchdog();
         this.lastHostHeartbeat = Date.now();
+        this._hostWarnActive = false;
         this._watchdogInterval = setInterval(() => {
           if (this.isHost || !this.roomCode || !GameController._onlineMode) return;
           const now = Date.now();
+          const gap = now - (this.lastHostHeartbeat || now);
+          if (gap > 5500 && !this._hostWarnActive && gap <= 12000) {
+            this._hostWarnActive = true;
+            ChatEngine.renderSystemMessage('⚠️ <em>Host disconnected. Electing new host shortly...</em>');
+          }
           if (this.lastHostHeartbeat && (now - this.lastHostHeartbeat > 12000)) {
+            this._hostWarnActive = false;
             console.warn('[HostWatchdog] Host heartbeat missing for 12s. Initiating host migration...');
             this.checkHostMigration();
           }
@@ -17253,7 +18312,9 @@
 
       becomeHost() {
         this.isHost = true;
+        this._hostWarnActive = false;
         this.stopHostWatchdog();
+        this.stopClientHeartbeat();
         if (typeof UI !== 'undefined' && UI.updateSkipButtonVisibility) UI.updateSkipButtonVisibility();
         GS.players.forEach(p => {
           p.isHost = (p.id === this.playerId);
@@ -17272,8 +18333,20 @@
           waitPill.style.display = 'none';
         }
 
+        // Support immediate game start if migrating during transition
+        const htaScreen = document.getElementById('howToAnswerScreen');
+        if (htaScreen && htaScreen.classList.contains('active')) {
+          this.sendEvent('GAME_START_COUNTDOWN', {
+            totalRounds: this.currentPlaylist ? this.currentPlaylist.length : 40,
+            hostSettings: this.hostSettings,
+            players: GS.players
+          });
+          this.executeGameStart();
+        }
+
         this.renderLobbyUI();
         this.startHostHeartbeat();
+        this.startHostPresenceWatchdog();
         this.saveActiveSession();
 
         ChatEngine.renderSystemMessage('👑 <strong>' + SecurityUtil.escapeHtml(this.playerName) + '</strong> is now the Host!');
@@ -17287,18 +18360,39 @@
 
       leaveRoom() {
         if (typeof HowToAnswerGuide !== 'undefined') HowToAnswerGuide.stop();
+        if (this.roomCode) {
+          try {
+            this.sendEvent('PLAYER_LEAVE', {
+              playerId: this.playerId,
+              name: this.playerName,
+              isHost: this.isHost
+            });
+          } catch(e) {}
+        }
+        this.stopClientHeartbeat();
+        this.stopHostPresenceWatchdog();
         this.stopHostHeartbeat();
         this.stopHostWatchdog();
         if (this._hostAutoAdvanceTimer) clearInterval(this._hostAutoAdvanceTimer);
         if (this._clientWaitTimer) clearInterval(this._clientWaitTimer);
+        if (this._joinTimeoutTimer) clearTimeout(this._joinTimeoutTimer);
+        this._joinTimeoutTimer = null;
+        this.isJoining = false;
         this.clearActiveSession();
-        if (this.mqttClient) {
-          try { this.mqttClient.end(true); } catch(e) {}
-          this.mqttClient = null;
+        const clientToEnd = this.mqttClient;
+        const channelToClose = this.broadcastChannel;
+        this.mqttClient = null;
+        this.broadcastChannel = null;
+
+        if (clientToEnd) {
+          setTimeout(() => {
+            try { clientToEnd.end(false); } catch(e) {}
+          }, 350);
         }
-        if (this.broadcastChannel) {
-          try { this.broadcastChannel.close(); } catch(e) {}
-          this.broadcastChannel = null;
+        if (channelToClose) {
+          setTimeout(() => {
+            try { channelToClose.close(); } catch(e) {}
+          }, 350);
         }
         GameController._onlineMode = false;
         GameController._isRemoteSession = false;
@@ -17386,13 +18480,24 @@
         this.currentPlayIndex = roundIndex;
         this.currentRoundWinners = [];
         this.hasUsedHintThisRound = false;
-        ChatEngine.setPlaceholder('Type movie guess or chat...');
+        this.currentRoundStartTime = Date.now();
         ChatEngine.clearInputs();
+        if (!this.currentPlaylist || this.currentPlaylist.length === 0) {
+          const s1 = (typeof GS !== 'undefined' && GS.sections) ? GS.sections.find(s => s.id === 1) : null;
+          if (s1 && s1.frames) {
+            this.currentPlaylist = [...s1.frames.slice(0, 20).map(f => ({ ...f, sectionName: 'Guess the Frame', sectionId: 1 }))];
+          } else {
+            this.currentPlaylist = [];
+          }
+        }
         const frame = this.currentPlaylist[roundIndex];
         if (!frame) {
           this.finishGame();
           return;
         }
+
+        const chatPrompt = (frame.sectionId === 3 || frame.type === 'eye') ? 'Type celebrity guess or chat...' : 'Type movie guess or chat...';
+        ChatEngine.setPlaceholder(chatPrompt);
 
         // Generate the single authoritative randomized hint for this round
         this.currentMaskedHint = this.generateMaskedHint(frame.answer);
@@ -17420,6 +18525,7 @@
         if (input) {
           input.value = '';
           input.disabled = false;
+          input.placeholder = (frame.sectionId === 3 || frame.type === 'eye') ? 'Enter celebrity name...' : 'Enter movie name...';
           input.focus();
         }
         if (submitBtn) submitBtn.disabled = false;
@@ -17432,7 +18538,8 @@
 
         FrameDisplay.showFrame(frame);
         ChatEngine.renderRoundSeparator(roundIndex);
-        document.getElementById('answerOverlay').classList.remove('active');
+        const ansOvEl = document.getElementById('answerOverlay');
+        if (ansOvEl) ansOvEl.classList.remove('active', 'eye-answer');
         const hfbNext = document.getElementById('hfbNextBtn'); if (hfbNext) hfbNext.style.display = 'none';
         document.getElementById('scoringOv').classList.remove('active');
 
@@ -17450,6 +18557,8 @@
             type: frame.type,
             content: frame.content,
             revealContent: frame.revealContent,
+            dialogue: frame.dialogue,
+            context: frame.context,
             sectionName: frame.sectionName,
             sectionId: frame.sectionId
           };
@@ -17461,6 +18570,7 @@
             maskedHint: this.currentMaskedHint
           });
         }
+        this.saveActiveSession();
       },
 
       handleRemoteRoundStart(msg) {
@@ -17471,8 +18581,10 @@
         this.hasUsedHintThisRound = false;
         this.currentMaskedHint = msg.maskedHint || '';
         this.currentClientFrame = msg.frame || null;
+        this.currentRoundStartTime = Date.now();
 
-        ChatEngine.setPlaceholder('Type movie guess or chat...');
+        const chatPrompt = (msg.frame && (msg.frame.sectionId === 3 || msg.frame.type === 'eye')) ? 'Type celebrity guess or chat...' : 'Type movie guess or chat...';
+        ChatEngine.setPlaceholder(chatPrompt);
         ChatEngine.clearInputs();
 
         UI.showScreen('gameScreen');
@@ -17506,6 +18618,7 @@
         if (input) {
           input.value = '';
           input.disabled = false;
+          input.placeholder = (msg.frame && (msg.frame.sectionId === 3 || msg.frame.type === 'eye')) ? 'Enter celebrity name...' : 'Enter movie name...';
           input.focus();
         }
         if (submitBtn) submitBtn.disabled = false;
@@ -17519,7 +18632,8 @@
 
         FrameDisplay.showFrame(msg.frame);
         ChatEngine.renderRoundSeparator(msg.roundIndex);
-        document.getElementById('answerOverlay').classList.remove('active');
+        const ansOvElRemote = document.getElementById('answerOverlay');
+        if (ansOvElRemote) ansOvElRemote.classList.remove('active', 'eye-answer');
         document.getElementById('scoringOv').classList.remove('active');
 
         this.playRoundIntroAnimation(msg.roundIndex + 1, totalR, () => {
@@ -17527,6 +18641,7 @@
             this.endRound();
           });
         });
+        this.saveActiveSession();
       },
 
       submitGuess(event) {
@@ -17542,6 +18657,11 @@
         if (!guess || !guess.trim()) return;
         guess = guess.trim();
         if (this.currentRoundWinners.some(w => w.playerId === this.playerId)) return;
+
+        if (!this.sessionStats) {
+          this.sessionStats = { roundsWon: 0, totalGuesses: 0, correctGuesses: 0, fastestGuessSeconds: null, roundStartTime: 0 };
+        }
+        this.sessionStats.totalGuesses = (this.sessionStats.totalGuesses || 0) + 1;
 
         if (this.isHost) {
           this.validateAndProcessGuess({
@@ -17560,6 +18680,23 @@
             guess: guess,
             roundIndex: this.currentPlayIndex
           });
+          if (this._guessTimeoutId) clearTimeout(this._guessTimeoutId);
+          this._guessTimeoutId = setTimeout(() => {
+            const fb = document.getElementById('onlineGuessFeedback');
+            if (fb && fb.textContent && fb.textContent.includes('Checking guess')) {
+              this.showGuessFeedback(null, '⚠️ Host lag — try again!');
+              const input = document.getElementById('onlineGuessInput');
+              const submitBtn = document.getElementById('onlineGuessSubmitBtn');
+              const alreadyWon = (this.currentRoundWinners || []).some(w => w.playerId === this.playerId);
+              if (input && !alreadyWon) {
+                input.disabled = false;
+                input.focus();
+              }
+              if (submitBtn && !alreadyWon) {
+                submitBtn.disabled = false;
+              }
+            }
+          }, 3500);
         }
       },
 
@@ -17577,7 +18714,11 @@
           const pts = pos === 1 ? 10 : (pos === 2 ? 7 : (pos === 3 ? 5 : 0));
           if (pts > 0) {
             const player = GS.players.find(p => p.id === data.playerId);
-            if (player) player.score = (player.score || 0) + pts;
+            if (player) {
+              player.score = (player.score || 0) + pts;
+              if (!this.playerScoresArchive) this.playerScoresArchive = {};
+              this.playerScoresArchive[player.id] = player.score;
+            }
 
             const winRecord = {
               playerId: data.playerId,
@@ -17597,10 +18738,23 @@
               const ogb = document.getElementById('onlineGuessSubmitBtn');
               if (ogb) ogb.disabled = true;
               ChatEngine.setPlaceholder('You guessed it! Chat freely (no spoilers)...');
+
+              if (!this.sessionStats) {
+                this.sessionStats = { roundsWon: 0, totalGuesses: 0, correctGuesses: 0, fastestGuessSeconds: null, roundStartTime: 0 };
+              }
+              this.sessionStats.correctGuesses = (this.sessionStats.correctGuesses || 0) + 1;
+              this.sessionStats.roundsWon = (this.sessionStats.roundsWon || 0) + 1;
+              if (this.currentRoundStartTime) {
+                const sec = Math.max(0.5, Math.round(((Date.now() - this.currentRoundStartTime) / 1000) * 10) / 10);
+                if (this.sessionStats.fastestGuessSeconds === null || sec < this.sessionStats.fastestGuessSeconds) {
+                  this.sessionStats.fastestGuessSeconds = sec;
+                }
+              }
             }
 
             UI.renderLB();
             ChatEngine.renderWinnerBanner(winRecord);
+            this.saveActiveSession();
 
             this.sendEvent('GUESS_CORRECT_BROADCAST', {
               winRecord,
@@ -17645,8 +18799,15 @@
         }
         if (msg.updatedPlayers) {
           GS.players = msg.updatedPlayers;
+          if (!this.playerScoresArchive) this.playerScoresArchive = {};
+          for (const p of msg.updatedPlayers) {
+            if (p && p.id && typeof p.score === 'number') {
+              this.playerScoresArchive[p.id] = p.score;
+            }
+          }
         }
         UI.renderLB();
+        this.saveActiveSession();
 
         if (winRecord && winRecord.playerId === this.playerId) {
           SoundManager.play('correct');
@@ -17656,6 +18817,18 @@
           const ogb = document.getElementById('onlineGuessSubmitBtn');
           if (ogb) ogb.disabled = true;
           ChatEngine.setPlaceholder('You guessed it! Chat freely (no spoilers)...');
+
+          if (!this.sessionStats) {
+            this.sessionStats = { roundsWon: 0, totalGuesses: 0, correctGuesses: 0, fastestGuessSeconds: null, roundStartTime: 0 };
+          }
+          this.sessionStats.correctGuesses = (this.sessionStats.correctGuesses || 0) + 1;
+          this.sessionStats.roundsWon = (this.sessionStats.roundsWon || 0) + 1;
+          if (this.currentRoundStartTime) {
+            const sec = Math.max(0.5, Math.round(((Date.now() - this.currentRoundStartTime) / 1000) * 10) / 10);
+            if (this.sessionStats.fastestGuessSeconds === null || sec < this.sessionStats.fastestGuessSeconds) {
+              this.sessionStats.fastestGuessSeconds = sec;
+            }
+          }
         }
 
         if (this.currentRoundWinners.length >= 3 && this.isHost) {
@@ -17666,7 +18839,7 @@
       endRound() {
         TC.stop();
         this.isRoundFinished = true;
-        const currentFrame = this.currentPlaylist[this.currentPlayIndex];
+        const currentFrame = (this.currentPlaylist && this.currentPlaylist[this.currentPlayIndex]) || this.currentClientFrame;
         if (!currentFrame) return;
 
         const img = document.querySelector('#imageContainer img');
@@ -17674,19 +18847,49 @@
 
         const ansTitle = document.getElementById('ansTitle');
         const ansYear = document.getElementById('ansYear');
+        const ansBadge = document.getElementById('ansBadge');
         const ansOverlay = document.getElementById('answerOverlay');
 
+        if (ansBadge) ansBadge.textContent = (currentFrame && currentFrame.type === 'eye') ? 'CELEBRITY REVEAL' : 'ANSWER';
         if (ansTitle) ansTitle.textContent = currentFrame.answer || '';
         if (ansYear) ansYear.textContent = currentFrame.year ? `(${currentFrame.year})` : '';
 
+        // Eye full-reveal for Section 3
+        if (currentFrame.type === 'eye' && currentFrame.revealContent) {
+          const imageContainer = document.getElementById('imageContainer');
+          if (imageContainer) {
+            const loadedImg = imageContainer.querySelector('.frame-image.loaded:not(.eye-full-reveal)');
+            const fullImg = document.createElement('img');
+            fullImg.className = 'frame-image eye-full-reveal';
+            fullImg.alt = currentFrame.answer || 'Full reveal photo';
+            const showFull = () => {
+              if (loadedImg) loadedImg.style.display = 'none';
+              if (!fullImg.parentNode) imageContainer.appendChild(fullImg);
+              requestAnimationFrame(() => fullImg.classList.add('visible', 'loaded'));
+              if (typeof PaletteManager !== 'undefined') PaletteManager.fromImage(fullImg);
+            };
+            fullImg.onload = showFull;
+            fullImg.src = currentFrame.revealContent;
+            if (fullImg.complete && fullImg.naturalWidth > 0) {
+              showFull();
+            }
+          }
+          if (ansOverlay) ansOverlay.classList.add('eye-answer');
+        } else {
+          if (ansOverlay) ansOverlay.classList.remove('eye-answer');
+        }
+
         let spotlightHtml = '';
+        if (currentFrame.type === 'dialogue' && currentFrame.dialogue) {
+          spotlightHtml += `<div class="ans-dialogue-quote" style="margin-bottom:12px; font-style:italic; font-weight:700; color:var(--text-secondary,#666); font-size:1.05rem;">"${SecurityUtil.escapeHtml(currentFrame.dialogue)}"</div>`;
+        }
         if (this.currentRoundWinners.length > 0) {
-          spotlightHtml = '<div class="winners-spotlight">' + this.currentRoundWinners.map(w => {
+          spotlightHtml += '<div class="winners-spotlight">' + this.currentRoundWinners.map(w => {
             const badgeClass = w.position === 1 ? 'winner-pill-1' : (w.position === 2 ? 'winner-pill-2' : 'winner-pill-3');
             return `<div class="winner-pill ${badgeClass}"><span>${w.position === 1 ? '🥇' : w.position === 2 ? '🥈' : '🥉'} ${SecurityUtil.escapeHtml(w.playerName)}</span><span>+${Number(w.points) || 0} pts</span></div>`;
           }).join('') + '</div>';
         } else {
-          spotlightHtml = '<div style="margin-top:10px; font-weight:800; color:#ff6b6b;">⏭ No one got it in time!</div>';
+          spotlightHtml += '<div style="margin-top:10px; font-weight:800; color:#ff6b6b;">⏭ No one got it in time!</div>';
         }
 
         const ansDialogue = document.getElementById('ansDialogue');
@@ -17732,34 +18935,65 @@
           // Dynamically morph Skip button into "▶ Next Round" (or "🏁 Finish Match")
           this.setHostSkipButtonState('next');
         }
+        this.saveActiveSession();
       },
 
       handleRemoteRoundFinish(msg) {
         TC.stop();
         this.isRoundFinished = true;
         this.currentRoundWinners = msg.currentRoundWinners || [];
-        const currentFrame = this.currentPlaylist[this.currentPlayIndex] || this.currentClientFrame;
+        const currentFrame = (this.currentPlaylist && this.currentPlaylist[this.currentPlayIndex]) || this.currentClientFrame;
 
         const img = document.querySelector('#imageContainer img');
         if (img) img.style.filter = 'blur(0px)';
 
         const ansTitle = document.getElementById('ansTitle');
         const ansYear = document.getElementById('ansYear');
+        const ansBadge = document.getElementById('ansBadge');
         const ansOverlay = document.getElementById('answerOverlay');
 
         const revealedAns = msg.revealedAnswer || (currentFrame && currentFrame.answer) || '';
         const revealedYr = msg.revealedYear || (currentFrame && currentFrame.year) || '';
+        if (ansBadge) ansBadge.textContent = (currentFrame && currentFrame.type === 'eye') ? 'CELEBRITY REVEAL' : 'ANSWER';
         if (ansTitle) ansTitle.textContent = revealedAns;
         if (ansYear) ansYear.textContent = revealedYr ? '(' + revealedYr + ')' : '';
 
+        // Eye full-reveal for Section 3
+        if (currentFrame && currentFrame.type === 'eye' && currentFrame.revealContent) {
+          const imageContainer = document.getElementById('imageContainer');
+          if (imageContainer) {
+            const loadedImg = imageContainer.querySelector('.frame-image.loaded:not(.eye-full-reveal)');
+            const fullImg = document.createElement('img');
+            fullImg.className = 'frame-image eye-full-reveal';
+            fullImg.alt = revealedAns || 'Full reveal photo';
+            const showFull = () => {
+              if (loadedImg) loadedImg.style.display = 'none';
+              if (!fullImg.parentNode) imageContainer.appendChild(fullImg);
+              requestAnimationFrame(() => fullImg.classList.add('visible', 'loaded'));
+              if (typeof PaletteManager !== 'undefined') PaletteManager.fromImage(fullImg);
+            };
+            fullImg.onload = showFull;
+            fullImg.src = currentFrame.revealContent;
+            if (fullImg.complete && fullImg.naturalWidth > 0) {
+              showFull();
+            }
+          }
+          if (ansOverlay) ansOverlay.classList.add('eye-answer');
+        } else {
+          if (ansOverlay) ansOverlay.classList.remove('eye-answer');
+        }
+
         let spotlightHtml = '';
+        if (currentFrame && currentFrame.type === 'dialogue' && currentFrame.dialogue) {
+          spotlightHtml += `<div class="ans-dialogue-quote" style="margin-bottom:12px; font-style:italic; font-weight:700; color:var(--text-secondary,#666); font-size:1.05rem;">"${SecurityUtil.escapeHtml(currentFrame.dialogue)}"</div>`;
+        }
         if (this.currentRoundWinners.length > 0) {
-          spotlightHtml = '<div class="winners-spotlight">' + this.currentRoundWinners.map(w => {
+          spotlightHtml += '<div class="winners-spotlight">' + this.currentRoundWinners.map(w => {
             const badgeClass = w.position === 1 ? 'winner-pill-1' : (w.position === 2 ? 'winner-pill-2' : 'winner-pill-3');
             return `<div class="winner-pill ${badgeClass}"><span>${w.position === 1 ? '🥇' : w.position === 2 ? '🥈' : '🥉'} ${SecurityUtil.escapeHtml(w.playerName)}</span><span>+${Number(w.points) || 0} pts</span></div>`;
           }).join('') + '</div>';
         } else {
-          spotlightHtml = '<div style="margin-top:10px; font-weight:800; color:#ff6b6b;">⏭ No one got it in time!</div>';
+          spotlightHtml += '<div style="margin-top:10px; font-weight:800; color:#ff6b6b;">⏭ No one got it in time!</div>';
         }
 
         const ansDialogue = document.getElementById('ansDialogue');
@@ -17792,6 +19026,7 @@
             }
           }
         }, 1000);
+        this.saveActiveSession();
       },
 
       hostNextRound() {
@@ -17799,7 +19034,7 @@
         if (this._clientWaitTimer) clearInterval(this._clientWaitTimer);
         if (!this.isHost) return;
         const ansOv = document.getElementById('answerOverlay');
-        if (ansOv) ansOv.classList.remove('visible', 'active');
+        if (ansOv) ansOv.classList.remove('visible', 'active', 'eye-answer');
         const scOv = document.getElementById('scoringOv');
         if (scOv) scOv.classList.remove('active');
         const hfbNext = document.getElementById('hfbNextBtn');
@@ -17877,10 +19112,13 @@
         this.hasUsedHintThisRound = true;
 
         // Deduct 2 points from local player
-        let myPlayer = GS.players.find(p => p.id === this.playerId || p.name.toLowerCase() === this.playerName.toLowerCase() || p.avatar === this.playerAvatar);
+        let myPlayer = GS.players.find(p => (this.playerId && p.id === this.playerId) || (this.playerName && p.name.toLowerCase() === this.playerName.toLowerCase()));
         if (myPlayer) {
-          myPlayer.score = (myPlayer.score || 0) - 2;
+          myPlayer.score = Math.max(0, (Number(myPlayer.score) || 0) - 2);
+          if (!this.playerScoresArchive) this.playerScoresArchive = {};
+          this.playerScoresArchive[myPlayer.id] = myPlayer.score;
           UI.renderLB();
+          this.saveActiveSession();
         }
 
         // Disable hint buttons for this round on this local machine
@@ -17942,13 +19180,15 @@
         console.log('[Hint Event Received]', msg);
         if (msg.updatedPlayers && Array.isArray(msg.updatedPlayers)) {
           msg.updatedPlayers.forEach(up => {
-            const match = GS.players.find(p => (up.name && p.name.toLowerCase() === up.name.toLowerCase()) || (up.id && p.id === up.id) || (up.avatar && p.avatar === up.avatar));
+            const match = GS.players.find(p => (up.id && p.id === up.id) || (up.name && p.name.toLowerCase() === up.name.toLowerCase()));
             if (match) {
-              match.score = up.score;
-              console.log('[Hint Sync] Updated score for', match.name, 'to', match.score);
+              match.score = Number(up.score) || 0;
+              if (!this.playerScoresArchive) this.playerScoresArchive = {};
+              this.playerScoresArchive[match.id] = match.score;
             }
           });
           UI.renderLB();
+          this.saveActiveSession();
         }
         // NOTE: Hints are strictly individual! Remote hint text is NEVER displayed here.
         if (msg.playerId !== this.playerId && msg.playerName !== this.playerName) {
@@ -17957,8 +19197,8 @@
       },
 
       checkForTieBreakerOrFinish() {
-        const sorted = [...GS.players].sort((a, b) => b.score - a.score);
-        if (sorted.length >= 2 && sorted[0].score === sorted[1].score) {
+        const sorted = [...GS.players].sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
+        if (sorted.length >= 2 && (Number(sorted[0].score) || 0) > 0 && sorted[0].score === sorted[1].score) {
           const tiedPlayers = sorted.filter(p => p.score === sorted[0].score);
           this.triggerTieBreaker(tiedPlayers);
         } else {
@@ -18010,6 +19250,7 @@
       finishGame() {
         this.isMatchActive = false;
         this.isRoundFinished = true;
+        this.clearActiveSession();
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.remove('active');
         document.getElementById('hostFloatingBar').style.display = 'none';
 
@@ -18025,6 +19266,7 @@
       handleRemoteGameOver(msg) {
         this.isMatchActive = false;
         this.isRoundFinished = true;
+        this.clearActiveSession();
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.remove('active');
         document.getElementById('hostFloatingBar').style.display = 'none';
         if (msg.players) GS.players = msg.players;
@@ -18077,6 +19319,21 @@
 
       returnToLobby() {
         if (typeof HowToAnswerGuide !== 'undefined') HowToAnswerGuide.stop();
+        this.isMatchActive = false;
+        this.isRoundFinished = false;
+        this.currentPlaylist = [];
+        this.currentPlayIndex = 0;
+        this.currentRoundWinners = [];
+        if (Array.isArray(GS.players)) {
+          GS.players.forEach(p => { p.score = 0; p.loaded = true; });
+        }
+        this.sessionStats = {
+          roundsWon: 0,
+          totalGuesses: 0,
+          correctGuesses: 0,
+          fastestGuessSeconds: null,
+          roundStartTime: 0
+        };
         if (this.isHost) {
           this.sendEvent('RETURN_LOBBY_BROADCAST');
         }
@@ -18086,6 +19343,21 @@
 
       handleRemoteReturnLobby() {
         if (typeof HowToAnswerGuide !== 'undefined') HowToAnswerGuide.stop();
+        this.isMatchActive = false;
+        this.isRoundFinished = false;
+        this.currentPlaylist = [];
+        this.currentPlayIndex = 0;
+        this.currentRoundWinners = [];
+        if (Array.isArray(GS.players)) {
+          GS.players.forEach(p => { p.score = 0; p.loaded = true; });
+        }
+        this.sessionStats = {
+          roundsWon: 0,
+          totalGuesses: 0,
+          correctGuesses: 0,
+          fastestGuessSeconds: null,
+          roundStartTime: 0
+        };
         UI.showScreen('playerLobbyScreen');
         this.renderLobbyUI();
       }
@@ -18100,6 +19372,9 @@
     /* ═══ EXACT REPLICA: AAA COMIC VICTORY WINNER CONTROLLER ═══ */
     const WinnerScreen = {
       show(players) {
+        if (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.clearActiveSession) {
+          MultiplayerEngine.clearActiveSession();
+        }
         UI.showScreen('winnerScreen');
         if (typeof SoundManager !== 'undefined' && SoundManager.playWinner) {
           SoundManager.playWinner();
@@ -18216,26 +19491,28 @@
       },
 
       renderStage(players) {
-        const sorted = [...(players || [])].sort((a, b) => b.score - a.score);
+        const sorted = [...(players || [])].sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
         if (sorted.length === 0) return;
 
         // 1st Place (Champion)
         const p1 = sorted[0];
-        const p1Avatar = p1.avatar || (p1.avatarImg ? p1.avatarImg.replace(/^.*\/([^\/]+)\.svg$/i, '$1') : 'aman');
+        const p1Score = p1 ? (Number(p1.score) || 0) : 0;
+        const p1Avatar = p1 ? (p1.avatar || (p1.avatarImg ? p1.avatarImg.replace(/^.*\/([^\/]+)\.svg$/i, '$1') : 'aman')) : 'aman';
         
         const champNameEl = document.getElementById('champName');
         const champScoreEl = document.getElementById('champScore');
         const champAvatarImg = document.getElementById('champAvatarImg');
 
-        if (champNameEl) champNameEl.textContent = (p1.name || 'AMAN').toUpperCase();
-        if (champScoreEl) champScoreEl.textContent = (p1.score != null ? p1.score : 30) + ' POINTS';
+        if (champNameEl) champNameEl.textContent = (p1 && p1.name ? p1.name : 'PLAYER 1').toUpperCase();
+        if (champScoreEl) champScoreEl.textContent = p1Score + ' POINTS';
         if (champAvatarImg) {
           champAvatarImg.src = 'avvtar/' + p1Avatar + '.svg';
-          champAvatarImg.alt = p1.name || 'Champion';
+          champAvatarImg.alt = p1 ? p1.name : 'Champion';
         }
 
         // 2nd Place (Silver)
         const p2 = sorted[1];
+        const p2Score = p2 ? (Number(p2.score) || 0) : 0;
         const silverCard = document.getElementById('silverCard');
         const silverName = document.getElementById('silverName');
         const silverScore = document.getElementById('silverScore');
@@ -18246,8 +19523,8 @@
             silverCard.style.opacity = '1';
             silverCard.style.visibility = 'visible';
             const p2Avatar = p2.avatar || (p2.avatarImg ? p2.avatarImg.replace(/^.*\/([^\/]+)\.svg$/i, '$1') : 'aziz');
-            if (silverName) silverName.textContent = (p2.name || 'AZIZ').toUpperCase();
-            if (silverScore) silverScore.textContent = (p2.score != null ? p2.score : 12) + ' POINTS';
+            if (silverName) silverName.textContent = (p2.name || 'PLAYER 2').toUpperCase();
+            if (silverScore) silverScore.textContent = p2Score + ' POINTS';
             if (silverImg) silverImg.src = 'avvtar/' + p2Avatar + '.svg';
           } else {
             silverCard.style.opacity = '0.35';
@@ -18258,6 +19535,7 @@
 
         // 3rd Place (Bronze)
         const p3 = sorted[2];
+        const p3Score = p3 ? (Number(p3.score) || 0) : 0;
         const bronzeCard = document.getElementById('bronzeCard');
         const bronzeName = document.getElementById('bronzeName');
         const bronzeScore = document.getElementById('bronzeScore');
@@ -18268,8 +19546,8 @@
             bronzeCard.style.opacity = '1';
             bronzeCard.style.visibility = 'visible';
             const p3Avatar = p3.avatar || (p3.avatarImg ? p3.avatarImg.replace(/^.*\/([^\/]+)\.svg$/i, '$1') : 'amish');
-            if (bronzeName) bronzeName.textContent = (p3.name || 'AMISH').toUpperCase();
-            if (bronzeScore) bronzeScore.textContent = (p3.score != null ? p3.score : 16) + ' POINTS';
+            if (bronzeName) bronzeName.textContent = (p3.name || 'PLAYER 3').toUpperCase();
+            if (bronzeScore) bronzeScore.textContent = p3Score + ' POINTS';
             if (bronzeImg) bronzeImg.src = 'avvtar/' + p3Avatar + '.svg';
           } else {
             bronzeCard.style.opacity = '0.35';
@@ -18280,7 +19558,7 @@
       },
 
       renderMatchSummary(players) {
-        const sorted = [...(players || [])].sort((a, b) => b.score - a.score);
+        const sorted = [...(players || [])].sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
         const p1 = sorted[0];
 
         const roundsWonEl = document.getElementById('summaryRoundsWon');
@@ -18288,11 +19566,17 @@
         const fastestEl = document.getElementById('summaryFastest');
         const pointsEl = document.getElementById('summaryPoints');
 
-        const totalRounds = (MultiplayerEngine.currentPlaylist && MultiplayerEngine.currentPlaylist.length) || 3;
-        if (roundsWonEl) roundsWonEl.textContent = totalRounds + '/' + totalRounds;
-        if (accuracyEl) accuracyEl.textContent = '92%';
-        if (fastestEl) fastestEl.textContent = '2.8s';
-        if (pointsEl && p1) pointsEl.textContent = p1.score != null ? p1.score : 30;
+        const totalRounds = (MultiplayerEngine.currentPlaylist && MultiplayerEngine.currentPlaylist.length) || 20;
+        const stats = MultiplayerEngine.sessionStats || { roundsWon: 0, totalGuesses: 0, correctGuesses: 0, fastestGuessSeconds: null };
+        const p1Score = p1 ? (Number(p1.score) || 0) : 0;
+
+        if (roundsWonEl) roundsWonEl.textContent = `${stats.roundsWon} / ${totalRounds}`;
+        if (accuracyEl) {
+          const acc = stats.totalGuesses > 0 ? Math.round((stats.correctGuesses / stats.totalGuesses) * 100) : 0;
+          accuracyEl.textContent = `${acc}%`;
+        }
+        if (fastestEl) fastestEl.textContent = stats.fastestGuessSeconds ? `${stats.fastestGuessSeconds}s` : '—';
+        if (pointsEl) pointsEl.textContent = p1Score;
       },
 
       fireComicConfetti() {
@@ -18454,10 +19738,6 @@
             </div>
             <div class="lb-score-cluster">
               <span class="lb-score">${p.score}</span>
-              <div class="score-controls">
-                <button class="lb-score-btn" onclick="GameController.modScore(${realIdx}, 10); event.stopPropagation();" title="Add 10 points to ${safeName}" aria-label="Add 10 points to ${safeName}">+</button>
-                <button class="lb-score-btn minus" onclick="GameController.modScore(${realIdx}, -10); event.stopPropagation();" title="Subtract 10 points from ${safeName}" aria-label="Subtract 10 points from ${safeName}">−</button>
-              </div>
             </div>
           </div>`;
         }).join('');
@@ -18553,21 +19833,41 @@
       _currentImage: null,
       _loadingImage: null,
 
-      /* Preload and cache images */
+      /* Preload, decode, and cache images with zero-latency GPU warmup */
       preloadImage(src) {
+        if (!src) return Promise.resolve(null);
         if (GS.imageCache.has(src)) return Promise.resolve(GS.imageCache.get(src));
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           const img = new Image();
-          img.onload = () => { GS.imageCache.set(src, img); resolve(img); };
-          img.onerror = reject;
+          img.onload = async () => {
+            try { if (img.decode) await img.decode(); } catch(e) {}
+            GS.imageCache.set(src, img);
+            resolve(img);
+          };
+          img.onerror = () => resolve(null);
           img.src = src;
         });
+      },
+
+      /* Instant warmup of active match frames into memory */
+      async warmPlaylist(playlist) {
+        if (!Array.isArray(playlist) || playlist.length === 0) return;
+        const urls = [];
+        playlist.forEach(f => {
+          if (!f) return;
+          if (f.content) urls.push(f.content);
+          if (f.type === 'eye' && f.revealContent) urls.push(f.revealContent);
+        });
+        const BATCH = 8;
+        for (let i = 0; i < urls.length; i += BATCH) {
+          const chunk = urls.slice(i, i + BATCH);
+          await Promise.allSettled(chunk.map(src => this.preloadImage(src)));
+        }
       },
 
       /* Preload all frames for progress tracking */
       async preloadAll(onProgress) {
         const priorityImages = [];
-        const backgroundImages = [];
 
         const collect = frames => frames.forEach(f => {
           if ((f.type === 'image' || f.type === 'eye') && f.content) {
@@ -18586,12 +19886,6 @@
 
           priorityImages.push('avvtar/' + safeKey + '.svg');
           priorityImages.push('avvtar/' + safeKey + ' trophy.png');
-
-          // Champion celebration frames are warmed in background so match can start instantly
-          const maxF = safeKey === 'aman' ? 96 : 92;
-          for (let i = 1; i <= maxF; i++) {
-            backgroundImages.push('avvtar/' + safeKey + '/frame_' + String(i).padStart(4, '0') + '.png');
-          }
         });
 
         let loaded = 0;
@@ -18606,20 +19900,10 @@
           loaded += results.length;
           if (onProgress) onProgress({ loaded, total: totalPriority, percent: Math.min(100, Math.round((loaded / totalPriority) * 100)) });
         }
-
-        // Warm champion frames asynchronously in background without blocking match start
-        setTimeout(async () => {
-          for (let i = 0; i < backgroundImages.length; i += 20) {
-            const bgBatch = backgroundImages.slice(i, i + 20);
-            await Promise.allSettled(bgBatch.map(src => this.preloadImage(src)));
-          }
-        }, 100);
       },
 
       /* Preload next few frames */
       async preloadUpcoming() {
-        // Solo mode is fully on-demand: do not warm future frame assets.
-        if (GS.players.length === 1) return;
         let count = 0;
         for (let s = GS.currentSection; s < GS.sections.length && count < 3; s++) {
           const sec = GS.sections[s];
@@ -18685,6 +19969,7 @@
           PaletteManager.reset();
           layer.style.opacity = '0';
           imageContainer.innerHTML = '';
+          dialogue.style.filter = '';
 
           // Show dialogue text instantly (no typewriter animation)
           const dialogueQuote = document.getElementById('dialogueQuote');
@@ -18705,6 +19990,7 @@
           PaletteManager.reset();
           imageContainer.innerHTML = '';
           dialogue.classList.remove('visible');
+          dialogue.style.filter = '';
           if (ph) ph.classList.add('hidden');
           const c = (f.content || '').trim();
           const isIconName = /^[a-z0-9-]+$/i.test(c);
@@ -18717,22 +20003,62 @@
 
         // Hide dialogue if visible
         dialogue.classList.remove('visible');
+        dialogue.style.filter = '';
 
         // Fade out placeholder
         if (ph) ph.classList.add('hidden');
 
         // Clean up any stale images in the container before adding new ones
+        imageContainer.querySelectorAll('.eye-full-reveal').forEach(el => el.remove());
         while (imageContainer.children.length > 1) {
           imageContainer.removeChild(imageContainer.firstChild);
         }
 
         const stageLoader = document.getElementById('frameStageLoader');
-        if (stageLoader) stageLoader.style.display = 'block';
+        if (stageLoader) stageLoader.style.display = 'none';
 
-        // Create and load new image with crossfade
+        // Create and load new image with instant cache display
         const newImg = document.createElement('img');
         newImg.className = f.type === 'eye' ? 'frame-image eye-image' : 'frame-image';
+        newImg.loading = 'eager';
         const frameRef = f; // capture reference for async callback
+
+        const applyImage = (imgElement) => {
+          if (GS.currentFrameLoader !== frameRef) return;
+          if (stageLoader) stageLoader.style.display = 'none';
+          imgElement.classList.add('loaded');
+          PaletteManager.fromImage(imgElement);
+
+          // Clean up old images
+          const oldImages = imageContainer.querySelectorAll('.frame-image.loaded');
+          oldImages.forEach(old => {
+            if (old !== imgElement) {
+              old.style.transition = 'opacity 0.2s ease';
+              old.style.opacity = '0';
+              setTimeout(() => { if (old.parentNode) old.parentNode.removeChild(old); }, 220);
+            }
+          });
+
+          if (!imgElement.parentNode) {
+            imageContainer.appendChild(imgElement);
+          }
+          this._currentImage = imgElement;
+          SoundManager.playFrameIn();
+        };
+
+        // Instant cache fast-path
+        if (GS.imageCache.has(f.content)) {
+          const cached = GS.imageCache.get(f.content);
+          if (cached && cached.complete && cached.naturalWidth > 0) {
+            newImg.src = f.content;
+            applyImage(newImg);
+            this.preloadUpcoming();
+            return;
+          }
+        }
+
+        // If not in instant cache, display loader while fetching
+        if (stageLoader) stageLoader.style.display = 'block';
 
         try {
           await this.preloadImage(f.content);
@@ -18741,44 +20067,28 @@
           if (GS.currentFrameLoader !== frameRef) return;
 
           newImg.onload = async () => {
-            // Check if still valid
             if (GS.currentFrameLoader !== frameRef) {
-              newImg.onload = null; newImg.onerror = null; newImg.removeAttribute('src'); // release without firing onerror
+              newImg.onload = null; newImg.onerror = null; newImg.removeAttribute('src');
               return;
             }
-
-            // Decode off main thread for jank-free rendering
             try { if (newImg.decode) await newImg.decode(); } catch (e) { }
-
-            newImg.classList.add('loaded');
-            PaletteManager.fromImage(newImg);
-
-            // Crossfade: fade out old images
-            const oldImages = imageContainer.querySelectorAll('.frame-image.loaded');
-            oldImages.forEach(old => {
-              if (old !== newImg) {
-                old.style.transition = 'opacity 0.4s ease';
-                old.style.opacity = '0';
-                setTimeout(() => { if (old.parentNode) old.parentNode.removeChild(old); }, 450);
-              }
-            });
-
-            imageContainer.appendChild(newImg);
-            this._currentImage = newImg;
-            SoundManager.playFrameIn();
+            applyImage(newImg);
           };
 
           newImg.onerror = () => {
-            // Fallback to placeholder
+            if (stageLoader) stageLoader.style.display = 'none';
             PaletteManager.reset();
             layer.innerHTML = `<span class="frame-emoji-big"><svg class="svg-icon"><use href="#icon-clapperboard" /></svg></span>`;
             layer.style.opacity = '1';
           };
 
           newImg.src = f.content;
+          if (newImg.complete && newImg.naturalWidth > 0) {
+            applyImage(newImg);
+          }
 
         } catch (e) {
-          // Fallback
+          if (stageLoader) stageLoader.style.display = 'none';
           if (GS.currentFrameLoader !== frameRef) return;
           PaletteManager.reset();
           layer.innerHTML = `<span class="frame-emoji-big"><svg class="svg-icon"><use href="#icon-clapperboard" /></svg></span>`;
@@ -18800,6 +20110,9 @@
         const ansYear = document.getElementById('ansYear');
         const ansDialogue = document.getElementById('ansDialogue');
 
+        const ansBadge = document.getElementById('ansBadge');
+        if (ansBadge) ansBadge.textContent = (f && f.type === 'eye') ? 'CELEBRITY REVEAL' : 'ANSWER';
+
         ansTitle.textContent = f.answer || '';
         ansYear.textContent = f.year ? `${f.year}` : '';
 
@@ -18815,29 +20128,27 @@
           dialogue.style.filter = 'blur(5px) brightness(0.5)';
         } else if (f.type === 'eye' && f.revealContent) {
           const loadedImg = imageContainer.querySelector('.frame-image.loaded:not(.eye-full-reveal)');
-          if (loadedImg) {
-            loadedImg.style.transition = 'filter 0.55s ease, transform 0.75s ease, opacity 0.55s ease';
-            loadedImg.style.filter = 'blur(12px) brightness(.48)';
-            loadedImg.style.transform = 'scale(1.08)';
-            loadedImg.style.opacity = '.55';
-          }
-
           try {
             await this.preloadImage(f.revealContent);
             const fullImg = document.createElement('img');
             fullImg.className = 'frame-image eye-full-reveal';
             fullImg.alt = f.answer || 'Full reveal photo';
-            fullImg.onload = () => {
+            const showFull = () => {
               if (GS.currentFrameLoader !== f) {
                 fullImg.onload = null; fullImg.onerror = null; fullImg.removeAttribute('src');
                 return;
               }
-              imageContainer.appendChild(fullImg);
+              if (loadedImg) loadedImg.style.display = 'none';
+              if (!fullImg.parentNode) imageContainer.appendChild(fullImg);
               requestAnimationFrame(() => fullImg.classList.add('visible', 'loaded'));
               PaletteManager.fromImage(fullImg);
             };
+            fullImg.onload = showFull;
             fullImg.onerror = () => { fullImg.onerror = null; fullImg.removeAttribute('src'); };
             fullImg.src = f.revealContent;
+            if (fullImg.complete && fullImg.naturalWidth > 0) {
+              showFull();
+            }
             ansOv.classList.add('eye-answer');
           } catch (e) {
             ansOv.classList.remove('eye-answer');
@@ -18857,6 +20168,7 @@
         SoundManager.playReveal();
       },
     };
+    window.MultiplayerEngine = MultiplayerEngine;
 
     /* ═══ GAME CONTROLLER ═══ */
     const GameController = {
@@ -18990,6 +20302,7 @@
       _topTiePlayers() {
         if (GS.players.length < 2) return [];
         const topScore = Math.max(...GS.players.map(p => Number.isFinite(p.score) ? p.score : 0));
+        if (topScore <= 0) return [];
         return GS.players.filter(p => p.score === topScore);
       },
       _shouldStartTieBreaker() {
@@ -19593,14 +20906,9 @@
         } catch (e) { return null; }
       },
       _checkResume() {
+        try { localStorage.removeItem(this._RESUME_KEY); } catch (e) { }
         const btn = document.getElementById('homeResumeBtn');
-        if (!btn) return;
-        const s = this._readSnap();
-        if (!s) { btn.style.display = 'none'; return; }
-        const sec = s.sections[s.currentSection];
-        const meta = document.getElementById('resumeMeta');
-        if (meta) meta.textContent = sec ? `${sec.name} · Round ${(s.currentSectionRound || 0) + 1}` : 'Continue where you left off';
-        btn.style.display = '';
+        if (btn) btn.remove();
       },
       resumeGame() {
         const s = this._readSnap();
@@ -19677,7 +20985,7 @@
         GS.settings.answerRevealDuration = parseInt(cfgReveal && cfgReveal.value) || 2;
         GS.settings.pointsPerAnswer = parseInt(cfgPts && cfgPts.value) || 10;
         GS.settings.judgePoints = parseInt(cfgJPts && cfgJPts.value) || 20;
-        GS.settings.creatorMessage = (cfgMsg && cfgMsg.value) || 'tanmayy, Tanuj, Darshan, Akash, Anmol and members of smoc.';
+        GS.settings.creatorMessage = (cfgMsg && cfgMsg.value) || 'tanmay, Tanuj, Darshan, Akash, Anmol (timestamp guy) and members of smoc.';
         { const volVal = cfgVol ? parseFloat(cfgVol.value) : NaN; SoundManager.setVolume(Number.isFinite(volVal) ? volVal / 100 : 0.25); }
       },
 
@@ -20072,6 +21380,21 @@
 
     /* Cleanup on page unload - prevent orphaned connections */
     window.addEventListener('beforeunload', () => {
+      // Clean up MultiplayerEngine connection & notify lobby
+      if (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.roomCode) {
+        try {
+          MultiplayerEngine.sendEvent('PLAYER_LEAVE', {
+            playerId: MultiplayerEngine.playerId,
+            name: MultiplayerEngine.playerName,
+            isHost: MultiplayerEngine.isHost
+          });
+        } catch (e) { }
+        MultiplayerEngine.stopClientHeartbeat();
+        MultiplayerEngine.stopHostPresenceWatchdog();
+        MultiplayerEngine.stopHostHeartbeat();
+        MultiplayerEngine.stopHostWatchdog();
+      }
+
       // Clean up RoomLobby connection
       if (RoomLobby._heartbeatId) { clearInterval(RoomLobby._heartbeatId); }
       if (RoomLobby._stateSyncId) { clearInterval(RoomLobby._stateSyncId); }
@@ -20198,6 +21521,17 @@
       document.addEventListener('DOMContentLoaded', () => MultiplayerEngine.init());
     } else {
       MultiplayerEngine.init();
+    }
+
+    // Register Service Worker for instant 0ms asset retrieval
+    if ('serviceWorker' in navigator && (window.location.protocol === 'http:' || window.location.protocol === 'https:')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then((reg) => {
+          console.log('[SW] Service Worker registered:', reg.scope);
+        }).catch((err) => {
+          console.warn('[SW] Registration skipped:', err);
+        });
+      });
     }
 
   </script>
