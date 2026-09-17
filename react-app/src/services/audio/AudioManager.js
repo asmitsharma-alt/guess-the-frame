@@ -15,10 +15,10 @@ export class AudioManager {
     this.musicGain = null;
     this.limiter = null;
 
-    // Volume settings (0.0 to 1.0)
-    this.masterVolume = 0.9;
-    this.sfxVolume = 1.0;
-    this.musicVolume = 0.5;
+    // Volume settings (0.0 to 1.0) - comfortably soft to protect ears
+    this.masterVolume = 0.55;
+    this.sfxVolume = 0.7;
+    this.musicVolume = 0.35;
     this.isMuted = false;
 
     // Deduplication tracking: Map<eventKey, timestamp>
@@ -47,7 +47,8 @@ export class AudioManager {
     try {
       const savedVol = localStorage.getItem('gtf_sound_vol');
       if (savedVol !== null) {
-        this.masterVolume = Math.max(0, Math.min(1, parseFloat(savedVol)));
+        // Clamp saved volume to comfortable range so legacy settings don't blast ears
+        this.masterVolume = Math.max(0, Math.min(0.65, parseFloat(savedVol)));
       }
       const savedMuted = localStorage.getItem('gtf_sound_muted');
       if (savedMuted !== null) {
@@ -55,11 +56,11 @@ export class AudioManager {
       }
       const savedSfx = localStorage.getItem('gtf_sfx_vol');
       if (savedSfx !== null) {
-        this.sfxVolume = Math.max(0, Math.min(1, parseFloat(savedSfx)));
+        this.sfxVolume = Math.max(0, Math.min(0.8, parseFloat(savedSfx)));
       }
       const savedMusic = localStorage.getItem('gtf_music_vol');
       if (savedMusic !== null) {
-        this.musicVolume = Math.max(0, Math.min(1, parseFloat(savedMusic)));
+        this.musicVolume = Math.max(0, Math.min(0.5, parseFloat(savedMusic)));
       }
     } catch (e) {}
   }
@@ -105,23 +106,30 @@ export class AudioManager {
       const now = this.ctx.currentTime;
       this.masterGain.gain.setValueAtTime(this.isMuted ? 0.0001 : this.masterVolume, now);
 
-      // SFX Bus
+      // SFX Bus with gentle warmth filter to eliminate ear-piercing high frequencies
       this.sfxGain = this.ctx.createGain();
       this.sfxGain.gain.setValueAtTime(this.sfxVolume, now);
-      this.sfxGain.connect(this.masterGain);
+
+      this.warmthFilter = this.ctx.createBiquadFilter();
+      this.warmthFilter.type = 'lowpass';
+      this.warmthFilter.frequency.setValueAtTime(3600, now);
+      this.warmthFilter.Q.setValueAtTime(0.707, now);
+
+      this.sfxGain.connect(this.warmthFilter);
+      this.warmthFilter.connect(this.masterGain);
 
       // Music Bus
       this.musicGain = this.ctx.createGain();
       this.musicGain.gain.setValueAtTime(this.musicVolume, now);
       this.musicGain.connect(this.masterGain);
 
-      // Dynamic limiter to prevent clipping and protect ears
+      // Dynamic limiter with soft knee to prevent any sudden loud peaks
       this.limiter = this.ctx.createDynamicsCompressor();
-      this.limiter.threshold.setValueAtTime(-3, now);
-      this.limiter.knee.setValueAtTime(10, now);
-      this.limiter.ratio.setValueAtTime(4, now);
-      this.limiter.attack.setValueAtTime(0.003, now);
-      this.limiter.release.setValueAtTime(0.15, now);
+      this.limiter.threshold.setValueAtTime(-6, now);
+      this.limiter.knee.setValueAtTime(14, now);
+      this.limiter.ratio.setValueAtTime(6, now);
+      this.limiter.attack.setValueAtTime(0.002, now);
+      this.limiter.release.setValueAtTime(0.2, now);
 
       this.masterGain.connect(this.limiter);
       this.limiter.connect(this.ctx.destination);

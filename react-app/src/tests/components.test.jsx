@@ -67,7 +67,7 @@ describe('Frontend Component & Logic Tests', () => {
 
   it('SoundManager manages volume, mute state, and audio routing safely', () => {
     expect(SoundManager.muted).toBe(false);
-    expect(SoundManager.vol).toBeGreaterThanOrEqual(0.8);
+    expect(SoundManager.vol).toBeGreaterThanOrEqual(0.5);
     const muted = SoundManager.toggleMute();
     expect(muted).toBe(true);
     expect(SoundManager.muted).toBe(true);
