@@ -20,12 +20,39 @@ test.describe("Asset & Frame Loading Reliability", () => {
     }
   });
 
-  test("Only Section 1 (Guess the Frame) is active; dialogue and eyes modes are removed", async ({ page }) => {
+  test("All three sections (Frames, Dialogue, Eyes) are active and resolve assets over HTTP 200", async ({ page, request }) => {
     const sections = await page.evaluate(() => GS.sections);
-    expect(sections.length).toBe(1);
-    expect(sections[0].id).toBe(1);
-    expect(sections[0].name).toBe("Guess the Frame");
-    expect(sections.some(s => s.id === 2 || s.id === 3)).toBe(false);
+    expect(sections.length).toBe(3);
+
+    const s1 = sections.find(s => s.id === 1);
+    expect(s1).toBeTruthy();
+    expect(s1.name).toBe("Guess the Frame");
+    expect(s1.frames.length).toBeGreaterThanOrEqual(20);
+
+    const s2 = sections.find(s => s.id === 2);
+    expect(s2).toBeTruthy();
+    expect(s2.name).toBe("Guess the Dialogue");
+    expect(s2.frames.length).toBe(10);
+    for (const f of s2.frames) {
+      expect(f.dialogue).toBeTruthy();
+      expect(f.answer).toBeTruthy();
+    }
+
+    const s3 = sections.find(s => s.id === 3);
+    expect(s3).toBeTruthy();
+    expect(s3.name).toBe("Guess the Eye");
+    expect(s3.frames.length).toBe(10);
+    for (const f of s3.frames) {
+      expect(f.content).toBeTruthy();
+      expect(f.revealContent).toBeTruthy();
+      expect(f.answer).toBeTruthy();
+
+      const rEye = await request.get("/" + encodeURI(f.content));
+      expect(rEye.status(), "Eye crop failed to load: " + f.content).toBe(200);
+
+      const rReveal = await request.get("/" + encodeURI(f.revealContent));
+      expect(rReveal.status(), "Reveal portrait failed to load: " + f.revealContent).toBe(200);
+    }
   });
 
   test("Tie-breaker frames resolve over HTTP with status 200", async ({ page, request }) => {

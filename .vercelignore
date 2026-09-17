@@ -5,3 +5,7 @@ test-results/
 scripts/
 docs/
 sites/
+backups/
+functions/
+*.bak
+load_test_report.json

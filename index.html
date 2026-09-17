@@ -13555,8 +13555,7 @@
   <!-- Appwrite Web SDK & QRCode for Online Multiplayer -->
   <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-  <script src="https://unpkg.com/mqtt@5.3.5/dist/mqtt.min.js"></script>
-</head>
+  </head>
 
 <body>
   <svg style="display: none;">
@@ -17613,10 +17612,25 @@
         if (!text || !text.trim()) return;
         text = text.trim();
 
-        const currentAns = this.getCurrentRoundAnswer();
         const roundActive = this.isRoundActive();
         const alreadyWon = MultiplayerEngine.currentRoundWinners.some(w => w.playerId === MultiplayerEngine.playerId);
 
+        // In online multiplayer: forward guess directly to Appwrite validate-guess Function
+        if ((MultiplayerEngine.roomId || (typeof GameController !== 'undefined' && GameController._onlineMode)) && roundActive) {
+          if (!alreadyWon) {
+            MultiplayerEngine.submitGuessDirect(text);
+            return;
+          } else {
+            const currentAns = this.getCurrentRoundAnswer();
+            if (currentAns && this.isAnswerOrSpoiler(text, currentAns)) {
+              this.renderSystemMessage('⚠️ <strong>Shh!</strong> That\'s the answer! Don\'t spoil it in chat! 🤫');
+              if (typeof SoundManager !== 'undefined' && SoundManager.playPop) SoundManager.playPop();
+              return;
+            }
+          }
+        }
+
+        const currentAns = this.getCurrentRoundAnswer();
         // Check if message matches the active round answer via strict whole-title FuzzyMatcher
         const isMatch = roundActive && currentAns && FuzzyMatcher.isMatch(text, currentAns);
 
@@ -18410,39 +18424,178 @@
         };
       }
     });
+    /* ══════════════════════════════════════════════════════════════════
+       PRODUCTION APPWRITE MULTIPLAYER ENGINE & MONITORING
+       ══════════════════════════════════════════════════════════════════ */
+    window.ScoopCastDebug = window.ScoopCastDebug || {
+      network: {
+        status: (typeof navigator !== 'undefined' && navigator.onLine) ? 'online' : 'offline',
+        latency: 0,
+        lastPing: Date.now()
+      },
+      realtime: {
+        status: 'disconnected',
+        reconnects: 0,
+        disconnectCount: 0,
+        lastEventTimestamp: 0
+      },
+      api: {
+        failures: 0,
+        retries: 0,
+        successes: 0,
+        lastError: null
+      },
+      function: {
+        latency: 0,
+        lastCallTime: 0,
+        callCount: 0
+      },
+      errors: {
+        jsCrashes: 0,
+        lastJsError: null
+      },
+      images: {
+        lastLoadTime: 0,
+        cachedCount: 0
+      },
+      getSummary() {
+        return {
+          network: this.network.status,
+          realtime: this.realtime.status,
+          reconnects: this.realtime.reconnects,
+          apiFailures: this.api.failures,
+          apiRetries: this.api.retries,
+          apiSuccesses: this.api.successes,
+          jsCrashes: this.errors.jsCrashes,
+          functionLatencyMs: this.function.latency,
+          functionCalls: this.function.callCount,
+          imageLoadTimeMs: this.images.lastLoadTime,
+          cachedImages: this.images.cachedCount
+        };
+      }
+    };
+
+    if (typeof window !== 'undefined' && !window._scErrorHookInstalled) {
+      window._scErrorHookInstalled = true;
+      window.addEventListener('error', function(e) {
+        if (window.ScoopCastDebug) {
+          window.ScoopCastDebug.errors.jsCrashes++;
+          window.ScoopCastDebug.errors.lastJsError = (e && e.message) || String(e);
+        }
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        if (window.ScoopCastDebug) {
+          window.ScoopCastDebug.errors.jsCrashes++;
+          window.ScoopCastDebug.errors.lastJsError = (e && e.reason && (e.reason.message || String(e.reason))) || 'Unhandled rejection';
+        }
+      });
+    }
+
+    window.SCOOPCAST_PROD_MODE = true;
+    function _scLog(...args) {
+      if (window.SCOOPCAST_DEBUG || !window.SCOOPCAST_PROD_MODE) {
+        console.log(...args);
+      }
+    }
+    function _scWarn(...args) {
+      if (window.SCOOPCAST_DEBUG || !window.SCOOPCAST_PROD_MODE) {
+        console.warn(...args);
+      }
+    }
+
+    async function withNetworkRetry(operation, maxRetries = 3, baseDelayMs = 350) {
+      let attempt = 0;
+      while (true) {
+        try {
+          const result = await operation();
+          if (window.ScoopCastDebug) window.ScoopCastDebug.api.successes++;
+          return result;
+        } catch (err) {
+          attempt++;
+          if (window.ScoopCastDebug) {
+            window.ScoopCastDebug.api.failures++;
+            window.ScoopCastDebug.api.lastError = err.message || String(err);
+          }
+          const isClientError = err && err.code && (err.code === 400 || err.code === 401 || err.code === 403 || err.code === 404 || err.code === 429);
+          if (attempt >= maxRetries || isClientError) {
+            throw err;
+          }
+          if (window.ScoopCastDebug) window.ScoopCastDebug.api.retries++;
+          const delay = baseDelayMs * Math.pow(2, attempt - 1) + Math.floor(Math.random() * 100);
+          _scWarn(`[Network Retry] Attempt ${attempt}/${maxRetries} failed: ${err.message}. Retrying in ${delay}ms...`);
+          await new Promise(r => setTimeout(r, delay));
+        }
+      }
+    }
+
+    const APPWRITE_CONFIG = {
+      endpoint: 'https://sgp.cloud.appwrite.io/v1',
+      projectId: '6a95a01e0028db20a16f',
+      databaseId: 'guess_the_frame'
+    };
+
+    let _appwriteClient = null;
+    let _appwriteAccount = null;
+    let _appwriteDatabases = null;
+    let _appwriteStorage = null;
+    let _appwriteFunctions = null;
+
+    function getAppwrite() {
+      if (!_appwriteClient && typeof Appwrite !== 'undefined') {
+        _appwriteClient = new Appwrite.Client()
+          .setEndpoint(APPWRITE_CONFIG.endpoint)
+          .setProject(APPWRITE_CONFIG.projectId);
+        _appwriteAccount = new Appwrite.Account(_appwriteClient);
+        _appwriteDatabases = new Appwrite.Databases(_appwriteClient);
+        _appwriteStorage = new Appwrite.Storage(_appwriteClient);
+        _appwriteFunctions = new Appwrite.Functions(_appwriteClient);
+      }
+      return {
+        client: _appwriteClient,
+        account: _appwriteAccount,
+        databases: _appwriteDatabases,
+        storage: _appwriteStorage,
+        functions: _appwriteFunctions
+      };
+    }
 
     const MultiplayerEngine = {
-      mqttClient: null,
       broadcastChannel: null,
+      realtimeUnsubscribe: null,
       roomId: null,
       roomCode: null,
       playerId: null,
       playerName: 'Player',
       playerAvatar: 'aman',
+      playerAvatarImg: 'avvtar/aman.svg',
+      playerAvatarColor: '#ff7eb6',
       isHost: false,
       selectedAvatarForModal: 'aman',
       currentMaskedHint: null,
       currentRoundWinners: [],
       currentPlaylist: [],
       currentPlayIndex: 0,
+      currentClientFrame: null,
       hostSettings: {
         category: 'all',
         categories: ['frames', 'eyes', 'dialogue'],
         roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
-          rounds: 40,
+        rounds: 40,
         timer: 30
       },
       isPaused: false,
-      joinRetryTimer: null,
       hasJoinedAck: false,
       isJoining: false,
-      _joinTimeoutTimer: null,
+      isRejoining: false,
       isConnected: false,
-      _heartbeatInterval: null,
-      _watchdogInterval: null,
+      connectionState: 'CONNECTED',
+      _isReconnecting: false,
+      heartbeatTimer: null,
+      presenceWatchdogTimer: null,
       _hostAutoAdvanceTimer: null,
       _clientWaitTimer: null,
       lastHostHeartbeat: 0,
+      gameStateVersion: 1,
       sessionStats: {
         roundsWon: 0,
         totalGuesses: 0,
@@ -18450,10 +18603,10 @@
         fastestGuessSeconds: null,
         roundStartTime: 0
       },
-      clientHeartbeatTimer: null,
-      presenceWatchdogTimer: null,
+      playerScoresArchive: {},
+      pendingRejoinSession: null,
 
-      init() {
+      async init() {
         const savedName = localStorage.getItem('gtf_player_name');
         const savedAvatar = localStorage.getItem('gtf_player_avatar');
         if (savedName) this.playerName = savedName;
@@ -18461,15 +18614,176 @@
           this.playerAvatar = savedAvatar;
           this.selectedAvatarForModal = savedAvatar;
         }
-        const savedPlayerId = localStorage.getItem('gtf_player_id');
-        if (savedPlayerId) {
-          this.playerId = savedPlayerId;
-        } else if (!this.playerId) {
-          this.playerId = 'p_' + Math.random().toString(36).substr(2, 9);
-          localStorage.setItem('gtf_player_id', this.playerId);
-        }
+
+        try {
+          this.broadcastChannel = new BroadcastChannel('gtf_multiplayer_channel');
+          this.broadcastChannel.onmessage = (event) => {
+            if (!event.data) return;
+            const { type, payload, roomId } = event.data;
+            if (roomId && this.roomId && roomId !== this.roomId) return;
+            if (type === 'CHAT_MESSAGE' && payload && payload.msg) {
+              if (typeof ChatEngine !== 'undefined') {
+                ChatEngine.renderMessage(payload.msg);
+              }
+            }
+          };
+        } catch(e) {}
+
+        await this.ensureAuth();
+        this.setupLifecycleListeners();
+        this.checkPendingRejoin();
         this.checkUrlParams();
-        ChatEngine.initVisualViewport();
+      },
+
+      async ensureAuth() {
+        const { account } = getAppwrite();
+        if (!account) return;
+        try {
+          const user = await account.get();
+          this.playerId = user.$id;
+          localStorage.setItem('gtf_player_id', this.playerId);
+        } catch (e) {
+          try {
+            const session = await account.createAnonymousSession();
+            this.playerId = session.userId;
+            localStorage.setItem('gtf_player_id', this.playerId);
+          } catch (err) {
+            this.playerId = localStorage.getItem('gtf_player_id') || ('anon_' + Math.random().toString(36).slice(2, 10));
+            localStorage.setItem('gtf_player_id', this.playerId);
+          }
+        }
+      },
+
+      setupLifecycleListeners() {
+        // Online / Offline network switching
+        window.addEventListener('online', () => {
+          _scLog('[Network] Device back online.');
+          if (window.ScoopCastDebug) window.ScoopCastDebug.network.status = 'online';
+          this.reconnect();
+        });
+        window.addEventListener('offline', () => {
+          _scLog('[Network] Device offline.');
+          if (window.ScoopCastDebug) {
+            window.ScoopCastDebug.network.status = 'offline';
+            window.ScoopCastDebug.realtime.disconnectCount++;
+          }
+          this.setConnectionState('RECONNECTING');
+        });
+
+        // Tab Visibility & Background Sleep
+        document.addEventListener('visibilitychange', async () => {
+          if (!this.roomId || !this.playerId) return;
+          const { databases } = getAppwrite();
+          if (!databases) return;
+          const playerDocId = `${this.roomId}_${this.playerId}`;
+
+          if (document.hidden) {
+            this.setConnectionState('AWAY');
+            try {
+              await databases.updateDocument(APPWRITE_CONFIG.databaseId, 'players', playerDocId, {
+                status: 'away'
+              });
+            } catch (e) {}
+          } else {
+            _scLog('[Lifecycle] Tab woke up. Refreshing state...');
+            this.reconnect();
+          }
+        });
+      },
+
+      setConnectionState(state) {
+        this.connectionState = state;
+        if (window.ScoopCastDebug) {
+          window.ScoopCastDebug.realtime.status = state.toLowerCase();
+        }
+
+        let badge = document.getElementById('scConnectionBanner');
+        if (!badge) {
+          badge = document.createElement('div');
+          badge.id = 'scConnectionBanner';
+          badge.style.cssText = 'position:fixed; bottom:16px; left:50%; transform:translateX(-50%); z-index:99999; padding:6px 14px; border-radius:9999px; font-size:12px; font-weight:800; font-family:"Lilita One", sans-serif; letter-spacing:0.5px; transition:all 0.3s ease; pointer-events:none; display:none;';
+          document.body.appendChild(badge);
+        }
+
+        if (state !== 'DISCONNECTED') {
+          badge.style.pointerEvents = 'none';
+          badge.style.cursor = 'default';
+          badge.onclick = null;
+        }
+
+        if (state === 'RECONNECTING') {
+          badge.textContent = '🔄 Reconnecting to Match...';
+          badge.style.background = '#f59e0b';
+          badge.style.color = '#ffffff';
+          badge.style.border = '2px solid #b45309';
+          badge.style.display = 'inline-block';
+          badge.style.opacity = '1';
+        } else if (state === 'CONNECTED') {
+          badge.textContent = '🟢 Connected';
+          badge.style.background = '#10b981';
+          badge.style.color = '#ffffff';
+          badge.style.border = '2px solid #047857';
+          badge.style.display = 'inline-block';
+          badge.style.opacity = '1';
+          setTimeout(() => {
+            if (this.connectionState === 'CONNECTED' && badge) {
+              badge.style.opacity = '0';
+              setTimeout(() => { if (badge.style.opacity === '0') badge.style.display = 'none'; }, 300);
+            }
+          }, 1500);
+        } else if (state === 'AWAY') {
+          badge.textContent = '🌙 Away (Background)';
+          badge.style.background = '#6b7280';
+          badge.style.color = '#ffffff';
+          badge.style.border = '2px solid #374151';
+          badge.style.display = 'inline-block';
+        } else if (state === 'DISCONNECTED') {
+          badge.innerHTML = '⚠️ Connection Lost • <span style="text-decoration:underline; cursor:pointer;">Tap to Reconnect</span>';
+          badge.style.background = '#ef4444';
+          badge.style.color = '#ffffff';
+          badge.style.border = '2px solid #b91c1c';
+          badge.style.display = 'inline-block';
+          badge.style.opacity = '1';
+          badge.style.pointerEvents = 'auto';
+          badge.style.cursor = 'pointer';
+          badge.onclick = () => {
+            this.reconnect();
+          };
+        }
+      },
+
+      async reconnect() {
+        if (!this.roomId || !this.playerId) return;
+        if (this._isReconnecting) return;
+        this._isReconnecting = true;
+        this.setConnectionState('RECONNECTING');
+        if (window.ScoopCastDebug) window.ScoopCastDebug.realtime.reconnects++;
+
+        const startTime = Date.now();
+        _scLog('[Reconnect] Fast recovery started...');
+
+        try {
+          this.subscribeRealtime();
+
+          const { databases } = getAppwrite();
+          if (databases) {
+            const playerDocId = `${this.roomId}_${this.playerId}`;
+            await withNetworkRetry(() => databases.updateDocument(APPWRITE_CONFIG.databaseId, 'players', playerDocId, {
+              status: 'connected',
+              lastHeartbeat: Date.now()
+            })).catch(() => {});
+
+            await this.syncActiveRoomState();
+          }
+
+          this.setConnectionState('CONNECTED');
+          _scLog(`[Reconnect] Restored in ${Date.now() - startTime}ms`);
+        } catch (err) {
+          _scWarn('[Reconnect Error]', err.message);
+          this.setConnectionState('DISCONNECTED');
+        } finally {
+          this._isReconnecting = false;
+        }
       },
 
       saveActiveSession() {
@@ -18481,206 +18795,23 @@
             playerName: this.playerName,
             playerAvatar: this.playerAvatar,
             isHost: this.isHost,
-            isMatchActive: !!this.isMatchActive,
-            isRoundFinished: !!this.isRoundFinished,
-            gameState: this.isMatchActive ? (this.isRoundFinished ? 'round_end' : 'playing') : 'lobby',
-            currentPlayIndex: this.currentPlayIndex || 0,
-            currentPlaylist: (this.currentPlaylist && this.currentPlaylist.length > 0) ? this.currentPlaylist : [],
-            hostSettings: this.hostSettings || null,
-            players: (typeof GS !== 'undefined' && Array.isArray(GS.players)) ? GS.players : [],
-            playerScoresArchive: this.playerScoresArchive || {},
-            sessionStats: this.sessionStats || null,
+            hostSettings: this.hostSettings,
             timestamp: Date.now()
           };
           localStorage.setItem('gtf_active_session', JSON.stringify(session));
-        } catch(e) {}
+        } catch (e) {}
       },
 
       clearActiveSession() {
-        try {
-          localStorage.removeItem('gtf_active_session');
-        } catch(e) {}
+        localStorage.removeItem('gtf_active_session');
       },
 
       checkUrlParams() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const roomParam = urlParams.get('room');
-        
-        let savedSession = null;
-        try {
-          const raw = localStorage.getItem('gtf_active_session');
-          if (raw) savedSession = JSON.parse(raw);
-        } catch(e) {}
-
-        const isRecent = savedSession && savedSession.roomCode && (Date.now() - (savedSession.timestamp || 0) < 15 * 60 * 1000);
-
-        if (roomParam) {
-          const upperCode = roomParam.trim().toUpperCase();
-          if (isRecent && savedSession.roomCode === upperCode) {
-            this.promptRejoinModal(savedSession);
-            return;
-          }
+        const params = new URLSearchParams(window.location.search);
+        const roomCode = params.get('room');
+        if (roomCode) {
           const joinInput = document.getElementById('joinCodeInput');
-          if (joinInput) joinInput.value = upperCode;
-          this.openJoinModal();
-        } else if (isRecent) {
-          this.promptRejoinModal(savedSession);
-        } else if (savedSession) {
-          this.clearActiveSession();
-        }
-      },
-
-      promptRejoinModal(session) {
-        this.pendingRejoinSession = session;
-        const modal = document.getElementById('rejoinRoomModal');
-        const codeEl = document.getElementById('rejoinRoomCodeText');
-        const nameEl = document.getElementById('rejoinPlayerName');
-        const roleEl = document.getElementById('rejoinRoleTag');
-        const avImg = document.getElementById('rejoinAvatarImg');
-        const avContainer = document.getElementById('rejoinAvatarContainer');
-
-        const av = (session.playerAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#FF6B9D', img: `avvtar/${av}.svg` };
-
-        if (codeEl) codeEl.textContent = session.roomCode;
-        if (nameEl) nameEl.textContent = session.playerName || this.getAvatarDisplayName(av);
-        if (roleEl) roleEl.textContent = session.isHost ? 'Host 👑' : 'Player';
-        if (avImg) avImg.src = `avvtar/${av}.svg`;
-        if (avContainer) avContainer.style.backgroundColor = avConfig.color;
-
-        if (modal) modal.classList.add('active');
-      },
-
-      sendRejoinWithRetry() {
-        if (this.rejoinRetryTimer) clearInterval(this.rejoinRetryTimer);
-        const attemptRejoin = () => {
-          if (this.hasJoinedAck) {
-            if (this.rejoinRetryTimer) clearInterval(this.rejoinRetryTimer);
-            return;
-          }
-          let mySavedScore = 0;
-          const session = this.pendingRejoinSession;
-          if (session && Array.isArray(session.players)) {
-            const me = session.players.find(p => p.id === this.playerId);
-            if (me && typeof me.score === 'number') mySavedScore = me.score;
-          } else if (typeof GS !== 'undefined' && Array.isArray(GS.players)) {
-            const me = GS.players.find(p => p.id === this.playerId);
-            if (me && typeof me.score === 'number') mySavedScore = me.score;
-          }
-          this.sendEvent('REQUEST_REJOIN_SYNC', {
-            playerId: this.playerId,
-            name: this.playerName,
-            avatar: this.playerAvatar,
-            lastKnownScore: mySavedScore,
-            timestamp: Date.now()
-          });
-        };
-        attemptRejoin();
-        this.rejoinRetryTimer = setInterval(attemptRejoin, 1500);
-      },
-
-      confirmRejoinRoom() {
-        const session = this.pendingRejoinSession;
-        if (!session) return;
-        this.closeModals();
-
-        this.playerId = session.playerId;
-        this.playerName = session.playerName;
-        this.playerAvatar = session.playerAvatar;
-        this.roomCode = session.roomCode;
-        this.roomId = 'room_' + this.roomCode;
-        this.hasJoinedAck = false;
-        this.isRejoining = true;
-
-        if (session.playerScoresArchive) {
-          this.playerScoresArchive = session.playerScoresArchive;
-        }
-        if (session.sessionStats) {
-          this.sessionStats = session.sessionStats;
-        }
-
-        if (session.hostSettings) {
-          this.hostSettings = session.hostSettings;
-        } else if (!this.hostSettings) {
-          this.hostSettings = {
-            category: 'all',
-            categories: ['frames', 'eyes', 'dialogue'],
-            roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
-          rounds: 40,
-            timer: 30
-          };
-        }
-
-        if (session.players && Array.isArray(session.players) && session.players.length > 0) {
-          GS.players = session.players;
-        } else {
-          GS.players = [{
-            id: this.playerId,
-            name: this.playerName,
-            avatar: this.playerAvatar,
-            score: 0,
-            isHost: !!session.isHost,
-            loaded: true,
-            color: '#57c3e0'
-          }];
-        }
-
-        if (session.currentPlaylist && session.currentPlaylist.length > 0) {
-          this.currentPlaylist = session.currentPlaylist;
-          this.currentPlayIndex = session.currentPlayIndex || 0;
-        }
-
-        this.isHost = false;
-        GameController._onlineMode = true;
-        GameController._isRemoteSession = true;
-
-        const isMatch = !!(session.isMatchActive || session.gameState === 'playing' || session.gameState === 'round_end');
-        if (isMatch) {
-          this.isMatchActive = true;
-          this.isRoundFinished = (session.gameState === 'round_end');
-          GameController._isMatchActive = true;
-          UI.showScreen('gameScreen');
-
-          const gPanel = document.getElementById('onlineGuessPanel');
-          if (gPanel) gPanel.classList.add('active');
-          const hBar = document.getElementById('hostFloatingBar');
-          if (hBar) hBar.style.display = 'flex';
-          const hfbHostOnly = document.getElementById('hfbHostOnly');
-          if (hfbHostOnly) hfbHostOnly.style.display = 'none';
-          const hfbLabel = document.getElementById('hfbLabel');
-          if (hfbLabel) hfbLabel.textContent = '🎮 CONTROLS:';
-
-          if (this.currentPlaylist && this.currentPlaylist[this.currentPlayIndex]) {
-            const curFrame = this.currentPlaylist[this.currentPlayIndex];
-            FrameDisplay.showFrame(curFrame);
-            const roundInfo = document.getElementById('roundInfo');
-            if (roundInfo) roundInfo.textContent = `Round ${this.currentPlayIndex + 1} / ${this.currentPlaylist.length}`;
-            const secName = document.getElementById('curSecName');
-            if (secName) secName.textContent = curFrame.sectionName || 'Guess the Frame';
-          }
-          UI.renderLB();
-        } else {
-          UI.showScreen('playerLobbyScreen');
-        }
-
-        this.startClientHeartbeat();
-        this.startHostWatchdog();
-        this.setupCloudTransport();
-
-        if (typeof FrameDisplay !== 'undefined' && FrameDisplay.preloadAll) {
-          FrameDisplay.preloadAll(p => { if (typeof UI !== 'undefined' && UI.updateLoadProgress) UI.updateLoadProgress(p, 'lobby'); });
-        }
-      },
-
-      dismissRejoinAndStartNew() {
-        this.clearActiveSession();
-        this.pendingRejoinSession = null;
-        this.closeModals();
-        const urlParams = new URLSearchParams(window.location.search);
-        const roomParam = urlParams.get('room');
-        if (roomParam) {
-          const joinInput = document.getElementById('joinCodeInput');
-          if (joinInput) joinInput.value = roomParam.trim().toUpperCase();
+          if (joinInput) joinInput.value = roomCode.trim().toUpperCase();
           this.openJoinModal();
         }
       },
@@ -18703,9 +18834,7 @@
         const nameInput = document.getElementById('hostPlayerNameInput');
         if (nameInput) nameInput.value = this.playerName;
         document.getElementById('createRoomModal').classList.add('active');
-        if (typeof AvatarStudio !== 'undefined') {
-          AvatarStudio.init('host');
-        }
+        if (typeof AvatarStudio !== 'undefined') AvatarStudio.init('host');
         this.highlightSelectedAvatar('host', this.playerAvatar);
         if (nameInput) setTimeout(() => nameInput.focus(), 150);
       },
@@ -18717,1055 +18846,464 @@
         this.playerName = savedName || this.playerName || this.getAvatarDisplayName(this.playerAvatar);
         const nameInput = document.getElementById('joinPlayerNameInput');
         if (nameInput) nameInput.value = this.playerName;
-
-        // FIX: Always reset join button state when modal opens
         this.isJoining = false;
         const joinBtn = document.querySelector('#joinRoomModal .mp-btn-primary');
         if (joinBtn) {
           joinBtn.disabled = false;
           joinBtn.innerHTML = 'ENTER ROOM →';
         }
-
         document.getElementById('joinRoomModal').classList.add('active');
-        if (typeof AvatarStudio !== 'undefined') {
-          AvatarStudio.init('join');
-        }
+        if (typeof AvatarStudio !== 'undefined') AvatarStudio.init('join');
         this.highlightSelectedAvatar('join', this.playerAvatar);
-        if (nameInput) setTimeout(() => nameInput.focus(), 150);
-      },
-
-      showQrCode() {
-        const modal = document.getElementById('qrModal');
-        const codeEl = document.getElementById('qrRoomCodeText');
-        const qrContainer = document.getElementById('qrcodeCanvasContainer');
-        if (codeEl) codeEl.textContent = this.roomCode || 'FILM';
-        if (qrContainer) {
-          qrContainer.innerHTML = '';
-          const joinUrl = window.location.origin + window.location.pathname + '?room=' + (this.roomCode || 'FILM');
-          if (typeof QRCode !== 'undefined') {
-            try {
-              new QRCode(qrContainer, {
-                text: joinUrl,
-                width: 180,
-                height: 180,
-                colorDark: '#000000',
-                colorLight: '#ffffff',
-                correctLevel: QRCode.CorrectLevel.H
-              });
-            } catch(e) {
-              qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(joinUrl)}" style="width:180px;height:180px;" alt="QR Code"/>`;
-            }
-          } else {
-            qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(joinUrl)}" style="width:180px;height:180px;" alt="QR Code"/>`;
-          }
-        }
-        if (modal) modal.classList.add('active');
-      },
-
-      copyRoomLink(btn) {
-        const joinUrl = window.location.origin + window.location.pathname + '?room=' + (this.roomCode || 'FILM');
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(joinUrl).catch(() => {
-            this._fallbackCopy(joinUrl);
-          });
-        } else {
-          this._fallbackCopy(joinUrl);
-        }
-
-        if (typeof SoundManager !== 'undefined' && SoundManager.playClick) {
-          SoundManager.playClick();
-        }
-
-        const buttonsToUpdate = [];
-        if (btn && btn instanceof HTMLElement) {
-          buttonsToUpdate.push(btn);
-        }
-        const lobbyCopyBtn = document.getElementById('copyLinkBtn');
-        if (lobbyCopyBtn && !buttonsToUpdate.includes(lobbyCopyBtn)) {
-          buttonsToUpdate.push(lobbyCopyBtn);
-        }
-
-        buttonsToUpdate.forEach(b => {
-          if (b._copyTimeout) clearTimeout(b._copyTimeout);
-          const origHtml = b.getAttribute('data-orig-html') || b.innerHTML;
-          b.setAttribute('data-orig-html', origHtml);
-          b.innerHTML = '<span class="material-symbols-outlined" style="color:#00e676;">check_circle</span> Copied!';
-          b._copyTimeout = setTimeout(() => {
-            b.innerHTML = origHtml;
-          }, 2000);
-        });
-      },
-
-      _fallbackCopy(text) {
-        try {
-          const ta = document.createElement('textarea');
-          ta.value = text;
-          ta.style.position = 'fixed';
-          ta.style.left = '-9999px';
-          ta.style.top = '-9999px';
-          ta.style.opacity = '0';
-          document.body.appendChild(ta);
-          ta.focus();
-          ta.select();
-          document.execCommand('copy');
-          document.body.removeChild(ta);
-        } catch(e) {}
+        const codeInput = document.getElementById('joinCodeInput');
+        if (codeInput && !codeInput.value) setTimeout(() => codeInput.focus(), 150);
       },
 
       closeModals() {
         document.querySelectorAll('.mp-modal-overlay').forEach(m => m.classList.remove('active'));
       },
 
-      selectAvatar(element, modalType) {
-        const parent = element.parentElement;
-        parent.querySelectorAll('.mp-avatar-option').forEach(el => el.classList.remove('selected'));
-        element.classList.add('selected');
-        const av = element.getAttribute('data-avatar') || 'aman';
-        this.selectedAvatarForModal = av;
-        this.playerAvatar = av;
-        const item = typeof AvatarCatalog !== 'undefined' ? AvatarCatalog.getById(av) : null;
-        if (item) this.playerAvatarImg = item.src;
-
-        const nameInput = modalType === 'host'
-          ? document.getElementById('hostPlayerNameInput')
-          : document.getElementById('joinPlayerNameInput');
-        const currentVal = nameInput ? nameInput.value.trim() : '';
-        const defaultNames = ['Aman', 'Amish', 'Aziz', 'Vish', 'aman', 'amish', 'aziz', 'vish', 'Pikachu', 'Maverick', 'Neo'];
-        if (nameInput && (!currentVal || defaultNames.includes(currentVal))) {
-          const defaultName = this.getAvatarDisplayName(av);
-          nameInput.value = defaultName;
-          this.playerName = defaultName;
-        } else if (currentVal) {
-          this.playerName = currentVal;
-        } else {
-          this.playerName = this.getAvatarDisplayName(av);
-        }
+      selectAvatar(mode, avatarKey) {
+        this.selectedAvatarForModal = avatarKey;
+        this.highlightSelectedAvatar(mode, avatarKey);
       },
 
-      highlightSelectedAvatar(modalType, avatarName) {
-        const modal = modalType === 'host' ? document.getElementById('createRoomModal') : document.getElementById('joinRoomModal');
+      highlightSelectedAvatar(mode, avatarKey) {
+        const modal = mode === 'host' ? document.getElementById('createRoomModal') : document.getElementById('joinRoomModal');
         if (!modal) return;
-        modal.querySelectorAll('.mp-avatar-option').forEach(el => {
-          if (el.getAttribute('data-avatar') === avatarName) {
-            el.classList.add('selected');
-          } else {
-            el.classList.remove('selected');
-          }
+        modal.querySelectorAll('.avatar-option').forEach(el => {
+          if (el.dataset.avatar === avatarKey) el.classList.add('selected');
+          else el.classList.remove('selected');
         });
       },
 
       generateRoomCode() {
         const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
         let code = '';
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 6; i++) {
           code += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return code;
       },
 
-      confirmCreateRoom() {
+      async confirmCreateRoom() {
         const nameInput = document.getElementById('hostPlayerNameInput');
         const typedName = (nameInput ? nameInput.value : '').trim();
-        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'aman';
-        const item = typeof AvatarCatalog !== 'undefined' ? AvatarCatalog.getById(this.playerAvatar) : null;
-        this.playerAvatarImg = item ? item.src : `avvtar/${this.playerAvatar}.svg`;
-        this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
-        this.isHost = true;
-        this.roomCode = this.generateRoomCode();
-        this.hostSettings = { category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 }, rounds: 40, timer: 30 };
-        this.roomId = 'room_' + this.roomCode;
+        if (!typedName) {
+          alert('Please enter your name.');
+          if (nameInput) nameInput.focus();
+          return;
+        }
 
+        await this.ensureAuth();
+
+        this.playerName = typedName;
+        this.playerAvatar = this.selectedAvatarForModal || 'aman';
         localStorage.setItem('gtf_player_name', this.playerName);
         localStorage.setItem('gtf_player_avatar', this.playerAvatar);
-        localStorage.setItem('gtf_player_avatar_img', this.playerAvatarImg);
 
-        this.saveActiveSession();
-        this.closeModals();
-        this.setupCloudTransport();
-        this.startHostHeartbeat();
-        this.startHostPresenceWatchdog();
+        this.roomCode = this.generateRoomCode();
+        this.roomId = 'room_' + this.roomCode;
+        this.isHost = true;
+        this.hasJoinedAck = true;
+        GameController._onlineMode = true;
+
+        const av = (this.playerAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#ff7eb6' };
+        this.playerAvatarColor = avConfig.color || '#ff7eb6';
 
         GS.players = [{
           id: this.playerId,
           name: this.playerName,
           avatar: this.playerAvatar,
-          avatarImg: this.playerAvatarImg,
+          avatarImg: 'avvtar/' + av + '.svg',
           score: 0,
           isHost: true,
           loaded: true,
-          color: (item && item.color) || '#ff7eb6'
+          status: 'connected',
+          lastHeartbeat: Date.now(),
+          color: this.playerAvatarColor
         }];
 
-        GameController._onlineMode = true;
-        GameController._isRemoteSession = false;
+        const { databases } = getAppwrite();
+        if (databases) {
+          try {
+            await databases.createDocument(APPWRITE_CONFIG.databaseId, 'rooms', this.roomId, {
+              roomId: this.roomId,
+              roomCode: this.roomCode,
+              hostId: this.playerId,
+              status: 'lobby',
+              currentRound: 0,
+              currentSection: 'frames',
+              timer: (this.hostSettings && this.hostSettings.timer) || 30,
+              totalRounds: (this.hostSettings && this.hostSettings.rounds) || 40,
+              categories: (this.hostSettings && this.hostSettings.categories) ? this.hostSettings.categories.join(',') : 'frames,eyes,dialogue',
+              createdAt: Date.now(),
+              updatedAt: Date.now()
+            });
+
+            await databases.createDocument(APPWRITE_CONFIG.databaseId, 'game_state', this.roomId, {
+              roomId: this.roomId,
+              roundNumber: 1,
+              phase: 'lobby',
+              currentImage: '',
+              dialogueText: '',
+              dialogueContext: '',
+              maskedHint: '',
+              revealedAnswer: '',
+              winners: '[]',
+              startedAt: 0,
+              version: 1
+            });
+
+            const playerDocId = `${this.roomId}_${this.playerId}`;
+            await databases.createDocument(APPWRITE_CONFIG.databaseId, 'players', playerDocId, {
+              playerId: this.playerId,
+              roomId: this.roomId,
+              name: this.playerName,
+              avatar: this.playerAvatar,
+              status: 'connected',
+              lastHeartbeat: Date.now(),
+              score: 0,
+              isHost: true,
+              color: this.playerAvatarColor
+            });
+          } catch (err) {
+            console.error('[Appwrite Create Room Error]', err);
+          }
+        }
+
+        this.closeModals();
+        this.saveActiveSession();
+        this.subscribeRealtime();
+        this.startHeartbeat();
+        this.setConnectionState('CONNECTED');
 
         UI.showScreen('playerLobbyScreen');
         this.renderLobbyUI();
+
         if (typeof FrameDisplay !== 'undefined' && FrameDisplay.preloadAll) {
           FrameDisplay.preloadAll(p => { if (typeof UI !== 'undefined' && UI.updateLoadProgress) UI.updateLoadProgress(p, 'lobby'); });
         }
       },
 
-      confirmJoinRoom() {
-        // FIX: In-flight guard prevents double-click race (Root Cause 3)
-        if (this.isJoining) return;
-
-        const input = document.getElementById('joinCodeInput');
-        const urlParams = new URLSearchParams(window.location.search);
-        let code = (input ? input.value : '') || urlParams.get('room') || '';
-        code = code.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
-        if (!code || code.length < 3) {
-          alert('Please enter a valid Room Code.');
+      async confirmJoinRoom() {
+        const codeInput = document.getElementById('joinCodeInput');
+        const code = (codeInput ? codeInput.value : '').trim().toUpperCase();
+        if (!code) {
+          alert('Please enter a 6-letter Room Code.');
+          if (codeInput) codeInput.focus();
           return;
         }
         const nameInput = document.getElementById('joinPlayerNameInput');
         const typedName = (nameInput ? nameInput.value : '').trim();
-        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'aman';
-        const item = typeof AvatarCatalog !== 'undefined' ? AvatarCatalog.getById(this.playerAvatar) : null;
-        this.playerAvatarImg = item ? item.src : `avvtar/${this.playerAvatar}.svg`;
-        this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
-        this.isHost = false;
-        this.roomCode = code;
-        this.roomId = 'room_' + this.roomCode;
-        this.hasJoinedAck = false;
-        this.isJoining = true;
-
-        localStorage.setItem('gtf_player_name', this.playerName);
-        localStorage.setItem('gtf_player_avatar', this.playerAvatar);
-        localStorage.setItem('gtf_player_avatar_img', this.playerAvatarImg);
-
-        // FIX: Show connecting feedback on the join button (Root Cause 1)
-        const joinBtn = document.querySelector('#joinRoomModal .mp-btn-primary');
-        const joinBtnOrigHtml = joinBtn ? joinBtn.innerHTML : '';
-        if (joinBtn) {
-          joinBtn.disabled = true;
-          joinBtn.innerHTML = '⏳ Connecting to room...';
-        }
-
-        // FIX: Do NOT navigate to playerLobbyScreen yet (Root Cause 1)
-        // Navigation will happen ONLY on SYNC_ROOM_STATE ACK from host
-
-        GS.players = [{
-          id: this.playerId,
-          name: this.playerName,
-          avatar: this.playerAvatar,
-          avatarImg: this.playerAvatarImg,
-          score: 0,
-          isHost: false,
-          loaded: true,
-          color: (item && item.color) || '#57c3e0'
-        }];
-
-        GameController._onlineMode = true;
-        GameController._isRemoteSession = true;
-
-        this.setupCloudTransport();
-
-        if (typeof FrameDisplay !== 'undefined' && FrameDisplay.preloadAll) {
-          FrameDisplay.preloadAll(p => { if (typeof UI !== 'undefined' && UI.updateLoadProgress) UI.updateLoadProgress(p, 'lobby'); });
-        }
-
-        // Send Join Request with automatic retry until acknowledged by Host
-        this.sendJoinWithRetry();
-        // FIX: Join timeout starts AFTER MQTT connects (see setupCloudTransport connect handler)
-        // This avoids false "Lobby not found" when MQTT broker takes 3-5s to connect
-        this._joinBtnRef = joinBtn;
-        this._joinBtnOrigHtml = joinBtnOrigHtml;
-      },
-
-      setupCloudTransport() {
-        if (this.mqttClient) {
-          try { this.mqttClient.end(true); } catch(e) {}
-        }
-        if (this.broadcastChannel) {
-          try { this.broadcastChannel.close(); } catch(e) {}
-        }
-
-        const topic = NetworkSecurity.getRoomTopic(this.roomCode);
-
-        // 1. Local BroadcastChannel for instant same-browser sync
-        try {
-          this.broadcastChannel = new BroadcastChannel('gtf_bc_' + NetworkSecurity.getTopicHash(this.roomCode));
-          this.broadcastChannel.onmessage = (event) => {
-            if (event && event.data) this.handleIncomingEvent(event.data);
-          };
-        } catch(e) {}
-
-        // 2. Cloud WebSocket for cross-device Internet sync (phones/laptops)
-        if (typeof mqtt !== 'undefined') {
-          const brokerList = [
-            'wss://broker.emqx.io:8084/mqtt',
-            'wss://broker.hivemq.com:8884/mqtt'
-          ];
-          const brokerUrl = brokerList[0];
-
-          try {
-            const clientInstance = mqtt.connect(brokerUrl, {
-              keepalive: 30,
-              reconnectPeriod: 2000,
-              connectTimeout: 5000,
-              clientId: 'gtf_' + this.playerId + '_' + Math.random().toString(16).substr(2, 6)
-            });
-            this.mqttClient = clientInstance;
-
-            clientInstance.on('connect', () => {
-              if (!this.mqttClient || this.mqttClient !== clientInstance) return;
-              this.isConnected = true;
-              console.log('[Realtime] Connected to Cloud WebSocket Broker!');
-              this.updateConnectionStatus(true);
-              clientInstance.subscribe(topic, { qos: 1 });
-              this.flushMessageQueue();
-
-              if (!this.isHost && !this.hasJoinedAck) {
-                if (this.isRejoining) {
-                  this.sendRejoinWithRetry();
-                  const session = this.pendingRejoinSession;
-                  if (session && session.isHost) {
-                    if (this._rejoinHostCheckTimer) clearTimeout(this._rejoinHostCheckTimer);
-                    this._rejoinHostCheckTimer = setTimeout(() => {
-                      if (!this.hasJoinedAck) {
-                        console.log('[Rejoin] No other host responded. Resuming original host authority.');
-                        if (this.rejoinRetryTimer) clearInterval(this.rejoinRetryTimer);
-                        this.isHost = true;
-                        this.isRejoining = false;
-                        this.hasJoinedAck = true;
-                        GameController._isRemoteSession = false;
-                        this.stopClientHeartbeat();
-                        this.stopHostWatchdog();
-                        this.startHostHeartbeat();
-                        this.startHostPresenceWatchdog();
-                        this.saveActiveSession();
-                        const hfbHostOnly = document.getElementById('hfbHostOnly');
-                        if (hfbHostOnly) hfbHostOnly.style.display = 'inline-flex';
-                        const hfbLabel = document.getElementById('hfbLabel');
-                        if (hfbLabel) hfbLabel.textContent = '👑 HOST CONTROLS:';
-                        if (this.isMatchActive) {
-                          UI.showScreen('gameScreen');
-                          this.broadcastState('HOST_RECONNECTED');
-                        } else {
-                          this.renderLobbyUI();
-                          this.broadcastState('HOST_ONLINE');
-                        }
-                        ChatEngine.renderSystemMessage('👑 <strong>' + SecurityUtil.escapeHtml(this.playerName) + '</strong> (Host) reconnected!');
-                      }
-                    }, 2500);
-                  }
-                } else {
-                  this.sendJoinWithRetry();
-                  // FIX: Start join timeout AFTER MQTT connects (Root Cause 4)
-                  // Gives 15 seconds for host handshake to accommodate real-world network variations
-                  if (this.isJoining && !this.hasJoinedAck) {
-                    if (this._joinTimeoutTimer) clearTimeout(this._joinTimeoutTimer);
-                    this._joinTimeoutTimer = setTimeout(() => {
-                      if (!this.hasJoinedAck && this.isJoining) {
-                        console.warn('[JoinTimeout] No host responded within 15s after MQTT connect. Aborting join.');
-                        this.isJoining = false;
-                        if (this.joinRetryTimer) clearInterval(this.joinRetryTimer);
-                        this.joinRetryTimer = null;
-
-                        // Clean up transport
-                        const cToEnd = this.mqttClient;
-                        const chToClose = this.broadcastChannel;
-                        this.mqttClient = null;
-                        this.broadcastChannel = null;
-                        if (cToEnd) { try { cToEnd.end(true); } catch(e) {} }
-                        if (chToClose) { try { chToClose.close(); } catch(e) {} }
-
-                        // Reset state
-                        GameController._onlineMode = false;
-                        GameController._isRemoteSession = false;
-                        this.roomCode = null;
-                        this.roomId = null;
-                        this.isConnected = false;
-
-                        // Restore join button
-                        const jBtn = this._joinBtnRef;
-                        if (jBtn) {
-                          jBtn.disabled = false;
-                          jBtn.innerHTML = this._joinBtnOrigHtml || 'ENTER ROOM →';
-                        }
-
-                        alert('Lobby not found. Please verify your room code and make sure the host is online.');
-                      }
-                    }, 15000);
-                  }
-                }
-              } else if (this.isHost) {
-                this.broadcastState('HOST_ONLINE');
-              }
-            });
-
-            clientInstance.on('message', (t, payload) => {
-              if (!this.mqttClient || this.mqttClient !== clientInstance) return;
-              try {
-                const msg = JSON.parse(payload.toString());
-                this.handleIncomingEvent(msg);
-              } catch(err) {
-                console.error('[Realtime] Error parsing message:', err);
-              }
-            });
-
-            clientInstance.on('offline', () => {
-              if (this.mqttClient !== clientInstance) return;
-              this.isConnected = false;
-              this.updateConnectionStatus(false);
-            });
-
-            clientInstance.on('error', (err) => {
-              console.warn('[Realtime] WebSocket Notice:', err.message);
-            });
-          } catch(err) {
-            console.warn('[Realtime] Transport Notice:', err);
-          }
-        }
-      },
-
-      updateConnectionStatus(online) {
-        const bar = document.getElementById('onlineRoomBar');
-        if (bar) {
-          let dot = document.getElementById('cloudStatusDot');
-          if (!dot) {
-            dot = document.createElement('span');
-            dot.id = 'cloudStatusDot';
-            dot.style.marginLeft = '8px';
-            dot.style.fontSize = '12px';
-            dot.style.fontWeight = '800';
-            bar.appendChild(dot);
-          }
-          dot.innerHTML = online 
-            ? '<span style="color:#22c55e;">🟢 Cloud Live</span>' 
-            : '<span style="color:#f59e0b;">🟡 Connecting...</span>';
-        }
-      },
-
-      sendJoinWithRetry() {
-        if (this.joinRetryTimer) clearInterval(this.joinRetryTimer);
-
-        const attemptJoin = () => {
-          if (this.hasJoinedAck || this.isHost) {
-            if (this.joinRetryTimer) clearInterval(this.joinRetryTimer);
-            return;
-          }
-          this.sendEvent('PLAYER_JOIN', {
-            id: this.playerId,
-            name: this.playerName,
-            avatar: this.playerAvatar,
-            avatarImg: this.playerAvatarImg
-          });
-        };
-
-        attemptJoin();
-        this.joinRetryTimer = setInterval(attemptJoin, 1500);
-      },
-
-      messageQueue: [],
-
-      sendEvent(eventType, payload = {}) {
-        const token = NetworkSecurity.generateToken(this.roomCode, this.playerId, this.isHost);
-        const msg = {
-          token: token,
-          type: eventType,
-          roomId: this.roomId,
-          roomCode: this.roomCode,
-          senderId: this.playerId,
-          timestamp: Date.now(),
-          ...payload
-        };
-
-        const jsonStr = JSON.stringify(msg);
-
-        // Broadcast to local tabs
-        if (this.broadcastChannel) {
-          try { this.broadcastChannel.postMessage(msg); } catch(e) {}
-        }
-
-        // Broadcast to cloud WebSocket
-        if (this.mqttClient && this.mqttClient.connected) {
-          const topic = NetworkSecurity.getRoomTopic(this.roomCode);
-          this.mqttClient.publish(topic, jsonStr, { qos: 1 });
-        } else {
-          // Queue for transmission once socket is connected
-          if (!this.messageQueue) this.messageQueue = [];
-          this.messageQueue.push({ topic: NetworkSecurity.getRoomTopic(this.roomCode), payload: jsonStr });
-        }
-      },
-
-      flushMessageQueue() {
-        if (!this.mqttClient || !this.mqttClient.connected || !this.messageQueue) return;
-        while (this.messageQueue.length > 0) {
-          const item = this.messageQueue.shift();
-          this.mqttClient.publish(item.topic, item.payload, { qos: 1 });
-        }
-      },
-
-      broadcastState(reason = 'UPDATE') {
-        if (!this.isHost) return;
-        this.sendEvent('SYNC_ROOM_STATE', {
-          reason,
-          players: GS.players,
-          hostSettings: this.hostSettings,
-          currentPlaylist: this.currentPlaylist,
-          currentPlayIndex: this.currentPlayIndex,
-          currentPhase: GS.currentPhase,
-          currentRoundWinners: this.currentRoundWinners,
-          timeRemaining: GS.timeRemaining
-        });
-      },
-
-      handleIncomingEvent(msg) {
-        if (!msg) return;
-        const incomingRoom = String(msg.roomCode || '').trim().toUpperCase();
-        const currentRoom = String(this.roomCode || '').trim().toUpperCase();
-        if (!incomingRoom || !currentRoom || incomingRoom !== currentRoom) return;
-        if (msg.senderId === this.playerId && msg.type !== 'SYNC_ROOM_STATE') return;
-
-        // Phase 4: Network Security Validation (host auth, tokens, rate limits)
-        if (typeof NetworkSecurity !== 'undefined' && !NetworkSecurity.validateIncomingMessage(msg, this.roomCode, GS.players, this.isHost)) {
+        if (!typedName) {
+          alert('Please enter your name.');
+          if (nameInput) nameInput.focus();
           return;
         }
 
-        if (this.isHost && msg.senderId) {
-          const senderPlayer = GS.players.find(p => p.id === msg.senderId);
-          if (senderPlayer) {
-            senderPlayer.lastSeen = Date.now();
-          }
+        await this.ensureAuth();
+
+        this.playerName = typedName;
+        this.playerAvatar = this.selectedAvatarForModal || 'aman';
+        localStorage.setItem('gtf_player_name', this.playerName);
+        localStorage.setItem('gtf_player_avatar', this.playerAvatar);
+
+        const joinBtn = document.querySelector('#joinRoomModal .mp-btn-primary');
+        if (joinBtn) {
+          joinBtn.disabled = true;
+          joinBtn.innerHTML = '<span class="mp-spinner"></span> CONNECTING...';
         }
 
-        switch (msg.type) {
-          case 'CLIENT_HEARTBEAT':
-            if (this.isHost && msg.senderId) {
-              const p = GS.players.find(x => x.id === msg.senderId);
-              if (p) p.lastSeen = Date.now();
-            }
-            break;
+        const { databases } = getAppwrite();
+        if (!databases) {
+          alert('Appwrite connection unavailable.');
+          if (joinBtn) { joinBtn.disabled = false; joinBtn.innerHTML = 'ENTER ROOM →'; }
+          return;
+        }
 
-          case 'PLAYER_LEAVE': {
-            const leavingPlayerId = msg.playerId || msg.senderId;
-            if (leavingPlayerId) {
-              const idx = GS.players.findIndex(p => p.id === leavingPlayerId);
-              if (idx !== -1) {
-                const [leftPlayer] = GS.players.splice(idx, 1);
-                // Archive player's score so it is NEVER lost upon rejoin
-                if (!this.playerScoresArchive) this.playerScoresArchive = {};
-                if (typeof leftPlayer.score === 'number') {
-                  this.playerScoresArchive[leftPlayer.id] = leftPlayer.score;
-                }
-                this.saveActiveSession();
-                this.renderLobbyUI();
-                UI.renderLB();
-                ChatEngine.renderSystemMessage(`🚪 <strong>${SecurityUtil.escapeHtml(leftPlayer.name || 'A player')}</strong> left the room.`);
-                if (this.isHost) {
-                  this.broadcastState('PLAYER_LEFT');
-                } else if (leftPlayer.isHost || msg.isHost) {
-                  console.log('[MultiplayerEngine] Host left the room. Promoting next host immediately.');
-                  this.checkHostMigration();
-                }
-              }
-            }
-            break;
+        try {
+          const roomsQuery = await withNetworkRetry(() => databases.listDocuments(APPWRITE_CONFIG.databaseId, 'rooms', [
+            Appwrite.Query.equal('roomCode', code)
+          ]));
+
+          if (roomsQuery.total === 0) {
+            alert(`Room "${code}" not found. Check the code and try again.`);
+            if (joinBtn) { joinBtn.disabled = false; joinBtn.innerHTML = 'ENTER ROOM →'; }
+            return;
           }
 
-          case 'PLAYER_KICKED': {
-            if (msg.targetPlayerId === this.playerId) {
-              this.leaveRoom();
-              UI.showScreen('homeScreen');
-              alert('You have been removed from the room by the host.');
-            } else if (msg.targetPlayerId) {
-              const idx = GS.players.findIndex(p => p.id === msg.targetPlayerId);
-              if (idx !== -1) {
-                const [kickedPlayer] = GS.players.splice(idx, 1);
-                this.renderLobbyUI();
-                UI.renderLB();
-                ChatEngine.renderSystemMessage(`👢 <strong>${SecurityUtil.escapeHtml(kickedPlayer.name || 'A player')}</strong> was removed by the host.`);
-              }
-            }
-            break;
+          const roomDoc = roomsQuery.documents[0];
+          this.roomId = roomDoc.roomId;
+          this.roomCode = roomDoc.roomCode;
+          this.isHost = false;
+          this.hasJoinedAck = true;
+          GameController._onlineMode = true;
+
+          const av = (this.playerAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+          const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#57c3e0' };
+          this.playerAvatarColor = avConfig.color || '#57c3e0';
+
+          const playerDocId = `${this.roomId}_${this.playerId}`;
+          try {
+            await withNetworkRetry(() => databases.createDocument(APPWRITE_CONFIG.databaseId, 'players', playerDocId, {
+              playerId: this.playerId,
+              roomId: this.roomId,
+              name: this.playerName,
+              avatar: this.playerAvatar,
+              status: 'connected',
+              lastHeartbeat: Date.now(),
+              score: 0,
+              isHost: false,
+              color: this.playerAvatarColor
+            }));
+          } catch (err) {
+            await withNetworkRetry(() => databases.updateDocument(APPWRITE_CONFIG.databaseId, 'players', playerDocId, {
+              status: 'connected',
+              name: this.playerName,
+              avatar: this.playerAvatar,
+              lastHeartbeat: Date.now()
+            })).catch(() => {});
           }
-          case 'REQUEST_REJOIN_SYNC':
-            if (this.isHost) {
-              let restoredScore = 0;
-              if (this.playerScoresArchive && typeof this.playerScoresArchive[msg.playerId] === 'number') {
-                restoredScore = this.playerScoresArchive[msg.playerId];
-              } else if (typeof msg.lastKnownScore === 'number' && msg.lastKnownScore > 0) {
-                restoredScore = msg.lastKnownScore;
-              }
 
-              const existingPlayer = GS.players.find(p => p.id === msg.playerId);
-              if (existingPlayer) {
-                existingPlayer.name = msg.name || existingPlayer.name;
-                existingPlayer.avatar = msg.avatar || existingPlayer.avatar;
-                existingPlayer.loaded = true;
-                if ((existingPlayer.score === undefined || existingPlayer.score === 0) && restoredScore > 0) {
-                  existingPlayer.score = restoredScore;
-                }
-              } else {
-                const av = (msg.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
-                const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#57c3e0' };
-                GS.players.push({
-                  id: msg.playerId,
-                  name: msg.name,
-                  avatar: msg.avatar,
-                  score: restoredScore,
-                  isHost: false,
-                  loaded: true,
-                  color: avConfig.color || '#57c3e0'
-                });
-              }
+          this.closeModals();
+          this.saveActiveSession();
+          this.subscribeRealtime();
+          this.startHeartbeat();
+          this.setConnectionState('CONNECTED');
 
-              if (!this.playerScoresArchive) this.playerScoresArchive = {};
-              const finalPlayer = GS.players.find(p => p.id === msg.playerId);
-              if (finalPlayer && typeof finalPlayer.score === 'number') {
-                this.playerScoresArchive[msg.playerId] = finalPlayer.score;
-              }
+          await this.syncActiveRoomState();
 
-              this.renderLobbyUI();
-              UI.renderLB();
-              this.saveActiveSession();
+          if (roomDoc.status === 'playing') {
+            this.executeGameStart();
+          } else {
+            UI.showScreen('playerLobbyScreen');
+            this.renderLobbyUI();
+          }
 
-              const totalTimer = (this.hostSettings && this.hostSettings.timer) || 30;
-              const elapsed = this.currentRoundStartTime ? Math.max(0, (Date.now() - this.currentRoundStartTime) / 1000) : 0;
-              const remainingSeconds = Math.max(1, Math.round(totalTimer - elapsed));
-
-              this.sendEvent('REJOIN_SYNC_STATE', {
-                targetPlayerId: msg.playerId,
-                gameState: this.isMatchActive ? (this.isRoundFinished ? 'round_end' : 'playing') : 'lobby',
-                roomCode: this.roomCode,
-                hostSettings: this.hostSettings,
-                players: GS.players,
-                currentPlaylist: this.currentPlaylist,
-                currentPlayIndex: this.currentPlayIndex,
-                currentFrame: (this.currentPlaylist && this.currentPlaylist[this.currentPlayIndex]) || this.currentClientFrame,
-                currentRoundWinners: this.currentRoundWinners,
-                timerDuration: totalTimer,
-                remainingSeconds: remainingSeconds,
-                roundIndex: this.currentPlayIndex,
-                maskedHint: this.currentMaskedHint
-              });
-              this.broadcastState('PLAYER_REJOINED');
-            }
-            break;
-
-          case 'REJOIN_SYNC_STATE':
-            if (msg.targetPlayerId && msg.targetPlayerId !== this.playerId) break;
-            this.hasJoinedAck = true;
-            this.isRejoining = false;
-            if (this.rejoinRetryTimer) clearInterval(this.rejoinRetryTimer);
-            if (this.joinRetryTimer) clearInterval(this.joinRetryTimer);
-            if (this._rejoinHostCheckTimer) clearTimeout(this._rejoinHostCheckTimer);
-
-            if (msg.players) {
-              GS.players = msg.players;
-              if (!this.playerScoresArchive) this.playerScoresArchive = {};
-              for (const p of msg.players) {
-                if (p && p.id && typeof p.score === 'number') {
-                  this.playerScoresArchive[p.id] = p.score;
-                }
-              }
-              UI.renderLB();
-            }
-
-            // Check if there is already an active host in the room who is not me
-            const existingHost = GS.players.find(p => p.isHost && p.id !== this.playerId);
-            if (existingHost) {
-              this.isHost = false;
-              GameController._isRemoteSession = true;
-              this.stopHostHeartbeat();
-              this.stopHostPresenceWatchdog();
-              this.startClientHeartbeat();
-              this.startHostWatchdog();
-              this.saveActiveSession();
-            } else if (this.pendingRejoinSession && this.pendingRejoinSession.isHost) {
-              this.isHost = true;
-              GameController._isRemoteSession = false;
-              this.startHostHeartbeat();
-              this.startHostPresenceWatchdog();
-              this.stopClientHeartbeat();
-              this.stopHostWatchdog();
-              this.saveActiveSession();
-            }
-
-            if (msg.hostSettings) this.hostSettings = msg.hostSettings;
-            if (msg.currentPlaylist && msg.currentPlaylist.length > 0) this.currentPlaylist = msg.currentPlaylist;
-            if (msg.currentPlayIndex !== undefined) this.currentPlayIndex = msg.currentPlayIndex;
-            if (msg.currentRoundWinners) this.currentRoundWinners = msg.currentRoundWinners;
-            if (msg.maskedHint) this.currentMaskedHint = msg.maskedHint;
-
-            const isMatchState = (msg.gameState === 'playing' || msg.gameState === 'round_end');
-            if (isMatchState) {
-              this.isMatchActive = true;
-              GameController._onlineMode = true;
-              GameController._isMatchActive = true;
-              UI.showScreen('gameScreen');
-
-              const gPanel = document.getElementById('onlineGuessPanel');
-              if (gPanel) gPanel.classList.add('active');
-              const hBar = document.getElementById('hostFloatingBar');
-              if (hBar) hBar.style.display = 'flex';
-              const hfbHostOnly = document.getElementById('hfbHostOnly');
-              if (hfbHostOnly) hfbHostOnly.style.display = this.isHost ? 'inline-flex' : 'none';
-              const hfbLabel = document.getElementById('hfbLabel');
-              if (hfbLabel) hfbLabel.textContent = this.isHost ? '👑 HOST CONTROLS:' : '🎮 CONTROLS:';
-
-              const curFrame = msg.currentFrame || (this.currentPlaylist && this.currentPlaylist[this.currentPlayIndex]) || this.currentClientFrame;
-              if (curFrame) {
-                const roundInfo = document.getElementById('roundInfo');
-                if (roundInfo && this.currentPlaylist) roundInfo.textContent = `Round ${this.currentPlayIndex + 1} / ${this.currentPlaylist.length}`;
-                const secName = document.getElementById('curSecName');
-                if (secName) secName.textContent = curFrame.sectionName || 'Guess the Frame';
-                FrameDisplay.showFrame(curFrame);
-              }
-
-              if (msg.gameState === 'round_end') {
-                this.isRoundFinished = true;
-                const ansOv = document.getElementById('answerOverlay');
-                if (ansOv) ansOv.classList.add('visible', 'active');
-                const ansTitle = document.getElementById('ansTitle');
-                if (ansTitle && curFrame) ansTitle.textContent = curFrame.answer || '';
-                const ansYear = document.getElementById('ansYear');
-                if (ansYear && curFrame) ansYear.textContent = curFrame.year ? `(${curFrame.year})` : '';
-              } else {
-                this.isRoundFinished = false;
-                const ansOv = document.getElementById('answerOverlay');
-                if (ansOv) ansOv.classList.remove('visible', 'active');
-                const scOv = document.getElementById('scoringOv');
-                if (scOv) scOv.classList.remove('active');
-
-                const input = document.getElementById('onlineGuessInput');
-                const submitBtn = document.getElementById('onlineGuessSubmitBtn');
-                const alreadyGuessed = (this.currentRoundWinners || []).some(w => w.playerId === this.playerId);
-                if (input) {
-                  input.value = '';
-                  input.disabled = alreadyGuessed;
-                  if (!alreadyGuessed) input.focus();
-                }
-                if (submitBtn) submitBtn.disabled = alreadyGuessed;
-
-                TC.start(msg.remainingSeconds || msg.timerDuration || 30, () => {
-                  this.endRound();
-                });
-              }
-              UI.renderLB();
-              this.saveActiveSession();
-            } else {
-              this.isMatchActive = false;
-              UI.showScreen('playerLobbyScreen');
-              this.renderLobbyUI();
-            }
-            break;
-
-          case 'CHAT_MESSAGE':
-            if (msg.msg) {
-              const currentAns = ChatEngine.getCurrentRoundAnswer();
-              const isMatch = ChatEngine.isRoundActive() && currentAns && FuzzyMatcher.isMatch(msg.msg.text, currentAns);
-              if (isMatch) {
-                // Incoming message matches the answer during an active round!
-                // Suppress from chat stream. If host and player hasn't won yet, process as a guess.
-                if (this.isHost && !this.currentRoundWinners.some(w => w.playerId === msg.msg.senderId)) {
-                  this.validateAndProcessGuess({
-                    playerId: msg.msg.senderId,
-                    playerName: msg.msg.senderName,
-                    playerAvatar: msg.msg.senderAvatar,
-                    guess: msg.msg.text,
-                    roundIndex: this.currentPlayIndex
-                  });
-                }
-                break;
-              }
-              // If it leaked a spoiler without matching the full answer, suppress from chat
-              if (ChatEngine.isRoundActive() && currentAns && ChatEngine.isAnswerOrSpoiler(msg.msg.text, currentAns)) {
-                break;
-              }
-              ChatEngine.renderMessage(msg.msg);
-            }
-            break;
-
-          case 'CHAT_REACTION_UPDATE':
-            ChatEngine.handleReactionUpdate(msg);
-            break;
-
-          case 'UPDATE_PLAYER_NAME':
-            if (this.isHost && msg.playerId && msg.name) {
-              const p = GS.players.find(x => x.id === msg.playerId);
-              if (p) {
-                p.name = msg.name.trim().slice(0, 16);
-                this.renderLobbyUI();
-                this.broadcastState('PLAYER_NAME_UPDATED');
-              }
-            }
-            break;
-
-          case 'PLAYER_LOAD_STATUS':
-            const pLoaded = GS.players.find(p => p.id === msg.playerId || p.name === msg.playerName || p.avatar === msg.playerAvatar);
-            if (pLoaded) {
-              pLoaded.loaded = !!msg.loaded;
-              pLoaded.loadProgress = Number(msg.progress) || (msg.loaded ? 100 : 0);
-              pLoaded.lastSeen = Date.now();
-              this.renderLobbyUI();
-              if (this.isHost) {
-                this.broadcastState('PLAYER_LOAD_STATUS');
-              }
-            }
-            break;
-
-          case 'PLAYER_JOIN':
-            if (this.isHost) {
-              // FIX: Authoritative host validation (Root Cause 2)
-              const maxPlayers = (this.hostSettings && this.hostSettings.maxPlayers) || 8;
-              const existingIdx = GS.players.findIndex(p => p.id === msg.id);
-
-              // Reject if lobby is full (new player, not reconnecting)
-              if (existingIdx === -1 && GS.players.length >= maxPlayers) {
-                this.sendEvent('JOIN_REJECTED', {
-                  targetPlayerId: msg.id,
-                  reason: 'LOBBY_FULL',
-                  message: 'This lobby is full (' + maxPlayers + '/' + maxPlayers + ' players).'
-                });
-                break;
-              }
-
-              // Reject if match is already in progress (new player, not reconnecting)
-              if (existingIdx === -1 && this.isMatchActive) {
-                this.sendEvent('JOIN_REJECTED', {
-                  targetPlayerId: msg.id,
-                  reason: 'GAME_ALREADY_STARTED',
-                  message: 'A match is already in progress. Please wait for it to end.'
-                });
-                break;
-              }
-
-              if (existingIdx === -1) {
-                const colors = ['#ff7eb6', '#57c3e0', '#f0a828', '#84cc16', '#a06bd6', '#3fb9ad'];
-                const nextColor = colors[GS.players.length % colors.length];
-                const item = typeof AvatarCatalog !== 'undefined' ? AvatarCatalog.getById(msg.avatar) : null;
-                const avImg = msg.avatarImg || (item ? item.src : `avvtar/${msg.avatar}.svg`);
-                const avCol = (item && item.color) || nextColor;
-                GS.players.push({
-                  id: msg.id,
-                  name: msg.name,
-                  avatar: msg.avatar,
-                  avatarImg: avImg,
-                  score: 0,
-                  isHost: false,
-                  loaded: true,
-                  lastSeen: Date.now(),
-                  color: avCol
-                });
-              } else {
-                GS.players[existingIdx].name = msg.name;
-                GS.players[existingIdx].avatar = msg.avatar;
-                if (msg.avatarImg) GS.players[existingIdx].avatarImg = msg.avatarImg;
-                GS.players[existingIdx].lastSeen = Date.now();
-              }
-              this.renderLobbyUI();
-              this.broadcastState('PLAYER_JOINED');
-            }
-            break;
-
-          case 'JOIN_REJECTED':
-            // FIX: Handle host rejection with specific reason (Root Cause 2 client-side)
-            if (msg.targetPlayerId === this.playerId) {
-              console.warn('[JoinRejected] Host rejected join:', msg.reason, msg.message);
-              this.isJoining = false;
-              if (this.joinRetryTimer) clearInterval(this.joinRetryTimer);
-              this.joinRetryTimer = null;
-              if (this._joinTimeoutTimer) clearTimeout(this._joinTimeoutTimer);
-              this._joinTimeoutTimer = null;
-
-              // Clean up transport
-              const rClientToEnd = this.mqttClient;
-              const rChannelToClose = this.broadcastChannel;
-              this.mqttClient = null;
-              this.broadcastChannel = null;
-              if (rClientToEnd) { try { rClientToEnd.end(true); } catch(e) {} }
-              if (rChannelToClose) { try { rChannelToClose.close(); } catch(e) {} }
-
-              // Reset state
-              GameController._onlineMode = false;
-              GameController._isRemoteSession = false;
-              this.roomCode = null;
-              this.roomId = null;
-              this.isConnected = false;
-
-              // Restore join button
-              const rJoinBtn = document.querySelector('#joinRoomModal .mp-btn-primary');
-              if (rJoinBtn) {
-                rJoinBtn.disabled = false;
-                rJoinBtn.innerHTML = 'ENTER ROOM →';
-              }
-
-              alert(msg.message || 'Unable to join this room.');
-            }
-            break;
-
-          case 'SYNC_ROOM_STATE':
-            if (msg.players && msg.players.length > 0) {
-              const wasJoining = this.isJoining && !this.hasJoinedAck;
-              const isMeIncluded = msg.players.some(p => p.id === this.playerId || p.name === this.playerName);
-
-              if (wasJoining && !isMeIncluded && !this.isHost) {
-                // Host broadcast received (room is live!), but host hasn't processed our join packet yet.
-                // Immediately re-transmit join packet.
-                this.sendEvent('PLAYER_JOIN', {
-                  id: this.playerId,
-                  name: this.playerName,
-                  avatar: this.playerAvatar
-                });
-                return;
-              }
-
-              this.hasJoinedAck = true;
-              this.isJoining = false;
-              if (this.joinRetryTimer) clearInterval(this.joinRetryTimer);
-              if (this.rejoinRetryTimer) clearInterval(this.rejoinRetryTimer);
-              if (this._rejoinHostCheckTimer) clearTimeout(this._rejoinHostCheckTimer);
-              if (this._joinTimeoutTimer) clearTimeout(this._joinTimeoutTimer);
-              this._joinTimeoutTimer = null;
-
-              GS.players = msg.players;
-              if (!this.playerScoresArchive) this.playerScoresArchive = {};
-              for (const p of msg.players) {
-                if (p && p.id && typeof p.score === 'number') {
-                  this.playerScoresArchive[p.id] = p.score;
-                }
-              }
-
-              const existingHost = GS.players.find(p => p.isHost && p.id !== this.playerId);
-              if (existingHost) {
-                this.isHost = false;
-                GameController._isRemoteSession = true;
-                this.stopHostHeartbeat();
-                this.stopHostPresenceWatchdog();
-                this.startClientHeartbeat();
-                this.startHostWatchdog();
-                this.saveActiveSession();
-              }
-
-              if (msg.hostSettings) this.hostSettings = msg.hostSettings;
-              if (msg.currentPlaylist && msg.currentPlaylist.length > 0) this.currentPlaylist = msg.currentPlaylist;
-              if (msg.currentPlayIndex !== undefined) this.currentPlayIndex = msg.currentPlayIndex;
-              if (msg.currentRoundWinners) this.currentRoundWinners = msg.currentRoundWinners;
-
-              // FIX: Navigate to lobby ONLY when initially joining room
-              if (wasJoining) {
-                this.saveActiveSession();
-                this.closeModals();
-                this.startClientHeartbeat();
-                this.startHostWatchdog();
-                UI.showScreen('playerLobbyScreen');
-              }
-
-              this.renderLobbyUI();
-              UI.renderLB();
-            }
-            break;
-
-          case 'UPDATE_HOST_SETTINGS':
-            if (msg.settings) {
-              this.hostSettings = msg.settings;
-              this.renderLobbyUI();
-            }
-            break;
-
-          case 'SHOW_HOW_TO_ANSWER':
-            this.handleRemoteHowToAnswer(msg);
-            break;
-
-          case 'GAME_START_COUNTDOWN':
-            this.handleRemoteGameStart(msg);
-            break;
-
-          case 'ROUND_START':
-            this.handleRemoteRoundStart(msg);
-            break;
-
-          case 'SUBMIT_GUESS':
-            if (this.isHost) {
-              this.validateAndProcessGuess(msg);
-            }
-            break;
-
-          case 'GUESS_RESULT':
-            if (this._guessTimeoutId) clearTimeout(this._guessTimeoutId);
-            if (msg.targetPlayerId === this.playerId && !msg.isCorrect) {
-              SoundManager.play('wrong');
-              this.showGuessFeedback(false, '❌ Not quite, try again!');
-              const input = document.getElementById('onlineGuessInput');
-              if (input) {
-                input.classList.add('shake-input');
-                setTimeout(() => input.classList.remove('shake-input'), 400);
-              }
-            }
-            break;
-
-          case 'GUESS_CORRECT_BROADCAST':
-            if (this._guessTimeoutId) clearTimeout(this._guessTimeoutId);
-            this.handleRemoteCorrectGuess(msg);
-            break;
-
-          case 'ROUND_FINISH_BROADCAST':
-            this.handleRemoteRoundFinish(msg);
-            break;
-
-          case 'PLAYER_USED_HINT':
-            this.handleRemoteHint(msg);
-            break;
-
-          case 'HOST_SKIP_BROADCAST':
-            this.handleRemoteSkip();
-            break;
-
-          case 'HOST_PAUSE_BROADCAST':
-            this.handleRemotePause(msg.paused);
-            break;
-
-          case 'TIE_BREAKER_TRIGGER':
-            this.handleRemoteTieBreaker(msg);
-            break;
-
-          case 'GAME_OVER_BROADCAST':
-            this.handleRemoteGameOver(msg);
-            break;
-
-          case 'REMATCH_BROADCAST':
-            this.handleRemoteRematch();
-            break;
-
-          case 'RETURN_LOBBY_BROADCAST':
-            this.handleRemoteReturnLobby();
-            break;
-
-          case 'HOST_HEARTBEAT':
-            this.lastHostHeartbeat = Date.now();
-            this._hostWarnActive = false;
-            break;
-
-          case 'HOST_MIGRATED':
-            this.lastHostHeartbeat = Date.now();
-            if (msg.newHostId === this.playerId) {
-              if (!this.isHost) this.becomeHost();
-            } else {
-              this.isHost = false;
-              this.stopHostHeartbeat();
-              this.startHostWatchdog();
-              if (msg.players) GS.players = msg.players;
-              GS.players.forEach(p => { p.isHost = (p.id === msg.newHostId); });
-              const hfbHostOnly = document.getElementById('hfbHostOnly');
-              if (hfbHostOnly) hfbHostOnly.style.display = 'none';
-              const hfbLabel = document.getElementById('hfbLabel');
-              if (hfbLabel) hfbLabel.textContent = '🎮 CONTROLS:';
-              const waitPill = document.getElementById('ansWaitingHostPill');
-              const nextBtn = document.getElementById('ansNextRoundBtn');
-              if (nextBtn) nextBtn.style.display = 'none';
-              if (waitPill) waitPill.style.display = 'inline-flex';
-              this.renderLobbyUI();
-              ChatEngine.renderSystemMessage('👑 <strong>' + SecurityUtil.escapeHtml(msg.newHostName || 'Player') + '</strong> is now the Host!');
-            }
-            break;
+          if (typeof FrameDisplay !== 'undefined' && FrameDisplay.preloadAll) {
+            FrameDisplay.preloadAll(p => { if (typeof UI !== 'undefined' && UI.updateLoadProgress) UI.updateLoadProgress(p, 'lobby'); });
+          }
+        } catch (err) {
+          _scWarn('[Appwrite Join Room Error]', err);
+          alert('Could not join room: ' + (err && err.message ? err.message : 'Server unavailable. Please try again.'));
+          if (joinBtn) { joinBtn.disabled = false; joinBtn.innerHTML = 'ENTER ROOM →'; }
         }
       },
 
-      renderLobbyUI() {
-        PlayerLobby.render();
+      subscribeRealtime() {
+        if (this.realtimeUnsubscribe) {
+          try { this.realtimeUnsubscribe(); } catch(e) {}
+          this.realtimeUnsubscribe = null;
+        }
+        const { client } = getAppwrite();
+        if (!client || !this.roomId) return;
+
+        const channels = [
+          `databases.${APPWRITE_CONFIG.databaseId}.collections.rooms.documents.${this.roomId}`,
+          `databases.${APPWRITE_CONFIG.databaseId}.collections.game_state.documents.${this.roomId}`,
+          `databases.${APPWRITE_CONFIG.databaseId}.collections.players.documents`
+        ];
+
+        _scLog('[Realtime] Subscribing to Appwrite channels for room:', this.roomId);
+        try {
+          this.realtimeUnsubscribe = client.subscribe(channels, (response) => {
+            this.handleRealtimeEvent(response);
+          });
+          if (window.ScoopCastDebug) window.ScoopCastDebug.realtime.status = 'connected';
+        } catch (subErr) {
+          _scWarn('[Realtime Subscribe Error]', subErr);
+          if (window.ScoopCastDebug) {
+            window.ScoopCastDebug.api.failures++;
+            window.ScoopCastDebug.realtime.status = 'disconnected';
+          }
+        }
+      },
+
+      handleRealtimeEvent(response) {
+        if (window.ScoopCastDebug) {
+          window.ScoopCastDebug.realtime.lastEventTimestamp = Date.now();
+        }
+        const eventName = (response.events && response.events[0]) || '';
+        const payload = response.payload;
+
+        if (eventName.includes('.rooms.')) {
+          if (payload.status === 'playing' && !this.isMatchActive) {
+            this.executeGameStart();
+          } else if (payload.status === 'finished') {
+            this.handleRemoteGameOver();
+          }
+        } else if (eventName.includes('.game_state.')) {
+          if (payload.roomId !== this.roomId) return;
+          this.handleGameStateUpdate(payload);
+        } else if (eventName.includes('.players.')) {
+          if (payload.roomId !== this.roomId) return;
+          this.handlePlayerUpdate(payload, eventName);
+        }
+      },
+
+      handlePlayerUpdate(player, eventName) {
+        if (!Array.isArray(GS.players)) GS.players = [];
+        const idx = GS.players.findIndex(p => p.id === player.playerId);
+
+        if (eventName.includes('.create')) {
+          if (idx === -1) {
+            GS.players.push({
+              id: player.playerId,
+              name: player.name,
+              avatar: player.avatar,
+              avatarImg: 'avvtar/' + (player.avatar || 'aman').toLowerCase() + '.svg',
+              score: player.score || 0,
+              isHost: player.isHost || false,
+              loaded: true,
+              status: player.status || 'connected',
+              lastHeartbeat: player.lastHeartbeat || Date.now(),
+              color: player.color || '#57c3e0'
+            });
+            SoundManager.play('pop');
+            ChatEngine.renderSystemMessage(`👋 <strong>${SecurityUtil.escapeHtml(player.name)}</strong> joined the room!`);
+          }
+        } else if (eventName.includes('.update')) {
+          if (idx !== -1) {
+            GS.players[idx].score = player.score;
+            GS.players[idx].status = player.status;
+            GS.players[idx].lastHeartbeat = player.lastHeartbeat;
+            GS.players[idx].name = player.name;
+            GS.players[idx].avatar = player.avatar;
+          }
+        } else if (eventName.includes('.delete')) {
+          if (idx !== -1) {
+            const [removed] = GS.players.splice(idx, 1);
+            ChatEngine.renderSystemMessage(`🚪 <strong>${SecurityUtil.escapeHtml(removed.name)}</strong> left the room.`);
+          }
+        }
+
+        this.renderLobbyUI();
+        UI.renderLB();
+      },
+
+      handleGameStateUpdate(state) {
+        if (!state) return;
+        // Enforce strict monotonic event versioning
+        if (typeof state.version === 'number') {
+          if (state.version <= this.gameStateVersion) {
+            _scLog(`[Realtime] Stale state event ignored (v${state.version} <= v${this.gameStateVersion})`);
+            return;
+          }
+          this.gameStateVersion = state.version;
+        }
+
+        let winners = [];
+        try {
+          winners = typeof state.winners === 'string' ? JSON.parse(state.winners) : (state.winners || []);
+        } catch (e) { winners = []; }
+        this.currentRoundWinners = winners;
+
+        if (state.phase === 'guessing' && !this.isHost) {
+          const roundIdx = (state.roundNumber || 1) - 1;
+          if (roundIdx !== this.currentPlayIndex || !this.currentClientFrame || !this.isMatchActive) {
+            this.handleRemoteRoundStart({
+              roundIndex: roundIdx,
+              maskedHint: state.maskedHint,
+              frame: {
+                type: state.dialogueText ? 'dialogue' : ((state.currentImage && state.currentImage.includes('EYES')) ? 'eye' : 'image'),
+                content: state.currentImage,
+                dialogue: state.dialogueText,
+                context: state.dialogueContext,
+                sectionName: state.dialogueText ? 'Guess the Dialogue' : ((state.currentImage && state.currentImage.includes('EYES')) ? 'Guess the Eye' : 'Guess the Frame')
+              }
+            });
+          }
+        } else if (state.phase === 'revealed' && !this.isHost) {
+          this.handleRemoteRoundFinish({
+            revealedAnswer: state.revealedAnswer,
+            currentRoundWinners: winners,
+            currentPlayIndex: (state.roundNumber || 1) - 1
+          });
+        }
+      },
+
+      async syncActiveRoomState() {
+        const { databases } = getAppwrite();
+        if (!databases || !this.roomId) return;
+        try {
+          const pList = await withNetworkRetry(() => databases.listDocuments(APPWRITE_CONFIG.databaseId, 'players', [
+            Appwrite.Query.equal('roomId', this.roomId)
+          ]));
+          GS.players = pList.documents.map(d => ({
+            id: d.playerId,
+            name: d.name,
+            avatar: d.avatar,
+            avatarImg: 'avvtar/' + (d.avatar || 'aman').toLowerCase() + '.svg',
+            score: d.score || 0,
+            isHost: d.isHost || false,
+            loaded: true,
+            status: d.status || 'connected',
+            lastHeartbeat: d.lastHeartbeat || Date.now(),
+            color: d.color || '#57c3e0'
+          }));
+
+          const state = await withNetworkRetry(() => databases.getDocument(APPWRITE_CONFIG.databaseId, 'game_state', this.roomId));
+          this.handleGameStateUpdate(state);
+
+          this.renderLobbyUI();
+          UI.renderLB();
+        } catch (err) {
+          _scWarn('[Sync Active Room State]', err.message);
+        }
+      },
+
+      startHeartbeat() {
+        this.stopHeartbeat();
+        const { databases } = getAppwrite();
+        if (!databases) return;
+
+        // Throttled heartbeat: 15 seconds interval (reduces write load by 66%)
+        this.heartbeatTimer = setInterval(async () => {
+          if (!this.roomId || !this.playerId || !navigator.onLine || document.hidden) return;
+          const playerDocId = `${this.roomId}_${this.playerId}`;
+          try {
+            await databases.updateDocument(APPWRITE_CONFIG.databaseId, 'players', playerDocId, {
+              lastHeartbeat: Date.now(),
+              status: 'connected'
+            });
+          } catch (e) {
+            if (window.ScoopCastDebug) window.ScoopCastDebug.api.failures++;
+          }
+        }, 15000);
+
+        // Presence Watchdog: runs locally every 5s with realistic thresholds
+        this.presenceWatchdogTimer = setInterval(() => {
+          if (!Array.isArray(GS.players)) return;
+          const now = Date.now();
+          let changed = false;
+          GS.players.forEach(p => {
+            if (p.id === this.playerId) return;
+            const lastSeen = p.lastHeartbeat || now;
+            const diff = now - lastSeen;
+            let newStatus = 'connected';
+            if (diff > 60000) newStatus = 'disconnected';
+            else if (diff > 45000) newStatus = 'reconnecting';
+            else if (diff > 25000) newStatus = 'away';
+
+            if (p.status !== newStatus) {
+              p.status = newStatus;
+              changed = true;
+            }
+          });
+          if (changed) {
+            this.renderLobbyUI();
+            UI.renderLB();
+          }
+        }, 5000);
+      },
+
+      stopHeartbeat() {
+        if (this.heartbeatTimer) clearInterval(this.heartbeatTimer);
+        if (this.presenceWatchdogTimer) clearInterval(this.presenceWatchdogTimer);
+        this.heartbeatTimer = null;
+        this.presenceWatchdogTimer = null;
       },
 
       startMatch() {
@@ -19773,15 +19311,16 @@
         let pool = [];
         if (!this.hostSettings) {
           this.hostSettings = {
-            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
-          rounds: 40,
+            category: 'all',
+            categories: ['frames', 'eyes', 'dialogue'],
+            roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+            rounds: 40,
             timer: 30
           };
         }
 
         const counts = this.hostSettings.roundsByMode || { frames: 20, eyes: 10, dialogue: 10 };
 
-        // 1. All Frames first (shuffled internally, not mixed across categories)
         const numFrames = counts.frames !== undefined ? counts.frames : 20;
         if (numFrames > 0) {
           const s1 = GS.sections.find(s => s.id === 1);
@@ -19791,7 +19330,6 @@
           }
         }
 
-        // 2. All Dialogue second (shuffled internally, not mixed across categories)
         const numDialogue = counts.dialogue !== undefined ? counts.dialogue : 10;
         if (numDialogue > 0) {
           const s2 = GS.sections.find(s => s.id === 2);
@@ -19801,7 +19339,6 @@
           }
         }
 
-        // 3. All Eyes third (shuffled internally, not mixed across categories)
         const numEyes = counts.eyes !== undefined ? counts.eyes : 10;
         if (numEyes > 0) {
           const s3 = GS.sections.find(s => s.id === 3);
@@ -19812,7 +19349,6 @@
         }
 
         if (pool.length === 0) {
-          // Fallback to section 1 frames if empty
           const s1 = GS.sections.find(s => s.id === 1);
           if (s1) pool = [...s1.frames.slice(0, 20).map(f => ({ ...f, sectionName: 'Guess the Frame', sectionId: 1 }))];
         }
@@ -19831,366 +19367,35 @@
           fastestGuessSeconds: null,
           roundStartTime: 0
         };
-        this.saveActiveSession();
 
-        // Tell all clients to show the How To Answer guide screen
-        this.sendEvent('SHOW_HOW_TO_ANSWER', {
-          totalRounds: this.currentPlaylist.length,
-          hostSettings: this.hostSettings,
-          players: GS.players,
-          playlist: this.currentPlaylist
-        });
-
-        // Host shows How To Answer guide with 10s timer, unlocks Host Start button at 0s
-        HowToAnswerGuide.start(true, () => {
-          this.sendEvent('GAME_START_COUNTDOWN', {
-            totalRounds: this.currentPlaylist.length,
-            hostSettings: this.hostSettings,
-            players: GS.players
-          });
-          this.executeGameStart();
-        });
-      },
-
-      handleRemoteHowToAnswer(msg) {
-        this.totalMatchRounds = msg.totalRounds || (msg.playlist ? msg.playlist.length : 10);
-        this.hostSettings = msg.hostSettings || this.hostSettings;
-        GS.players = msg.players || GS.players;
-        if (msg.playlist && msg.playlist.length > 0) {
-          this.currentPlaylist = msg.playlist;
+        const { databases } = getAppwrite();
+        if (databases) {
+          databases.updateDocument(APPWRITE_CONFIG.databaseId, 'rooms', this.roomId, {
+            status: 'playing',
+            currentRound: 1,
+            totalRounds: pool.length,
+            updatedAt: Date.now()
+          }).catch(err => console.error('[Start Match DB Error]', err));
         }
-        HowToAnswerGuide.start(false, null);
-      },
 
-      handleRemoteGameStart(msg) {
-        HowToAnswerGuide.stop();
-        this.isMatchActive = true;
-        this.isRoundFinished = false;
-        this.totalMatchRounds = msg.totalRounds || (msg.playlist ? msg.playlist.length : 10);
-        this.hostSettings = msg.hostSettings || this.hostSettings;
-        GS.players = msg.players || GS.players;
-        this.currentPlayIndex = 0;
-        UI.showScreen('gameScreen');
-        const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.add('active');
-        const hBar = document.getElementById('hostFloatingBar');
-        if (hBar) hBar.style.display = 'flex';
-        const hfbHostOnly = document.getElementById('hfbHostOnly');
-        if (hfbHostOnly) hfbHostOnly.style.display = this.isHost ? 'inline-flex' : 'none';
-        const hfbLabel = document.getElementById('hfbLabel');
-        if (hfbLabel) hfbLabel.textContent = this.isHost ? '👑 HOST CONTROLS:' : '🎮 CONTROLS:';
-        this.saveActiveSession();
+        this.executeGameStart();
       },
 
       executeGameStart() {
-        HowToAnswerGuide.stop();
         this.isMatchActive = true;
-        this.isRoundFinished = false;
+        GameController._onlineMode = true;
+        GameController._isRemoteSession = !this.isHost;
+
+        if (!this.isHost) {
+          this.currentPlayIndex = -1;
+          this.currentClientFrame = null;
+        }
+
         UI.showScreen('gameScreen');
-        const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.add('active');
+        UI.renderLB();
+
         if (this.isHost) {
-          document.getElementById('hostFloatingBar').style.display = 'flex';
           this.startRound(0);
-        } else {
-          document.getElementById('hostFloatingBar').style.display = 'none';
-        }
-        this.saveActiveSession();
-      },
-
-      startHostHeartbeat() {
-        this.stopHostHeartbeat();
-        this._heartbeatInterval = setInterval(() => {
-          if (this.isHost && this.roomCode) {
-            this.sendEvent('HOST_HEARTBEAT', {
-              hostId: this.playerId,
-              timestamp: Date.now()
-            });
-          }
-        }, 3000);
-      },
-
-      stopHostHeartbeat() {
-        if (this._heartbeatInterval) {
-          clearInterval(this._heartbeatInterval);
-          this._heartbeatInterval = null;
-        }
-      },
-
-      startClientHeartbeat() {
-        this.stopClientHeartbeat();
-        if (this.isHost) return;
-        this.clientHeartbeatTimer = setInterval(() => {
-          if (!this.roomCode || this.isHost) {
-            this.stopClientHeartbeat();
-            return;
-          }
-          this.sendEvent('CLIENT_HEARTBEAT', {
-            playerId: this.playerId,
-            name: this.playerName
-          });
-        }, 3000);
-      },
-
-      stopClientHeartbeat() {
-        if (this.clientHeartbeatTimer) {
-          clearInterval(this.clientHeartbeatTimer);
-          this.clientHeartbeatTimer = null;
-        }
-      },
-
-      startHostPresenceWatchdog() {
-        this.stopHostPresenceWatchdog();
-        if (!this.isHost) return;
-        this.presenceWatchdogTimer = setInterval(() => {
-          if (!this.roomCode || !this.isHost) {
-            this.stopHostPresenceWatchdog();
-            return;
-          }
-          const now = Date.now();
-          const initialLen = GS.players.length;
-          GS.players = GS.players.filter(p => {
-            if (p.isHost || p.id === this.playerId) return true;
-            const lastSeen = p.lastSeen || p.joinTime || now;
-            const isAlive = (now - lastSeen) < 9500;
-            if (!isAlive) {
-              console.log('[Presence] Auto-pruning inactive/disconnected player:', p.name, p.id);
-            }
-            return isAlive;
-          });
-
-          if (GS.players.length !== initialLen) {
-            this.renderLobbyUI();
-            UI.renderLB();
-            this.broadcastState('PLAYER_DISCONNECTED');
-          }
-        }, 3000);
-      },
-
-      stopHostPresenceWatchdog() {
-        if (this.presenceWatchdogTimer) {
-          clearInterval(this.presenceWatchdogTimer);
-          this.presenceWatchdogTimer = null;
-        }
-      },
-
-      startHostWatchdog() {
-        this.stopHostWatchdog();
-        this.lastHostHeartbeat = Date.now();
-        this._hostWarnActive = false;
-        this._watchdogInterval = setInterval(() => {
-          if (this.isHost || !this.roomCode || !GameController._onlineMode) return;
-          const now = Date.now();
-          const gap = now - (this.lastHostHeartbeat || now);
-          if (gap > 5500 && !this._hostWarnActive && gap <= 12000) {
-            this._hostWarnActive = true;
-            ChatEngine.renderSystemMessage('⚠️ <em>Host disconnected. Electing new host shortly...</em>');
-          }
-          if (this.lastHostHeartbeat && (now - this.lastHostHeartbeat > 12000)) {
-            this._hostWarnActive = false;
-            console.warn('[HostWatchdog] Host heartbeat missing for 12s. Initiating host migration...');
-            this.checkHostMigration();
-          }
-        }, 3000);
-      },
-
-      stopHostWatchdog() {
-        if (this._watchdogInterval) {
-          clearInterval(this._watchdogInterval);
-          this._watchdogInterval = null;
-        }
-      },
-
-      checkHostMigration() {
-        if (this.isHost) return;
-        this.lastHostHeartbeat = Date.now();
-        const currentHost = GS.players.find(p => p.isHost);
-        const currentHostId = currentHost ? currentHost.id : null;
-        const candidates = GS.players.filter(p => p.id !== currentHostId);
-        if (candidates.length === 0) return;
-        const nextHost = candidates[0];
-        if (nextHost.id === this.playerId) {
-          console.log('[HostMigration] Becoming new host!');
-          this.becomeHost();
-        }
-      },
-
-      becomeHost() {
-        this.isHost = true;
-        this._hostWarnActive = false;
-        this.stopHostWatchdog();
-        this.stopClientHeartbeat();
-        if (typeof UI !== 'undefined' && UI.updateSkipButtonVisibility) UI.updateSkipButtonVisibility();
-        GS.players.forEach(p => {
-          p.isHost = (p.id === this.playerId);
-        });
-        const hBar = document.getElementById('hostFloatingBar');
-        if (hBar) hBar.style.display = 'flex';
-        const hfbHostOnly = document.getElementById('hfbHostOnly');
-        if (hfbHostOnly) hfbHostOnly.style.display = 'inline-flex';
-        const hfbLabel = document.getElementById('hfbLabel');
-        if (hfbLabel) hfbLabel.textContent = '👑 HOST CONTROLS:';
-
-        const nextBtn = document.getElementById('ansNextRoundBtn');
-        const waitPill = document.getElementById('ansWaitingHostPill');
-        if (nextBtn && waitPill && waitPill.style.display !== 'none') {
-          nextBtn.style.display = 'inline-flex';
-          waitPill.style.display = 'none';
-        }
-
-        // Support HowToAnswerGuide if currently on rules guide screen
-        const htaScreen = document.getElementById('howToAnswerScreen');
-        if (htaScreen && htaScreen.classList.contains('active')) {
-          if (typeof HowToAnswerGuide !== 'undefined') {
-            HowToAnswerGuide._isHost = true;
-            HowToAnswerGuide._onLaunch = () => {
-              this.sendEvent('GAME_START_COUNTDOWN', {
-                totalRounds: this.currentPlaylist ? this.currentPlaylist.length : 10,
-                hostSettings: this.hostSettings,
-                players: GS.players
-              });
-              this.executeGameStart();
-            };
-            const hostBtn = document.getElementById('htaHostStartBtn');
-            const clientStatus = document.getElementById('htaClientStatus');
-            if (clientStatus) clientStatus.style.display = 'none';
-            if (hostBtn) {
-              hostBtn.style.display = 'inline-flex';
-              if (HowToAnswerGuide._secondsLeft <= 0) {
-                hostBtn.disabled = false;
-                hostBtn.innerHTML = '<span class="hta-play-icon">▶</span> <span class="hta-btn-text">START GAME</span>';
-                hostBtn.style.animation = 'pulse 1.2s infinite';
-              }
-              hostBtn.onclick = () => HowToAnswerGuide.handleHostClick();
-            }
-          }
-        }
-
-        this.renderLobbyUI();
-        this.startHostHeartbeat();
-        this.startHostPresenceWatchdog();
-        this.saveActiveSession();
-
-        ChatEngine.renderSystemMessage('👑 <strong>' + SecurityUtil.escapeHtml(this.playerName) + '</strong> is now the Host!');
-
-        this.sendEvent('HOST_MIGRATED', {
-          newHostId: this.playerId,
-          newHostName: this.playerName,
-          players: GS.players
-        });
-      },
-
-      leaveRoom() {
-        if (typeof HowToAnswerGuide !== 'undefined') HowToAnswerGuide.stop();
-        if (this.roomCode) {
-          try {
-            this.sendEvent('PLAYER_LEAVE', {
-              playerId: this.playerId,
-              name: this.playerName,
-              isHost: this.isHost
-            });
-          } catch(e) {}
-        }
-        this.stopClientHeartbeat();
-        this.stopHostPresenceWatchdog();
-        this.stopHostHeartbeat();
-        this.stopHostWatchdog();
-        if (this._hostAutoAdvanceTimer) clearInterval(this._hostAutoAdvanceTimer);
-        if (this._clientWaitTimer) clearInterval(this._clientWaitTimer);
-        if (this._joinTimeoutTimer) clearTimeout(this._joinTimeoutTimer);
-        this._joinTimeoutTimer = null;
-        this.isJoining = false;
-        this.clearActiveSession();
-        const clientToEnd = this.mqttClient;
-        const channelToClose = this.broadcastChannel;
-        this.mqttClient = null;
-        this.broadcastChannel = null;
-
-        if (clientToEnd) {
-          setTimeout(() => {
-            try { clientToEnd.end(false); } catch(e) {}
-          }, 350);
-        }
-        if (channelToClose) {
-          setTimeout(() => {
-            try { channelToClose.close(); } catch(e) {}
-          }, 350);
-        }
-        GameController._onlineMode = false;
-        GameController._isRemoteSession = false;
-        this.isHost = false;
-        this.roomCode = null;
-        this.roomId = null;
-        UI.showScreen('homeScreen');
-      },
-
-            playRoundIntroAnimation(roundNum, totalRounds, callback) {
-        const ov = document.getElementById('roundIntroOv');
-        const rioNum = document.getElementById('rioNum');
-        const rioTag = document.getElementById('rioTag');
-        const rioBadge = ov ? ov.querySelector('.rio-badge') : null;
-        if (rioBadge) rioBadge.textContent = 'ROUND';
-        if (rioNum) rioNum.textContent = roundNum || '1';
-        if (rioTag) rioTag.textContent = totalRounds ? `ROUND ${roundNum} OF ${totalRounds} • GET READY!` : 'GET READY!';
-
-        const dots = ['rd1', 'rd2', 'rd3'].map(id => document.getElementById(id));
-        dots.forEach(d => { if (d) d.classList.remove('on'); });
-
-        if (ov) {
-          ov.classList.add('on');
-          try { SoundManager.play('countdown'); } catch(e) {}
-
-          let step = 0;
-          const intervalId = setInterval(() => {
-            if (dots[step]) dots[step].classList.add('on');
-            step++;
-            if (step >= 3) {
-              clearInterval(intervalId);
-              setTimeout(() => {
-                ov.classList.remove('on');
-                dots.forEach(d => { if (d) d.classList.remove('on'); });
-                if (typeof callback === 'function') callback();
-              }, 250);
-            }
-          }, 280);
-        } else {
-          if (typeof callback === 'function') callback();
-        }
-      },
-
-      
-      setHostSkipButtonState(state) {
-        const isLast = (this.currentPlayIndex + 1 >= this.currentPlaylist.length);
-        const hfbSkip = document.getElementById('hfbSkipBtn');
-        if (hfbSkip) {
-          if (state === 'next') {
-            hfbSkip.textContent = isLast ? '🏁 Finish Match' : '▶ Next Round';
-            hfbSkip.classList.add('next-round-state');
-            hfbSkip.onclick = () => MultiplayerEngine.hostNextRound();
-          } else {
-            hfbSkip.textContent = '⏭ Skip Frame';
-            hfbSkip.classList.remove('next-round-state');
-            hfbSkip.onclick = () => MultiplayerEngine.hostSkipRound();
-          }
-        }
-
-        if (typeof UI !== 'undefined' && UI.updateSkipButtonVisibility) {
-          UI.updateSkipButtonVisibility();
-        }
-        const skipBtn = document.getElementById('skipBtn');
-        if (skipBtn) {
-          if (GameController._onlineMode && !this.isHost) {
-            skipBtn.style.display = 'none';
-          } else {
-            skipBtn.style.display = '';
-            if (state === 'next') {
-              skipBtn.textContent = isLast ? 'Finish Match' : 'Next Round';
-              skipBtn.classList.add('next-round-state');
-              skipBtn.onclick = () => MultiplayerEngine.hostNextRound();
-            } else {
-              skipBtn.textContent = 'Skip';
-              skipBtn.classList.remove('next-round-state');
-              skipBtn.onclick = () => GameController._onlineMode ? MultiplayerEngine.hostSkipRound() : GameController.skipRound();
-            }
-          }
         }
       },
 
@@ -20202,6 +19407,7 @@
         this.hasUsedHintThisRound = false;
         this.currentRoundStartTime = Date.now();
         ChatEngine.clearInputs();
+
         if (!this.currentPlaylist || this.currentPlaylist.length === 0) {
           const s1 = (typeof GS !== 'undefined' && GS.sections) ? GS.sections.find(s => s.id === 1) : null;
           if (s1 && s1.frames) {
@@ -20210,34 +19416,37 @@
             this.currentPlaylist = [];
           }
         }
+
         const frame = this.currentPlaylist[roundIndex];
         if (!frame) {
           this.finishGame();
           return;
         }
 
+        // Preload ONLY the next round (roundIndex + 1) in background
+        const nextIdx = roundIndex + 1;
+        if (this.currentPlaylist && this.currentPlaylist[nextIdx]) {
+          const nextFrame = this.currentPlaylist[nextIdx];
+          if (nextFrame.content && typeof FrameDisplay !== 'undefined' && FrameDisplay.preloadImage) {
+            FrameDisplay.preloadImage(nextFrame.content).catch(() => {});
+          }
+        }
+
         const chatPrompt = (frame.sectionId === 3 || frame.type === 'eye') ? 'Type celebrity guess or chat...' : 'Type movie guess or chat...';
         ChatEngine.setPlaceholder(chatPrompt);
 
-        // Generate the single authoritative randomized hint for this round
         this.currentMaskedHint = this.generateMaskedHint(frame.answer);
-
-        // Reset Skip button back to "⏭ Skip Frame" for the active round
         this.setHostSkipButtonState('skip');
 
-        // Reset Hint UI for new round
         const hintBtns = document.querySelectorAll('#chatHintBtn, #hfbHintBtn, #mobileQuickHintBtn');
         hintBtns.forEach(b => {
           b.disabled = false;
           b.style.opacity = '1';
           b.textContent = b.id === 'mobileQuickHintBtn' ? '💡' : '💡 Hint (-2 pts)';
         });
-        const cah = document.getElementById('chatActiveHint');
-        if (cah) cah.style.display = 'none';
-        const hfbHintPill = document.getElementById('hfbActiveHintPill');
-        if (hfbHintPill) hfbHintPill.style.display = 'none';
-        const mbHintBanner = document.getElementById('mobileHintBanner');
-        if (mbHintBanner) mbHintBanner.style.display = 'none';
+        const cah = document.getElementById('chatActiveHint'); if (cah) cah.style.display = 'none';
+        const hfbHintPill = document.getElementById('hfbActiveHintPill'); if (hfbHintPill) hfbHintPill.style.display = 'none';
+        const mbHintBanner = document.getElementById('mobileHintBanner'); if (mbHintBanner) mbHintBanner.style.display = 'none';
 
         const input = document.getElementById('onlineGuessInput');
         const submitBtn = document.getElementById('onlineGuessSubmitBtn');
@@ -20263,7 +19472,7 @@
         const hfbNext = document.getElementById('hfbNextBtn'); if (hfbNext) hfbNext.style.display = 'none';
         document.getElementById('scoringOv').classList.remove('active');
 
-        const timerDuration = this.hostSettings.timer || 30;
+        const timerDuration = (this.hostSettings && this.hostSettings.timer) || 30;
         this.playRoundIntroAnimation(roundIndex + 1, this.currentPlaylist.length, () => {
           TC.start(timerDuration, () => {
             this.endRound();
@@ -20271,26 +19480,29 @@
         });
 
         if (this.isHost) {
-          // Send sanitized clientFrame without answer or year
-          const clientFrame = {
-            id: frame.id,
-            type: frame.type,
-            content: frame.content,
-            revealContent: frame.revealContent,
-            dialogue: frame.dialogue,
-            context: frame.context,
-            sectionName: frame.sectionName,
-            sectionId: frame.sectionId
-          };
-          this.sendEvent('ROUND_START', {
-            roundIndex,
-            totalRounds: this.currentPlaylist.length,
-            frame: clientFrame,
-            timerDuration,
-            maskedHint: this.currentMaskedHint
-          });
+          this.gameStateVersion++;
+          const { databases } = getAppwrite();
+          if (databases) {
+            databases.updateDocument(APPWRITE_CONFIG.databaseId, 'game_state', this.roomId, {
+              roundNumber: roundIndex + 1,
+              phase: 'guessing',
+              currentImage: frame.content || '',
+              dialogueText: frame.dialogue || '',
+              dialogueContext: frame.context || '',
+              maskedHint: this.currentMaskedHint || '',
+              revealedAnswer: '',
+              winners: '[]',
+              startedAt: Date.now(),
+              version: this.gameStateVersion
+            }).catch(e => console.warn('[Update Game State Error]', e.message));
+
+            databases.updateDocument(APPWRITE_CONFIG.databaseId, 'rooms', this.roomId, {
+              currentRound: roundIndex + 1,
+              currentSection: frame.sectionName || 'frames',
+              updatedAt: Date.now()
+            }).catch(() => {});
+          }
         }
-        this.saveActiveSession();
       },
 
       handleRemoteRoundStart(msg) {
@@ -20298,39 +19510,14 @@
         this.isRoundFinished = false;
         this.currentPlayIndex = msg.roundIndex;
         this.currentRoundWinners = [];
-        this.hasUsedHintThisRound = false;
-        this.currentMaskedHint = msg.maskedHint || '';
-        this.currentClientFrame = msg.frame || null;
+        this.currentClientFrame = msg.frame;
+        this.currentMaskedHint = msg.maskedHint || null;
         this.currentRoundStartTime = Date.now();
 
-        const chatPrompt = (msg.frame && (msg.frame.sectionId === 3 || msg.frame.type === 'eye')) ? 'Type celebrity guess or chat...' : 'Type movie guess or chat...';
-        ChatEngine.setPlaceholder(chatPrompt);
         ChatEngine.clearInputs();
-
-        UI.showScreen('gameScreen');
-        const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.add('active');
-
-        // Show bottom controls bar with player controls
-        const hBar = document.getElementById('hostFloatingBar');
-        if (hBar) hBar.style.display = 'flex';
-        const hfbHostOnly = document.getElementById('hfbHostOnly');
-        if (hfbHostOnly) hfbHostOnly.style.display = this.isHost ? 'inline-flex' : 'none';
-        const hfbLabel = document.getElementById('hfbLabel');
-        if (hfbLabel) hfbLabel.textContent = this.isHost ? '👑 HOST CONTROLS:' : '🎮 CONTROLS:';
-
-        // Reset Hint UI for new round
-        const hintBtns = document.querySelectorAll('#chatHintBtn, #hfbHintBtn, #mobileQuickHintBtn');
-        hintBtns.forEach(b => {
-          b.disabled = false;
-          b.style.opacity = '1';
-          b.textContent = b.id === 'mobileQuickHintBtn' ? '💡' : '💡 Hint (-2 pts)';
-        });
-        const cah = document.getElementById('chatActiveHint');
-        if (cah) cah.style.display = 'none';
-        const hfbHintPill = document.getElementById('hfbActiveHintPill');
-        if (hfbHintPill) hfbHintPill.style.display = 'none';
-        const mbHintBanner = document.getElementById('mobileHintBanner');
-        if (mbHintBanner) mbHintBanner.style.display = 'none';
+        const frame = msg.frame || {};
+        const chatPrompt = (frame.sectionId === 3 || frame.type === 'eye') ? 'Type celebrity guess or chat...' : 'Type movie guess or chat...';
+        ChatEngine.setPlaceholder(chatPrompt);
 
         const input = document.getElementById('onlineGuessInput');
         const submitBtn = document.getElementById('onlineGuessSubmitBtn');
@@ -20338,222 +19525,277 @@
         if (input) {
           input.value = '';
           input.disabled = false;
-          input.placeholder = (msg.frame && (msg.frame.sectionId === 3 || msg.frame.type === 'eye')) ? 'Enter celebrity name...' : 'Enter movie name...';
+          input.placeholder = (frame.sectionId === 3 || frame.type === 'eye') ? 'Enter celebrity name...' : 'Enter movie name...';
           input.focus();
         }
         if (submitBtn) submitBtn.disabled = false;
         if (pill) { pill.style.display = 'none'; pill.textContent = ''; }
 
+        const totalRounds = (this.hostSettings && this.hostSettings.rounds) || 40;
         const roundInfo = document.getElementById('roundInfo');
-        const totalR = msg.totalRounds || this.totalMatchRounds || 10;
-        if (roundInfo) roundInfo.textContent = `Round ${msg.roundIndex + 1} / ${totalR}`;
+        if (roundInfo) roundInfo.textContent = `Round ${msg.roundIndex + 1} / ${totalRounds}`;
         const secName = document.getElementById('curSecName');
-        if (secName) secName.textContent = msg.frame.sectionName || 'Guess the Frame';
+        if (secName) secName.textContent = frame.sectionName || 'Guess the Frame';
 
-        FrameDisplay.showFrame(msg.frame);
+        FrameDisplay.showFrame(frame);
         ChatEngine.renderRoundSeparator(msg.roundIndex);
-        const ansOvElRemote = document.getElementById('answerOverlay');
-        if (ansOvElRemote) ansOvElRemote.classList.remove('active', 'eye-answer');
-        document.getElementById('scoringOv').classList.remove('active');
+        const ansOvEl = document.getElementById('answerOverlay');
+        if (ansOvEl) ansOvEl.classList.remove('active', 'eye-answer');
 
-        this.playRoundIntroAnimation(msg.roundIndex + 1, totalR, () => {
-          TC.start(msg.timerDuration || 30, () => {
-            this.endRound();
-          });
+        const timerDuration = (this.hostSettings && this.hostSettings.timer) || 30;
+        this.playRoundIntroAnimation(msg.roundIndex + 1, totalRounds, () => {
+          TC.start(timerDuration, () => {});
         });
-        this.saveActiveSession();
       },
 
-      submitGuess(event) {
-        if (event) event.preventDefault();
-        const input = document.getElementById('onlineGuessInput');
-        if (!input || !input.value.trim()) return;
-        const guess = input.value.trim();
-        input.value = '';
-        this.submitGuessDirect(guess);
+      playRoundIntroAnimation(current, total, onComplete) {
+        const ov = document.getElementById('roundIntroOverlay');
+        if (!ov) { if (onComplete) onComplete(); return; }
+        const rNum = document.getElementById('rioRoundNumber');
+        const rTotal = document.getElementById('rioTotalRounds');
+        if (rNum) rNum.textContent = String(current);
+        if (rTotal) rTotal.textContent = String(total);
+        ov.style.display = 'flex';
+        ov.classList.remove('active');
+        void ov.offsetWidth;
+        ov.classList.add('active');
+        SoundManager.play('whoosh');
+
+        setTimeout(() => {
+          ov.classList.remove('active');
+          setTimeout(() => {
+            ov.style.display = 'none';
+            if (onComplete) onComplete();
+          }, 350);
+        }, 1100);
       },
 
-      submitGuessDirect(guess) {
+      setHostSkipButtonState(state) {
+        const btn = document.getElementById('hfbSkipBtn');
+        if (!btn) return;
+        if (state === 'skip') {
+          btn.textContent = '⏭ Skip Frame';
+          btn.style.opacity = '1';
+        } else {
+          btn.textContent = '⏭ Next Frame';
+        }
+      },
+
+      async submitGuessDirect(guess) {
         if (!guess || !guess.trim()) return;
         guess = guess.trim();
         if (this.currentRoundWinners.some(w => w.playerId === this.playerId)) return;
 
-        if (!this.sessionStats) {
-          this.sessionStats = { roundsWon: 0, totalGuesses: 0, correctGuesses: 0, fastestGuessSeconds: null, roundStartTime: 0 };
-        }
-        this.sessionStats.totalGuesses = (this.sessionStats.totalGuesses || 0) + 1;
+        this.showGuessFeedback(null, '⏳ Checking guess...');
 
-        if (this.isHost) {
-          this.validateAndProcessGuess({
-            playerId: this.playerId,
-            playerName: this.playerName,
-            playerAvatar: this.playerAvatar,
-            guess: guess,
-            roundIndex: this.currentPlayIndex
-          });
-        } else {
-          this.showGuessFeedback(null, '⏳ Checking guess...');
-          this.sendEvent('SUBMIT_GUESS', {
-            playerId: this.playerId,
-            playerName: this.playerName,
-            playerAvatar: this.playerAvatar,
-            guess: guess,
-            roundIndex: this.currentPlayIndex
-          });
-          if (this._guessTimeoutId) clearTimeout(this._guessTimeoutId);
-          this._guessTimeoutId = setTimeout(() => {
-            const fb = document.getElementById('onlineGuessFeedback');
-            if (fb && fb.textContent && fb.textContent.includes('Checking guess')) {
-              this.showGuessFeedback(null, '⚠️ Host lag — try again!');
-              const input = document.getElementById('onlineGuessInput');
-              const submitBtn = document.getElementById('onlineGuessSubmitBtn');
-              const alreadyWon = (this.currentRoundWinners || []).some(w => w.playerId === this.playerId);
-              if (input && !alreadyWon) {
-                input.disabled = false;
-                input.focus();
+        const { functions } = getAppwrite();
+        let validated = false;
+        const callStart = Date.now();
+
+        if (functions) {
+          try {
+            const guessId = `${this.playerId}_${this.roomId}_r${this.currentPlayIndex + 1}_${Date.now()}`;
+            if (window.ScoopCastDebug) {
+              window.ScoopCastDebug.function.callCount++;
+            }
+            const execution = await withNetworkRetry(() => functions.createExecution(
+              'validate-guess',
+              JSON.stringify({
+                roomId: this.roomId,
+                roundIndex: this.currentPlayIndex,
+                roundNumber: this.currentPlayIndex + 1,
+                guess: guess,
+                playerId: this.playerId,
+                playerName: this.playerName,
+                playerAvatar: this.playerAvatar,
+                guessId: guessId
+              })
+            ), 2, 200);
+
+            if (window.ScoopCastDebug) {
+              window.ScoopCastDebug.function.latency = Date.now() - callStart;
+              window.ScoopCastDebug.function.lastCallTime = Date.now();
+            }
+
+            const result = JSON.parse(execution.responseBody || '{}');
+            if (result.success) {
+              if (result.isDuplicate) {
+                return;
               }
-              if (submitBtn && !alreadyWon) {
-                submitBtn.disabled = false;
+              validated = true;
+              if (result.isCorrect) {
+                if (result.alreadyScored) {
+                  this.showGuessFeedback(true, '🎉 Already correct!');
+                  return;
+                }
+                SoundManager.play('correct');
+                this.showGuessFeedback(true, `🎉 Correct! +${result.points} Pts (${result.position === 1 ? '1st' : result.position === 2 ? '2nd' : '3rd'} Place!)`);
+                const input = document.getElementById('chatTextInput') || document.getElementById('onlineGuessInput');
+                if (input) input.disabled = true;
+                const submitBtn = document.getElementById('chatSendBtn') || document.getElementById('onlineGuessSubmitBtn');
+                if (submitBtn) submitBtn.disabled = true;
+
+                const p = GS.players.find(x => x.id === this.playerId);
+                if (p) {
+                  if (typeof result.newTotalScore === 'number') {
+                    p.score = result.newTotalScore;
+                  } else if (!result.serverDbUpdated) {
+                    p.score = (p.score || 0) + result.points;
+                  }
+                }
+                UI.renderLB();
+
+                const { databases } = getAppwrite();
+                if (databases && !result.serverDbUpdated) {
+                  const pDocId = `${this.roomId}_${this.playerId}`;
+                  databases.updateDocument(APPWRITE_CONFIG.databaseId, 'players', pDocId, {
+                    score: p ? p.score : result.points
+                  }).catch(err => console.error('[Score Update Error]', err));
+
+                  try {
+                    databases.getDocument(APPWRITE_CONFIG.databaseId, 'game_state', this.roomId).then(gsDoc => {
+                      let curWinners = [];
+                      try { curWinners = JSON.parse(gsDoc.winners || '[]'); } catch(e) { curWinners = []; }
+                      if (!curWinners.some(w => w.playerId === this.playerId)) {
+                        curWinners.push(result.winRecord);
+                        this.gameStateVersion++;
+                        databases.updateDocument(APPWRITE_CONFIG.databaseId, 'game_state', this.roomId, {
+                          winners: JSON.stringify(curWinners),
+                          version: this.gameStateVersion
+                        }).catch(() => {});
+                      }
+                    }).catch(() => {});
+                  } catch(e) {}
+                }
+
+                if (typeof ChatEngine !== 'undefined' && ChatEngine.renderWinnerBanner) {
+                  ChatEngine.renderWinnerBanner(result.winRecord);
+                }
+
+                if (this.isHost) {
+                  await this.recordRoundWinner(result.winRecord, 0);
+                }
+              } else {
+                SoundManager.play('wrong');
+                this.showGuessFeedback(false, '❌ Not quite, try again!');
+                const input = document.getElementById('chatTextInput') || document.getElementById('onlineGuessInput');
+                if (input) {
+                  input.classList.add('shake-input');
+                  setTimeout(() => input.classList.remove('shake-input'), 400);
+                }
+                if (typeof ChatEngine !== 'undefined') {
+                  ChatEngine.renderMessage({
+                    id: 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
+                    senderId: this.playerId,
+                    senderName: this.playerName,
+                    senderAvatar: this.playerAvatar,
+                    text: guess,
+                    isGuessed: false,
+                    timestamp: Date.now()
+                  });
+                }
               }
             }
-          }, 3500);
+          } catch (e) {
+            _scWarn('[Appwrite Function Check Fallback]', e.message);
+          }
+        }
+
+        if (!validated) {
+          if (this.isHost) {
+            this.validateAndProcessGuessLocal(guess);
+          } else {
+            this.showGuessFeedback(false, '⚠️ Network delay, please retry!');
+            const input = document.getElementById('chatTextInput') || document.getElementById('onlineGuessInput');
+            if (input) input.disabled = false;
+            const submitBtn = document.getElementById('chatSendBtn') || document.getElementById('onlineGuessSubmitBtn');
+            if (submitBtn) submitBtn.disabled = false;
+          }
         }
       },
 
-      validateAndProcessGuess(data) {
-        if (!this.isHost) return;
-        if (data.roundIndex !== this.currentPlayIndex) return;
-        if (this.currentRoundWinners.some(w => w.playerId === data.playerId)) return;
+      validateAndProcessGuessLocal(guess) {
+        const frame = this.currentPlaylist[this.currentPlayIndex];
+        if (!frame || !frame.answer) return;
+        const isMatch = FuzzyMatcher.isMatch(guess, frame.answer);
 
-        const currentFrame = this.currentPlaylist[this.currentPlayIndex];
-        if (!currentFrame || !currentFrame.answer) return;
-
-        const isMatch = FuzzyMatcher.isMatch(data.guess, currentFrame.answer);
         if (isMatch) {
           const pos = this.currentRoundWinners.length + 1;
           const pts = pos === 1 ? 10 : (pos === 2 ? 7 : (pos === 3 ? 5 : 0));
           if (pts > 0) {
-            const player = GS.players.find(p => p.id === data.playerId);
-            if (player) {
-              player.score = (player.score || 0) + pts;
-              if (!this.playerScoresArchive) this.playerScoresArchive = {};
-              this.playerScoresArchive[player.id] = player.score;
-            }
-
             const winRecord = {
-              playerId: data.playerId,
-              playerName: data.playerName,
-              avatar: data.playerAvatar,
+              playerId: this.playerId,
+              playerName: this.playerName,
+              avatar: this.playerAvatar,
               position: pos,
               points: pts,
               timestamp: Date.now()
             };
-            this.currentRoundWinners.push(winRecord);
-
-            if (data.playerId === this.playerId) {
-              SoundManager.play('correct');
-              this.showGuessFeedback(true, '🎉 Correct! +' + pts + ' Pts (' + (pos === 1 ? '1st' : pos === 2 ? '2nd' : '3rd') + ' Place!)');
-              const input = document.getElementById('onlineGuessInput');
-              if (input) input.disabled = true;
-              const ogb = document.getElementById('onlineGuessSubmitBtn');
-              if (ogb) ogb.disabled = true;
-              ChatEngine.setPlaceholder('You guessed it! Chat freely (no spoilers)...');
-
-              if (!this.sessionStats) {
-                this.sessionStats = { roundsWon: 0, totalGuesses: 0, correctGuesses: 0, fastestGuessSeconds: null, roundStartTime: 0 };
-              }
-              this.sessionStats.correctGuesses = (this.sessionStats.correctGuesses || 0) + 1;
-              this.sessionStats.roundsWon = (this.sessionStats.roundsWon || 0) + 1;
-              if (this.currentRoundStartTime) {
-                const sec = Math.max(0.5, Math.round(((Date.now() - this.currentRoundStartTime) / 1000) * 10) / 10);
-                if (this.sessionStats.fastestGuessSeconds === null || sec < this.sessionStats.fastestGuessSeconds) {
-                  this.sessionStats.fastestGuessSeconds = sec;
-                }
-              }
-            }
-
-            UI.renderLB();
-            ChatEngine.renderWinnerBanner(winRecord);
-            this.saveActiveSession();
-
-            this.sendEvent('GUESS_CORRECT_BROADCAST', {
-              winRecord,
-              updatedPlayers: GS.players
-            });
-
-            if (this.currentRoundWinners.length >= 3) {
-              setTimeout(() => this.endRound(), 600);
-            }
+            this.recordRoundWinner(winRecord, pts);
+            SoundManager.play('correct');
+            this.showGuessFeedback(true, `🎉 Correct! +${pts} Pts`);
+            const input = document.getElementById('onlineGuessInput'); if (input) input.disabled = true;
+            const submitBtn = document.getElementById('onlineGuessSubmitBtn'); if (submitBtn) submitBtn.disabled = true;
           }
         } else {
-          if (data.playerId === this.playerId) {
-            SoundManager.play('wrong');
-            this.showGuessFeedback(false, '❌ Not quite, try again!');
-            const input = document.getElementById('onlineGuessInput');
-            if (input) {
-              input.classList.add('shake-input');
-              setTimeout(() => input.classList.remove('shake-input'), 400);
-            }
-          } else {
-            this.sendEvent('GUESS_RESULT', {
-              targetPlayerId: data.playerId,
-              isCorrect: false
+          SoundManager.play('wrong');
+          this.showGuessFeedback(false, '❌ Not quite, try again!');
+        }
+      },
+
+      async recordRoundWinner(winRecord, pts) {
+        if (!this.currentRoundWinners.some(w => w.playerId === winRecord.playerId)) {
+          this.currentRoundWinners.push(winRecord);
+        }
+
+        const p = GS.players.find(x => x.id === winRecord.playerId);
+        if (p && pts > 0) p.score = (p.score || 0) + pts;
+
+        UI.renderLB();
+        ChatEngine.renderWinnerBanner(winRecord);
+
+        const { databases } = getAppwrite();
+        if (databases && this.isHost) {
+          try {
+            this.gameStateVersion++;
+            await databases.updateDocument(APPWRITE_CONFIG.databaseId, 'game_state', this.roomId, {
+              winners: JSON.stringify(this.currentRoundWinners),
+              version: this.gameStateVersion
             });
-          }
+            const pDocId = `${this.roomId}_${winRecord.playerId}`;
+            await databases.updateDocument(APPWRITE_CONFIG.databaseId, 'players', pDocId, {
+              score: (p ? p.score : 0)
+            });
+          } catch(e) {}
+        }
+
+        if (this.currentRoundWinners.length >= 3) {
+          setTimeout(() => this.endRound(), 800);
         }
       },
 
       showGuessFeedback(isCorrect, text) {
-        const pill = document.getElementById('guessFeedbackPill');
+        let pill = document.getElementById('guessFeedbackPill');
+        if (!pill) {
+          const form = document.getElementById('chatInputForm');
+          if (form && form.parentNode) {
+            pill = document.createElement('div');
+            pill.id = 'guessFeedbackPill';
+            form.parentNode.insertBefore(pill, form);
+          }
+        }
         if (!pill) return;
         pill.textContent = text;
-        pill.className = 'guess-feedback-pill ' + (isCorrect ? 'guess-feedback-correct' : 'guess-feedback-wrong');
+        pill.className = 'guess-feedback-pill ' + (isCorrect === true ? 'guess-feedback-correct' : (isCorrect === false ? 'guess-feedback-wrong' : ''));
         pill.style.display = 'inline-flex';
-      },
-
-      handleRemoteCorrectGuess(msg) {
-        const winRecord = msg.winRecord;
-        if (winRecord && !this.currentRoundWinners.some(w => w.playerId === winRecord.playerId)) {
-          ChatEngine.renderWinnerBanner(winRecord);
-          this.currentRoundWinners.push(winRecord);
-        }
-        if (msg.updatedPlayers) {
-          GS.players = msg.updatedPlayers;
-          if (!this.playerScoresArchive) this.playerScoresArchive = {};
-          for (const p of msg.updatedPlayers) {
-            if (p && p.id && typeof p.score === 'number') {
-              this.playerScoresArchive[p.id] = p.score;
-            }
-          }
-        }
-        UI.renderLB();
-        this.saveActiveSession();
-
-        if (winRecord && winRecord.playerId === this.playerId) {
-          SoundManager.play('correct');
-          this.showGuessFeedback(true, '🎉 Correct! +' + winRecord.points + ' Pts (' + (winRecord.position === 1 ? '1st' : winRecord.position === 2 ? '2nd' : '3rd') + ' Place!)');
-          const input = document.getElementById('onlineGuessInput');
-          if (input) input.disabled = true;
-          const ogb = document.getElementById('onlineGuessSubmitBtn');
-          if (ogb) ogb.disabled = true;
-          ChatEngine.setPlaceholder('You guessed it! Chat freely (no spoilers)...');
-
-          if (!this.sessionStats) {
-            this.sessionStats = { roundsWon: 0, totalGuesses: 0, correctGuesses: 0, fastestGuessSeconds: null, roundStartTime: 0 };
-          }
-          this.sessionStats.correctGuesses = (this.sessionStats.correctGuesses || 0) + 1;
-          this.sessionStats.roundsWon = (this.sessionStats.roundsWon || 0) + 1;
-          if (this.currentRoundStartTime) {
-            const sec = Math.max(0.5, Math.round(((Date.now() - this.currentRoundStartTime) / 1000) * 10) / 10);
-            if (this.sessionStats.fastestGuessSeconds === null || sec < this.sessionStats.fastestGuessSeconds) {
-              this.sessionStats.fastestGuessSeconds = sec;
-            }
-          }
-        }
-
-        if (this.currentRoundWinners.length >= 3 && this.isHost) {
-          this.endRound();
-        }
+        pill.style.background = isCorrect === true ? '#22c55e' : (isCorrect === false ? '#ef4444' : '#3b82f6');
+        pill.style.color = '#ffffff';
+        pill.style.marginBottom = '6px';
+        pill.style.padding = '6px 14px';
+        pill.style.borderRadius = '9999px';
+        pill.style.fontWeight = '800';
+        pill.style.fontSize = '13px';
+        pill.style.alignSelf = 'center';
       },
 
       endRound() {
@@ -20574,7 +19816,6 @@
         if (ansTitle) ansTitle.textContent = currentFrame.answer || '';
         if (ansYear) ansYear.textContent = currentFrame.year ? `(${currentFrame.year})` : '';
 
-        // Eye full-reveal for Section 3
         if (currentFrame.type === 'eye' && currentFrame.revealContent) {
           const imageContainer = document.getElementById('imageContainer');
           if (imageContainer) {
@@ -20590,9 +19831,7 @@
             };
             fullImg.onload = showFull;
             fullImg.src = currentFrame.revealContent;
-            if (fullImg.complete && fullImg.naturalWidth > 0) {
-              showFull();
-            }
+            if (fullImg.complete && fullImg.naturalWidth > 0) showFull();
           }
           if (ansOverlay) ansOverlay.classList.add('eye-answer');
         } else {
@@ -20619,14 +19858,17 @@
         SoundManager.play('reveal');
 
         if (this.isHost) {
-          this.sendEvent('ROUND_FINISH_BROADCAST', {
-            currentRoundWinners: this.currentRoundWinners,
-            currentPlayIndex: this.currentPlayIndex,
-            revealedAnswer: currentFrame.answer || '',
-            revealedYear: currentFrame.year || ''
-          });
+          this.gameStateVersion++;
+          const { databases } = getAppwrite();
+          if (databases) {
+            databases.updateDocument(APPWRITE_CONFIG.databaseId, 'game_state', this.roomId, {
+              phase: 'revealed',
+              revealedAnswer: currentFrame.answer || '',
+              winners: JSON.stringify(this.currentRoundWinners),
+              version: this.gameStateVersion
+            }).catch(() => {});
+          }
 
-          // Show Next Round button for host with safety auto-advance
           const nextBtn = document.getElementById('ansNextRoundBtn');
           const waitPill = document.getElementById('ansWaitingHostPill');
           const isLast = (this.currentPlayIndex + 1 >= this.currentPlaylist.length);
@@ -20651,62 +19893,23 @@
               }
             }
           }, 1000);
-
-          // Dynamically morph Skip button into "▶ Next Round" (or "🏁 Finish Match")
-          this.setHostSkipButtonState('next');
         }
-        this.saveActiveSession();
       },
 
       handleRemoteRoundFinish(msg) {
         TC.stop();
         this.isRoundFinished = true;
         this.currentRoundWinners = msg.currentRoundWinners || [];
-        const currentFrame = (this.currentPlaylist && this.currentPlaylist[this.currentPlayIndex]) || this.currentClientFrame;
-
-        const img = document.querySelector('#imageContainer img');
-        if (img) img.style.filter = 'blur(0px)';
+        const currentFrame = (this.currentPlaylist && this.currentPlaylist[msg.currentPlayIndex]) || this.currentClientFrame;
 
         const ansTitle = document.getElementById('ansTitle');
-        const ansYear = document.getElementById('ansYear');
         const ansBadge = document.getElementById('ansBadge');
         const ansOverlay = document.getElementById('answerOverlay');
 
-        const revealedAns = msg.revealedAnswer || (currentFrame && currentFrame.answer) || '';
-        const revealedYr = msg.revealedYear || (currentFrame && currentFrame.year) || '';
         if (ansBadge) ansBadge.textContent = (currentFrame && currentFrame.type === 'eye') ? 'CELEBRITY REVEAL' : 'ANSWER';
-        if (ansTitle) ansTitle.textContent = revealedAns;
-        if (ansYear) ansYear.textContent = revealedYr ? '(' + revealedYr + ')' : '';
-
-        // Eye full-reveal for Section 3
-        if (currentFrame && currentFrame.type === 'eye' && currentFrame.revealContent) {
-          const imageContainer = document.getElementById('imageContainer');
-          if (imageContainer) {
-            const loadedImg = imageContainer.querySelector('.frame-image.loaded:not(.eye-full-reveal)');
-            const fullImg = document.createElement('img');
-            fullImg.className = 'frame-image eye-full-reveal';
-            fullImg.alt = revealedAns || 'Full reveal photo';
-            const showFull = () => {
-              if (loadedImg) loadedImg.style.display = 'none';
-              if (!fullImg.parentNode) imageContainer.appendChild(fullImg);
-              requestAnimationFrame(() => fullImg.classList.add('visible', 'loaded'));
-              if (typeof PaletteManager !== 'undefined') PaletteManager.fromImage(fullImg);
-            };
-            fullImg.onload = showFull;
-            fullImg.src = currentFrame.revealContent;
-            if (fullImg.complete && fullImg.naturalWidth > 0) {
-              showFull();
-            }
-          }
-          if (ansOverlay) ansOverlay.classList.add('eye-answer');
-        } else {
-          if (ansOverlay) ansOverlay.classList.remove('eye-answer');
-        }
+        if (ansTitle) ansTitle.textContent = msg.revealedAnswer || (currentFrame ? currentFrame.answer : '');
 
         let spotlightHtml = '';
-        if (currentFrame && currentFrame.type === 'dialogue' && currentFrame.dialogue) {
-          spotlightHtml += `<div class="ans-dialogue-quote" style="margin-bottom:12px; font-style:italic; font-weight:700; color:var(--text-secondary,#666); font-size:1.05rem;">"${SecurityUtil.escapeHtml(currentFrame.dialogue)}"</div>`;
-        }
         if (this.currentRoundWinners.length > 0) {
           spotlightHtml += '<div class="winners-spotlight">' + this.currentRoundWinners.map(w => {
             const badgeClass = w.position === 1 ? 'winner-pill-1' : (w.position === 2 ? 'winner-pill-2' : 'winner-pill-3');
@@ -20719,277 +19922,89 @@
         const ansDialogue = document.getElementById('ansDialogue');
         if (ansDialogue) ansDialogue.innerHTML = spotlightHtml;
 
-        if (ansOverlay) ansOverlay.classList.add('visible', 'active');
-        SoundManager.play('reveal');
-
         const nextBtn = document.getElementById('ansNextRoundBtn');
         const waitPill = document.getElementById('ansWaitingHostPill');
         if (nextBtn) nextBtn.style.display = 'none';
-        if (waitPill) {
-          waitPill.style.display = 'inline-flex';
-          waitPill.textContent = '⌛ WAITING FOR HOST... (20s)';
-        }
+        if (waitPill) waitPill.style.display = 'inline-flex';
 
-        if (this._clientWaitTimer) clearInterval(this._clientWaitTimer);
-        let clientCountdown = 20;
-        this._clientWaitTimer = setInterval(() => {
-          clientCountdown--;
-          if (waitPill && waitPill.style.display !== 'none') {
-            waitPill.textContent = '⌛ WAITING FOR HOST... (' + clientCountdown + 's)';
-          }
-          if (clientCountdown <= 0) {
-            clearInterval(this._clientWaitTimer);
-            if (document.getElementById('answerOverlay') && document.getElementById('answerOverlay').classList.contains('visible')) {
-              if (Date.now() - (this.lastHostHeartbeat || 0) > 8000) {
-                this.checkHostMigration();
-              }
-            }
-          }
-        }, 1000);
-        this.saveActiveSession();
+        if (ansOverlay) ansOverlay.classList.add('visible', 'active');
+        SoundManager.play('reveal');
       },
 
       hostNextRound() {
-        if (this._hostAutoAdvanceTimer) clearInterval(this._hostAutoAdvanceTimer);
-        if (this._clientWaitTimer) clearInterval(this._clientWaitTimer);
         if (!this.isHost) return;
-        const ansOv = document.getElementById('answerOverlay');
-        if (ansOv) ansOv.classList.remove('visible', 'active', 'eye-answer');
-        const scOv = document.getElementById('scoringOv');
-        if (scOv) scOv.classList.remove('active');
-        const hfbNext = document.getElementById('hfbNextBtn');
-        if (hfbNext) hfbNext.style.display = 'none';
+        if (this._hostAutoAdvanceTimer) clearInterval(this._hostAutoAdvanceTimer);
+        const ansOverlay = document.getElementById('answerOverlay');
+        if (ansOverlay) ansOverlay.classList.remove('visible', 'active');
 
-        if (this.currentPlayIndex + 1 < this.currentPlaylist.length) {
-          this.startRound(this.currentPlayIndex + 1);
-        } else {
-          this.checkForTieBreakerOrFinish();
-        }
-      },
-
-      generateMaskedHint(title) {
-        if (!title || typeof title !== 'string') return '';
-        const cleanTitle = title.trim();
-        if (!cleanTitle) return '';
-
-        return cleanTitle.split(/\s+/).map(word => {
-          const alphaIndices = [];
-          for (let i = 0; i < word.length; i++) {
-            if (/[a-zA-Z0-9]/i.test(word[i])) {
-              alphaIndices.push(i);
-            }
-          }
-          const L = alphaIndices.length;
-          if (L === 0) return word;
-
-          // Strictly guarantee NO word >= 2 characters is ever fully revealed:
-          // L === 1: 0 revealed (shown as '_')
-          // L === 2: exactly 1 revealed, 1 hidden (e.g. "D _" or "_ C" - NEVER "DC")
-          // L === 3 to 5: exactly 1 revealed (e.g. "R _ _", "D _ _ _")
-          // L >= 6: at most ~30% revealed, always leaving at least 3 characters masked
-          let revealCount = 1;
-          if (L === 1) {
-            revealCount = 0;
-          } else if (L === 2) {
-            revealCount = 1;
-          } else if (L <= 5) {
-            revealCount = 1;
-          } else {
-            revealCount = Math.max(1, Math.min(Math.floor(L * 0.3), L - 3));
-          }
-
-          const shuffled = [...alphaIndices].sort(() => Math.random() - 0.5);
-          const revealSet = new Set(shuffled.slice(0, revealCount));
-
-          const res = [];
-          for (let i = 0; i < word.length; i++) {
-            const ch = word[i];
-            if (!/[a-zA-Z0-9]/i.test(ch)) {
-              res.push(ch); // Preserve hyphens, colons, apostrophes, etc.
-            } else if (revealSet.has(i)) {
-              res.push(ch.toUpperCase());
-            } else {
-              res.push('_');
-            }
-          }
-          return res.join(' ');
-        }).join('   ');
-      },
-
-      requestHint() {
-        if (this.hasUsedHintThisRound) {
-          ChatEngine.renderSystemMessage('⚠️ You already unlocked the hint for this round!');
-          return;
-        }
-        const currentFrame = this.currentPlaylist[this.currentPlayIndex] || this.currentClientFrame;
-        const ans = (currentFrame && currentFrame.answer) || ChatEngine.getCurrentRoundAnswer();
-        if (!this.currentMaskedHint && ans) {
-          this.currentMaskedHint = this.generateMaskedHint(ans);
-        }
-        const masked = this.currentMaskedHint;
-        if (!masked) return;
-
-        this.hasUsedHintThisRound = true;
-
-        // Deduct 2 points from local player
-        let myPlayer = GS.players.find(p => (this.playerId && p.id === this.playerId) || (this.playerName && p.name.toLowerCase() === this.playerName.toLowerCase()));
-        if (myPlayer) {
-          myPlayer.score = Math.max(0, (Number(myPlayer.score) || 0) - 2);
-          if (!this.playerScoresArchive) this.playerScoresArchive = {};
-          this.playerScoresArchive[myPlayer.id] = myPlayer.score;
-          UI.renderLB();
-          this.saveActiveSession();
-        }
-
-        // Disable hint buttons for this round on this local machine
-        const hintBtns = document.querySelectorAll('#chatHintBtn, #hfbHintBtn, #mobileQuickHintBtn');
-        hintBtns.forEach(b => {
-          b.disabled = true;
-          b.style.opacity = '0.6';
-          b.textContent = b.id === 'mobileQuickHintBtn' ? '💡✓' : '💡 Hint Used';
-        });
-
-        // Show persistent banner in chat panel (visible only to this player)
-        const cah = document.getElementById('chatActiveHint');
-        const caht = document.getElementById('chatActiveHintText');
-        if (cah && caht) {
-          caht.textContent = masked;
-          cah.style.display = 'flex';
-        }
-        // Show persistent pill on controls bar (visible only to this player)
-        const hfbHintPill = document.getElementById('hfbActiveHintPill');
-        const hfbHintText = document.getElementById('hfbActiveHintText');
-        if (hfbHintPill && hfbHintText) {
-          hfbHintText.textContent = masked;
-          hfbHintPill.style.display = 'inline-flex';
-        }
-        // Show persistent banner in mobile bar (visible only to this player)
-        const mbHintBanner = document.getElementById('mobileHintBanner');
-        const mbHintText = document.getElementById('mobileHintText');
-        if (mbHintBanner && mbHintText) {
-          mbHintText.textContent = masked;
-          mbHintBanner.style.display = 'flex';
-        }
-
-        // Add private hint card in stream ONLY for this player
-        ChatEngine.renderPersonalHintMessage(masked);
-        SoundManager.play('wrong');
-
-        // Broadcast hint usage & updated score across room - NEVER send maskedHint to other players!
-        this.sendEvent('PLAYER_USED_HINT', {
-          playerId: this.playerId,
-          playerName: this.playerName,
-          playerAvatar: this.playerAvatar,
-          updatedPlayers: GS.players
-        });
-      },
-
-      handleRemoteSkip() {
-        if (typeof SoundManager !== 'undefined' && SoundManager.play) SoundManager.play('wrong');
-        if (typeof UI !== 'undefined' && UI.showNotification) UI.showNotification('Host skipped the round', 'warning');
-      },
-
-      handleRemotePause(isPaused) {
-        if (typeof TC !== 'undefined') {
-          if (isPaused) TC.pause();
-          else TC.resume();
-        }
-      },
-
-      handleRemoteHint(msg) {
-        console.log('[Hint Event Received]', msg);
-        if (msg.updatedPlayers && Array.isArray(msg.updatedPlayers)) {
-          msg.updatedPlayers.forEach(up => {
-            const match = GS.players.find(p => (up.id && p.id === up.id) || (up.name && p.name.toLowerCase() === up.name.toLowerCase()));
-            if (match) {
-              match.score = Number(up.score) || 0;
-              if (!this.playerScoresArchive) this.playerScoresArchive = {};
-              this.playerScoresArchive[match.id] = match.score;
-            }
-          });
-          UI.renderLB();
-          this.saveActiveSession();
-        }
-        // NOTE: Hints are strictly individual! Remote hint text is NEVER displayed here.
-        if (msg.playerId !== this.playerId && msg.playerName !== this.playerName) {
-          ChatEngine.renderSystemMessage(`💡 <strong>${SecurityUtil.escapeHtml(msg.playerName)}</strong> unlocked a hint! (-2 pts)`);
-        }
-      },
-
-      checkForTieBreakerOrFinish() {
-        const sorted = [...GS.players].sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0));
-        if (sorted.length >= 2 && (Number(sorted[0].score) || 0) > 0 && sorted[0].score === sorted[1].score) {
-          const tiedPlayers = sorted.filter(p => p.score === sorted[0].score);
-          this.triggerTieBreaker(tiedPlayers);
+        const nextIndex = this.currentPlayIndex + 1;
+        if (nextIndex < this.currentPlaylist.length) {
+          this.startRound(nextIndex);
         } else {
           this.finishGame();
         }
       },
 
-      triggerTieBreaker(tiedPlayers) {
-        const tieFrames = GS.tieBreaker.frames || [];
-        const tieFrame = tieFrames[Math.floor(Math.random() * tieFrames.length)] || {
-          type: 'image', content: 'tie breaker/Anatomy of a Fall (2023).webp', answer: 'ANATOMY OF A FALL', year: '2023'
-        };
-        this.currentPlaylist = [{ ...tieFrame, sectionName: 'Tie Breaker' }];
-        this.currentPlayIndex = 0;
-
-        const tieOv = document.getElementById('tieVsOv');
-        const tiePlayersEl = document.getElementById('tieVsPlayers');
-        if (tiePlayersEl) {
-          tiePlayersEl.innerHTML = tiedPlayers.map(p => `<div style="font-size:20px; font-weight:900; color:#1a1a1a;">⚡ ${SecurityUtil.escapeHtml(p.name)}</div>`).join('');
-        }
-        if (tieOv) tieOv.classList.add('on');
-
-        this.sendEvent('TIE_BREAKER_TRIGGER', {
-          tiedPlayers,
-          tieFrame: this.currentPlaylist[0]
-        });
-
-        setTimeout(() => {
-          if (tieOv) tieOv.classList.remove('on');
-          this.startRound(0);
-        }, 3500);
+      generateMaskedHint(answer) {
+        if (!answer) return '';
+        return answer.split(' ').map(word => {
+          const len = word.length;
+          if (len <= 2) return '_ '.repeat(len).trim();
+          const first = word[0];
+          const last = len > 3 ? word[len - 1] : '_';
+          const middle = '_ '.repeat(Math.max(0, len - (len > 3 ? 2 : 1))).trim();
+          return `${first} ${middle} ${last !== '_' ? last : ''}`.trim();
+        }).join('   ');
       },
 
-      handleRemoteTieBreaker(msg) {
-        this.currentPlaylist = [msg.tieFrame];
-        this.currentPlayIndex = 0;
-        const tieOv = document.getElementById('tieVsOv');
-        const tiePlayersEl = document.getElementById('tieVsPlayers');
-        if (tiePlayersEl) {
-          tiePlayersEl.innerHTML = (msg.tiedPlayers || []).map(p => `<div style="font-size:20px; font-weight:900; color:#1a1a1a;">⚡ ${SecurityUtil.escapeHtml(p.name)}</div>`).join('');
+      requestHint() {
+        if (this.hasUsedHintThisRound) return;
+        this.hasUsedHintThisRound = true;
+
+        const p = GS.players.find(x => x.id === this.playerId);
+        if (p) {
+          p.score = Math.max(0, (p.score || 0) - 2);
+          UI.renderLB();
         }
-        if (tieOv) tieOv.classList.add('on');
-        setTimeout(() => {
-          if (tieOv) tieOv.classList.remove('on');
-          this.startRound(0);
-        }, 3500);
+
+        const cah = document.getElementById('chatActiveHint');
+        if (cah && this.currentMaskedHint) {
+          cah.textContent = '💡 Hint: ' + this.currentMaskedHint;
+          cah.style.display = 'block';
+        }
+        const mbHintBanner = document.getElementById('mobileHintBanner');
+        if (mbHintBanner && this.currentMaskedHint) {
+          mbHintBanner.textContent = '💡 Hint: ' + this.currentMaskedHint;
+          mbHintBanner.style.display = 'block';
+        }
       },
 
       finishGame() {
         this.isMatchActive = false;
-        this.isRoundFinished = true;
-        this.clearActiveSession();
-        const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.remove('active');
-        document.getElementById('hostFloatingBar').style.display = 'none';
+        const { databases } = getAppwrite();
+        if (databases && this.isHost) {
+          const sorted = [...GS.players].sort((a, b) => b.score - a.score);
+          const winner = sorted[0] || { name: 'Player', id: this.playerId };
+          databases.createDocument(APPWRITE_CONFIG.databaseId, 'match_history', 'match_' + Date.now(), {
+            matchId: 'match_' + Date.now(),
+            roomId: this.roomId,
+            winner: winner.name,
+            players: JSON.stringify(GS.players),
+            scores: JSON.stringify(Object.fromEntries(GS.players.map(p => [p.id, p.score]))),
+            date: new Date().toISOString()
+          }).catch(() => {});
+
+          databases.updateDocument(APPWRITE_CONFIG.databaseId, 'rooms', this.roomId, {
+            status: 'finished',
+            updatedAt: Date.now()
+          }).catch(() => {});
+        }
 
         WinnerScreen.show(GS.players);
-
-        if (this.isHost) {
-          this.sendEvent('GAME_OVER_BROADCAST', {
-            players: GS.players
-          });
-        }
       },
 
-      handleRemoteGameOver(msg) {
+      handleRemoteGameOver() {
         this.isMatchActive = false;
-        this.isRoundFinished = true;
-        this.clearActiveSession();
-        const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.remove('active');
-        document.getElementById('hostFloatingBar').style.display = 'none';
-        if (msg.players) GS.players = msg.players;
         WinnerScreen.show(GS.players);
       },
 
@@ -20999,96 +20014,208 @@
       },
 
       hostTogglePause() {
-        if (!this.isHost) return;
         this.isPaused = !this.isPaused;
         const btn = document.getElementById('hfbPauseBtn');
-        if (this.isPaused) {
-          TC.pause();
-          if (btn) btn.textContent = '▶ Resume';
-        } else {
-          TC.resume();
-          if (btn) btn.textContent = '⏸ Pause';
-        }
-        this.sendEvent('HOST_PAUSE_BROADCAST', { paused: this.isPaused });
-      },
-
-      handleRemotePause(paused) {
-        if (paused) TC.pause();
+        if (btn) btn.textContent = this.isPaused ? '▶ Resume' : '⏸ Pause';
+        if (this.isPaused) TC.pause();
         else TC.resume();
       },
 
       hostEndGame() {
         if (!this.isHost) return;
-        if (confirm('Are you sure you want to end the match early?')) {
-          this.finishGame();
-        }
+        this.finishGame();
       },
 
       rematch() {
-        if (this.isHost) {
-          this.sendEvent('REMATCH_BROADCAST');
-          this.startMatch();
-        } else {
-          alert('Waiting for the host to restart the match!');
-        }
-      },
-
-      handleRemoteRematch() {
-        alert('👑 Host has initiated a rematch! Get ready!');
+        if (!this.isHost) return;
+        this.startMatch();
       },
 
       returnToLobby() {
-        if (typeof HowToAnswerGuide !== 'undefined') HowToAnswerGuide.stop();
         this.isMatchActive = false;
         this.isRoundFinished = false;
-        this.currentPlaylist = [];
-        this.currentPlayIndex = 0;
-        this.currentRoundWinners = [];
-        if (Array.isArray(GS.players)) {
-          GS.players.forEach(p => { p.score = 0; p.loaded = true; });
-        }
-        this.sessionStats = {
-          roundsWon: 0,
-          totalGuesses: 0,
-          correctGuesses: 0,
-          fastestGuessSeconds: null,
-          roundStartTime: 0
-        };
         if (this.isHost) {
-          this.sendEvent('RETURN_LOBBY_BROADCAST');
+          const { databases } = getAppwrite();
+          if (databases) {
+            databases.updateDocument(APPWRITE_CONFIG.databaseId, 'rooms', this.roomId, {
+              status: 'lobby',
+              currentRound: 0
+            }).catch(() => {});
+          }
         }
         UI.showScreen('playerLobbyScreen');
         this.renderLobbyUI();
       },
 
-      handleRemoteReturnLobby() {
-        if (typeof HowToAnswerGuide !== 'undefined') HowToAnswerGuide.stop();
-        this.isMatchActive = false;
-        this.isRoundFinished = false;
-        this.currentPlaylist = [];
-        this.currentPlayIndex = 0;
-        this.currentRoundWinners = [];
-        if (Array.isArray(GS.players)) {
-          GS.players.forEach(p => { p.score = 0; p.loaded = true; });
+      leaveRoom() {
+        this.stopHeartbeat();
+        if (this.realtimeUnsubscribe) {
+          try { this.realtimeUnsubscribe(); } catch(e) {}
+          this.realtimeUnsubscribe = null;
         }
-        this.sessionStats = {
-          roundsWon: 0,
-          totalGuesses: 0,
-          correctGuesses: 0,
-          fastestGuessSeconds: null,
-          roundStartTime: 0
-        };
-        UI.showScreen('playerLobbyScreen');
-        this.renderLobbyUI();
-      }
+        const { databases } = getAppwrite();
+        if (databases && this.roomId && this.playerId) {
+          const pDocId = `${this.roomId}_${this.playerId}`;
+          databases.updateDocument(APPWRITE_CONFIG.databaseId, 'players', pDocId, {
+            status: 'disconnected'
+          }).catch(() => {});
+        }
+        this.clearActiveSession();
+        this.roomId = null;
+        this.roomCode = null;
+        this.isHost = false;
+        this.isMatchActive = false;
+        this.setConnectionState('DISCONNECTED');
+        UI.showScreen('homeScreen');
+      },
+
+      renderLobbyUI() {
+        PlayerLobby.render();
+      },
+
+      copyRoomLink() {
+        const link = `${window.location.origin}${window.location.pathname}?room=${this.roomCode}`;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(link).then(() => {
+            alert('Room link copied to clipboard: ' + link);
+          }).catch(() => this._fallbackCopy(link));
+        } else {
+          this._fallbackCopy(link);
+        }
+      },
+
+      _fallbackCopy(text) {
+        const el = document.createElement('textarea');
+        el.value = text;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        alert('Room link copied: ' + text);
+      },
+
+      checkPendingRejoin() {
+        try {
+          const raw = localStorage.getItem('gtf_active_session');
+          if (!raw) return;
+          const session = JSON.parse(raw);
+          if (session && session.roomId && (Date.now() - (session.timestamp || 0) < 1000 * 60 * 60 * 2)) {
+            this.promptRejoinModal(session);
+          } else {
+            this.clearActiveSession();
+          }
+        } catch(e) {}
+      },
+
+      promptRejoinModal(session) {
+        this.pendingRejoinSession = session;
+        const modal = document.getElementById('rejoinRoomModal');
+        if (!modal) return;
+        const codeEl = document.getElementById('rejoinRoomCodeText');
+        const nameEl = document.getElementById('rejoinPlayerName');
+        const roleEl = document.getElementById('rejoinRoleTag');
+        const avImg = document.getElementById('rejoinAvatarImg');
+        const avContainer = document.getElementById('rejoinAvatarContainer');
+
+        const av = (session.playerAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#FF6B9D', img: `avvtar/${av}.svg` };
+
+        if (codeEl) codeEl.textContent = session.roomCode;
+        if (nameEl) nameEl.textContent = session.playerName || this.getAvatarDisplayName(av);
+        if (roleEl) roleEl.textContent = session.isHost ? 'Host 👑' : 'Player';
+        if (avImg) avImg.src = `avvtar/${av}.svg`;
+        if (avContainer) avContainer.style.backgroundColor = avConfig.color;
+
+        modal.classList.add('active');
+      },
+
+      async confirmRejoinRoom() {
+        const session = this.pendingRejoinSession;
+        if (!session) return;
+        this.closeModals();
+
+        this.playerId = session.playerId;
+        this.playerName = session.playerName;
+        this.playerAvatar = session.playerAvatar;
+        this.roomCode = session.roomCode;
+        this.roomId = session.roomId || ('room_' + this.roomCode);
+        this.isHost = !!session.isHost;
+        this.hostSettings = session.hostSettings || this.hostSettings;
+        GameController._onlineMode = true;
+
+        await this.ensureAuth();
+        this.subscribeRealtime();
+        this.startHeartbeat();
+        this.setConnectionState('CONNECTED');
+        await this.syncActiveRoomState();
+
+        const { databases } = getAppwrite();
+        if (databases) {
+          try {
+            const roomDoc = await withNetworkRetry(() => databases.getDocument(APPWRITE_CONFIG.databaseId, 'rooms', this.roomId));
+            if (roomDoc.status === 'playing') {
+              this.executeGameStart();
+            } else {
+              UI.showScreen('playerLobbyScreen');
+              this.renderLobbyUI();
+            }
+          } catch (e) {
+            UI.showScreen('playerLobbyScreen');
+            this.renderLobbyUI();
+          }
+        }
+      },
+
+      dismissRejoinAndStartNew() {
+        this.clearActiveSession();
+        this.pendingRejoinSession = null;
+        this.closeModals();
+        const urlParams = new URLSearchParams(window.location.search);
+        const roomParam = urlParams.get('room');
+        if (roomParam) {
+          const joinInput = document.getElementById('joinCodeInput');
+          if (joinInput) joinInput.value = roomParam.trim().toUpperCase();
+          this.openJoinModal();
+        }
+      },
+
+      sendEvent(type, payload) {
+        if (type === 'CHAT_MESSAGE' && this.broadcastChannel && payload) {
+          try {
+            this.broadcastChannel.postMessage({ type: 'CHAT_MESSAGE', payload, roomId: this.roomId });
+          } catch(e) {}
+        }
+        const { databases } = getAppwrite();
+        if (!databases || !this.roomId) return;
+        if (type === 'UPDATE_HOST_SETTINGS' && this.isHost && payload && payload.settings) {
+          const s = payload.settings;
+          databases.updateDocument(APPWRITE_CONFIG.databaseId, 'rooms', this.roomId, {
+            timer: Number(s.timer) || 30,
+            totalRounds: Number(s.rounds) || 40,
+            categories: (s.categories && Array.isArray(s.categories)) ? s.categories.join(',') : (s.category || 'all')
+          }).catch(() => {});
+        } else if (type === 'UPDATE_PLAYER_NAME' && payload && payload.playerId && payload.name) {
+          const pDocId = `${this.roomId}_${payload.playerId}`;
+          databases.updateDocument(APPWRITE_CONFIG.databaseId, 'players', pDocId, {
+            name: payload.name
+          }).catch(() => {});
+        } else if (type === 'PLAYER_KICKED' && this.isHost && payload && payload.targetPlayerId) {
+          const pDocId = `${this.roomId}_${payload.targetPlayerId}`;
+          databases.deleteDocument(APPWRITE_CONFIG.databaseId, 'players', pDocId).catch(() => {});
+        }
+      },
+
+      // Compatibility methods
+      stopClientHeartbeat() {},
+      stopHostHeartbeat() {},
+      stopHostPresenceWatchdog() {},
+      stopHostWatchdog() {},
+      checkHostMigration() {},
+      broadcastState(reason) {}
     };
 
-    
-    /* ═══ UNIFIED WINNER SCREEN CONTROLLER ═══ */
-    
-    
-    
-    
+    window.MultiplayerEngine = MultiplayerEngine;
+
     /* ═══ EXACT REPLICA: AAA COMIC VICTORY WINNER CONTROLLER ═══ */
     const WinnerScreen = {
       show(players) {
@@ -21553,83 +20680,95 @@
       _currentImage: null,
       _loadingImage: null,
 
-      /* Preload and cache images */
+      /* Preload and cache images (bounded LRU 15 images, WebP priority, telemetry) */
       preloadImage(src) {
+        if (!src) return Promise.resolve(null);
+        let webpSrc = src;
+        if (/\.(png|jpg|jpeg)$/i.test(src) && !src.includes('avvtar/') && !src.includes('logo.png')) {
+          webpSrc = src.replace(/\.(png|jpg|jpeg)$/i, '.webp');
+        }
+        if (GS.imageCache.has(webpSrc)) return Promise.resolve(GS.imageCache.get(webpSrc));
         if (GS.imageCache.has(src)) return Promise.resolve(GS.imageCache.get(src));
-        return new Promise((resolve, reject) => {
+
+        const imgStart = Date.now();
+        return new Promise((resolve) => {
           const img = new Image();
-          img.onload = () => { GS.imageCache.set(src, img); resolve(img); };
-          img.onerror = reject;
-          img.src = src;
+          img.onload = () => {
+            if (GS.imageCache.size >= 15) {
+              const firstKey = GS.imageCache.keys().next().value;
+              GS.imageCache.delete(firstKey);
+            }
+            GS.imageCache.set(webpSrc, img);
+            if (window.ScoopCastDebug && window.ScoopCastDebug.images) {
+              window.ScoopCastDebug.images.lastLoadTime = Date.now() - imgStart;
+              window.ScoopCastDebug.images.cachedCount = GS.imageCache.size;
+            }
+            resolve(img);
+          };
+          img.onerror = () => {
+            if (webpSrc !== src) {
+              const fallback = new Image();
+              fallback.onload = () => {
+                if (GS.imageCache.size >= 15) {
+                  const firstKey = GS.imageCache.keys().next().value;
+                  GS.imageCache.delete(firstKey);
+                }
+                GS.imageCache.set(src, fallback);
+                if (window.ScoopCastDebug && window.ScoopCastDebug.images) {
+                  window.ScoopCastDebug.images.lastLoadTime = Date.now() - imgStart;
+                  window.ScoopCastDebug.images.cachedCount = GS.imageCache.size;
+                }
+                resolve(fallback);
+              };
+              fallback.onerror = () => resolve(null);
+              fallback.src = src;
+            } else {
+              resolve(null);
+            }
+          };
+          img.src = webpSrc;
         });
       },
 
-      /* Preload all frames for progress tracking */
+      /* Preload all frames for progress tracking - Round 1 only (instant lobby entry) */
       async preloadAll(onProgress) {
+        const round1 = (GS.sections && GS.sections[0] && GS.sections[0].frames[0]) ? GS.sections[0].frames[0] : null;
         const priorityImages = [];
-        const backgroundImages = [];
 
-        const collect = frames => frames.forEach(f => {
-          if ((f.type === 'image' || f.type === 'eye') && f.content) {
-            priorityImages.push(f.content);
-          }
-          if (f.type === 'eye' && f.revealContent) priorityImages.push(f.revealContent);
-        });
-        GS.sections.forEach(s => collect(s.frames));
-        if (GS.tieBreaker && Array.isArray(GS.tieBreaker.frames)) collect(GS.tieBreaker.frames);
+        if (round1) {
+          if (round1.content) priorityImages.push(round1.content);
+          if (round1.revealContent) priorityImages.push(round1.revealContent);
+        }
 
-        // Player assets: avatars + winner trophy images (priority)
         GS.players.forEach(p => {
-          const avKey = (p.avatar || (p.avatarImg ? p.avatarImg.replace(/^.*\/([^./]+)\..*$/, '$1') : 'aman')).toLowerCase().replace(/[^a-z0-9]/g, '');
-          const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
-          const safeKey = validAvatars.includes(avKey) ? avKey : 'aman';
-
-          priorityImages.push('avvtar/' + safeKey + '.svg');
-          priorityImages.push('avvtar/' + safeKey + ' trophy.png');
-
-          // Champion celebration frames are warmed in background so match can start instantly
-          const maxF = safeKey === 'aman' ? 96 : 92;
-          for (let i = 1; i <= maxF; i++) {
-            backgroundImages.push('avvtar/' + safeKey + '/frame_' + String(i).padStart(4, '0') + '.png');
-          }
+          const avKey = (p.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+          priorityImages.push('avvtar/' + avKey + '.svg');
         });
 
         let loaded = 0;
-        const totalPriority = priorityImages.length;
-        if (totalPriority === 0) { if (onProgress) onProgress({ loaded: 0, total: 0, percent: 100 }); return; }
-
-        // Load critical match assets in high-performance batches
-        const BATCH = 16;
-        for (let i = 0; i < priorityImages.length; i += BATCH) {
-          const batch = priorityImages.slice(i, i + BATCH);
-          const results = await Promise.allSettled(batch.map(src => this.preloadImage(src)));
-          loaded += results.length;
-          if (onProgress) onProgress({ loaded, total: totalPriority, percent: Math.min(100, Math.round((loaded / totalPriority) * 100)) });
+        const totalPriority = priorityImages.length || 1;
+        for (const src of priorityImages) {
+          await this.preloadImage(src).catch(() => {});
+          loaded++;
+          if (onProgress) onProgress({ loaded, total: totalPriority, percent: Math.round((loaded / totalPriority) * 100) });
         }
-
-        // Warm champion frames asynchronously in background without blocking match start
-        setTimeout(async () => {
-          for (let i = 0; i < backgroundImages.length; i += 20) {
-            const bgBatch = backgroundImages.slice(i, i + 20);
-            await Promise.allSettled(bgBatch.map(src => this.preloadImage(src)));
-          }
-        }, 100);
+        if (onProgress) onProgress({ loaded: totalPriority, total: totalPriority, percent: 100 });
       },
 
-      /* Preload next few frames */
+      /* Preload next round ONLY (Strict memory efficiency: Never download all future assets) */
       async preloadUpcoming() {
-        // Solo mode is fully on-demand: do not warm future frame assets.
-        if (GS.players.length === 1) return;
-        let count = 0;
-        for (let s = GS.currentSection; s < GS.sections.length && count < 3; s++) {
-          const sec = GS.sections[s];
-          const startRound = (s === GS.currentSection) ? GS.currentSectionRound + 1 : 0;
-          const valid = sec.frames.filter(f => (f.content && f.answer) || (f.type === 'dialogue' && f.dialogue && f.answer));
-          for (let r = startRound; r < valid.length && count < 3; r++) {
-            const frame = valid[r];
-            if ((frame.type === 'image' || frame.type === 'eye') && frame.content) this.preloadImage(frame.content).catch(() => { });
-            if (frame.type === 'eye' && frame.revealContent) this.preloadImage(frame.revealContent).catch(() => { });
-            count++;
+        if (GS.players.length === 1 && !GameController._onlineMode) return;
+        const nextRoundIdx = GS.currentSectionRound + 1;
+        const curSec = GS.sections[GS.currentSection];
+        if (!curSec || !curSec.frames) return;
+        const valid = curSec.frames.filter(f => (f.content && f.answer) || (f.type === 'dialogue' && f.dialogue && f.answer));
+        if (nextRoundIdx < valid.length) {
+          const nextFrame = valid[nextRoundIdx];
+          if ((nextFrame.type === 'image' || nextFrame.type === 'eye') && nextFrame.content) {
+            this.preloadImage(nextFrame.content).catch(() => {});
+          }
+          if (nextFrame.type === 'eye' && nextFrame.revealContent) {
+            this.preloadImage(nextFrame.revealContent).catch(() => {});
           }
         }
       },
@@ -21884,7 +21023,6 @@
         SoundManager.playReveal();
       },
     };
-    window.MultiplayerEngine = MultiplayerEngine;
 
     /* ═══ GAME CONTROLLER ═══ */
     const GameController = {

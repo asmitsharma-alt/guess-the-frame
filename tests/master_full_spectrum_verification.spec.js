@@ -78,28 +78,23 @@ test.describe('ULTRA-COMPREHENSIVE MASTER TEST: Every Feature, Button, Logic, Sy
     await page.locator('#createRoomModal .mp-btn-primary').click();
     await expect(page.locator('#playerLobbyScreen')).toHaveClass(/active/);
 
-    // Rounds increment & decrement
+    // Rounds decrement & increment (- and +)
     const rBefore = await page.evaluate(() => MultiplayerEngine.hostSettings.rounds);
-    await page.locator('button[title="Increase Rounds"]').click();
-    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.rounds)).toBe(rBefore + 1);
     await page.locator('button[title="Decrease Rounds"]').click();
+    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.rounds)).toBe(rBefore - 1);
+    await page.locator('button[title="Increase Rounds"]').click();
     expect(await page.evaluate(() => MultiplayerEngine.hostSettings.rounds)).toBe(rBefore);
 
-    // Timer increment & decrement
+    // Timer increment & decrement (+1 and -1)
     const tBefore = await page.evaluate(() => MultiplayerEngine.hostSettings.timer);
     await page.locator('button[title="Increase Timer"]').click();
-    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(tBefore + 15);
+    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(tBefore + 1);
     await page.locator('button[title="Decrease Timer"]').click();
     expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(tBefore);
 
-    // QR Code button & Modal Close
-    const qrBtn = page.locator('button:has-text("QR CODE")');
-    if (await qrBtn.count() > 0) {
-      await qrBtn.click();
-      await expect(page.locator('#qrModal')).toHaveClass(/active/);
-      await page.locator('#qrModal .mp-modal-close').click();
-      await expect(page.locator('#qrModal')).not.toHaveClass(/active/);
-    }
+    // QR Code button check (per requirement, removed from lobby)
+    const qrBtnInLobby = page.locator('#playerLobbyScreen button:has-text("QR CODE")');
+    expect(await qrBtnInLobby.count()).toBe(0);
 
     // Copy Link button (verify it creates valid room link)
     const copyBtn = page.locator('#copyLinkBtn');
@@ -192,6 +187,42 @@ test.describe('ULTRA-COMPREHENSIVE MASTER TEST: Every Feature, Button, Logic, Sy
         { guess: 'eyes wide shut', answer: 'Eyes Wide Shut (1999)', expected: true },
         { guess: 'the wolf of wall street', answer: 'The Wolf of Wall Street (2013)', expected: true },
         { guess: 'wolf of wall street', answer: 'The Wolf of Wall Street (2013)', expected: true },
+        // Single word matches
+        { guess: 'budapest', answer: 'The Grand Budapest Hotel', expected: true },
+        { guess: 'hotel', answer: 'The Grand Budapest Hotel', expected: true },
+        { guess: 'grand', answer: 'The Grand Budapest Hotel', expected: true },
+        { guess: 'manchester', answer: 'Manchester by the Sea', expected: true },
+        { guess: 'sea', answer: 'Manchester by the Sea', expected: true },
+        { guess: 'superhero', answer: 'Bhavesh Joshi Superhero', expected: true },
+        { guess: 'maverick', answer: 'Top Gun Maverick', expected: true },
+        { guess: 'wolf', answer: 'The Wolf of Wall Street', expected: true },
+        { guess: 'idiots', answer: '3 Idiots', expected: true },
+        { guess: 'taarzan', answer: 'Taarzan The Wonder Car', expected: true },
+        // Typos & misspellings
+        { guess: 'budapesht', answer: 'The Grand Budapest Hotel', expected: true },
+        { guess: 'manchestr', answer: 'Manchester by the Sea', expected: true },
+        { guess: 'spidrman', answer: 'Spider-Man: No Way Home', expected: true },
+        { guess: 'anotomy of a fall', answer: 'Anatomy of a Fall', expected: true },
+        { guess: 'shutter iland', answer: 'Shutter Island', expected: true },
+        { guess: 'tarzan', answer: 'Taarzan The Wonder Car', expected: true },
+        // Partial multi-word & wrong word tolerance
+        { guess: 'grand hotel', answer: 'The Grand Budapest Hotel', expected: true },
+        { guess: 'wolf of the street', answer: 'The Wolf of Wall Street', expected: true },
+        { guess: 'manchester in the sea', answer: 'Manchester by the Sea', expected: true },
+        { guess: 'silver lake', answer: 'Under the Silver Lake', expected: true },
+        { guess: 'mad max', answer: 'Mad Max 2', expected: true },
+        { guess: 'taarzan fast car', answer: 'Taarzan The Wonder Car', expected: true },
+        // Numbers
+        { guess: '3 idiots', answer: '3 Idiots', expected: true },
+        { guess: 'three idiots', answer: '3 Idiots', expected: true },
+        { guess: 'mad max two', answer: 'Mad Max 2', expected: true },
+        // Casual chat & negative guards
+        { guess: 'the movie', answer: '3 Idiots', expected: false },
+        { guess: 'what movie is this', answer: 'The Wolf of Wall Street', expected: false },
+        { guess: 'hello everyone', answer: 'Manchester by the Sea', expected: false },
+        { guess: 'the', answer: 'The Wolf of Wall Street', expected: false },
+        { guess: 'of', answer: 'The Wolf of Wall Street', expected: false },
+        { guess: 'by', answer: 'Manchester by the Sea', expected: false },
         { guess: 'totally wrong movie', answer: 'Inception', expected: false },
         { guess: 'star wars', answer: 'Star Trek', expected: false }
       ];

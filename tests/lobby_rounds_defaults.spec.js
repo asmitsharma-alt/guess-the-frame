@@ -2,14 +2,16 @@ const { test, expect } = require('@playwright/test');
 
 test.describe('Lobby Default Rounds Configuration', () => {
   test('Lobby defaults to 20 Frame rounds, 10 Eye rounds, 10 Dialogue rounds (Total 40)', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
 
-    // Create room to enter the lobby
-    await page.evaluate(() => {
-      MultiplayerEngine.selectedAvatarForModal = 'aman';
-      MultiplayerEngine.confirmCreateRoom();
-    });
+    // Create room via UI
+    await page.locator('.h-card-create').click();
+    await page.waitForSelector('#createRoomModal.active', { timeout: 5000 });
+    await page.locator('#hostPlayerNameInput').fill('HostAman');
+    await page.locator('#createRoomModal .mp-btn-primary').click();
+    await page.waitForSelector('#playerLobbyScreen.active', { timeout: 10000 });
 
     // Check hostSettings object defaults
     const settings = await page.evaluate(() => MultiplayerEngine.hostSettings);

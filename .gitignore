@@ -8,6 +8,13 @@ test-results/
 # Scratch & temporary development files
 scratch/
 *.log
+*.bak
+load_test_report.json
+
+# Large media & recordings
+*.mp4
+recordings/
+backups/
 
 # Deployment & agent caches
 .vercel/
@@ -22,3 +29,4 @@ Thumbs.db
 winner_screen_*.png
 current_winner_screen.png
 live_*.png
+.vercel

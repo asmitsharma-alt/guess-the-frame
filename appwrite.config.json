@@ -1,6 +1,70 @@
 {
     "projectId": "6a95a01e0028db20a16f",
     "endpoint": "https://sgp.cloud.appwrite.io/v1",
+    "functions": [
+        {
+            "$id": "validate-guess",
+            "name": "validate-guess",
+            "runtime": "node-22",
+            "path": "functions/validate-guess",
+            "previewDomainTarget": "region",
+            "previewDomainLabel": "validate-guess",
+            "entrypoint": "src/main.js",
+            "execute": [
+                "any"
+            ],
+            "enabled": true,
+            "logging": true,
+            "events": [],
+            "schedule": "",
+            "timeout": 15,
+            "commands": "npm install",
+            "scopes": [
+                "documents.read",
+                "documents.write"
+            ],
+            "installationId": "",
+            "providerRepositoryId": "",
+            "providerBranch": "",
+            "providerSilentMode": false,
+            "providerRootDirectory": "",
+            "providerBranches": [],
+            "providerPaths": [],
+            "buildSpecification": "s-2vcpu-2gb",
+            "runtimeSpecification": "s-0.5vcpu-512mb",
+            "deploymentRetention": 0
+        },
+        {
+            "$id": "cleanup-rooms",
+            "name": "cleanup-rooms",
+            "runtime": "node-22",
+            "path": "functions/cleanup-rooms",
+            "previewDomainTarget": "region",
+            "previewDomainLabel": "cleanup-rooms",
+            "entrypoint": "src/main.js",
+            "execute": [],
+            "enabled": true,
+            "logging": true,
+            "events": [],
+            "schedule": "0 0 * * *",
+            "timeout": 30,
+            "commands": "npm install",
+            "scopes": [
+                "documents.read",
+                "documents.write"
+            ],
+            "installationId": "",
+            "providerRepositoryId": "",
+            "providerBranch": "",
+            "providerSilentMode": false,
+            "providerRootDirectory": "",
+            "providerBranches": [],
+            "providerPaths": [],
+            "buildSpecification": "s-2vcpu-2gb",
+            "runtimeSpecification": "s-0.5vcpu-512mb",
+            "deploymentRetention": 0
+        }
+    ],
     "sites": [
         {
             "$id": "guesstheframe",
@@ -24,6 +88,485 @@
             "buildSpecification": "s-2vcpu-2gb",
             "runtimeSpecification": "s-0.5vcpu-512mb",
             "deploymentRetention": 0
+        }
+    ],
+    "tablesDB": [
+        {
+            "$id": "guess_the_frame",
+            "name": "Guess The Frame",
+            "enabled": true
+        }
+    ],
+    "tables": [
+        {
+            "$id": "rooms",
+            "$permissions": [
+                "read(\"any\")",
+                "create(\"any\")",
+                "update(\"any\")"
+            ],
+            "databaseId": "guess_the_frame",
+            "name": "Rooms",
+            "enabled": true,
+            "rowSecurity": true,
+            "columns": [
+                {
+                    "key": "roomId",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 64,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "roomCode",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 16,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "hostId",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 64,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "currentRound",
+                    "type": "integer",
+                    "required": false,
+                    "array": false,
+                    "default": 0,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807
+                },
+                {
+                    "key": "status",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 32,
+                    "default": "lobby",
+                    "encrypt": false
+                },
+                {
+                    "key": "currentSection",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 32,
+                    "default": "frames",
+                    "encrypt": false
+                },
+                {
+                    "key": "timer",
+                    "type": "integer",
+                    "required": false,
+                    "array": false,
+                    "default": 30,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807
+                },
+                {
+                    "key": "totalRounds",
+                    "type": "integer",
+                    "required": false,
+                    "array": false,
+                    "default": 40,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807
+                },
+                {
+                    "key": "categories",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
+                    "default": "frames,eyes,dialogue",
+                    "encrypt": false
+                },
+                {
+                    "key": "createdAt",
+                    "type": "integer",
+                    "required": false,
+                    "array": false,
+                    "default": 0,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807
+                },
+                {
+                    "key": "updatedAt",
+                    "type": "integer",
+                    "required": false,
+                    "array": false,
+                    "default": 0,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "idx_roomCode",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "roomCode"
+                    ],
+                    "orders": []
+                },
+                {
+                    "key": "idx_status",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "status"
+                    ],
+                    "orders": []
+                }
+            ]
+        },
+        {
+            "$id": "players",
+            "$permissions": [
+                "read(\"any\")",
+                "create(\"any\")",
+                "update(\"any\")",
+                "delete(\"any\")"
+            ],
+            "databaseId": "guess_the_frame",
+            "name": "Players",
+            "enabled": true,
+            "rowSecurity": true,
+            "columns": [
+                {
+                    "key": "playerId",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 64,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "roomId",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 64,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "name",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 64,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "avatar",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 64,
+                    "default": "aman",
+                    "encrypt": false
+                },
+                {
+                    "key": "status",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 32,
+                    "default": "connected",
+                    "encrypt": false
+                },
+                {
+                    "key": "lastHeartbeat",
+                    "type": "integer",
+                    "required": false,
+                    "array": false,
+                    "default": 0,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807
+                },
+                {
+                    "key": "score",
+                    "type": "integer",
+                    "required": false,
+                    "array": false,
+                    "default": 0,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807
+                },
+                {
+                    "key": "isHost",
+                    "type": "boolean",
+                    "required": false,
+                    "array": false,
+                    "default": false
+                },
+                {
+                    "key": "color",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 32,
+                    "default": "#57c3e0",
+                    "encrypt": false
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "idx_roomId",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "roomId"
+                    ],
+                    "orders": []
+                },
+                {
+                    "key": "idx_playerRoom",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "playerId",
+                        "roomId"
+                    ],
+                    "orders": []
+                }
+            ]
+        },
+        {
+            "$id": "game_state",
+            "$permissions": [
+                "read(\"any\")",
+                "create(\"any\")",
+                "update(\"any\")",
+                "delete(\"any\")"
+            ],
+            "databaseId": "guess_the_frame",
+            "name": "GameState",
+            "enabled": true,
+            "rowSecurity": true,
+            "columns": [
+                {
+                    "key": "roomId",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 64,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "roundNumber",
+                    "type": "integer",
+                    "required": false,
+                    "array": false,
+                    "default": 1,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807
+                },
+                {
+                    "key": "phase",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 32,
+                    "default": "guessing",
+                    "encrypt": false
+                },
+                {
+                    "key": "currentImage",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 1024,
+                    "default": "",
+                    "encrypt": false
+                },
+                {
+                    "key": "dialogueText",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 1024,
+                    "default": "",
+                    "encrypt": false
+                },
+                {
+                    "key": "dialogueContext",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
+                    "default": "",
+                    "encrypt": false
+                },
+                {
+                    "key": "maskedHint",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
+                    "default": "",
+                    "encrypt": false
+                },
+                {
+                    "key": "revealedAnswer",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 255,
+                    "default": "",
+                    "encrypt": false
+                },
+                {
+                    "key": "winners",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 4096,
+                    "default": "[]",
+                    "encrypt": false
+                },
+                {
+                    "key": "startedAt",
+                    "type": "integer",
+                    "required": false,
+                    "array": false,
+                    "default": 0,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807
+                },
+                {
+                    "key": "version",
+                    "type": "integer",
+                    "required": false,
+                    "array": false,
+                    "default": 1,
+                    "min": -9223372036854775808,
+                    "max": 9223372036854775807
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "idx_gameStateRoom",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "roomId"
+                    ],
+                    "orders": []
+                }
+            ]
+        },
+        {
+            "$id": "match_history",
+            "$permissions": [
+                "read(\"any\")",
+                "create(\"any\")"
+            ],
+            "databaseId": "guess_the_frame",
+            "name": "MatchHistory",
+            "enabled": true,
+            "rowSecurity": true,
+            "columns": [
+                {
+                    "key": "matchId",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 64,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "roomId",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 64,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "winner",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 128,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "date",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 64,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "players",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 4096,
+                    "default": "[]",
+                    "encrypt": false
+                },
+                {
+                    "key": "scores",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 4096,
+                    "default": "{}",
+                    "encrypt": false
+                }
+            ],
+            "indexes": [
+                {
+                    "key": "idx_matchRoom",
+                    "type": "key",
+                    "status": "available",
+                    "columns": [
+                        "roomId"
+                    ],
+                    "orders": []
+                }
+            ]
+        }
+    ],
+    "buckets": [
+        {
+            "$id": "game_assets",
+            "$permissions": [
+                "read(\"any\")",
+                "create(\"any\")",
+                "update(\"any\")",
+                "delete(\"any\")"
+            ],
+            "fileSecurity": false,
+            "name": "Game Assets",
+            "enabled": true,
+            "maximumFileSize": 5000000000,
+            "allowedFileExtensions": [],
+            "compression": "none",
+            "encryption": true,
+            "antivirus": true
         }
     ]
 }
