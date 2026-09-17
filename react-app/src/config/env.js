@@ -13,7 +13,7 @@ export const getPartyKitHost = () => {
       return 'localhost:10000';
     }
   }
-  return 'guess-the-frame-party.asmit-sharma.workers.dev';
+  return 'guess-the-frame.onrender.com';
 };
 
 export const PARTYKIT_HOST = getPartyKitHost();
