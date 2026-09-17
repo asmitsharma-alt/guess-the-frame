@@ -430,6 +430,89 @@ class GameRoom {
         break;
       }
 
+      case 'UPDATE_SETTINGS':
+      case 'UPDATE_HOST_SETTINGS': {
+        if (!requireHost('UPDATE_SETTINGS')) return;
+        const newSettings = msg.payload || msg.settings;
+        if (newSettings && typeof newSettings === 'object') {
+          this.state.settings = {
+            timer: Math.max(10, Math.min(180, Number(newSettings.timer || newSettings.timerDuration || this.state.settings.timer))),
+            rounds: Math.max(1, Math.min(50, Number(newSettings.rounds || this.state.settings.rounds))),
+            categories: Array.isArray(newSettings.categories) ? newSettings.categories : this.state.settings.categories
+          };
+          this.broadcast({
+            type: 'HOST_SETTINGS_UPDATE',
+            settings: this.state.settings
+          });
+          this.broadcastState('HOST_SETTINGS_UPDATE');
+        }
+        break;
+      }
+
+      case 'UPDATE_PLAYER_NAME': {
+        const playerId = msg.playerId || msg.senderId || senderPlayerId;
+        const newName = (msg.name || msg.playerName || '').trim().slice(0, 25);
+        if (playerId && newName) {
+          const player = this.state.players.find(p => p.id === playerId);
+          if (player) {
+            player.name = newName;
+            this.broadcast({
+              type: 'UPDATE_PLAYER_NAME',
+              playerId,
+              name: newName,
+              players: this.state.players
+            });
+            this.broadcastState('PLAYER_NAME_UPDATE');
+          }
+        }
+        break;
+      }
+
+      case 'UPDATE_PLAYER_AVATAR': {
+        const playerId = msg.playerId || msg.senderId || senderPlayerId;
+        const newAvatar = (msg.avatar || msg.playerAvatar || '').trim();
+        const newColor = msg.color || msg.playerColor;
+        if (playerId && newAvatar) {
+          const player = this.state.players.find(p => p.id === playerId);
+          if (player) {
+            player.avatar = newAvatar;
+            if (newColor) player.color = newColor;
+            this.broadcast({
+              type: 'UPDATE_PLAYER_AVATAR',
+              playerId,
+              avatar: newAvatar,
+              color: player.color,
+              players: this.state.players
+            });
+            this.broadcastState('PLAYER_AVATAR_UPDATE');
+          }
+        }
+        break;
+      }
+
+      case 'PLAYER_READY':
+      case 'PLAYER_READY_TOGGLE':
+      case 'PLAYER_PRELOAD_STATUS':
+      case 'PLAYER_PRELOAD_READY': {
+        const playerId = msg.playerId || msg.senderId || senderPlayerId;
+        const player = this.state.players.find(p => p.id === playerId);
+        if (player) {
+          const isReady = typeof msg.ready === 'boolean' 
+            ? msg.ready 
+            : Boolean(msg.percent === 100 || msg.preloaded);
+          player.ready = isReady;
+          player.preloaded = isReady;
+          this.broadcast({
+            type: 'PLAYER_READY',
+            playerId,
+            ready: isReady,
+            players: this.state.players
+          });
+          this.broadcastState('PLAYER_READY');
+        }
+        break;
+      }
+
       case 'START_GAME':
       case 'START_MATCH': {
         if (!requireHost('START_GAME')) return;
@@ -916,6 +999,7 @@ class GameRoom {
         if (!requireHost('KICK_PLAYER')) return;
         const targetPlayerId = msg.targetPlayerId || msg.playerId;
         if (targetPlayerId) {
+          const kickedPlayer = this.state.players.find(p => p.id === targetPlayerId);
           this.state.players = this.state.players.filter(p => p.id !== targetPlayerId);
           for (const [cId, targetWs] of this.connections) {
             if (this.connectionToPlayerId.get(cId) === targetPlayerId) {
@@ -924,9 +1008,50 @@ class GameRoom {
                 reason: 'KICKED_BY_HOST'
               });
               try { targetWs.close(); } catch (e) {}
+              this.connections.delete(cId);
+              this.connectionToPlayerId.delete(cId);
             }
           }
+          this.broadcast({
+            type: 'PLAYER_LEFT',
+            playerId: targetPlayerId,
+            playerName: kickedPlayer ? kickedPlayer.name : 'Player',
+            players: this.state.players
+          });
           this.broadcastState('PLAYER_KICKED');
+        }
+        break;
+      }
+
+      case 'LEAVE_ROOM':
+      case 'LEAVE_LOBBY': {
+        const playerId = msg.playerId || msg.senderId || senderPlayerId;
+        if (playerId) {
+          const leavingPlayer = this.state.players.find(p => p.id === playerId);
+          this.state.players = this.state.players.filter(p => p.id !== playerId);
+          this.connectionToPlayerId.delete(connId);
+          this.broadcast({
+            type: 'PLAYER_LEFT',
+            playerId,
+            playerName: leavingPlayer ? leavingPlayer.name : 'Player',
+            players: this.state.players
+          });
+          if (playerId === this.state.hostId) {
+            const nextHost = this.state.players.find(p => p.connected);
+            if (nextHost) {
+              nextHost.isHost = true;
+              this.state.hostId = nextHost.id;
+              this.broadcast({
+                type: 'HOST_MIGRATED',
+                newHostId: nextHost.id,
+                newHostName: nextHost.name,
+                players: this.state.players
+              });
+            } else {
+              this.state.hostId = null;
+            }
+          }
+          this.broadcastState('PLAYER_LEFT');
         }
         break;
       }

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { X, Pencil, CheckCircle, Hourglass } from 'lucide-react';
+import { X, Pencil, CheckCircle, Hourglass, Palette, Check, Loader2, UserX } from 'lucide-react';
 import SoundManager from '../services/soundManager';
 import { SecurityUtil } from '../services/securityUtil';
 import { AVATAR_MAP, getAvatarSrc, getAvatarColor } from '../services/gameConstants';
+import AvatarPicker from '../components/Common/AvatarPicker';
 
 export const LobbyScreen = ({
   isActive,
@@ -17,21 +18,55 @@ export const LobbyScreen = ({
   onUpdateSettings,
   onRenamePlayer,
   onRemovePlayer,
+  onUpdateAvatar,
+  onToggleReady,
   onStartMatch,
   onLeaveLobby
 }) => {
   const [copied, setCopied] = useState(false);
   const [isMobile, setIsMobile] = useState(() => (typeof window !== 'undefined' ? window.innerWidth < 768 : false));
+  const [showAvatarModal, setShowAvatarModal] = useState(false);
+  const [isStarting, setIsStarting] = useState(false);
 
+  const selfPlayer = (players || []).find(p => p.id === playerId || p.name === playerName);
   const myPreloaded = Boolean(preloadProgress?.isComplete || (preloadProgress?.percent ?? 0) >= 25);
+  const isMyReady = Boolean(selfPlayer?.ready ?? selfPlayer?.preloaded ?? myPreloaded);
   const otherPlayers = (players || []).filter(p => p.id !== playerId && p.connected !== false);
-  const otherPlayersPreloaded = otherPlayers.length === 0 || otherPlayers.every(p => p.preloaded !== false || p.loaded === true);
+  const otherPlayersPreloaded = otherPlayers.length === 0 || otherPlayers.every(p => p.ready || p.preloaded !== false || p.loaded === true);
   const allPlayersPreloaded = myPreloaded;
   const canStartMatch = Boolean(isHost);
-  const readyCount = (players || []).filter(p => p.preloaded || p.id === playerId).length;
+  const readyCount = (players || []).filter(p => p.ready || p.preloaded || p.id === playerId).length;
+
+  useEffect(() => {
+    if (!isActive) {
+      setIsStarting(false);
+    }
+  }, [isActive]);
+
+  const handleToggleMyReady = () => {
+    SoundManager.playClick();
+    const nextReady = !isMyReady;
+    if (onToggleReady) {
+      onToggleReady(nextReady);
+    }
+  };
+
+  const handleStartMatchClick = () => {
+    if (!canStartMatch || isStarting) return;
+    setIsStarting(true);
+    SoundManager.playClick();
+    if (onStartMatch) onStartMatch();
+  };
 
   const getStartButtonText = () => {
-    if (!isHost) return 'WAITING FOR HOST...';
+    if (isStarting) return 'STARTING MATCH...';
+    if (!isHost) {
+      return isMyReady ? "YOU'RE READY (WAITING FOR HOST...)" : "READY UP FOR MATCH";
+    }
+    const readyPlayersCount = (players || []).filter(p => p.ready || p.preloaded || p.isHost).length;
+    if (players.length > 1 && readyPlayersCount >= players.length) {
+      return 'START MATCH (ALL READY!)';
+    }
     return 'START MATCH';
   };
 
@@ -288,8 +323,9 @@ export const LobbyScreen = ({
                         </button>
                       )}
                       <div
-                        className="w-14 h-14 rounded-xl border-2 border-on-surface overflow-hidden mb-1.5 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                        className={`w-14 h-14 rounded-xl border-2 border-on-surface overflow-hidden mb-1.5 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${isSelf ? 'cursor-pointer ring-2 ring-transparent hover:ring-neo-purple transition-all' : ''}`}
                         style={{ backgroundColor: avColor, '--avatar-bg': avColor }}
+                        onClick={() => { if (isSelf) setShowAvatarModal(true); }}
                       >
                         <img
                           className="w-full h-full object-cover"
@@ -297,6 +333,11 @@ export const LobbyScreen = ({
                           alt={p.name}
                           onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aman.svg'; }}
                         />
+                        {isSelf && (
+                          <div className="absolute bottom-0 right-0 bg-neo-purple border border-on-surface rounded-full w-4 h-4 flex items-center justify-center">
+                            <Palette size={8} strokeWidth={2.5} className="text-white" />
+                          </div>
+                        )}
                       </div>
                       {isSelf ? (
                         <div className="relative w-full max-w-[125px] flex items-center group">
@@ -320,7 +361,7 @@ export const LobbyScreen = ({
                           {p.name}
                         </div>
                       )}
-                      {(isSelf ? myPreloaded : (p.preloaded || p.loaded)) ? (
+                      {(isSelf ? isMyReady : (p.ready || p.preloaded || p.loaded)) ? (
                         <div className="mt-1 bg-[#86EFAC] text-[#14532D] border border-on-surface px-1.5 py-0.2 rounded-full font-label-bold text-[8px] uppercase font-black flex items-center gap-0.5 shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]">
                           <span><CheckCircle size={10} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '3px' }} /> READY</span>
                         </div>
@@ -561,39 +602,64 @@ export const LobbyScreen = ({
           className="fixed bottom-0 left-0 w-full p-3 bg-background/95 backdrop-blur-md border-t-2 border-on-surface z-30 shadow-[0px_-4px_10px_rgba(0,0,0,0.15)] flex flex-col gap-1.5"
           style={{ paddingBottom: 'max(14px, env(safe-area-inset-bottom, 14px))' }}
         >
-          <button
-            type="button"
-            id="mobileLobbyStartBtn"
-            disabled={!canStartMatch}
-            onClick={() => {
-              if (!canStartMatch) return;
-              SoundManager.playClick();
-              if (onStartMatch) onStartMatch();
-            }}
-            className={`w-full min-h-[52px] border-2 border-on-surface py-3 px-4 font-headline-lg text-lg uppercase flex items-center justify-center gap-2 rounded-xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all font-black ${
-              canStartMatch
-                ? 'bg-neo-green hover:bg-[#72e89d] cursor-pointer'
-                : 'bg-surface-variant/80 text-outline opacity-60 cursor-not-allowed'
-            }`}
-          >
-            <span id="mobileLobbyStartBtnText">{getStartButtonText()}</span>
-            <span className="material-symbols-outlined text-2xl">arrow_forward</span>
-          </button>
+          {isHost ? (
+            <button
+              type="button"
+              id="mobileLobbyStartBtn"
+              disabled={!canStartMatch || isStarting}
+              onClick={handleStartMatchClick}
+              className={`w-full min-h-[52px] border-2 border-on-surface py-3 px-4 font-headline-lg text-lg uppercase flex items-center justify-center gap-2 rounded-xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all font-black ${
+                canStartMatch && !isStarting
+                  ? 'bg-neo-green hover:bg-[#72e89d] cursor-pointer'
+                  : 'bg-surface-variant/80 text-outline opacity-60 cursor-not-allowed'
+              }`}
+            >
+              {isStarting && <Loader2 size={20} className="animate-spin" />}
+              <span id="mobileLobbyStartBtnText">{getStartButtonText()}</span>
+              <span className="material-symbols-outlined text-2xl">arrow_forward</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              id="mobileLobbyReadyBtn"
+              onClick={handleToggleMyReady}
+              className={`w-full min-h-[52px] border-2 border-on-surface py-3 px-4 font-headline-lg text-lg uppercase flex items-center justify-center gap-2 rounded-xl shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] transition-all font-black ${
+                isMyReady
+                  ? 'bg-neo-green hover:bg-[#72e89d] cursor-pointer'
+                  : 'bg-neo-yellow hover:bg-[#fde047] cursor-pointer'
+              }`}
+            >
+              {isMyReady ? <Check size={20} strokeWidth={3} /> : <Loader2 size={20} />}
+              <span>{isMyReady ? "YOU'RE READY! (WAITING FOR HOST...)" : 'TAP TO READY UP'}</span>
+            </button>
+          )}
           {/* Hidden alias for any test checking lobbyStartBtn on mobile */}
           <button
             type="button"
             id="lobbyStartBtn"
             style={{ display: 'none' }}
             disabled={!canStartMatch}
-            onClick={() => {
-              if (!canStartMatch) return;
-              SoundManager.playClick();
-              if (onStartMatch) onStartMatch();
-            }}
+            onClick={handleStartMatchClick}
           >
             <span id="lobbyStartBtnText">{getStartButtonText()}</span>
           </button>
         </div>
+
+        {/* Avatar Picker Modal */}
+        {showAvatarModal && (
+          <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setShowAvatarModal(false)}>
+            <div className="max-w-lg w-full max-h-[80vh] overflow-y-auto bg-surface border-4 border-on-surface rounded-2xl p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]" onClick={e => e.stopPropagation()}>
+              <AvatarPicker
+                selectedAvatar={selfPlayer?.avatar}
+                onSelectAvatar={(av) => {
+                  if (onUpdateAvatar) onUpdateAvatar(av);
+                  setShowAvatarModal(false);
+                }}
+                hideHeroPreview={true}
+              />
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -704,8 +770,9 @@ export const LobbyScreen = ({
                           </button>
                         )}
                         <div
-                          className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-4 border-on-surface overflow-hidden mb-3 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
+                          className={`w-20 h-20 sm:w-24 sm:h-24 rounded-2xl border-4 border-on-surface overflow-hidden mb-3 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] relative ${isSelf ? 'cursor-pointer ring-2 ring-transparent hover:ring-neo-purple transition-all' : ''}`}
                           style={{ backgroundColor: avColor, '--avatar-bg': avColor }}
+                          onClick={() => { if (isSelf) setShowAvatarModal(true); }}
                         >
                           <img
                             className="w-full h-full object-cover"
@@ -713,6 +780,11 @@ export const LobbyScreen = ({
                             alt={p.name}
                             onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = '/avvtar/aman.svg'; }}
                           />
+                          {isSelf && (
+                            <div className="absolute bottom-0 right-0 bg-neo-purple border-2 border-on-surface rounded-full w-6 h-6 flex items-center justify-center">
+                              <Palette size={12} strokeWidth={2.5} className="text-white" />
+                            </div>
+                          )}
                         </div>
                         {isSelf ? (
                           <div className="relative w-full max-w-[140px] flex items-center group">
@@ -736,7 +808,7 @@ export const LobbyScreen = ({
                             {p.name}
                           </div>
                         )}
-                        {(isSelf ? myPreloaded : (p.preloaded || p.loaded)) ? (
+                        {(isSelf ? isMyReady : (p.ready || p.preloaded || p.loaded)) ? (
                           <div className="mt-2.5 bg-[#86EFAC] text-[#14532D] border-2 border-on-surface px-2.5 py-0.5 rounded-full font-label-bold text-[10px] uppercase font-black flex items-center gap-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                             <span><CheckCircle size={10} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '3px' }} /> READY</span>
                           </div>
@@ -1042,24 +1114,36 @@ export const LobbyScreen = ({
 
         {/* Desktop Action Buttons */}
         <div className="hidden md:flex gap-4 mt-6">
-          <button
-            type="button"
-            id="lobbyStartBtn"
-            disabled={!canStartMatch}
-            onClick={() => {
-              if (!canStartMatch) return;
-              SoundManager.playClick();
-              if (onStartMatch) onStartMatch();
-            }}
-            className={`w-1/2 border-4 border-on-surface py-3.5 px-6 font-headline-lg text-headline-lg uppercase flex items-center justify-between shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all group font-black ${
-              canStartMatch
-                ? 'bg-neo-green hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] cursor-pointer'
-                : 'bg-surface-variant/80 text-outline opacity-60 cursor-not-allowed'
-            }`}
-          >
-            <span id="lobbyStartBtnText">{getStartButtonText()}</span>
-            <span className="material-symbols-outlined text-3xl group-hover:translate-x-2 transition-transform">arrow_forward</span>
-          </button>
+          {isHost ? (
+            <button
+              type="button"
+              id="lobbyStartBtn"
+              disabled={!canStartMatch || isStarting}
+              onClick={handleStartMatchClick}
+              className={`w-1/2 border-4 border-on-surface py-3.5 px-6 font-headline-lg text-headline-lg uppercase flex items-center justify-between shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all group font-black ${
+                canStartMatch && !isStarting
+                  ? 'bg-neo-green hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] cursor-pointer'
+                  : 'bg-surface-variant/80 text-outline opacity-60 cursor-not-allowed'
+              }`}
+            >
+              {isStarting && <Loader2 className="w-5 h-5 animate-spin mr-2" />}
+              <span id="lobbyStartBtnText">{getStartButtonText()}</span>
+              <span className="material-symbols-outlined text-3xl group-hover:translate-x-2 transition-transform">arrow_forward</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleToggleMyReady}
+              className={`w-1/2 border-4 border-on-surface py-3.5 px-6 font-headline-lg text-headline-lg uppercase flex items-center justify-center gap-3 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all group font-black cursor-pointer ${
+                isMyReady
+                  ? 'bg-neo-green hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+                  : 'bg-neo-yellow hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0,1)]'
+              }`}
+            >
+              {isMyReady ? <Check className="w-6 h-6" /> : null}
+              <span>{isMyReady ? "YOU'RE READY!" : 'TAP TO READY UP'}</span>
+            </button>
+          )}
           <button
             type="button"
             ref={(el) => {
@@ -1079,6 +1163,22 @@ export const LobbyScreen = ({
           </button>
         </div>
       </main>
+
+      {/* Avatar Picker Modal */}
+      {showAvatarModal && (
+        <div className="fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4" onClick={() => setShowAvatarModal(false)}>
+          <div className="max-w-lg w-full max-h-[80vh] overflow-y-auto bg-surface border-4 border-on-surface rounded-2xl p-4 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]" onClick={e => e.stopPropagation()}>
+            <AvatarPicker
+              selectedAvatar={selfPlayer?.avatar}
+              onSelectAvatar={(av) => {
+                if (onUpdateAvatar) onUpdateAvatar(av);
+                setShowAvatarModal(false);
+              }}
+              hideHeroPreview={true}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

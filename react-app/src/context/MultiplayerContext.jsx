@@ -466,16 +466,53 @@ export const MultiplayerProvider = ({ children }) => {
         break;
       }
 
+      case 'UPDATE_PLAYER_AVATAR': {
+        const targetPid = msg.playerId || msg.senderId;
+        const newAvatar = msg.avatar;
+        const newColor = msg.color || getAvatarColor(newAvatar);
+        if (targetPid && newAvatar) {
+          game.setPlayers(prev => prev.map(p => {
+            if (p.id === targetPid) {
+              return { ...p, avatar: newAvatar, color: newColor };
+            }
+            return p;
+          }));
+        }
+        break;
+      }
+
+      case 'PLAYER_READY':
+      case 'PLAYER_READY_TOGGLE':
       case 'PLAYER_PRELOAD_STATUS':
       case 'PLAYER_PRELOAD_READY': {
         const targetPid = msg.playerId || msg.senderId;
-        const isReady = Boolean(msg.ready ?? (msg.percent === 100));
+        const isReady = typeof msg.ready === 'boolean'
+          ? msg.ready
+          : Boolean(msg.percent === 100 || msg.preloaded);
         game.setPlayers(prev => prev.map(p => {
           if (p.id === targetPid) {
-            return { ...p, preloaded: isReady };
+            return { ...p, preloaded: isReady, ready: isReady };
           }
           return p;
         }));
+        break;
+      }
+
+      case 'KICKED': {
+        console.warn('[MultiplayerContext] Player was kicked by host');
+        if (game.clearActiveSession) {
+          game.clearActiveSession();
+        }
+        if (party.disconnect) {
+          try { party.disconnect(); } catch (e) {}
+        }
+        SoundManager.playOnce('timeout', 'kicked_notice');
+        game.showScreen('homeScreen');
+        if (typeof window !== 'undefined') {
+          setTimeout(() => {
+            alert('You were removed from the room by the host.');
+          }, 100);
+        }
         break;
       }
 

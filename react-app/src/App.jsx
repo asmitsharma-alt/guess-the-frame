@@ -186,6 +186,13 @@ const AppContent = () => {
               multiplayer.sendEvent('KICK_PLAYER', { targetPlayerId: kicked.id });
             }
           }}
+          onUpdateAvatar={(avatar) => {
+            game.setPlayerAvatar(avatar);
+            multiplayer.sendEvent('UPDATE_PLAYER_AVATAR', { avatar, color: getAvatarColor(avatar) });
+          }}
+          onToggleReady={(ready) => {
+            multiplayer.sendEvent('PLAYER_READY', { ready });
+          }}
           onStartMatch={() => {
             multiplayer.sendEvent('START_MATCH', {});
             if (typeof window !== 'undefined' && window.PlayerLobby?.start) {
@@ -193,6 +200,7 @@ const AppContent = () => {
             }
           }}
           onLeaveLobby={() => {
+            multiplayer.sendEvent('LEAVE_ROOM', {});
             if (typeof window !== 'undefined' && window.PlayerLobby?.back) {
               window.PlayerLobby.back();
             }

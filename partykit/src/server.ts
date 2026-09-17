@@ -549,14 +549,69 @@ export class GameRoomServer extends Server {
           break;
         }
 
+        case 'UPDATE_PLAYER_NAME': {
+          const playerId = msg.playerId || msg.senderId || senderPlayerId;
+          const newName = (msg.name || msg.playerName || '').trim().slice(0, 25);
+          if (playerId && newName) {
+            const player = this.state.players.find(p => p.id === playerId);
+            if (player) {
+              player.name = newName;
+              this.broadcast(JSON.stringify({
+                type: 'UPDATE_PLAYER_NAME',
+                playerId,
+                name: newName,
+                players: this.state.players
+              }));
+              this.broadcastState('PLAYER_NAME_UPDATE');
+              this.persistState();
+            }
+          }
+          break;
+        }
+
+        case 'UPDATE_PLAYER_AVATAR': {
+          const playerId = msg.playerId || msg.senderId || senderPlayerId;
+          const newAvatar = (msg.avatar || msg.playerAvatar || '').trim();
+          const newColor = msg.color || msg.playerColor;
+          if (playerId && newAvatar) {
+            const player = this.state.players.find(p => p.id === playerId);
+            if (player) {
+              player.avatar = newAvatar;
+              if (newColor) player.color = newColor;
+              this.broadcast(JSON.stringify({
+                type: 'UPDATE_PLAYER_AVATAR',
+                playerId,
+                avatar: newAvatar,
+                color: player.color,
+                players: this.state.players
+              }));
+              this.broadcastState('PLAYER_AVATAR_UPDATE');
+              this.persistState();
+            }
+          }
+          break;
+        }
+
         case 'PLAYER_READY':
+        case 'PLAYER_READY_TOGGLE':
         case 'PLAYER_PRELOAD_STATUS':
         case 'PLAYER_PRELOAD_READY': {
           const playerId = msg.playerId || msg.senderId || senderPlayerId;
           const player = this.state.players.find(p => p.id === playerId);
           if (player) {
-            player.preloaded = Boolean(msg.ready ?? (msg.percent === 100));
+            const isReady = typeof msg.ready === 'boolean'
+              ? msg.ready
+              : Boolean(msg.percent === 100 || msg.preloaded);
+            player.preloaded = isReady;
+            (player as any).ready = isReady;
+            this.broadcast(JSON.stringify({
+              type: 'PLAYER_READY',
+              playerId,
+              ready: isReady,
+              players: this.state.players
+            }));
             this.broadcastState('SYNC_ROOM_STATE');
+            this.persistState();
           }
           break;
         }
@@ -1337,38 +1392,62 @@ export class GameRoomServer extends Server {
           if (!requireHost('KICK_PLAYER')) return;
           const targetPlayerId = msg.targetPlayerId || msg.playerId;
           if (targetPlayerId) {
+            const kickedPlayer = this.state.players.find(p => p.id === targetPlayerId);
             this.state.players = this.state.players.filter(p => p.id !== targetPlayerId);
+
+            for (const conn of this.getConnections()) {
+              if (this.connectionToPlayerId.get(conn.id) === targetPlayerId) {
+                this.sendToConnection(conn, {
+                  type: 'KICKED',
+                  reason: 'KICKED_BY_HOST'
+                });
+                try { conn.close(); } catch (e) {}
+                this.connectionToPlayerId.delete(conn.id);
+              }
+            }
+
             this.broadcast(JSON.stringify({
               type: 'PLAYER_LEFT',
               playerId: targetPlayerId,
+              playerName: kickedPlayer ? kickedPlayer.name : 'Player',
               players: this.state.players
             }));
-            this.broadcastState('SYNC_ROOM_STATE');
+            this.broadcastState('PLAYER_KICKED');
             this.persistState();
           }
           break;
         }
 
-        case 'UPDATE_PLAYER_NAME': {
-          const targetPlayerId = msg.playerId || senderPlayerId;
-          const isSelf = Boolean(senderPlayerId && senderPlayerId === targetPlayerId);
-          if (!isSenderHost && !isSelf) {
-            this.sendToConnection(sender, {
-              type: 'COMMAND_REJECTED',
-              reason: 'UNAUTHORIZED',
-              command: 'UPDATE_PLAYER_NAME',
-              commandId: msg.commandId
-            });
-            return;
-          }
-          const newName = String(msg.name || '').trim().slice(0, 25);
-          if (newName) {
-            const p = this.state.players.find(pl => pl.id === targetPlayerId);
-            if (p) {
-              p.name = newName;
-              this.broadcastState('SYNC_ROOM_STATE');
-              this.persistState();
+        case 'LEAVE_ROOM':
+        case 'LEAVE_LOBBY': {
+          const playerId = msg.playerId || msg.senderId || senderPlayerId;
+          if (playerId) {
+            const leavingPlayer = this.state.players.find(p => p.id === playerId);
+            this.state.players = this.state.players.filter(p => p.id !== playerId);
+            this.connectionToPlayerId.delete(sender.id);
+            this.broadcast(JSON.stringify({
+              type: 'PLAYER_LEFT',
+              playerId,
+              playerName: leavingPlayer ? leavingPlayer.name : 'Player',
+              players: this.state.players
+            }));
+            if (playerId === this.state.hostId) {
+              const nextHost = this.state.players.find(p => p.connected);
+              if (nextHost) {
+                nextHost.isHost = true;
+                this.state.hostId = nextHost.id;
+                this.broadcast(JSON.stringify({
+                  type: 'HOST_MIGRATED',
+                  newHostId: nextHost.id,
+                  newHostName: nextHost.name,
+                  players: this.state.players
+                }));
+              } else {
+                this.state.hostId = null;
+              }
             }
+            this.broadcastState('PLAYER_LEFT');
+            this.persistState();
           }
           break;
         }
