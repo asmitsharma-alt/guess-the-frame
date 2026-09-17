@@ -119,6 +119,7 @@ export class GameRoomServer extends Server {
   seenCommandOrder: string[] = [];
   connectionToPlayerId = new Map<string, string>();
   activeTimeout: ReturnType<typeof setTimeout> | null = null;
+  hostMigrationTimeout: ReturnType<typeof setTimeout> | null = null;
   isPaused: boolean = false;
   remainingOnPause: number = 0;
   lastRoundAdvanceTime: number = 0;
@@ -394,15 +395,25 @@ export class GameRoomServer extends Server {
       player.connected = false;
       console.log(`[GameRoomServer] Player ${player.name} (${playerId}) disconnected`);
 
-      // If host disconnected, reassign host to the next connected player
-      if (player.isHost) {
-        const nextHost = this.state.players.find(p => p.id !== playerId && p.connected);
-        if (nextHost) {
-          player.isHost = false;
-          nextHost.isHost = true;
-          this.state.hostId = nextHost.id;
-          console.log(`[GameRoomServer] Reassigned host to ${nextHost.name} (${nextHost.id})`);
+      // 60-second host grace period: prevent host loss on page reload or WiFi blip
+      if (player.isHost || this.state.hostId === playerId) {
+        if (this.hostMigrationTimeout) {
+          clearTimeout(this.hostMigrationTimeout);
         }
+        this.hostMigrationTimeout = setTimeout(() => {
+          if (!player.connected && this.state.hostId === playerId) {
+            const nextHost = this.state.players.find(p => p.id !== playerId && p.connected);
+            if (nextHost) {
+              player.isHost = false;
+              nextHost.isHost = true;
+              this.state.hostId = nextHost.id;
+              console.log(`[GameRoomServer] Host grace expired (60s). Reassigned to ${nextHost.name} (${nextHost.id})`);
+              this.broadcastState('HOST_MIGRATED');
+              this.persistState();
+            }
+          }
+          this.hostMigrationTimeout = null;
+        }, 60000);
       }
 
       this.broadcastState('ROOM_STATE');
@@ -448,7 +459,10 @@ export class GameRoomServer extends Server {
 
       switch (msg.type) {
         case 'JOIN_ROOM':
-        case 'PLAYER_JOIN': {
+        case 'PLAYER_JOIN':
+        case 'REJOIN_ROOM':
+        case 'REQUEST_REJOIN_SYNC':
+        case 'PLAYER_RECONNECT': {
           const playerId = msg.playerId || msg.id || msg.senderId || sender.id;
           const playerName = (msg.name || msg.playerName || 'Player').trim().slice(0, 25);
           const playerAvatar = msg.avatar || msg.playerAvatar || 'aman';
@@ -460,17 +474,25 @@ export class GameRoomServer extends Server {
           let player = this.state.players.find(p => p.id === playerId);
           const isFirstPlayer = this.state.players.length === 0;
 
-          // Strictly assign host only if no host currently exists
-          if (!this.state.hostId && (wantsHost || isFirstPlayer)) {
+          // Host rejoining within grace period
+          if (player && (player.isHost || this.state.hostId === playerId)) {
+            if (this.hostMigrationTimeout) {
+              clearTimeout(this.hostMigrationTimeout);
+              this.hostMigrationTimeout = null;
+            }
+            this.state.hostId = playerId;
+            player.isHost = true;
+          } else if (!this.state.hostId && (wantsHost || isFirstPlayer)) {
             this.state.hostId = playerId;
           }
+
           const isThisPlayerHost = (playerId === this.state.hostId);
 
           if (player) {
             // Reconnecting player
-            player.name = playerName;
-            player.avatar = playerAvatar;
-            player.color = playerColor;
+            player.name = playerName || player.name;
+            player.avatar = playerAvatar || player.avatar;
+            player.color = playerColor || player.color;
             player.connected = true;
             player.isHost = isThisPlayerHost;
             if (typeof msg.preloaded === 'boolean') {

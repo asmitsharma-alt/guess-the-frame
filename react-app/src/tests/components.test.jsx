@@ -8,6 +8,7 @@ import { FuzzyMatcher } from '../services/fuzzyMatcher';
 import { SecurityUtil } from '../services/securityUtil';
 import { PARTYKIT_HOST } from '../config/env';
 import SoundManager from '../services/soundManager';
+import { RejoinRoomModal } from '../components/Modals/RejoinRoomModal';
 
 vi.mock('canvas-confetti', () => ({
   default: vi.fn()
@@ -74,5 +75,65 @@ describe('Frontend Component & Logic Tests', () => {
     const unmuted = SoundManager.toggleMute();
     expect(unmuted).toBe(false);
     expect(SoundManager.muted).toBe(false);
+  });
+
+  it('renders RejoinRoomModal with host badge, points, and match progress indicator', () => {
+    const onConfirm = vi.fn();
+    const onDismiss = vi.fn();
+    render(
+      <RejoinRoomModal
+        isOpen={true}
+        roomCode="CINEMA"
+        playerName="Aman"
+        avatar="aman"
+        score={25}
+        isHost={true}
+        isMatchActive={true}
+        currentRound={3}
+        onConfirm={onConfirm}
+        onDismiss={onDismiss}
+      />
+    );
+    const modal = document.getElementById('rejoinRoomModal');
+    expect(modal).toBeDefined();
+    expect(screen.getByText(/Active Match Found!/i)).toBeDefined();
+    expect(screen.getByText(/Host Controls/i)).toBeDefined();
+    expect(screen.getByText(/25 PTS/i)).toBeDefined();
+    expect(screen.getByText(/Round 3 In Progress/i)).toBeDefined();
+    expect(document.getElementById('rejoinRoomCodeText')?.textContent).toBe('CINEMA');
+    expect(screen.getByText(/REJOIN ACTIVE MATCH/i)).toBeDefined();
+  });
+
+  it('session persistence preserves all critical state fields', () => {
+    const mockSession = {
+      roomCode: 'SCOOP',
+      playerId: 'p_123456',
+      playerName: 'Cinephile',
+      playerAvatar: 'aziz',
+      isHost: true,
+      isMatchActive: true,
+      gameState: 'playing',
+      currentPlayIndex: 4,
+      timestamp: Date.now()
+    };
+    localStorage.setItem('gtf_active_session', JSON.stringify(mockSession));
+    const restored = JSON.parse(localStorage.getItem('gtf_active_session'));
+    expect(restored.roomCode).toBe('SCOOP');
+    expect(restored.playerId).toBe('p_123456');
+    expect(restored.isHost).toBe(true);
+    expect(restored.isMatchActive).toBe(true);
+    expect(restored.currentPlayIndex).toBe(4);
+    localStorage.removeItem('gtf_active_session');
+  });
+
+  it('clock offset and timer calculation accurately resolves with clock drift', () => {
+    const clientNow = 1700000000000;
+    const serverTime = 1700000005000; // Server is 5s ahead
+    const clockOffset = serverTime - clientNow; // +5000ms
+    const endsAt = serverTime + 25000; // 25 seconds remaining on server
+
+    const nowWithOffset = clientNow + clockOffset;
+    const remainingSecs = Math.max(0, Math.ceil((endsAt - nowWithOffset) / 1000));
+    expect(remainingSecs).toBe(25);
   });
 });

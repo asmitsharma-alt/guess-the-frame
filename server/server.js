@@ -30,6 +30,7 @@ class GameRoom {
     this.remainingOnPause = 0;
     this.lastActivity = Date.now();
     this.lastRoundAdvanceTime = 0;
+    this.hostMigrationTimeout = null;
     this.processedCommands = new Set();
 
     this.state = {
@@ -120,6 +121,10 @@ class GameRoom {
     if (this.revealTimeout) {
       clearTimeout(this.revealTimeout);
       this.revealTimeout = null;
+    }
+    if (this.hostMigrationTimeout) {
+      clearTimeout(this.hostMigrationTimeout);
+      this.hostMigrationTimeout = null;
     }
   }
 
@@ -264,6 +269,7 @@ class GameRoom {
     const player = this.state.players.find(p => p.id === playerId);
     if (player) {
       player.connected = false;
+      player.disconnectedAt = Date.now();
       this.broadcast({
         type: 'PLAYER_LEFT',
         playerId,
@@ -271,16 +277,34 @@ class GameRoom {
         players: this.state.players
       });
 
-      // Host reassignment if host left
-      if (player.isHost) {
-        const nextHost = this.state.players.find(p => p.connected && p.id !== playerId);
-        if (nextHost) {
-          player.isHost = false;
-          nextHost.isHost = true;
-          this.state.hostId = nextHost.id;
-          console.log(`[${this.roomCode}] Host reassigned to ${nextHost.name} (${nextHost.id})`);
+      // Host reassignment grace period (60 seconds)
+      // Prevents host stripping when host simply reloads or temporarily disconnects
+      if (player.isHost || this.state.hostId === playerId) {
+        if (this.hostMigrationTimeout) {
+          clearTimeout(this.hostMigrationTimeout);
         }
+        this.hostMigrationTimeout = setTimeout(() => {
+          // Check if original host is still disconnected after grace period
+          if (!player.connected && this.state.hostId === playerId) {
+            const nextHost = this.state.players.find(p => p.connected && p.id !== playerId);
+            if (nextHost) {
+              player.isHost = false;
+              nextHost.isHost = true;
+              this.state.hostId = nextHost.id;
+              console.log(`[${this.roomCode}] Host grace expired (60s). Reassigned to ${nextHost.name} (${nextHost.id})`);
+              this.broadcast({
+                type: 'HOST_MIGRATED',
+                newHostId: nextHost.id,
+                newHostName: nextHost.name,
+                players: this.state.players
+              });
+              this.broadcastState('HOST_MIGRATED');
+            }
+          }
+          this.hostMigrationTimeout = null;
+        }, 60000); // 60-second grace window
       }
+
       this.broadcastState('ROOM_STATE');
     }
   }
@@ -318,7 +342,10 @@ class GameRoom {
 
     switch (msg.type) {
       case 'JOIN_ROOM':
-      case 'PLAYER_JOIN': {
+      case 'PLAYER_JOIN':
+      case 'REJOIN_ROOM':
+      case 'REQUEST_REJOIN_SYNC':
+      case 'PLAYER_RECONNECT': {
         const playerId = msg.playerId || msg.id || msg.senderId || connId;
         const playerName = (msg.name || msg.playerName || 'Player').trim().slice(0, 25);
         const playerAvatar = msg.avatar || msg.playerAvatar || 'aman';
@@ -330,18 +357,31 @@ class GameRoom {
         let player = this.state.players.find(p => p.id === playerId);
         const isFirstPlayer = this.state.players.length === 0;
 
-        if (!this.state.hostId && (wantsHost || isFirstPlayer)) {
+        // If player was previously host or room has no host and this is first or wants host:
+        if (player && (player.isHost || this.state.hostId === playerId)) {
+          // Host rejoining within grace period!
+          if (this.hostMigrationTimeout) {
+            clearTimeout(this.hostMigrationTimeout);
+            this.hostMigrationTimeout = null;
+          }
+          this.state.hostId = playerId;
+          player.isHost = true;
+        } else if (!this.state.hostId && (wantsHost || isFirstPlayer)) {
           this.state.hostId = playerId;
         }
+
         const isThisPlayerHost = (playerId === this.state.hostId);
 
+        let isRejoining = false;
         if (player) {
-          player.name = playerName;
-          player.avatar = playerAvatar;
-          player.color = playerColor;
+          isRejoining = true;
+          player.name = playerName || player.name;
+          player.avatar = playerAvatar || player.avatar;
+          player.color = playerColor || player.color;
           player.connected = true;
           player.isHost = isThisPlayerHost;
           if (typeof msg.preloaded === 'boolean') player.preloaded = msg.preloaded;
+          console.log(`[${this.roomCode}] Player reconnected: ${player.name} (${playerId}), isHost: ${isThisPlayerHost}`);
         } else {
           player = {
             id: playerId,
@@ -355,25 +395,38 @@ class GameRoom {
             preloaded: Boolean(msg.preloaded)
           };
           this.state.players.push(player);
+          console.log(`[${this.roomCode}] Player joined: ${player.name} (${playerId}), isHost: ${isThisPlayerHost}`);
         }
 
-        // Send initial room state to joining player
+        const currentState = this.getSanitizedState();
+
+        // Send authoritative room state directly to connecting/rejoining player
         this.sendToConnection(ws, {
           type: 'ROOM_STATE',
-          state: this.getSanitizedState(),
+          action: isRejoining ? 'REJOIN_SUCCESS' : 'JOIN_SUCCESS',
+          state: currentState,
           version: this.state.version,
           serverTime: Date.now()
         });
 
-        // Broadcast join to room
+        // Also send SYNC_ROOM_STATE for legacy client listeners
+        this.sendToConnection(ws, {
+          type: 'SYNC_ROOM_STATE',
+          state: currentState,
+          version: this.state.version,
+          serverTime: Date.now()
+        });
+
+        // Broadcast join / reconnection to room
         this.broadcast({
-          type: 'PLAYER_JOINED',
+          type: isRejoining ? 'PLAYER_RECONNECTED' : 'PLAYER_JOINED',
+          playerId,
           player,
           players: this.state.players,
           hostId: this.state.hostId
         });
 
-        this.broadcastState('ROOM_STATE');
+        this.broadcastState(isRejoining ? 'PLAYER_RECONNECTED' : 'ROOM_STATE');
         break;
       }
 
@@ -820,6 +873,61 @@ class GameRoom {
           maskedHint: masked,
           cost: 2
         });
+        break;
+      }
+
+      case 'ADJUST_SCORE': {
+        if (!requireHost('ADJUST_SCORE')) return;
+        const targetPlayerId = msg.targetPlayerId || msg.playerId;
+        const points = Number(msg.points);
+        if (!targetPlayerId || !Number.isInteger(points) || points < -50 || points > 50) {
+          this.sendToConnection(ws, {
+            type: 'COMMAND_REJECTED',
+            reason: 'INVALID_SCORE_ADJUSTMENT',
+            code: 'INVALID_SCORE_ADJUSTMENT',
+            command: 'ADJUST_SCORE',
+            commandId: msg.commandId
+          });
+          return;
+        }
+        const targetPlayer = this.state.players.find(p => p.id === targetPlayerId);
+        if (!targetPlayer) {
+          this.sendToConnection(ws, {
+            type: 'COMMAND_REJECTED',
+            reason: 'PLAYER_NOT_FOUND',
+            code: 'PLAYER_NOT_FOUND',
+            command: 'ADJUST_SCORE',
+            commandId: msg.commandId
+          });
+          return;
+        }
+        targetPlayer.score = Math.max(0, (targetPlayer.score || 0) + points);
+        this.broadcast({
+          type: 'SCORE_UPDATE',
+          targetPlayerId,
+          score: targetPlayer.score,
+          scoreboard: this.state.players
+        });
+        this.broadcastState('SCORE_UPDATE');
+        break;
+      }
+
+      case 'KICK_PLAYER': {
+        if (!requireHost('KICK_PLAYER')) return;
+        const targetPlayerId = msg.targetPlayerId || msg.playerId;
+        if (targetPlayerId) {
+          this.state.players = this.state.players.filter(p => p.id !== targetPlayerId);
+          for (const [cId, targetWs] of this.connections) {
+            if (this.connectionToPlayerId.get(cId) === targetPlayerId) {
+              this.sendToConnection(targetWs, {
+                type: 'KICKED',
+                reason: 'KICKED_BY_HOST'
+              });
+              try { targetWs.close(); } catch (e) {}
+            }
+          }
+          this.broadcastState('PLAYER_KICKED');
+        }
         break;
       }
 

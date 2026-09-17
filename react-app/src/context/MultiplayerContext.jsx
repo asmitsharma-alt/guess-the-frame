@@ -82,6 +82,70 @@ export const MultiplayerProvider = ({ children }) => {
     }
   }, [game.setRoomCode, party]);
 
+  // Enterprise Midgame Reconnection & State Synchronization
+  const rejoinRoom = useCallback((sessionData) => {
+    if (!sessionData || !sessionData.roomCode) return;
+    const targetRoom = sessionData.roomCode.trim().toUpperCase();
+
+    if (sessionData.playerId && game.setPlayerId) {
+      game.setPlayerId(sessionData.playerId);
+    }
+    if (sessionData.playerName && game.setPlayerName) {
+      game.setPlayerName(sessionData.playerName);
+    }
+    if (sessionData.playerAvatar && game.setPlayerAvatar) {
+      game.setPlayerAvatar(sessionData.playerAvatar);
+    }
+    if (typeof sessionData.isHost === 'boolean' && game.setIsHost) {
+      game.setIsHost(sessionData.isHost);
+    }
+    if (game.setRoomCode) {
+      game.setRoomCode(targetRoom);
+    }
+
+    const isMatch = Boolean(sessionData.isMatchActive || sessionData.gameState === 'playing' || sessionData.gameState === 'round_reveal');
+    if (isMatch) {
+      game.setIsMatchActive(true);
+      game.showScreen('gameScreen', { silent: true });
+    } else {
+      game.setIsMatchActive(false);
+      game.showScreen(sessionData.isHost ? 'lobbyScreen' : 'playerLobbyScreen', { silent: true });
+    }
+
+    if (party.reconnect) {
+      party.reconnect();
+    }
+
+    // Immediately dispatch REJOIN_ROOM authoritative handshake
+    const pid = sessionData.playerId || game.playerId;
+    const pname = sessionData.playerName || game.playerName;
+    const pav = sessionData.playerAvatar || game.playerAvatar;
+    const isHostVal = Boolean(sessionData.isHost);
+
+    party.send({
+      type: 'REJOIN_ROOM',
+      roomCode: targetRoom,
+      playerId: pid,
+      senderId: pid,
+      name: pname,
+      playerName: pname,
+      avatar: pav,
+      playerAvatar: pav,
+      isHost: isHostVal,
+      timestamp: Date.now()
+    });
+
+    if (typeof window !== 'undefined' && window.MultiplayerEngine) {
+      window.MultiplayerEngine.roomCode = targetRoom;
+      window.MultiplayerEngine.playerId = pid;
+      window.MultiplayerEngine.playerName = pname;
+      window.MultiplayerEngine.playerAvatar = pav;
+      window.MultiplayerEngine.isHost = isHostVal;
+      window.MultiplayerEngine.isMatchActive = isMatch;
+      window.MultiplayerEngine.isRejoining = true;
+    }
+  }, [game, party]);
+
   // Authoritative Command Dispatcher to Cloudflare Workers PartyKit Edge Socket
   const sendEvent = useCallback((type, payload = {}) => {
     const commandId = (typeof crypto !== 'undefined' && crypto.randomUUID)
@@ -239,7 +303,8 @@ export const MultiplayerProvider = ({ children }) => {
               window.MultiplayerEngine.isJoining = false;
             }
           }
-          const myPlayer = state.players.find(p => p.id === game.playerId);
+          const effectiveMyId = game.playerId || (typeof window !== 'undefined' && window.MultiplayerEngine?.playerId) || (typeof localStorage !== 'undefined' && localStorage.getItem('gtf_player_id'));
+          const myPlayer = state.players.find(p => p.id === effectiveMyId || p.id === game.playerId);
           if (myPlayer && typeof myPlayer.isHost === 'boolean') {
             game.setIsHost(myPlayer.isHost);
             if (typeof window !== 'undefined' && window.MultiplayerEngine) {
@@ -283,6 +348,12 @@ export const MultiplayerProvider = ({ children }) => {
           }
           if (state.round.endsAt && game.setRoundEndsAt) {
             game.setRoundEndsAt(state.round.endsAt);
+            if (game.setTimeRemaining) {
+              const currentOffset = (msg.serverTime ? (msg.serverTime - Date.now()) : (game.clockOffset || 0));
+              const nowWithOffset = Date.now() + currentOffset;
+              const remainingSecs = Math.max(0, Math.ceil((state.round.endsAt - nowWithOffset) / 1000));
+              game.setTimeRemaining(remainingSecs);
+            }
           }
           if (state.round.maskedHint !== undefined) {
             game.setMaskedHint(state.round.maskedHint);
@@ -524,7 +595,9 @@ export const MultiplayerProvider = ({ children }) => {
             if (prev.some(w => w.playerId === winner.playerId)) return prev;
             return [...prev, winner];
           });
-          if (winner.points > 0) {
+          if (msg.scoreboard && Array.isArray(msg.scoreboard)) {
+            game.setPlayers(msg.scoreboard);
+          } else if (winner.points > 0) {
             game.adjustPlayerScore(winner.playerId, winner.points);
           }
 
@@ -547,7 +620,7 @@ export const MultiplayerProvider = ({ children }) => {
             SoundManager.playOnce('opponentCorrect', winnerKey);
           }
         }
-        if (msg.scoreboard) {
+        if (msg.scoreboard && Array.isArray(msg.scoreboard)) {
           game.setPlayers(msg.scoreboard);
         }
         if (msg.answer) {
@@ -555,6 +628,15 @@ export const MultiplayerProvider = ({ children }) => {
         }
         game.setIsRoundFinished(true);
         game.setIsAnswerRevealed(true);
+        break;
+      }
+
+      case 'SCORE_UPDATE': {
+        if (msg.scoreboard && Array.isArray(msg.scoreboard)) {
+          game.setPlayers(msg.scoreboard);
+        } else if (msg.targetPlayerId && typeof msg.score === 'number') {
+          game.setPlayers(prev => prev.map(p => (p.id === msg.targetPlayerId ? { ...p, score: msg.score } : p)));
+        }
         break;
       }
 
@@ -637,6 +719,33 @@ export const MultiplayerProvider = ({ children }) => {
           if (msg.newHostId === game.playerId) {
             game.setIsHost(true);
           }
+        }
+        break;
+      }
+
+      case 'TICK': {
+        if (msg.serverTime && game.setClockOffset) {
+          game.setClockOffset(msg.serverTime - Date.now());
+        }
+        if (msg.endsAt && game.setRoundEndsAt) {
+          game.setRoundEndsAt(msg.endsAt);
+        }
+        if (typeof msg.timeLeft === 'number' && game.setTimeRemaining) {
+          game.setTimeRemaining(msg.timeLeft);
+        }
+        break;
+      }
+
+      case 'PLAYER_RECONNECTED': {
+        const joinId = msg.playerId || msg.player?.id;
+        if (msg.players && Array.isArray(msg.players)) {
+          game.setPlayers(msg.players);
+          const myPlayer = msg.players.find(p => p.id === game.playerId);
+          if (myPlayer && typeof myPlayer.isHost === 'boolean') {
+            game.setIsHost(myPlayer.isHost);
+          }
+        } else if (joinId) {
+          game.setPlayers(prev => prev.map(p => p.id === joinId ? { ...p, connected: true } : p));
         }
         break;
       }
@@ -728,6 +837,7 @@ export const MultiplayerProvider = ({ children }) => {
 
   const value = {
     connectSocket,
+    rejoinRoom,
     sendEvent,
     sendReaction,
     handleIncomingMessage,

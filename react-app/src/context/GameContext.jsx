@@ -118,6 +118,59 @@ export const GameProvider = ({ children }) => {
     SoundManager.setScreenState(currentScreen, isMatchActive);
   }, [currentScreen, isMatchActive]);
 
+  // Continuous Authoritative Session Synchronizer
+  useEffect(() => {
+    if (roomCode) {
+      const cleanRoom = roomCode.trim().toUpperCase();
+      const myPlayer = players.find(p => p.id === playerId);
+      const sessionData = {
+        roomCode: cleanRoom,
+        playerId,
+        playerName,
+        playerAvatar,
+        score: myPlayer?.score || 0,
+        players: players.map(p => ({ id: p.id, name: p.name, avatar: p.avatar, score: p.score || 0, isHost: Boolean(p.isHost) })),
+        isHost: Boolean(isHost),
+        isMatchActive: Boolean(isMatchActive),
+        gameState: isMatchActive ? (isRoundFinished ? 'round_reveal' : 'playing') : 'lobby',
+        currentPlayIndex: currentPlayIndex || 0,
+        timestamp: Date.now()
+      };
+      try {
+        localStorage.setItem('gtf_active_session', JSON.stringify(sessionData));
+      } catch (e) {}
+
+      // Keep URL search synchronized without reloading
+      if (typeof window !== 'undefined' && window.history && window.location) {
+        try {
+          const currentUrl = new URL(window.location.href);
+          if (currentUrl.searchParams.get('room') !== cleanRoom) {
+            currentUrl.searchParams.set('room', cleanRoom);
+            window.history.replaceState(null, '', currentUrl.toString());
+          }
+        } catch (e) {}
+      }
+    }
+  }, [roomCode, playerId, playerName, playerAvatar, isHost, isMatchActive, isRoundFinished, currentPlayIndex, players]);
+
+  const clearActiveSession = useCallback(() => {
+    try {
+      localStorage.removeItem('gtf_active_session');
+    } catch (e) {}
+    setPendingRejoinSession(null);
+    setRoomCode('');
+    if (typeof window !== 'undefined' && window.history && window.location) {
+      try {
+        const currentUrl = new URL(window.location.href);
+        if (currentUrl.searchParams.has('room')) {
+          currentUrl.searchParams.delete('room');
+          const cleanPath = currentUrl.pathname + (currentUrl.search ? currentUrl.search : '');
+          window.history.replaceState(null, '', cleanPath);
+        }
+      } catch (e) {}
+    }
+  }, []);
+
   // Screen change wrapper (supports silent=true for programmatic/network transitions)
   const showScreen = useCallback((screenId, options = {}) => {
     setCurrentScreen(prevScreen => {
@@ -286,6 +339,7 @@ export const GameProvider = ({ children }) => {
     setChatMessages,
     pendingRejoinSession,
     setPendingRejoinSession,
+    clearActiveSession,
     tieBreakerState,
     setTieBreakerState,
     preloadProgress,

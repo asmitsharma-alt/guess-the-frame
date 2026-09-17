@@ -1095,30 +1095,67 @@ export function installTestBridge(gameContextRef) {
       this.roomId = 'room_' + this.roomCode;
       this.hasJoinedAck = false;
       this.isRejoining = true;
-      this.isHost = false;
+      this.isHost = Boolean(session.isHost);
+
+      if (gameContextRef?.current) {
+        if (gameContextRef.current.setPlayerId && session.playerId) {
+          gameContextRef.current.setPlayerId(session.playerId);
+        }
+        if (gameContextRef.current.setPlayerName && session.playerName) {
+          gameContextRef.current.setPlayerName(session.playerName);
+        }
+        if (gameContextRef.current.setPlayerAvatar && session.playerAvatar) {
+          gameContextRef.current.setPlayerAvatar(session.playerAvatar);
+        }
+        if (gameContextRef.current.setRoomCode && session.roomCode) {
+          gameContextRef.current.setRoomCode(session.roomCode);
+        }
+        if (gameContextRef.current.setIsHost && typeof session.isHost === 'boolean') {
+          gameContextRef.current.setIsHost(session.isHost);
+        }
+      }
 
       if (session.players && Array.isArray(session.players) && session.players.length > 0) {
         GS.players = session.players;
+        if (gameContextRef?.current?.setPlayers) {
+          gameContextRef.current.setPlayers(session.players);
+        }
       }
       if (session.currentPlaylist && session.currentPlaylist.length > 0) {
         this.currentPlaylist = session.currentPlaylist;
         this.currentPlayIndex = session.currentPlayIndex || 0;
+        if (gameContextRef?.current?.setCurrentPlaylist) {
+          gameContextRef.current.setCurrentPlaylist(session.currentPlaylist);
+        }
+        if (gameContextRef?.current?.setCurrentPlayIndex) {
+          gameContextRef.current.setCurrentPlayIndex(this.currentPlayIndex);
+        }
       }
 
       this.startClientHeartbeat();
       this.startHostWatchdog();
       this.setupCloudTransport();
 
-      this.sendEvent('REQUEST_REJOIN_SYNC', {
+      this.sendEvent('REJOIN_ROOM', {
+        roomCode: this.roomCode,
         playerId: this.playerId,
         name: this.playerName,
-        avatar: this.playerAvatar
+        avatar: this.playerAvatar,
+        isHost: this.isHost
       });
 
-      const isMatch = !!(session.isMatchActive || session.gameState === 'playing' || session.gameState === 'round_end');
+      this.sendEvent('REQUEST_REJOIN_SYNC', {
+        roomCode: this.roomCode,
+        playerId: this.playerId,
+        name: this.playerName,
+        avatar: this.playerAvatar,
+        isHost: this.isHost
+      });
+
+      const isMatch = !!(session.isMatchActive || session.gameState === 'playing' || session.gameState === 'round_reveal' || session.gameState === 'round_end');
       if (isMatch) {
         this.isMatchActive = true;
-        this.isRoundFinished = (session.gameState === 'round_end');
+        this.isRoundFinished = (session.gameState === 'round_end' || session.gameState === 'round_reveal');
         if (gameContextRef?.current?.setIsMatchActive) {
           gameContextRef.current.setIsMatchActive(true);
         }
@@ -1127,10 +1164,11 @@ export function installTestBridge(gameContextRef) {
         }
         UI.showScreen('gameScreen');
       } else {
+        const targetScreen = this.isHost ? 'lobbyScreen' : 'playerLobbyScreen';
         if (gameContextRef?.current?.setCurrentScreen) {
-          gameContextRef.current.setCurrentScreen('playerLobbyScreen');
+          gameContextRef.current.setCurrentScreen(targetScreen);
         }
-        UI.showScreen('playerLobbyScreen');
+        UI.showScreen(targetScreen);
         this.renderLobbyUI();
       }
     },

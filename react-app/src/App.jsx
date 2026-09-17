@@ -43,10 +43,19 @@ const AppContent = () => {
       const upper = roomParam.trim().toUpperCase();
       if (session && session.roomCode === upper && session.playerName) {
         // Active participant refreshing or returning to same room -> restore directly
+        if (session.playerId && game.setPlayerId) game.setPlayerId(session.playerId);
         game.setRoomCode(upper);
         game.setPlayerName(session.playerName);
         if (session.playerAvatar) game.setPlayerAvatar(session.playerAvatar);
         if (typeof session.isHost === 'boolean') game.setIsHost(session.isHost);
+        const isMatch = Boolean(session.isMatchActive || session.gameState === 'playing' || session.gameState === 'round_reveal');
+        if (isMatch) {
+          game.setIsMatchActive(true);
+          game.showScreen('gameScreen', { silent: true });
+        } else {
+          game.setIsMatchActive(false);
+          game.showScreen(session.isHost ? 'lobbyScreen' : 'playerLobbyScreen', { silent: true });
+        }
       } else {
         game.setRoomCode(upper);
         game.openModal('joinRoom');
@@ -187,6 +196,9 @@ const AppContent = () => {
             if (typeof window !== 'undefined' && window.PlayerLobby?.back) {
               window.PlayerLobby.back();
             }
+            if (game.clearActiveSession) {
+              game.clearActiveSession();
+            }
             game.showScreen('homeScreen');
           }}
         />
@@ -309,27 +321,39 @@ const AppContent = () => {
         roomCode={game.pendingRejoinSession?.roomCode}
         playerName={game.pendingRejoinSession?.playerName}
         avatar={game.pendingRejoinSession?.playerAvatar}
+        score={game.pendingRejoinSession?.score}
+        isHost={game.pendingRejoinSession?.isHost}
+        isMatchActive={Boolean(game.pendingRejoinSession?.isMatchActive || game.pendingRejoinSession?.gameState === 'playing' || game.pendingRejoinSession?.gameState === 'round_reveal')}
+        currentRound={game.pendingRejoinSession?.currentPlayIndex !== undefined ? (game.pendingRejoinSession.currentPlayIndex + 1) : null}
         onConfirm={() => {
-          let isMatch = false;
-          if (typeof window !== 'undefined' && window.MultiplayerEngine?.confirmRejoinRoom) {
+          const session = game.pendingRejoinSession || (() => {
+            try {
+              const raw = localStorage.getItem('gtf_active_session');
+              return raw ? JSON.parse(raw) : null;
+            } catch (e) { return null; }
+          })();
+
+          if (multiplayer?.rejoinRoom && session) {
+            multiplayer.rejoinRoom(session);
+          } else if (typeof window !== 'undefined' && window.MultiplayerEngine?.confirmRejoinRoom) {
             window.MultiplayerEngine.confirmRejoinRoom();
-            isMatch = window.MultiplayerEngine.isMatchActive;
-          } else {
-            isMatch = !!(game.pendingRejoinSession?.isMatchActive || game.pendingRejoinSession?.gameState === 'playing');
           }
+
           game.closeModals();
-          if (isMatch) {
-            game.setIsMatchActive(true);
-            game.showScreen('gameScreen');
-          } else {
-            game.showScreen('playerLobbyScreen');
-          }
         }}
         onDismiss={() => {
           if (typeof window !== 'undefined' && window.MultiplayerEngine?.dismissRejoinAndStartNew) {
             window.MultiplayerEngine.dismissRejoinAndStartNew();
           }
+          if (game.clearActiveSession) {
+            game.clearActiveSession();
+          } else {
+            try { localStorage.removeItem('gtf_active_session'); } catch (e) {}
+            game.setPendingRejoinSession(null);
+            game.setRoomCode('');
+          }
           game.closeModals();
+          game.showScreen('homeScreen');
         }}
       />
 
