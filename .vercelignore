@@ -1,0 +1,7 @@
+*.mp4
+recordings/
+tests/
+test-results/
+scripts/
+docs/
+sites/
