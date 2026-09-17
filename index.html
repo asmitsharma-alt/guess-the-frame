@@ -14323,7 +14323,7 @@
                   <span class="material-symbols-outlined font-black">tune</span>
                   Match Configuration
                 </h3>
-                <span class="bg-surface border-2 border-on-surface px-2.5 py-1 font-label-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-black" id="gameSettingsTotalBadge">20 Rounds</span>
+                <span class="bg-surface border-2 border-on-surface px-2.5 py-1 font-label-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-black" id="gameSettingsTotalBadge">40 Rounds</span>
               </div>
 
               <div class="p-5 flex flex-col justify-between flex-1 gap-4">
@@ -14363,7 +14363,7 @@
                     <span class="font-label-bold text-xs uppercase tracking-wider text-on-surface flex items-center gap-1.5 font-bold">
                       <span class="material-symbols-outlined text-base text-neo-purple">grid_view</span> Rounds by Mode
                     </span>
-                    <span class="font-label-sm text-[10px] text-outline uppercase font-bold">Max 10 / Mode</span>
+                    <span class="font-label-sm text-[10px] text-outline uppercase font-bold">Max 20 Frames / 10 Mode</span>
                   </div>
 
                   <div class="grid grid-cols-3 gap-2.5 flex-1 items-stretch">
@@ -14376,7 +14376,7 @@
                         <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface" id="modeStatusDot-frames"></span>
                       </div>
                       <div class="flex flex-col items-center justify-center py-4 flex-1">
-                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostFramesRoundsBtn">3</span>
+                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostFramesRoundsBtn">20</span>
                         <span class="text-[9px] font-label-bold uppercase text-outline mt-1.5 tracking-wider font-black">Rounds</span>
                       </div>
                       <div class="grid grid-cols-2 gap-1.5 mt-auto pt-2 border-t-2 border-dashed border-outline/20">
@@ -14394,7 +14394,7 @@
                         <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface" id="modeStatusDot-eyes"></span>
                       </div>
                       <div class="flex flex-col items-center justify-center py-4 flex-1">
-                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostEyesRoundsBtn">3</span>
+                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostEyesRoundsBtn">10</span>
                         <span class="text-[9px] font-label-bold uppercase text-outline mt-1.5 tracking-wider font-black">Rounds</span>
                       </div>
                       <div class="grid grid-cols-2 gap-1.5 mt-auto pt-2 border-t-2 border-dashed border-outline/20">
@@ -14412,7 +14412,7 @@
                         <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface" id="modeStatusDot-dialogue"></span>
                       </div>
                       <div class="flex flex-col items-center justify-center py-4 flex-1">
-                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostDialogueRoundsBtn">4</span>
+                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostDialogueRoundsBtn">10</span>
                         <span class="text-[9px] font-label-bold uppercase text-outline mt-1.5 tracking-wider font-black">Rounds</span>
                       </div>
                       <div class="grid grid-cols-2 gap-1.5 mt-auto pt-2 border-t-2 border-dashed border-outline/20">
@@ -15775,13 +15775,13 @@
 
         // Settings sync
         const settings = (GameController._onlineMode && MultiplayerEngine.hostSettings) ? MultiplayerEngine.hostSettings : (MultiplayerEngine.hostSettings || {
-          category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
-          rounds: 10,
+          category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+          rounds: 40,
           timer: 30
         });
 
         const activeCategories = settings.categories || ['frames', 'eyes', 'dialogue'];
-        const counts = settings.roundsByMode || { frames: 3, eyes: 3, dialogue: 4 };
+        const counts = settings.roundsByMode || { frames: 20, eyes: 10, dialogue: 10 };
 
         const modeColors = {
           frames: { active: '#cae6ff', inactive: '#f4f4ee' },
@@ -15829,12 +15829,12 @@
         const rFrames = document.getElementById('hostFramesRoundsBtn');
         const rEyes = document.getElementById('hostEyesRoundsBtn');
         const rDialogue = document.getElementById('hostDialogueRoundsBtn');
-        if (rFrames) rFrames.textContent = (counts.frames !== undefined) ? counts.frames : 3;
-        if (rEyes) rEyes.textContent = (counts.eyes !== undefined) ? counts.eyes : 3;
-        if (rDialogue) rDialogue.textContent = (counts.dialogue !== undefined) ? counts.dialogue : 4;
+        if (rFrames) rFrames.textContent = (counts.frames !== undefined) ? counts.frames : 20;
+        if (rEyes) rEyes.textContent = (counts.eyes !== undefined) ? counts.eyes : 10;
+        if (rDialogue) rDialogue.textContent = (counts.dialogue !== undefined) ? counts.dialogue : 10;
 
         // Update Total Rounds in Settings Header
-        const totalR = (settings.roundsByMode ? Object.values(settings.roundsByMode).reduce((a, b) => a + b, 0) : settings.rounds) || 10;
+        const totalR = (settings.roundsByMode ? Object.values(settings.roundsByMode).reduce((a, b) => a + b, 0) : settings.rounds) || 40;
         const totalBadge = document.getElementById('gameSettingsTotalBadge');
         if (totalBadge) totalBadge.textContent = `${totalR} Rounds`;
 
@@ -15904,8 +15904,8 @@
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
-            rounds: 10,
+            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+          rounds: 40,
             timer: 30
           };
         }
@@ -15914,7 +15914,7 @@
         if (preset === 'quick') {
           s.roundsByMode = { frames: 2, eyes: 2, dialogue: 2 };
         } else if (preset === 'classic') {
-          s.roundsByMode = { frames: 3, eyes: 3, dialogue: 4 };
+          s.roundsByMode = { frames: 20, eyes: 10, dialogue: 10 };
         } else if (preset === 'long') {
           s.roundsByMode = { frames: 5, eyes: 5, dialogue: 5 };
         } else if (preset === 'max') {
@@ -15933,14 +15933,14 @@
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
-            rounds: 10,
+            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+          rounds: 40,
             timer: 30
           };
         }
         const s = MultiplayerEngine.hostSettings;
         if (!s.categories) s.categories = ['frames', 'eyes', 'dialogue'];
-        if (!s.roundsByMode) s.roundsByMode = { frames: 3, eyes: 3, dialogue: 4 };
+        if (!s.roundsByMode) s.roundsByMode = { frames: 20, eyes: 10, dialogue: 10 };
 
         if (s.categories.includes(mode) && (s.roundsByMode[mode] > 0)) {
           // Disable mode
@@ -15951,7 +15951,7 @@
         } else {
           // Enable mode
           if (!s.categories.includes(mode)) s.categories.push(mode);
-          if (s.roundsByMode[mode] === 0) s.roundsByMode[mode] = 3;
+          if (s.roundsByMode[mode] === 0) s.roundsByMode[mode] = (mode === 'frames' ? 20 : 10);
         }
         s.rounds = Object.values(s.roundsByMode).reduce((a, b) => a + b, 0);
         if (s.categories.length === 3) s.category = 'all';
@@ -15972,17 +15972,18 @@
           MultiplayerEngine.hostSettings = {
             category: 'all',
             categories: ['frames', 'eyes', 'dialogue'],
-            roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
-            rounds: 10,
+            roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+          rounds: 40,
             timer: 30
           };
         }
         const s = MultiplayerEngine.hostSettings;
-        if (!s.roundsByMode) s.roundsByMode = { frames: 3, eyes: 3, dialogue: 4 };
+        if (!s.roundsByMode) s.roundsByMode = { frames: 20, eyes: 10, dialogue: 10 };
         if (!s.categories) s.categories = ['frames', 'eyes', 'dialogue'];
         
         let current = Number(s.roundsByMode[mode]) || 0;
-        current = Math.max(0, Math.min(10, current + delta));
+        const maxLimit = mode === 'frames' ? 20 : 10;
+        current = Math.max(0, Math.min(maxLimit, current + delta));
         s.roundsByMode[mode] = current;
 
         if (current > 0 && !s.categories.includes(mode)) {
@@ -16012,8 +16013,8 @@
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
-            rounds: 10,
+            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+          rounds: 40,
             timer: 30
           };
         }
@@ -18427,8 +18428,8 @@
       hostSettings: {
         category: 'all',
         categories: ['frames', 'eyes', 'dialogue'],
-        roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
-        rounds: 10,
+        roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+          rounds: 40,
         timer: 30
       },
       isPaused: false,
@@ -18604,8 +18605,8 @@
           this.hostSettings = {
             category: 'all',
             categories: ['frames', 'eyes', 'dialogue'],
-            roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
-            rounds: 10,
+            roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+          rounds: 40,
             timer: 30
           };
         }
@@ -18871,7 +18872,7 @@
         this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
         this.isHost = true;
         this.roomCode = this.generateRoomCode();
-        this.hostSettings = { category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 3, eyes: 3, dialogue: 4 }, rounds: 10, timer: 30 };
+        this.hostSettings = { category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 }, rounds: 40, timer: 30 };
         this.roomId = 'room_' + this.roomCode;
 
         localStorage.setItem('gtf_player_name', this.playerName);
@@ -19772,16 +19773,16 @@
         let pool = [];
         if (!this.hostSettings) {
           this.hostSettings = {
-            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 3, eyes: 3, dialogue: 4 },
-            rounds: 10,
+            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+          rounds: 40,
             timer: 30
           };
         }
 
-        const counts = this.hostSettings.roundsByMode || { frames: 3, eyes: 3, dialogue: 4 };
+        const counts = this.hostSettings.roundsByMode || { frames: 20, eyes: 10, dialogue: 10 };
 
         // 1. All Frames first (shuffled internally, not mixed across categories)
-        const numFrames = counts.frames !== undefined ? counts.frames : 3;
+        const numFrames = counts.frames !== undefined ? counts.frames : 20;
         if (numFrames > 0) {
           const s1 = GS.sections.find(s => s.id === 1);
           if (s1 && s1.frames) {
@@ -19791,7 +19792,7 @@
         }
 
         // 2. All Dialogue second (shuffled internally, not mixed across categories)
-        const numDialogue = counts.dialogue !== undefined ? counts.dialogue : 4;
+        const numDialogue = counts.dialogue !== undefined ? counts.dialogue : 10;
         if (numDialogue > 0) {
           const s2 = GS.sections.find(s => s.id === 2);
           if (s2 && s2.frames) {
@@ -19801,7 +19802,7 @@
         }
 
         // 3. All Eyes third (shuffled internally, not mixed across categories)
-        const numEyes = counts.eyes !== undefined ? counts.eyes : 3;
+        const numEyes = counts.eyes !== undefined ? counts.eyes : 10;
         if (numEyes > 0) {
           const s3 = GS.sections.find(s => s.id === 3);
           if (s3 && s3.frames) {

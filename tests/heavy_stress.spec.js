@@ -18,8 +18,8 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
     });
 
     expect(hostData.roomCode).toHaveLength(4);
-    expect(hostData.hostSettings.category).toBe('frames');
-    expect(hostData.hostSettings.categories).toEqual(['frames']);
+    expect(hostData.hostSettings.category).toBe('all');
+    expect(hostData.hostSettings.categories).toEqual(['frames', 'eyes', 'dialogue']);
 
     // 2. Simulate 4 concurrent client joins within 100ms
     const joinedPlayers = await page.evaluate(async (hData) => {
@@ -52,17 +52,17 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
 
     // 3. Host updates settings: adjust frame rounds
     const updatedSettings = await page.evaluate(() => {
-      PlayerLobby.adjustRounds('frames', 5); // 10 + 5 = 15 rounds
+      PlayerLobby.adjustRounds('frames', -1); // 20 - 1 = 19 rounds
       PlayerLobby.adjustTimer(15);           // 30 + 15 = 45s
       return MultiplayerEngine.hostSettings;
     });
 
-    expect(updatedSettings.rounds).toBe(15);
-    expect(updatedSettings.roundsByMode.frames).toBe(15);
+    expect(updatedSettings.rounds).toBe(39);
+    expect(updatedSettings.roundsByMode.frames).toBe(19);
     expect(updatedSettings.timer).toBe(45);
   });
 
-  test('Match playlist samples exclusively from 34 movie frames with zero dialogue/eye entries', async ({ page }) => {
+  test('Match playlist samples correctly across Frames, Dialogue, and Eyes modes', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
 
@@ -70,10 +70,10 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
       MultiplayerEngine.selectedAvatarForModal = 'aman';
       MultiplayerEngine.confirmCreateRoom();
       MultiplayerEngine.hostSettings = {
-        category: 'frames',
-        categories: ['frames'],
-        roundsByMode: { frames: 10 },
-        rounds: 10,
+        category: 'all',
+        categories: ['frames', 'eyes', 'dialogue'],
+        roundsByMode: { frames: 2, eyes: 2, dialogue: 2 },
+        rounds: 6,
         timer: 30
       };
 
@@ -89,19 +89,19 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
     });
 
     expect(playlist).toBeDefined();
-    expect(playlist.length).toBe(10);
+    expect(playlist.length).toBe(6);
 
-    // Verify 100% of playlist items are Movie Frames from Section 1
-    for (let i = 0; i < playlist.length; i++) {
-      const item = playlist[i];
-      expect(item.sectionId, `Item ${i} must have sectionId 1`).toBe(1);
-      expect(item.sectionName, `Item ${i} must be Guess the Frame`).toBe('Guess the Frame');
-      expect(item.type, `Item ${i} type must be image`).toBe('image');
-      expect(item.content, `Item ${i} must have image path`).toBeTruthy();
-      expect(item.answer, `Item ${i} must have valid answer string`).toBeTruthy();
-      expect(item.dialogue, `Item ${i} must not have dialogue property`).toBeUndefined();
-      expect(item.revealContent, `Item ${i} must not have revealContent property`).toBeUndefined();
-    }
+    const frameItems = playlist.filter(p => p.sectionId === 1);
+    const dialogueItems = playlist.filter(p => p.sectionId === 2);
+    const eyeItems = playlist.filter(p => p.sectionId === 3);
+
+    expect(frameItems.length).toBe(2);
+    expect(dialogueItems.length).toBe(2);
+    expect(eyeItems.length).toBe(2);
+
+    expect(dialogueItems[0].dialogue).toBeTruthy();
+    expect(eyeItems[0].content).toContain('GUESSTHEEYES');
+    expect(eyeItems[0].revealContent).toContain('GUESSTHEEYES');
   });
 
   test('Race condition defense: simultaneous rapid answers from 5 players only awards first correct guess', async ({ page }) => {
