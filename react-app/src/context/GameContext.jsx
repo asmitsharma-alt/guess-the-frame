@@ -130,7 +130,6 @@ export const GameProvider = ({ children }) => {
       PaletteManager.reset();
     }
     if (screenId === 'playerLobbyScreen' || screenId === 'lobbyScreen') {
-      SoundManager.stopAll();
       SoundManager.stopMusic();
     }
   }, []);

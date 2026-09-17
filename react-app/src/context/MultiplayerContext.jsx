@@ -315,7 +315,6 @@ export const MultiplayerProvider = ({ children }) => {
             game.setIsRoundFinished(false);
             game.setIsAnswerRevealed(false);
             game.showScreen('playerLobbyScreen', { silent: true });
-            SoundManager.stopAll();
             SoundManager.stopMusic();
           } else if (phase === 'ROUND_ACTIVE') {
             game.setIsMatchActive(true);

@@ -5,8 +5,9 @@ import { HomeScreen } from '../pages/HomeScreen';
 import { HowToAnswerScreen } from '../pages/HowToAnswerScreen';
 import { WinnerScreen } from '../pages/WinnerScreen';
 import { FuzzyMatcher } from '../services/fuzzyMatcher';
-import { SecurityUtil, NetworkSecurity } from '../services/securityUtil';
-import { MQTT_BROKERS } from '../config/env';
+import { SecurityUtil } from '../services/securityUtil';
+import { PARTYKIT_HOST } from '../config/env';
+import SoundManager from '../services/soundManager';
 
 vi.mock('canvas-confetti', () => ({
   default: vi.fn()
@@ -59,19 +60,19 @@ describe('Frontend Component & Logic Tests', () => {
     expect(escaped).toContain('&lt;script&gt;');
   });
 
-  it('NetworkSecurity handles HMAC token generation and verification', () => {
-    const token = NetworkSecurity.generateToken('TEST', 'player1', true);
-    expect(NetworkSecurity.verifyToken(token, 'TEST', 'player1')).toBe(true);
-    expect(NetworkSecurity.verifyToken(token, 'TEST', 'player2')).toBe(false);
+  it('PARTYKIT_HOST resolves to valid backend host', () => {
+    expect(PARTYKIT_HOST).toBeDefined();
+    expect(PARTYKIT_HOST === 'guess-the-frame.onrender.com' || PARTYKIT_HOST === 'localhost:10000').toBe(true);
   });
 
-  it('MQTT_BROKERS includes EMQX, HiveMQ Cloud/WebSockets, and Mosquitto fallback pool', () => {
-    expect(MQTT_BROKERS.length).toBeGreaterThanOrEqual(3);
-    const names = MQTT_BROKERS.map(b => b.name);
-    expect(names.some(n => n.includes('EMQX'))).toBe(true);
-    expect(names.some(n => n.includes('HiveMQ'))).toBe(true);
-    expect(names.some(n => n.includes('Mosquitto'))).toBe(true);
-    const urls = MQTT_BROKERS.map(b => b.url);
-    expect(urls.some(u => u.includes('hivemq.com'))).toBe(true);
+  it('SoundManager manages volume, mute state, and audio routing safely', () => {
+    expect(SoundManager.muted).toBe(false);
+    expect(SoundManager.vol).toBeGreaterThanOrEqual(0.8);
+    const muted = SoundManager.toggleMute();
+    expect(muted).toBe(true);
+    expect(SoundManager.muted).toBe(true);
+    const unmuted = SoundManager.toggleMute();
+    expect(unmuted).toBe(false);
+    expect(SoundManager.muted).toBe(false);
   });
 });

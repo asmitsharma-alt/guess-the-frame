@@ -42,27 +42,10 @@ export class AudioSynth {
       clearTimeout(tid);
     }
     this.activeTimeouts.clear();
-
-    // Ramp down and disconnect all active nodes immediately
-    const c = this.ctx;
-    if (c) {
-      const now = c.currentTime;
-      for (const node of this.activeNodes) {
-        try {
-          if (node.gain) {
-            node.gain.cancelScheduledValues(now);
-            node.gain.linearRampToValueAtTime(0.0001, now + 0.02);
-          }
-          if (node.stop) {
-            node.stop(now + 0.025);
-          }
-        } catch (e) {}
-      }
-    }
-    this.activeNodes.clear();
   }
 
   _trackNode(node) {
+    if (!node) return;
     this.activeNodes.add(node);
     const cleanup = () => {
       this.activeNodes.delete(node);
@@ -76,6 +59,8 @@ export class AudioSynth {
         cleanup();
         if (typeof prev === 'function') prev(e);
       };
+    } else {
+      setTimeout(cleanup, 2000);
     }
   }
 
@@ -210,90 +195,86 @@ export class AudioSynth {
   playClick() {
     if (!this._ok('click')) return;
     const now = performance.now();
-    if (now - this._lastClickTime < 45) return;
+    if (now - this._lastClickTime < 40) return;
     this._lastClickTime = now;
-    this._noise('click', { vol: 0.18, hp: 2800, dur: 0.008 });
-    this._glide('click', 220, 160, 0.07, 0.26, 'sine');
+    this._noise('click', { vol: 0.28, hp: 2200, dur: 0.012 });
+    this._glide('click', 560, 280, 0.05, 0.38, 'sine');
   }
 
   playTap() {
     if (!this._ok('tap')) return;
-    this._tap('tap', 210, 0.22, 2200);
+    this._noise('tap', { vol: 0.22, hp: 2000, dur: 0.01 });
+    this._glide('tap', 480, 320, 0.06, 0.35, 'sine');
   }
 
   playPop() {
     if (!this._ok('pop')) return;
-    this._noise('pop', { vol: 0.1, hp: 3000, dur: 0.008 });
-    this._thock('pop', 320, 0.22, 0.07);
+    this._noise('pop', { vol: 0.15, hp: 3200, dur: 0.01 });
+    this._glide('pop', 340, 720, 0.07, 0.38, 'sine');
   }
 
   playWhoosh() {
     if (!this._ok('whoosh')) return;
-    this._noise('whoosh', { vol: 0.14, hp: 800, dur: 0.22 });
-    this._glide('whoosh', 440, 140, 0.24, 0.15, 'sine');
+    this._noise('whoosh', { vol: 0.18, hp: 1000, dur: 0.2 });
+    this._glide('whoosh', 520, 180, 0.22, 0.22, 'sine');
   }
 
   playCountBeep(n) {
     if (!this._ok('countBeep')) return;
     const sm = this._sc('countBeep').speed;
     if (n > 0) {
-      this._noise('countBeep', { vol: 0.14, hp: 2600, dur: 0.008 });
-      this._thock('countBeep', 180 + (3 - n) * 35, 0.24, 0.12);
+      this.tone({ f: 440 + (3 - n) * 80, d: 0.12, v: 0.32, type: 'triangle', a: 0.005, dec: 0.04, sus: 0.3, rel: 0.06 });
     } else {
-      [0, 80, 160].forEach((dl, i) => this._safeTimeout(() => {
-        this._noise('countBeep', { vol: 0.12, hp: 3000, dur: 0.008 });
-        this._thock('countBeep', 260 + i * 65, 0.26, 0.16);
-      }, dl / sm));
+      [523.25, 659.25, 783.99].forEach((f, i) => this._safeTimeout(() => {
+        this.tone({ f, d: 0.2, v: 0.35, type: 'sine', a: 0.008, dec: 0.05, sus: 0.4, rel: 0.1 });
+      }, (i * 70) / sm));
     }
   }
 
   playGameStart() {
     if (!this._ok('gameStart')) return;
     const cfg = this._sc('gameStart');
-    [160, 220, 294, 392].forEach((f, i) => this._safeTimeout(() => {
-      this._noise('gameStart', { vol: 0.14, hp: 2600, dur: 0.01 });
-      this._thock('gameStart', f, 0.26, 0.14);
-    }, (i * 75) / cfg.speed));
-    this._safeTimeout(() => this._glide('gameStart', 330, 660, 0.28, 0.18, 'sine'), 320 / cfg.speed);
+    [330, 440, 554, 660, 880].forEach((f, i) => this._safeTimeout(() => {
+      this.tone({ f, d: 0.22, v: 0.32, type: 'triangle', a: 0.01, dec: 0.06, sus: 0.4, rel: 0.1 });
+    }, (i * 70) / cfg.speed));
   }
 
   playSectionIntro() {
     if (!this._ok('sectionIntro')) return;
     const cfg = this._sc('sectionIntro');
-    [180, 240, 320].forEach((f, i) => this._safeTimeout(() => {
-      this._noise('sectionIntro', { vol: 0.12, hp: 2400, dur: 0.01 });
-      this._thock('sectionIntro', f, 0.25, 0.16);
-    }, (i * 90) / cfg.speed));
+    [330, 440, 660].forEach((f, i) => this._safeTimeout(() => {
+      this.tone({ f, d: 0.2, v: 0.3, type: 'triangle', a: 0.01, dec: 0.06, sus: 0.3, rel: 0.08 });
+    }, (i * 80) / cfg.speed));
   }
 
   playRoundStart() {
     if (!this._ok('roundStart')) return;
     const cfg = this._sc('roundStart');
-    this._tap('roundStart', 190, 0.26, 2000);
-    this._safeTimeout(() => this._thock('roundStart', 290, 0.28, 0.16), 110 / cfg.speed);
+    this.tone({ f: 440, d: 0.16, v: 0.32, type: 'triangle', a: 0.01, dec: 0.06, sus: 0.3, rel: 0.08 });
+    this._safeTimeout(() => {
+      this.tone({ f: 659.25, d: 0.24, v: 0.35, type: 'sine', a: 0.01, dec: 0.08, sus: 0.4, rel: 0.12 });
+    }, 90 / cfg.speed);
   }
 
   playFrameIn() {
     if (!this._ok('frameIn')) return;
-    this._noise('frameIn', { vol: 0.08, hp: 2800, dur: 0.008 });
-    this._glide('frameIn', 220, 440, 0.18, 0.18, 'sine');
+    this._noise('frameIn', { vol: 0.15, hp: 2200, dur: 0.012 });
+    this._glide('frameIn', 320, 580, 0.14, 0.28, 'sine');
   }
 
   playReveal() {
     if (!this._ok('reveal')) return;
-    this._noise('reveal', { vol: 0.14, hp: 2200, dur: 0.012 });
-    this._thock('reveal', 150, 0.26, 0.24);
-    this.tone({ f: 330, d: 0.35, v: 0.2, type: 'triangle', a: 0.02, dec: 0.12, sus: 0.4, rel: 0.18 });
-    this._safeTimeout(() => {
-      this.tone({ f: 440, d: 0.45, v: 0.24, type: 'sine', a: 0.02, dec: 0.14, sus: 0.5, rel: 0.22 });
-    }, 60);
+    this._noise('reveal', { vol: 0.16, hp: 2400, dur: 0.012 });
+    [440, 554.37, 659.25].forEach((f, i) => this._safeTimeout(() => {
+      this.tone({ f, d: 0.32, v: 0.28, type: 'triangle', a: 0.01, dec: 0.08, sus: 0.4, rel: 0.15 });
+    }, i * 45));
   }
 
   playScoring() {
     if (!this._ok('scoring')) return;
     const cfg = this._sc('scoring');
-    this._thock('scoring', 220, 0.24, 0.12);
-    this._safeTimeout(() => this._thock('scoring', 294, 0.26, 0.14), 100 / cfg.speed);
+    this._glide('scoring', 330, 440, 0.12, 0.32, 'triangle');
+    this._safeTimeout(() => this._glide('scoring', 440, 587, 0.14, 0.34, 'sine'), 90 / cfg.speed);
   }
 
   /**
@@ -302,10 +283,10 @@ export class AudioSynth {
   playSelPlayer() {
     if (!this._ok('selPlayer')) return;
     const cfg = this._sc('selPlayer');
-    [0, 70, 140].forEach((dl, i) => this._safeTimeout(() => {
-      this._noise('selPlayer', { vol: 0.14, hp: 2800, dur: 0.008 });
-      this._thock('selPlayer', 180 + i * 60, 0.25, 0.12);
-    }, dl / cfg.speed));
+    // Uplifting victory triad (C5, E5, G5, C6)
+    [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => this._safeTimeout(() => {
+      this.tone({ f, d: 0.22, v: 0.34, type: 'triangle', a: 0.008, dec: 0.06, sus: 0.3, rel: 0.1 });
+    }, (i * 65) / cfg.speed));
   }
 
   playCorrect() {
@@ -317,18 +298,17 @@ export class AudioSynth {
    */
   playOpponentCorrect() {
     if (!this._ok('opponentCorrect')) return;
-    this._tap('opponentCorrect', 300, 0.18, 2200);
+    this.tone({ f: 587.33, d: 0.15, v: 0.22, type: 'sine', a: 0.01, dec: 0.05, sus: 0.3, rel: 0.08 });
     this._safeTimeout(() => {
-      this.tone({ f: 440, d: 0.16, v: 0.15, type: 'triangle', a: 0.01, dec: 0.05, sus: 0.2, rel: 0.08 });
+      this.tone({ f: 783.99, d: 0.18, v: 0.24, type: 'triangle', a: 0.01, dec: 0.06, sus: 0.3, rel: 0.1 });
     }, 80);
   }
 
   playSkip() {
     if (!this._ok('skip')) return;
     const cfg = this._sc('skip');
-    this._noise('skip', { vol: 0.12, hp: 1600, dur: 0.01 });
-    this._thock('skip', 190, 0.24, 0.14);
-    this._safeTimeout(() => this._thock('skip', 130, 0.22, 0.18), 70 / cfg.speed);
+    this._noise('skip', { vol: 0.16, hp: 1800, dur: 0.012 });
+    this._glide('skip', 330, 180, 0.12, 0.28, 'sine');
   }
 
   /**
@@ -336,21 +316,21 @@ export class AudioSynth {
    */
   playWrong() {
     if (!this._ok('wrong')) return;
-    this._glide('wrong', 190, 110, 0.18, 0.22, 'sawtooth');
-    this._noise('wrong', { vol: 0.1, hp: 1200, dur: 0.02 });
+    this._glide('wrong', 280, 150, 0.22, 0.35, 'sawtooth');
+    this.tone({ f: 180, d: 0.24, v: 0.28, type: 'square', a: 0.01, dec: 0.08, sus: 0.3, rel: 0.12 });
   }
 
   playTransition() {
     if (!this._ok('transition')) return;
-    this._tap('transition', 240, 0.2, 2200);
+    this._noise('transition', { vol: 0.15, hp: 2000, dur: 0.01 });
+    this._glide('transition', 360, 480, 0.12, 0.28, 'sine');
   }
 
   playWinner() {
     if (!this._ok('winner')) return;
     const cfg = this._sc('winner');
-    [220, 277, 330, 440, 554].forEach((f, i) => this._safeTimeout(() => {
-      this._noise('winner', { vol: 0.12, hp: 3000, dur: 0.01 });
-      this.tone({ f, d: 0.35, v: 0.22, type: 'sine', a: 0.02, dec: 0.1, sus: 0.4, rel: 0.2 });
+    [440, 554.37, 659.25, 880].forEach((f, i) => this._safeTimeout(() => {
+      this.tone({ f, d: 0.38, v: 0.36, type: 'triangle', a: 0.01, dec: 0.1, sus: 0.4, rel: 0.2 });
     }, (i * 90) / cfg.speed));
   }
 
@@ -360,18 +340,17 @@ export class AudioSynth {
 
   playTick() {
     if (!this._ok('tick') || (this.mgr && !this.mgr.isGameplayActive())) return;
-    this._tap('tick', 320, 0.07, 2400);
+    this._tap('tick', 520, 0.18, 2800);
   }
 
   playTickWarn() {
     if (!this._ok('tickWarn') || (this.mgr && !this.mgr.isGameplayActive())) return;
-    this._tap('tickWarn', 440, 0.13, 3200);
+    this.tone({ f: 784, d: 0.08, v: 0.32, type: 'triangle', a: 0.004, dec: 0.03, sus: 0.2, rel: 0.04 });
   }
 
   playTimeout() {
     if (!this._ok('timeout') || (this.mgr && !this.mgr.isGameplayActive())) return;
-    this._thock('timeout', 140, 0.28, 0.25);
-    this._glide('timeout', 160, 80, 0.3, 0.22, 'triangle');
+    this._glide('timeout', 360, 160, 0.3, 0.36, 'sawtooth');
   }
 
   /**
@@ -379,9 +358,9 @@ export class AudioSynth {
    */
   playFlare() {
     if (!this._ok('flare')) return;
-    this._noise('flare', { vol: 0.09, hp: 3200, dur: 0.03 });
-    [392, 523.25, 659.25, 783.99].forEach((f, i) => this._safeTimeout(() => {
-      this.tone({ f, d: 0.2, v: 0.16, type: 'triangle', a: 0.008, dec: 0.05, sus: 0.3, rel: 0.1 });
+    this._noise('flare', { vol: 0.14, hp: 3200, dur: 0.02 });
+    [659.25, 783.99, 987.77, 1174.66].forEach((f, i) => this._safeTimeout(() => {
+      this.tone({ f, d: 0.22, v: 0.22, type: 'sine', a: 0.008, dec: 0.05, sus: 0.3, rel: 0.12 });
     }, i * 45));
   }
 
@@ -391,9 +370,12 @@ export class AudioSynth {
   playChat() {
     if (!this._ok('chat')) return;
     const now = performance.now();
-    if (now - this._lastChatTime < 280) return; // 280ms chat cooldown
+    if (now - this._lastChatTime < 250) return;
     this._lastChatTime = now;
-    this.tone({ f: 659.25, d: 0.12, v: 0.12, type: 'sine', a: 0.005, dec: 0.04, sus: 0.2, rel: 0.06 });
+    this.tone({ f: 659.25, d: 0.14, v: 0.22, type: 'sine', a: 0.005, dec: 0.04, sus: 0.2, rel: 0.08 });
+    this._safeTimeout(() => {
+      this.tone({ f: 880, d: 0.16, v: 0.25, type: 'triangle', a: 0.005, dec: 0.04, sus: 0.2, rel: 0.1 });
+    }, 50);
   }
 
   /**
@@ -404,7 +386,8 @@ export class AudioSynth {
     const now = performance.now();
     if (now - this._lastGuessSubmitTime < 150) return;
     this._lastGuessSubmitTime = now;
-    this._tap('guessSubmit', 240, 0.12, 2600);
+    this._noise('guessSubmit', { vol: 0.22, hp: 2000, dur: 0.01 });
+    this._glide('guessSubmit', 440, 260, 0.05, 0.3, 'sine');
   }
 }
 

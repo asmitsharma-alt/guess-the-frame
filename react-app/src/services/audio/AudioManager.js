@@ -16,7 +16,7 @@ export class AudioManager {
     this.limiter = null;
 
     // Volume settings (0.0 to 1.0)
-    this.masterVolume = 0.8;
+    this.masterVolume = 0.9;
     this.sfxVolume = 1.0;
     this.musicVolume = 0.5;
     this.isMuted = false;
@@ -117,9 +117,9 @@ export class AudioManager {
 
       // Dynamic limiter to prevent clipping and protect ears
       this.limiter = this.ctx.createDynamicsCompressor();
-      this.limiter.threshold.setValueAtTime(-6, now);
+      this.limiter.threshold.setValueAtTime(-3, now);
       this.limiter.knee.setValueAtTime(10, now);
-      this.limiter.ratio.setValueAtTime(12, now);
+      this.limiter.ratio.setValueAtTime(4, now);
       this.limiter.attack.setValueAtTime(0.003, now);
       this.limiter.release.setValueAtTime(0.15, now);
 
@@ -136,17 +136,10 @@ export class AudioManager {
     }
   }
 
-  _registerUnlockListeners() {
-    if (typeof window === 'undefined' || this.isUnlocked) return;
-    const events = ['pointerdown', 'touchstart', 'keydown', 'click'];
-    events.forEach(evt => {
-      window.addEventListener(evt, this._unlockHandlerBound, { capture: true, once: true, passive: true });
-    });
-  }
-
-  unlockAudio() {
-    if (this.isUnlocked && this.ctx?.state === 'running') return;
-    if (!this.ctx) this.init();
+  _ensureRunning() {
+    if (!this.ctx && typeof window !== 'undefined') {
+      this.init();
+    }
     if (this.ctx && this.ctx.state === 'suspended') {
       this.ctx.resume().then(() => {
         this.isUnlocked = true;
@@ -154,9 +147,19 @@ export class AudioManager {
     } else if (this.ctx && this.ctx.state === 'running') {
       this.isUnlocked = true;
     }
+  }
 
-    // Clean up unlock event listeners
-    if (typeof window !== 'undefined') {
+  _registerUnlockListeners() {
+    if (typeof window === 'undefined') return;
+    const events = ['pointerdown', 'touchstart', 'keydown', 'click'];
+    events.forEach(evt => {
+      window.addEventListener(evt, this._unlockHandlerBound, { capture: true, passive: true });
+    });
+  }
+
+  unlockAudio() {
+    this._ensureRunning();
+    if (this.ctx?.state === 'running' && typeof window !== 'undefined') {
       const events = ['pointerdown', 'touchstart', 'keydown', 'click'];
       events.forEach(evt => {
         window.removeEventListener(evt, this._unlockHandlerBound, { capture: true });
@@ -231,7 +234,6 @@ export class AudioManager {
       this.isMatchActive = isMatchActive;
     }
     if (this.isLobbyOrHome()) {
-      this.stopAll();
       this.stopMusic();
     }
   }
@@ -250,7 +252,7 @@ export class AudioManager {
 
   play(name, options = {}) {
     if (!name || this.isMuted) return;
-    if (!this.ctx) this.init();
+    this._ensureRunning();
 
     switch (name.toLowerCase()) {
       case 'click': this.synth.playClick(); break;
@@ -343,7 +345,16 @@ export class AudioManager {
   // --- Volume & Mute Management ---
 
   toggleMute() {
-    return this.setMuted(!this.isMuted);
+    const nextMuted = !this.isMuted;
+    this.setMuted(nextMuted);
+    if (!nextMuted) {
+      // Audible confirmation sound upon unmuting
+      this._ensureRunning();
+      try {
+        this.synth.playPop();
+      } catch (e) {}
+    }
+    return this.isMuted;
   }
 
   setMuted(muted) {
@@ -359,18 +370,16 @@ export class AudioManager {
     }
 
     if (!this.isMuted) {
-      this.unlockAudio();
+      this._ensureRunning();
     } else {
       this.stopAll();
+      this.stopMusic();
     }
 
-    // Sync legacy DOM icon if present
+    // Toggle legacy DOM class if present without modifying DOM tree
     if (typeof document !== 'undefined') {
       const b = document.getElementById('sndBtn');
       if (b) {
-        b.innerHTML = this.isMuted
-          ? '<svg class="svg-icon"><use href="#icon-volume-x" /></svg>'
-          : '<svg class="svg-icon"><use href="#icon-volume-2" /></svg>';
         b.classList.toggle('muted', this.isMuted);
       }
     }

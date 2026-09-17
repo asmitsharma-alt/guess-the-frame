@@ -356,6 +356,8 @@ const AppContent = () => {
         id="sndBtn"
         onClick={game.toggleMute}
         style={{ display: game.currentScreen === 'winnerScreen' ? 'none' : 'flex' }}
+        aria-label={game.isMuted ? 'Unmute Sound' : 'Mute Sound'}
+        title={game.isMuted ? 'Unmute Sound' : 'Mute Sound'}
       >
         <svg className="svg-icon">
           <use href={game.isMuted ? '#icon-volume-x' : '#icon-volume-2'} />

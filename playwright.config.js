@@ -16,7 +16,7 @@ module.exports = {
   ],
   webServer: [
     {
-      command: 'node backend/src/server.js',
+      command: 'node server/server.js',
       port: 4000,
       reuseExistingServer: !process.env.CI,
     },
