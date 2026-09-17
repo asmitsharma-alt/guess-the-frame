@@ -52,6 +52,16 @@ export const HomeScreen = ({ isActive, onCreateRoom, onJoinRoom }) => {
         <div
           id="homeCreateBtn"
           className="h-card-mp h-card-create"
+          role="button"
+          tabIndex={0}
+          aria-label="Create Online Room"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              SoundManager.playClick();
+              if (typeof onCreateRoom === 'function') onCreateRoom();
+            }
+          }}
           onClick={() => {
             SoundManager.playClick();
             if (typeof onCreateRoom === 'function') onCreateRoom();
@@ -63,6 +73,16 @@ export const HomeScreen = ({ isActive, onCreateRoom, onJoinRoom }) => {
         <div
           id="homeJoinBtn"
           className="h-card-mp h-card-join"
+          role="button"
+          tabIndex={0}
+          aria-label="Join Online Room"
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              SoundManager.playClick();
+              if (typeof onJoinRoom === 'function') onJoinRoom();
+            }
+          }}
           onClick={() => {
             SoundManager.playClick();
             if (typeof onJoinRoom === 'function') onJoinRoom();

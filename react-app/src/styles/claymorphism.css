@@ -9715,12 +9715,6 @@
       }
     }
 
-  
-    #appwrite-preview, #appwrite-preview-badge, div[id*="appwrite-preview"] {
-      display: none !important;
-      pointer-events: none !important;
-      opacity: 0 !important;
-    }
 
   
     .neo-shadow { box-shadow: 6px 6px 0px 0px rgba(0,0,0,1) !important; }
@@ -10240,9 +10234,17 @@
         height: 100% !important;
         object-fit: contain !important;
       }
-      body.mobile-typing #gameScreen .game-sidebar-col,
-      body.keyboard-visible #gameScreen .game-sidebar-col,
-      body:has(#mobileQuickInput:focus) #gameScreen .game-sidebar-col {
+      body.mobile-typing #gameScreen .game-sidebar-col:not(.drawer-open),
+      body.keyboard-visible #gameScreen .game-sidebar-col:not(.drawer-open),
+      body:has(#mobileQuickInput:focus) #gameScreen .game-sidebar-col:not(.drawer-open) {
+        display: none !important;
+      }
+      #gameScreen .game-sidebar-col.drawer-open,
+      body.mobile-typing #gameScreen .game-sidebar-col.drawer-open,
+      body.keyboard-visible #gameScreen .game-sidebar-col.drawer-open {
+        display: block !important;
+      }
+      #gameScreen .game-sidebar-col.drawer-open .panel-sec {
         display: none !important;
       }
       body.mobile-typing #gameScreen .host-floating-bar,

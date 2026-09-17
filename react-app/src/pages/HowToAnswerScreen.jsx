@@ -253,6 +253,9 @@ export const HowToAnswerScreen = ({ isActive, isHost, onLaunchGame }) => {
 
         {/* CENTERED FOOTER ACTION */}
         <div className="hta-footer-center">
+          <div className="sr-only" aria-live="polite" style={{ position: 'absolute', width: '1px', height: '1px', padding: 0, margin: '-1px', overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', border: 0 }}>
+            {secondsLeft > 0 ? `Rules countdown: ${secondsLeft} seconds remaining` : 'Countdown complete. Host can start.'}
+          </div>
           {!effectiveIsHost && (
             <div id="htaClientStatus" className="hta-client-status">
               <span className="hta-spinner"><Loader2 size={16} strokeWidth={2.5} className="animate-spin" /></span>

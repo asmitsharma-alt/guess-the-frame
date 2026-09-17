@@ -106,7 +106,7 @@ export const CreateRoomModal = ({ isOpen, onClose, onConfirm }) => {
                   <span><Zap size={16} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} /> CREATE ONLINE ROOM</span>
                   <span className="mp-badge-pill-tag">HOST PASS</span>
                 </div>
-                <button className="mp-modal-close" onClick={onClose}><X size={16} strokeWidth={3} /></button>
+                <button type="button" className="mp-modal-close" onClick={onClose} aria-label="Close modal"><X size={16} strokeWidth={3} /></button>
               </div>
 
               <div className="mp-credentials-row mp-credentials-row-create">
@@ -161,7 +161,7 @@ export const CreateRoomModal = ({ isOpen, onClose, onConfirm }) => {
                 <span><Zap size={16} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} /> CREATE ONLINE ROOM</span>
                 <span className="mp-badge-pill-tag">HOST PASS</span>
               </div>
-              <button className="mp-modal-close" onClick={onClose}><X size={16} strokeWidth={3} /></button>
+              <button type="button" className="mp-modal-close" onClick={onClose} aria-label="Close modal"><X size={16} strokeWidth={3} /></button>
             </div>
 
             <div className="mp-credentials-row mp-credentials-row-create">

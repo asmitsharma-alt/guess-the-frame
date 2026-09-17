@@ -39,3 +39,4 @@ backend/.env
 sample_avatar_studio.html
 sample.html
 serve_sample.py
+graphify-out/

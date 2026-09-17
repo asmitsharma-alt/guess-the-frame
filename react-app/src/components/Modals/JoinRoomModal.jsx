@@ -138,7 +138,7 @@ export const JoinRoomModal = ({ isOpen, roomCode: propRoomCode = '', onClose, on
                   <span><Ticket size={16} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} /> ONLINE ROOM PASS</span>
                   <span className="mp-badge-pill-tag">BADGE PASS</span>
                 </div>
-                <button className="mp-modal-close" onClick={onClose}><X size={16} strokeWidth={3} /></button>
+                <button type="button" className="mp-modal-close" onClick={onClose} aria-label="Close modal"><X size={16} strokeWidth={3} /></button>
               </div>
 
               <div className="mp-credentials-row mp-credentials-row-join">
@@ -208,7 +208,7 @@ export const JoinRoomModal = ({ isOpen, roomCode: propRoomCode = '', onClose, on
                 <span><Ticket size={16} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '6px' }} /> ONLINE ROOM PASS</span>
                 <span className="mp-badge-pill-tag">BADGE PASS</span>
               </div>
-              <button className="mp-modal-close" onClick={onClose}><X size={16} strokeWidth={3} /></button>
+              <button type="button" className="mp-modal-close" onClick={onClose} aria-label="Close modal"><X size={16} strokeWidth={3} /></button>
             </div>
 
             <div className="mp-credentials-row mp-credentials-row-join">

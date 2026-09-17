@@ -30,11 +30,27 @@
   --nb-border-mobile: 2px solid #121212;
   --nb-border-desktop: 3px solid #121212;
   --nb-border-heavy: 4px solid #121212;
+
+  /* Layer / Stacking Context Tokens */
+  --z-base: 1;
+  --z-hud: 10;
+  --z-sticky: 100;
+  --z-bottom-bar: 9990;
+  --z-overlay: 10000;
+  --z-modal: 20000;
+  --z-drawer: 30000;
+  --z-toast: 40000;
 }
 
 /* Base Viewport & Touch Ergonomics */
 *, *::before, *::after {
   -webkit-tap-highlight-color: transparent !important;
+}
+
+/* Accessible Neo-Brutalist Focus Ring (WCAG 2.4.7) */
+*:focus-visible {
+  outline: 3px solid #1a1a1a !important;
+  outline-offset: 2px !important;
 }
 
 body {
@@ -469,13 +485,18 @@ button[id*="Btn"] {
   }
 
   .mp-badge-modal-box .mp-modal-close {
-    width: 32px !important;
-    height: 32px !important;
-    font-size: 16px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    font-size: 18px !important;
     border: 2px solid #121212 !important;
-    border-radius: 6px !important;
+    border-radius: 8px !important;
     box-shadow: 2px 2px 0 #121212 !important;
     flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   /* Search Bar wrap on mobile */
@@ -849,7 +870,7 @@ button[id*="Btn"] {
     margin: 6px 0 !important;
     flex-wrap: nowrap !important;
     scrollbar-width: none !important;
-    display: flex !important;
+    display: flex;
     align-items: center !important;
   }
 
@@ -1062,6 +1083,84 @@ button[id*="Btn"] {
     box-shadow: 1px 1px 0 #121212 !important;
   }
 
+  .mobile-bar-chat-btn {
+    position: relative !important;
+  }
+
+  .mobile-chat-badge {
+    position: absolute !important;
+    top: -6px !important;
+    right: -6px !important;
+    background: #FF3B30 !important;
+    color: #FFFFFF !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    padding: 2px 6px !important;
+    border-radius: 9999px !important;
+    border: 2px solid #121212 !important;
+    box-shadow: 1px 1px 0 #121212 !important;
+    line-height: 1 !important;
+    z-index: 10 !important;
+  }
+
+  .mobile-incoming-chat-toast {
+    width: 100% !important;
+    margin-bottom: 6px !important;
+    animation: micb-slide-up 0.22s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    cursor: pointer !important;
+  }
+
+  @keyframes micb-slide-up {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mict-inner {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    background: #E0E7FF !important;
+    border: 2px solid #121212 !important;
+    border-radius: 8px !important;
+    padding: 6px 10px !important;
+    box-shadow: 2px 2px 0 #121212 !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    color: #121212 !important;
+  }
+
+  .mict-badge {
+    background: #4F46E5 !important;
+    color: #FFFFFF !important;
+    font-size: 10px !important;
+    font-weight: 900 !important;
+    padding: 1px 5px !important;
+    border-radius: 4px !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  .mict-sender {
+    font-weight: 900 !important;
+    color: #1E1B4B !important;
+    white-space: nowrap !important;
+  }
+
+  .mict-text {
+    flex: 1 !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    color: #121212 !important;
+    font-weight: 600 !important;
+  }
+
+  .mict-action {
+    font-size: 10px !important;
+    font-weight: 900 !important;
+    color: #4F46E5 !important;
+    white-space: nowrap !important;
+  }
+
   /* Mobile Chat Bottom Sheet Drawer */
   #gameScreen .live-chat-panel {
     position: fixed !important;
@@ -1089,6 +1188,22 @@ button[id*="Btn"] {
   #gameScreen .live-chat-panel.mobile-open,
   #gameScreen .live-chat-panel.active {
     transform: translateY(0) !important;
+    z-index: 9999999 !important;
+    pointer-events: auto !important;
+  }
+
+  #gameScreen .game-sidebar-col.drawer-open {
+    display: block !important;
+  }
+
+  #gameScreen .game-sidebar-col.drawer-open .panel-sec {
+    display: none !important;
+  }
+
+  #gameScreen .chat-input-form,
+  #gameScreen .chat-input-box,
+  #gameScreen .chat-send-btn {
+    pointer-events: auto !important;
   }
 
   #gameScreen .chat-header {
@@ -1109,9 +1224,9 @@ button[id*="Btn"] {
   }
 
   #gameScreen .chat-close-btn {
-    height: 32px !important;
-    padding: 0 10px !important;
-    font-size: 12px !important;
+    min-height: 44px !important;
+    padding: 0 14px !important;
+    font-size: 13px !important;
     font-weight: 900 !important;
     border: 2px solid #121212 !important;
     border-radius: 6px !important;
@@ -1119,6 +1234,9 @@ button[id*="Btn"] {
     color: #FFFFFF !important;
     box-shadow: 2px 2px 0 #121212 !important;
     cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   #gameScreen .chat-stream {
@@ -1300,6 +1418,368 @@ button[id*="Btn"] {
 /* Base Desktop: Mobile timer pill hidden on desktop */
 .mobile-timer-pill {
   display: none !important;
+}
+
+/* Mobile Bottom Bar Drawer Isolation */
+.mobile-bottom-bar.drawer-open {
+  pointer-events: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+/* Dynamic Viewport Height Adaptation */
+@supports (height: 100dvh) {
+  #gameScreen,
+  #playerLobbyScreen,
+  #homeScreen,
+  #winnerScreen,
+  .mobile-chat-panel,
+  .nb-drawer-box {
+    min-height: 100dvh !important;
+  }
+}
+
+/* Avatar Category Bar Native Scrollbar Hiding on Android */
+.mp-avatar-category-bar {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+.mp-avatar-category-bar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Avatar Selection Badge High-Contrast Backing */
+.mp-avatar-item-check {
+  border: 2px solid #1a1a1a !important;
+  box-shadow: 1.5px 1.5px 0px #1a1a1a !important;
+  background: #00FF66 !important;
+  color: #121212 !important;
+  z-index: 5 !important;
+}
+
+/* Winner Screen Narrow Device (320px) Protection */
+@media (max-width: 360px) {
+  .cw-runner-col {
+    padding: 0 2px !important;
+  }
+  .cw-runner-card {
+    padding: 6px 2px !important;
+  }
+  .runner-nameplate,
+  .champ-nameplate {
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: 9px !important;
+  }
+  .runner-score-tag,
+  .gold-score-tag {
+    font-size: 8px !important;
+    padding: 2px 4px !important;
+  }
+}
+
+/* Accessible Reduced Motion Support (WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  .filmstrip-strip,
+  .filmstrip-strip-reverse,
+  .h-floating-shape,
+  .animate-pulse {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   SCOOPCAST MULTIPLAYER ACTIVITY STREAM & REACTION SYSTEM (NEO-BRUTALIST)
+   ========================================================================== */
+
+/* Level 1: Authoritative Winner Announcement Card with Dynamic Color System */
+.chat-msg-winner-banner {
+  background: #FFE600 !important;
+  border: 3px solid #1a1a1a !important;
+  border-radius: 8px !important;
+  padding: 8px 10px !important;
+  box-shadow: 4px 4px 0px #1a1a1a !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  margin: 6px 0 !important;
+  animation: chatMsgIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Dynamic Podiums */
+.chat-msg-winner-banner.pos-1 {
+  background: #FFE600 !important; /* 1st place: Bright Yellow */
+}
+
+.chat-msg-winner-banner.pos-2 {
+  background: #00F0FF !important; /* 2nd place: Electric Cyan Blue */
+}
+
+.chat-msg-winner-banner.pos-3 {
+  background: #FF2E93 !important; /* 3rd place: Hot Pink */
+}
+
+.chat-winner-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 4px !important;
+  min-width: 0 !important;
+}
+
+.chat-winner-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+}
+
+.chat-winner-title {
+  font-family: 'Plus Jakarta Sans', var(--font-primary, sans-serif) !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  color: #1a1a1a !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  line-height: 1.2 !important;
+}
+
+.chat-winner-badge {
+  background: #1a1a1a !important;
+  color: #FFE600 !important;
+  font-size: 10px !important;
+  font-weight: 900 !important;
+  padding: 1px 6px !important;
+  border-radius: 4px !important;
+  letter-spacing: 0.5px !important;
+  white-space: nowrap !important;
+}
+
+.pos-1 .chat-winner-badge {
+  color: #FFE600 !important;
+}
+
+.pos-2 .chat-winner-badge {
+  color: #00F0FF !important;
+}
+
+.pos-3 .chat-winner-badge {
+  color: #FF2E93 !important;
+}
+
+.chat-reaction-btns {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  margin-top: 2px !important;
+}
+
+.chat-react-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  padding: 3px 8px !important;
+  border-radius: 6px !important;
+  border: 2px solid #1a1a1a !important;
+  background: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  color: #1a1a1a !important;
+  cursor: pointer !important;
+  transition: transform 0.1s ease, background 0.15s ease, box-shadow 0.1s ease !important;
+  user-select: none !important;
+  box-shadow: 2px 2px 0px #1a1a1a !important;
+}
+
+.chat-react-btn:hover:not(:disabled) {
+  transform: translateY(-1px) !important;
+  background: #f8fafc !important;
+}
+
+.chat-react-btn:active:not(:disabled) {
+  transform: translateY(1px) !important;
+  box-shadow: none !important;
+}
+
+/* Active Reactions */
+.chat-react-btn.active,
+.chat-react-btn.like-btn.active {
+  background: #00FF66 !important; /* Neon Green */
+  color: #1a1a1a !important;
+  border-color: #1a1a1a !important;
+}
+
+.chat-react-btn.dislike-btn.active {
+  background: #FF3B30 !important; /* Bold Red */
+  color: #ffffff !important;
+  border-color: #1a1a1a !important;
+}
+
+.chat-react-btn:disabled {
+  opacity: 0.55 !important;
+  cursor: not-allowed !important;
+  background: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: none !important;
+  pointer-events: none !important;
+}
+
+.chat-react-count {
+  font-weight: 900 !important;
+  font-family: var(--font-mono, monospace) !important;
+  font-size: 11px !important;
+}
+
+/* Level 2: Incorrect Guess Visibility System (Neo-Brutalist Card) */
+@keyframes guessShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-3px); }
+  40%, 80% { transform: translateX(3px); }
+}
+
+.chat-msg-guess-attempt {
+  background: #f8fafc !important;
+  border: 3px solid #1a1a1a !important;
+  border-radius: 8px !important;
+  padding: 6px 10px !important;
+  box-shadow: 4px 4px 0px #1a1a1a !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: 8px !important;
+  margin: 4px 0 !important;
+  animation: chatMsgIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), guessShake 0.35s ease !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.chat-avatar.small {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 6px !important;
+  border: 2px solid #1a1a1a !important;
+  background: #e2e8f0 !important;
+  flex-shrink: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.chat-avatar.small img {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+.chat-guess-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+  min-width: 0 !important;
+}
+
+.chat-guess-header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 6px !important;
+}
+
+.chat-guess-sender {
+  font-family: 'Plus Jakarta Sans', var(--font-primary, sans-serif) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #1a1a1a !important;
+}
+
+.chat-guess-sender strong {
+  text-transform: uppercase !important;
+  font-weight: 900 !important;
+}
+
+.chat-wrong-badge {
+  background: #FF3B30 !important;
+  color: #ffffff !important;
+  font-size: 9px !important;
+  font-weight: 900 !important;
+  padding: 1px 5px !important;
+  border-radius: 4px !important;
+  border: 1.5px solid #1a1a1a !important;
+  letter-spacing: 0.5px !important;
+  white-space: nowrap !important;
+}
+
+.chat-guess-val {
+  font-family: 'Space Grotesk', var(--font-primary, sans-serif) !important;
+  font-size: 13px !important;
+  font-weight: 800 !important;
+  color: #1a1a1a !important;
+  line-height: 1.2 !important;
+  word-break: break-word !important;
+  font-style: italic !important;
+}
+
+.guess-attempt-text {
+  font-size: 12px !important;
+  color: #4b5563 !important;
+  font-weight: 500 !important;
+  line-height: 1.2 !important;
+}
+
+.guess-attempt-text strong {
+  font-weight: 700 !important;
+  color: #1a1a1a !important;
+}
+
+/* Level 3: Subtle Spoiler Mask Pill */
+.chat-msg-spoiler-hidden {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 2px 4px !important;
+  margin: 2px 0 !important;
+}
+
+.chat-spoiler-pill {
+  display: inline-block !important;
+  background: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+  color: #64748b !important;
+  font-size: 11px !important;
+  font-style: italic !important;
+  padding: 2px 8px !important;
+  border-radius: 9999px !important;
+  user-select: none !important;
+}
+
+/* Level 3: Private Reaction Notification Pill */
+.chat-msg-personal-reaction {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 3px 6px !important;
+  margin: 2px 0 !important;
+}
+
+.personal-reaction-pill {
+  display: inline-block !important;
+  background: #FEF3C7 !important;
+  border: 1.5px solid #D97706 !important;
+  color: #92400E !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  padding: 2px 10px !important;
+  border-radius: 9999px !important;
+  box-shadow: 1px 1px 0px #D97706 !important;
+  animation: chatMsgIn 0.2s ease-out !important;
 }
 
 

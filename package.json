@@ -3,23 +3,19 @@
   "version": "1.0.0",
   "description": "Guess The Frame - Cinema Frame Guessing Party Game by Asmit",
   "scripts": {
-    "dev": "concurrently \"npm --prefix backend run dev\" \"npm --prefix react-app run dev\"",
+    "dev": "npm --prefix react-app run dev",
     "dev:react": "npm --prefix react-app run dev",
-    "dev:backend": "npm --prefix backend run dev",
-    "build": "npm --prefix backend run build && npm --prefix react-app run build",
+    "dev:party": "npm --prefix partykit run dev",
+    "build": "npm --prefix react-app run build",
     "build:react": "npm --prefix react-app run build",
-    "build:backend": "npm --prefix backend run build",
-    "start": "npm --prefix backend start",
+    "deploy:party": "npm --prefix partykit run deploy",
     "preview": "npm --prefix react-app run preview",
     "test": "playwright test",
-    "test:all": "npm run test:backend && npm run test:react && npm run test:e2e",
-    "test:backend": "npm --prefix backend test",
     "test:react": "npm --prefix react-app test",
     "test:e2e": "playwright test",
     "test:ui": "playwright test tests/ui.spec.js"
   },
   "dependencies": {
-    "mqtt": "^5.15.2",
     "playwright": "^1.62.1"
   },
   "devDependencies": {

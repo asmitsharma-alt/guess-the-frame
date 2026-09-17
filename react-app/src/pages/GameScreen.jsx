@@ -24,6 +24,7 @@ export const GameScreen = ({
   isAnswerRevealed = false,
   maskedHint = null,
   chatMessages = [],
+  roundWinners = [],
   onSkipRound,
   onNextRound,
   onTogglePause,
@@ -31,7 +32,8 @@ export const GameScreen = ({
   onRequestHint,
   onSubmitGuess,
   onSendChatMessage,
-  onAdjustScore
+  onAdjustScore,
+  onSendReaction
 }) => {
   const [guessInput, setGuessInput] = useState('');
   const [mobileGuessInput, setMobileGuessInput] = useState('');
@@ -41,6 +43,17 @@ export const GameScreen = ({
   const guessFeedbackTimerRef = useRef(null);
   const chatStreamRef = useRef(null);
   const imgRef = useRef(null);
+
+  const handleSendReaction = (messageId, reaction) => {
+    SoundManager.playClick();
+    if (onSendReaction) {
+      onSendReaction(messageId, reaction);
+    } else if (typeof window !== 'undefined' && window.__sendMultiplayerReaction) {
+      window.__sendMultiplayerReaction(messageId, reaction);
+    } else if (typeof window !== 'undefined' && window.MultiplayerEngine?.sendReaction) {
+      window.MultiplayerEngine.sendReaction(messageId, reaction);
+    }
+  };
 
   const frame = currentFrame || currentPlaylist[currentPlayIndex] || null;
   const roundNum = currentPlayIndex + 1;
@@ -60,7 +73,6 @@ export const GameScreen = ({
 
   // Preload and GPU-decode upcoming frame images and reveals in background to eliminate transition latency
   useEffect(() => {
-    AssetPreloader.preloadAll();
     if (currentPlaylist && currentPlaylist.length > 0) {
       for (let i = currentPlayIndex; i <= Math.min(currentPlaylist.length - 1, currentPlayIndex + 3); i++) {
         const item = currentPlaylist[i];
@@ -78,18 +90,127 @@ export const GameScreen = ({
     }
   }, [currentPlaylist, currentPlayIndex]);
 
-  // Auto-scroll chat stream on new message
+  const [unreadChatCount, setUnreadChatCount] = useState(0);
+  const [latestIncomingChat, setLatestIncomingChat] = useState(null);
+  const prevChatCountRef = useRef(chatMessages?.length || 0);
+  const incomingChatTimerRef = useRef(null);
+
+  // Auto-scroll chat stream and track unread chat for mobile
   useEffect(() => {
     if (chatStreamRef.current) {
-      chatStreamRef.current.scrollTop = chatStreamRef.current.scrollHeight;
+      const el = chatStreamRef.current;
+      const isNearBottom = el.scrollHeight - el.scrollTop - el.clientHeight <= 100;
+      if (isNearBottom || prevChatCountRef.current === 0) {
+        el.scrollTop = el.scrollHeight;
+      }
     }
-  }, [chatMessages]);
+    const currentLen = chatMessages?.length || 0;
+    if (currentLen > prevChatCountRef.current) {
+      const newMsg = chatMessages[currentLen - 1];
+      const effPid = (typeof window !== 'undefined' && window.MultiplayerEngine?.playerId) || playerId;
+      if (newMsg && newMsg.senderId !== effPid) {
+        // Show mobile toast notification only for important messages (not repetitive guess attempts)
+        if (!mobileDrawerOpen && newMsg.type !== 'guess_attempt' && newMsg.type !== 'spoiler_hidden') {
+          setUnreadChatCount(prev => prev + 1);
+          setLatestIncomingChat(newMsg);
+          if (incomingChatTimerRef.current) clearTimeout(incomingChatTimerRef.current);
+          incomingChatTimerRef.current = setTimeout(() => {
+            setLatestIncomingChat(null);
+          }, 4500);
+        }
+      }
+    }
+    prevChatCountRef.current = currentLen;
+  }, [chatMessages, mobileDrawerOpen, playerId]);
 
-  const effectiveIsHost = typeof isHost === 'boolean' ? isHost : Boolean(typeof window !== 'undefined' && window.MultiplayerEngine?.isHost);
+  const handleToggleMobileDrawer = () => {
+    setMobileDrawerOpen(prev => {
+      const next = !prev;
+      if (next) {
+        setUnreadChatCount(0);
+        setLatestIncomingChat(null);
+      }
+      return next;
+    });
+  };
+
+  const [rejectionAlert, setRejectionAlert] = useState(null);
+  const rejectionTimerRef = useRef(null);
+
+  useEffect(() => {
+    const handleCommandRejected = (e) => {
+      const detail = e.detail;
+      if (!detail) return;
+      let msg = '';
+      if (detail.reason === 'ALREADY_SUBMITTED_THIS_ROUND' || detail.code === 'ALREADY_SUBMITTED_THIS_ROUND') {
+        msg = '⚠️ Only 1 answer attempt allowed per round!';
+      } else if (detail.reason === 'ALREADY_CORRECT_THIS_ROUND' || detail.code === 'ALREADY_CORRECT_THIS_ROUND') {
+        msg = '🎉 You already answered correctly this round!';
+      } else if (detail.reason === 'HINT_ALREADY_USED' || detail.code === 'HINT_ALREADY_USED') {
+        msg = '💡 You have already used your hint for this round!';
+      } else if (detail.reason === 'ROUND_ALREADY_FINISHED' || detail.code === 'ROUND_ALREADY_FINISHED') {
+        msg = '⌛ This round has already finished!';
+      } else if (detail.reason === 'NOT_HOST' || detail.code === 'NOT_HOST' || detail.reason === 'UNAUTHORIZED_NON_HOST') {
+        msg = '👑 Only the host can execute this command!';
+      } else if (detail.reason === 'ROUND_PAUSED' || detail.code === 'ROUND_PAUSED') {
+        msg = '⏸ Match is currently paused!';
+      } else {
+        msg = `Action rejected: ${detail.reason || detail.code || 'Command rejected'}`;
+      }
+      setRejectionAlert(msg);
+      if (rejectionTimerRef.current) clearTimeout(rejectionTimerRef.current);
+      rejectionTimerRef.current = setTimeout(() => {
+        setRejectionAlert(null);
+      }, 4000);
+    };
+
+    window.addEventListener('command_rejected', handleCommandRejected);
+    return () => {
+      window.removeEventListener('command_rejected', handleCommandRejected);
+      if (rejectionTimerRef.current) clearTimeout(rejectionTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    setRejectionAlert(null);
+    setLastSubmittedGuess(null);
+  }, [currentPlayIndex]);
+
+  const effectivePlayerId = (typeof window !== 'undefined' && window.MultiplayerEngine?.playerId) || playerId;
+  const myPlayer = players.find(p => p.id === effectivePlayerId || p.id === playerId);
+  const effectiveIsHost = Boolean(
+    myPlayer !== undefined
+      ? myPlayer.isHost === true
+      : (isHost && (typeof window === 'undefined' || !window.MultiplayerEngine || window.MultiplayerEngine.isHost === true))
+  );
+
+  const winnersList = Array.isArray(roundWinners)
+    ? roundWinners
+    : (typeof window !== 'undefined' && (window.MultiplayerEngine?.gameState?.round?.winners || window.MultiplayerEngine?.currentRoundWinners || window.GS?.roundWinners)) || [];
+  const hasWonThisRound = Boolean(winnersList.some(w => w && (w.playerId === effectivePlayerId || w.id === effectivePlayerId)));
+
+  // Unlimited guessing and chatting: input is only disabled if round finished or match paused
+  const isInputDisabled = isRoundFinished || isPaused;
+
+  let inputPlaceholder = "Type guess or chat...";
+  let mobileInputPlaceholder = "Type movie guess...";
+  if (hasWonThisRound) {
+    inputPlaceholder = "🎉 You guessed correctly! Chat with players...";
+    mobileInputPlaceholder = "🎉 Chat with players...";
+  } else if (isRoundFinished) {
+    inputPlaceholder = "⌛ Round finished - revealing answer...";
+    mobileInputPlaceholder = "⌛ Round finished";
+  } else if (isPaused) {
+    inputPlaceholder = "⏸ Match paused...";
+    mobileInputPlaceholder = "⏸ Match paused";
+  }
 
   const submitGuess = (val) => {
     const clean = val.trim();
-    if (!clean) return;
+    if (!clean || isInputDisabled) return;
+    if (!hasWonThisRound) {
+      SoundManager.playGuessSubmit();
+    }
     setGuessInput('');
     setMobileGuessInput('');
     setLastSubmittedGuess({ text: clean, timestamp: Date.now() });
@@ -105,30 +226,18 @@ export const GameScreen = ({
       ? window.MultiplayerEngine.currentPlayIndex
       : (currentPlayIndex ?? 0);
 
-    if (typeof window !== 'undefined' && window.ChatEngine?.processOutgoingMessage) {
-      window.ChatEngine.processOutgoingMessage(clean);
-    } else if (typeof window !== 'undefined' && window.MultiplayerEngine) {
-      if (window.MultiplayerEngine.isHost) {
-        window.MultiplayerEngine.validateAndProcessGuess({
-          playerId: senderPid,
-          senderId: senderPid,
-          playerName: senderPname,
-          playerAvatar: senderPav,
-          guess: clean,
-          roundIndex: curIdx
-        });
-      } else {
-        window.MultiplayerEngine.sendEvent('SUBMIT_GUESS', {
-          playerId: senderPid,
-          senderId: senderPid,
-          playerName: senderPname,
-          playerAvatar: senderPav,
-          guess: clean,
-          roundIndex: curIdx
-        });
-      }
+    if (onSubmitGuess) {
+      onSubmitGuess(clean);
+    } else if (typeof window !== 'undefined' && window.MultiplayerEngine?.sendEvent) {
+      window.MultiplayerEngine.sendEvent('SUBMIT_GUESS', {
+        playerId: senderPid,
+        senderId: senderPid,
+        playerName: senderPname,
+        playerAvatar: senderPav,
+        guess: clean,
+        roundIndex: curIdx
+      });
     }
-    if (onSubmitGuess) onSubmitGuess(clean);
   };
 
   const handleGuessSubmit = (e) => {
@@ -355,93 +464,95 @@ export const GameScreen = ({
           </div>
 
           {/* Host Controls */}
-          <div className="host-floating-bar" id="hostFloatingBar" style={{ display: effectiveIsHost ? 'flex' : 'none' }}>
-            <span className="hfb-label" id="hfbLabel"><Crown size={16} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> HOST CONTROLS:</span>
-            <div className="hfb-host-only" id="hfbHostOnly" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+          {effectiveIsHost && (
+            <div className="host-floating-bar" id="hostFloatingBar" style={{ display: 'flex' }}>
+              <span className="hfb-label" id="hfbLabel"><Crown size={16} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> HOST CONTROLS:</span>
+              <div className="hfb-host-only" id="hfbHostOnly" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
+                <button
+                  type="button"
+                  className="hfb-btn"
+                  id="hfbSkipBtn"
+                  onClick={() => {
+                    SoundManager.playSkip();
+                    if (typeof window !== 'undefined' && window.MultiplayerEngine) {
+                      window.MultiplayerEngine.isRoundFinished = true;
+                    }
+                    if (onSkipRound) onSkipRound();
+                  }}
+                >
+                  <SkipForward size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Skip Frame
+                </button>
+                <button
+                  type="button"
+                  className="hfb-btn"
+                  id="hfbNextBtn"
+                  onClick={() => {
+                    SoundManager.playClick();
+                    if (onNextRound) onNextRound();
+                  }}
+                  style={{ display: isRoundFinished ? 'inline-block' : 'none', background: '#10B981 !important', color: '#fff !important' }}
+                >
+                  <Play size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Next Round
+                </button>
+                <button
+                  type="button"
+                  className="hfb-btn"
+                  id="hfbPauseBtn"
+                  onClick={() => {
+                    SoundManager.playClick();
+                    if (typeof window !== 'undefined' && window.MultiplayerEngine) {
+                      window.MultiplayerEngine.isPaused = !window.MultiplayerEngine.isPaused;
+                    }
+                    if (onTogglePause) onTogglePause();
+                  }}
+                >
+                  {isPaused ? <><Play size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Resume</> : <><Pause size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Pause</>}
+                </button>
+                <button
+                  type="button"
+                  className="hfb-btn"
+                  id="hfbEndBtn"
+                  onClick={() => {
+                    SoundManager.playClick();
+                    if (window.confirm('Are you sure you want to end this match?')) {
+                      if (onEndMatch) onEndMatch();
+                    }
+                  }}
+                >
+                  <Flag size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> End Match
+                </button>
+              </div>
               <button
                 type="button"
                 className="hfb-btn"
-                id="hfbSkipBtn"
-                onClick={() => {
-                  SoundManager.playSkip();
-                  if (typeof window !== 'undefined' && window.MultiplayerEngine) {
-                    window.MultiplayerEngine.isRoundFinished = true;
-                  }
-                  if (onSkipRound) onSkipRound();
-                }}
-              >
-                <SkipForward size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Skip Frame
-              </button>
-              <button
-                type="button"
-                className="hfb-btn"
-                id="hfbNextBtn"
+                id="hfbHintBtn"
                 onClick={() => {
                   SoundManager.playClick();
-                  if (onNextRound) onNextRound();
-                }}
-                style={{ display: isRoundFinished ? 'inline-block' : 'none', background: '#10B981 !important', color: '#fff !important' }}
-              >
-                <Play size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Next Round
-              </button>
-              <button
-                type="button"
-                className="hfb-btn"
-                id="hfbPauseBtn"
-                onClick={() => {
-                  SoundManager.playClick();
-                  if (typeof window !== 'undefined' && window.MultiplayerEngine) {
-                    window.MultiplayerEngine.isPaused = !window.MultiplayerEngine.isPaused;
+                  if (typeof window !== 'undefined' && window.MultiplayerEngine?.requestHint) {
+                    window.MultiplayerEngine.requestHint();
                   }
-                  if (onTogglePause) onTogglePause();
+                  if (onRequestHint) onRequestHint();
                 }}
+                style={{ background: '#FDE047 !important' }}
               >
-                {isPaused ? <><Play size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Resume</> : <><Pause size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Pause</>}
+                <Lightbulb size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Hint (-2 pts)
               </button>
-              <button
-                type="button"
-                className="hfb-btn"
-                id="hfbEndBtn"
-                onClick={() => {
-                  SoundManager.playClick();
-                  if (window.confirm('Are you sure you want to end this match?')) {
-                    if (onEndMatch) onEndMatch();
-                  }
-                }}
-              >
-                <Flag size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> End Match
-              </button>
-            </div>
-            <button
-              type="button"
-              className="hfb-btn"
-              id="hfbHintBtn"
-              onClick={() => {
-                SoundManager.playClick();
-                if (typeof window !== 'undefined' && window.MultiplayerEngine?.requestHint) {
-                  window.MultiplayerEngine.requestHint();
-                }
-                if (onRequestHint) onRequestHint();
-              }}
-              style={{ background: '#FDE047 !important' }}
-            >
-              <Lightbulb size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Hint (-2 pts)
-            </button>
 
-            {/* Active Hint Display */}
-            <div
-              className="hfb-active-hint-pill"
-              id="hfbActiveHintPill"
-              style={{ display: maskedHint ? 'inline-flex' : 'none' }}
-            >
-              <span className="hahp-badge"><Lightbulb size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> HINT:</span>
-              <span className="hahp-text" id="hfbActiveHintText">{maskedHint || ''}</span>
+              {/* Active Hint Display */}
+              <div
+                className="hfb-active-hint-pill"
+                id="hfbActiveHintPill"
+                style={{ display: maskedHint ? 'inline-flex' : 'none' }}
+              >
+                <span className="hahp-badge"><Lightbulb size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> HINT:</span>
+                <span className="hahp-text" id="hfbActiveHintText">{maskedHint || ''}</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* RIGHT: SIDEBAR CONTROLS, LEADERBOARD & LIVE CHAT COLUMN */}
-        <aside className="game-sidebar-col">
+        <aside className={`game-sidebar-col ${mobileDrawerOpen ? 'drawer-open' : ''}`}>
           {/* Card 1: Round Controls */}
           <div className="panel-sec">
             <h3>
@@ -559,22 +670,160 @@ export const GameScreen = ({
 
             <div className="chat-stream" id="liveChatStream" ref={chatStreamRef}>
               <div id="chatMessages" className="chat-messages-wrap">
-                <div className="chat-msg-round"><Clapperboard size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Welcome to Live Guess Stream!</div>
+                {chatMessages && chatMessages.map((m, idx) => {
+                  if (m.type === 'winner') {
+                    const isSelf = Boolean(effectivePlayerId && (m.senderId === effectivePlayerId || m.senderId === playerId));
+                    const likesCount = m.reactions?.likes?.length || 0;
+                    const dislikesCount = m.reactions?.dislikes?.length || 0;
+                    const hasLiked = Boolean(effectivePlayerId && m.reactions?.likes?.includes(effectivePlayerId));
+                    const hasDisliked = Boolean(effectivePlayerId && m.reactions?.dislikes?.includes(effectivePlayerId));
+                    const posLabel = m.position === 1 ? '1ST' : m.position === 2 ? '2ND' : m.position === 3 ? '3RD' : '';
+                    const pointsWon = m.points || (m.position === 1 ? 10 : m.position === 2 ? 7 : 5);
+
+                    return (
+                      <div key={m.id || idx} className={`chat-msg chat-msg-winner-banner pos-${m.position || 1}`} data-message-id={m.id}>
+                        <div className="chat-avatar">
+                          <img src={getAvatarSrc(m.senderAvatar, 'aman')} alt={m.senderName || 'Player'} />
+                        </div>
+                        <div className="chat-winner-content">
+                          <div className="chat-winner-header">
+                            <span className="chat-winner-title">
+                              {m.senderName} GUESSED +{pointsWon} PTS
+                            </span>
+                            {posLabel && <span className="chat-winner-badge">#{posLabel}</span>}
+                          </div>
+                          <div className="chat-reaction-btns">
+                            <button
+                              type="button"
+                              className={`chat-react-btn like-btn ${hasLiked ? 'active' : ''}`}
+                              disabled={isSelf}
+                              onClick={() => handleSendReaction(m.id, 'like')}
+                              title={isSelf ? 'Cannot react to your own answer' : 'Like'}
+                            >
+                              👍 <span className="chat-react-count">{likesCount}</span>
+                            </button>
+                            <button
+                              type="button"
+                              className={`chat-react-btn dislike-btn ${hasDisliked ? 'active' : ''}`}
+                              disabled={isSelf}
+                              onClick={() => handleSendReaction(m.id, 'dislike')}
+                              title={isSelf ? 'Cannot react to your own answer' : 'Dislike'}
+                            >
+                              👎 <span className="chat-react-count">{dislikesCount}</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (m.type === 'guess_attempt') {
+                    const guessVal = m.guessText || (m.text && m.text.includes('"') ? m.text.slice(m.text.indexOf('"') + 1, m.text.lastIndexOf('"')) : (m.text && !m.text.endsWith(' guessed') ? m.text : null));
+                    return (
+                      <div key={m.id || idx} className="chat-msg chat-msg-guess-attempt" data-message-id={m.id}>
+                        <div className="chat-avatar small">
+                          <img src={getAvatarSrc(m.senderAvatar, 'aman')} alt={m.senderName || 'Player'} />
+                        </div>
+                        <div className="chat-guess-content">
+                          <div className="chat-guess-header">
+                            <span className="chat-guess-sender">
+                              <strong>{m.senderName}</strong>
+                            </span>
+                            <span className="chat-wrong-badge">❌ WRONG GUESS</span>
+                          </div>
+                          {guessVal && (
+                            <div className="chat-guess-val">
+                              "{guessVal}"
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (m.type === 'spoiler_hidden') {
+                    return (
+                      <div key={m.id || idx} className="chat-msg chat-msg-spoiler-hidden" data-message-id={m.id}>
+                        <div className="chat-avatar small">
+                          <img src={getAvatarSrc(m.senderAvatar, 'aman')} alt={m.senderName || 'Player'} />
+                        </div>
+                        <div className="chat-msg-body">
+                          <span className="chat-spoiler-pill">🤫 spoiler hidden</span>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (m.type === 'reaction_notification') {
+                    // Strictly private to target recipient
+                    if (m.targetPlayerId && m.targetPlayerId !== effectivePlayerId) {
+                      return null;
+                    }
+                    return (
+                      <div key={m.id || idx} className="chat-msg chat-msg-personal-reaction" data-message-id={m.id}>
+                        <div className="chat-msg-body">
+                          <span className="personal-reaction-pill">{m.text}</span>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  // Default player chat or system message
+                  return (
+                    <div key={m.id || idx} className={`chat-msg ${m.type === 'system' ? 'chat-msg-system' : ''}`} data-message-id={m.id}>
+                      <div className="chat-avatar">
+                        <img src={getAvatarSrc(m.senderAvatar, 'aman')} alt={m.senderName || 'Player'} />
+                      </div>
+                      <div className="chat-msg-body">
+                        <div className="chat-msg-header">
+                          <span style={{ color: '#1a1a1a', fontWeight: 700 }}>{m.senderName || 'Player'}</span>
+                        </div>
+                        <div className="chat-msg-text">{m.text}</div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
+
+            {rejectionAlert && (
+              <div className="command-rejection-banner" style={{
+                backgroundColor: '#ef4444',
+                color: '#ffffff',
+                fontWeight: '800',
+                fontSize: '12px',
+                padding: '6px 10px',
+                borderRadius: '6px',
+                border: '2px solid #000000',
+                boxShadow: '2px 2px 0px #000000',
+                textAlign: 'center',
+                margin: '6px 10px 2px 10px'
+              }}>
+                {rejectionAlert}
+              </div>
+            )}
 
             <form className="chat-input-form" id="chatInputForm" onSubmit={handleGuessSubmit}>
               <input
                 type="text"
                 id="chatTextInput"
                 className="chat-input-box"
-                placeholder="Type guess or chat..."
+                placeholder={inputPlaceholder}
                 autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="none"
+                spellCheck={false}
                 maxLength={80}
                 value={guessInput}
+                disabled={isInputDisabled}
                 onChange={(e) => setGuessInput(e.target.value)}
               />
-              <button type="submit" className="chat-send-btn" id="chatSendBtn">
+              <button
+                type="submit"
+                className="chat-send-btn"
+                id="chatSendBtn"
+                disabled={isInputDisabled}
+              >
                 Send
               </button>
             </form>
@@ -590,7 +839,11 @@ export const GameScreen = ({
       ></div>
 
       {/* Mobile Sticky Bottom Guess & Chat Bar */}
-      <div className="mobile-bottom-bar" id="mobileBottomBar">
+      <div
+        className={`mobile-bottom-bar ${mobileDrawerOpen ? 'drawer-open' : ''}`}
+        id="mobileBottomBar"
+        style={mobileDrawerOpen ? { pointerEvents: 'none' } : undefined}
+      >
         {/* Floating Live Typing Preview Banner (Ensures 100% visibility of what is being typed) */}
         {mobileGuessInput && mobileGuessInput.trim().length > 0 && (
           <div className="mobile-typing-preview-bubble" id="mobileTypingPreview">
@@ -619,6 +872,22 @@ export const GameScreen = ({
           </div>
         )}
 
+        {/* Floating Live Incoming Chat Pop-In Banner for Mobile */}
+        {!mobileDrawerOpen && latestIncomingChat && (
+          <div
+            className="mobile-incoming-chat-toast"
+            id="mobileIncomingChatToast"
+            onClick={handleToggleMobileDrawer}
+          >
+            <div className="mict-inner">
+              <span className="mict-badge">CHAT</span>
+              <span className="mict-sender">{latestIncomingChat.senderName}:</span>
+              <span className="mict-text">"{latestIncomingChat.text}"</span>
+              <span className="mict-action">VIEW &gt;</span>
+            </div>
+          </div>
+        )}
+
         <div
           id="mobileHintBanner"
           className="mobile-hint-banner"
@@ -627,23 +896,46 @@ export const GameScreen = ({
           <span className="mhb-badge"><Lightbulb size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> HINT:</span>
           <span className="mhb-text" id="mobileHintText">{maskedHint || ''}</span>
         </div>
+        {rejectionAlert && (
+          <div className="command-rejection-banner" style={{
+            backgroundColor: '#ef4444',
+            color: '#ffffff',
+            fontWeight: '800',
+            fontSize: '11px',
+            padding: '5px 8px',
+            borderRadius: '6px',
+            border: '2px solid #000000',
+            boxShadow: '2px 2px 0px #000000',
+            textAlign: 'center',
+            margin: '4px 8px'
+          }}>
+            {rejectionAlert}
+          </div>
+        )}
         <div className="mobile-bottom-bar-row">
           <form className="mobile-guess-form" id="mobileQuickForm" onSubmit={handleMobileGuessSubmit}>
             <input
               type="text"
               id="mobileQuickInput"
               className="mobile-quick-input"
-              placeholder="Type movie guess..."
+              placeholder={mobileInputPlaceholder}
               autoComplete="off"
               autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck="false"
+              autoCapitalize="none"
+              spellCheck={false}
               maxLength={80}
               value={mobileGuessInput}
+              disabled={isInputDisabled}
               onChange={(e) => setMobileGuessInput(e.target.value)}
             />
-            <button type="submit" className="mobile-quick-btn" id="mobileQuickBtn" title="Submit Guess">
-              <span>GUESS</span>
+            <button
+              type="submit"
+              className="mobile-quick-btn"
+              id="mobileQuickBtn"
+              title={hasWonThisRound ? "Send Chat" : "Submit Guess"}
+              disabled={isInputDisabled}
+            >
+              <span>{hasWonThisRound ? 'CHAT' : 'GUESS'}</span>
             </button>
           </form>
           <button
@@ -662,11 +954,17 @@ export const GameScreen = ({
             type="button"
             className="mobile-bar-chat-btn"
             id="mobileChatToggleBtn"
-            onClick={() => setMobileDrawerOpen(prev => !prev)}
+            onClick={handleToggleMobileDrawer}
             title="Open Live Chat"
           >
             <span style={{ fontSize: '18px' }}><MessageCircle size={18} strokeWidth={2.5} /></span>
-            <span id="mobileChatBadge" className="mobile-chat-badge" style={{ display: 'none' }}>0</span>
+            <span
+              id="mobileChatBadge"
+              className="mobile-chat-badge"
+              style={{ display: unreadChatCount > 0 ? 'flex' : 'none' }}
+            >
+              {unreadChatCount}
+            </span>
           </button>
         </div>
       </div>

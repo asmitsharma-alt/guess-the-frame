@@ -12,10 +12,10 @@ export const RejoinRoomModal = ({ isOpen, roomCode, playerName, avatar, onConfir
           <button
             className="mp-modal-close"
             onClick={() => {
-              const modal = document.getElementById('rejoinRoomModal');
-              if (modal) modal.classList.remove('active');
+              SoundManager.playClick();
               if (onDismiss) onDismiss();
             }}
+            aria-label="Close modal"
             style={{ position: 'absolute', right: '12px', top: '12px' }}
           >
             <X size={16} strokeWidth={3} />
@@ -48,8 +48,7 @@ export const RejoinRoomModal = ({ isOpen, roomCode, playerName, avatar, onConfir
             type="button"
             className="mp-btn-primary"
             onClick={() => {
-              const modal = document.getElementById('rejoinRoomModal');
-              if (modal) modal.classList.remove('active');
+              SoundManager.playClick();
               if (onConfirm) onConfirm();
             }}
             style={{ background: '#2ecc71', fontSize: '15px', padding: '13px 18px', width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer' }}
@@ -62,8 +61,7 @@ export const RejoinRoomModal = ({ isOpen, roomCode, playerName, avatar, onConfir
             type="button"
             className="mp-btn-secondary"
             onClick={() => {
-              const modal = document.getElementById('rejoinRoomModal');
-              if (modal) modal.classList.remove('active');
+              SoundManager.playClick();
               if (onDismiss) onDismiss();
             }}
             style={{ background: '#ffffff', border: '2px solid #1a1a1a', fontSize: '12px', padding: '10px', width: '100%', fontWeight: 800, cursor: 'pointer', textTransform: 'uppercase', boxShadow: '2px 2px 0 #1a1a1a' }}

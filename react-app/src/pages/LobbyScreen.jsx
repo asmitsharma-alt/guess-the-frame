@@ -23,17 +23,15 @@ export const LobbyScreen = ({
   const [copied, setCopied] = useState(false);
   const [isMobile, setIsMobile] = useState(() => (typeof window !== 'undefined' ? window.innerWidth < 768 : false));
 
-  const myPreloaded = Boolean(preloadProgress?.isComplete || (preloadProgress?.percent ?? 0) >= 100);
+  const myPreloaded = Boolean(preloadProgress?.isComplete || (preloadProgress?.percent ?? 0) >= 25);
   const otherPlayers = (players || []).filter(p => p.id !== playerId && p.connected !== false);
-  const otherPlayersPreloaded = otherPlayers.length === 0 || otherPlayers.every(p => p.preloaded === true || p.loaded === true);
-  const allPlayersPreloaded = myPreloaded && otherPlayersPreloaded;
-  const canStartMatch = Boolean(isHost && allPlayersPreloaded);
+  const otherPlayersPreloaded = otherPlayers.length === 0 || otherPlayers.every(p => p.preloaded !== false || p.loaded === true);
+  const allPlayersPreloaded = myPreloaded;
+  const canStartMatch = Boolean(isHost);
   const readyCount = (players || []).filter(p => p.preloaded || p.id === playerId).length;
 
   const getStartButtonText = () => {
     if (!isHost) return 'WAITING FOR HOST...';
-    if (!myPreloaded) return `PRELOADING ASSETS (${preloadProgress?.percent || 0}%)...`;
-    if (!otherPlayersPreloaded) return `WAITING FOR PLAYERS (${readyCount}/${players.length} READY)...`;
     return 'START MATCH';
   };
 
@@ -280,10 +278,13 @@ export const LobbyScreen = ({
                         <button
                           type="button"
                           onClick={() => onRemovePlayer && onRemovePlayer(i)}
-                          className="absolute -top-2 -right-2 bg-[#ff6b6b] text-white hover:bg-red-600 border-2 border-on-surface w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] transition-all z-10 cursor-pointer"
+                          className="absolute -top-3.5 -right-3.5 w-11 h-11 flex items-center justify-center z-10 cursor-pointer bg-transparent border-0 p-0"
                           title="Remove Player"
+                          aria-label="Remove Player"
                         >
-                          <X size={12} strokeWidth={3} />
+                          <span className="bg-[#ff6b6b] text-white hover:bg-red-600 border-2 border-on-surface w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black shadow-[1px_1px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] transition-all">
+                            <X size={12} strokeWidth={3} />
+                          </span>
                         </button>
                       )}
                       <div
@@ -367,6 +368,7 @@ export const LobbyScreen = ({
                 <button
                   type="button"
                   id="modeBadge-frames"
+                  aria-pressed={isCategoryActive('frames')}
                   onClick={() => handleToggleCategory('frames')}
                   className={`mode-badge border-2 border-on-surface py-1.5 px-1 rounded-lg font-label-bold text-[10px] uppercase flex flex-col items-center justify-center gap-0.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all font-black select-none ${
                     isCategoryActive('frames')
@@ -385,6 +387,7 @@ export const LobbyScreen = ({
                 <button
                   type="button"
                   id="modeBadge-eyes"
+                  aria-pressed={isCategoryActive('eyes')}
                   onClick={() => handleToggleCategory('eyes')}
                   className={`mode-badge border-2 border-on-surface py-1.5 px-1 rounded-lg font-label-bold text-[10px] uppercase flex flex-col items-center justify-center gap-0.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all font-black select-none ${
                     isCategoryActive('eyes')
@@ -403,6 +406,7 @@ export const LobbyScreen = ({
                 <button
                   type="button"
                   id="modeBadge-dialogue"
+                  aria-pressed={isCategoryActive('dialogue')}
                   onClick={() => handleToggleCategory('dialogue')}
                   className={`mode-badge border-2 border-on-surface py-1.5 px-1 rounded-lg font-label-bold text-[10px] uppercase flex flex-col items-center justify-center gap-0.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all font-black select-none ${
                     isCategoryActive('dialogue')
@@ -529,7 +533,14 @@ export const LobbyScreen = ({
                     {progressPercent}%
                   </span>
                 </div>
-                <div className="w-full h-2 bg-surface-variant border border-on-surface rounded-full overflow-hidden">
+                <div
+                  className="w-full h-2 bg-surface-variant border border-on-surface rounded-full overflow-hidden"
+                  role="progressbar"
+                  aria-valuenow={progressPercent}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-label="Asset preloading progress"
+                >
                   <div
                     className="h-full bg-neo-green transition-all duration-300"
                     style={{ width: `${progressPercent}%` }}
@@ -683,10 +694,13 @@ export const LobbyScreen = ({
                           <button
                             type="button"
                             onClick={() => onRemovePlayer && onRemovePlayer(i)}
-                            className="absolute -top-2.5 -right-2.5 bg-[#ff6b6b] text-white hover:bg-red-600 border-2 border-on-surface w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] transition-all z-10 cursor-pointer"
+                            className="absolute -top-3.5 -right-3.5 w-11 h-11 flex items-center justify-center z-10 cursor-pointer bg-transparent border-0 p-0"
                             title="Remove Player"
+                            aria-label="Remove Player"
                           >
-                            <X size={12} strokeWidth={3} />
+                            <span className="bg-[#ff6b6b] text-white hover:bg-red-600 border-2 border-on-surface w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] transition-all">
+                              <X size={12} strokeWidth={3} />
+                            </span>
                           </button>
                         )}
                         <div
@@ -787,7 +801,14 @@ export const LobbyScreen = ({
                     </div>
                   </div>
                   {/* Progress Bar */}
-                  <div className="w-full h-6 bg-surface-variant border-2 border-on-surface p-0.5 overflow-hidden">
+                  <div
+                    className="w-full h-6 bg-surface-variant border-2 border-on-surface p-0.5 overflow-hidden"
+                    role="progressbar"
+                    aria-valuenow={progressPercent}
+                    aria-valuemin={0}
+                    aria-valuemax={100}
+                    aria-label="Asset preloading progress"
+                  >
                     <div
                       className="h-full bg-neo-green border-r-2 border-on-surface transition-all duration-300 relative"
                       style={{ width: `${progressPercent}%` }}
@@ -853,6 +874,7 @@ export const LobbyScreen = ({
                     <button
                       type="button"
                       id="modeBadge-frames"
+                      aria-pressed={isCategoryActive('frames')}
                       onClick={() => handleToggleCategory('frames')}
                       className={`mode-badge border-2 border-on-surface py-2 px-1.5 rounded-xl font-label-bold text-[11px] uppercase flex flex-col items-center justify-center gap-1 neo-shadow-sm transition-all font-black select-none ${
                         isCategoryActive('frames')
@@ -871,6 +893,7 @@ export const LobbyScreen = ({
                     <button
                       type="button"
                       id="modeBadge-eyes"
+                      aria-pressed={isCategoryActive('eyes')}
                       onClick={() => handleToggleCategory('eyes')}
                       className={`mode-badge border-2 border-on-surface py-2 px-1.5 rounded-xl font-label-bold text-[11px] uppercase flex flex-col items-center justify-center gap-1 neo-shadow-sm transition-all font-black select-none ${
                         isCategoryActive('eyes')
@@ -889,6 +912,7 @@ export const LobbyScreen = ({
                     <button
                       type="button"
                       id="modeBadge-dialogue"
+                      aria-pressed={isCategoryActive('dialogue')}
                       onClick={() => handleToggleCategory('dialogue')}
                       className={`mode-badge border-2 border-on-surface py-2 px-1.5 rounded-xl font-label-bold text-[11px] uppercase flex flex-col items-center justify-center gap-1 neo-shadow-sm transition-all font-black select-none ${
                         isCategoryActive('dialogue')

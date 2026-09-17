@@ -182,8 +182,12 @@ export function installTestBridge(gameContextRef) {
         }
         if (cInput && !cInput._typingBound) {
           cInput._typingBound = true;
-          cInput.addEventListener('focus', handleFocus);
-          cInput.addEventListener('blur', () => handleBlur(cInput));
+          cInput.addEventListener('focus', () => {
+            updateVH();
+          });
+          cInput.addEventListener('blur', () => {
+            updateVH();
+          });
         }
       };
 
@@ -299,8 +303,8 @@ export function installTestBridge(gameContextRef) {
       this._onLaunch = onLaunchCallback;
       this._secondsLeft = 0;
       UI.showScreen('gameScreen');
-      if (gameContextRef?.current?.setIsHost) {
-        gameContextRef.current.setIsHost(!!isHost);
+      if (gameContextRef?.current?.setIsHost && typeof window !== 'undefined' && window.MultiplayerEngine) {
+        gameContextRef.current.setIsHost(Boolean(window.MultiplayerEngine.isHost));
       }
       if (typeof onLaunchCallback === 'function') {
         onLaunchCallback();
@@ -498,17 +502,41 @@ export function installTestBridge(gameContextRef) {
     },
 
     renderWinnerBanner(winner) {
-      const stream = document.getElementById('liveChatStream');
-      if (stream) {
-        const banner = document.createElement('div');
-        banner.className = 'chat-msg-winner';
-        banner.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg></div>' +
-          '<div class="chat-winner-text">' +
-          '<strong>' + SecurityUtil.escapeHtml(winner.playerName || 'Player') + '</strong> guessed the answer! ' +
-          '<span style="color:#b45309; font-weight:900;">(+' + (winner.points || 10) + ' pts - ' + (winner.position === 1 ? '1st' : winner.position === 2 ? '2nd' : '3rd') + ')</span>' +
-          '</div>';
-        stream.appendChild(banner);
-        stream.scrollTop = stream.scrollHeight;
+      const winMsg = {
+        id: 'winner_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+        type: 'winner',
+        senderId: winner.playerId || 'winner_p',
+        senderName: winner.playerName || 'Player',
+        senderAvatar: winner.playerAvatar || 'aman',
+        text: `${(winner.playerName || 'PLAYER').toUpperCase()} GUESSED +${winner.points || 10} PTS`,
+        points: winner.points || 10,
+        position: winner.position || 1,
+        reactions: { likes: [], dislikes: [] },
+        timestamp: Date.now()
+      };
+      this.renderMessage(winMsg);
+    },
+
+    sendReaction(targetMessageId, reaction) {
+      if (window.__sendMultiplayerReaction) {
+        window.__sendMultiplayerReaction(targetMessageId, reaction);
+      } else if (gameContextRef?.current?.setChatMessages) {
+        gameContextRef.current.setChatMessages(prev => prev.map(m => {
+          if (m.id === targetMessageId) {
+            const rx = m.reactions || { likes: [], dislikes: [] };
+            const myPid = window.MultiplayerEngine?.playerId || 'me';
+            if (reaction === 'like') {
+              const likes = rx.likes.includes(myPid) ? rx.likes.filter(id => id !== myPid) : [...rx.likes, myPid];
+              const dislikes = rx.dislikes.filter(id => id !== myPid);
+              return { ...m, reactions: { likes, dislikes } };
+            } else if (reaction === 'dislike') {
+              const dislikes = rx.dislikes.includes(myPid) ? rx.dislikes.filter(id => id !== myPid) : [...rx.dislikes, myPid];
+              const likes = rx.likes.filter(id => id !== myPid);
+              return { ...m, reactions: { likes, dislikes } };
+            }
+          }
+          return m;
+        }));
       }
     },
 
@@ -520,9 +548,30 @@ export function installTestBridge(gameContextRef) {
       }
 
       if (msg.id) this.messages.set(msg.id, msg);
+      if (gameContextRef?.current?.setChatMessages) {
+        gameContextRef.current.setChatMessages(prev => {
+          if (prev.some(p => p.id === msg.id)) return prev;
+          return [...prev, {
+            id: msg.id || 'msg_' + Date.now(),
+            type: msg.type || (msg.isGuess ? 'guess_attempt' : 'player_chat'),
+            roundIndex: msg.roundIndex,
+            senderId: msg.senderId,
+            senderName: msg.senderName,
+            senderAvatar: msg.senderAvatar,
+            text: msg.text,
+            isGuessed: msg.isGuessed,
+            points: msg.points,
+            position: msg.position,
+            reactions: msg.reactions || { likes: [], dislikes: [] },
+            targetPlayerId: msg.targetPlayerId
+          }].slice(-50);
+        });
+      }
 
       const stream = document.getElementById('liveChatStream');
-      if (stream) {
+      const chatWrap = document.getElementById('chatMessages');
+      const targetContainer = chatWrap || stream;
+      if (targetContainer) {
         const safeMsgId = String(msg.id || Date.now()).replace(/[^a-zA-Z0-9_-]/g, '');
         const msgEl = document.createElement('div');
         msgEl.className = 'chat-msg';
@@ -541,8 +590,8 @@ export function installTestBridge(gameContextRef) {
           '<div class="chat-msg-text">' + SecurityUtil.escapeHtml(msg.text || '') + '</div>' +
           '</div>';
 
-        stream.appendChild(msgEl);
-        stream.scrollTop = stream.scrollHeight;
+        targetContainer.appendChild(msgEl);
+        if (stream) stream.scrollTop = stream.scrollHeight;
       }
     },
 
@@ -883,7 +932,8 @@ export function installTestBridge(gameContextRef) {
         guess: text,
         roundIndex: this.currentPlayIndex || 0
       };
-      if (this.isHost) {
+      const amHost = Boolean(gameContextRef?.current?.isHost ?? this.isHost);
+      if (amHost) {
         this.validateAndProcessGuess(guessData);
       } else {
         this.sendEvent('SUBMIT_GUESS', guessData);
@@ -1181,14 +1231,7 @@ export function installTestBridge(gameContextRef) {
 
     startHostWatchdog() {
       this.stopHostWatchdog();
-      this.lastHostHeartbeat = Date.now();
-      this._watchdogInterval = setInterval(() => {
-        if (this.isHost || !this.roomCode) return;
-        const now = Date.now();
-        if (now - this.lastHostHeartbeat > 6000) {
-          this.checkHostMigration();
-        }
-      }, 1500);
+      // Server-authoritative architecture: Host assignment and migration are managed by the PartyKit server
     },
 
     openCreateModal() {
@@ -1221,112 +1264,25 @@ export function installTestBridge(gameContextRef) {
     },
 
     setupCloudTransport() {
-      if (this.mqttClient) {
-        try { this.mqttClient.end(true); } catch(e) {}
-        this.mqttClient = null;
-      }
-      if (this._mqttConnectTimeout) {
-        clearTimeout(this._mqttConnectTimeout);
-        this._mqttConnectTimeout = null;
-      }
       if (this.broadcastChannel) {
         try { this.broadcastChannel.close(); } catch(e) {}
+        this.broadcastChannel = null;
       }
 
-      const topic = NetworkSecurity.getRoomTopic(this.roomCode);
+      if (!this.roomCode) return;
 
-      // 1. BroadcastChannel for instant same-browser sync
-      try {
-        this.broadcastChannel = new BroadcastChannel('gtf_bc_' + NetworkSecurity.getTopicHash(this.roomCode));
-        this.broadcastChannel.onmessage = (event) => {
-          if (event && event.data) this.handleIncomingEvent(event.data);
-        };
-      } catch(e) {}
-
-      // 2. Real WebSocket transport to local or cloud backend
-      try {
-        if (this.backendWs) {
-          try { this.backendWs.close(); } catch(e) {}
-          this.backendWs = null;
-        }
-
-        const isVercel = typeof window !== 'undefined' && (
-          window.location.hostname.endsWith('.vercel.app') ||
-          window.location.hostname === 'scoopcast.me' ||
-          window.location.hostname.endsWith('scoopcast.me')
-        );
-        const hasExternalWs = Boolean(typeof import.meta !== 'undefined' && import.meta.env?.VITE_WS_URL);
-
-        if (!isVercel && hasExternalWs) {
-          const wsHost = (typeof window !== 'undefined' && window.location.port === '8080')
-            ? 'localhost:4000'
-            : (typeof window !== 'undefined' ? window.location.host : 'localhost:4000');
-          const wsProto = (typeof window !== 'undefined' && window.location.protocol === 'https:') ? 'wss:' : 'ws:';
-          const wsUrl = hasExternalWs ? import.meta.env.VITE_WS_URL : `${wsProto}//${wsHost}/ws?room=${this.roomCode}&playerId=${this.playerId}`;
-
-          const socket = new WebSocket(wsUrl);
-          this.backendWs = socket;
-
-          socket.onopen = () => {
-          this.flushWsQueue();
-          if (this.isHost) {
-            this.sendEvent('CREATE_ROOM', {
-              roomCode: this.roomCode,
-              playerId: this.playerId,
-              playerName: this.playerName,
-              playerAvatar: this.playerAvatar,
-              isHost: true,
-              settings: this.hostSettings
-            });
-            this.sendEvent('SYNC_ROOM_STATE', {
-              players: GS.players,
-              hostSettings: this.hostSettings
-            });
-          } else {
-            this.sendEvent('PLAYER_JOIN', {
-              roomCode: this.roomCode,
-              id: this.playerId,
-              playerId: this.playerId,
-              name: this.playerName,
-              playerName: this.playerName,
-              avatar: this.playerAvatar,
-              playerAvatar: this.playerAvatar,
-              isHost: false
-            });
-          }
-        };
-
-        socket.onmessage = (event) => {
-          try {
-            const parsed = JSON.parse(event.data);
-            this.handleIncomingEvent(parsed);
-          } catch(e) {}
-        };
-
-          socket.onerror = () => {};
-        }
-      } catch(e) {}
-
-      // 3. Multi-Broker MQTT over WebSocket with Automatic Failover (EMQX -> HiveMQ -> Mosquitto)
-      const mqttLib = (typeof window !== 'undefined' && (window.mqtt || (typeof mqtt !== 'undefined' ? mqtt : null)));
-      if (mqttLib) {
-        this.connectMqttWithFailover(topic);
+      // BroadcastChannel strictly for mock transport when explicitly flagged
+      if (typeof window !== 'undefined' && window.__E2E_MOCK_TRANSPORT__) {
+        try {
+          this.broadcastChannel = new BroadcastChannel('gtf_bc_' + NetworkSecurity.getTopicHash(this.roomCode));
+          this.broadcastChannel.onmessage = (event) => {
+            if (event && event.data) {
+              if (this._isDuplicateMessage && this._isDuplicateMessage(event.data)) return;
+              this.handleIncomingEvent(event.data);
+            }
+          };
+        } catch(e) {}
       }
-    },
-
-    getBrokerPool() {
-      const customBroker = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_MQTT_BROKER_URL) ||
-                           (typeof window !== 'undefined' && window.__GTF_MQTT_BROKER_URL) || null;
-      const pool = [];
-      if (customBroker && customBroker.trim()) {
-        pool.push({ name: 'Custom Cloud Broker (HiveMQ/CloudMQTT)', url: customBroker.trim() });
-      }
-      pool.push(
-        { name: 'EMQX Cloud Broker', url: 'wss://broker.emqx.io:8084/mqtt' },
-        { name: 'HiveMQ Cloud / WebSockets', url: 'wss://broker.hivemq.com:8884/mqtt' },
-        { name: 'Eclipse Mosquitto', url: 'wss://test.mosquitto.org:8081/mqtt' }
-      );
-      return pool;
     },
 
     _seenMsgMap: new Map(),
@@ -1348,91 +1304,6 @@ export function installTestBridge(gameContextRef) {
       return false;
     },
 
-    connectMqttWithFailover(topic) {
-      const mqttLib = (typeof window !== 'undefined' && (window.mqtt || (typeof mqtt !== 'undefined' ? mqtt : null)));
-      if (!mqttLib) return;
-
-      if (!this.mqttClients) this.mqttClients = [];
-      // Clean up previous clients if any
-      this.mqttClients.forEach(c => {
-        try { c.end(true); } catch(e) {}
-      });
-      this.mqttClients = [];
-      this.mqttClient = null;
-
-      if (this._mqttConnectTimeout) {
-        clearTimeout(this._mqttConnectTimeout);
-        this._mqttConnectTimeout = null;
-      }
-
-      const pool = this.getBrokerPool();
-      // Connect to top 2 primary brokers concurrently (EMQX + HiveMQ)
-      // This ensures cross-device connections work even if one device is routed through a carrier that blocks or delays one broker.
-      const targetBrokers = pool.slice(0, 2);
-      const secTopic = NetworkSecurity.getRoomTopic(this.roomCode);
-      const legacyTopic = `gtf/${this.roomCode}/events`;
-
-      targetBrokers.forEach((broker, idx) => {
-        console.log(`[MQTT Dual-Transport] Connecting to ${broker.name} (${broker.url})...`);
-        try {
-          const clientInstance = mqttLib.connect(broker.url, {
-            keepalive: 30,
-            reconnectPeriod: 3000,
-            connectTimeout: 7000,
-            clientId: 'gtf_' + this.playerId + '_' + (idx === 0 ? 'e' : 'h') + '_' + Math.random().toString(16).substr(2, 6)
-          });
-
-          clientInstance.on('connect', () => {
-            this._mqttIsConnected = true;
-            this.mqttClient = clientInstance; // For backwards compatibility
-            console.log(`[MQTT Dual-Transport] Connected to ${broker.name}! Subscribing to: ${secTopic}`);
-
-            if (typeof window !== 'undefined' && window.__setMultiplayerSocketStatus) {
-              window.__setMultiplayerSocketStatus('connected');
-            }
-
-            clientInstance.subscribe(secTopic, { qos: 1 });
-            clientInstance.subscribe(legacyTopic, { qos: 1 });
-            this.flushMessageQueue();
-
-            if (!this.isHost) {
-              this.sendEvent('PLAYER_JOIN', {
-                id: this.playerId,
-                name: this.playerName,
-                avatar: this.playerAvatar
-              });
-            } else {
-              this.sendEvent('SYNC_ROOM_STATE', {
-                players: GS.players,
-                hostSettings: this.hostSettings
-              });
-            }
-          });
-
-          clientInstance.on('message', (t, payload) => {
-            try {
-              const msg = JSON.parse(payload.toString());
-              if (this._isDuplicateMessage(msg)) return;
-              this.handleIncomingEvent(msg);
-            } catch(e) {}
-          });
-
-          clientInstance.on('error', (err) => {
-            console.warn(`[MQTT Notice from ${broker.name}]`, err.message);
-          });
-
-          clientInstance.on('close', () => {
-            const anyOpen = (this.mqttClients || []).some(c => c && c.connected);
-            this._mqttIsConnected = anyOpen;
-          });
-
-          this.mqttClients.push(clientInstance);
-        } catch(err) {
-          console.warn(`[MQTT Dual-Transport Exception on ${broker.name}]`, err);
-        }
-      });
-    },
-
     sendEvent(eventType, payload = {}) {
       const token = NetworkSecurity.generateToken(this.roomCode, this.playerId, this.isHost);
       const msg = {
@@ -1449,60 +1320,10 @@ export function installTestBridge(gameContextRef) {
         try { this.broadcastChannel.postMessage(msg); } catch(e) {}
       }
 
-      const jsonStr = JSON.stringify(msg);
-
-      // Send to local/cloud backend WebSocket (if connected)
-      if (this.backendWs && this.backendWs.readyState === WebSocket.OPEN) {
-        try { this.backendWs.send(jsonStr); } catch(e) {}
-      } else if (this.backendWs) {
-        if (!this.wsQueue) this.wsQueue = [];
-        this.wsQueue.push(jsonStr);
-      }
-
-      // Publish to ALL connected MQTT brokers simultaneously
-      const secTopic = NetworkSecurity.getRoomTopic(this.roomCode);
-      const legacyTopic = `gtf/${this.roomCode}/events`;
-      const connectedClients = (this.mqttClients || []).filter(c => c && c.connected);
-      if (connectedClients.length > 0) {
-        connectedClients.forEach(c => {
-          try {
-            c.publish(secTopic, jsonStr, { qos: 1 });
-            c.publish(legacyTopic, jsonStr, { qos: 1 });
-          } catch(e) {}
-        });
-      } else if (this.mqttClient && this.mqttClient.connected) {
+      if (typeof window !== 'undefined' && window.__handleMultiplayerIncomingMessage) {
         try {
-          this.mqttClient.publish(secTopic, jsonStr, { qos: 1 });
-          this.mqttClient.publish(legacyTopic, jsonStr, { qos: 1 });
+          window.__handleMultiplayerIncomingMessage(msg);
         } catch(e) {}
-      } else {
-        if (!this.messageQueue) this.messageQueue = [];
-        this.messageQueue.push({ topic: secTopic, payload: jsonStr });
-      }
-    },
-
-    flushWsQueue() {
-      if (!this.backendWs || this.backendWs.readyState !== WebSocket.OPEN || !this.wsQueue) return;
-      while (this.wsQueue.length > 0) {
-        const item = this.wsQueue.shift();
-        try { this.backendWs.send(item); } catch(e) {}
-      }
-    },
-
-    flushMessageQueue() {
-      if (!this.messageQueue || this.messageQueue.length === 0) return;
-      const connected = (this.mqttClients || []).filter(c => c && c.connected);
-      if (connected.length === 0 && (!this.mqttClient || !this.mqttClient.connected)) return;
-
-      while (this.messageQueue.length > 0) {
-        const item = this.messageQueue.shift();
-        if (connected.length > 0) {
-          connected.forEach(c => {
-            try { c.publish(item.topic, item.payload, { qos: 1 }); } catch(e) {}
-          });
-        } else if (this.mqttClient && this.mqttClient.connected) {
-          try { this.mqttClient.publish(item.topic, item.payload, { qos: 1 }); } catch(e) {}
-        }
       }
     },
 
@@ -1543,6 +1364,9 @@ export function installTestBridge(gameContextRef) {
       }
       this.isJoining = true;
       this.isHost = false;
+      if (gameContextRef?.current?.setIsHost !== undefined) {
+        gameContextRef.current.setIsHost(false);
+      }
       this.roomCode = code;
       this.roomId = 'room_' + this.roomCode;
       this.hasJoinedAck = false;
@@ -1563,14 +1387,6 @@ export function installTestBridge(gameContextRef) {
           if (this.joinRetryTimer) {
             clearInterval(this.joinRetryTimer);
             this.joinRetryTimer = null;
-          }
-          if (this.mqttClients) {
-            this.mqttClients.forEach(c => { try { c.end(true); } catch(e) {} });
-            this.mqttClients = [];
-          }
-          if (this.mqttClient) {
-            try { this.mqttClient.end(true); } catch(e) {}
-            this.mqttClient = null;
           }
           if (this.broadcastChannel) {
             try { this.broadcastChannel.close(); } catch(e) {}
@@ -1894,6 +1710,13 @@ export function installTestBridge(gameContextRef) {
               window.__resetJoinModalBtn();
             }
             GS.players = event.players;
+            const myPlayer = event.players.find(p => p.id === this.playerId);
+            if (myPlayer && typeof myPlayer.isHost === 'boolean') {
+              this.isHost = myPlayer.isHost;
+              if (gameContextRef?.current?.setIsHost !== undefined) {
+                gameContextRef.current.setIsHost(myPlayer.isHost);
+              }
+            }
             if (gameContextRef?.current?.setPlayers) {
               gameContextRef.current.setPlayers([...event.players]);
             }
@@ -2387,19 +2210,6 @@ export function installTestBridge(gameContextRef) {
       this.stopHostHeartbeat();
       this.stopHostWatchdog();
       this.clearActiveSession();
-      if (this.mqttClient) {
-        try { this.mqttClient.end(true); } catch(e) {}
-        this.mqttClient = null;
-      }
-      if (this._mqttConnectTimeout) {
-        clearTimeout(this._mqttConnectTimeout);
-        this._mqttConnectTimeout = null;
-      }
-      this._mqttIsConnected = false;
-      if (this.backendWs) {
-        try { this.backendWs.close(); } catch(e) {}
-        this.backendWs = null;
-      }
       if (this.broadcastChannel) {
         try { this.broadcastChannel.close(); } catch(e) {}
         this.broadcastChannel = null;

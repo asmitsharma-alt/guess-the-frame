@@ -19,7 +19,7 @@ export const WinnerScreen = ({
 
   useEffect(() => {
     if (!isActive) return;
-    SoundManager.playWinner();
+    SoundManager.playOnce('winner', 'match_gameover');
 
     // Trigger celebratory confetti cannon burst
     try {

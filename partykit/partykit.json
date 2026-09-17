@@ -1,0 +1,7 @@
+{
+  "$schema": "https://www.partykit.io/schema.json",
+  "name": "guess-the-frame-party",
+  "main": "src/server.ts",
+  "compatibilityDate": "2024-04-01",
+  "compatibilityFlags": ["nodejs_compat"]
+}

@@ -35,7 +35,7 @@ export const ChatDrawer = ({ messages = [], onSendMessage, placeholder = 'Type y
         {messages.map((m, idx) => (
           <div key={m.id || idx} className={`chat-msg ${m.isSystem ? 'chat-notice-subtle' : ''}`}>
             {m.isSystem ? (
-              <span className="cns-text" dangerouslySetInnerHTML={{ __html: m.text }} />
+              <span className="cns-text">{m.text}</span>
             ) : m.isHint ? (
               <div className="chat-msg-hint">
                 <div className="cmh-header"><Lightbulb size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> YOUR PRIVATE HINT (-2 PTS)</div>

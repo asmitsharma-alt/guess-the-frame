@@ -91,7 +91,7 @@ export const NetworkSecurity = {
     if (!msg || typeof msg !== 'object') return false;
     const msgCode = String(msg.roomCode || '').trim().toUpperCase();
     const expectedCode = String(currentRoomCode || '').trim().toUpperCase();
-    if (msgCode !== expectedCode) return false;
+    if (msgCode && expectedCode && msgCode !== expectedCode) return false;
 
     // Timestamp drift check (replay attack protection: 60s for game/chat, 5min for join/sync handshakes)
     const isJoinHandshake = msg.type === 'PLAYER_JOIN' || msg.type === 'SYNC_ROOM_STATE';
@@ -105,39 +105,38 @@ export const NetworkSecurity = {
       return false;
     }
 
-    // Authoritative Host command verification
-    const HOST_COMMANDS = [
-      'SYNC_ROOM_STATE',
-      'UPDATE_HOST_SETTINGS',
-      'GAME_START_COUNTDOWN',
+    // Authoritative Server broadcasts are always allowed
+    const SERVER_BROADCASTS = [
+      'STATE_UPDATE',
+      'ROUND_REVEAL',
       'ROUND_START',
-      'GUESS_CORRECT_BROADCAST',
-      'ROUND_FINISH_BROADCAST',
-      'HOST_SKIP_BROADCAST',
-      'HOST_PAUSE_BROADCAST',
-      'TIE_BREAKER_TRIGGER',
+      'MATCH_START',
+      'MATCH_STARTED',
       'GAME_OVER_BROADCAST',
-      'HOST_HEARTBEAT',
-      'REJOIN_SYNC_STATE'
+      'ROUND_FINISH_BROADCAST',
+      'ROUND_FINISH_EARLY',
+      'CORRECT_ANSWER_BROADCAST',
+      'HINT_BROADCAST',
+      'PAUSE_TOGGLE',
+      'REMATCH_STARTED',
+      'SYNC_ROOM_STATE',
+      'ROOM_STATE',
+      'JOIN_ACK',
+      'HOST_SETTINGS_UPDATE',
+      'RETURN_TO_LOBBY'
     ];
-
-    if (HOST_COMMANDS.includes(msg.type)) {
-      // Allow authoritative state sync for joining/rejoining players who don't yet have the host registered locally
-      if (!isLocalHost && (msg.type === 'SYNC_ROOM_STATE' || msg.type === 'JOIN_ACK' || msg.type === 'REJOIN_SYNC_STATE')) {
-        return true;
-      }
-      const registeredHost = (players || []).find(p => p.isHost);
-      if (registeredHost && msg.senderId !== registeredHost.id) {
-        return false;
-      }
+    if (SERVER_BROADCASTS.includes(msg.type)) {
+      return true;
     }
 
     // Validate payload boundaries
     if (msg.type === 'SUBMIT_GUESS') {
-      if (!msg.guess || typeof msg.guess !== 'string' || msg.guess.length > 100) return false;
+      const guess = msg.guess || msg.payload?.guess;
+      if (!guess || typeof guess !== 'string' || guess.length > 100) return false;
     }
     if (msg.type === 'CHAT_MESSAGE') {
-      if (!msg.msg || typeof msg.msg !== 'object' || !msg.msg.text || msg.msg.text.length > 300) return false;
+      const chatText = (msg.msg && typeof msg.msg === 'object' && msg.msg.text) || msg.text || '';
+      if (!chatText || typeof chatText !== 'string' || chatText.length > 300) return false;
     }
 
     return true;

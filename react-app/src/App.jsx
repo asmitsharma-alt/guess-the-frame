@@ -28,30 +28,37 @@ const AppContent = () => {
   // Mount Test Bridge for Playwright & Window Globals
   useEffect(() => {
     installTestBridge(gameRef);
+    SoundManager.init();
 
     // Check URL parameters for ?room=
     const params = new URLSearchParams(window.location.search);
     const roomParam = params.get('room');
+    let session = null;
+    try {
+      const raw = localStorage.getItem('gtf_active_session');
+      if (raw) session = JSON.parse(raw);
+    } catch (e) {}
+
     if (roomParam) {
       const upper = roomParam.trim().toUpperCase();
-      game.setRoomCode(upper);
-      game.openModal('joinRoom');
-      const input = document.getElementById('joinCodeInput');
-      if (input) input.value = upper;
-    } else {
-      try {
-        const raw = localStorage.getItem('gtf_active_session');
-        if (raw) {
-          const session = JSON.parse(raw);
-          if (session && session.roomCode && (Date.now() - (session.timestamp || 0) < 15 * 60 * 1000)) {
-            if (typeof window !== 'undefined' && window.MultiplayerEngine) {
-              window.MultiplayerEngine.pendingRejoinSession = session;
-            }
-            game.setPendingRejoinSession(session);
-            game.openModal('rejoinRoom');
-          }
-        }
-      } catch (e) {}
+      if (session && session.roomCode === upper && session.playerName) {
+        // Active participant refreshing or returning to same room -> restore directly
+        game.setRoomCode(upper);
+        game.setPlayerName(session.playerName);
+        if (session.playerAvatar) game.setPlayerAvatar(session.playerAvatar);
+        if (typeof session.isHost === 'boolean') game.setIsHost(session.isHost);
+      } else {
+        game.setRoomCode(upper);
+        game.openModal('joinRoom');
+        const input = document.getElementById('joinCodeInput');
+        if (input) input.value = upper;
+      }
+    } else if (session && session.roomCode && (Date.now() - (session.timestamp || 0) < 15 * 60 * 1000)) {
+      if (typeof window !== 'undefined' && window.MultiplayerEngine) {
+        window.MultiplayerEngine.pendingRejoinSession = session;
+      }
+      game.setPendingRejoinSession(session);
+      game.openModal('rejoinRoom');
     }
   }, []);
 
@@ -60,22 +67,35 @@ const AppContent = () => {
     game.setPlayerAvatar(avatar);
     game.setIsHost(true);
 
+    let roomCodeToSet = '';
     if (typeof window !== 'undefined' && window.MultiplayerEngine) {
       window.MultiplayerEngine.playerName = name;
       window.MultiplayerEngine.playerAvatar = avatar;
       window.MultiplayerEngine.confirmCreateRoom();
-      const code = window.MultiplayerEngine.roomCode;
-      game.setRoomCode(code);
+      roomCodeToSet = window.MultiplayerEngine.roomCode;
+      game.setRoomCode(roomCodeToSet);
       if (window.GS?.players) {
         game.setPlayers([...window.GS.players]);
       }
     } else {
-      const newCode = Math.random().toString(36).substring(2, 6).toUpperCase();
-      game.setRoomCode(newCode);
+      roomCodeToSet = Math.random().toString(36).substring(2, 6).toUpperCase();
+      game.setRoomCode(roomCodeToSet);
       game.setPlayers([
         { id: game.playerId, name, avatar, score: 0, isHost: true, loaded: true, color: getAvatarColor(avatar) }
       ]);
     }
+
+    try {
+      localStorage.setItem('gtf_active_session', JSON.stringify({
+        roomCode: roomCodeToSet,
+        playerName: name,
+        playerAvatar: avatar,
+        playerId: game.playerId,
+        isHost: true,
+        timestamp: Date.now()
+      }));
+    } catch (e) {}
+
     game.closeModals();
     game.showScreen('playerLobbyScreen');
   };
@@ -99,6 +119,18 @@ const AppContent = () => {
         { id: game.playerId, name, avatar, score: 0, isHost: false, loaded: true, color: getAvatarColor(avatar) }
       ]);
     }
+
+    try {
+      localStorage.setItem('gtf_active_session', JSON.stringify({
+        roomCode: code,
+        playerName: name,
+        playerAvatar: avatar,
+        playerId: game.playerId,
+        isHost: false,
+        timestamp: Date.now()
+      }));
+    } catch (e) {}
+
     game.closeModals();
     game.showScreen('playerLobbyScreen');
   };
@@ -120,7 +152,7 @@ const AppContent = () => {
         />
 
         <LobbyScreen
-          isActive={game.currentScreen === 'playerLobbyScreen'}
+          isActive={game.currentScreen === 'playerLobbyScreen' || game.currentScreen === 'lobbyScreen'}
           roomCode={game.roomCode}
           isHost={game.isHost}
           playerId={game.playerId}
@@ -134,38 +166,21 @@ const AppContent = () => {
             multiplayer.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
           }}
           onRenamePlayer={(idx, name) => {
-            game.setPlayers(prev => {
-              const copy = [...prev];
-              if (copy[idx]) copy[idx].name = name;
-              return copy;
-            });
-            multiplayer.sendEvent('UPDATE_PLAYER_NAME', { playerId: game.players[idx]?.id, name });
+            const p = game.players[idx];
+            if (p) {
+              multiplayer.sendEvent('UPDATE_PLAYER_NAME', { playerId: p.id, name });
+            }
           }}
           onRemovePlayer={(idx) => {
             const kicked = game.players[idx];
-            game.setPlayers(prev => prev.filter((_, i) => i !== idx));
-            if (kicked) multiplayer.sendEvent('PLAYER_KICKED', { targetPlayerId: kicked.id });
+            if (kicked && game.isHost) {
+              multiplayer.sendEvent('KICK_PLAYER', { targetPlayerId: kicked.id });
+            }
           }}
           onStartMatch={() => {
-            game.setIsMatchActive(true);
-            game.setCurrentPlayIndex(0);
-            game.setRoundWinners([]);
-            game.showScreen('gameScreen');
-            multiplayer.sendEvent('START_GAME', {
-              playlist: game.currentPlaylist,
-              currentPlaylist: game.currentPlaylist,
-              duration: game.hostSettings.timer || 30
-            });
-            if (typeof window !== 'undefined' && window.MultiplayerEngine?.startMatch) {
-              window.MultiplayerEngine.startMatch();
-            } else if (typeof window !== 'undefined' && window.PlayerLobby?.start) {
+            multiplayer.sendEvent('START_MATCH', {});
+            if (typeof window !== 'undefined' && window.PlayerLobby?.start) {
               window.PlayerLobby.start();
-            } else {
-              multiplayer.sendEvent('ROUND_START', {
-                roundIndex: 0,
-                frame: game.currentPlaylist[0],
-                duration: game.hostSettings.timer || 30
-              });
             }
           }}
           onLeaveLobby={() => {
@@ -193,112 +208,84 @@ const AppContent = () => {
           isAnswerRevealed={game.isAnswerRevealed}
           maskedHint={game.maskedHint}
           chatMessages={game.chatMessages}
+          roundWinners={game.roundWinners || []}
           onSkipRound={() => {
-            game.setIsRoundFinished(true);
-            game.setIsAnswerRevealed(true);
-            multiplayer.sendEvent('ROUND_FINISH_BROADCAST', {});
+            multiplayer.sendEvent('SKIP_ROUND', {});
           }}
           onNextRound={() => {
-            const currentIdx = (typeof window !== 'undefined' && window.MultiplayerEngine?.currentPlayIndex !== undefined)
-              ? window.MultiplayerEngine.currentPlayIndex
-              : game.currentPlayIndex;
-            const nextIdx = currentIdx + 1;
-            const activePlaylist = (typeof window !== 'undefined' && window.MultiplayerEngine?.currentPlaylist?.length > 0)
-              ? window.MultiplayerEngine.currentPlaylist
-              : (game.currentPlaylist && game.currentPlaylist.length > 0 ? game.currentPlaylist : DEFAULT_FRAMES);
-            if (nextIdx >= activePlaylist.length) {
-              game.showScreen('winnerScreen');
-              multiplayer.sendEvent('GAME_OVER_BROADCAST', {});
-              return;
-            }
-            const nextFrame = activePlaylist[nextIdx];
-            game.setCurrentPlayIndex(nextIdx);
-            game.setCurrentFrame(nextFrame);
-            game.setIsRoundFinished(false);
-            game.setIsAnswerRevealed(false);
-            game.setMaskedHint(null);
-            game.setTimeRemaining(game.hostSettings.timer || 30);
-            game.setRoundWinners([]);
-            if (typeof window !== 'undefined' && window.MultiplayerEngine) {
-              window.MultiplayerEngine.currentPlayIndex = nextIdx;
-              window.MultiplayerEngine.currentPlaylist = activePlaylist;
-              window.MultiplayerEngine.isRoundFinished = false;
-              window.MultiplayerEngine.currentRoundWinners = [];
-              window.MultiplayerEngine.currentMaskedHint = null;
-            }
-            if (typeof window !== 'undefined' && window.FrameDisplay?.showFrame && nextFrame) {
-              window.FrameDisplay.showFrame(nextFrame);
-            }
-            multiplayer.sendEvent('ROUND_START', {
-              roundIndex: nextIdx,
-              frame: nextFrame,
-              currentPlaylist: activePlaylist,
-              duration: game.hostSettings.timer || 30
+            multiplayer.sendEvent('NEXT_ROUND', {
+              currentRoundIndex: game.currentPlayIndex
             });
           }}
           onTogglePause={() => {
-            const next = !game.isPaused;
-            game.setIsPaused(next);
-            if (typeof window !== 'undefined' && window.MultiplayerEngine) {
-              window.MultiplayerEngine.isPaused = next;
-            }
-            multiplayer.sendEvent('PAUSE_TOGGLE', { isPaused: next });
+            multiplayer.sendEvent('TOGGLE_PAUSE', {});
           }}
           onEndMatch={() => {
-            game.setIsMatchActive(false);
-            game.showScreen('winnerScreen');
-            multiplayer.sendEvent('GAME_OVER_BROADCAST', {});
+            multiplayer.sendEvent('END_MATCH', {});
           }}
           onRequestHint={() => {
-            game.adjustPlayerScore(game.playerId, -2);
-            const curFrame = game.currentPlaylist[game.currentPlayIndex];
-            const ans = curFrame?.answer || 'UNKNOWN';
-            const hint = ans.split('').map((ch, i) => (ch === ' ' ? '  ' : i % 2 === 0 ? ch : '_')).join(' ');
-            game.setMaskedHint(hint);
-            if (typeof window !== 'undefined' && window.MultiplayerEngine) {
-              window.MultiplayerEngine.currentMaskedHint = hint;
-            }
-            multiplayer.sendEvent('HINT_BROADCAST', { maskedHint: hint });
+            multiplayer.sendEvent('REQUEST_HINT', {});
           }}
           onSubmitGuess={(text) => {
+            const pid = (typeof window !== 'undefined' && window.MultiplayerEngine?.playerId) || game.playerId;
+            const pname = (typeof window !== 'undefined' && window.MultiplayerEngine?.playerName) || game.playerName;
+            const pav = (typeof window !== 'undefined' && window.MultiplayerEngine?.playerAvatar) || game.playerAvatar;
             multiplayer.sendEvent('SUBMIT_GUESS', {
               guess: text,
-              playerId: game.playerId,
-              senderId: game.playerId,
-              playerName: game.playerName,
-              playerAvatar: game.playerAvatar
+              text,
+              playerId: pid,
+              senderId: pid,
+              playerName: pname,
+              playerAvatar: pav
             });
           }}
           onSendChatMessage={(text) => {
+            const pid = (typeof window !== 'undefined' && window.MultiplayerEngine?.playerId) || game.playerId;
+            const pname = (typeof window !== 'undefined' && window.MultiplayerEngine?.playerName) || game.playerName;
+            const pav = (typeof window !== 'undefined' && window.MultiplayerEngine?.playerAvatar) || game.playerAvatar;
+            const msgId = 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
             multiplayer.sendEvent('CHAT_MESSAGE', {
+              senderId: pid,
+              id: msgId,
+              text,
               msg: {
-                id: 'msg_' + Date.now(),
-                senderName: game.playerName,
-                senderAvatar: game.playerAvatar,
-                text
+                id: msgId,
+                senderId: pid,
+                senderName: pname,
+                senderAvatar: pav,
+                text,
+                timestamp: Date.now()
               }
             });
           }}
-          onAdjustScore={game.adjustPlayerScore}
+          onAdjustScore={(playerIdx, points) => {
+            const target = game.players[playerIdx];
+            if (target && game.isHost) {
+              multiplayer.sendEvent('ADJUST_SCORE', {
+                targetPlayerId: target.id,
+                playerId: target.id,
+                points: points
+              });
+            }
+          }}
+          onSendReaction={(messageId, reaction) => {
+            if (multiplayer.sendReaction) {
+              multiplayer.sendReaction(messageId, reaction);
+            }
+          }}
         />
 
         <WinnerScreen
           isActive={game.currentScreen === 'winnerScreen'}
           players={game.players}
           onPlayAgain={() => {
-            game.setPlayers(prev => prev.map(p => ({ ...p, score: 0 })));
-            game.setIsMatchActive(true);
-            game.setCurrentPlayIndex(0);
-            game.showScreen('gameScreen');
+            multiplayer.sendEvent('REMATCH', {});
           }}
           onRematch={() => {
-            game.setPlayers(prev => prev.map(p => ({ ...p, score: 0 })));
-            game.setIsMatchActive(true);
-            game.setCurrentPlayIndex(0);
-            game.showScreen('gameScreen');
+            multiplayer.sendEvent('REMATCH', {});
           }}
           onReturnToLobby={() => {
-            game.showScreen('playerLobbyScreen');
+            multiplayer.sendEvent('RETURN_TO_LOBBY', {});
           }}
         />
       </div>

@@ -109,7 +109,7 @@ export const BottomSheetDrawer = ({
             </div>
             <button
               type="button"
-              className="nb-btn p-1.5 min-w-[36px] min-h-[36px] bg-red-400 text-white font-bold text-sm"
+              className="nb-btn p-1.5 min-w-[44px] min-h-[44px] flex items-center justify-center bg-red-400 text-white font-bold text-sm"
               onClick={() => {
                 triggerHaptic();
                 SoundManager.playClick();

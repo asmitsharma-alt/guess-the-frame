@@ -26,15 +26,17 @@ export const HostFloatingBar = ({
           <button type="button" className="hfb-btn" id="hfbSkipBtn" onClick={onSkip}>
             <SkipForward size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Skip Frame
           </button>
-          <button
-            type="button"
-            className="hfb-btn"
-            id="hfbNextBtn"
-            onClick={onNext}
-            style={{ display: 'none', background: '#10B981 !important', color: '#fff !important' }}
-          >
-            <Play size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Next Round
-          </button>
+          {onNext && (
+            <button
+              type="button"
+              className="hfb-btn"
+              id="hfbNextBtn"
+              onClick={onNext}
+              style={{ background: '#10B981', color: '#fff' }}
+            >
+              <Play size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Next Round
+            </button>
+          )}
           <button type="button" className="hfb-btn" id="hfbPauseBtn" onClick={onPause}>
             {isPaused ? <><Play size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Resume</> : <><Pause size={14} strokeWidth={2.5} style={{ display: 'inline', verticalAlign: 'middle', marginRight: '4px' }} /> Pause</>}
           </button>

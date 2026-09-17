@@ -172,8 +172,8 @@ class AssetPreloaderService {
     this.isLoading = true;
     this.notify();
 
-    // Concurrency pool: 6 simultaneous downloads
-    const CONCURRENCY = 6;
+    // Concurrency pool: 2 simultaneous downloads to leave HTTP pipes open for game events
+    const CONCURRENCY = 2;
     let queueIndex = 0;
 
     const worker = async () => {
