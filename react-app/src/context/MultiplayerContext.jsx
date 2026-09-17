@@ -225,7 +225,19 @@ export const MultiplayerProvider = ({ children }) => {
           game.setPlayers(state.players);
           if (typeof window !== 'undefined') {
             if (window.GS) window.GS.players = state.players;
-            if (window.MultiplayerEngine) window.MultiplayerEngine.players = state.players;
+            if (window.MultiplayerEngine) {
+              window.MultiplayerEngine.players = state.players;
+              window.MultiplayerEngine.hasJoinedAck = true;
+              if (window.MultiplayerEngine.joinRetryTimer) {
+                clearInterval(window.MultiplayerEngine.joinRetryTimer);
+                window.MultiplayerEngine.joinRetryTimer = null;
+              }
+              if (window.MultiplayerEngine.joinTimeoutTimer) {
+                clearTimeout(window.MultiplayerEngine.joinTimeoutTimer);
+                window.MultiplayerEngine.joinTimeoutTimer = null;
+              }
+              window.MultiplayerEngine.isJoining = false;
+            }
           }
           const myPlayer = state.players.find(p => p.id === game.playerId);
           if (myPlayer && typeof myPlayer.isHost === 'boolean') {
@@ -302,25 +314,27 @@ export const MultiplayerProvider = ({ children }) => {
             game.setIsMatchActive(false);
             game.setIsRoundFinished(false);
             game.setIsAnswerRevealed(false);
-            game.showScreen('playerLobbyScreen');
+            game.showScreen('playerLobbyScreen', { silent: true });
+            SoundManager.stopAll();
+            SoundManager.stopMusic();
           } else if (phase === 'ROUND_ACTIVE') {
             game.setIsMatchActive(true);
             game.setIsRoundFinished(false);
             game.setIsAnswerRevealed(false);
-            game.showScreen('gameScreen');
+            game.showScreen('gameScreen', { silent: true });
           } else if (phase === 'ROUND_REVEAL') {
             game.setIsMatchActive(true);
             game.setIsRoundFinished(true);
             game.setIsAnswerRevealed(true);
-            game.showScreen('gameScreen');
+            game.showScreen('gameScreen', { silent: true });
           } else if (phase === 'MATCH_OVER') {
             game.setIsMatchActive(false);
             game.setIsRoundFinished(true);
             game.setIsAnswerRevealed(true);
-            game.showScreen('winnerScreen');
+            game.showScreen('winnerScreen', { silent: true });
           }
         } else if (msg.currentScreen) {
-          game.showScreen(msg.currentScreen);
+          game.showScreen(msg.currentScreen, { silent: true });
         }
 
         // Authoritative Chat History

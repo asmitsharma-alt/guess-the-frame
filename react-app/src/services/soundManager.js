@@ -113,6 +113,7 @@ export const SoundManager = {
   stopAll() { audioManager.stopAll(); },
   cancelPendingVoices() { audioManager.cancelPendingVoices(); },
   unlockAudio() { audioManager.unlockAudio(); },
+  setScreenState(screen, isMatchActive) { audioManager.setScreenState(screen, isMatchActive); },
 
   toggleMute() {
     return audioManager.toggleMute();

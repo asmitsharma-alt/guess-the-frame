@@ -113,14 +113,25 @@ export const GameProvider = ({ children }) => {
     }
   }, [playerAvatar, playerId]);
 
+  // Synchronize active screen and match state to audio orchestrator
+  useEffect(() => {
+    SoundManager.setScreenState(currentScreen, isMatchActive);
+  }, [currentScreen, isMatchActive]);
+
   // Screen change wrapper (supports silent=true for programmatic/network transitions)
   const showScreen = useCallback((screenId, options = {}) => {
-    if (!options?.silent) {
-      SoundManager.playClick();
-    }
-    setCurrentScreen(screenId);
+    setCurrentScreen(prevScreen => {
+      if (!options?.silent && prevScreen !== screenId) {
+        SoundManager.playClick();
+      }
+      return screenId;
+    });
     if (screenId === 'homeScreen') {
       PaletteManager.reset();
+    }
+    if (screenId === 'playerLobbyScreen' || screenId === 'lobbyScreen') {
+      SoundManager.stopAll();
+      SoundManager.stopMusic();
     }
   }, []);
 
@@ -167,6 +178,7 @@ export const GameProvider = ({ children }) => {
         clearInterval(timerRef.current);
         timerRef.current = null;
       }
+      lastTickSecRef.current = null;
       return;
     }
 
@@ -191,16 +203,19 @@ export const GameProvider = ({ children }) => {
       }
 
       // Authoritative milestone warnings (10s warning, <=5s countdown urgency, 0s timeout)
-      if (secs > 0 && secs !== lastTickSecRef.current) {
-        lastTickSecRef.current = secs;
-        if (secs === 10) {
-          SoundManager.playOnce('tickWarn', `timer_${roundKey}_10s`);
-        } else if (secs <= 5) {
-          SoundManager.playOnce('tickWarn', `timer_${roundKey}_${secs}s`);
+      // Strictly guarded to active gameplay
+      if (currentScreen === 'gameScreen' && isMatchActive && !isPaused && !isRoundFinished) {
+        if (secs > 0 && secs !== lastTickSecRef.current) {
+          lastTickSecRef.current = secs;
+          if (secs === 10) {
+            SoundManager.playOnce('tickWarn', `timer_${roundKey}_10s`);
+          } else if (secs <= 5) {
+            SoundManager.playOnce('tickWarn', `timer_${roundKey}_${secs}s`);
+          }
+        } else if (secs === 0 && lastTickSecRef.current !== 0) {
+          lastTickSecRef.current = 0;
+          SoundManager.playOnce('timeout', `timer_${roundKey}_0s`);
         }
-      } else if (secs === 0 && lastTickSecRef.current !== 0) {
-        lastTickSecRef.current = 0;
-        SoundManager.playOnce('timeout', `timer_${roundKey}_0s`);
       }
     };
 
@@ -212,6 +227,7 @@ export const GameProvider = ({ children }) => {
         clearInterval(timerRef.current);
         timerRef.current = null;
       }
+      lastTickSecRef.current = null;
     };
   }, [isMatchActive, isPaused, isRoundFinished, currentScreen, roundEndsAt, clockOffset]);
 

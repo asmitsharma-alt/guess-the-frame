@@ -25,6 +25,10 @@ export class AudioManager {
     this.playedEvents = new Map();
     this.dedupTtlMs = 30000; // 30s cache retention
 
+    // Active game & screen tracking for strict SFX gating
+    this.activeScreen = 'homeScreen';
+    this.isMatchActive = false;
+
     // Autoplay & Unlock state
     this.isUnlocked = false;
     this._unlockHandlerBound = this.unlockAudio.bind(this);
@@ -219,6 +223,29 @@ export class AudioManager {
     this.playedEvents.clear();
   }
 
+  // --- Screen State & Audio Gating ---
+
+  setScreenState(screen, isMatchActive) {
+    this.activeScreen = screen || 'homeScreen';
+    if (typeof isMatchActive === 'boolean') {
+      this.isMatchActive = isMatchActive;
+    }
+    if (this.isLobbyOrHome()) {
+      this.stopAll();
+      this.stopMusic();
+    }
+  }
+
+  isLobbyOrHome() {
+    return this.activeScreen === 'homeScreen' || 
+           this.activeScreen === 'playerLobbyScreen' || 
+           this.activeScreen === 'lobbyScreen';
+  }
+
+  isGameplayActive() {
+    return this.activeScreen === 'gameScreen' && Boolean(this.isMatchActive);
+  }
+
   // --- Unified Audio Routing ---
 
   play(name, options = {}) {
@@ -243,8 +270,14 @@ export class AudioManager {
       case 'wrong': this.synth.playWrong(); break;
       case 'transition': this.synth.playTransition(); break;
       case 'winner': case 'fanfare': this.synth.playWinner(); break;
-      case 'tick': this.synth.playTick(); break;
-      case 'tickwarn': this.synth.playTickWarn(); break;
+      case 'tick': 
+        if (!this.isGameplayActive()) return;
+        this.synth.playTick(); 
+        break;
+      case 'tickwarn': 
+        if (!this.isGameplayActive()) return;
+        this.synth.playTickWarn(); 
+        break;
       case 'timeout': this.synth.playTimeout(); break;
       case 'flare': this.synth.playFlare(); break;
       case 'chat': this.synth.playChat(); break;
@@ -280,8 +313,14 @@ export class AudioManager {
   playTransition() { this.play('transition'); }
   playWinner() { this.play('winner'); }
   playFanfare() { this.play('winner'); }
-  playTick() { this.play('tick'); }
-  playTickWarn() { this.play('tickWarn'); }
+  playTick() { 
+    if (!this.isGameplayActive()) return;
+    this.play('tick'); 
+  }
+  playTickWarn() { 
+    if (!this.isGameplayActive()) return;
+    this.play('tickWarn'); 
+  }
   playTimeout() { this.play('timeout'); }
   playFlare() { this.play('flare'); }
   playChat() { this.play('chat'); }

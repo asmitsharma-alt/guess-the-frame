@@ -359,17 +359,17 @@ export class AudioSynth {
   }
 
   playTick() {
-    if (!this._ok('tick')) return;
+    if (!this._ok('tick') || (this.mgr && !this.mgr.isGameplayActive())) return;
     this._tap('tick', 320, 0.07, 2400);
   }
 
   playTickWarn() {
-    if (!this._ok('tickWarn')) return;
+    if (!this._ok('tickWarn') || (this.mgr && !this.mgr.isGameplayActive())) return;
     this._tap('tickWarn', 440, 0.13, 3200);
   }
 
   playTimeout() {
-    if (!this._ok('timeout')) return;
+    if (!this._ok('timeout') || (this.mgr && !this.mgr.isGameplayActive())) return;
     this._thock('timeout', 140, 0.28, 0.25);
     this._glide('timeout', 160, 80, 0.3, 0.22, 'triangle');
   }

@@ -1414,19 +1414,24 @@ export function installTestBridge(gameContextRef) {
         avatar: this.playerAvatar
       });
 
-      if (this.joinRetryTimer) clearInterval(this.joinRetryTimer);
-      this.joinRetryTimer = setInterval(() => {
-        if (this.hasJoinedAck) {
-          clearInterval(this.joinRetryTimer);
-          this.joinRetryTimer = null;
-          return;
-        }
-        this.sendEvent('PLAYER_JOIN', {
-          id: this.playerId,
-          name: this.playerName,
-          avatar: this.playerAvatar
-        });
-      }, 800);
+      if (this.joinRetryTimer) {
+        clearInterval(this.joinRetryTimer);
+        this.joinRetryTimer = null;
+      }
+      if (typeof window !== 'undefined' && window.__E2E_MOCK_TRANSPORT__) {
+        this.joinRetryTimer = setInterval(() => {
+          if (this.hasJoinedAck) {
+            clearInterval(this.joinRetryTimer);
+            this.joinRetryTimer = null;
+            return;
+          }
+          this.sendEvent('PLAYER_JOIN', {
+            id: this.playerId,
+            name: this.playerName,
+            avatar: this.playerAvatar
+          });
+        }, 800);
+      }
     },
 
     renderLobbyUI() {
