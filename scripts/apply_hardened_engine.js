@@ -804,6 +804,22 @@ function generateHardenedAppwriteEngine() {
             currentRoundWinners: winners,
             currentPlayIndex: (state.roundNumber || 1) - 1
           });
+        } else if (state.phase === 'paused' && !this.isHost) {
+          this.isPaused = true;
+          TC.pause();
+          const stateInd = document.getElementById('stateInd');
+          if (stateInd) {
+            stateInd.textContent = 'PAUSED BY HOST';
+            stateInd.style.background = '#fbbf24';
+          }
+        } else if (state.phase === 'guessing' && this.isPaused && !this.isHost) {
+          this.isPaused = false;
+          TC.resume();
+          const stateInd = document.getElementById('stateInd');
+          if (stateInd) {
+            stateInd.textContent = 'GUESSING';
+            stateInd.style.background = '';
+          }
         }
       },
 

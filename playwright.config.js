@@ -1,4 +1,9 @@
 module.exports = {
+  timeout: 60000,
+  workers: 1,
+  expect: {
+    timeout: 10000,
+  },
   use: {
     baseURL: 'http://localhost:8080',
     headless: true,

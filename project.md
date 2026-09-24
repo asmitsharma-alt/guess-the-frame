@@ -89,52 +89,52 @@ The game features three distinct categories plus a specialized tie breaker mode:
 
 ### 1. 🎬 Guess The Frame (`GUESSTHEFRAME/`)
 Players guess the movie from an iconic, beautiful cinematography still that unblurs over 30 seconds.
-- *2001: A Space Odyssey (1968)*
-- *A Wednesday (2008)*
-- *Athiradi (2026)*
-- *Boogie Nights (1997)*
-- *Drishyam 3 (2026)*
-- *Ferrari Ki Sawaari (2012)*
-- *Gram Chikitsalaya Season 2 (2026)*
-- *I Swear (2025)*
-- *Licorice Pizza (2021)*
-- *Made In India: A Titan Story (2026)*
-- *Mulholland Drive (2001)*
-- *No Smoking (2007)*
-- *Peepli Live (2010)*
-- *Rush (2023)*
-- *Sapne Vs Everyone (2023)*
-- *The Drama (2026)*
-- *The Sheep Detectives (2026)*
-- *Widow's Bay (2026)*
-- *Wind River (2017)*
-- *Zero (2018)*
+- *American History X (1998)*
+- *Avengers Infinity War (2018)*
+- *Baahubali 2 The Conclusion (2017)*
+- *Balan - The Boy (2026)*
+- *Before Sunset (2004)*
+- *Billu (2009)*
+- *Certified Copy (2010)*
+- *Dallas Buyers Club (2013)*
+- *Dune Part Two (2024)*
+- *GO GOA GONE (2013)*
+- *I Saw the Devil (2010)*
+- *Irumudi (2026)*
+- *Karwaan (2018)*
+- *Nirvanna the Band the Show the Movie (2025)*
+- *October (2018)*
+- *Premalu (2024)*
+- *Rang De Basanti (2006)*
+- *Requiem for a Dream (2000)*
+- *S/O Satyamurthy (2015)*
+- *Stand by Me (1986)*
 
 ### 2. 👁️ Guess The Eyes (`GUESSTHEEYES/`)
 Players identify famous actors/celebrities from extreme eye closeups, which reveal to the full portrait upon answer confirmation.
-- *Adria Arjona*
-- *Anthony Mackie*
-- *Antony Starr*
-- *Emily Blunt*
-- *Emma Stone*
-- *Kate Hudson*
-- *Olivia Cooke*
-- *Rachel Brosnahan*
-- *Shraddha Kapoor*
-- *Zoe Saldaña*
+- *Bhuvan Bam*
+- *Daisy Edgar-Jones*
+- *Dakota Johnson*
+- *Dulquer Salmaan*
+- *Elle Fanning*
+- *Kiccha Sudeep*
+- *Kyle Chandler*
+- *Robert Pattinson*
+- *Salma Hayek*
+- *Sophie Turner*
 
 ### 3. 💬 Guess The Dialogue (`dialogues.txt`)
-Classic comedic and dramatic punchlines from iconic films:
-- *"Aaya hoon, kuch toh loot kar jaunga... Khandani chor hoon main, khandani!"* — *Andaaz Apna Apna*
-- *"Khoon kharabe wale khandan se aata hoon... roz subah uthkar 2-4 khoon na karoon..."* — *Hungama*
-- *"Yeh koi tareeka hai bheek maangne ka?!"* — *Golmaal*
-- *"Meri ek taang nakli hai, main hockey ka bohot bada khiladi tha..."* — *Welcome*
-- *"Arey ₹5 mein chicken biryani de raha hai re woh!"* — *Run*
-- *"We're looking for two oil boys who can grease us up before each competition."* — *Dumb and Dumber*
-- *"It’s not a purse, it’s a satchel. Gods and Indiana Jones wears one."* — *The Hangover*
-- *"I'm not Bad. I'm just Drawn That Way."* — *Who Framed Roger Rabbit*
-- *"I don't want to survive. I want to live."* — *Wall-E*
-- *"I wasted so much time worrying what could go wrong..."* — *The Worst Person in the World*
+Classic comedic, dramatic, and iconic cinematic punchlines:
+- *"Say hello to my little friend!"* — *Scarface (1983)*
+- *"Some people just want to watch the world burn."* — *The Dark Knight (2008)*
+- *"I don't want to kill you. I don't want to hurt you. I don't want your life."* — *Captain America: The Winter Soldier (2014)*
+- *"I drink your milkshake!"* — *There Will Be Blood (2007)*
+- *"What we do in life echoes in eternity."* — *Gladiator (2000)*
+- *"The city is flying, we're fighting an army of robots, and I have a bow and arrow. None of this makes sense."* — *Avengers: Age of Ultron (2015)*
+- *"Tareekh pe tareekh."* — *Damini (1993)*
+- *"Aap purush hi nahi, mahapurush hain."* — *Andaz Apna Apna (1994)*
+- *"Rishte mein toh hum tumhare baap lagte hain."* — *Shahenshah (1988)*
+- *"Insaan ko dibbe mein sirf tab hona chahiye jab woh mar chuka ho."* — *Zindagi Na Milegi Dobara (2011)*
 
 ### 4. ⚔️ Sudden Death / Tie Breaker (`tie breaker/`)
 Rapid-fire duel frames deployed when two or more players tie for 1st place:
