@@ -1,0 +1,10 @@
+{
+  "name": "cleanup-rooms",
+  "version": "1.0.0",
+  "description": "Appwrite scheduled function to automatically delete finished or abandoned rooms older than 24h",
+  "main": "src/main.js",
+  "type": "module",
+  "dependencies": {
+    "node-appwrite": "^14.1.0"
+  }
+}

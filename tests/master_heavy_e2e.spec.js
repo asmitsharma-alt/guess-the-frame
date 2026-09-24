@@ -134,8 +134,8 @@ test.describe('Master Heavy E2E Test Suite — All Features, Buttons, Pointing &
     await page.locator('#hostPlayerNameInput').fill('Captain Kirk');
     expect(await page.locator('#hostPlayerNameInput').inputValue()).toBe('Captain Kirk');
 
-    // Click Amish avatar
-    await page.locator('#createRoomModal .mp-avatar-option[data-avatar="amish"]').click();
+    // Click Ayush avatar
+    await page.locator('#createRoomModal .mp-avatar-option[data-avatar="ayush"]').click();
     expect(await page.locator('#hostPlayerNameInput').inputValue()).toBe('Captain Kirk'); // Preserves custom typed name
 
     // Close create modal
@@ -150,7 +150,7 @@ test.describe('Master Heavy E2E Test Suite — All Features, Buttons, Pointing &
     // Type name and code
     await page.locator('#joinPlayerNameInput').fill('Spock');
     await page.locator('#joinCodeInput').fill('KIRK');
-    await page.locator('#joinRoomModal .mp-avatar-option[data-avatar="aziz"]').click();
+    await page.locator('#joinRoomModal .mp-avatar-option[data-avatar="joel"]').click();
 
     // Close join modal
     await page.locator('#joinRoomModal .mp-modal-close').click();
@@ -175,34 +175,42 @@ test.describe('Master Heavy E2E Test Suite — All Features, Buttons, Pointing &
 
     await expect(page.locator('#playerLobbyScreen')).toBeVisible();
 
-    // Test Round adjustments (+ and -)
+    // Test Round adjustments (- and +)
     const initialRounds = await page.evaluate(() => MultiplayerEngine.hostSettings.rounds);
-    await page.locator('button[title="Increase Rounds"]').click();
-    const increasedRounds = await page.evaluate(() => MultiplayerEngine.hostSettings.rounds);
-    expect(increasedRounds).toBe(initialRounds + 1);
+    await page.locator('button[title="Decrease Frame Rounds"]').click();
+    const decreasedRounds = await page.evaluate(() => MultiplayerEngine.hostSettings.rounds);
+    expect(decreasedRounds).toBe(initialRounds - 1);
 
-    await page.locator('button[title="Decrease Rounds"]').click();
+    await page.locator('button[title="Increase Frame Rounds"]').click();
     const resetRounds = await page.evaluate(() => MultiplayerEngine.hostSettings.rounds);
     expect(resetRounds).toBe(initialRounds);
 
-    // Test Timer adjustments (+15 and -15)
+    // Test Timer adjustments (+1 and -1)
     const initialTimer = await page.evaluate(() => MultiplayerEngine.hostSettings.timer);
     await page.locator('button[title="Increase Timer"]').click();
     const increasedTimer = await page.evaluate(() => MultiplayerEngine.hostSettings.timer);
-    expect(increasedTimer).toBe(initialTimer + 15);
+    expect(increasedTimer).toBe(initialTimer + 1);
 
     await page.locator('button[title="Decrease Timer"]').click();
     const resetTimer = await page.evaluate(() => MultiplayerEngine.hostSettings.timer);
     expect(resetTimer).toBe(initialTimer);
 
-    // Test QR Modal button
-    const qrBtn = page.locator('button:has-text("QR CODE")');
-    if (await qrBtn.count() > 0) {
-      await qrBtn.click();
-      await expect(page.locator('#qrModal')).toHaveClass(/active/);
-      await page.locator('#qrModal .mp-modal-close').click();
-      await expect(page.locator('#qrModal')).not.toHaveClass(/active/);
-    }
+    // Verify QR Code button is NOT present in lobby (per requirement)
+    const qrBtnInLobby = page.locator('#playerLobbyScreen button:has-text("QR CODE")');
+    expect(await qrBtnInLobby.count()).toBe(0);
+
+    // Test Copy Link button (Must copy without any alert or prompt popup)
+    let dialogTriggered = false;
+    page.on('dialog', d => {
+      dialogTriggered = true;
+      d.dismiss();
+    });
+
+    const copyBtn = page.locator('#copyLinkBtn');
+    await expect(copyBtn).toBeVisible();
+    await copyBtn.click();
+    expect(dialogTriggered).toBe(false);
+    await expect(copyBtn).toContainText('Copied!');
 
     // Test Leave Lobby button
     await page.locator('button[onclick="PlayerLobby.back()"]').first().click();
@@ -220,7 +228,7 @@ test.describe('Master Heavy E2E Test Suite — All Features, Buttons, Pointing &
         { id: 'host_user', name: 'HostPlayer', avatar: 'aman', score: 0, isHost: true, loaded: true }
       ];
 
-      MultiplayerEngine.startMatch();
+      HowToAnswerGuide.show(true);
     });
 
     await expect(page.locator('#howToAnswerScreen')).toBeVisible();
@@ -243,7 +251,7 @@ test.describe('Master Heavy E2E Test Suite — All Features, Buttons, Pointing &
     // Button unlocks and is enabled
     await expect(startBtn).toBeEnabled();
     const unlockedText = await startBtn.textContent();
-    expect(unlockedText).toContain('START GAME NOW');
+    expect(unlockedText).toContain('START GAME');
 
     // Clicking unlocked button advances to gameScreen
     await startBtn.click();

@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
   <link rel="preload" as="image" href="bg/guess_the_frame.webp" type="image/webp" fetchpriority="high">
   <link rel="preload" as="image" href="bg/cinema_bg.webp" type="image/webp">
-  <title>Scoopcast: Guess The Frame - Online Movie Frame Guessing Game</title>
+  <title>Guess The Frame </title>
   <meta name="description" content="Play Scoopcast Guess The Frame - The ultimate multiplayer movie frame trivia party game. Challenge your friends in real-time to guess iconic cinema frames!">
   <meta name="keywords" content="scoopcast, guess the frame, movie trivia, film frame guessing game, cinema party game, scoopcast live, asmit">
   <link rel="canonical" href="https://www.scoopcast-live.in/">
@@ -8444,77 +8444,81 @@
 
   
     /* ══════════════════════════════════════════════════════════════════
-       ONLINE MULTIPLAYER STYLES (NEOBRUTALIST / CLAYMORPHISM)
+       ONLINE MULTIPLAYER BUTTONS (COMPACT & BOLD NEOBRUTALIST)
        ══════════════════════════════════════════════════════════════════ */
     .h-cards-multiplayer {
       display: flex;
       justify-content: center;
-      align-items: stretch;
+      align-items: center;
       flex-wrap: wrap;
-      gap: 18px;
+      gap: 14px;
       width: 100%;
-      max-width: 820px;
-      margin: 0 auto;
+      max-width: 600px;
+      margin: 14px auto 0;
       padding: 0 16px;
       z-index: 10;
       box-sizing: border-box;
     }
     .h-card-mp {
-      flex: 1 1 200px;
-      max-width: 240px;
-      min-width: 200px;
-      border: 3.5px solid #1a1a1a;
+      flex: 0 1 auto;
+      min-width: 160px;
+      height: 50px;
+      border: 3px solid #1a1a1a;
       border-radius: 14px;
-      padding: 22px 16px;
+      padding: 0 22px;
       cursor: pointer;
-      font-family: 'Lilita One', 'Anybody', sans-serif;
-      display: flex;
+      font-family: 'Lilita One', 'DM Sans', sans-serif;
+      display: inline-flex;
+      flex-direction: row;
       align-items: center;
       justify-content: center;
-      transition: transform 0.13s ease, box-shadow 0.13s ease;
+      gap: 9px;
+      white-space: nowrap;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
       position: relative;
       text-align: center;
       box-sizing: border-box;
       user-select: none;
     }
+    .h-card-mp .h-btn-svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      display: block;
+    }
     .h-card-create {
       background: #FF6B9D;
-      box-shadow: 5px 5px 0 #1a1a1a;
-      color: #fff;
+      box-shadow: 4px 4px 0 #1a1a1a;
+      color: #FFFFFF;
     }
     .h-card-create:hover {
-      transform: translate(-3px, -3px);
-      box-shadow: 8px 8px 0 #1a1a1a;
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #1a1a1a;
     }
     .h-card-join {
       background: #3B82F6;
-      box-shadow: 5px 5px 0 #1a1a1a;
-      color: #fff;
+      box-shadow: 4px 4px 0 #1a1a1a;
+      color: #FFFFFF;
     }
     .h-card-join:hover {
-      transform: translate(-3px, -3px);
-      box-shadow: 8px 8px 0 #1a1a1a;
+      transform: translate(-2px, -2px);
+      box-shadow: 6px 6px 0 #1a1a1a;
     }
     .h-card-local {
       display: none !important;
       background: #FACC15;
-      box-shadow: 5px 5px 0 #1a1a1a;
+      box-shadow: 4px 4px 0 #1a1a1a;
       color: #1a1a1a;
-    }
-    .h-card-local:hover {
-      transform: translate(-3px, -3px);
-      box-shadow: 8px 8px 0 #1a1a1a;
     }
     .h-card-mp:active {
       transform: translate(2px, 2px);
-      box-shadow: 2px 2px 0 #1a1a1a;
+      box-shadow: 1px 1px 0 #1a1a1a;
     }
     .h-card-title-lg {
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 900;
-      letter-spacing: 1.5px;
+      letter-spacing: 0.8px;
       text-transform: uppercase;
-      text-align: center;
       color: inherit;
     }
 
@@ -8527,20 +8531,41 @@
         margin-bottom: 20px !important;
       }
       .h-cards-multiplayer {
-        flex-direction: column;
-        align-items: center;
+        flex-direction: row;
+        justify-content: center;
         gap: 12px;
         margin: 0 auto;
-        padding: 0 20px;
+        padding: 0 16px;
       }
       .h-card-mp {
-        width: 100%;
-        max-width: 320px;
-        flex: none;
-        padding: 20px 24px;
+        flex: 1 1 135px;
+        max-width: 175px;
+        min-width: 130px;
+        height: 46px;
+        padding: 0 12px;
+        gap: 6px;
+        white-space: nowrap;
+      }
+      .h-card-mp .h-btn-svg {
+        width: 17px;
+        height: 17px;
+      }
+      .h-card-title-lg {
+        font-size: 13.5px;
+        letter-spacing: 0.5px;
       }
       .h-footer {
         margin-top: 24px !important;
+      }
+    }
+    @media (max-width: 360px) {
+      .h-cards-multiplayer {
+        flex-direction: column;
+        align-items: center;
+      }
+      .h-card-mp {
+        width: 100%;
+        max-width: 240px;
       }
     }
 
@@ -8649,8 +8674,13 @@
     /* Avatar Grid in Modal */
     .mp-avatar-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+    @media (max-width: 480px) {
+      .mp-avatar-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
     .mp-avatar-option {
       border: 3px solid #1a1a1a;
@@ -9504,7 +9534,321 @@
       display: flex !important;
       flex-direction: column !important;
       gap: 10px !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      overscroll-behavior-y: contain !important;
+      -webkit-overflow-scrolling: touch !important;
+      padding: 0 4px 6px 0 !important;
+      box-sizing: border-box !important;
+    }
+
+    #gameScreen .game-sidebar-col::-webkit-scrollbar {
+      width: 7px;
+    }
+    #gameScreen .game-sidebar-col::-webkit-scrollbar-track {
+      background: #f1ede4;
+      border-radius: 4px;
+    }
+    #gameScreen .game-sidebar-col::-webkit-scrollbar-thumb {
+      background: #1a1a1a;
+      border-radius: 4px;
+    }
+    #gameScreen .game-sidebar-col::-webkit-scrollbar-thumb:hover {
+      background: #FF6B9D;
+    }
+
+    /* TOP STRIP CONTAINER (DEFAULT: VERTICALLY STACKED) */
+    #gameScreen .sidebar-top-strip {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      flex-shrink: 0;
+    }
+
+    /* ZOOMED IN (HEIGHT <= 840px) OR ANSWERING MODE (INPUT FOCUSED):
+       TIMER & SCOREBOARD SIT SIDE-BY-SIDE ON THE EXACT SAME LINE WITH PERFECT SYMMETRY */
+    @media (max-height: 840px) {
+      #gameScreen .game-sidebar-col {
+        width: 390px !important;
+        max-width: 420px !important;
+      }
+      #gameScreen .sidebar-top-strip {
+        flex-direction: row !important;
+        align-items: stretch !important;
+        gap: 8px !important;
+      }
+      #gameScreen .sidebar-top-strip .panel-sec {
+        flex: 1 1 50% !important;
+        min-width: 0 !important;
+        padding: 8px 10px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        justify-content: flex-start !important;
+      }
+      #gameScreen .sidebar-top-strip .panel-sec h3 {
+        font-size: 11px !important;
+        margin-bottom: 6px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        gap: 5px !important;
+      }
+      #gameScreen .sidebar-top-strip .timer-block {
+        flex: 1 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 4px 0 !important;
+        gap: 4px !important;
+        margin: auto 0 !important;
+      }
+      #gameScreen .sidebar-top-strip .timer-circle {
+        width: 68px !important;
+        height: 68px !important;
+      }
+      #gameScreen .sidebar-top-strip .ttx {
+        font-size: 26px !important;
+      }
+      #gameScreen .sidebar-top-strip .timer-label {
+        font-size: 9px !important;
+        letter-spacing: 0.8px !important;
+        margin-top: 2px !important;
+      }
+      #gameScreen .sidebar-top-strip .nonk-panel {
+        margin-bottom: 4px !important;
+      }
+      #gameScreen .sidebar-top-strip .nonk-btn {
+        padding: 4px 6px !important;
+        font-size: 10px !important;
+        line-height: 1.2 !important;
+        white-space: normal !important;
+      }
+      #gameScreen .sidebar-top-strip .leaderboard {
+        flex: 1 !important;
+        max-height: 96px !important;
+        gap: 4px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+      }
+      #gameScreen .sidebar-top-strip .lb-item {
+        min-height: 30px !important;
+        height: auto !important;
+        padding: 2px 6px !important;
+        gap: 5px !important;
+        border-radius: 6px !important;
+      }
+      #gameScreen .sidebar-top-strip .lb-rank {
+        width: 18px !important;
+        height: 18px !important;
+        font-size: 9.5px !important;
+      }
+      #gameScreen .sidebar-top-strip .avatar-circle,
+      #gameScreen .sidebar-top-strip .lb-av-wrap {
+        width: 22px !important;
+        height: 22px !important;
+        min-width: 22px !important;
+      }
+      #gameScreen .sidebar-top-strip .lb-name {
+        font-size: 11px !important;
+      }
+      #gameScreen .sidebar-top-strip .lb-score {
+        font-size: 11px !important;
+      }
+      #gameScreen .sidebar-top-strip .leaderboard-actions {
+        margin-top: 4px !important;
+      }
+      #gameScreen .sidebar-top-strip .skip-btn {
+        padding: 3px 8px !important;
+        font-size: 10.5px !important;
+        border-radius: 6px !important;
+      }
+      #gameScreen .live-chat-panel {
+        flex: 1 1 0% !important;
+        min-height: 240px !important;
+      }
+    }
+
+    body.answering-mode #gameScreen .game-sidebar-col,
+    body.force-side-by-side #gameScreen .game-sidebar-col,
+    body:has(#chatTextInput:focus) #gameScreen .game-sidebar-col {
+      width: 390px !important;
+      max-width: 420px !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip,
+    body.force-side-by-side #gameScreen .sidebar-top-strip,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip {
+      flex-direction: row !important;
+      align-items: stretch !important;
+      gap: 8px !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .panel-sec,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .panel-sec,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .panel-sec {
+      flex: 1 1 50% !important;
+      min-width: 0 !important;
+      padding: 8px 10px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: stretch !important;
+      justify-content: flex-start !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .panel-sec h3,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .panel-sec h3,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .panel-sec h3 {
+      font-size: 11px !important;
+      margin-bottom: 6px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+      white-space: nowrap !important;
       overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      gap: 5px !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .timer-block,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .timer-block,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .timer-block {
+      flex: 1 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 4px 0 !important;
+      gap: 4px !important;
+      margin: auto 0 !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .timer-circle,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .timer-circle,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .timer-circle {
+      width: 68px !important;
+      height: 68px !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .ttx,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .ttx,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .ttx {
+      font-size: 26px !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .timer-label,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .timer-label,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .timer-label {
+      font-size: 9px !important;
+      letter-spacing: 0.8px !important;
+      margin-top: 2px !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .nonk-btn,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .nonk-btn,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .nonk-btn {
+      padding: 4px 6px !important;
+      font-size: 10px !important;
+      line-height: 1.2 !important;
+      white-space: normal !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .leaderboard,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .leaderboard,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .leaderboard {
+      flex: 1 !important;
+      max-height: 96px !important;
+      gap: 4px !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .lb-item,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .lb-item,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .lb-item {
+      min-height: 30px !important;
+      height: auto !important;
+      padding: 2px 6px !important;
+      gap: 5px !important;
+      border-radius: 6px !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .lb-rank,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .lb-rank,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .lb-rank {
+      width: 18px !important;
+      height: 18px !important;
+      font-size: 9.5px !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .avatar-circle,
+    body.answering-mode #gameScreen .sidebar-top-strip .lb-av-wrap,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .avatar-circle,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .lb-av-wrap,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .avatar-circle,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .lb-av-wrap {
+      width: 22px !important;
+      height: 22px !important;
+      min-width: 22px !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .lb-name,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .lb-name,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .lb-name {
+      font-size: 11px !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .lb-score,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .lb-score,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .lb-score {
+      font-size: 11px !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .leaderboard-actions,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .leaderboard-actions,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .leaderboard-actions {
+      margin-top: 4px !important;
+    }
+    body.answering-mode #gameScreen .sidebar-top-strip .skip-btn,
+    body.force-side-by-side #gameScreen .sidebar-top-strip .skip-btn,
+    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .skip-btn {
+      padding: 3px 8px !important;
+      font-size: 10.5px !important;
+      border-radius: 6px !important;
+    }
+
+    #gameScreen .chat-layout-toggle-btn {
+      height: 26px !important;
+      padding: 0 8px !important;
+      box-sizing: border-box !important;
+      background: #ffffff !important;
+      border: 1.5px solid #1a1a1a !important;
+      border-radius: 6px !important;
+      font-size: 11px !important;
+      font-weight: 900 !important;
+      cursor: pointer !important;
+      box-shadow: 1.5px 1.5px 0 #1a1a1a !important;
+      color: #1a1a1a !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 3px !important;
+      margin-left: auto !important;
+      transition: transform 0.1s ease !important;
+    }
+    #gameScreen .chat-layout-toggle-btn:hover {
+      transform: translateY(-1px) !important;
+    }
+    #gameScreen .chat-hint-btn {
+      height: 26px !important;
+      padding: 0 8px !important;
+      box-sizing: border-box !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 11px !important;
+      font-weight: 800 !important;
+      white-space: nowrap !important;
+      border: 1.5px solid #1a1a1a !important;
+      border-radius: 6px !important;
+      cursor: pointer !important;
+    }
+    #gameScreen .chat-close-btn {
+      display: none !important;
     }
 
     #gameScreen .panel-sec {
@@ -9527,8 +9871,8 @@
 
     /* LIVE CHAT & GUESS STREAM PANEL */
     #gameScreen .live-chat-panel {
-      flex: 1 1 0% !important;
-      min-height: 0 !important;
+      flex: 1 0 280px !important;
+      min-height: 280px !important;
       width: 100% !important;
       background: #ffffff !important;
       border: 3px solid #1a1a1a !important;
@@ -9568,6 +9912,8 @@
     }
     #gameScreen .chat-input-form {
       padding: 6px 8px !important;
+      height: 48px !important;
+      box-sizing: border-box !important;
       background: #ffffff !important;
       border-top: 2.5px solid #1a1a1a !important;
       display: flex !important;
@@ -9577,9 +9923,11 @@
     }
     #gameScreen .chat-input-box {
       flex: 1 1 0% !important;
+      height: 36px !important;
+      padding: 0 10px !important;
+      box-sizing: border-box !important;
       border: 2px solid #1a1a1a !important;
       border-radius: 8px !important;
-      padding: 6px 10px !important;
       font-size: 13px !important;
       font-weight: 700 !important;
       outline: none !important;
@@ -9587,15 +9935,20 @@
       color: #1a1a1a !important;
     }
     #gameScreen .chat-send-btn {
+      height: 36px !important;
+      padding: 0 14px !important;
+      box-sizing: border-box !important;
       background: #3B82F6 !important;
       color: #ffffff !important;
       border: 2px solid #1a1a1a !important;
       border-radius: 8px !important;
-      padding: 6px 14px !important;
       font-size: 13px !important;
       font-weight: 900 !important;
       cursor: pointer !important;
       box-shadow: 2px 2px 0 #1a1a1a !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
     }
 
     /* MOBILE RESPONSIVENESS */
@@ -9654,6 +10007,8 @@
         max-width: 100% !important;
         height: auto !important;
         flex: none !important;
+        overflow-y: visible !important;
+        padding: 0 !important;
       }
       #gameScreen .live-chat-panel {
         position: fixed !important;
@@ -9661,7 +10016,9 @@
         left: 0 !important;
         width: 100% !important;
         height: 52vh !important;
+        min-height: 0 !important;
         max-height: 55vh !important;
+        flex: none !important;
         z-index: 999999 !important;
         border-radius: 20px 20px 0 0 !important;
         border-bottom: none !important;
@@ -11997,9 +12354,16 @@
     }
   
     /* ════ HOW TO ANSWER GUIDE SCREEN (NEOBRUTAL ARCADE HOW TO PLAY) ════ */
-    #howToAnswerScreen,
+    #howToAnswerScreen {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+      overflow-y: auto;
+    }
     #howToAnswerScreen.active {
-      display: none !important;
+      display: flex !important;
     }
     .hta-modal-card {
       background: #ffffff !important;
@@ -12402,7 +12766,159 @@
       .hta-action-rays { display: none; }
       .hta-btn-container { width: 100%; }
       .hta-start-btn { width: 100%; padding: 12px 20px; font-size: 20px; }
-      .hta-client-status { width: 100%; justify-content: center; box-sizing: border-box; }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       SMALL SCREEN & ANDROID SCREEN RESTRICTION OVERLAY
+       ══════════════════════════════════════════════════════════ */
+    .screen-restrict-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      background: #FFFDF5;
+      background-image: radial-gradient(#1a1a1a 1.2px, transparent 1.2px);
+      background-size: 24px 24px;
+      z-index: 99999999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+    .sro-card {
+      width: 100%;
+      max-width: 440px;
+      background: #ffffff;
+      border: 3.5px solid #1a1a1a;
+      border-radius: 18px;
+      box-shadow: 6px 6px 0 #1a1a1a;
+      padding: 24px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      box-sizing: border-box;
+      gap: 14px;
+      margin: auto;
+    }
+    .sro-badge {
+      background: #FACC15;
+      color: #1a1a1a;
+      border: 2px solid #1a1a1a;
+      border-radius: 999px;
+      padding: 4px 14px;
+      font-size: 11.5px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      box-shadow: 2px 2px 0 #1a1a1a;
+    }
+    .sro-icon-wrap {
+      width: 64px;
+      height: 64px;
+      background: #FEF08A;
+      border: 3px solid #1a1a1a;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 3px 3px 0 #1a1a1a;
+    }
+    .sro-icon {
+      font-size: 32px;
+      line-height: 1;
+    }
+    .sro-title {
+      font-size: 20px;
+      font-weight: 900;
+      color: #1a1a1a;
+      line-height: 1.2;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .sro-desc {
+      font-size: 13.5px;
+      color: #4b5563;
+      line-height: 1.45;
+      margin: 0;
+      font-weight: 600;
+    }
+    .sro-instructions {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: left;
+      margin-top: 4px;
+    }
+    .sro-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: #fafaf4;
+      border: 2px solid #1a1a1a;
+      border-radius: 10px;
+      padding: 10px 12px;
+      box-shadow: 2.5px 2.5px 0 #1a1a1a;
+    }
+    .sro-step-num {
+      background: #3B82F6;
+      color: #ffffff;
+      border: 1.5px solid #1a1a1a;
+      border-radius: 50%;
+      width: 22px;
+      height: 22px;
+      min-width: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+    }
+    .sro-step-text {
+      font-size: 12.5px;
+      color: #1a1a1a;
+      line-height: 1.35;
+    }
+    .sro-step-text kbd {
+      background: #ffffff;
+      border: 1.5px solid #1a1a1a;
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 11px;
+      font-weight: 800;
+      box-shadow: 1px 1px 0 #1a1a1a;
+      font-family: monospace;
+    }
+    .sro-status-bar {
+      width: 100%;
+      background: #FFFBEB;
+      border: 2px dashed #1a1a1a;
+      border-radius: 10px;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #78350f;
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 900px) {
+      body:not(.bypass-restrict) .screen-restrict-overlay {
+        display: flex !important;
+      }
+      body:not(.bypass-restrict) #app,
+      body:not(.bypass-restrict) .snd-btn,
+      body:not(.bypass-restrict) #bgBackdrop,
+      body:not(.bypass-restrict) #bgFocusScrim {
+        display: none !important;
+      }
+      body:not(.bypass-restrict) {
+        overflow: hidden !important;
+      }
     }
   </style>
   <!-- Appwrite Web SDK & QRCode for Online Multiplayer -->
@@ -12681,9 +13197,48 @@
     </svg>
 
     
-  <!-- SOFT BLURRED CINEMA WALLPAPER BACKDROP & FOCUS SCRIM -->
-  <div id="bgBackdrop" class="bg-backdrop" aria-hidden="true"></div>
-  <div id="bgFocusScrim" class="bg-focus-scrim" aria-hidden="true"></div>
+  <!-- SMALL SCREEN & ANDROID SCREEN RESTRICTION OVERLAY -->
+  <div id="screenRestrictOverlay" class="screen-restrict-overlay" role="alert" aria-live="assertive">
+    <div class="sro-card">
+      <div class="sro-badge">🖥️ Desktop Screen Required</div>
+      <div class="sro-icon-wrap">
+        <span class="sro-icon">💻</span>
+      </div>
+      <h1 class="sro-title">Screen Too Small</h1>
+      <p class="sro-desc">
+        This game requires a larger screen. Please make your screen zoom out or switch to a desktop screen to view the website.
+      </p>
+      
+      <div class="sro-instructions">
+        <div class="sro-step">
+          <span class="sro-step-num">1</span>
+          <div class="sro-step-text">
+            <strong>Make Screen Zoom Out:</strong><br>
+            Press <kbd>Ctrl</kbd> + <kbd>-</kbd> (or <kbd>⌘</kbd> + <kbd>-</kbd> on Mac) or use your browser menu to zoom out until the website appears.
+          </div>
+        </div>
+        <div class="sro-step">
+          <span class="sro-step-num">2</span>
+          <div class="sro-step-text">
+            <strong>Use in Desktop Screen:</strong><br>
+            Open this website on a desktop computer or laptop for the full party experience.
+          </div>
+        </div>
+        <div class="sro-step">
+          <span class="sro-step-num">3</span>
+          <div class="sro-step-text">
+            <strong>On Android / Mobile:</strong><br>
+            Tap browser menu (<strong>⋮</strong>) and enable <strong>"Desktop site"</strong>, or zoom out your display.
+          </div>
+        </div>
+      </div>
+
+      <div class="sro-status-bar">
+        Current Screen Width: <strong id="sroCurrentWidth">--</strong>px &nbsp;|&nbsp; Minimum Required: <strong>900px</strong>
+      </div>
+    </div>
+  </div>
+
   <div id="app">
     <!-- HOME -->
     <div id="homeScreen" class="screen active">
@@ -12714,14 +13269,25 @@
 
       <!-- Action cards for Online Multiplayer & Local -->
       <div class="h-cards-multiplayer">
-        <div class="h-card-mp h-card-create" onclick="MultiplayerEngine.openCreateModal()">
-          <div class="h-card-title-lg">⚡ CREATE ROOM</div>
+        <div class="h-card-mp h-card-create" onclick="MultiplayerEngine.openCreateModal()" role="button" tabindex="0">
+          <svg class="h-btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="16"></line>
+            <line x1="8" y1="12" x2="16" y2="12"></line>
+          </svg>
+          <span class="h-card-title-lg">Create Room</span>
         </div>
-        <div class="h-card-mp h-card-join" onclick="MultiplayerEngine.openJoinModal()">
-          <div class="h-card-title-lg">🎮 JOIN ROOM</div>
+        <div class="h-card-mp h-card-join" onclick="MultiplayerEngine.openJoinModal()" role="button" tabindex="0">
+          <svg class="h-btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="6" width="20" height="12" rx="3"></rect>
+            <path d="M6 12h4m-2-2v4"></path>
+            <circle cx="15" cy="11" r="1" fill="currentColor"></circle>
+            <circle cx="18" cy="13" r="1" fill="currentColor"></circle>
+          </svg>
+          <span class="h-card-title-lg">Join Room</span>
         </div>
         <div class="h-card-mp h-card-local" onclick="showHowToPlay()" style="display: none !important;" aria-hidden="true">
-          <div class="h-card-title-lg">🎬 PLAY OFFLINE</div>
+          <span class="h-card-title-lg">Local Party</span>
         </div>
       </div>
 
@@ -12751,21 +13317,25 @@
         <div class="mp-form-group">
           <label class="mp-label">Select Your Animated Avatar</label>
           <div class="mp-avatar-grid">
-            <div class="mp-avatar-option selected" data-avatar="aman" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/aman.svg" alt="Aman" />
-              <div class="mp-avatar-name">Aman</div>
+            <div class="mp-avatar-option selected" data-avatar="ayank" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/ayank.png" alt="Ayank" />
+              <div class="mp-avatar-name">Ayank</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="amish" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/amish.svg" alt="Amish" />
-              <div class="mp-avatar-name">Amish</div>
+            <div class="mp-avatar-option" data-avatar="ayush" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/ayush.png" alt="Ayush" />
+              <div class="mp-avatar-name">Ayush</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="aziz" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/aziz.svg" alt="Aziz" />
-              <div class="mp-avatar-name">Aziz</div>
+            <div class="mp-avatar-option" data-avatar="joel" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/joel.png" alt="Joel" />
+              <div class="mp-avatar-name">Joel</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="vish" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/vish.svg" alt="Vish" />
-              <div class="mp-avatar-name">Vish</div>
+            <div class="mp-avatar-option" data-avatar="praggya" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/praggya.png" alt="Praggya" />
+              <div class="mp-avatar-name">Praggya</div>
+            </div>
+            <div class="mp-avatar-option" data-avatar="ruhaan" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/ruhaan.png" alt="Ruhaan" />
+              <div class="mp-avatar-name">Ruhaan</div>
             </div>
           </div>
         </div>
@@ -12793,21 +13363,25 @@
         <div class="mp-form-group">
           <label class="mp-label">Select Your Animated Avatar</label>
           <div class="mp-avatar-grid">
-            <div class="mp-avatar-option selected" data-avatar="aman" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/aman.svg" alt="Aman" />
-              <div class="mp-avatar-name">Aman</div>
+            <div class="mp-avatar-option selected" data-avatar="ayank" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/ayank.png" alt="Ayank" />
+              <div class="mp-avatar-name">Ayank</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="amish" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/amish.svg" alt="Amish" />
-              <div class="mp-avatar-name">Amish</div>
+            <div class="mp-avatar-option" data-avatar="ayush" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/ayush.png" alt="Ayush" />
+              <div class="mp-avatar-name">Ayush</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="aziz" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/aziz.svg" alt="Aziz" />
-              <div class="mp-avatar-name">Aziz</div>
+            <div class="mp-avatar-option" data-avatar="joel" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/joel.png" alt="Joel" />
+              <div class="mp-avatar-name">Joel</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="vish" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/vish.svg" alt="Vish" />
-              <div class="mp-avatar-name">Vish</div>
+            <div class="mp-avatar-option" data-avatar="praggya" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/praggya.png" alt="Praggya" />
+              <div class="mp-avatar-name">Praggya</div>
+            </div>
+            <div class="mp-avatar-option" data-avatar="ruhaan" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/ruhaan.png" alt="Ruhaan" />
+              <div class="mp-avatar-name">Ruhaan</div>
             </div>
           </div>
         </div>
@@ -12831,10 +13405,10 @@
         <div style="background: #fafaf4; border: 3px solid #1a1a1a; border-radius: 12px; padding: 14px; margin-bottom: 16px; box-shadow: 4px 4px 0 #1a1a1a; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
           <div style="display: flex; align-items: center; gap: 12px;">
             <div id="rejoinAvatarContainer" style="width: 52px; height: 52px; border-radius: 50%; border: 3px solid #1a1a1a; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #FF6B9D;">
-              <img id="rejoinAvatarImg" src="avvtar/aman.svg" style="width: 100%; height: 100%; object-fit: cover;" alt="Avatar" />
+              <img id="rejoinAvatarImg" src="avvtar/ayank.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Avatar" />
             </div>
             <div style="text-align: left;">
-              <div id="rejoinPlayerName" style="font-size: 16px; font-weight: 900; color: #1a1a1a; text-transform: uppercase;">AMAN</div>
+              <div id="rejoinPlayerName" style="font-size: 16px; font-weight: 900; color: #1a1a1a; text-transform: uppercase;">AYANK</div>
               <div id="rejoinRoleTag" style="font-size: 11px; font-weight: 800; color: #666; text-transform: uppercase;">Player</div>
             </div>
           </div>
@@ -13364,7 +13938,7 @@
             <div class="hta-action-rays left">
               <span></span><span></span><span></span>
             </div>
-            <button id="htaHostStartBtn" class="hta-start-btn" disabled>
+            <button id="htaHostStartBtn" class="hta-start-btn" onclick="HowToAnswerGuide.handleHostClick()" disabled>
               <span class="hta-play-icon">▶</span>
               <span class="hta-btn-text">START GAME</span>
             </button>
@@ -13491,40 +14065,43 @@
     <!-- RIGHT: SIDEBAR CONTROLS, LEADERBOARD & LIVE CHAT COLUMN -->
     <aside class="game-sidebar-col">
       
-      <!-- CARD 1: ROUND CONTROLS -->
-      <div class="panel-sec">
-        <h3><svg class="svg-icon">
-            <use href="#icon-target" />
-          </svg> Round Controls</h3>
-        <div class="nonk-panel" id="nonkPanel">
-          <button type="button" class="nonk-btn" id="nonkBtn" onclick="GameController.noOneKnows()"><svg class="svg-icon">
-              <use href="#icon-circle-help" />
-            </svg> No One Knows — Skip Round</button>
-          <div class="skip-msg" id="skipMsgEl">Skipping to next round...</div>
-        </div>
-        <div class="timer-block">
-          <div class="timer-circle" id="timerCircle">
-            <svg viewBox="0 0 100 100">
-              <circle class="tbg" cx="50" cy="50" r="42"></circle>
-              <circle class="tpg" id="timerProg" cx="50" cy="50" r="42" stroke-dasharray="264"
-                stroke-dashoffset="0"></circle>
-            </svg>
-            <span class="ttx" id="timerTxt">30</span>
+      <!-- TOP STRIP: ROUND CONTROLS & LEADERBOARD (CAN SIT SIDE-BY-SIDE ON SAME LINE) -->
+      <div class="sidebar-top-strip" id="sidebarTopStrip">
+        <!-- CARD 1: ROUND CONTROLS -->
+        <div class="panel-sec panel-sec-controls">
+          <h3><svg class="svg-icon">
+              <use href="#icon-target" />
+            </svg> Round Controls</h3>
+          <div class="nonk-panel" id="nonkPanel">
+            <button type="button" class="nonk-btn" id="nonkBtn" onclick="GameController.noOneKnows()"><svg class="svg-icon">
+                <use href="#icon-circle-help" />
+              </svg> No One Knows — Skip Round</button>
+            <div class="skip-msg" id="skipMsgEl">Skipping to next round...</div>
           </div>
-          <div class="timer-label" id="timerLbl">Time Remaining</div>
+          <div class="timer-block">
+            <div class="timer-circle" id="timerCircle">
+              <svg viewBox="0 0 100 100">
+                <circle class="tbg" cx="50" cy="50" r="42"></circle>
+                <circle class="tpg" id="timerProg" cx="50" cy="50" r="42" stroke-dasharray="264"
+                  stroke-dashoffset="0"></circle>
+              </svg>
+              <span class="ttx" id="timerTxt">30</span>
+            </div>
+            <div class="timer-label" id="timerLbl">Time Remaining</div>
+          </div>
         </div>
-      </div>
 
-      <!-- CARD 2: LEADERBOARD -->
-      <div class="panel-sec">
-        <h3><svg class="svg-icon">
-            <use href="#icon-trophy" />
-          </svg> Leaderboard</h3>
-        <div class="leaderboard" id="leaderboard"></div>
-        <div class="leaderboard-actions">
-          <button type="button" class="skip-btn" id="skipBtn" onclick="GameController.skipRound()">Skip</button>
+        <!-- CARD 2: LEADERBOARD -->
+        <div class="panel-sec panel-sec-leaderboard">
+          <h3><svg class="svg-icon">
+              <use href="#icon-trophy" />
+            </svg> Leaderboard</h3>
+          <div class="leaderboard" id="leaderboard"></div>
+          <div class="leaderboard-actions">
+            <button type="button" class="skip-btn" id="skipBtn" onclick="GameController.skipRound()">Skip</button>
+          </div>
         </div>
-      </div>
+      </div><!-- /.sidebar-top-strip -->
 
       <!-- CARD 3: LIVE CHAT & GUESS STREAM PANEL -->
       <div class="live-chat-panel" id="liveChatPanel">
@@ -13532,6 +14109,7 @@
           <div class="chat-header-title">
             <span>💬 Live Chat & Guesses</span>
           </div>
+          <button type="button" class="chat-layout-toggle-btn" id="sidebarLayoutToggleBtn" onclick="toggleSidebarTopLayout()" title="Toggle Timer & Scoreboard Side-by-Side">⇄ Row</button>
           <button type="button" class="chat-hint-btn" id="chatHintBtn" onclick="MultiplayerEngine.requestHint()" title="Get a masked letter hint for -2 points">💡 Hint (-2 pts)</button>
           <button type="button" class="chat-close-btn" onclick="ChatEngine.toggleMobileDrawer(false)">✕ Close</button>
         </div>
@@ -13685,8 +14263,8 @@
               <span>MESSAGE</span>
             </div>
             <p class="cw-info-text">
-              Umeed hai ki aapko yeh khel pasand aaya hoga. Agar koi sujhav ya pratikriya ho toh humein zaroor batayega. Phir milte hain agle hafte ek naye anubhav ke saath. <br>
-              <span class="cw-info-closing">Dhanyavaad! 🙌</span>
+              Umeed hai ki aapko game khelne mein maza aaya hoga. <br>
+              <span class="cw-info-closing">Milte hain next week phir</span>
             </p>
           </div>
         </div>
@@ -13694,7 +14272,7 @@
         <!-- CENTER COLUMN: 3 PODIUM RUNNER CARDS -->
         <div class="cw-center-col">
           <div class="cw-stage-section">
-            <!-- Card 2 (Left - Aziz) -->
+            <!-- Card 2 (Left - Ayush) -->
             <div class="cw-runner-col">
               <div class="cw-card-burst burst-left" aria-hidden="true">
                 <svg viewBox="0 0 30 25" width="22" height="18" fill="none">
@@ -13705,14 +14283,14 @@
               <div class="cw-runner-card runner-blue" id="silverCard">
                 <div class="runner-rank-tab blue-tab">2</div>
                 <div class="runner-avatar-frame" id="silverAvatarWrap">
-                  <img id="silverAvatarImg" src="avvtar/aziz.svg" alt="2nd Place" />
+                  <img id="silverAvatarImg" src="avvtar/ayush.png" alt="2nd Place" onerror="this.onerror=null;this.src='avvtar/ayush.png'" />
                 </div>
-                <div class="runner-nameplate" id="silverName">AZIZ</div>
+                <div class="runner-nameplate" id="silverName">AYUSH</div>
                 <div class="runner-score-tag blue-score-tag" id="silverScore">12 POINTS</div>
               </div>
             </div>
 
-            <!-- Card 1 (Center - Aman) -->
+            <!-- Card 1 (Center - Ayank) -->
             <div class="cw-runner-col">
               <div class="cw-runner-card runner-gold" id="champHeroCard">
                 <div class="runner-rank-tab gold-tab">
@@ -13722,14 +14300,14 @@
                   </svg>
                 </div>
                 <div class="runner-avatar-frame champ-avatar-frame" id="champAvatarWrap">
-                  <img id="champAvatarImg" src="avvtar/aman.svg" alt="Champion" />
+                  <img id="champAvatarImg" src="avvtar/ayank.png" alt="Champion" onerror="this.onerror=null;this.src='avvtar/ayank.png'" />
                 </div>
-                <div class="runner-nameplate champ-nameplate" id="champName">AMAN</div>
+                <div class="runner-nameplate champ-nameplate" id="champName">AYANK</div>
                 <div class="runner-score-tag gold-score-tag" id="champScore">30 POINTS</div>
               </div>
             </div>
 
-            <!-- Card 3 (Right - Amish) -->
+            <!-- Card 3 (Right - Joel) -->
             <div class="cw-runner-col">
               <div class="cw-card-burst burst-right" aria-hidden="true">
                 <svg viewBox="0 0 30 25" width="22" height="18" fill="none">
@@ -13740,9 +14318,9 @@
               <div class="cw-runner-card runner-orange" id="bronzeCard">
                 <div class="runner-rank-tab orange-tab">3</div>
                 <div class="runner-avatar-frame" id="bronzeAvatarWrap">
-                  <img id="bronzeAvatarImg" src="avvtar/amish.svg" alt="3rd Place" />
+                  <img id="bronzeAvatarImg" src="avvtar/joel.png" alt="3rd Place" onerror="this.onerror=null;this.src='avvtar/joel.png'" />
                 </div>
-                <div class="runner-nameplate" id="bronzeName">AMISH</div>
+                <div class="runner-nameplate" id="bronzeName">JOEL</div>
                 <div class="runner-score-tag orange-score-tag" id="bronzeScore">16 POINTS</div>
               </div>
             </div>
@@ -13760,32 +14338,32 @@
               <div class="sb-row sb-champ">
                 <div class="sb-left">
                   <span class="sb-rank">1</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/aman.svg" alt="Aman" /></div>
-                  <span class="sb-name">AMAN</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/ayank.png" alt="Ayank" /></div>
+                  <span class="sb-name">AYANK</span>
                 </div>
                 <span class="sb-score">30 PTS</span>
               </div>
               <div class="sb-row">
                 <div class="sb-left">
                   <span class="sb-rank">2</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/aziz.svg" alt="Aziz" /></div>
-                  <span class="sb-name">AZIZ</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/ayush.png" alt="Ayush" /></div>
+                  <span class="sb-name">AYUSH</span>
                 </div>
                 <span class="sb-score">12 PTS</span>
               </div>
               <div class="sb-row">
                 <div class="sb-left">
                   <span class="sb-rank">3</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/amish.svg" alt="Amish" /></div>
-                  <span class="sb-name">AMISH</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/joel.png" alt="Joel" /></div>
+                  <span class="sb-name">JOEL</span>
                 </div>
                 <span class="sb-score">16 PTS</span>
               </div>
               <div class="sb-row">
                 <div class="sb-left">
                   <span class="sb-rank">4</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/vish.svg" alt="Vish" /></div>
-                  <span class="sb-name">VISH</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/praggya.png" alt="Praggya" /></div>
+                  <span class="sb-name">PRAGGYA</span>
                 </div>
                 <span class="sb-score">7 PTS</span>
               </div>
@@ -14040,6 +14618,62 @@
     </svg></button>
 
   <script>
+    /* ═══ SMALL SCREEN & ANDROID RESTRICTION CONTROLLER ═══ */
+    (function initScreenRestriction() {
+      if (window.location.search.includes('bypass_restrict=1')) {
+        document.body.classList.add('bypass-restrict');
+      }
+      function updateRestrictWidth() {
+        const el = document.getElementById('sroCurrentWidth');
+        if (el) {
+          el.textContent = Math.round(window.innerWidth);
+        }
+      }
+      window.addEventListener('resize', updateRestrictWidth, { passive: true });
+      window.addEventListener('orientationchange', updateRestrictWidth, { passive: true });
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', updateRestrictWidth, { passive: true });
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', updateRestrictWidth);
+      } else {
+        updateRestrictWidth();
+      }
+    })();
+
+    /* ═══ SIDEBAR TOP STRIP (TIMER & SCOREBOARD ON SAME LINE) ═══ */
+    function toggleSidebarTopLayout() {
+      const isRow = document.body.classList.toggle('force-side-by-side');
+      const btn = document.getElementById('sidebarLayoutToggleBtn');
+      if (btn) {
+        btn.textContent = isRow ? '⇅ Stack' : '⇄ Row';
+        btn.title = isRow ? 'Switch to Stacked Layout' : 'Switch to Side-by-Side Layout';
+      }
+    }
+
+    (function initAnsweringMode() {
+      function attachAnsweringEvents() {
+        const input = document.getElementById('chatTextInput');
+        if (input) {
+          input.addEventListener('focus', () => {
+            document.body.classList.add('answering-mode');
+          });
+          input.addEventListener('blur', () => {
+            setTimeout(() => {
+              if (document.activeElement !== input) {
+                document.body.classList.remove('answering-mode');
+              }
+            }, 250);
+          });
+        }
+      }
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', attachAnsweringEvents);
+      } else {
+        attachAnsweringEvents();
+      }
+    })();
+
     /* ═══ NAV ═══ */
     function showHowToPlay() {
       SoundManager.playClick();
@@ -14279,7 +14913,7 @@
             playerId: player.id,
             roomId: 'room_' + roomCode,
             name: player.name || 'Player',
-            avatar: player.avatar || 'aman',
+            avatar: player.avatar || 'ayank',
             status: 'connected',
             score: player.score || 0,
             isHost: !!player.isHost,
@@ -14379,34 +15013,92 @@
 
     /* ═══ PLAYER LOBBY ═══ */
     const AVATAR_MAP = {
-      aman: {
+      ayank: {
         color: '#FF6B9D',
         bg: '#FF6B9D',
-        img: 'avvtar/aman.svg'
+        img: 'avvtar/ayank.png'
       },
-      amish: {
+      ayush: {
         color: '#3B82F6',
         bg: '#3B82F6',
-        img: 'avvtar/amish.svg'
+        img: 'avvtar/ayush.png'
       },
-      aziz: {
+      joel: {
         color: '#84CC16',
         bg: '#84CC16',
-        img: 'avvtar/aziz.svg'
+        img: 'avvtar/joel.png'
       },
-      vish: {
+      praggya: {
         color: '#FACC15',
         bg: '#FACC15',
-        img: 'avvtar/vish.svg'
-      }
+        img: 'avvtar/praggya.png'
+      },
+      ruhaan: {
+        color: '#A855F7',
+        bg: '#A855F7',
+        img: 'avvtar/ruhaan.png'
+      },
+      aman: { color: '#FF6B9D', bg: '#FF6B9D', img: 'avvtar/ayank.png' },
+      amish: { color: '#3B82F6', bg: '#3B82F6', img: 'avvtar/ayush.png' },
+      aziz: { color: '#84CC16', bg: '#84CC16', img: 'avvtar/joel.png' },
+      vish: { color: '#FACC15', bg: '#FACC15', img: 'avvtar/praggya.png' }
     };
 
-    /* ════ HOW TO ANSWER GUIDE CONTROLLER (Bypassed) ════ */
+    /* ════ HOW TO ANSWER GUIDE CONTROLLER ════ */
     const HowToAnswerGuide = {
       _timerId: null,
-      _secondsLeft: 0,
+      _secondsLeft: 10,
       _isHost: false,
       _onLaunch: null,
+
+      show(isHost = false, onLaunchCallback = null) {
+        this.stop();
+        this._isHost = !!isHost;
+        this._onLaunch = onLaunchCallback;
+        this._secondsLeft = 10;
+        UI.showScreen('howToAnswerScreen');
+
+        const startBtn = document.getElementById('htaHostStartBtn');
+        const btnText = startBtn ? (startBtn.querySelector('.hta-btn-text') || startBtn) : null;
+        const timerCount = document.getElementById('htaTimerCount');
+        const timerBar = document.getElementById('htaTimerBar');
+        const clientStatus = document.getElementById('htaClientStatus');
+
+        if (this._isHost) {
+          if (startBtn) {
+            startBtn.style.display = 'inline-flex';
+            startBtn.disabled = true;
+            if (btnText) btnText.textContent = 'START GAME (10s)';
+          }
+          if (clientStatus) clientStatus.style.display = 'none';
+        } else {
+          if (startBtn) startBtn.style.display = 'none';
+          if (clientStatus) clientStatus.style.display = 'flex';
+        }
+
+        if (timerCount) timerCount.textContent = '10s';
+        if (timerBar) timerBar.style.width = '100%';
+
+        this._timerId = setInterval(() => {
+          this._secondsLeft--;
+          if (this._secondsLeft <= 0) {
+            this.stop();
+            if (timerCount) timerCount.textContent = '0s';
+            if (timerBar) timerBar.style.width = '0%';
+            if (this._isHost && startBtn) {
+              startBtn.disabled = false;
+              if (btnText) btnText.textContent = 'START GAME';
+            }
+          } else {
+            if (timerCount) timerCount.textContent = `${this._secondsLeft}s`;
+            if (timerBar) timerBar.style.width = `${(this._secondsLeft / 10) * 100}%`;
+            if (this._isHost && startBtn) {
+              startBtn.disabled = true;
+              if (btnText) btnText.textContent = `START GAME (${this._secondsLeft}s)`;
+            }
+          }
+        }, 1000);
+      },
 
       start(isHost = false, onLaunchCallback = null) {
         this.stop();
@@ -14425,6 +15117,8 @@
           cb();
         } else if (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.isHost && MultiplayerEngine.executeGameStart) {
           MultiplayerEngine.executeGameStart();
+        } else {
+          UI.showScreen('gameScreen');
         }
       },
 
@@ -14435,6 +15129,7 @@
         }
       }
     };
+    window.HowToAnswerGuide = HowToAnswerGuide;
 
     const PlayerLobby = {
       _originalPlayers: [],
@@ -14468,10 +15163,10 @@
         if (list) {
           const playersHtml = GS.players.map((p, i) => {
             const isH = GameController._onlineMode ? !!p.isHost : (p.isHost || i === 0);
-            const avKey = (p.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
-            const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
-            const safeAvKey = validAvatars.includes(avKey) ? avKey : 'aman';
-            const avConfig = AVATAR_MAP[safeAvKey] || { bg: bgOrder[i % bgOrder.length], img: `avvtar/${safeAvKey}.png` };
+            const avKey = (p.avatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
+            const validAvatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan', 'aman', 'amish', 'aziz', 'vish'];
+            const safeAvKey = validAvatars.includes(avKey) ? avKey : 'ayank';
+            const avConfig = AVATAR_MAP[safeAvKey] || { bg: bgOrder[i % bgOrder.length], img: `avvtar/${safeAvKey}.png`, color: '#FF6B9D' };
             const safeName = SecurityUtil.escapeHtml(p.name || `Player ${i+1}`);
             const isMe = !GameController._onlineMode ||
               (MultiplayerEngine.isHost ? (p.isHost || p.id === MultiplayerEngine.playerId || i === 0) : (p.id === MultiplayerEngine.playerId || p.name === MultiplayerEngine.playerName));
@@ -14489,7 +15184,7 @@
                   <button type="button" onclick="PlayerLobby.remove(${i})" class="absolute -top-2.5 -right-2.5 bg-[#ff6b6b] text-white hover:bg-red-600 border-2 border-on-surface w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] transition-all z-10 cursor-pointer" title="Remove Player">✕</button>
                 ` : ''}
                 <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-on-surface overflow-hidden mb-3 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" style="background-color: ${avConfig.color};">
-                  <img class="w-full h-full object-cover" src="avvtar/${safeAvKey}.svg" alt="${safeName}" onerror="this.src='avvtar/aman.svg'"/>
+                  <img class="w-full h-full object-cover" src="${avConfig.img}" alt="${safeName}" onerror="this.src='avvtar/ayank.png'"/>
                 </div>
                 ${isMe ? `
                   <div class="relative w-full max-w-[140px] flex items-center group">
@@ -14855,15 +15550,15 @@
       addLocalPlayer() {
         if (GameController._onlineMode || GS.players.length >= 8) return;
         SoundManager.playClick();
-        const avatarList = ['aman', 'amish', 'aziz', 'vish'];
-        const colors = ['#cae6ff', '#2ecc71', '#f1c40f', '#ff7eb6'];
+        const avatarList = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
+        const colors = ['#FF6B9D', '#3B82F6', '#84CC16', '#FACC15', '#A855F7'];
         const nextAv = avatarList[GS.players.length % avatarList.length];
         const nextColor = colors[GS.players.length % colors.length];
         const newP = {
           name: `Player ${GS.players.length + 1}`,
           score: 0,
           avatar: nextAv,
-          avatarImg: `avvtar/${nextAv}.svg`,
+          avatarImg: `avvtar/${nextAv}.png`,
           loaded: true,
           loadProgress: 100,
           color: nextColor
@@ -15261,160 +15956,160 @@
           id: 1, name: 'Guess the Frame', icon: '<svg class="svg-icon"><use href="#icon-film" /></svg>', collapsed: false, frames: [
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/12th Fail (2023).webp",
-              "answer": "12TH FAIL",
-              "year": "2023"
+              "content": "GUESSTHEFRAME/American History X (1998).webp",
+              "answer": "AMERICAN HISTORY X",
+              "year": "1998"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/After Hours (1985).webp",
-              "answer": "AFTER HOURS",
-              "year": "1985"
+              "content": "GUESSTHEFRAME/Avengers Infinity War (2018).webp",
+              "answer": "AVENGERS INFINITY WAR",
+              "year": "2018"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/Bramayugam (2024).webp",
-              "answer": "BRAMAYUGAM",
-              "year": "2024"
+              "content": "GUESSTHEFRAME/Baahubali 2 The Conclusion (2017).webp",
+              "answer": "BAAHUBALI 2 THE CONCLUSION",
+              "year": "2017"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/Brothers (2009).webp",
-              "answer": "BROTHERS",
+              "content": "GUESSTHEFRAME/Balan - The Boy (2026).webp",
+              "answer": "BALAN - THE BOY",
+              "year": "2026"
+            },
+            {
+              "type": "image",
+              "content": "GUESSTHEFRAME/Before Sunset (2004).webp",
+              "answer": "BEFORE SUNSET",
+              "year": "2004"
+            },
+            {
+              "type": "image",
+              "content": "GUESSTHEFRAME/Billu (2009).webp",
+              "answer": "BILLU",
               "year": "2009"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/Cocktail 2 (2026).webp",
-              "answer": "COCKTAIL 2",
-              "year": "2026"
+              "content": "GUESSTHEFRAME/Certified Copy (2010).webp",
+              "answer": "CERTIFIED COPY",
+              "year": "2010"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/Detective Byomkesh Bakshy (2015).webp",
-              "answer": "DETECTIVE BYOMKESH BAKSHY",
-              "year": "2015"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Ghanchakkar (2013).webp",
-              "answer": "GHANCHAKKAR",
+              "content": "GUESSTHEFRAME/Dallas Buyers Club (2013).webp",
+              "answer": "DALLAS BUYERS CLUB",
               "year": "2013"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/Lapata Ladies (2023).webp",
-              "answer": "LAPATA LADIES",
-              "year": "2023"
+              "content": "GUESSTHEFRAME/Dune Part Two (2024).webp",
+              "answer": "DUNE PART TWO",
+              "year": "2024"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/Lars and the Real Girl (2007).webp",
-              "answer": "LARS AND THE REAL GIRL",
-              "year": "2007"
+              "content": "GUESSTHEFRAME/GO GOA GONE (2013).webp",
+              "answer": "GO GOA GONE",
+              "year": "2013"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/Mahaan (2022).webp",
-              "answer": "MAHAAN",
-              "year": "2022"
+              "content": "GUESSTHEFRAME/I Saw the Devil (2010).webp",
+              "answer": "I SAW THE DEVIL",
+              "year": "2010"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/One Night Only (2026).webp",
-              "answer": "ONE NIGHT ONLY",
+              "content": "GUESSTHEFRAME/Irumudi (2026).webp",
+              "answer": "IRUMUDI",
               "year": "2026"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/Piku (2015).webp",
-              "answer": "PIKU",
-              "year": "2015"
+              "content": "GUESSTHEFRAME/Karwaan (2018).webp",
+              "answer": "KARWAAN",
+              "year": "2018"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/Satluj (2026).webp",
-              "answer": "SATLUJ",
-              "year": "2026"
+              "content": "GUESSTHEFRAME/Nirvanna.the.Band.the.Show.the.Movie (2025).webp",
+              "answer": "NIRVANNA THE BAND THE SHOW THE MOVIE",
+              "year": "2025"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/The End of Oak Street (2026).webp",
-              "answer": "THE END OF OAK STREET",
-              "year": "2026"
+              "content": "GUESSTHEFRAME/October (2018).webp",
+              "answer": "OCTOBER",
+              "year": "2018"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/The French Dispatch (2021).webp",
-              "answer": "THE FRENCH DISPATCH",
-              "year": "2021"
+              "content": "GUESSTHEFRAME/premalu (2024).webp",
+              "answer": "PREMALU",
+              "year": "2024"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/The Menu (2022).webp",
-              "answer": "THE MENU",
-              "year": "2022"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/The Revenant (2015).webp",
-              "answer": "THE REVENANT",
-              "year": "2015"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/The Rivals of Amziah King (2026).webp",
-              "answer": "THE RIVALS OF AMZIAH KING",
-              "year": "2026"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/khosla ka gholsa(2006).webp",
-              "answer": "KHOSLA KA GHOSLA",
+              "content": "GUESSTHEFRAME/Rang De Basanti (2006).webp",
+              "answer": "RANG DE BASANTI",
               "year": "2006"
             },
             {
               "type": "image",
-              "content": "GUESSTHEFRAME/tony (2026).webp",
-              "answer": "TONY",
-              "year": "2026"
+              "content": "GUESSTHEFRAME/Requiem for a Dream (2000).webp",
+              "answer": "REQUIEM FOR A DREAM",
+              "year": "2000"
+            },
+            {
+              "type": "image",
+              "content": "GUESSTHEFRAME/S_O Satyamurthy (2015).webp",
+              "answer": "S/O SATYAMURTHY",
+              "year": "2015"
+            },
+            {
+              "type": "image",
+              "content": "GUESSTHEFRAME/Stand by Me (1986).webp",
+              "answer": "STAND BY ME",
+              "year": "1986"
             }
           ]
         },
         {
           id: 2, name: 'Guess the Dialogue', icon: '<svg class="svg-icon"><use href="#icon-message-circle" /></svg>', collapsed: false, frames: [
-            { type: 'dialogue', dialogue: "Dur Chale Gaye ho kya Ram. Main wahi khad hu jaha tum mujhe chor kar gayi thi", answer: "96", year: "2018" },
-            { type: 'dialogue', dialogue: "That haircut should be against your vows", answer: "SUPERMAN", year: "2025" },
-            { type: 'dialogue', dialogue: "They replace me. They'll replace you.", answer: "LANTERNS", year: "2026" },
-            { type: 'dialogue', dialogue: "Rohit kuch piyoge Tea, Coffee. Bournvita", answer: "KOI MIL GAYA", year: "2003" },
-            { type: 'dialogue', dialogue: "1 baat yaad rakhna beta is duniya mein bas 2 kism ke insaan hai, ache insaan jo acha kaam karte hai aur bure jo bura, bas yahi 1 farq hai insaano mein aur koi nahi", answer: "MY NAME IS KHAN", year: "2010" },
-            { type: 'dialogue', dialogue: "The Hardest Choices Requires The Strongest wills", answer: "AVENGERS INFINITY WAR", year: "2018" },
-            { type: 'dialogue', dialogue: "Look how they massacred my boy.", answer: "THE GODFATHER", year: "1972" },
-            { type: 'dialogue', dialogue: "You can't handle the truth", answer: "A FEW GOOD MEN", year: "1992" },
-            { type: 'dialogue', dialogue: "Why do we Fall sir", answer: "BATMAN BEGINS", year: "2005" },
-            { type: 'dialogue', dialogue: "Saalo se muh cheepata hua phir raha hu aur ye gala faad ke Gafoor, Gafoor, Gafoor chilla raha hai", answer: "THE BADS OF BOLLYWOOD", year: "2025" }
+            { type: 'dialogue', dialogue: "Say hello to my little friend!", answer: "SCARFACE", year: "1983" },
+            { type: 'dialogue', dialogue: "Some people just want to watch the world burn.", answer: "THE DARK KNIGHT", year: "2008" },
+            { type: 'dialogue', dialogue: "I don't want to kill you. I don't want to hurt you. I don't want your life.", answer: "CAPTAIN AMERICA: THE WINTER SOLDIER", year: "2014" },
+            { type: 'dialogue', dialogue: "I drink your milkshake!", answer: "THERE WILL BE BLOOD", year: "2007" },
+            { type: 'dialogue', dialogue: "What we do in life echoes in eternity.", answer: "GLADIATOR", year: "2000" },
+            { type: 'dialogue', dialogue: "The city is flying, we're fighting an army of robots, and I have a bow and arrow. None of this makes sense.", answer: "AVENGERS: AGE OF ULTRON", year: "2015" },
+            { type: 'dialogue', dialogue: "Tareekh pe tareekh.", answer: "DAMINI", year: "1993" },
+            { type: 'dialogue', dialogue: "Aap purush hi nahi, mahapurush hain.", answer: "ANDAZ APNA APNA", year: "1994" },
+            { type: 'dialogue', dialogue: "Rishte mein toh hum tumhare baap lagte hain.", answer: "SHAHENSHAH", year: "1988" },
+            { type: 'dialogue', dialogue: "Insaan ko dibbe mein sirf tab hona chahiye jab woh mar chuka ho.", answer: "ZINDAGI NA MILEGI DOBARA", year: "2011" }
           ]
         },
         {
           id: 3, name: 'Guess the Eye', icon: '<svg class="svg-icon"><use href="#icon-eye" /></svg>', collapsed: false, frames: [
-            { type: 'eye', content: 'GUESSTHEEYES/Aaron Pierre copy.webp', revealContent: 'GUESSTHEEYES/Aaron Pierre.webp', answer: 'AARON PIERRE', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Alexandra Daddario copy.webp', revealContent: 'GUESSTHEEYES/Alexandra Daddario.webp', answer: 'ALEXANDRA DADDARIO', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Angelina Jolie copy.webp', revealContent: 'GUESSTHEEYES/Angelina Jolie.webp', answer: 'ANGELINA JOLIE', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Disha Patani copy.webp', revealContent: 'GUESSTHEEYES/Disha Patani.webp', answer: 'DISHA PATANI', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Hunter Schafer copy.webp', revealContent: 'GUESSTHEEYES/Hunter Schafer.webp', answer: 'HUNTER SCHAFER', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Leonardo DiCaprio copy.webp', revealContent: 'GUESSTHEEYES/Leonardo DiCaprio.webp', answer: 'LEONARDO DICAPRIO', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Meryl Streep copy.webp', revealContent: 'GUESSTHEEYES/Meryl Streep.webp', answer: 'MERYL STREEP', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Nicole Kidman copy.webp', revealContent: 'GUESSTHEEYES/Nicole Kidman.webp', answer: 'NICOLE KIDMAN', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Wamiqa Gabbi copy.webp', revealContent: 'GUESSTHEEYES/Wamiqa Gabbi.webp', answer: 'WAMIQA GABBI', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Yash copy.webp', revealContent: 'GUESSTHEEYES/Yash.webp', answer: 'YASH', year: '' }
+            { type: 'eye', content: 'GUESSTHEEYES/Bhuvan Bam copy.webp', revealContent: 'GUESSTHEEYES/Bhuvan Bam.webp', answer: 'BHUVAN BAM', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Daisy Edgar-Jones copy.webp', revealContent: 'GUESSTHEEYES/Daisy Edgar-Jones.webp', answer: 'DAISY EDGAR-JONES', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Dakota Johnson copy.webp', revealContent: 'GUESSTHEEYES/Dakota Johnson.webp', answer: 'DAKOTA JOHNSON', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Dulquer Salmaan copy.webp', revealContent: 'GUESSTHEEYES/Dulquer Salmaan.webp', answer: 'DULQUER SALMAAN', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Elle Fanning copy.webp', revealContent: 'GUESSTHEEYES/Elle Fanning.webp', answer: 'ELLE FANNING', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/kiccha Sudeep copy.webp', revealContent: 'GUESSTHEEYES/kiccha Sudeep.webp', answer: 'KICCHA SUDEEP', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Kyle Chandler copy.webp', revealContent: 'GUESSTHEEYES/Kyle Chandler.webp', answer: 'KYLE CHANDLER', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Robert Pattinson copy.webp', revealContent: 'GUESSTHEEYES/Robert Pattinson.webp', answer: 'ROBERT PATTINSON', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Salma Hayek copy.webp', revealContent: 'GUESSTHEEYES/Salma Hayek.webp', answer: 'SALMA HAYEK', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Sophie Turner copy.webp', revealContent: 'GUESSTHEEYES/Sophie Turner.webp', answer: 'SOPHIE TURNER', year: '' }
           ]
         }
       ],
       players: [
-        { name: 'AMAN', score: 0, avatar: 'cat', avatarImg: 'avvtar/aman.svg' },
-        { name: 'AMISH', score: 0, avatar: 'ghost', avatarImg: 'avvtar/amish.svg' },
-        { name: 'VISH', score: 0, avatar: 'dog', avatarImg: 'avvtar/vish.svg' },
-        { name: 'AZIZ', score: 0, avatar: 'circle', avatarImg: 'avvtar/aziz.svg' }
+        { name: 'AYANK', score: 0, avatar: 'ayank', avatarImg: 'avvtar/ayank.png' },
+        { name: 'AYUSH', score: 0, avatar: 'ayush', avatarImg: 'avvtar/ayush.png' },
+        { name: 'JOEL', score: 0, avatar: 'joel', avatarImg: 'avvtar/joel.png' },
+        { name: 'PRAGGYA', score: 0, avatar: 'praggya', avatarImg: 'avvtar/praggya.png' }
       ],
       judge: { totalRounds: 0, totalPlayers: 0, roundsPerJudge: 1, globalRoundIndex: 0, currentJudge: null, currentJudgeIndex: -1, currentJudgeRoundsServed: 0, usedJudges: [], cycleCount: 0, judgeAnswered: false, judgeRewardGiven: false },
       scoring: { locked: false, completed: false },
@@ -15460,14 +16155,27 @@
     /* ═══ AVATAR HELPER ═══ */
     function renderAvatar(p, type) {
       const safeName = SecurityUtil.escapeHtml(p && p.name || '');
-      const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase())) || 'aman');
-      const avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
-      const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
-      const safeAv = validAvatars.includes(avKey) ? avKey : 'aman';
-      const avSrc = (p && p.avatarImg) || `avvtar/${safeAv}.svg`;
+      const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase())) || 'ayank');
+      let avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (avKey === 'aman') avKey = 'ayank';
+      else if (avKey === 'amish') avKey = 'ayush';
+      else if (avKey === 'aziz') avKey = 'joel';
+      else if (avKey === 'vish') avKey = 'praggya';
 
-      return `<img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" class="av-img-elem" style="width:100%;height:100%;max-width:100%;max-height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block;" onerror="this.onerror=null;this.src='avvtar/aman.svg';">`;
+      const validAvatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
+      const safeAv = validAvatars.includes(avKey) ? avKey : 'ayank';
+      let avSrc = (p && p.avatarImg) || `avvtar/${safeAv}.png`;
+      if (avSrc.endsWith('.svg')) {
+        avSrc = avSrc.replace(/\.svg$/i, '.png')
+                     .replace(/aman/g, 'ayank')
+                     .replace(/amish/g, 'ayush')
+                     .replace(/aziz/g, 'joel')
+                     .replace(/vish/g, 'praggya');
+      }
+
+      return `<img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" class="av-img-elem" style="width:100%;height:100%;max-width:100%;max-height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block;" onerror="this.onerror=null;this.src='avvtar/ayank.png';">`;
     }
+    window.renderAvatar = renderAvatar;
 
     function playerKey(p) {
       return [p && p.id || '', p && p.name || '', p && p.avatar || '', p && p.avatarImg || ''].join('::');
@@ -16446,8 +17154,10 @@
         msgEl.className = 'chat-msg';
         msgEl.id = 'chatMsg_' + safeMsgId;
 
-        const avKey = String(msg.senderAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const safeAvatar = ['aman', 'amish', 'aziz', 'vish'].includes(avKey) ? avKey : 'aman';
+        const rawKey = String(msg.senderAvatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const aliasMap = { aman: 'ayank', amish: 'ayush', aziz: 'joel', vish: 'praggya' };
+        const mappedKey = aliasMap[rawKey] || rawKey;
+        const safeAvatar = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'].includes(mappedKey) ? mappedKey : 'ayank';
 
         const reactionButtonsHtml = isMe ?
           ('<span class="chat-reaction-btn chat-self-disabled" title="You cannot vote on your own answer">' +
@@ -16468,7 +17178,7 @@
           '</button>');
 
         msgEl.innerHTML = '<div class="chat-avatar">' +
-          '<img src="avvtar/' + safeAvatar + '.svg" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" />' +
+          '<img src="avvtar/' + safeAvatar + '.png" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.src=\'avvtar/ayank.png\'" />' +
           '</div>' +
           '<div class="chat-msg-body">' +
           '<div class="chat-msg-header">' +
@@ -16751,9 +17461,9 @@
       roomCode: null,
       playerId: null,
       playerName: 'Player',
-      playerAvatar: 'aman',
+      playerAvatar: 'ayank',
       isHost: false,
-      selectedAvatarForModal: 'aman',
+      selectedAvatarForModal: 'ayank',
       currentMaskedHint: null,
       currentRoundWinners: [],
       currentPlaylist: [],
@@ -16872,13 +17582,13 @@
         const avImg = document.getElementById('rejoinAvatarImg');
         const avContainer = document.getElementById('rejoinAvatarContainer');
 
-        const av = (session.playerAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#FF6B9D', img: `avvtar/${av}.svg` };
+        const av = (session.playerAvatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#FF6B9D', img: `avvtar/${av}.png` };
 
         if (codeEl) codeEl.textContent = session.roomCode;
         if (nameEl) nameEl.textContent = session.playerName || this.getAvatarDisplayName(av);
         if (roleEl) roleEl.textContent = session.isHost ? 'Host 👑' : 'Player';
-        if (avImg) avImg.src = `avvtar/${av}.svg`;
+        if (avImg) avImg.src = avConfig.img || `avvtar/${av}.png`;
         if (avContainer) avContainer.style.backgroundColor = avConfig.color;
 
         if (modal) modal.classList.add('active');
@@ -17019,13 +17729,23 @@
       },
 
       getAvatarDisplayName(av) {
-        const map = { aman: 'Aman', amish: 'Amish', aziz: 'Aziz', vish: 'Vish' };
-        const key = (av || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
-        return map[key] || (key ? key.charAt(0).toUpperCase() + key.slice(1) : 'Aman');
+        const map = {
+          ayank: 'Ayank',
+          ayush: 'Ayush',
+          joel: 'Joel',
+          praggya: 'Praggya',
+          ruhaan: 'Ruhaan',
+          aman: 'Ayank',
+          amish: 'Ayush',
+          aziz: 'Joel',
+          vish: 'Praggya'
+        };
+        const key = (av || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
+        return map[key] || (key ? key.charAt(0).toUpperCase() + key.slice(1) : 'Ayank');
       },
 
       openCreateModal() {
-        this.playerAvatar = this.playerAvatar || 'aman';
+        this.playerAvatar = this.playerAvatar || 'ayank';
         this.selectedAvatarForModal = this.playerAvatar;
         const savedName = localStorage.getItem('gtf_player_name');
         this.playerName = savedName || this.playerName || this.getAvatarDisplayName(this.playerAvatar);
@@ -17037,7 +17757,7 @@
       },
 
       openJoinModal() {
-        this.playerAvatar = this.playerAvatar || 'aman';
+        this.playerAvatar = this.playerAvatar || 'ayank';
         this.selectedAvatarForModal = this.playerAvatar;
         const savedName = localStorage.getItem('gtf_player_name');
         this.playerName = savedName || this.playerName || this.getAvatarDisplayName(this.playerAvatar);
@@ -17143,14 +17863,14 @@
         const parent = element.parentElement;
         parent.querySelectorAll('.mp-avatar-option').forEach(el => el.classList.remove('selected'));
         element.classList.add('selected');
-        const av = element.getAttribute('data-avatar') || 'aman';
+        const av = element.getAttribute('data-avatar') || 'ayank';
         this.selectedAvatarForModal = av;
         this.playerAvatar = av;
         const nameInput = modalType === 'host'
           ? document.getElementById('hostPlayerNameInput')
           : document.getElementById('joinPlayerNameInput');
         const currentVal = nameInput ? nameInput.value.trim() : '';
-        const defaultNames = ['Aman', 'Amish', 'Aziz', 'Vish', 'aman', 'amish', 'aziz', 'vish'];
+        const defaultNames = ['Ayank', 'Ayush', 'Joel', 'Praggya', 'Ruhaan', 'ayank', 'ayush', 'joel', 'praggya', 'ruhaan', 'Aman', 'Amish', 'Aziz', 'Vish', 'aman', 'amish', 'aziz', 'vish'];
         if (nameInput && (!currentVal || defaultNames.includes(currentVal))) {
           const defaultName = this.getAvatarDisplayName(av);
           nameInput.value = defaultName;
@@ -17186,7 +17906,7 @@
       confirmCreateRoom() {
         const nameInput = document.getElementById('hostPlayerNameInput');
         const typedName = (nameInput ? nameInput.value : '').trim();
-        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'aman';
+        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'ayank';
         this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
         this.isHost = true;
         this.roomCode = this.generateRoomCode();
@@ -17236,7 +17956,7 @@
         }
         const nameInput = document.getElementById('joinPlayerNameInput');
         const typedName = (nameInput ? nameInput.value : '').trim();
-        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'aman';
+        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'ayank';
         this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
         this.isHost = false;
         this.roomCode = code;
@@ -17610,7 +18330,7 @@
                   existingPlayer.score = restoredScore;
                 }
               } else {
-                const av = (msg.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+                const av = (msg.avatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
                 const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#57c3e0' };
                 GS.players.push({
                   id: msg.playerId,
@@ -19462,7 +20182,31 @@
         }
       },
 
-                  renderScoreboard(players) {
+      resolveAvatar(p, fallbackKey = 'ayank') {
+        const valid = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
+        if (p && p.avatarImg) {
+          let img = p.avatarImg;
+          if (img.endsWith('.svg')) {
+            img = img.replace(/\.svg$/i, '.png')
+                     .replace(/aman/g, 'ayank')
+                     .replace(/amish/g, 'ayush')
+                     .replace(/aziz/g, 'joel')
+                     .replace(/vish/g, 'praggya');
+          }
+          return img;
+        }
+        const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase()))) || fallbackKey;
+        let avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (avKey === 'aman') avKey = 'ayank';
+        else if (avKey === 'amish') avKey = 'ayush';
+        else if (avKey === 'aziz') avKey = 'joel';
+        else if (avKey === 'vish') avKey = 'praggya';
+
+        const safeKey = valid.includes(avKey) ? avKey : (valid.includes(fallbackKey) ? fallbackKey : 'ayank');
+        return `avvtar/${safeKey}.png`;
+      },
+
+      renderScoreboard(players) {
         const c = document.getElementById('winnerScoreboardList');
         if (!c) return;
         const sorted = [...(players || [])].sort((a, b) => (b.score || 0) - (a.score || 0));
@@ -19473,7 +20217,8 @@
         c.innerHTML = sorted.map((p, i) => {
           const rank = i + 1;
           const isChamp = i === 0 && (p.score || 0) > 0;
-          const av = p.avatar || (p.avatarImg ? p.avatarImg.replace(/^.*\/([^\/]+)\.svg$/i, '$1') : (i === 0 ? 'aman' : i === 1 ? 'aziz' : i === 2 ? 'amish' : 'vish'));
+          const defaultKey = i === 0 ? 'ayank' : i === 1 ? 'ayush' : i === 2 ? 'joel' : i === 3 ? 'praggya' : 'ruhaan';
+          const avSrc = this.resolveAvatar(p, defaultKey);
           const escapeFn = (typeof SecurityUtil !== 'undefined' && SecurityUtil.escapeHtml) ? SecurityUtil.escapeHtml : (s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
           const safeName = escapeFn(p.name || ('Player ' + rank));
           const score = p.score != null ? p.score : 0;
@@ -19481,7 +20226,7 @@
             <div class="sb-row ${isChamp ? 'sb-champ' : ''}">
               <div class="sb-left">
                 <span class="sb-rank">${rank}</span>
-                <div class="sb-avatar-mini"><img src="avvtar/${av}.svg" alt="${safeName}" onerror="this.src='avvtar/aman.svg'" /></div>
+                <div class="sb-avatar-mini"><img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/${defaultKey}.png'" /></div>
                 <span class="sb-name">${safeName.toUpperCase()}</span>
               </div>
               <span class="sb-score">${score} PTS</span>
@@ -19497,7 +20242,6 @@
         // 1st Place (Champion)
         const p1 = sorted[0];
         const p1Score = p1 ? (Number(p1.score) || 0) : 0;
-        const p1Avatar = p1 ? (p1.avatar || (p1.avatarImg ? p1.avatarImg.replace(/^.*\/([^\/]+)\.svg$/i, '$1') : 'aman')) : 'aman';
         
         const champNameEl = document.getElementById('champName');
         const champScoreEl = document.getElementById('champScore');
@@ -19506,8 +20250,9 @@
         if (champNameEl) champNameEl.textContent = (p1 && p1.name ? p1.name : 'PLAYER 1').toUpperCase();
         if (champScoreEl) champScoreEl.textContent = p1Score + ' POINTS';
         if (champAvatarImg) {
-          champAvatarImg.src = 'avvtar/' + p1Avatar + '.svg';
-          champAvatarImg.alt = p1 ? p1.name : 'Champion';
+          champAvatarImg.onerror = function() { this.onerror = null; this.src = 'avvtar/ayank.png'; };
+          champAvatarImg.src = this.resolveAvatar(p1, 'ayank');
+          champAvatarImg.alt = p1 ? (p1.name || 'Champion') : 'Champion';
         }
 
         // 2nd Place (Silver)
@@ -19522,10 +20267,13 @@
           if (p2) {
             silverCard.style.opacity = '1';
             silverCard.style.visibility = 'visible';
-            const p2Avatar = p2.avatar || (p2.avatarImg ? p2.avatarImg.replace(/^.*\/([^\/]+)\.svg$/i, '$1') : 'aziz');
             if (silverName) silverName.textContent = (p2.name || 'PLAYER 2').toUpperCase();
             if (silverScore) silverScore.textContent = p2Score + ' POINTS';
-            if (silverImg) silverImg.src = 'avvtar/' + p2Avatar + '.svg';
+            if (silverImg) {
+              silverImg.onerror = function() { this.onerror = null; this.src = 'avvtar/ayush.png'; };
+              silverImg.src = this.resolveAvatar(p2, 'ayush');
+              silverImg.alt = p2.name || '2nd Place';
+            }
           } else {
             silverCard.style.opacity = '0.35';
             if (silverName) silverName.textContent = '---';
@@ -19545,10 +20293,13 @@
           if (p3) {
             bronzeCard.style.opacity = '1';
             bronzeCard.style.visibility = 'visible';
-            const p3Avatar = p3.avatar || (p3.avatarImg ? p3.avatarImg.replace(/^.*\/([^\/]+)\.svg$/i, '$1') : 'amish');
             if (bronzeName) bronzeName.textContent = (p3.name || 'PLAYER 3').toUpperCase();
             if (bronzeScore) bronzeScore.textContent = p3Score + ' POINTS';
-            if (bronzeImg) bronzeImg.src = 'avvtar/' + p3Avatar + '.svg';
+            if (bronzeImg) {
+              bronzeImg.onerror = function() { this.onerror = null; this.src = 'avvtar/joel.png'; };
+              bronzeImg.src = this.resolveAvatar(p3, 'joel');
+              bronzeImg.alt = p3.name || '3rd Place';
+            }
           } else {
             bronzeCard.style.opacity = '0.35';
             if (bronzeName) bronzeName.textContent = '---';
@@ -19878,14 +20629,13 @@
         GS.sections.forEach(s => collect(s.frames));
         if (GS.tieBreaker && Array.isArray(GS.tieBreaker.frames)) collect(GS.tieBreaker.frames);
 
-        // Player assets: avatars + winner trophy images (priority)
+        // Player assets: avatars (priority)
         GS.players.forEach(p => {
-          const avKey = (p.avatar || (p.avatarImg ? p.avatarImg.replace(/^.*\/([^./]+)\..*$/, '$1') : 'aman')).toLowerCase().replace(/[^a-z0-9]/g, '');
-          const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
-          const safeKey = validAvatars.includes(avKey) ? avKey : 'aman';
+          const avKey = (p.avatar || (p.avatarImg ? p.avatarImg.replace(/^.*\/([^./]+)\..*$/, '$1') : 'ayank')).toLowerCase().replace(/[^a-z0-9]/g, '');
+          const validAvatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
+          const safeKey = validAvatars.includes(avKey) ? avKey : 'ayank';
 
-          priorityImages.push('avvtar/' + safeKey + '.svg');
-          priorityImages.push('avvtar/' + safeKey + ' trophy.png');
+          priorityImages.push('avvtar/' + safeKey + '.png');
         });
 
         let loaded = 0;
@@ -20688,9 +21438,9 @@
         const canvas = document.getElementById('championFrames');
         if (!canvas || canvas.tagName !== 'CANVAS') return;
         const ctx = canvas.getContext('2d');
-        const folder = playerFolder || 'avvtar/aman';
+        const folder = playerFolder || 'avvtar/ayank';
         const pad = n => String(n).padStart(4, '0');
-        const MAX_FRAMES = folder.toLowerCase().includes('aman') ? 96 : 92;
+        const MAX_FRAMES = 96;
         const FPS = 30;
         const frameDuration = 1000 / FPS;
         // Normalised canvas size — all characters render to the same box.
@@ -20774,10 +21524,10 @@
 
         // winner-only: full-body trophy image (supporting svg, png, webp)
         const trophyImg = (p) => {
-          const avKey = (p.avatar || (p.avatarImg ? p.avatarImg.replace(/^.*\/([^./]+)\..*$/, '$1') : 'aman')).toLowerCase().replace(/[^a-z0-9]/g, '');
-          const valid = ['aman', 'amish', 'aziz', 'vish'];
-          const safeKey = valid.includes(avKey) ? avKey : 'aman';
-          return 'avvtar/' + safeKey + ' trophy.png';
+          const avKey = (p.avatar || (p.avatarImg ? p.avatarImg.replace(/^.*\/([^./]+)\..*$/, '$1') : 'ayank')).toLowerCase().replace(/[^a-z0-9]/g, '');
+          const valid = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
+          const safeKey = valid.includes(avKey) ? avKey : 'ayank';
+          return 'avvtar/' + safeKey + '.png';
         };
         const buildTrophies = (players) => {
           const count = players.length;
@@ -20790,8 +21540,8 @@
               : (p.avatarImg
                 ? `<img class='trophy-fig is-fallback' src='${p.avatarImg}' alt='${p.name}' onerror="this.remove()">`
                 : `<span class='trophy-fig is-fallback'><svg class='svg-icon'><use href='#icon-${p.avatar || 'user'}' /></svg></span>`);
-            // Derive player-specific frame folder from avatarImg (e.g. avvtar/aman.png → avvtar/aman)
-            const champFolder = p.avatarImg ? p.avatarImg.replace(/\.[a-z0-9]+$/i, '') : 'avvtar/aman';
+            // Derive player-specific frame folder from avatarImg (e.g. avvtar/ayank.png → avvtar/ayank)
+            const champFolder = p.avatarImg ? p.avatarImg.replace(/\.[a-z0-9]+$/i, '') : 'avvtar/ayank';
             setTimeout(() => this._playChampionFrames(champFolder, fallback), 30);
             return `<div class="podium-avatar podium-trophy" data-count="1">
               <canvas class="trophy-vid" id="championFrames"></canvas>
