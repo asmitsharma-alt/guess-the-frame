@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
   <link rel="preload" as="image" href="bg/guess_the_frame.webp" type="image/webp" fetchpriority="high">
   <link rel="preload" as="image" href="bg/cinema_bg.webp" type="image/webp">
-  <title>Scoopcast: Guess The Frame - Online Movie Frame Guessing Game</title>
+  <title>Guess The Frame </title>
   <meta name="description" content="Play Scoopcast Guess The Frame - The ultimate multiplayer movie frame trivia party game. Challenge your friends in real-time to guess iconic cinema frames!">
   <meta name="keywords" content="scoopcast, guess the frame, movie trivia, film frame guessing game, cinema party game, scoopcast live, asmit">
   <link rel="canonical" href="https://www.scoopcast-live.in/">
@@ -23,13 +23,13 @@
   <meta property="og:site_name" content="Scoopcast">
   <meta property="og:title" content="Scoopcast: Guess The Frame - Online Movie Frame Game">
   <meta property="og:description" content="Gather your friends and guess iconic cinema frames in real-time on Scoopcast!">
-  <meta property="og:image" content="https://www.scoopcast-live.in/bg/guess_the_frame.webp">
+  <meta property="og:image" content="https://www.scoopcast-live.in/bg/og_image.jpg">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Scoopcast: Guess The Frame">
   <meta name="twitter:description" content="Real-time multiplayer movie frame guessing party game.">
-  <meta name="twitter:image" content="https://www.scoopcast-live.in/bg/guess_the_frame.webp">
+  <meta name="twitter:image" content="https://www.scoopcast-live.in/bg/og_image.jpg">
 
   <!-- JSON-LD Structured Data Schema -->
   <script type="application/ld+json">
@@ -97,6 +97,7 @@
       width: 100%;
       height: 100%;
       position: relative;
+      z-index: 1;
       transition: background 0.7s ease;
     }
 
@@ -143,7 +144,7 @@
       justify-content: center;
       gap: 0;
       overflow: hidden;
-      background: var(--nb-bg, #FFFDF5);
+      background: transparent !important;
       position: relative;
     }
 
@@ -3875,6 +3876,15 @@
       justify-content: center;
     }
 
+    /* In a match the host controls bar sits at the bottom-left; keep the audio toggle above it */
+    body:has(#gameScreen.active) .snd-btn {
+      bottom: 64px;
+      left: 14px;
+    }
+    body:has(#gameScreen.active) #stateInd.idle {
+      display: none;
+    }
+
     .snd-btn:hover {
       border-color: var(--neon-pink);
       transform: scale(1.1);
@@ -5482,8 +5492,8 @@
       transform: translate(1px, 1px) scale(0.97) !important;
     }
     #gameScreen .header-logo-img {
-      height: 38px !important;
-      max-height: 38px !important;
+      height: 42px !important;
+      max-height: 42px !important;
       width: auto !important;
       object-fit: contain !important;
       display: block !important;
@@ -5832,6 +5842,117 @@
       to {
         opacity: 1;
         transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       🕊️ MEMORIAL TRIBUTE DISPLAY (100% UNOBSTRUCTED FULL PHOTO)
+       ══════════════════════════════════════════════════════════ */
+    #gameScreen .answer-overlay.tribute-answer,
+    #frameDisplay .answer-overlay.tribute-answer {
+      justify-content: center !important;
+      align-items: center !important;
+      flex-direction: row !important;
+      gap: clamp(16px, 3vw, 36px) !important;
+      padding: clamp(14px, 2.5vw, 28px) !important;
+      background: rgba(10, 12, 16, 0.94) !important;
+      backdrop-filter: blur(14px) !important;
+      -webkit-backdrop-filter: blur(14px) !important;
+      overflow-y: auto !important;
+      pointer-events: auto !important;
+    }
+
+    .tribute-display {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      animation: tributeCardFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes tributeCardFadeIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .tribute-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #000000;
+      border: 3.5px solid #CBD5E1;
+      box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.75);
+      border-radius: 20px;
+      padding: 12px 12px 14px 12px;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .tribute-img-wrap {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000000;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .tribute-img {
+      width: 100%;
+      max-width: 360px;
+      max-height: 48vh;
+      object-fit: contain;
+      display: block;
+      border-radius: 10px;
+    }
+
+    .tribute-caption {
+      margin-top: 12px;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.6px;
+      color: #F8FAFC;
+      text-align: center;
+      font-style: italic;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+      padding: 2px 10px;
+    }
+
+    #gameScreen .answer-overlay.tribute-answer .ans-card,
+    #frameDisplay .answer-overlay.tribute-answer .ans-card {
+      margin: 0 !important;
+      max-width: 440px !important;
+      flex: 1 1 auto;
+      background: rgba(255, 253, 245, 0.98) !important;
+      border: 3.5px solid #000000 !important;
+      box-shadow: 8px 8px 0px #000000 !important;
+      border-radius: 20px !important;
+    }
+
+    @media (max-width: 820px) {
+      #gameScreen .answer-overlay.tribute-answer,
+      #frameDisplay .answer-overlay.tribute-answer {
+        flex-direction: column !important;
+        gap: 14px !important;
+        padding: 16px 12px !important;
+        justify-content: flex-start !important;
+      }
+      .tribute-img {
+        max-width: 240px;
+        max-height: 32vh;
+      }
+      .tribute-caption {
+        font-size: 14px;
+        margin-top: 8px;
+      }
+      #gameScreen .answer-overlay.tribute-answer .ans-card,
+      #frameDisplay .answer-overlay.tribute-answer .ans-card {
+        max-width: 95% !important;
+        width: 100% !important;
       }
     }
 
@@ -7928,7 +8049,7 @@
     }
     .h-logo-img {
       width: 100% !important;
-      max-width: clamp(340px, 44vw, 500px) !important;
+      max-width: clamp(260px, 30vw, 360px) !important;
       height: auto !important;
       object-fit: contain !important;
       filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.28)) !important;
@@ -8504,12 +8625,6 @@
       transform: translate(-2px, -2px);
       box-shadow: 6px 6px 0 #1a1a1a;
     }
-    .h-card-local {
-      display: none !important;
-      background: #FACC15;
-      box-shadow: 4px 4px 0 #1a1a1a;
-      color: #1a1a1a;
-    }
     .h-card-mp:active {
       transform: translate(2px, 2px);
       box-shadow: 1px 1px 0 #1a1a1a;
@@ -8706,7 +8821,9 @@
       width: 48px;
       height: 48px;
       object-fit: contain;
-      margin-bottom: 4px;
+      border: 2px solid #1a1a1a;
+      display: block;
+      margin: 0 auto 6px;
     }
     .mp-avatar-name {
       font-size: 12px;
@@ -9395,11 +9512,33 @@
       align-items: center !important;
       cursor: pointer !important;
       flex-shrink: 0 !important;
+      text-decoration: none !important;
     }
-    #gameScreen .header-logo-img {
-      height: 30px !important;
-      width: auto !important;
-      object-fit: contain !important;
+    #gameScreen .header-brand-badge {
+      font-family: 'Lilita One', 'DM Sans', cursive, sans-serif !important;
+      font-size: 14px !important;
+      font-weight: 900 !important;
+      letter-spacing: 0.8px !important;
+      color: #1a1a1a !important;
+      background: #FFE814 !important;
+      border: 2.5px solid #1a1a1a !important;
+      border-radius: 8px !important;
+      padding: 4px 10px !important;
+      box-shadow: 2px 2px 0 #1a1a1a !important;
+      text-transform: uppercase !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      line-height: 1.2 !important;
+      user-select: none !important;
+      transition: transform 0.1s ease, box-shadow 0.1s ease !important;
+    }
+    #gameScreen .header-brand-badge:hover {
+      transform: translate(-1px, -1px) !important;
+      box-shadow: 3px 3px 0 #1a1a1a !important;
+    }
+    #gameScreen .header-brand-badge:active {
+      transform: translate(1px, 1px) !important;
+      box-shadow: 1px 1px 0 #1a1a1a !important;
     }
     #gameScreen .host-floating-bar {
       display: none;
@@ -9566,274 +9705,9 @@
       flex-shrink: 0;
     }
 
-    /* ZOOMED IN (HEIGHT <= 840px) OR ANSWERING MODE (INPUT FOCUSED):
-       TIMER & SCOREBOARD SIT SIDE-BY-SIDE ON THE EXACT SAME LINE WITH PERFECT SYMMETRY */
-    @media (max-height: 840px) {
-      #gameScreen .game-sidebar-col {
-        width: 390px !important;
-        max-width: 420px !important;
-      }
-      #gameScreen .sidebar-top-strip {
-        flex-direction: row !important;
-        align-items: stretch !important;
-        gap: 8px !important;
-      }
-      #gameScreen .sidebar-top-strip .panel-sec {
-        flex: 1 1 50% !important;
-        min-width: 0 !important;
-        padding: 8px 10px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: stretch !important;
-        justify-content: flex-start !important;
-      }
-      #gameScreen .sidebar-top-strip .panel-sec h3 {
-        font-size: 11px !important;
-        margin-bottom: 6px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        text-align: center !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important;
-        gap: 5px !important;
-      }
-      #gameScreen .sidebar-top-strip .timer-block {
-        flex: 1 !important;
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        padding: 4px 0 !important;
-        gap: 4px !important;
-        margin: auto 0 !important;
-      }
-      #gameScreen .sidebar-top-strip .timer-circle {
-        width: 68px !important;
-        height: 68px !important;
-      }
-      #gameScreen .sidebar-top-strip .ttx {
-        font-size: 26px !important;
-      }
-      #gameScreen .sidebar-top-strip .timer-label {
-        font-size: 9px !important;
-        letter-spacing: 0.8px !important;
-        margin-top: 2px !important;
-      }
-      #gameScreen .sidebar-top-strip .nonk-panel {
-        margin-bottom: 4px !important;
-      }
-      #gameScreen .sidebar-top-strip .nonk-btn {
-        padding: 4px 6px !important;
-        font-size: 10px !important;
-        line-height: 1.2 !important;
-        white-space: normal !important;
-      }
-      #gameScreen .sidebar-top-strip .leaderboard {
-        flex: 1 !important;
-        max-height: 96px !important;
-        gap: 4px !important;
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-      }
-      #gameScreen .sidebar-top-strip .lb-item {
-        min-height: 30px !important;
-        height: auto !important;
-        padding: 2px 6px !important;
-        gap: 5px !important;
-        border-radius: 6px !important;
-      }
-      #gameScreen .sidebar-top-strip .lb-rank {
-        width: 18px !important;
-        height: 18px !important;
-        font-size: 9.5px !important;
-      }
-      #gameScreen .sidebar-top-strip .avatar-circle,
-      #gameScreen .sidebar-top-strip .lb-av-wrap {
-        width: 22px !important;
-        height: 22px !important;
-        min-width: 22px !important;
-      }
-      #gameScreen .sidebar-top-strip .lb-name {
-        font-size: 11px !important;
-      }
-      #gameScreen .sidebar-top-strip .lb-score {
-        font-size: 11px !important;
-      }
-      #gameScreen .sidebar-top-strip .leaderboard-actions {
-        margin-top: 4px !important;
-      }
-      #gameScreen .sidebar-top-strip .skip-btn {
-        padding: 3px 8px !important;
-        font-size: 10.5px !important;
-        border-radius: 6px !important;
-      }
-      #gameScreen .live-chat-panel {
-        flex: 1 1 0% !important;
-        min-height: 240px !important;
-      }
-    }
 
-    body.answering-mode #gameScreen .game-sidebar-col,
-    body.force-side-by-side #gameScreen .game-sidebar-col,
-    body:has(#chatTextInput:focus) #gameScreen .game-sidebar-col {
-      width: 390px !important;
-      max-width: 420px !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip,
-    body.force-side-by-side #gameScreen .sidebar-top-strip,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip {
-      flex-direction: row !important;
-      align-items: stretch !important;
-      gap: 8px !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .panel-sec,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .panel-sec,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .panel-sec {
-      flex: 1 1 50% !important;
-      min-width: 0 !important;
-      padding: 8px 10px !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: stretch !important;
-      justify-content: flex-start !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .panel-sec h3,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .panel-sec h3,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .panel-sec h3 {
-      font-size: 11px !important;
-      margin-bottom: 6px !important;
-      display: flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      text-align: center !important;
-      white-space: nowrap !important;
-      overflow: hidden !important;
-      text-overflow: ellipsis !important;
-      gap: 5px !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .timer-block,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .timer-block,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .timer-block {
-      flex: 1 !important;
-      display: flex !important;
-      flex-direction: column !important;
-      align-items: center !important;
-      justify-content: center !important;
-      padding: 4px 0 !important;
-      gap: 4px !important;
-      margin: auto 0 !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .timer-circle,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .timer-circle,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .timer-circle {
-      width: 68px !important;
-      height: 68px !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .ttx,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .ttx,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .ttx {
-      font-size: 26px !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .timer-label,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .timer-label,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .timer-label {
-      font-size: 9px !important;
-      letter-spacing: 0.8px !important;
-      margin-top: 2px !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .nonk-btn,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .nonk-btn,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .nonk-btn {
-      padding: 4px 6px !important;
-      font-size: 10px !important;
-      line-height: 1.2 !important;
-      white-space: normal !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .leaderboard,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .leaderboard,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .leaderboard {
-      flex: 1 !important;
-      max-height: 96px !important;
-      gap: 4px !important;
-      display: flex !important;
-      flex-direction: column !important;
-      justify-content: center !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .lb-item,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .lb-item,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .lb-item {
-      min-height: 30px !important;
-      height: auto !important;
-      padding: 2px 6px !important;
-      gap: 5px !important;
-      border-radius: 6px !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .lb-rank,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .lb-rank,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .lb-rank {
-      width: 18px !important;
-      height: 18px !important;
-      font-size: 9.5px !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .avatar-circle,
-    body.answering-mode #gameScreen .sidebar-top-strip .lb-av-wrap,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .avatar-circle,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .lb-av-wrap,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .avatar-circle,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .lb-av-wrap {
-      width: 22px !important;
-      height: 22px !important;
-      min-width: 22px !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .lb-name,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .lb-name,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .lb-name {
-      font-size: 11px !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .lb-score,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .lb-score,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .lb-score {
-      font-size: 11px !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .leaderboard-actions,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .leaderboard-actions,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .leaderboard-actions {
-      margin-top: 4px !important;
-    }
-    body.answering-mode #gameScreen .sidebar-top-strip .skip-btn,
-    body.force-side-by-side #gameScreen .sidebar-top-strip .skip-btn,
-    body:has(#chatTextInput:focus) #gameScreen .sidebar-top-strip .skip-btn {
-      padding: 3px 8px !important;
-      font-size: 10.5px !important;
-      border-radius: 6px !important;
-    }
-
-    #gameScreen .chat-layout-toggle-btn {
-      height: 26px !important;
-      padding: 0 8px !important;
-      box-sizing: border-box !important;
-      background: #ffffff !important;
-      border: 1.5px solid #1a1a1a !important;
-      border-radius: 6px !important;
-      font-size: 11px !important;
-      font-weight: 900 !important;
-      cursor: pointer !important;
-      box-shadow: 1.5px 1.5px 0 #1a1a1a !important;
-      color: #1a1a1a !important;
-      display: inline-flex !important;
-      align-items: center !important;
-      justify-content: center !important;
-      gap: 3px !important;
-      margin-left: auto !important;
-      transition: transform 0.1s ease !important;
-    }
-    #gameScreen .chat-layout-toggle-btn:hover {
-      transform: translateY(-1px) !important;
-    }
     #gameScreen .chat-hint-btn {
+      margin-left: auto !important;
       height: 26px !important;
       padding: 0 8px !important;
       box-sizing: border-box !important;
@@ -9928,7 +9802,7 @@
       box-sizing: border-box !important;
       border: 2px solid #1a1a1a !important;
       border-radius: 8px !important;
-      font-size: 13px !important;
+      font-size: 16px !important; /* Prevents auto-zoom on touch/mobile devices */
       font-weight: 700 !important;
       outline: none !important;
       background: #fafaf4 !important;
@@ -9972,8 +9846,9 @@
         gap: 6px !important;
         flex-wrap: wrap !important;
       }
-      #gameScreen .header-logo-img {
-        height: 24px !important;
+      #gameScreen .header-brand-badge {
+        font-size: 11.5px !important;
+        padding: 3px 8px !important;
       }
       #gameScreen .sec-badge {
         padding: 3px 6px !important;
@@ -10242,11 +10117,13 @@
         color: #854D0E !important;
       }
       .mhb-text {
-        font-family: 'Space Mono', monospace !important;
-        font-size: 13px !important;
-        font-weight: 900 !important;
+        font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+        font-size: 13.5px !important;
+        font-weight: 800 !important;
         color: #1a1a1a !important;
-        letter-spacing: 2px !important;
+        letter-spacing: 0.2px !important;
+        line-height: 1.3 !important;
+        word-break: break-word !important;
       }
       .mobile-bar-hint-btn {
         height: 46px !important;
@@ -10571,11 +10448,12 @@
       text-transform: uppercase;
     }
     .cah-text {
-      font-family: 'Space Mono', monospace;
-      font-size: 14px;
-      font-weight: 900;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 15px;
+      font-weight: 800;
       color: #1a1a1a;
-      letter-spacing: 2.5px;
+      letter-spacing: 0.2px;
+      line-height: 1.35;
       word-break: break-word;
     }
     .chat-msg-hint {
@@ -10597,11 +10475,13 @@
       margin-bottom: 4px;
     }
     .cmh-body {
-      font-family: 'Space Mono', monospace;
-      font-size: 15px;
-      font-weight: 900;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 15.5px;
+      font-weight: 800;
       color: #1a1a1a;
-      letter-spacing: 3px;
+      letter-spacing: 0.3px;
+      line-height: 1.35;
+      word-break: break-word;
     }
     .chat-msg-system {
       background: #f1f5f9;
@@ -10636,11 +10516,12 @@
       text-transform: uppercase !important;
     }
     .hahp-text {
-      font-family: 'Space Mono', monospace !important;
-      font-size: 13px !important;
-      font-weight: 900 !important;
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+      font-size: 13.5px !important;
+      font-weight: 800 !important;
       color: #1a1a1a !important;
-      letter-spacing: 2px !important;
+      letter-spacing: 0.2px !important;
+      line-height: 1.3 !important;
     }
 
     /* ── CHAT REACTIONS & SUBTLE NON-HIGHLIGHTED NOTICES ── */
@@ -11995,18 +11876,19 @@
     .cw-credits-pill-bar {
       margin: 0 auto;
       align-self: center;
-      width: 760px;
-      max-width: 95%;
-      height: 44px;
+      width: 100%;
+      max-width: 994px;
+      height: auto;
+      min-height: 40px;
       background: #FFFFFF;
       border: 3px solid #000000;
       border-radius: 999px;
       box-shadow: 4px 4px 0px #000000;
-      padding: 0 24px;
+      padding: 5px 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 14px;
+      gap: 12px;
       box-sizing: border-box;
       position: relative;
       z-index: 5;
@@ -12014,37 +11896,53 @@
     .cw-credit-item {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
+      flex-shrink: 1;
+      min-width: 0;
     }
     .cw-credit-badge {
       background: #FACC15;
       border: 2px solid #000000;
       border-radius: 6px;
       box-shadow: 1.5px 1.5px 0px #000000;
-      padding: 3px 8px;
+      padding: 2.5px 8px;
       font-family: 'Space Grotesk', 'DM Sans', sans-serif;
       font-weight: 900;
-      font-size: 11px;
+      font-size: 10.5px;
       color: #000000;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.5px;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .cw-credit-badge.credit-badge-blue {
       background: #38BDF8;
     }
     .cw-credit-names {
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       color: #0F172A;
-      letter-spacing: 0.1px;
+      letter-spacing: 0px;
       white-space: nowrap;
     }
     .cw-credit-divider {
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 900;
       color: #64748B;
       line-height: 1;
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 1020px) and (min-width: 769px) {
+      .cw-credits-pill-bar {
+        border-radius: 18px;
+        padding: 8px 16px;
+        flex-wrap: wrap;
+        gap: 8px 14px;
+      }
+      .cw-credit-names {
+        font-size: 11px;
+      }
     }
 
     /* ── RIGHT COLUMN: SCOREBOARD ── */
@@ -12314,6 +12212,8 @@
       .cw-credits-pill-bar {
         width: 100%;
         height: auto;
+        min-height: auto;
+        flex-shrink: 0;
         flex-direction: column;
         gap: 8px;
         border-radius: 14px;
@@ -12323,9 +12223,11 @@
         display: none;
       }
       .cw-credit-item {
+        flex-direction: column;
+        align-items: center;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 6px;
+        gap: 5px;
       }
       .cw-credit-badge {
         font-size: 11px;
@@ -12335,6 +12237,7 @@
         font-size: 12px;
         white-space: normal;
         text-align: center;
+        line-height: 1.45;
       }
       .cw-buttons-deck {
         flex-direction: column;
@@ -12920,6 +12823,8 @@
         overflow: hidden !important;
       }
     }
+
+
   </style>
   <!-- Appwrite Web SDK & QRCode for Online Multiplayer -->
   <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
@@ -13239,6 +13144,10 @@
     </div>
   </div>
 
+  <!-- Fixed Cinema Wallpaper Background with Ambient Blur & Focus Scrim -->
+  <div class="bg-backdrop" aria-hidden="true"></div>
+  <div class="bg-focus-scrim" aria-hidden="true"></div>
+
   <div id="app">
     <!-- HOME -->
     <div id="homeScreen" class="screen active">
@@ -13264,7 +13173,10 @@
 
       <!-- Hero Logo Image -->
       <h1 class="h-hero m-0 p-0 leading-none">
-        <img src="bg/guess_the_frame.webp" alt="Guess The Frame by Asmit" class="h-logo-img" decoding="async" fetchpriority="high" loading="eager" />
+        <picture>
+          <source srcset="bg/guess_the_frame.webp" type="image/webp">
+          <img src="bg/guess_the_frame.png" alt="Guess The Frame by Asmit" class="h-logo-img" decoding="async" fetchpriority="high" loading="eager" />
+        </picture>
       </h1>
 
       <!-- Action cards for Online Multiplayer & Local -->
@@ -13285,9 +13197,6 @@
             <circle cx="18" cy="13" r="1" fill="currentColor"></circle>
           </svg>
           <span class="h-card-title-lg">Join Room</span>
-        </div>
-        <div class="h-card-mp h-card-local" onclick="showHowToPlay()" style="display: none !important;" aria-hidden="true">
-          <span class="h-card-title-lg">Local Party</span>
         </div>
       </div>
 
@@ -13317,25 +13226,21 @@
         <div class="mp-form-group">
           <label class="mp-label">Select Your Animated Avatar</label>
           <div class="mp-avatar-grid">
-            <div class="mp-avatar-option selected" data-avatar="ayank" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/ayank.png" alt="Ayank" />
-              <div class="mp-avatar-name">Ayank</div>
+            <div class="mp-avatar-option selected" data-avatar="aman" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/aman.svg" alt="Aman" />
+              <div class="mp-avatar-name">Aman</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="ayush" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/ayush.png" alt="Ayush" />
-              <div class="mp-avatar-name">Ayush</div>
+            <div class="mp-avatar-option" data-avatar="amish" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/amish.svg" alt="Amish" />
+              <div class="mp-avatar-name">Amish</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="joel" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/joel.png" alt="Joel" />
-              <div class="mp-avatar-name">Joel</div>
+            <div class="mp-avatar-option" data-avatar="aziz" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/aziz.svg" alt="Aziz" />
+              <div class="mp-avatar-name">Aziz</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="praggya" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/praggya.png" alt="Praggya" />
-              <div class="mp-avatar-name">Praggya</div>
-            </div>
-            <div class="mp-avatar-option" data-avatar="ruhaan" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/ruhaan.png" alt="Ruhaan" />
-              <div class="mp-avatar-name">Ruhaan</div>
+            <div class="mp-avatar-option" data-avatar="vish" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/vish.svg" alt="Vish" />
+              <div class="mp-avatar-name">Vish</div>
             </div>
           </div>
         </div>
@@ -13363,25 +13268,21 @@
         <div class="mp-form-group">
           <label class="mp-label">Select Your Animated Avatar</label>
           <div class="mp-avatar-grid">
-            <div class="mp-avatar-option selected" data-avatar="ayank" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/ayank.png" alt="Ayank" />
-              <div class="mp-avatar-name">Ayank</div>
+            <div class="mp-avatar-option selected" data-avatar="aman" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/aman.svg" alt="Aman" />
+              <div class="mp-avatar-name">Aman</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="ayush" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/ayush.png" alt="Ayush" />
-              <div class="mp-avatar-name">Ayush</div>
+            <div class="mp-avatar-option" data-avatar="amish" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/amish.svg" alt="Amish" />
+              <div class="mp-avatar-name">Amish</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="joel" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/joel.png" alt="Joel" />
-              <div class="mp-avatar-name">Joel</div>
+            <div class="mp-avatar-option" data-avatar="aziz" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/aziz.svg" alt="Aziz" />
+              <div class="mp-avatar-name">Aziz</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="praggya" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/praggya.png" alt="Praggya" />
-              <div class="mp-avatar-name">Praggya</div>
-            </div>
-            <div class="mp-avatar-option" data-avatar="ruhaan" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/ruhaan.png" alt="Ruhaan" />
-              <div class="mp-avatar-name">Ruhaan</div>
+            <div class="mp-avatar-option" data-avatar="vish" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/vish.svg" alt="Vish" />
+              <div class="mp-avatar-name">Vish</div>
             </div>
           </div>
         </div>
@@ -13405,10 +13306,10 @@
         <div style="background: #fafaf4; border: 3px solid #1a1a1a; border-radius: 12px; padding: 14px; margin-bottom: 16px; box-shadow: 4px 4px 0 #1a1a1a; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
           <div style="display: flex; align-items: center; gap: 12px;">
             <div id="rejoinAvatarContainer" style="width: 52px; height: 52px; border-radius: 50%; border: 3px solid #1a1a1a; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #FF6B9D;">
-              <img id="rejoinAvatarImg" src="avvtar/ayank.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Avatar" />
+              <img id="rejoinAvatarImg" src="avvtar/aman.svg" style="width: 100%; height: 100%; object-fit: cover;" alt="Avatar" />
             </div>
             <div style="text-align: left;">
-              <div id="rejoinPlayerName" style="font-size: 16px; font-weight: 900; color: #1a1a1a; text-transform: uppercase;">AYANK</div>
+              <div id="rejoinPlayerName" style="font-size: 16px; font-weight: 900; color: #1a1a1a; text-transform: uppercase;">AMAN</div>
               <div id="rejoinRoleTag" style="font-size: 11px; font-weight: 800; color: #666; text-transform: uppercase;">Player</div>
             </div>
           </div>
@@ -13909,7 +13810,7 @@
             </div>
             <div class="hsp-info">
               <span class="hsp-place">Hint Used</span>
-              <span class="hsp-pts minus">-2 PTS</span>
+              <span class="hsp-pts minus">-4 PTS</span>
             </div>
           </div>
 
@@ -13957,8 +13858,8 @@
         <div class="game-stage-col">
           <!-- TOP GAME HEADER BAR -->
           <header class="game-header">
-            <div class="header-logo-wrap" onclick="GameController.goHome()" title="ScoopCast — Return to Home">
-              <img class="header-logo-img" src="logo.png" alt="ScoopCast">
+            <div class="header-logo-wrap" onclick="if(typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.roomCode){ MultiplayerEngine.leaveRoom(); } else { goHome(); }" title="Guess The Frame — Return to Home">
+              <span class="header-brand-badge">GUESS THE FRAME</span>
             </div>
 
             <!-- PROGRESS BADGES -->
@@ -13998,6 +13899,16 @@
 
           <!-- Answer Overlay -->
           <div class="answer-overlay" id="answerOverlay">
+            <!-- Dedicated Memorial Tribute Display (100% Unoverlapped) -->
+            <div class="tribute-display" id="tributeDisplay" style="display:none;">
+              <div class="tribute-card">
+                <div class="tribute-img-wrap">
+                  <img id="tributeImg" src="" alt="Memorial Tribute" class="tribute-img" />
+                </div>
+                <div class="tribute-caption" id="tributeText">May his soul rest in peace</div>
+              </div>
+            </div>
+
             <div class="ans-card">
               <div class="ans-badge" id="ansBadge">Answer</div>
               <div class="ans-year" id="ansYear"></div>
@@ -14051,7 +13962,7 @@
           <button type="button" class="hfb-btn" id="hfbPauseBtn" onclick="MultiplayerEngine.hostTogglePause()">⏸ Pause</button>
           <button type="button" class="hfb-btn" onclick="MultiplayerEngine.hostEndGame()">🏁 End Match</button>
         </div>
-        <button type="button" class="hfb-btn" id="hfbHintBtn" onclick="MultiplayerEngine.requestHint()" style="background:#FDE047 !important;">💡 Hint (-2 pts)</button>
+        <button type="button" class="hfb-btn" id="hfbHintBtn" onclick="MultiplayerEngine.requestHint()" style="background:#FDE047 !important;">💡 Hint (-4 pts)</button>
         
         <!-- ACTIVE HINT DISPLAY ON SIDE OF CONTROLS -->
         <div class="hfb-active-hint-pill" id="hfbActiveHintPill" style="display:none;">
@@ -14098,7 +14009,7 @@
             </svg> Leaderboard</h3>
           <div class="leaderboard" id="leaderboard"></div>
           <div class="leaderboard-actions">
-            <button type="button" class="skip-btn" id="skipBtn" onclick="GameController.skipRound()">Skip</button>
+            <button type="button" class="skip-btn" id="skipBtn" onclick="MultiplayerEngine.hostSkipRound()">Skip</button>
           </div>
         </div>
       </div><!-- /.sidebar-top-strip -->
@@ -14109,12 +14020,11 @@
           <div class="chat-header-title">
             <span>💬 Live Chat & Guesses</span>
           </div>
-          <button type="button" class="chat-layout-toggle-btn" id="sidebarLayoutToggleBtn" onclick="toggleSidebarTopLayout()" title="Toggle Timer & Scoreboard Side-by-Side">⇄ Row</button>
-          <button type="button" class="chat-hint-btn" id="chatHintBtn" onclick="MultiplayerEngine.requestHint()" title="Get a masked letter hint for -2 points">💡 Hint (-2 pts)</button>
+          <button type="button" class="chat-hint-btn" id="chatHintBtn" onclick="MultiplayerEngine.requestHint()" title="Get a masked letter hint for -4 points">💡 Hint (-4 pts)</button>
           <button type="button" class="chat-close-btn" onclick="ChatEngine.toggleMobileDrawer(false)">✕ Close</button>
         </div>
         <div class="chat-active-hint" id="chatActiveHint" style="display:none;">
-          <div class="cah-label">💡 HINT (-2 PTS):</div>
+          <div class="cah-label">💡 HINT (-4 PTS):</div>
           <div class="cah-text" id="chatActiveHintText"></div>
         </div>
         <div class="chat-stream" id="liveChatStream">
@@ -14155,7 +14065,7 @@
             <span>GUESS</span>
           </button>
         </form>
-        <button type="button" class="mobile-bar-hint-btn" id="mobileQuickHintBtn" onclick="MultiplayerEngine.requestHint()" title="Get Hint (-2 pts)">
+        <button type="button" class="mobile-bar-hint-btn" id="mobileQuickHintBtn" onclick="MultiplayerEngine.requestHint()" title="Get Hint (-4 pts)">
           <span>💡</span>
         </button>
         <button type="button" class="mobile-bar-chat-btn" id="mobileChatToggleBtn" onclick="ChatEngine.toggleMobileDrawer(true)" title="Open Live Chat">
@@ -14263,8 +14173,8 @@
               <span>MESSAGE</span>
             </div>
             <p class="cw-info-text">
-              Umeed hai ki aapko game khelne mein maza aaya hoga. <br>
-              <span class="cw-info-closing">Milte hain next week phir</span>
+              Sorry for the inconvenience last time. I’ll do my best to make sure it doesn’t happen again.<br>
+              <span class="cw-info-closing">Hope you enjoyed the game. See you next week</span>
             </p>
           </div>
         </div>
@@ -14283,14 +14193,14 @@
               <div class="cw-runner-card runner-blue" id="silverCard">
                 <div class="runner-rank-tab blue-tab">2</div>
                 <div class="runner-avatar-frame" id="silverAvatarWrap">
-                  <img id="silverAvatarImg" src="avvtar/ayush.png" alt="2nd Place" onerror="this.onerror=null;this.src='avvtar/ayush.png'" />
+                  <img id="silverAvatarImg" src="avvtar/vish.svg" alt="2nd Place" onerror="this.onerror=null;this.src='avvtar/vish.svg'" />
                 </div>
-                <div class="runner-nameplate" id="silverName">AYUSH</div>
+                <div class="runner-nameplate" id="silverName">VISH</div>
                 <div class="runner-score-tag blue-score-tag" id="silverScore">12 POINTS</div>
               </div>
             </div>
 
-            <!-- Card 1 (Center - Ayank) -->
+            <!-- Card 1 (Center - Aman) -->
             <div class="cw-runner-col">
               <div class="cw-runner-card runner-gold" id="champHeroCard">
                 <div class="runner-rank-tab gold-tab">
@@ -14300,14 +14210,14 @@
                   </svg>
                 </div>
                 <div class="runner-avatar-frame champ-avatar-frame" id="champAvatarWrap">
-                  <img id="champAvatarImg" src="avvtar/ayank.png" alt="Champion" onerror="this.onerror=null;this.src='avvtar/ayank.png'" />
+                  <img id="champAvatarImg" src="avvtar/aman.svg" alt="Champion" onerror="this.onerror=null;this.src='avvtar/aman.svg'" />
                 </div>
-                <div class="runner-nameplate champ-nameplate" id="champName">AYANK</div>
+                <div class="runner-nameplate champ-nameplate" id="champName">AMAN</div>
                 <div class="runner-score-tag gold-score-tag" id="champScore">30 POINTS</div>
               </div>
             </div>
 
-            <!-- Card 3 (Right - Joel) -->
+            <!-- Card 3 (Right - Aziz) -->
             <div class="cw-runner-col">
               <div class="cw-card-burst burst-right" aria-hidden="true">
                 <svg viewBox="0 0 30 25" width="22" height="18" fill="none">
@@ -14318,9 +14228,9 @@
               <div class="cw-runner-card runner-orange" id="bronzeCard">
                 <div class="runner-rank-tab orange-tab">3</div>
                 <div class="runner-avatar-frame" id="bronzeAvatarWrap">
-                  <img id="bronzeAvatarImg" src="avvtar/joel.png" alt="3rd Place" onerror="this.onerror=null;this.src='avvtar/joel.png'" />
+                  <img id="bronzeAvatarImg" src="avvtar/aziz.svg" alt="3rd Place" onerror="this.onerror=null;this.src='avvtar/aziz.svg'" />
                 </div>
-                <div class="runner-nameplate" id="bronzeName">JOEL</div>
+                <div class="runner-nameplate" id="bronzeName">AZIZ</div>
                 <div class="runner-score-tag orange-score-tag" id="bronzeScore">16 POINTS</div>
               </div>
             </div>
@@ -14338,32 +14248,32 @@
               <div class="sb-row sb-champ">
                 <div class="sb-left">
                   <span class="sb-rank">1</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/ayank.png" alt="Ayank" /></div>
-                  <span class="sb-name">AYANK</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/aman.svg" alt="Aman" /></div>
+                  <span class="sb-name">AMAN</span>
                 </div>
                 <span class="sb-score">30 PTS</span>
               </div>
               <div class="sb-row">
                 <div class="sb-left">
                   <span class="sb-rank">2</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/ayush.png" alt="Ayush" /></div>
-                  <span class="sb-name">AYUSH</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/vish.svg" alt="Vish" /></div>
+                  <span class="sb-name">VISH</span>
                 </div>
                 <span class="sb-score">12 PTS</span>
               </div>
               <div class="sb-row">
                 <div class="sb-left">
                   <span class="sb-rank">3</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/joel.png" alt="Joel" /></div>
-                  <span class="sb-name">JOEL</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/aziz.svg" alt="Aziz" /></div>
+                  <span class="sb-name">AZIZ</span>
                 </div>
                 <span class="sb-score">16 PTS</span>
               </div>
               <div class="sb-row">
                 <div class="sb-left">
                   <span class="sb-rank">4</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/praggya.png" alt="Praggya" /></div>
-                  <span class="sb-name">PRAGGYA</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/amish.svg" alt="Amish" /></div>
+                  <span class="sb-name">AMISH</span>
                 </div>
                 <span class="sb-score">7 PTS</span>
               </div>
@@ -14377,12 +14287,12 @@
       <div class="cw-credits-pill-bar">
         <div class="cw-credit-item">
           <span class="cw-credit-badge">FRAMES BY</span>
-          <span class="cw-credit-names" id="creatorMsg">tanmay, Tanuj, Darshan, Akash, Anmol (timestamp guy) and members of smoc.</span>
+          <span class="cw-credit-names" id="creatorMsg">tanmay, Tanuj, Darshan, Akash, Anmol (timestamp guy) and members of smoc(whatsapp group)</span>
         </div>
         <div class="cw-credit-divider" aria-hidden="true">•</div>
         <div class="cw-credit-item">
           <span class="cw-credit-badge credit-badge-blue">WEBSITE BY</span>
-          <span class="cw-credit-names">Asmit </span>
+          <span class="cw-credit-names">Asmit</span>
         </div>
       </div>
 
@@ -14403,6 +14313,8 @@
       </div>
 
     </div><!-- /.comic-winner-card -->
+
+
   
   </div><!-- /#winnerScreen -->
 
@@ -14489,7 +14401,7 @@
                   <use href="#icon-image" />
                 </svg> Frames By</h3>
               <div class="input-group"><textarea id="cfgMsg"
-                   placeholder="Enter names...">tanmay, Tanuj, Darshan, Akash, Anmol (timestamp guy) and members of smoc.</textarea>
+                   placeholder="Enter names...">tanmay, Tanuj, Darshan, Akash, Anmol (timestamp guy) and members of smoc(whatsapp group)</textarea>
               </div>
             </div>
             <div class="admin-section full-width">
@@ -14618,6 +14530,14 @@
     </svg></button>
 
   <script>
+    /* Global Error & Rejection Shield to prevent any runtime exceptions from halting the game */
+    window.addEventListener('error', function(e) {
+      console.warn('[Global Error Shield]:', e.error || e.message);
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+      console.warn('[Global Rejection Shield]:', e.reason);
+    });
+
     /* ═══ SMALL SCREEN & ANDROID RESTRICTION CONTROLLER ═══ */
     (function initScreenRestriction() {
       if (window.location.search.includes('bypass_restrict=1')) {
@@ -14641,44 +14561,9 @@
       }
     })();
 
-    /* ═══ SIDEBAR TOP STRIP (TIMER & SCOREBOARD ON SAME LINE) ═══ */
-    function toggleSidebarTopLayout() {
-      const isRow = document.body.classList.toggle('force-side-by-side');
-      const btn = document.getElementById('sidebarLayoutToggleBtn');
-      if (btn) {
-        btn.textContent = isRow ? '⇅ Stack' : '⇄ Row';
-        btn.title = isRow ? 'Switch to Stacked Layout' : 'Switch to Side-by-Side Layout';
-      }
-    }
 
-    (function initAnsweringMode() {
-      function attachAnsweringEvents() {
-        const input = document.getElementById('chatTextInput');
-        if (input) {
-          input.addEventListener('focus', () => {
-            document.body.classList.add('answering-mode');
-          });
-          input.addEventListener('blur', () => {
-            setTimeout(() => {
-              if (document.activeElement !== input) {
-                document.body.classList.remove('answering-mode');
-              }
-            }, 250);
-          });
-        }
-      }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', attachAnsweringEvents);
-      } else {
-        attachAnsweringEvents();
-      }
-    })();
 
     /* ═══ NAV ═══ */
-    function showHowToPlay() {
-      SoundManager.playClick();
-      PlayerLobby.show();
-    }
     function goHome() { SoundManager.playClick(); PaletteManager.reset(); UI.showScreen('homeScreen'); }
 
             /* ═══ NETWORK SECURITY & CRYPTOGRAPHIC AUTHORIZATION ═══ */
@@ -14738,15 +14623,15 @@
         return sig === expectedSig;
       },
 
-      checkRateLimit(senderId) {
+      checkRateLimit(senderId, maxRequests = 25, windowMs = 1000) {
         const now = Date.now();
-        const record = this._rateLimits[senderId] || { count: 0, resetTime: now + 1000 };
+        const record = this._rateLimits[senderId] || { count: 0, resetTime: now + windowMs };
         if (now > record.resetTime) {
           record.count = 1;
-          record.resetTime = now + 1000;
+          record.resetTime = now + windowMs;
         } else {
           record.count++;
-          if (record.count > 25) {
+          if (record.count > maxRequests) {
             return false;
           }
         }
@@ -14760,9 +14645,9 @@
         const expectedCode = String(currentRoomCode || '').trim().toUpperCase();
         if (msgCode !== expectedCode) return false;
 
-        // Timestamp drift check (replay attack protection: 60s for game/chat, 5min for join/sync handshakes)
-        const isJoinHandshake = msg.type === 'PLAYER_JOIN' || msg.type === 'SYNC_ROOM_STATE';
-        const maxDrift = isJoinHandshake ? 300000 : 60000;
+        // Timestamp drift check (replay attack protection: 10min for heartbeats & handshakes, 2min for game/chat)
+        const isHeartbeatOrHandshake = msg.type === 'PLAYER_JOIN' || msg.type === 'SYNC_ROOM_STATE' || msg.type === 'CLIENT_HEARTBEAT' || msg.type === 'HOST_HEARTBEAT' || msg.type === 'REQUEST_REJOIN_SYNC' || msg.type === 'REJOIN_SYNC_STATE';
+        const maxDrift = isHeartbeatOrHandshake ? 600000 : 120000;
         if (msg.timestamp && Math.abs(Date.now() - msg.timestamp) > maxDrift) {
           console.warn('[NetworkSecurity] Dropped stale/replay message from sender:', msg.senderId);
           return false;
@@ -14913,7 +14798,7 @@
             playerId: player.id,
             roomId: 'room_' + roomCode,
             name: player.name || 'Player',
-            avatar: player.avatar || 'ayank',
+            avatar: player.avatar || 'aman',
             status: 'connected',
             score: player.score || 0,
             isHost: !!player.isHost,
@@ -15013,35 +14898,52 @@
 
     /* ═══ PLAYER LOBBY ═══ */
     const AVATAR_MAP = {
+      aman: {
+        color: '#FF6B9D',
+        bg: '#FF6B9D',
+        img: 'avvtar/aman.svg'
+      },
+      amish: {
+        color: '#FACC15',
+        bg: '#FACC15',
+        img: 'avvtar/amish.svg'
+      },
+      aziz: {
+        color: '#84CC16',
+        bg: '#84CC16',
+        img: 'avvtar/aziz.svg'
+      },
+      vish: {
+        color: '#3B82F6',
+        bg: '#3B82F6',
+        img: 'avvtar/vish.svg'
+      },
+      // Legacy fallback mappings
       ayank: {
         color: '#FF6B9D',
         bg: '#FF6B9D',
-        img: 'avvtar/ayank.png'
+        img: 'avvtar/aman.svg'
       },
       ayush: {
         color: '#3B82F6',
         bg: '#3B82F6',
-        img: 'avvtar/ayush.png'
+        img: 'avvtar/vish.svg'
       },
       joel: {
         color: '#84CC16',
         bg: '#84CC16',
-        img: 'avvtar/joel.png'
+        img: 'avvtar/aziz.svg'
       },
       praggya: {
         color: '#FACC15',
         bg: '#FACC15',
-        img: 'avvtar/praggya.png'
+        img: 'avvtar/amish.svg'
       },
       ruhaan: {
         color: '#A855F7',
         bg: '#A855F7',
-        img: 'avvtar/ruhaan.png'
-      },
-      aman: { color: '#FF6B9D', bg: '#FF6B9D', img: 'avvtar/ayank.png' },
-      amish: { color: '#3B82F6', bg: '#3B82F6', img: 'avvtar/ayush.png' },
-      aziz: { color: '#84CC16', bg: '#84CC16', img: 'avvtar/joel.png' },
-      vish: { color: '#FACC15', bg: '#FACC15', img: 'avvtar/praggya.png' }
+        img: 'avvtar/aman.svg'
+      }
     };
 
     /* ════ HOW TO ANSWER GUIDE CONTROLLER ════ */
@@ -15162,16 +15064,17 @@
 
         if (list) {
           const playersHtml = GS.players.map((p, i) => {
-            const isH = GameController._onlineMode ? !!p.isHost : (p.isHost || i === 0);
-            const avKey = (p.avatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
-            const validAvatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan', 'aman', 'amish', 'aziz', 'vish'];
-            const safeAvKey = validAvatars.includes(avKey) ? avKey : 'ayank';
-            const avConfig = AVATAR_MAP[safeAvKey] || { bg: bgOrder[i % bgOrder.length], img: `avvtar/${safeAvKey}.png`, color: '#FF6B9D' };
+            const isH = !!p.isHost;
+            const rawAv = (p.avatar || (p.name && p.name.toLowerCase()) || 'aman');
+            let avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
+            const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
+            if (legacyAlias[avKey]) avKey = legacyAlias[avKey];
+            const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
+            const safeAvKey = validAvatars.includes(avKey) ? avKey : 'aman';
+            const avConfig = AVATAR_MAP[safeAvKey] || { bg: bgOrder[i % bgOrder.length], img: `avvtar/${safeAvKey}.svg`, color: '#FF6B9D' };
             const safeName = SecurityUtil.escapeHtml(p.name || `Player ${i+1}`);
-            const isMe = !GameController._onlineMode ||
-              (MultiplayerEngine.isHost ? (p.isHost || p.id === MultiplayerEngine.playerId || i === 0) : (p.id === MultiplayerEngine.playerId || p.name === MultiplayerEngine.playerName));
-            const canRemove = (!GameController._onlineMode && GS.players.length > 1) ||
-              (GameController._onlineMode && MultiplayerEngine.isHost && GS.players.length > 1 && !p.isHost && p.id !== MultiplayerEngine.playerId);
+            const isMe = (MultiplayerEngine.isHost ? (p.isHost || p.id === MultiplayerEngine.playerId || i === 0) : (p.id === MultiplayerEngine.playerId || p.name === MultiplayerEngine.playerName));
+            const canRemove = MultiplayerEngine.isHost && GS.players.length > 1 && !p.isHost && p.id !== MultiplayerEngine.playerId;
 
             return `
               <div class="bg-surface border-4 border-on-surface p-4 flex flex-col items-center justify-center relative neo-shadow rounded-xl transform transition-transform hover:-translate-y-1">
@@ -15184,7 +15087,7 @@
                   <button type="button" onclick="PlayerLobby.remove(${i})" class="absolute -top-2.5 -right-2.5 bg-[#ff6b6b] text-white hover:bg-red-600 border-2 border-on-surface w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] transition-all z-10 cursor-pointer" title="Remove Player">✕</button>
                 ` : ''}
                 <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-on-surface overflow-hidden mb-3 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" style="background-color: ${avConfig.color};">
-                  <img class="w-full h-full object-cover" src="${avConfig.img}" alt="${safeName}" onerror="this.src='avvtar/ayank.png'"/>
+                  <img class="w-full h-full object-cover" src="${avConfig.img}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/aman.svg'"/>
                 </div>
                 ${isMe ? `
                   <div class="relative w-full max-w-[140px] flex items-center group">
@@ -15218,14 +15121,6 @@
           const emptySlotsHtml = Array.from({ length: emptySlotsCount }, (_, idx) => {
             const slotIdx = GS.players.length + idx;
             const hideOnMobile = slotIdx >= 2 ? 'hidden sm:flex' : '';
-            if (!GameController._onlineMode) {
-              return `
-                <div onclick="PlayerLobby.addLocalPlayer()" class="border-4 border-dashed border-outline/40 hover:border-outline hover:bg-surface/50 rounded-xl p-4 flex flex-col items-center justify-center h-36 opacity-60 hover:opacity-100 transition-all cursor-pointer ${hideOnMobile}" title="Click to add player">
-                  <span class="material-symbols-outlined text-4xl text-outline">person_add</span>
-                  <span class="font-label-bold text-[10px] uppercase font-bold text-outline mt-1">+ Add Player</span>
-                </div>
-              `;
-            }
             return `
               <div class="border-4 border-dashed border-outline/40 rounded-xl p-4 flex flex-col items-center justify-center h-36 opacity-40 ${hideOnMobile}">
                 <span class="material-symbols-outlined text-4xl text-outline">person_add</span>
@@ -15242,11 +15137,11 @@
         }
 
         // Settings sync
-        const settings = (GameController._onlineMode && MultiplayerEngine.hostSettings) ? MultiplayerEngine.hostSettings : (MultiplayerEngine.hostSettings || {
+        const settings = MultiplayerEngine.hostSettings || {
           category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
           rounds: 40,
           timer: 30
-        });
+        };
 
         const activeCategories = settings.categories || ['frames', 'eyes', 'dialogue'];
         const counts = settings.roundsByMode || { frames: 20, eyes: 10, dialogue: 10 };
@@ -15332,18 +15227,11 @@
           const estMins = Math.max(1, Math.ceil((totalR * ((settings.timer || 30) + 5)) / 60));
           infoDuration.textContent = `~ ${estMins} Min`;
         }
-        const readyCount = GS.players.filter(p => p.loaded === true || (!GameController._onlineMode && GS.framesLoaded)).length;
+        const readyCount = GS.players.filter(p => p.loaded === true || GS.framesLoaded).length;
         if (infoReady) infoReady.textContent = `${readyCount} / ${GS.players.length || 1}`;
 
         // Update Start Buttons - ONLY enabled when EVERY player's assets are 100% loaded!
-        // In local mode, if framesLoaded, ensure all players are marked loaded
-        if (!GameController._onlineMode && GS.framesLoaded && Array.isArray(GS.players)) {
-          GS.players.forEach(p => {
-            p.loaded = true;
-            p.loadProgress = 100;
-          });
-        }
-        const isHost = !GameController._onlineMode || MultiplayerEngine.isHost;
+        const isHost = MultiplayerEngine.isHost;
         const allLoaded = GS.players.length >= 1 && (GS.framesLoaded || GS.players.every(p => p.loaded === true));
         const canStart = isHost && allLoaded;
 
@@ -15368,7 +15256,7 @@
       },
 
       applyPreset(preset) {
-        if (GameController._onlineMode && !MultiplayerEngine.isHost) return;
+        if (!MultiplayerEngine.isHost) return;
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
@@ -15389,15 +15277,13 @@
           s.roundsByMode = { frames: 20, eyes: 10, dialogue: 10 };
         }
         s.rounds = Object.values(s.roundsByMode).reduce((a, b) => a + b, 0);
-        if (GameController._onlineMode && MultiplayerEngine.isHost) {
-          MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
-          MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
-        }
+        MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
+        MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
         this.render();
       },
 
       toggleMode(mode) {
-        if (GameController._onlineMode && !MultiplayerEngine.isHost) return;
+        if (!MultiplayerEngine.isHost) return;
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
@@ -15426,15 +15312,13 @@
         else if (s.categories.length === 1) s.category = s.categories[0];
         else s.category = 'mixed';
 
-        if (GameController._onlineMode && MultiplayerEngine.isHost) {
-          MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
-          MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
-        }
+        MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
+        MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
         this.render();
       },
 
       adjustRounds(mode, delta) {
-        if (GameController._onlineMode && !MultiplayerEngine.isHost) return;
+        if (!MultiplayerEngine.isHost) return;
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
@@ -15465,10 +15349,8 @@
         else if (s.categories.length === 1) s.category = s.categories[0];
         else s.category = 'mixed';
 
-        if (GameController._onlineMode && MultiplayerEngine.isHost) {
-          MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
-          MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
-        }
+        MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
+        MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
         this.render();
       },
 
@@ -15477,7 +15359,7 @@
       },
 
       adjustTimer(delta) {
-        if (GameController._onlineMode && !MultiplayerEngine.isHost) return;
+        if (!MultiplayerEngine.isHost) return;
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
@@ -15489,10 +15371,8 @@
         const current = Number(MultiplayerEngine.hostSettings.timer) || 30;
         const newTimer = Math.max(1, Math.min(180, current + delta));
         MultiplayerEngine.hostSettings.timer = newTimer;
-        if (GameController._onlineMode && MultiplayerEngine.isHost) {
-          MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: MultiplayerEngine.hostSettings });
-          MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
-        }
+        MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: MultiplayerEngine.hostSettings });
+        MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
         this.render();
       },
 
@@ -15501,20 +15381,17 @@
       },
 
       remove(i) {
-        if (GS.players.length <= 1) {
+        if (!MultiplayerEngine.isHost || GS.players.length <= 1) {
           SoundManager.playSkip();
           return;
         }
         SoundManager.playClick();
         const player = GS.players[i];
         if (!player) return;
-        if (GameController._onlineMode && !MultiplayerEngine.isHost) return;
         const idx = GS.players.indexOf(player);
         if (idx !== -1) GS.players.splice(idx, 1);
-        if (GameController._onlineMode && MultiplayerEngine.isHost) {
-          MultiplayerEngine.sendEvent('PLAYER_KICKED', { targetPlayerId: player.id });
-          MultiplayerEngine.broadcastState('PLAYER_KICKED');
-        }
+        MultiplayerEngine.sendEvent('PLAYER_KICKED', { targetPlayerId: player.id });
+        MultiplayerEngine.broadcastState('PLAYER_KICKED');
         this.render();
         UI.renderLB();
       },
@@ -15524,69 +15401,33 @@
         if (!clean) return;
         if (GS.players[i]) {
           GS.players[i].name = clean;
-          if (GameController._onlineMode) {
-            const isH = MultiplayerEngine.isHost && (GS.players[i].isHost || i === 0);
-            if (isH) {
-              MultiplayerEngine.playerName = clean;
-              localStorage.setItem('gtf_player_name', clean);
-              MultiplayerEngine.broadcastState('PLAYER_NAME_CHANGED');
-            } else if (!MultiplayerEngine.isHost) {
-              MultiplayerEngine.playerName = clean;
-              localStorage.setItem('gtf_player_name', clean);
-              MultiplayerEngine.sendEvent('UPDATE_PLAYER_NAME', {
-                playerId: MultiplayerEngine.playerId,
-                name: clean
-              });
-            }
+          const isH = MultiplayerEngine.isHost && (GS.players[i].isHost || i === 0);
+          if (isH) {
+            MultiplayerEngine.playerName = clean;
+            localStorage.setItem('gtf_player_name', clean);
+            MultiplayerEngine.broadcastState('PLAYER_NAME_CHANGED');
           } else {
-            if (this._originalPlayers && this._originalPlayers[i]) {
-              this._originalPlayers[i].name = clean;
-            }
+            MultiplayerEngine.playerName = clean;
+            localStorage.setItem('gtf_player_name', clean);
+            MultiplayerEngine.sendEvent('UPDATE_PLAYER_NAME', {
+              playerId: MultiplayerEngine.playerId,
+              name: clean
+            });
           }
           this.render();
         }
       },
 
-      addLocalPlayer() {
-        if (GameController._onlineMode || GS.players.length >= 8) return;
-        SoundManager.playClick();
-        const avatarList = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
-        const colors = ['#FF6B9D', '#3B82F6', '#84CC16', '#FACC15', '#A855F7'];
-        const nextAv = avatarList[GS.players.length % avatarList.length];
-        const nextColor = colors[GS.players.length % colors.length];
-        const newP = {
-          name: `Player ${GS.players.length + 1}`,
-          score: 0,
-          avatar: nextAv,
-          avatarImg: `avvtar/${nextAv}.png`,
-          loaded: true,
-          loadProgress: 100,
-          color: nextColor
-        };
-        GS.players.push(newP);
-        if (this._originalPlayers) this._originalPlayers.push({ ...newP });
-        this.render();
-      },
-
       start() {
-        if (GameController._onlineMode && MultiplayerEngine.isHost) {
+        if (MultiplayerEngine.isHost) {
           MultiplayerEngine.startMatch();
-          return;
         }
-        if (GS.players.length < 1) return;
-        SoundManager.playClick();
-        GameController.startGame();
       },
 
       back() {
         SoundManager.playClick();
         HowToAnswerGuide.stop();
-        if (GameController._onlineMode) {
-          MultiplayerEngine.leaveRoom();
-        } else {
-          GS.players = this._originalPlayers.map(p => ({ ...p }));
-          UI.showScreen('homeScreen');
-        }
+        MultiplayerEngine.leaveRoom();
       }
     };
 
@@ -15954,162 +15795,62 @@
       sections: [
         {
           id: 1, name: 'Guess the Frame', icon: '<svg class="svg-icon"><use href="#icon-film" /></svg>', collapsed: false, frames: [
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/American History X (1998).webp",
-              "answer": "AMERICAN HISTORY X",
-              "year": "1998"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Avengers Infinity War (2018).webp",
-              "answer": "AVENGERS INFINITY WAR",
-              "year": "2018"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Baahubali 2 The Conclusion (2017).webp",
-              "answer": "BAAHUBALI 2 THE CONCLUSION",
-              "year": "2017"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Balan - The Boy (2026).webp",
-              "answer": "BALAN - THE BOY",
-              "year": "2026"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Before Sunset (2004).webp",
-              "answer": "BEFORE SUNSET",
-              "year": "2004"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Billu (2009).webp",
-              "answer": "BILLU",
-              "year": "2009"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Certified Copy (2010).webp",
-              "answer": "CERTIFIED COPY",
-              "year": "2010"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Dallas Buyers Club (2013).webp",
-              "answer": "DALLAS BUYERS CLUB",
-              "year": "2013"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Dune Part Two (2024).webp",
-              "answer": "DUNE PART TWO",
-              "year": "2024"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/GO GOA GONE (2013).webp",
-              "answer": "GO GOA GONE",
-              "year": "2013"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/I Saw the Devil (2010).webp",
-              "answer": "I SAW THE DEVIL",
-              "year": "2010"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Irumudi (2026).webp",
-              "answer": "IRUMUDI",
-              "year": "2026"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Karwaan (2018).webp",
-              "answer": "KARWAAN",
-              "year": "2018"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Nirvanna.the.Band.the.Show.the.Movie (2025).webp",
-              "answer": "NIRVANNA THE BAND THE SHOW THE MOVIE",
-              "year": "2025"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/October (2018).webp",
-              "answer": "OCTOBER",
-              "year": "2018"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/premalu (2024).webp",
-              "answer": "PREMALU",
-              "year": "2024"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Rang De Basanti (2006).webp",
-              "answer": "RANG DE BASANTI",
-              "year": "2006"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Requiem for a Dream (2000).webp",
-              "answer": "REQUIEM FOR A DREAM",
-              "year": "2000"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/S_O Satyamurthy (2015).webp",
-              "answer": "S/O SATYAMURTHY",
-              "year": "2015"
-            },
-            {
-              "type": "image",
-              "content": "GUESSTHEFRAME/Stand by Me (1986).webp",
-              "answer": "STAND BY ME",
-              "year": "1986"
-            }
+            { type: "image", content: "GUESSTHEFRAME/13B Fear Has a New Address (2009).webp", answer: "13B", year: "2009" },
+            { type: "image", content: "GUESSTHEFRAME/Ankhon Dekhi (2014).webp", answer: "ANKHON DEKHI", year: "2014" },
+            { type: "image", content: "GUESSTHEFRAME/Bhoothakaalam (2022).webp", answer: "BHOOTHAKAALAM", year: "2022" },
+            { type: "image", content: "GUESSTHEFRAME/Chef (2014).webp", answer: "CHEF", year: "2014" },
+            { type: "image", content: "GUESSTHEFRAME/Chillar Party (2011).webp", answer: "CHILLAR PARTY", year: "2011" },
+            { type: "image", content: "GUESSTHEFRAME/Citizen Kane (1941).webp", answer: "CITIZEN KANE", year: "1941" },
+            { type: "image", content: "GUESSTHEFRAME/Dev.D (2009).webp", answer: "DEV D", year: "2009" },
+            { type: "image", content: "GUESSTHEFRAME/Kaho Naa... Pyaar Hai (2000).webp", answer: "KAHO NAA PYAAR HAI", year: "2000" },
+            { type: "image", content: "GUESSTHEFRAME/Laila Majnu (2018).webp", answer: "LAILA MAJNU", year: "2018" },
+            { type: "image", content: "GUESSTHEFRAME/Madaari (2016).webp", answer: "MADAARI", year: "2016" },
+            { type: "image", content: "GUESSTHEFRAME/Memories of Murder (2003).webp", answer: "MEMORIES OF MURDER", year: "2003" },
+            { type: "image", content: "GUESSTHEFRAME/Rakta Charitra (2010).webp", answer: "RAKTA CHARITRA", year: "2010" },
+            { type: "image", content: "GUESSTHEFRAME/Still Walking (2008).webp", answer: "STILL WALKING", year: "2008" },
+            { type: "image", content: "GUESSTHEFRAME/The Bear (TV Series 2022–2026).webp", answer: "THE BEAR", year: "2022" },
+            { type: "image", content: "GUESSTHEFRAME/The Departed (2006).webp", answer: "THE DEPARTED", year: "2006" },
+            { type: "image", content: "GUESSTHEFRAME/The Drama (2026).webp", answer: "THE DRAMA", year: "2026" },
+            { type: "image", content: "GUESSTHEFRAME/The Revenant (2015).webp", answer: "THE REVENANT", year: "2015" },
+            { type: "image", content: "GUESSTHEFRAME/The Witch (2015).webp", answer: "THE WITCH", year: "2015" },
+            { type: "image", content: "GUESSTHEFRAME/Under the Skin (2013).webp", answer: "UNDER THE SKIN", year: "2013" },
+            { type: "image", content: "GUESSTHEFRAME/Welcome (2007).webp", revealContent: "GUESSTHEFRAME/welcome_reveal.webp", tributeText: "May his soul rest in peace", answer: "WELCOME", year: "2007" }
           ]
         },
         {
           id: 2, name: 'Guess the Dialogue', icon: '<svg class="svg-icon"><use href="#icon-message-circle" /></svg>', collapsed: false, frames: [
-            { type: 'dialogue', dialogue: "Say hello to my little friend!", answer: "SCARFACE", year: "1983" },
-            { type: 'dialogue', dialogue: "Some people just want to watch the world burn.", answer: "THE DARK KNIGHT", year: "2008" },
-            { type: 'dialogue', dialogue: "I don't want to kill you. I don't want to hurt you. I don't want your life.", answer: "CAPTAIN AMERICA: THE WINTER SOLDIER", year: "2014" },
-            { type: 'dialogue', dialogue: "I drink your milkshake!", answer: "THERE WILL BE BLOOD", year: "2007" },
-            { type: 'dialogue', dialogue: "What we do in life echoes in eternity.", answer: "GLADIATOR", year: "2000" },
-            { type: 'dialogue', dialogue: "The city is flying, we're fighting an army of robots, and I have a bow and arrow. None of this makes sense.", answer: "AVENGERS: AGE OF ULTRON", year: "2015" },
-            { type: 'dialogue', dialogue: "Tareekh pe tareekh.", answer: "DAMINI", year: "1993" },
-            { type: 'dialogue', dialogue: "Aap purush hi nahi, mahapurush hain.", answer: "ANDAZ APNA APNA", year: "1994" },
-            { type: 'dialogue', dialogue: "Rishte mein toh hum tumhare baap lagte hain.", answer: "SHAHENSHAH", year: "1988" },
-            { type: 'dialogue', dialogue: "Insaan ko dibbe mein sirf tab hona chahiye jab woh mar chuka ho.", answer: "ZINDAGI NA MILEGI DOBARA", year: "2011" }
+            { type: 'dialogue', dialogue: "Pata hai, yahan se bohot door, galat aur sahi ke paar, ek maidan hai... main wahan milunga tujhe.", answer: "ROCKSTAR", year: "2011", character: "Janardhan / Jordan(Ranbir Kapoor)" },
+            { type: 'dialogue', dialogue: "Hindustan mein jab tak cinema hai... log bewakoof bante rahenge!", answer: "GANGS OF WASSEYPUR", year: "2012", character: "Ramadhir Singh(Tigmanshu Dhulia)" },
+            { type: 'dialogue', dialogue: "Thappad se darr nahi lagta sahab... pyar se lagta hai.", answer: "DABANGG", year: "2010", character: "Rajjo (Sonakshi Sinha)" },
+            { type: 'dialogue', dialogue: "Sir... yeh toh tatti hai!", answer: "DELHI BELLY", year: "2011", character: "Nitin(Kunaal Roy Kapur)" },
+            { type: 'dialogue', dialogue: "Main nahi manta hamara desh sabse mahan hai... lekin yeh zaroor manta hoon ki hum mein taaqat hai isse mahan banane ki.", answer: "SWADES", year: "2004", character: "Mohan Bhargava(Shah Rukh Khan)" },
+            { type: 'dialogue', dialogue: "There are no two words in the English language more harmful than 'good job'.", answer: "WHIPLASH", year: "2014", character: "Terence Fletcher(J.K. Simmons)" },
+            { type: 'dialogue', dialogue: "What's the most you've ever lost on a coin toss?", answer: "NO COUNTRY FOR OLD MEN", year: "2007", character: "Anton Chigurh(Javier Bardem)" },
+            { type: 'dialogue', dialogue: "You're looking for the secret... but you won't find it, because of course you're not really looking. You want to be fooled.", answer: "THE PRESTIGE", year: "2006", character: "John Cutter(Michael Caine)" },
+            { type: 'dialogue', dialogue: "Which would be worse: to live as a monster, or to die as a good man?", answer: "SHUTTER ISLAND", year: "2010", character: "Teddy Daniels(Leonardo DiCaprio)" },
+            { type: 'dialogue', dialogue: "Funny how? What's funny about it? Funny like I'm a clown, I amuse you?!", answer: "GOODFELLAS", year: "1990", character: "Tommy DeVito(Joe Pesci)" }
           ]
         },
         {
           id: 3, name: 'Guess the Eye', icon: '<svg class="svg-icon"><use href="#icon-eye" /></svg>', collapsed: false, frames: [
-            { type: 'eye', content: 'GUESSTHEEYES/Bhuvan Bam copy.webp', revealContent: 'GUESSTHEEYES/Bhuvan Bam.webp', answer: 'BHUVAN BAM', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Daisy Edgar-Jones copy.webp', revealContent: 'GUESSTHEEYES/Daisy Edgar-Jones.webp', answer: 'DAISY EDGAR-JONES', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Dakota Johnson copy.webp', revealContent: 'GUESSTHEEYES/Dakota Johnson.webp', answer: 'DAKOTA JOHNSON', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Dulquer Salmaan copy.webp', revealContent: 'GUESSTHEEYES/Dulquer Salmaan.webp', answer: 'DULQUER SALMAAN', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Elle Fanning copy.webp', revealContent: 'GUESSTHEEYES/Elle Fanning.webp', answer: 'ELLE FANNING', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/kiccha Sudeep copy.webp', revealContent: 'GUESSTHEEYES/kiccha Sudeep.webp', answer: 'KICCHA SUDEEP', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Kyle Chandler copy.webp', revealContent: 'GUESSTHEEYES/Kyle Chandler.webp', answer: 'KYLE CHANDLER', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Robert Pattinson copy.webp', revealContent: 'GUESSTHEEYES/Robert Pattinson.webp', answer: 'ROBERT PATTINSON', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Salma Hayek copy.webp', revealContent: 'GUESSTHEEYES/Salma Hayek.webp', answer: 'SALMA HAYEK', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Sophie Turner copy.webp', revealContent: 'GUESSTHEEYES/Sophie Turner.webp', answer: 'SOPHIE TURNER', year: '' }
+            { type: 'eye', content: 'GUESSTHEEYES/Aditi Rao Hydari copy.webp', revealContent: 'GUESSTHEEYES/Aditi Rao Hydari.webp', answer: 'ADITI RAO HYDARI', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Cameron Diaz copy.webp', revealContent: 'GUESSTHEEYES/Cameron Diaz.webp', answer: 'CAMERON DIAZ', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Jennifer Lopez copy.webp', revealContent: 'GUESSTHEEYES/Jennifer Lopez.webp', answer: 'JENNIFER LOPEZ', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Jeremy Allen White copy.webp', revealContent: 'GUESSTHEEYES/Jeremy Allen White.webp', answer: 'JEREMY ALLEN WHITE', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Jodie Comer copy.webp', revealContent: 'GUESSTHEEYES/Jodie Comer.webp', answer: 'JODIE COMER', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Pedro Ka Pyaasa copy.webp', revealContent: 'GUESSTHEEYES/Pedro Ka Pyaasa.webp', answer: 'VISH', displayAnswer: 'Pedro Ka Pyaasa', aliases: ['VISWJEET', 'VISHWAJEET'], year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Rachel Brosnahan copy.webp', revealContent: 'GUESSTHEEYES/Rachel Brosnahan.webp', answer: 'RACHEL BROSNAHAN', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Sai Pallavi copy.webp', revealContent: 'GUESSTHEEYES/Sai Pallavi.webp', answer: 'SAI PALLAVI', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Yami Gautam copy.webp', revealContent: 'GUESSTHEEYES/Yami Gautam.webp', answer: 'YAMI GAUTAM', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Zoe Kravitz copy.webp', revealContent: 'GUESSTHEEYES/Zoe Kravitz.webp', answer: 'ZOE KRAVITZ', year: '' }
           ]
         }
       ],
       players: [
-        { name: 'AYANK', score: 0, avatar: 'ayank', avatarImg: 'avvtar/ayank.png' },
-        { name: 'AYUSH', score: 0, avatar: 'ayush', avatarImg: 'avvtar/ayush.png' },
-        { name: 'JOEL', score: 0, avatar: 'joel', avatarImg: 'avvtar/joel.png' },
-        { name: 'PRAGGYA', score: 0, avatar: 'praggya', avatarImg: 'avvtar/praggya.png' }
+        { name: 'AMAN', score: 0, avatar: 'aman', avatarImg: 'avvtar/aman.svg' },
+        { name: 'AMISH', score: 0, avatar: 'amish', avatarImg: 'avvtar/amish.svg' },
+        { name: 'AZIZ', score: 0, avatar: 'aziz', avatarImg: 'avvtar/aziz.svg' },
+        { name: 'VISH', score: 0, avatar: 'vish', avatarImg: 'avvtar/vish.svg' }
       ],
       judge: { totalRounds: 0, totalPlayers: 0, roundsPerJudge: 1, globalRoundIndex: 0, currentJudge: null, currentJudgeIndex: -1, currentJudgeRoundsServed: 0, usedJudges: [], cycleCount: 0, judgeAnswered: false, judgeRewardGiven: false },
       scoring: { locked: false, completed: false },
@@ -16139,7 +15880,7 @@
       },
       currentSection: 0, currentSectionRound: 0,
       settings: {
-        timerDuration: 20, judgePhaseDuration: 5, answerRevealDuration: 2, pointsPerAnswer: 10, judgePoints: 20, creatorMessage: 'tanmay, Tanuj, Darshan, Akash, Anmol (timestamp guy) and members of smoc.',
+        timerDuration: 20, judgePhaseDuration: 5, answerRevealDuration: 2, pointsPerAnswer: 10, judgePoints: 20, creatorMessage: 'tanmay, Tanuj, Darshan, Akash, Anmol (timestamp guy) and members of smoc(whatsapp group)',
 
       },
       activeTimerId: null, timeRemaining: 0, nextSectionId: 4,
@@ -16155,25 +15896,19 @@
     /* ═══ AVATAR HELPER ═══ */
     function renderAvatar(p, type) {
       const safeName = SecurityUtil.escapeHtml(p && p.name || '');
-      const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase())) || 'ayank');
+      const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase())) || 'aman');
       let avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
-      if (avKey === 'aman') avKey = 'ayank';
-      else if (avKey === 'amish') avKey = 'ayush';
-      else if (avKey === 'aziz') avKey = 'joel';
-      else if (avKey === 'vish') avKey = 'praggya';
+      const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
+      if (legacyAlias[avKey]) avKey = legacyAlias[avKey];
 
-      const validAvatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
-      const safeAv = validAvatars.includes(avKey) ? avKey : 'ayank';
-      let avSrc = (p && p.avatarImg) || `avvtar/${safeAv}.png`;
-      if (avSrc.endsWith('.svg')) {
-        avSrc = avSrc.replace(/\.svg$/i, '.png')
-                     .replace(/aman/g, 'ayank')
-                     .replace(/amish/g, 'ayush')
-                     .replace(/aziz/g, 'joel')
-                     .replace(/vish/g, 'praggya');
+      const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
+      const safeAv = validAvatars.includes(avKey) ? avKey : 'aman';
+      let avSrc = (p && p.avatarImg) || `avvtar/${safeAv}.svg`;
+      if (avSrc.endsWith('.png') || avSrc.includes('ayank') || avSrc.includes('ayush') || avSrc.includes('joel') || avSrc.includes('praggya') || avSrc.includes('ruhaan')) {
+        avSrc = `avvtar/${safeAv}.svg`;
       }
 
-      return `<img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" class="av-img-elem" style="width:100%;height:100%;max-width:100%;max-height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block;" onerror="this.onerror=null;this.src='avvtar/ayank.png';">`;
+      return `<img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" class="av-img-elem" style="width:100%;height:100%;max-width:100%;max-height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block;" onerror="this.onerror=null;this.src='avvtar/aman.svg';">`;
     }
     window.renderAvatar = renderAvatar;
 
@@ -16518,7 +16253,7 @@
         if (idx < 0 || idx >= GS.players.length) return null;
         const p = GS.players[idx];
         const before = Number.isFinite(p.score) ? p.score : 0;
-        p.score = Math.max(0, before + pts);
+        p.score = before + pts;
         if (typeof MultiplayerEngine !== 'undefined' && p.id) {
           if (!MultiplayerEngine.playerScoresArchive) MultiplayerEngine.playerScoresArchive = {};
           MultiplayerEngine.playerScoresArchive[p.id] = p.score;
@@ -16528,8 +16263,8 @@
         return p.score - before;
       },
       adjust(idx, pts) {
-        const isOnline = (typeof GameController !== 'undefined' && GameController._onlineMode) || (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.roomCode);
-        const isHost = (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.isHost) || (typeof RoomLobby !== 'undefined' && RoomLobby.isHost);
+        const isOnline = (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.roomCode);
+        const isHost = (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.isHost);
         if (isOnline && !isHost) return;
         SoundManager.playClick();
         if (typeof idx === 'string') {
@@ -16542,8 +16277,6 @@
         }
         if (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.roomCode && MultiplayerEngine.isHost) {
           MultiplayerEngine.broadcastState('MANUAL_SCORE_UPDATE');
-        } else if (typeof GameController !== 'undefined' && GameController._broadcast) {
-          GameController._broadcast('manual-score', { index: idx, delta: pts });
         }
       },
       popup(idx, pts) {
@@ -16706,29 +16439,113 @@
        ══════════════════════════════════════════════════════════════════ */
     const FuzzyMatcher = {
       STOP_WORDS: new Set([
-        'the', 'a', 'an', 'and', 'or', 'but', 'nor', 'for', 'yet', 'so',
-        'in', 'on', 'at', 'to', 'by', 'of', 'off', 'up', 'out', 'over', 'into', 'with', 'from', 'as', 'down', 'about', 'under', 'between', 'through', 'after', 'before', 'without', 'against', 'during', 'around', 'among',
-        'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did',
-        'it', 'its', 'this', 'that', 'these', 'those', 'there', 'here',
-        'i', 'you', 'he', 'she', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'my', 'your', 'his', 'our', 'their',
+        // Articles & Demonstratives
+        'the', 'a', 'an', 'this', 'that', 'these', 'those', 'there', 'here',
+        // Prepositions
+        'in', 'on', 'at', 'to', 'for', 'with', 'by', 'of', 'off', 'up', 'out', 'over', 'into', 'onto',
+        'about', 'above', 'after', 'before', 'below', 'between', 'during', 'through',
+        'under', 'over', 'from', 'as', 'down', 'around', 'among', 'without', 'against',
+        // Conjunctions
+        'and', 'or', 'but', 'nor', 'so', 'yet',
+        // Pronouns
+        'i', 'me', 'my', 'myself', 'we', 'us', 'our', 'ours',
+        'you', 'your', 'yours', 'he', 'him', 'his', 'she', 'her', 'hers',
+        'it', 'its', 'they', 'them', 'their', 'theirs',
+        // Question words
         'what', 'which', 'who', 'whom', 'whose', 'why', 'where', 'when', 'how',
-        'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such',
+        // Verbs & Auxiliaries
+        'is', 'are', 'was', 'were', 'be', 'been', 'being',
+        'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing',
         'can', 'could', 'will', 'would', 'shall', 'should', 'may', 'might', 'must',
-        'not', 'no', 'yes', 'just', 'too', 'very', 'really',
-        'movie', 'film', 'cinema', 'frame', 'guess', 'scene'
+        // Quantifiers & Determiners
+        'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'not',
+        // Conversational & Game fillers
+        'yes', 'yeah', 'yep', 'nope', 'nah', 'ok', 'okay', 'just', 'too', 'very', 'really',
+        'please', 'pls', 'hey', 'hello', 'hi', 'bro', 'dude', 'sir', 'lol', 'omg',
+        'think', 'thinking', 'guess', 'guessing', 'maybe', 'looks', 'look', 'looking',
+        'like', 'movie', 'film', 'cinema', 'frame', 'scene', 'picture', 'pic', 'image', 'photo',
+        'show', 'series', 'part', 'dialogue', 'eye', 'eyes', 'actor', 'actress',
+        'answer', 'question', 'right', 'wrong', 'sure', 'definitely', 'probably'
       ]),
+
+      ALIASES: {
+        'spiderman': 'spider man',
+        'batman': 'the batman',
+        'avengers 3': 'avengers infinity war',
+        'infinity war': 'avengers infinity war',
+        'baahubali 2': 'baahubali 2 the conclusion',
+        'bahubali 2': 'baahubali 2 the conclusion',
+        'bahubali': 'baahubali',
+        'bahubali 2 the conclusion': 'baahubali 2 the conclusion',
+        'balan': 'balan the boy',
+        'billu barber': 'billu',
+        'dune 2': 'dune part two',
+        'nirvanna': 'nirvanna the band the show the movie',
+        'nirvanna the band the show': 'nirvanna the band the show the movie',
+        'rdb': 'rang de basanti',
+        'so satyamurthy': 's o satyamurthy',
+        's o satyamurthy': 's o satyamurthy',
+        'son of satyamurthy': 's o satyamurthy',
+        'dark knight': 'the dark knight',
+        'winter soldier': 'captain america the winter soldier',
+        'captain america 2': 'captain america the winter soldier',
+        'age of ultron': 'avengers age of ultron',
+        'avengers 2': 'avengers age of ultron',
+        'znmd': 'zindagi na milegi dobara',
+        'daisy edgar jones': 'daisy edgar jones',
+        'dulquer salman': 'dulquer salmaan',
+        'sudeep': 'kiccha sudeep',
+        'kichcha sudeep': 'kiccha sudeep',
+        'knite': 'knight',
+        'kight': 'knight',
+        'close-up': 'close up',
+        'coyote vs acme': 'coyote vs acme',
+        'coyote v acme': 'coyote vs acme',
+        'the king of comedy': 'king of comedy',
+        'lalaland': 'la la land',
+        'camp miasma': 'teenage sex and death at camp miasma',
+        'the host': 'the host',
+        'the machinist': 'the machinist',
+        'machinist': 'the machinist',
+        'the rock': 'dwayne johnson',
+        'rock': 'dwayne johnson',
+        'timothee': 'timothee chalamet',
+        'chalamet': 'timothee chalamet',
+        'lee byung hun': 'lee byung-hun',
+        'viswjeet': 'vish',
+        'vishwajeet': 'vish',
+        'vishwajit': 'vish',
+        '13b fear has a new address': '13b',
+        'fear has a new address': '13b',
+        'aankhon dekhi': 'ankhon dekhi',
+        'bhoothakalam': 'bhoothakaalam',
+        'dev.d': 'dev d',
+        'devd': 'dev d',
+        'kaho na pyar hai': 'kaho naa pyaar hai',
+        'kaho na pyaar hai': 'kaho naa pyaar hai',
+        'kaho naa pyar hai': 'kaho naa pyaar hai',
+        'knph': 'kaho naa pyaar hai',
+        'gow': 'gangs of wasseypur',
+        'gangs of wasseypur 1': 'gangs of wasseypur',
+        'gangs of wasseypur 2': 'gangs of wasseypur',
+        'good fellas': 'goodfellas',
+        'prestige': 'the prestige',
+        'jlo': 'jennifer lopez',
+        'dabang': 'dabangg'
+      },
 
       normalize(text) {
         if (!text) return '';
-        let t = String(text).toLowerCase();
+        let t = String(text).toLowerCase().trim();
         // Normalize unicode diacritics / accents (e.g. Amélie -> Amelie)
         t = t.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         // Remove year patterns like (1968) or 1968
         t = t.replace(/\(\d{4}\)|\b\d{4}\b/g, '');
         // Replace '&' with 'and'
         t = t.replace(/&/g, ' and ');
-        // Remove all punctuation except alphanumeric and whitespace
-        t = t.replace(/[^\w\s]/g, ' ');
+        // Remove punctuation
+        t = t.replace(/['’`]/g, '');
+        t = t.replace(/[^a-z0-9\s]/g, ' ');
         // Normalize word numbers and roman numerals to digits for consistent matching
         t = t.replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => {
           const map = { 'one': '1', 'two': '2', 'three': '3', 'four': '4', 'five': '5', 'six': '6', 'seven': '7', 'eight': '8', 'nine': '9', 'ten': '10' };
@@ -16742,61 +16559,97 @@
         t = t.replace(/^(the|a|an|el|la|le|les)\s+/i, '').trim();
         // Collapse multiple spaces
         t = t.replace(/\s+/g, ' ').trim();
-        return t;
+        return this.ALIASES[t] || t;
       },
 
       levenshtein(s1, s2) {
-        if (s1.length < s2.length) return this.levenshtein(s2, s1);
-        if (s2.length === 0) return s1.length;
-        let prev = [];
-        for (let i = 0; i <= s2.length; i++) prev[i] = i;
-        for (let i = 0; i < s1.length; i++) {
-          let curr = [i + 1];
-          for (let j = 0; j < s2.length; j++) {
-            let ins = prev[j + 1] + 1;
-            let del = curr[j] + 1;
-            let sub = prev[j] + (s1[i] === s2[j] ? 0 : 1);
-            curr[j + 1] = Math.min(ins, del, sub);
-          }
-          prev = curr;
+        if (s1 === s2) return 0;
+        if (!s1.length) return s2.length;
+        if (!s2.length) return s1.length;
+        const len1 = s1.length;
+        const len2 = s2.length;
+        const d = [];
+        for (let i = 0; i <= len1; i++) {
+          d[i] = [i];
         }
-        return prev[s2.length];
+        for (let j = 0; j <= len2; j++) {
+          d[0][j] = j;
+        }
+        for (let i = 1; i <= len1; i++) {
+          for (let j = 1; j <= len2; j++) {
+            const cost = s1[i - 1] === s2[j - 1] ? 0 : 1;
+            d[i][j] = Math.min(
+              d[i - 1][j] + 1,       // deletion
+              d[i][j - 1] + 1,       // insertion
+              d[i - 1][j - 1] + cost  // substitution
+            );
+            // Transposition support (Damerau-Levenshtein)
+            if (i > 1 && j > 1 && s1[i - 1] === s2[j - 2] && s1[i - 2] === s2[j - 1]) {
+              d[i][j] = Math.min(d[i][j], d[i - 2][j - 2] + 1);
+            }
+          }
+        }
+        return d[len1][len2];
       },
 
       canonicalWord(w) {
         if (!w) return '';
-        // Simple singularization (strip trailing 's' if length >= 4)
-        if (w.length >= 4 && w.endsWith('s') && !w.endsWith('ss')) {
-          return w.slice(0, -1);
+        let s = String(w).toLowerCase();
+        // Collapse 3+ repeated characters down to 1
+        s = s.replace(/(.)\1{2,}/g, '$1');
+        // Singularization: strip trailing 's' if length >= 4 and not ending in 'ss'
+        if (s.length >= 4 && s.endsWith('s') && !s.endsWith('ss')) {
+          s = s.slice(0, -1);
         }
-        return w;
+        return s;
       },
 
       isWordMatch(w1, w2) {
         if (!w1 || !w2) return false;
         if (w1 === w2) return true;
+        {
+          const a = String(w1).toLowerCase(), b = String(w2).toLowerCase();
+          // Guess is a prefix of a long answer word (e.g. "wassey" for "wasseypur")
+          if (a.length >= 4 && b.length > a.length && b.length - a.length <= 3 && b.startsWith(a)) return true;
+        }
         const c1 = this.canonicalWord(w1);
         const c2 = this.canonicalWord(w2);
         if (c1 === c2) return true;
 
-        // Length check: genuine typos don't differ drastically in length
+        const maxLen = Math.max(c1.length, c2.length);
+        const minLen = Math.min(c1.length, c2.length);
         const lenDiff = Math.abs(c1.length - c2.length);
-        if (lenDiff > 2) return false;
 
-        // Words must be at least 4 characters to allow typos
-        if (Math.min(c1.length, c2.length) >= 4) {
-          const dist = this.levenshtein(c1, c2);
-          if (Math.max(c1.length, c2.length) <= 6 && dist <= 1) return true;
-          if (Math.max(c1.length, c2.length) > 6 && dist <= 2) return true;
+        // 3-letter words (par, war, don) must match exactly to prevent false positives from rhyming random words (car, bar)
+        if (minLen <= 3) {
+          return c1 === c2;
         }
-        return false;
+
+        // Prefix match only if guess is a prefix of a longer answer word
+        if (c1.length >= 4 && c2.length > c1.length && c2.length - c1.length <= 3 && c2.startsWith(c1)) {
+          return true;
+        }
+
+        const allowedLenDiff = maxLen >= 8 ? 3 : (maxLen >= 5 ? 2 : 1);
+        if (lenDiff > allowedLenDiff) return false;
+
+        const dist = this.levenshtein(c1, c2);
+        if (dist <= 1) return true;
+        // 2+ edits only count as a typo when the first letter agrees; this stops
+        // unrelated words (love/close, clue/close) from being accepted.
+        if (c1[0] !== c2[0]) return false;
+        if (maxLen <= 5) return false;
+        if (maxLen <= 8) {
+          return dist <= 2;
+        }
+        return dist <= 3;
       },
 
       getSignificantWords(normalizedStr) {
         if (!normalizedStr) return [];
         return normalizedStr.split(' ')
           .map(w => w.trim())
-          .filter(w => w.length >= 3 && !this.STOP_WORDS.has(w));
+          .filter(w => w.length >= 2 && !this.STOP_WORDS.has(w));
       },
 
       isMatch(guess, answer) {
@@ -16805,10 +16658,20 @@
         const nAns = this.normalize(answer);
         if (!nGuess || !nAns) return false;
 
+        // 0. Guess is literally one word of the answer (checked before number-word
+        // normalization, which would turn "seven" into "7" and drop it).
+        {
+          const rawGuess = String(guess).toLowerCase().trim();
+          if (rawGuess.length >= 3 && !this.STOP_WORDS.has(rawGuess)) {
+            const rawWords = String(answer).toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+            if (rawWords.includes(rawGuess)) return true;
+          }
+        }
+
         // 1. Exact normalized match
         if (nGuess === nAns) return true;
 
-        // Direct compact comparison without spaces (e.g. "spiderman" vs "spider man", "wall e" vs "walle", "d c" vs "dc", "book smart" vs "booksmart")
+        // Direct compact comparison without spaces
         const compactGuess = nGuess.replace(/\s+/g, '');
         const compactAns = nAns.replace(/\s+/g, '');
         if (compactGuess === compactAns) return true;
@@ -16818,23 +16681,7 @@
           if (compactAns.length > 6 && cDist <= 2) return true;
         }
 
-        // 2. Whole-string Levenshtein distance (for full phrase typos)
-        const lenDiff = Math.abs(nGuess.length - nAns.length);
-        if (lenDiff <= 3) {
-          const dist = this.levenshtein(nGuess, nAns);
-          if (nAns.length <= 4) {
-            if (dist === 0) return true;
-          } else if (nAns.length <= 8) {
-            if (dist <= 1) return true;
-          } else if (nAns.length <= 15) {
-            if (dist <= 2) return true;
-          } else {
-            if (dist <= 3) return true;
-          }
-        }
-
-        // 3. Subtitle handling (e.g. "Bhavesh Joshi: Superhero" -> "Bhavesh Joshi" or "Superhero",
-        //    "Spider-Man: No Way Home" -> "Spider-Man" or "No Way Home")
+        // Subtitle handling
         if (answer.includes(':') || answer.includes(' - ') || answer.includes('–')) {
           const parts = answer.split(/[:–]|\s-\s/).map(p => this.normalize(p)).filter(Boolean);
           for (const part of parts) {
@@ -16852,16 +16699,15 @@
         const ansSigWords = this.getSignificantWords(nAns);
         const guessSigWords = this.getSignificantWords(nGuess);
 
-        // Also include compact compound words if hyphenated/multi-word (e.g. "spider-man" -> ansSigWords includes "spiderman")
+        // Include compound words if hyphenated/multi-word
         if (answer.includes('-') || answer.includes(' ')) {
-          const rawAnsWords = String(answer).toLowerCase().split(/[\s\-:]+/).filter(w => w.length >= 3 && !this.STOP_WORDS.has(w));
+          const rawAnsWords = String(answer).toLowerCase().split(/[\s\-:]+/).filter(w => w.length >= 2 && !this.STOP_WORDS.has(w));
           for (const rw of rawAnsWords) {
             if (!ansSigWords.includes(rw)) ansSigWords.push(rw);
           }
-          // Add joined prefix pairs (e.g. "spiderman" from "spider" + "man")
           for (let i = 0; i < rawAnsWords.length - 1; i++) {
             const joined = rawAnsWords[i] + rawAnsWords[i + 1];
-            if (joined.length >= 5 && !ansSigWords.includes(joined)) {
+            if (joined.length >= 4 && !ansSigWords.includes(joined)) {
               ansSigWords.push(joined);
             }
           }
@@ -16872,44 +16718,37 @@
           return nGuess === nAns || compactGuess === compactAns || this.levenshtein(nGuess, nAns) <= 1;
         }
 
-        // 4. Multi-word guess matching:
-        if (guessSigWords.length > 1) {
-          let matchedCount = 0;
-          for (const gw of guessSigWords) {
-            if (ansSigWords.some(aw => this.isWordMatch(gw, aw))) {
-              matchedCount++;
-            }
-          }
-          // If ALL words in guess match answer words (e.g. "grand hotel", "top gun", "silver lake", "mad max")
-          if (matchedCount === guessSigWords.length) {
-            return true;
-          }
-          // If guess has 3+ words and at least 2/3 (>=66%) match (e.g. "taarzan fast car" matching "Taarzan The Wonder Car")
-          if (guessSigWords.length >= 3 && (matchedCount / guessSigWords.length) >= 0.66) {
-            return true;
-          }
-          // If 50% or fewer matched and there are foreign words (e.g. "star wars" vs "star trek"), do NOT match
+        // Negative guard: if guess has NO significant words (all stop words like "this", "that", "the", "on", "is", "what movie is this")
+        if (guessSigWords.length === 0) {
           return false;
         }
 
-        // 5. Single significant word guess:
-        // "even the player give one word from the anser it should be accepted as right answer"
-        const singleWord = guessSigWords.length === 1 ? guessSigWords[0] : (nGuess.split(' ').length === 1 ? nGuess : null);
-        if (singleWord) {
-          // Must not be a stop word
-          if (!this.STOP_WORDS.has(singleWord) && singleWord.length >= 3) {
+        // ═══ UNIVERSAL WORD MATCH ═══
+        // ANY significant guess word matching ANY significant answer word → accept.
+        // Handles single-word guesses, multi-word guesses, and chat messages with
+        // extra filler words like "is it dangal bro" or "dev d is awesome".
+        // isWordMatch already provides Levenshtein-based typo tolerance.
+        for (const gw of guessSigWords) {
+          if (gw.length >= 3 && !this.STOP_WORDS.has(gw)) {
             for (const aw of ansSigWords) {
-              if (this.isWordMatch(singleWord, aw)) {
-                return true;
-              }
+              if (this.isWordMatch(gw, aw)) return true;
             }
           }
         }
 
-        // 6. Substring inclusion check (e.g. "I think it is Inception" or "watch Inception")
-        if (nAns.length >= 4) {
-          const ansBoundaryRegex = new RegExp('(?:^|\\s)' + nAns + '(?:$|\\s)', 'i');
-          if (ansBoundaryRegex.test(nGuess)) return true;
+        // Whole-string Levenshtein fallback (for full phrase typos)
+        const lenDiff = Math.abs(nGuess.length - nAns.length);
+        if (lenDiff <= 3) {
+          const dist = this.levenshtein(nGuess, nAns);
+          if (nAns.length <= 4) {
+            if (dist === 0) return true;
+          } else if (nAns.length <= 8) {
+            if (dist <= 1) return true;
+          } else if (nAns.length <= 15) {
+            if (dist <= 2) return true;
+          } else {
+            if (dist <= 3) return true;
+          }
         }
 
         return false;
@@ -16933,10 +16772,12 @@
       },
 
       getCurrentRoundAnswer() {
-        if (MultiplayerEngine.currentPlaylist && MultiplayerEngine.currentPlaylist[MultiplayerEngine.currentPlayIndex]) {
+        // For host, use authoritative playlist
+        if (MultiplayerEngine.isHost && MultiplayerEngine.currentPlaylist && MultiplayerEngine.currentPlaylist[MultiplayerEngine.currentPlayIndex]) {
           const f = MultiplayerEngine.currentPlaylist[MultiplayerEngine.currentPlayIndex];
           if (f && f.answer) return f.answer;
         }
+        // For clients (or fallback), prioritize the current frame broadcast by host
         if (MultiplayerEngine.currentClientFrame) {
           if (MultiplayerEngine.currentClientFrame.answer) return MultiplayerEngine.currentClientFrame.answer;
           const targetContent = MultiplayerEngine.currentClientFrame.content;
@@ -16950,11 +16791,10 @@
             }
           }
         }
-        if (typeof GameController !== 'undefined' && !GameController._onlineMode) {
-          const sec = GS.sections[GS.currentSection];
-          if (sec && sec.frames && sec.frames[GS.currentSectionRound]) {
-            return sec.frames[GS.currentSectionRound].answer;
-          }
+        // Host/local fallback
+        if (MultiplayerEngine.currentPlaylist && MultiplayerEngine.currentPlaylist[MultiplayerEngine.currentPlayIndex]) {
+          const f = MultiplayerEngine.currentPlaylist[MultiplayerEngine.currentPlayIndex];
+          if (f && f.answer) return f.answer;
         }
         const ansTitle = document.getElementById('ansTitle');
         if (ansTitle && ansTitle.textContent.trim()) {
@@ -16963,21 +16803,36 @@
         return null;
       },
 
-      isRoundActive() {
-        if (GameController._onlineMode || MultiplayerEngine.roomCode) {
-          if (MultiplayerEngine.isMatchActive && !MultiplayerEngine.isRoundFinished) {
-            const ansOv = document.getElementById('answerOverlay');
-            if (ansOv && (ansOv.classList.contains('visible') || ansOv.classList.contains('active'))) {
-              return false;
+      getCurrentRoundAliases() {
+        // For host, use authoritative playlist
+        if (MultiplayerEngine.isHost && MultiplayerEngine.currentPlaylist && MultiplayerEngine.currentPlaylist[MultiplayerEngine.currentPlayIndex]) {
+          const f = MultiplayerEngine.currentPlaylist[MultiplayerEngine.currentPlayIndex];
+          if (f && Array.isArray(f.aliases)) return f.aliases;
+        }
+        // For clients (or fallback), prioritize current frame broadcast by host
+        if (MultiplayerEngine.currentClientFrame) {
+          if (Array.isArray(MultiplayerEngine.currentClientFrame.aliases)) return MultiplayerEngine.currentClientFrame.aliases;
+          const targetContent = MultiplayerEngine.currentClientFrame.content;
+          const targetId = MultiplayerEngine.currentClientFrame.id;
+          const targetDialogue = MultiplayerEngine.currentClientFrame.dialogue;
+          if (Array.isArray(GS.sections)) {
+            for (const sec of GS.sections) {
+              if (!sec || !sec.frames) continue;
+              const match = sec.frames.find(f => (targetId && f.id === targetId) || (targetContent && f.content === targetContent) || (targetDialogue && f.dialogue === targetDialogue));
+              if (match && Array.isArray(match.aliases)) return match.aliases;
             }
-            return true;
           }
-          return false;
         }
-        if (typeof SM !== 'undefined' && SM.is) {
-          return SM.is(GS.PHASES.ROUND_ACTIVE);
+        // Host/local fallback
+        if (MultiplayerEngine.currentPlaylist && MultiplayerEngine.currentPlaylist[MultiplayerEngine.currentPlayIndex]) {
+          const f = MultiplayerEngine.currentPlaylist[MultiplayerEngine.currentPlayIndex];
+          if (f && Array.isArray(f.aliases)) return f.aliases;
         }
-        return false;
+        return [];
+      },
+
+      isRoundActive() {
+        return !!(MultiplayerEngine.isMatchActive && !MultiplayerEngine.isRoundFinished);
       },
 
       isAnswerOrSpoiler(text, answer) {
@@ -17029,7 +16884,7 @@
         if (!stream) return;
         const msgEl = document.createElement('div');
         msgEl.className = 'chat-msg-hint';
-        msgEl.innerHTML = '<div class="cmh-header">💡 YOUR PRIVATE HINT (-2 PTS)</div><div class="cmh-body">' + SecurityUtil.escapeHtml(hintText) + '</div>';
+        msgEl.innerHTML = '<div class="cmh-header">💡 YOUR PRIVATE HINT (-4 PTS)</div><div class="cmh-body">' + SecurityUtil.escapeHtml(hintText) + '</div>';
         stream.appendChild(msgEl);
         stream.scrollTop = stream.scrollHeight;
       },
@@ -17075,11 +16930,12 @@
         text = text.trim();
 
         const currentAns = this.getCurrentRoundAnswer();
+        const currentAliases = this.getCurrentRoundAliases();
         const roundActive = this.isRoundActive();
-        const alreadyWon = MultiplayerEngine.currentRoundWinners.some(w => w.playerId === MultiplayerEngine.playerId);
+        const alreadyWon = (MultiplayerEngine.currentRoundWinners || []).some(w => w.playerId === MultiplayerEngine.playerId);
 
-        // Check if message matches the active round answer via strict whole-title FuzzyMatcher
-        const isMatch = roundActive && currentAns && FuzzyMatcher.isMatch(text, currentAns);
+        // Check if message matches the active round answer or aliases via strict whole-title FuzzyMatcher
+        const isMatch = roundActive && ((currentAns && FuzzyMatcher.isMatch(text, currentAns)) || currentAliases.some(a => FuzzyMatcher.isMatch(text, a)));
 
         if (isMatch) {
           if (!alreadyWon) {
@@ -17101,10 +16957,20 @@
           }
         }
 
-        // If player already won or round is active, check for obvious spoiler leaks
-        if (roundActive && currentAns && this.isAnswerOrSpoiler(text, currentAns)) {
-          this.renderSystemMessage('⚠️ <strong>Shh!</strong> That\'s the answer! Don\'t spoil it in chat! 🤫');
-          return;
+        // Spoiler shield: check if message contains answer-like content
+        if (roundActive && ((currentAns && this.isAnswerOrSpoiler(text, currentAns)) || currentAliases.some(a => this.isAnswerOrSpoiler(text, a)))) {
+          if (alreadyWon) {
+            // Already scored this round: block the spoiler from chat
+            this.renderSystemMessage('⚠️ <strong>Shh!</strong> That\'s the answer! Don\'t spoil it in chat! 🤫');
+            if (typeof SoundManager !== 'undefined' && SoundManager.playPop) {
+              SoundManager.playPop();
+            }
+            return;
+          } else {
+            // Haven't won yet: treat as a guess attempt so they can potentially score
+            MultiplayerEngine.submitGuessDirect(text);
+            return;
+          }
         }
 
         // Regular chat message (NOT an answer guess)
@@ -17133,7 +16999,8 @@
 
         // Defense-in-depth: Never render the answer into live chat stream during an active round
         const currentAns = this.getCurrentRoundAnswer();
-        if (this.isRoundActive() && currentAns && this.isAnswerOrSpoiler(msg.text, currentAns)) {
+        const currentAliases = this.getCurrentRoundAliases();
+        if (this.isRoundActive() && ((currentAns && this.isAnswerOrSpoiler(msg.text, currentAns)) || currentAliases.some(a => this.isAnswerOrSpoiler(msg.text, a)))) {
           return;
         }
 
@@ -17154,10 +17021,10 @@
         msgEl.className = 'chat-msg';
         msgEl.id = 'chatMsg_' + safeMsgId;
 
-        const rawKey = String(msg.senderAvatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const aliasMap = { aman: 'ayank', amish: 'ayush', aziz: 'joel', vish: 'praggya' };
-        const mappedKey = aliasMap[rawKey] || rawKey;
-        const safeAvatar = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'].includes(mappedKey) ? mappedKey : 'ayank';
+        const rawKey = String(msg.senderAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
+        const mappedKey = legacyAlias[rawKey] || rawKey;
+        const safeAvatar = ['aman', 'amish', 'aziz', 'vish'].includes(mappedKey) ? mappedKey : 'aman';
 
         const reactionButtonsHtml = isMe ?
           ('<span class="chat-reaction-btn chat-self-disabled" title="You cannot vote on your own answer">' +
@@ -17178,7 +17045,7 @@
           '</button>');
 
         msgEl.innerHTML = '<div class="chat-avatar">' +
-          '<img src="avvtar/' + safeAvatar + '.png" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.src=\'avvtar/ayank.png\'" />' +
+          '<img src="avvtar/' + safeAvatar + '.svg" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/aman.svg\'" />' +
           '</div>' +
           '<div class="chat-msg-body">' +
           '<div class="chat-msg-header">' +
@@ -17461,9 +17328,9 @@
       roomCode: null,
       playerId: null,
       playerName: 'Player',
-      playerAvatar: 'ayank',
+      playerAvatar: 'aman',
       isHost: false,
-      selectedAvatarForModal: 'ayank',
+      selectedAvatarForModal: 'aman',
       currentMaskedHint: null,
       currentRoundWinners: [],
       currentPlaylist: [],
@@ -17582,13 +17449,13 @@
         const avImg = document.getElementById('rejoinAvatarImg');
         const avContainer = document.getElementById('rejoinAvatarContainer');
 
-        const av = (session.playerAvatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#FF6B9D', img: `avvtar/${av}.png` };
+        const av = (session.playerAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#FF6B9D', img: `avvtar/${av}.svg` };
 
         if (codeEl) codeEl.textContent = session.roomCode;
         if (nameEl) nameEl.textContent = session.playerName || this.getAvatarDisplayName(av);
         if (roleEl) roleEl.textContent = session.isHost ? 'Host 👑' : 'Player';
-        if (avImg) avImg.src = avConfig.img || `avvtar/${av}.png`;
+        if (avImg) avImg.src = avConfig.img || `avvtar/${av}.svg`;
         if (avContainer) avContainer.style.backgroundColor = avConfig.color;
 
         if (modal) modal.classList.add('active');
@@ -17730,22 +17597,22 @@
 
       getAvatarDisplayName(av) {
         const map = {
-          ayank: 'Ayank',
-          ayush: 'Ayush',
-          joel: 'Joel',
-          praggya: 'Praggya',
-          ruhaan: 'Ruhaan',
-          aman: 'Ayank',
-          amish: 'Ayush',
-          aziz: 'Joel',
-          vish: 'Praggya'
+          aman: 'Aman',
+          amish: 'Amish',
+          aziz: 'Aziz',
+          vish: 'Vish',
+          ayank: 'Aman',
+          ayush: 'Vish',
+          joel: 'Aziz',
+          praggya: 'Amish',
+          ruhaan: 'Aman'
         };
-        const key = (av || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
-        return map[key] || (key ? key.charAt(0).toUpperCase() + key.slice(1) : 'Ayank');
+        const key = (av || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+        return map[key] || (key ? key.charAt(0).toUpperCase() + key.slice(1) : 'Aman');
       },
 
       openCreateModal() {
-        this.playerAvatar = this.playerAvatar || 'ayank';
+        this.playerAvatar = this.playerAvatar || 'aman';
         this.selectedAvatarForModal = this.playerAvatar;
         const savedName = localStorage.getItem('gtf_player_name');
         this.playerName = savedName || this.playerName || this.getAvatarDisplayName(this.playerAvatar);
@@ -17757,7 +17624,7 @@
       },
 
       openJoinModal() {
-        this.playerAvatar = this.playerAvatar || 'ayank';
+        this.playerAvatar = this.playerAvatar || 'aman';
         this.selectedAvatarForModal = this.playerAvatar;
         const savedName = localStorage.getItem('gtf_player_name');
         this.playerName = savedName || this.playerName || this.getAvatarDisplayName(this.playerAvatar);
@@ -17863,14 +17730,14 @@
         const parent = element.parentElement;
         parent.querySelectorAll('.mp-avatar-option').forEach(el => el.classList.remove('selected'));
         element.classList.add('selected');
-        const av = element.getAttribute('data-avatar') || 'ayank';
+        const av = element.getAttribute('data-avatar') || 'aman';
         this.selectedAvatarForModal = av;
         this.playerAvatar = av;
         const nameInput = modalType === 'host'
           ? document.getElementById('hostPlayerNameInput')
           : document.getElementById('joinPlayerNameInput');
         const currentVal = nameInput ? nameInput.value.trim() : '';
-        const defaultNames = ['Ayank', 'Ayush', 'Joel', 'Praggya', 'Ruhaan', 'ayank', 'ayush', 'joel', 'praggya', 'ruhaan', 'Aman', 'Amish', 'Aziz', 'Vish', 'aman', 'amish', 'aziz', 'vish'];
+        const defaultNames = ['Aman', 'Vish', 'Aziz', 'Amish', 'aman', 'vish', 'aziz', 'amish', 'Ayank', 'Ayush', 'Joel', 'Praggya', 'Ruhaan', 'ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
         if (nameInput && (!currentVal || defaultNames.includes(currentVal))) {
           const defaultName = this.getAvatarDisplayName(av);
           nameInput.value = defaultName;
@@ -17906,7 +17773,7 @@
       confirmCreateRoom() {
         const nameInput = document.getElementById('hostPlayerNameInput');
         const typedName = (nameInput ? nameInput.value : '').trim();
-        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'ayank';
+        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'aman';
         this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
         this.isHost = true;
         this.roomCode = this.generateRoomCode();
@@ -17956,7 +17823,7 @@
         }
         const nameInput = document.getElementById('joinPlayerNameInput');
         const typedName = (nameInput ? nameInput.value : '').trim();
-        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'ayank';
+        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'aman';
         this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
         this.isHost = false;
         this.roomCode = code;
@@ -18104,8 +17971,6 @@
                         if (chToClose) { try { chToClose.close(); } catch(e) {} }
 
                         // Reset state
-                        GameController._onlineMode = false;
-                        GameController._isRemoteSession = false;
                         this.roomCode = null;
                         this.roomId = null;
                         this.isConnected = false;
@@ -18273,13 +18138,14 @@
           case 'PLAYER_LEAVE': {
             const leavingPlayerId = msg.playerId || msg.senderId;
             if (leavingPlayerId) {
-              const idx = GS.players.findIndex(p => p.id === leavingPlayerId);
+              const idx = GS.players.findIndex(p => p.id === leavingPlayerId || (msg.name && p.name === msg.name));
               if (idx !== -1) {
                 const [leftPlayer] = GS.players.splice(idx, 1);
                 // Archive player's score so it is NEVER lost upon rejoin
                 if (!this.playerScoresArchive) this.playerScoresArchive = {};
                 if (typeof leftPlayer.score === 'number') {
                   this.playerScoresArchive[leftPlayer.id] = leftPlayer.score;
+                  if (leftPlayer.name) this.playerScoresArchive[leftPlayer.name] = leftPlayer.score;
                 }
                 this.saveActiveSession();
                 this.renderLobbyUI();
@@ -18330,7 +18196,7 @@
                   existingPlayer.score = restoredScore;
                 }
               } else {
-                const av = (msg.avatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
+                const av = (msg.avatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
                 const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#57c3e0' };
                 GS.players.push({
                   id: msg.playerId,
@@ -18451,7 +18317,7 @@
                 const ansOv = document.getElementById('answerOverlay');
                 if (ansOv) ansOv.classList.add('visible', 'active');
                 const ansTitle = document.getElementById('ansTitle');
-                if (ansTitle && curFrame) ansTitle.textContent = curFrame.answer || '';
+                if (ansTitle && curFrame) ansTitle.textContent = curFrame.displayAnswer || curFrame.answer || '';
                 const ansYear = document.getElementById('ansYear');
                 if (ansYear && curFrame) ansYear.textContent = curFrame.year ? `(${curFrame.year})` : '';
               } else {
@@ -18487,11 +18353,12 @@
           case 'CHAT_MESSAGE':
             if (msg.msg) {
               const currentAns = ChatEngine.getCurrentRoundAnswer();
-              const isMatch = ChatEngine.isRoundActive() && currentAns && FuzzyMatcher.isMatch(msg.msg.text, currentAns);
+              const currentAliases = ChatEngine.getCurrentRoundAliases();
+              const isMatch = ChatEngine.isRoundActive() && ((currentAns && FuzzyMatcher.isMatch(msg.msg.text, currentAns)) || currentAliases.some(a => FuzzyMatcher.isMatch(msg.msg.text, a)));
               if (isMatch) {
                 // Incoming message matches the answer during an active round!
                 // Suppress from chat stream. If host and player hasn't won yet, process as a guess.
-                if (this.isHost && !this.currentRoundWinners.some(w => w.playerId === msg.msg.senderId)) {
+                if (this.isHost && !(this.currentRoundWinners || []).some(w => w.playerId === msg.msg.senderId)) {
                   this.validateAndProcessGuess({
                     playerId: msg.msg.senderId,
                     playerName: msg.msg.senderName,
@@ -18502,9 +18369,21 @@
                 }
                 break;
               }
-              // If it leaked a spoiler without matching the full answer, suppress from chat
-              if (ChatEngine.isRoundActive() && currentAns && ChatEngine.isAnswerOrSpoiler(msg.msg.text, currentAns)) {
-                break;
+              // If it leaked a spoiler without matching the full answer
+              if (ChatEngine.isRoundActive() && ((currentAns && ChatEngine.isAnswerOrSpoiler(msg.msg.text, currentAns)) || currentAliases.some(a => ChatEngine.isAnswerOrSpoiler(msg.msg.text, a)))) {
+                // For non-winners: also process as a guess attempt on host
+                const spoilerSenderWon = (this.currentRoundWinners || []).some(w => w.playerId === msg.msg.senderId) ||
+                  (this._roundGuessedCorrectIds && this._roundGuessedCorrectIds.has(msg.msg.senderId));
+                if (this.isHost && !spoilerSenderWon) {
+                  this.validateAndProcessGuess({
+                    playerId: msg.msg.senderId,
+                    playerName: msg.msg.senderName,
+                    playerAvatar: msg.msg.senderAvatar,
+                    guess: msg.msg.text,
+                    roundIndex: this.currentPlayIndex
+                  });
+                }
+                break; // suppress from chat regardless
               }
               ChatEngine.renderMessage(msg.msg);
             }
@@ -18555,7 +18434,8 @@
               }
 
               // Reject if match is already in progress (new player, not reconnecting)
-              if (existingIdx === -1 && this.isMatchActive) {
+              const isReconnecting = existingIdx !== -1 || (this.playerScoresArchive && this.playerScoresArchive[msg.id] !== undefined);
+              if (!isReconnecting && this.isMatchActive) {
                 this.sendEvent('JOIN_REJECTED', {
                   targetPlayerId: msg.id,
                   reason: 'GAME_ALREADY_STARTED',
@@ -18567,11 +18447,15 @@
               if (existingIdx === -1) {
                 const colors = ['#ff7eb6', '#57c3e0', '#f0a828', '#84cc16', '#a06bd6', '#3fb9ad'];
                 const nextColor = colors[GS.players.length % colors.length];
+                let restoredScore = 0;
+                if (this.playerScoresArchive && typeof this.playerScoresArchive[msg.id] === 'number') {
+                  restoredScore = this.playerScoresArchive[msg.id];
+                }
                 GS.players.push({
                   id: msg.id,
                   name: msg.name,
                   avatar: msg.avatar,
-                  score: 0,
+                  score: restoredScore,
                   isHost: false,
                   loaded: true,
                   lastSeen: Date.now(),
@@ -18583,7 +18467,30 @@
                 GS.players[existingIdx].lastSeen = Date.now();
               }
               this.renderLobbyUI();
+              UI.renderLB();
               this.broadcastState('PLAYER_JOINED');
+
+              // If match is active, sync rejoining player directly into active round
+              if (this.isMatchActive) {
+                const totalTimer = (this.hostSettings && this.hostSettings.timer) || 30;
+                const elapsed = this.currentRoundStartTime ? Math.max(0, (Date.now() - this.currentRoundStartTime) / 1000) : 0;
+                const remainingSeconds = Math.max(1, Math.round(totalTimer - elapsed));
+                this.sendEvent('REJOIN_SYNC_STATE', {
+                  targetPlayerId: msg.id,
+                  gameState: this.isMatchActive ? (this.isRoundFinished ? 'round_end' : 'playing') : 'lobby',
+                  roomCode: this.roomCode,
+                  hostSettings: this.hostSettings,
+                  players: GS.players,
+                  currentPlaylist: this.currentPlaylist,
+                  currentPlayIndex: this.currentPlayIndex,
+                  currentFrame: (this.currentPlaylist && this.currentPlaylist[this.currentPlayIndex]) || this.currentClientFrame,
+                  currentRoundWinners: this.currentRoundWinners,
+                  timerDuration: totalTimer,
+                  remainingSeconds: remainingSeconds,
+                  roundIndex: this.currentPlayIndex,
+                  maskedHint: this.currentMaskedHint
+                });
+              }
             }
             break;
 
@@ -18606,8 +18513,6 @@
               if (rChannelToClose) { try { rChannelToClose.close(); } catch(e) {} }
 
               // Reset state
-              GameController._onlineMode = false;
-              GameController._isRemoteSession = false;
               this.roomCode = null;
               this.roomId = null;
               this.isConnected = false;
@@ -18625,20 +18530,29 @@
 
           case 'SYNC_ROOM_STATE':
             if (msg.players && msg.players.length > 0) {
-              const wasJoining = this.isJoining && !this.hasJoinedAck;
               const isMeIncluded = msg.players.some(p => p.id === this.playerId || p.name === this.playerName);
 
-              if (wasJoining && !isMeIncluded && !this.isHost) {
-                // Host broadcast received (room is live!), but host hasn't processed our join packet yet.
-                // Immediately re-transmit join packet.
-                this.sendEvent('PLAYER_JOIN', {
-                  id: this.playerId,
-                  name: this.playerName,
-                  avatar: this.playerAvatar
-                });
+              if (!isMeIncluded && !this.isHost && this.roomCode) {
+                // Host broadcast received, but we are missing from the host's player list!
+                // Immediately self-heal presence by rejoining/syncing with host!
+                if (this.hasJoinedAck) {
+                  this.sendEvent('REQUEST_REJOIN_SYNC', {
+                    playerId: this.playerId,
+                    name: this.playerName,
+                    avatar: this.playerAvatar,
+                    lastKnownScore: (this.playerScoresArchive && this.playerScoresArchive[this.playerId]) || 0
+                  });
+                } else {
+                  this.sendEvent('PLAYER_JOIN', {
+                    id: this.playerId,
+                    name: this.playerName,
+                    avatar: this.playerAvatar
+                  });
+                }
                 return;
               }
 
+              const wasJoining = Boolean(this.isJoining);
               this.hasJoinedAck = true;
               this.isJoining = false;
               if (this.joinRetryTimer) clearInterval(this.joinRetryTimer);
@@ -18670,6 +18584,12 @@
               if (msg.currentPlaylist && msg.currentPlaylist.length > 0) this.currentPlaylist = msg.currentPlaylist;
               if (msg.currentPlayIndex !== undefined) this.currentPlayIndex = msg.currentPlayIndex;
               if (msg.currentRoundWinners) this.currentRoundWinners = msg.currentRoundWinners;
+
+              // Ensure heartbeat and watchdog are running for non-host players
+              if (!this.isHost && this.roomCode) {
+                if (!this.clientHeartbeatTimer) this.startClientHeartbeat();
+                if (!this.hostWatchdogTimer) this.startHostWatchdog();
+              }
 
               // FIX: Navigate to lobby ONLY when initially joining room
               if (wasJoining) {
@@ -18712,13 +18632,27 @@
 
           case 'GUESS_RESULT':
             if (this._guessTimeoutId) clearTimeout(this._guessTimeoutId);
-            if (msg.targetPlayerId === this.playerId && !msg.isCorrect) {
-              SoundManager.play('wrong');
-              this.showGuessFeedback(false, '❌ Not quite, try again!');
-              const input = document.getElementById('onlineGuessInput');
-              if (input) {
-                input.classList.add('shake-input');
-                setTimeout(() => input.classList.remove('shake-input'), 400);
+            if (msg.targetPlayerId === this.playerId) {
+              if (msg.isCorrect) {
+                SoundManager.play('correct');
+                this.showGuessFeedback(true, msg.message || '🎉 Correct! (+0 Pts - Podium full)');
+                const input = document.getElementById('onlineGuessInput');
+                if (input) input.disabled = true;
+                const ogb = document.getElementById('onlineGuessSubmitBtn');
+                if (ogb) ogb.disabled = true;
+                ChatEngine.setPlaceholder('You guessed it! Chat freely (no spoilers)...');
+                if (!this.sessionStats) {
+                  this.sessionStats = { roundsWon: 0, totalGuesses: 0, correctGuesses: 0, fastestGuessSeconds: null, roundStartTime: 0 };
+                }
+                this.sessionStats.correctGuesses = (this.sessionStats.correctGuesses || 0) + 1;
+              } else {
+                SoundManager.play('wrong');
+                this.showGuessFeedback(false, '❌ Not quite, try again!');
+                const input = document.getElementById('onlineGuessInput');
+                if (input) {
+                  input.classList.add('shake-input');
+                  setTimeout(() => input.classList.remove('shake-input'), 400);
+                }
               }
             }
             break;
@@ -18763,6 +18697,20 @@
           case 'HOST_HEARTBEAT':
             this.lastHostHeartbeat = Date.now();
             this._hostWarnActive = false;
+            if (this.isHost && msg.hostId && msg.hostId !== this.playerId) {
+              console.warn('[MultiplayerEngine] Conflicting host heartbeat detected from', msg.hostId, '. Demoting self.');
+              this.isHost = false;
+              this.stopHostHeartbeat();
+              this.stopHostPresenceWatchdog();
+              this.startClientHeartbeat();
+              this.startHostWatchdog();
+              GS.players.forEach(p => { p.isHost = (p.id === msg.hostId); });
+              const hfbHostOnly = document.getElementById('hfbHostOnly');
+              if (hfbHostOnly) hfbHostOnly.style.display = 'none';
+              const hfbLabel = document.getElementById('hfbLabel');
+              if (hfbLabel) hfbLabel.textContent = '🎮 CONTROLS:';
+              this.saveActiveSession();
+            }
             break;
 
           case 'HOST_MIGRATED':
@@ -18794,8 +18742,7 @@
         PlayerLobby.render();
       },
 
-      startMatch() {
-        if (!this.isHost) return;
+      generateAuthoritativePlaylist() {
         let pool = [];
         if (!this.hostSettings) {
           this.hostSettings = {
@@ -18804,46 +18751,41 @@
             timer: 30
           };
         }
-
         const counts = this.hostSettings.roundsByMode || { frames: 20, eyes: 10, dialogue: 10 };
-
-        // 1. All Frames first (shuffled internally, not mixed across categories)
         const numFrames = counts.frames !== undefined ? counts.frames : 20;
         if (numFrames > 0) {
-          const s1 = GS.sections.find(s => s.id === 1);
+          const s1 = (typeof GS !== 'undefined' && GS.sections) ? GS.sections.find(s => s.id === 1) : null;
           if (s1 && s1.frames) {
             const shuf = [...s1.frames].sort(() => 0.5 - Math.random());
             pool.push(...shuf.slice(0, numFrames).map(f => ({ ...f, sectionName: 'Guess the Frame', sectionId: 1 })));
           }
         }
-
-        // 2. All Dialogue second (shuffled internally, not mixed across categories)
         const numDialogue = counts.dialogue !== undefined ? counts.dialogue : 10;
         if (numDialogue > 0) {
-          const s2 = GS.sections.find(s => s.id === 2);
+          const s2 = (typeof GS !== 'undefined' && GS.sections) ? GS.sections.find(s => s.id === 2) : null;
           if (s2 && s2.frames) {
             const shuf = [...s2.frames].sort(() => 0.5 - Math.random());
             pool.push(...shuf.slice(0, numDialogue).map(f => ({ ...f, sectionName: 'Guess the Dialogue', sectionId: 2 })));
           }
         }
-
-        // 3. All Eyes third (shuffled internally, not mixed across categories)
         const numEyes = counts.eyes !== undefined ? counts.eyes : 10;
         if (numEyes > 0) {
-          const s3 = GS.sections.find(s => s.id === 3);
+          const s3 = (typeof GS !== 'undefined' && GS.sections) ? GS.sections.find(s => s.id === 3) : null;
           if (s3 && s3.frames) {
             const shuf = [...s3.frames].sort(() => 0.5 - Math.random());
             pool.push(...shuf.slice(0, numEyes).map(f => ({ ...f, sectionName: 'Guess the Eye', sectionId: 3 })));
           }
         }
-
         if (pool.length === 0) {
-          // Fallback to section 1 frames if empty
-          const s1 = GS.sections.find(s => s.id === 1);
-          if (s1) pool = [...s1.frames.slice(0, 20).map(f => ({ ...f, sectionName: 'Guess the Frame', sectionId: 1 }))];
+          const s1 = (typeof GS !== 'undefined' && GS.sections) ? GS.sections.find(s => s.id === 1) : null;
+          if (s1 && s1.frames) pool = [...s1.frames.slice(0, 20).map(f => ({ ...f, sectionName: 'Guess the Frame', sectionId: 1 }))];
         }
+        return pool;
+      },
 
-        this.currentPlaylist = pool;
+      startMatch() {
+        if (!this.isHost) return;
+        this.currentPlaylist = this.generateAuthoritativePlaylist();
         this.currentPlayIndex = 0;
         this.isMatchActive = true;
         this.isRoundFinished = false;
@@ -18886,6 +18828,9 @@
         this.totalMatchRounds = msg.totalRounds || (msg.playlist ? msg.playlist.length : 10);
         this.hostSettings = msg.hostSettings || this.hostSettings;
         GS.players = msg.players || GS.players;
+        if (msg.playlist && msg.playlist.length > 0) {
+          this.currentPlaylist = msg.playlist;
+        }
         this.currentPlayIndex = 0;
         UI.showScreen('gameScreen');
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.add('active');
@@ -18902,6 +18847,9 @@
         HowToAnswerGuide.stop();
         this.isMatchActive = true;
         this.isRoundFinished = false;
+        this.isPaused = false;
+        { const pb = document.getElementById('hfbPauseBtn'); if (pb) pb.textContent = '⏸ Pause'; }
+        { const si = document.getElementById('stateInd'); if (si) { si.textContent = ''; si.style.display = 'none'; } }
         UI.showScreen('gameScreen');
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.add('active');
         if (this.isHost) {
@@ -18921,6 +18869,11 @@
               hostId: this.playerId,
               timestamp: Date.now()
             });
+            // Lobby self-heal: re-broadcast authoritative room state so any dropped
+            // SYNC/SETTINGS message is corrected within one heartbeat (idempotent on clients).
+            if (!this.isMatchActive && GS.players && GS.players.length > 1) {
+              this.broadcastState('LOBBY_RESYNC');
+            }
           }
         }, 3000);
       },
@@ -18967,7 +18920,7 @@
           GS.players = GS.players.filter(p => {
             if (p.isHost || p.id === this.playerId) return true;
             const lastSeen = p.lastSeen || p.joinTime || now;
-            const isAlive = (now - lastSeen) < 9500;
+            const isAlive = (now - lastSeen) < 35000;
             if (!isAlive) {
               console.log('[Presence] Auto-pruning inactive/disconnected player:', p.name, p.id);
             }
@@ -18994,7 +18947,7 @@
         this.lastHostHeartbeat = Date.now();
         this._hostWarnActive = false;
         this._watchdogInterval = setInterval(() => {
-          if (this.isHost || !this.roomCode || !GameController._onlineMode) return;
+          if (this.isHost || !this.roomCode) return;
           const now = Date.now();
           const gap = now - (this.lastHostHeartbeat || now);
           if (gap > 5500 && !this._hostWarnActive && gap <= 12000) {
@@ -19107,15 +19060,13 @@
         if (clientToEnd) {
           setTimeout(() => {
             try { clientToEnd.end(false); } catch(e) {}
-          }, 350);
+          }, 1500);
         }
         if (channelToClose) {
           setTimeout(() => {
             try { channelToClose.close(); } catch(e) {}
-          }, 350);
+          }, 1500);
         }
-        GameController._onlineMode = false;
-        GameController._isRemoteSession = false;
         this.isHost = false;
         this.roomCode = null;
         this.roomId = null;
@@ -19177,7 +19128,7 @@
         }
         const skipBtn = document.getElementById('skipBtn');
         if (skipBtn) {
-          if (GameController._onlineMode && !this.isHost) {
+          if (!this.isHost) {
             skipBtn.style.display = 'none';
           } else {
             skipBtn.style.display = '';
@@ -19188,7 +19139,7 @@
             } else {
               skipBtn.textContent = 'Skip';
               skipBtn.classList.remove('next-round-state');
-              skipBtn.onclick = () => GameController._onlineMode ? MultiplayerEngine.hostSkipRound() : GameController.skipRound();
+              skipBtn.onclick = () => MultiplayerEngine.hostSkipRound();
             }
           }
         }
@@ -19199,6 +19150,7 @@
         this.isRoundFinished = false;
         this.currentPlayIndex = roundIndex;
         this.currentRoundWinners = [];
+        this._roundGuessedCorrectIds = new Set();
         this.hasUsedHintThisRound = false;
         this.currentRoundStartTime = Date.now();
         ChatEngine.clearInputs();
@@ -19219,8 +19171,12 @@
         const chatPrompt = (frame.sectionId === 3 || frame.type === 'eye') ? 'Type celebrity guess or chat...' : 'Type movie guess or chat...';
         ChatEngine.setPlaceholder(chatPrompt);
 
-        // Generate the single authoritative randomized hint for this round
-        this.currentMaskedHint = this.generateMaskedHint(frame.answer);
+        // Generate the single authoritative hint for this round (character for dialogue, masked letters for frame/eye)
+        if (frame.type === 'dialogue' && frame.character) {
+          this.currentMaskedHint = frame.character;
+        } else {
+          this.currentMaskedHint = this.generateMaskedHint(frame.answer);
+        }
 
         // Reset Skip button back to "⏭ Skip Frame" for the active round
         this.setHostSkipButtonState('skip');
@@ -19230,7 +19186,7 @@
         hintBtns.forEach(b => {
           b.disabled = false;
           b.style.opacity = '1';
-          b.textContent = b.id === 'mobileQuickHintBtn' ? '💡' : '💡 Hint (-2 pts)';
+          b.textContent = b.id === 'mobileQuickHintBtn' ? '💡' : '💡 Hint (-4 pts)';
         });
         const cah = document.getElementById('chatActiveHint');
         if (cah) cah.style.display = 'none';
@@ -19257,13 +19213,17 @@
         if (secName) secName.textContent = frame.sectionName || 'Guess the Frame';
 
         FrameDisplay.showFrame(frame);
+        UI.renderLB();
         ChatEngine.renderRoundSeparator(roundIndex);
         const ansOvEl = document.getElementById('answerOverlay');
-        if (ansOvEl) ansOvEl.classList.remove('active', 'eye-answer');
+        if (ansOvEl) {
+          ansOvEl.classList.remove('visible', 'active', 'eye-answer', 'tribute-answer');
+          const td = document.getElementById('tributeDisplay'); if (td) td.style.display = 'none';
+        }
         const hfbNext = document.getElementById('hfbNextBtn'); if (hfbNext) hfbNext.style.display = 'none';
         document.getElementById('scoringOv').classList.remove('active');
 
-        const timerDuration = this.hostSettings.timer || 30;
+        const timerDuration = (this.hostSettings && this.hostSettings.timer) ? this.hostSettings.timer : 30;
         this.playRoundIntroAnimation(roundIndex + 1, this.currentPlaylist.length, () => {
           TC.start(timerDuration, () => {
             this.endRound();
@@ -19277,8 +19237,10 @@
             type: frame.type,
             content: frame.content,
             revealContent: frame.revealContent,
+            tributeText: frame.tributeText,
             dialogue: frame.dialogue,
             context: frame.context,
+            character: frame.character,
             sectionName: frame.sectionName,
             sectionId: frame.sectionId
           };
@@ -19298,6 +19260,7 @@
         this.isRoundFinished = false;
         this.currentPlayIndex = msg.roundIndex;
         this.currentRoundWinners = [];
+        this._roundGuessedCorrectIds = new Set();
         this.hasUsedHintThisRound = false;
         this.currentMaskedHint = msg.maskedHint || '';
         this.currentClientFrame = msg.frame || null;
@@ -19308,6 +19271,7 @@
         ChatEngine.clearInputs();
 
         UI.showScreen('gameScreen');
+        UI.renderLB();
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.add('active');
 
         // Show bottom controls bar with player controls
@@ -19323,7 +19287,7 @@
         hintBtns.forEach(b => {
           b.disabled = false;
           b.style.opacity = '1';
-          b.textContent = b.id === 'mobileQuickHintBtn' ? '💡' : '💡 Hint (-2 pts)';
+          b.textContent = b.id === 'mobileQuickHintBtn' ? '💡' : '💡 Hint (-4 pts)';
         });
         const cah = document.getElementById('chatActiveHint');
         if (cah) cah.style.display = 'none';
@@ -19353,7 +19317,10 @@
         FrameDisplay.showFrame(msg.frame);
         ChatEngine.renderRoundSeparator(msg.roundIndex);
         const ansOvElRemote = document.getElementById('answerOverlay');
-        if (ansOvElRemote) ansOvElRemote.classList.remove('active', 'eye-answer');
+        if (ansOvElRemote) {
+          ansOvElRemote.classList.remove('visible', 'active', 'eye-answer', 'tribute-answer');
+          const td = document.getElementById('tributeDisplay'); if (td) td.style.display = 'none';
+        }
         document.getElementById('scoringOv').classList.remove('active');
 
         this.playRoundIntroAnimation(msg.roundIndex + 1, totalR, () => {
@@ -19376,7 +19343,7 @@
       submitGuessDirect(guess) {
         if (!guess || !guess.trim()) return;
         guess = guess.trim();
-        if (this.currentRoundWinners.some(w => w.playerId === this.playerId)) return;
+        if ((this.currentRoundWinners || []).some(w => w.playerId === this.playerId)) return;
 
         if (!this.sessionStats) {
           this.sessionStats = { roundsWon: 0, totalGuesses: 0, correctGuesses: 0, fastestGuessSeconds: null, roundStartTime: 0 };
@@ -19423,16 +19390,21 @@
       validateAndProcessGuess(data) {
         if (!this.isHost) return;
         if (data.roundIndex !== this.currentPlayIndex) return;
-        if (this.currentRoundWinners.some(w => w.playerId === data.playerId)) return;
+        if ((this.currentRoundWinners || []).some(w => w.playerId === data.playerId)) return;
+        if (this._roundGuessedCorrectIds && this._roundGuessedCorrectIds.has(data.playerId)) return;
 
         const currentFrame = this.currentPlaylist[this.currentPlayIndex];
         if (!currentFrame || !currentFrame.answer) return;
 
-        const isMatch = FuzzyMatcher.isMatch(data.guess, currentFrame.answer);
+        const isMatch = FuzzyMatcher.isMatch(data.guess, currentFrame.answer) ||
+          (Array.isArray(currentFrame.aliases) && currentFrame.aliases.some(a => FuzzyMatcher.isMatch(data.guess, a)));
         if (isMatch) {
-          const pos = this.currentRoundWinners.length + 1;
-          const pts = pos === 1 ? 10 : (pos === 2 ? 7 : (pos === 3 ? 5 : 0));
-          if (pts > 0) {
+          if (!this._roundGuessedCorrectIds) this._roundGuessedCorrectIds = new Set();
+          this._roundGuessedCorrectIds.add(data.playerId);
+
+          const pos = (this.currentRoundWinners || []).length + 1;
+          if (pos <= 3) {
+            const pts = pos === 1 ? 10 : (pos === 2 ? 7 : 5);
             const player = GS.players.find(p => p.id === data.playerId);
             if (player) {
               player.score = (player.score || 0) + pts;
@@ -19448,11 +19420,13 @@
               points: pts,
               timestamp: Date.now()
             };
+            if (!this.currentRoundWinners) this.currentRoundWinners = [];
             this.currentRoundWinners.push(winRecord);
 
             if (data.playerId === this.playerId) {
               SoundManager.play('correct');
-              this.showGuessFeedback(true, '🎉 Correct! +' + pts + ' Pts (' + (pos === 1 ? '1st' : pos === 2 ? '2nd' : '3rd') + ' Place!)');
+              const placeLabel = pos === 1 ? '1st' : pos === 2 ? '2nd' : '3rd';
+              this.showGuessFeedback(true, '🎉 Correct! +' + pts + ' Pts (' + placeLabel + ' Place!)');
               const input = document.getElementById('onlineGuessInput');
               if (input) input.disabled = true;
               const ogb = document.getElementById('onlineGuessSubmitBtn');
@@ -19483,6 +19457,28 @@
 
             if (this.currentRoundWinners.length >= 3) {
               setTimeout(() => this.endRound(), 600);
+            }
+          } else {
+            // Correct guess, but podium full (4th+ place) -> 0 pts, do NOT add to currentRoundWinners
+            if (data.playerId === this.playerId) {
+              SoundManager.play('correct');
+              this.showGuessFeedback(true, '🎉 Correct! (+0 Pts - Podium full)');
+              const input = document.getElementById('onlineGuessInput');
+              if (input) input.disabled = true;
+              const ogb = document.getElementById('onlineGuessSubmitBtn');
+              if (ogb) ogb.disabled = true;
+              ChatEngine.setPlaceholder('You guessed it! Chat freely (no spoilers)...');
+              if (!this.sessionStats) {
+                this.sessionStats = { roundsWon: 0, totalGuesses: 0, correctGuesses: 0, fastestGuessSeconds: null, roundStartTime: 0 };
+              }
+              this.sessionStats.correctGuesses = (this.sessionStats.correctGuesses || 0) + 1;
+            } else {
+              this.sendEvent('GUESS_RESULT', {
+                targetPlayerId: data.playerId,
+                isCorrect: true,
+                points: 0,
+                message: '🎉 Correct! (+0 Pts - Podium full)'
+              });
             }
           }
         } else {
@@ -19571,37 +19567,62 @@
         const ansOverlay = document.getElementById('answerOverlay');
 
         if (ansBadge) ansBadge.textContent = (currentFrame && currentFrame.type === 'eye') ? 'CELEBRITY REVEAL' : 'ANSWER';
-        if (ansTitle) ansTitle.textContent = currentFrame.answer || '';
+        if (ansTitle) ansTitle.textContent = (currentFrame && (currentFrame.displayAnswer || currentFrame.answer)) || '';
         if (ansYear) ansYear.textContent = currentFrame.year ? `(${currentFrame.year})` : '';
 
-        // Eye full-reveal for Section 3
-        if (currentFrame.type === 'eye' && currentFrame.revealContent) {
-          const imageContainer = document.getElementById('imageContainer');
-          if (imageContainer) {
-            const loadedImg = imageContainer.querySelector('.frame-image.loaded:not(.eye-full-reveal)');
-            const fullImg = document.createElement('img');
-            fullImg.className = 'frame-image eye-full-reveal';
-            fullImg.alt = currentFrame.answer || 'Full reveal photo';
-            const showFull = () => {
-              if (loadedImg) loadedImg.style.display = 'none';
-              if (!fullImg.parentNode) imageContainer.appendChild(fullImg);
-              requestAnimationFrame(() => fullImg.classList.add('visible', 'loaded'));
-              if (typeof PaletteManager !== 'undefined') PaletteManager.fromImage(fullImg);
-            };
-            fullImg.onload = showFull;
-            fullImg.src = currentFrame.revealContent;
-            if (fullImg.complete && fullImg.naturalWidth > 0) {
-              showFull();
+        // Tribute memorial reveal (e.g. Nana Patekar memorial in Welcome)
+        const tributeDisplay = document.getElementById('tributeDisplay');
+        if (currentFrame && currentFrame.tributeText && currentFrame.revealContent) {
+          if (tributeDisplay) {
+            tributeDisplay.style.display = 'flex';
+            const tImg = document.getElementById('tributeImg');
+            if (tImg) {
+              tImg.src = currentFrame.revealContent;
+              tImg.alt = currentFrame.answer || 'Memorial Tribute';
             }
+            const tTxt = document.getElementById('tributeText');
+            if (tTxt) tTxt.textContent = currentFrame.tributeText;
           }
-          if (ansOverlay) ansOverlay.classList.add('eye-answer');
+          if (ansOverlay) {
+            ansOverlay.classList.remove('eye-answer');
+            ansOverlay.classList.add('tribute-answer');
+          }
         } else {
-          if (ansOverlay) ansOverlay.classList.remove('eye-answer');
+          if (tributeDisplay) tributeDisplay.style.display = 'none';
+          if (ansOverlay) ansOverlay.classList.remove('tribute-answer');
+
+          // Eye full-reveal for Section 3
+          if (currentFrame.type === 'eye' && currentFrame.revealContent) {
+            const imageContainer = document.getElementById('imageContainer');
+            if (imageContainer) {
+              const loadedImg = imageContainer.querySelector('.frame-image.loaded:not(.eye-full-reveal)');
+              const fullImg = document.createElement('img');
+              fullImg.className = 'frame-image eye-full-reveal';
+              fullImg.alt = (currentFrame && (currentFrame.displayAnswer || currentFrame.answer)) || 'Full reveal photo';
+              const showFull = () => {
+                if (loadedImg) loadedImg.style.display = 'none';
+                if (!fullImg.parentNode) imageContainer.appendChild(fullImg);
+                requestAnimationFrame(() => fullImg.classList.add('visible', 'loaded'));
+                if (typeof PaletteManager !== 'undefined') PaletteManager.fromImage(fullImg);
+              };
+              fullImg.onload = showFull;
+              fullImg.src = currentFrame.revealContent;
+              if (fullImg.complete && fullImg.naturalWidth > 0) {
+                showFull();
+              }
+            }
+            if (ansOverlay) ansOverlay.classList.add('eye-answer');
+          } else {
+            if (ansOverlay) ansOverlay.classList.remove('eye-answer');
+          }
         }
 
         let spotlightHtml = '';
         if (currentFrame.type === 'dialogue' && currentFrame.dialogue) {
-          spotlightHtml += `<div class="ans-dialogue-quote" style="margin-bottom:12px; font-style:italic; font-weight:700; color:var(--text-secondary,#666); font-size:1.05rem;">"${SecurityUtil.escapeHtml(currentFrame.dialogue)}"</div>`;
+          spotlightHtml += `<div class="ans-dialogue-quote" style="margin-bottom:8px; font-style:italic; font-weight:700; color:var(--text-secondary,#666); font-size:1.05rem;">"${SecurityUtil.escapeHtml(currentFrame.dialogue)}"</div>`;
+          if (currentFrame.character) {
+            spotlightHtml += `<div class="ans-dialogue-character" style="margin-bottom:12px; font-weight:800; color:#b45309; font-size:0.95rem; font-family:'DM Sans',sans-serif;">${SecurityUtil.escapeHtml(currentFrame.character)}</div>`;
+          }
         }
         if (this.currentRoundWinners.length > 0) {
           spotlightHtml += '<div class="winners-spotlight">' + this.currentRoundWinners.map(w => {
@@ -19622,8 +19643,10 @@
           this.sendEvent('ROUND_FINISH_BROADCAST', {
             currentRoundWinners: this.currentRoundWinners,
             currentPlayIndex: this.currentPlayIndex,
-            revealedAnswer: currentFrame.answer || '',
-            revealedYear: currentFrame.year || ''
+            revealedAnswer: (currentFrame && (currentFrame.displayAnswer || currentFrame.answer)) || '',
+            revealedYear: currentFrame.year || '',
+            revealContent: (currentFrame && currentFrame.revealContent) || '',
+            tributeText: (currentFrame && currentFrame.tributeText) || ''
           });
 
           // Show Next Round button for host with safety auto-advance
@@ -19672,35 +19695,58 @@
         const ansBadge = document.getElementById('ansBadge');
         const ansOverlay = document.getElementById('answerOverlay');
 
-        const revealedAns = msg.revealedAnswer || (currentFrame && currentFrame.answer) || '';
+        const revealedAns = msg.revealedAnswer || (currentFrame && (currentFrame.displayAnswer || currentFrame.answer)) || '';
         const revealedYr = msg.revealedYear || (currentFrame && currentFrame.year) || '';
         if (ansBadge) ansBadge.textContent = (currentFrame && currentFrame.type === 'eye') ? 'CELEBRITY REVEAL' : 'ANSWER';
         if (ansTitle) ansTitle.textContent = revealedAns;
         if (ansYear) ansYear.textContent = revealedYr ? '(' + revealedYr + ')' : '';
 
-        // Eye full-reveal for Section 3
-        if (currentFrame && currentFrame.type === 'eye' && currentFrame.revealContent) {
-          const imageContainer = document.getElementById('imageContainer');
-          if (imageContainer) {
-            const loadedImg = imageContainer.querySelector('.frame-image.loaded:not(.eye-full-reveal)');
-            const fullImg = document.createElement('img');
-            fullImg.className = 'frame-image eye-full-reveal';
-            fullImg.alt = revealedAns || 'Full reveal photo';
-            const showFull = () => {
-              if (loadedImg) loadedImg.style.display = 'none';
-              if (!fullImg.parentNode) imageContainer.appendChild(fullImg);
-              requestAnimationFrame(() => fullImg.classList.add('visible', 'loaded'));
-              if (typeof PaletteManager !== 'undefined') PaletteManager.fromImage(fullImg);
-            };
-            fullImg.onload = showFull;
-            fullImg.src = currentFrame.revealContent;
-            if (fullImg.complete && fullImg.naturalWidth > 0) {
-              showFull();
+        // Tribute memorial reveal (e.g. Nana Patekar memorial in Welcome)
+        const tributeDisplay = document.getElementById('tributeDisplay');
+        const hasTribute = (currentFrame && currentFrame.tributeText && currentFrame.revealContent) || (msg && msg.tributeText && msg.revealContent);
+        if (hasTribute) {
+          if (tributeDisplay) {
+            tributeDisplay.style.display = 'flex';
+            const tImg = document.getElementById('tributeImg');
+            if (tImg) {
+              tImg.src = (currentFrame && currentFrame.revealContent) || msg.revealContent;
+              tImg.alt = revealedAns || 'Memorial Tribute';
             }
+            const tTxt = document.getElementById('tributeText');
+            if (tTxt) tTxt.textContent = (currentFrame && currentFrame.tributeText) || msg.tributeText;
           }
-          if (ansOverlay) ansOverlay.classList.add('eye-answer');
+          if (ansOverlay) {
+            ansOverlay.classList.remove('eye-answer');
+            ansOverlay.classList.add('tribute-answer');
+          }
         } else {
-          if (ansOverlay) ansOverlay.classList.remove('eye-answer');
+          if (tributeDisplay) tributeDisplay.style.display = 'none';
+          if (ansOverlay) ansOverlay.classList.remove('tribute-answer');
+
+          // Eye full-reveal for Section 3
+          if (currentFrame && currentFrame.type === 'eye' && currentFrame.revealContent) {
+            const imageContainer = document.getElementById('imageContainer');
+            if (imageContainer) {
+              const loadedImg = imageContainer.querySelector('.frame-image.loaded:not(.eye-full-reveal)');
+              const fullImg = document.createElement('img');
+              fullImg.className = 'frame-image eye-full-reveal';
+              fullImg.alt = revealedAns || 'Full reveal photo';
+              const showFull = () => {
+                if (loadedImg) loadedImg.style.display = 'none';
+                if (!fullImg.parentNode) imageContainer.appendChild(fullImg);
+                requestAnimationFrame(() => fullImg.classList.add('visible', 'loaded'));
+                if (typeof PaletteManager !== 'undefined') PaletteManager.fromImage(fullImg);
+              };
+              fullImg.onload = showFull;
+              fullImg.src = currentFrame.revealContent;
+              if (fullImg.complete && fullImg.naturalWidth > 0) {
+                showFull();
+              }
+            }
+            if (ansOverlay) ansOverlay.classList.add('eye-answer');
+          } else {
+            if (ansOverlay) ansOverlay.classList.remove('eye-answer');
+          }
         }
 
         let spotlightHtml = '';
@@ -19740,8 +19786,15 @@
           if (clientCountdown <= 0) {
             clearInterval(this._clientWaitTimer);
             if (document.getElementById('answerOverlay') && document.getElementById('answerOverlay').classList.contains('visible')) {
-              if (Date.now() - (this.lastHostHeartbeat || 0) > 8000) {
+              if (Date.now() - (this.lastHostHeartbeat || 0) > 6000) {
                 this.checkHostMigration();
+              } else if (!this.isHost) {
+                waitPill.textContent = '⌛ WAITING FOR HOST TO START NEXT ROUND...';
+                setTimeout(() => {
+                  if (document.getElementById('answerOverlay') && document.getElementById('answerOverlay').classList.contains('visible')) {
+                    this.checkHostMigration();
+                  }
+                }, 4000);
               }
             }
           }
@@ -19754,11 +19807,18 @@
         if (this._clientWaitTimer) clearInterval(this._clientWaitTimer);
         if (!this.isHost) return;
         const ansOv = document.getElementById('answerOverlay');
-        if (ansOv) ansOv.classList.remove('visible', 'active', 'eye-answer');
+        if (ansOv) {
+          ansOv.classList.remove('visible', 'active', 'eye-answer', 'tribute-answer');
+          const td = document.getElementById('tributeDisplay'); if (td) td.style.display = 'none';
+        }
         const scOv = document.getElementById('scoringOv');
         if (scOv) scOv.classList.remove('active');
         const hfbNext = document.getElementById('hfbNextBtn');
         if (hfbNext) hfbNext.style.display = 'none';
+
+        if (!this.currentPlaylist || this.currentPlaylist.length === 0) {
+          this.currentPlaylist = this.generateAuthoritativePlaylist();
+        }
 
         if (this.currentPlayIndex + 1 < this.currentPlaylist.length) {
           this.startRound(this.currentPlayIndex + 1);
@@ -19772,48 +19832,25 @@
         const cleanTitle = title.trim();
         if (!cleanTitle) return '';
 
-        return cleanTitle.split(/\s+/).map(word => {
-          const alphaIndices = [];
-          for (let i = 0; i < word.length; i++) {
-            if (/[a-zA-Z0-9]/i.test(word[i])) {
-              alphaIndices.push(i);
-            }
-          }
-          const L = alphaIndices.length;
-          if (L === 0) return word;
-
-          // Strictly guarantee NO word >= 2 characters is ever fully revealed:
-          // L === 1: 0 revealed (shown as '_')
-          // L === 2: exactly 1 revealed, 1 hidden (e.g. "D _" or "_ C" - NEVER "DC")
-          // L === 3 to 5: exactly 1 revealed (e.g. "R _ _", "D _ _ _")
-          // L >= 6: at most ~30% revealed, always leaving at least 3 characters masked
-          let revealCount = 1;
-          if (L === 1) {
-            revealCount = 0;
-          } else if (L === 2) {
-            revealCount = 1;
-          } else if (L <= 5) {
-            revealCount = 1;
-          } else {
-            revealCount = Math.max(1, Math.min(Math.floor(L * 0.3), L - 3));
-          }
-
-          const shuffled = [...alphaIndices].sort(() => Math.random() - 0.5);
-          const revealSet = new Set(shuffled.slice(0, revealCount));
-
-          const res = [];
-          for (let i = 0; i < word.length; i++) {
-            const ch = word[i];
-            if (!/[a-zA-Z0-9]/i.test(ch)) {
-              res.push(ch); // Preserve hyphens, colons, apostrophes, etc.
-            } else if (revealSet.has(i)) {
-              res.push(ch.toUpperCase());
+        return cleanTitle.split(/(\s+)/).map(part => {
+          if (/^\s+$/.test(part)) return part;
+          let letterIdx = 0;
+          let res = '';
+          for (let i = 0; i < part.length; i++) {
+            const ch = part[i];
+            if (/[a-zA-Z]/i.test(ch)) {
+              if (letterIdx % 2 === 0) {
+                res += '-';
+              } else {
+                res += ch;
+              }
+              letterIdx++;
             } else {
-              res.push('_');
+              res += ch;
             }
           }
-          return res.join(' ');
-        }).join('   ');
+          return res;
+        }).join('');
       },
 
       requestHint() {
@@ -19822,19 +19859,23 @@
           return;
         }
         const currentFrame = this.currentPlaylist[this.currentPlayIndex] || this.currentClientFrame;
-        const ans = (currentFrame && currentFrame.answer) || ChatEngine.getCurrentRoundAnswer();
-        if (!this.currentMaskedHint && ans) {
-          this.currentMaskedHint = this.generateMaskedHint(ans);
+        if (!this.currentMaskedHint) {
+          if (currentFrame && currentFrame.type === 'dialogue' && currentFrame.character) {
+            this.currentMaskedHint = currentFrame.character;
+          } else {
+            const ans = (currentFrame && currentFrame.answer) || ChatEngine.getCurrentRoundAnswer();
+            if (ans) this.currentMaskedHint = this.generateMaskedHint(ans);
+          }
         }
         const masked = this.currentMaskedHint;
         if (!masked) return;
 
         this.hasUsedHintThisRound = true;
 
-        // Deduct 2 points from local player
+        // Deduct 4 points from local player (negative marking allowed!)
         let myPlayer = GS.players.find(p => (this.playerId && p.id === this.playerId) || (this.playerName && p.name.toLowerCase() === this.playerName.toLowerCase()));
         if (myPlayer) {
-          myPlayer.score = Math.max(0, (Number(myPlayer.score) || 0) - 2);
+          myPlayer.score = (Number(myPlayer.score) || 0) - 4;
           if (!this.playerScoresArchive) this.playerScoresArchive = {};
           this.playerScoresArchive[myPlayer.id] = myPlayer.score;
           UI.renderLB();
@@ -19889,13 +19930,6 @@
         if (typeof UI !== 'undefined' && UI.showNotification) UI.showNotification('Host skipped the round', 'warning');
       },
 
-      handleRemotePause(isPaused) {
-        if (typeof TC !== 'undefined') {
-          if (isPaused) TC.pause();
-          else TC.resume();
-        }
-      },
-
       handleRemoteHint(msg) {
         console.log('[Hint Event Received]', msg);
         if (msg.updatedPlayers && Array.isArray(msg.updatedPlayers)) {
@@ -19912,7 +19946,7 @@
         }
         // NOTE: Hints are strictly individual! Remote hint text is NEVER displayed here.
         if (msg.playerId !== this.playerId && msg.playerName !== this.playerName) {
-          ChatEngine.renderSystemMessage(`💡 <strong>${SecurityUtil.escapeHtml(msg.playerName)}</strong> unlocked a hint! (-2 pts)`);
+          ChatEngine.renderSystemMessage(`💡 <strong>${SecurityUtil.escapeHtml(msg.playerName)}</strong> unlocked a hint! (-4 pts)`);
         }
       },
 
@@ -20013,6 +20047,9 @@
       },
 
       handleRemotePause(paused) {
+        this.isPaused = !!paused;
+        const btn = document.getElementById('hfbPauseBtn');
+        if (btn) btn.textContent = this.isPaused ? '▶ Resume' : '⏸ Pause';
         if (paused) TC.pause();
         else TC.resume();
       },
@@ -20182,28 +20219,20 @@
         }
       },
 
-      resolveAvatar(p, fallbackKey = 'ayank') {
-        const valid = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
-        if (p && p.avatarImg) {
-          let img = p.avatarImg;
-          if (img.endsWith('.svg')) {
-            img = img.replace(/\.svg$/i, '.png')
-                     .replace(/aman/g, 'ayank')
-                     .replace(/amish/g, 'ayush')
-                     .replace(/aziz/g, 'joel')
-                     .replace(/vish/g, 'praggya');
-          }
-          return img;
+      resolveAvatar(p, fallbackKey = 'aman') {
+        const valid = ['aman', 'amish', 'aziz', 'vish'];
+        const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
+        if (p && p.avatarImg && !p.avatarImg.endsWith('.png') && !p.avatarImg.includes('ayank') && !p.avatarImg.includes('ayush') && !p.avatarImg.includes('joel') && !p.avatarImg.includes('praggya') && !p.avatarImg.includes('ruhaan')) {
+          return p.avatarImg;
         }
         const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase()))) || fallbackKey;
         let avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
-        if (avKey === 'aman') avKey = 'ayank';
-        else if (avKey === 'amish') avKey = 'ayush';
-        else if (avKey === 'aziz') avKey = 'joel';
-        else if (avKey === 'vish') avKey = 'praggya';
+        if (legacyAlias[avKey]) avKey = legacyAlias[avKey];
+        let safeFallback = legacyAlias[fallbackKey] || fallbackKey;
+        if (!valid.includes(safeFallback)) safeFallback = 'aman';
 
-        const safeKey = valid.includes(avKey) ? avKey : (valid.includes(fallbackKey) ? fallbackKey : 'ayank');
-        return `avvtar/${safeKey}.png`;
+        const safeKey = valid.includes(avKey) ? avKey : safeFallback;
+        return `avvtar/${safeKey}.svg`;
       },
 
       renderScoreboard(players) {
@@ -20217,7 +20246,7 @@
         c.innerHTML = sorted.map((p, i) => {
           const rank = i + 1;
           const isChamp = i === 0 && (p.score || 0) > 0;
-          const defaultKey = i === 0 ? 'ayank' : i === 1 ? 'ayush' : i === 2 ? 'joel' : i === 3 ? 'praggya' : 'ruhaan';
+          const defaultKey = i === 0 ? 'aman' : i === 1 ? 'vish' : i === 2 ? 'aziz' : 'amish';
           const avSrc = this.resolveAvatar(p, defaultKey);
           const escapeFn = (typeof SecurityUtil !== 'undefined' && SecurityUtil.escapeHtml) ? SecurityUtil.escapeHtml : (s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
           const safeName = escapeFn(p.name || ('Player ' + rank));
@@ -20226,7 +20255,7 @@
             <div class="sb-row ${isChamp ? 'sb-champ' : ''}">
               <div class="sb-left">
                 <span class="sb-rank">${rank}</span>
-                <div class="sb-avatar-mini"><img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/${defaultKey}.png'" /></div>
+                <div class="sb-avatar-mini"><img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/${defaultKey}.svg'" /></div>
                 <span class="sb-name">${safeName.toUpperCase()}</span>
               </div>
               <span class="sb-score">${score} PTS</span>
@@ -20250,8 +20279,8 @@
         if (champNameEl) champNameEl.textContent = (p1 && p1.name ? p1.name : 'PLAYER 1').toUpperCase();
         if (champScoreEl) champScoreEl.textContent = p1Score + ' POINTS';
         if (champAvatarImg) {
-          champAvatarImg.onerror = function() { this.onerror = null; this.src = 'avvtar/ayank.png'; };
-          champAvatarImg.src = this.resolveAvatar(p1, 'ayank');
+          champAvatarImg.onerror = function() { this.onerror = null; this.src = 'avvtar/aman.svg'; };
+          champAvatarImg.src = this.resolveAvatar(p1, 'aman');
           champAvatarImg.alt = p1 ? (p1.name || 'Champion') : 'Champion';
         }
 
@@ -20270,8 +20299,8 @@
             if (silverName) silverName.textContent = (p2.name || 'PLAYER 2').toUpperCase();
             if (silverScore) silverScore.textContent = p2Score + ' POINTS';
             if (silverImg) {
-              silverImg.onerror = function() { this.onerror = null; this.src = 'avvtar/ayush.png'; };
-              silverImg.src = this.resolveAvatar(p2, 'ayush');
+              silverImg.onerror = function() { this.onerror = null; this.src = 'avvtar/vish.svg'; };
+              silverImg.src = this.resolveAvatar(p2, 'vish');
               silverImg.alt = p2.name || '2nd Place';
             }
           } else {
@@ -20296,8 +20325,8 @@
             if (bronzeName) bronzeName.textContent = (p3.name || 'PLAYER 3').toUpperCase();
             if (bronzeScore) bronzeScore.textContent = p3Score + ' POINTS';
             if (bronzeImg) {
-              bronzeImg.onerror = function() { this.onerror = null; this.src = 'avvtar/joel.png'; };
-              bronzeImg.src = this.resolveAvatar(p3, 'joel');
+              bronzeImg.onerror = function() { this.onerror = null; this.src = 'avvtar/aziz.svg'; };
+              bronzeImg.src = this.resolveAvatar(p3, 'aziz');
               bronzeImg.alt = p3.name || '3rd Place';
             }
           } else {
@@ -20607,7 +20636,7 @@
         playlist.forEach(f => {
           if (!f) return;
           if (f.content) urls.push(f.content);
-          if (f.type === 'eye' && f.revealContent) urls.push(f.revealContent);
+          if (f.revealContent) urls.push(f.revealContent);
         });
         const BATCH = 8;
         for (let i = 0; i < urls.length; i += BATCH) {
@@ -20624,18 +20653,15 @@
           if ((f.type === 'image' || f.type === 'eye') && f.content) {
             priorityImages.push(f.content);
           }
-          if (f.type === 'eye' && f.revealContent) priorityImages.push(f.revealContent);
+          if (f.revealContent) priorityImages.push(f.revealContent);
         });
         GS.sections.forEach(s => collect(s.frames));
         if (GS.tieBreaker && Array.isArray(GS.tieBreaker.frames)) collect(GS.tieBreaker.frames);
 
         // Player assets: avatars (priority)
-        GS.players.forEach(p => {
-          const avKey = (p.avatar || (p.avatarImg ? p.avatarImg.replace(/^.*\/([^./]+)\..*$/, '$1') : 'ayank')).toLowerCase().replace(/[^a-z0-9]/g, '');
-          const validAvatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
-          const safeKey = validAvatars.includes(avKey) ? avKey : 'ayank';
-
-          priorityImages.push('avvtar/' + safeKey + '.png');
+        const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
+        validAvatars.forEach(av => {
+          priorityImages.push('avvtar/' + av + '.svg');
         });
 
         let loaded = 0;
@@ -20662,7 +20688,7 @@
           for (let r = startRound; r < valid.length && count < 3; r++) {
             const frame = valid[r];
             if ((frame.type === 'image' || frame.type === 'eye') && frame.content) this.preloadImage(frame.content).catch(() => { });
-            if (frame.type === 'eye' && frame.revealContent) this.preloadImage(frame.revealContent).catch(() => { });
+            if (frame.revealContent) this.preloadImage(frame.revealContent).catch(() => { });
             count++;
           }
         }
@@ -20690,7 +20716,8 @@
         imageContainer.querySelectorAll('img').forEach(img => { img.onload = null; img.onerror = null; img.removeAttribute('src'); });
         imageContainer.innerHTML = '';
 
-        ansOv.classList.remove('visible', 'eye-answer');
+        ansOv.classList.remove('visible', 'eye-answer', 'tribute-answer');
+        const tdClear = document.getElementById('tributeDisplay'); if (tdClear) tdClear.style.display = 'none';
         // Reset answer divider animation so it replays on next reveal
         if (ansDivider) { ansDivider.style.animation = 'none'; void ansDivider.offsetWidth; ansDivider.style.animation = ''; }
         if (ph) ph.classList.remove('hidden');
@@ -20712,7 +20739,8 @@
         const ansOv = document.getElementById('answerOverlay');
 
         // Hide answer overlay
-        ansOv.classList.remove('visible', 'eye-answer');
+        ansOv.classList.remove('visible', 'eye-answer', 'tribute-answer');
+        const tdShow = document.getElementById('tributeDisplay'); if (tdShow) tdShow.style.display = 'none';
 
         // Handle dialogue type
         if (f.type === 'dialogue') {
@@ -20863,7 +20891,7 @@
         const ansBadge = document.getElementById('ansBadge');
         if (ansBadge) ansBadge.textContent = (f && f.type === 'eye') ? 'CELEBRITY REVEAL' : 'ANSWER';
 
-        ansTitle.textContent = f.answer || '';
+        ansTitle.textContent = f.displayAnswer || f.answer || '';
         ansYear.textContent = f.year ? `${f.year}` : '';
 
         if (f.type === 'dialogue' && f.dialogue) {
@@ -20926,7 +20954,7 @@
         const idx = typeof nameOrIdx === 'number' ? nameOrIdx : GS.players.findIndex(p => p.name === nameOrIdx);
         if (idx >= 0) Scores.adjust(idx, delta);
       },
-      _onlineMode: false,
+      _onlineMode: true,
       _isRemoteSession: false, // true for non-host clients
       _buildPayload(event, payload = {}) {
         return {
@@ -21056,7 +21084,6 @@
         return GS.players.filter(p => p.score === topScore);
       },
       _shouldStartTieBreaker() {
-        if (this._onlineMode || this._isRemoteSession) return false;
         return this._topTiePlayers().length > 1;
       },
       _tieBreakerPlayers() {
@@ -21296,7 +21323,7 @@
 
         FrameDisplay.reset();
         await FrameDisplay.showFrame(frame);
-        ChatEngine.renderRoundSeparator(roundIndex);
+        ChatEngine.renderRoundSeparator(GS.currentSectionRound || 0);
         SM.set(GS.PHASES.ROUND_ACTIVE);
         this._persist();
       },
@@ -21438,7 +21465,7 @@
         const canvas = document.getElementById('championFrames');
         if (!canvas || canvas.tagName !== 'CANVAS') return;
         const ctx = canvas.getContext('2d');
-        const folder = playerFolder || 'avvtar/ayank';
+        const folder = playerFolder || 'avvtar/aman';
         const pad = n => String(n).padStart(4, '0');
         const MAX_FRAMES = 96;
         const FPS = 30;
@@ -21522,36 +21549,29 @@
             }</div>`;
         };
 
-        // winner-only: full-body trophy image (supporting svg, png, webp)
+        // winner-only: full-body trophy image
         const trophyImg = (p) => {
-          const avKey = (p.avatar || (p.avatarImg ? p.avatarImg.replace(/^.*\/([^./]+)\..*$/, '$1') : 'ayank')).toLowerCase().replace(/[^a-z0-9]/g, '');
-          const valid = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
-          const safeKey = valid.includes(avKey) ? avKey : 'ayank';
-          return 'avvtar/' + safeKey + '.png';
+          const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase()))) || 'aman';
+          let avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
+          const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
+          if (legacyAlias[avKey]) avKey = legacyAlias[avKey];
+          const valid = ['aman', 'amish', 'aziz', 'vish'];
+          const safeKey = valid.includes(avKey) ? avKey : 'aman';
+          return 'avvtar/' + safeKey + '.svg';
         };
         const buildTrophies = (players) => {
           const count = players.length;
-          // Single champion → play the trophy-lifting frame sequence (transparent, no border).
+          // Direct trophy image display for static character avatars
           if (count === 1) {
             const p = players[0];
             const tp = trophyImg(p);
-            const fallback = tp
-              ? `<img class='trophy-fig' src='${tp}' alt='${p.name}' onerror="this.onerror=null;${p.avatarImg ? `this.src='${p.avatarImg}';this.classList.add('is-fallback')` : `this.remove()`}">`
-              : (p.avatarImg
-                ? `<img class='trophy-fig is-fallback' src='${p.avatarImg}' alt='${p.name}' onerror="this.remove()">`
-                : `<span class='trophy-fig is-fallback'><svg class='svg-icon'><use href='#icon-${p.avatar || 'user'}' /></svg></span>`);
-            // Derive player-specific frame folder from avatarImg (e.g. avvtar/ayank.png → avvtar/ayank)
-            const champFolder = p.avatarImg ? p.avatarImg.replace(/\.[a-z0-9]+$/i, '') : 'avvtar/ayank';
-            setTimeout(() => this._playChampionFrames(champFolder, fallback), 30);
             return `<div class="podium-avatar podium-trophy" data-count="1">
-              <canvas class="trophy-vid" id="championFrames"></canvas>
+              <img class="trophy-fig" src="${tp}" alt="${SecurityUtil.escapeHtml(p && p.name || 'Champion')}" onerror="this.onerror=null;this.src='avvtar/aman.svg';">
             </div>`;
           }
           return `<div class="podium-avatar podium-trophy" data-count="${count}">${players.map(p => {
             const tp = trophyImg(p);
-            if (tp) return `<img class="trophy-fig" src="${tp}" alt="${p.name}" onerror="this.onerror=null;${p.avatarImg ? `this.src='${p.avatarImg}';this.classList.add('is-fallback')` : `this.remove()`}">`;
-            if (p.avatarImg) return `<img class="trophy-fig is-fallback" src="${p.avatarImg}" alt="${p.name}" onerror="this.remove()">`;
-            return `<span class="trophy-fig is-fallback"><svg class="svg-icon"><use href="#icon-${p.avatar || 'user'}" /></svg></span>`;
+            return `<img class="trophy-fig" src="${tp}" alt="${SecurityUtil.escapeHtml(p && p.name || 'Player')}" onerror="this.onerror=null;this.src='avvtar/aman.svg';">`;
           }).join('')}</div>`;
         };
 
@@ -21628,56 +21648,15 @@
 
       /* ═══ AUTO-RESUME — snapshot an in-progress game to localStorage ═══ */
       _RESUME_KEY: 'gtf_resume_v1',
-      _persist() {
-        // Called at the START of each round → captures scores entering the round,
-        // so resuming replays the current round without double-counting awards.
-        try {
-          if (this._onlineMode || this._isRemoteSession) return;
-          const snap = {
-            v: 1, ts: Date.now(),
-            sections: GS.sections, players: GS.players,
-            currentSection: GS.currentSection, currentSectionRound: GS.currentSectionRound,
-            judge: GS.judge, settings: GS.settings,
-            tie: { active: GS.tieBreaker.active, roundIndex: GS.tieBreaker.roundIndex, playerKeys: GS.tieBreaker.playerKeys, frame: GS.tieBreaker.frame, usedFrameKeys: GS.tieBreaker.usedFrameKeys }
-          };
-          localStorage.setItem(this._RESUME_KEY, JSON.stringify(snap));
-        } catch (e) { /* storage unavailable */ }
-        this._checkResume();
-      },
-      _clearPersist() { try { localStorage.removeItem(this._RESUME_KEY); } catch (e) { } this._checkResume(); },
-      _readSnap() {
-        try {
-          const raw = localStorage.getItem(this._RESUME_KEY);
-          if (!raw) return null;
-          const s = JSON.parse(raw);
-          if (!s || s.v !== 1 || !Array.isArray(s.players) || !Array.isArray(s.sections)) return null;
-          if (typeof s.currentSection !== 'number' || s.currentSection >= s.sections.length) return null;
-          return s;
-        } catch (e) { return null; }
-      },
+      _persist() { },
+      _clearPersist() { try { localStorage.removeItem(this._RESUME_KEY); } catch (e) { } },
+      _readSnap() { return null; },
       _checkResume() {
         try { localStorage.removeItem(this._RESUME_KEY); } catch (e) { }
         const btn = document.getElementById('homeResumeBtn');
         if (btn) btn.remove();
       },
-      resumeGame() {
-        const s = this._readSnap();
-        if (!s) { this._checkResume(); return; }
-        SoundManager.playClick();
-        this._onlineMode = false; this._isRemoteSession = false;
-        GS.sections = s.sections;
-        GS.players = s.players.map(p => ({ ...p, score: Number.isFinite(p.score) ? p.score : 0 }));
-        GS.currentSection = s.currentSection;
-        GS.currentSectionRound = s.currentSectionRound || 0;
-        if (s.settings) Object.assign(GS.settings, s.settings);
-        if (s.judge) Object.assign(GS.judge, s.judge);
-        if (s.tie) { GS.tieBreaker.active = !!s.tie.active; GS.tieBreaker.roundIndex = s.tie.roundIndex || 0; GS.tieBreaker.playerKeys = s.tie.playerKeys || []; GS.tieBreaker.frame = s.tie.frame || null; GS.tieBreaker.usedFrameKeys = s.tie.usedFrameKeys || []; }
-        GS.scoring.locked = false; GS.scoring.completed = false; GS.roundSkipped = false;
-        GS.framesLoaded = true;
-        TC.clear(); SM.set(GS.PHASES.IDLE);
-        UI.renderLB(); FrameDisplay.reset(); UI.showScreen('gameScreen');
-        this.prepareRound();
-      }
+      resumeGame() { }
     };
 
 
@@ -21735,7 +21714,7 @@
         GS.settings.answerRevealDuration = parseInt(cfgReveal && cfgReveal.value) || 2;
         GS.settings.pointsPerAnswer = parseInt(cfgPts && cfgPts.value) || 10;
         GS.settings.judgePoints = parseInt(cfgJPts && cfgJPts.value) || 20;
-        GS.settings.creatorMessage = (cfgMsg && cfgMsg.value) || 'tanmay, Tanuj, Darshan, Akash, Anmol (timestamp guy) and members of smoc.';
+        GS.settings.creatorMessage = (cfgMsg && cfgMsg.value) || 'tanmay, Tanuj, Darshan, Akash, Anmol (timestamp guy) and members of smoc(whatsapp group)';
         { const volVal = cfgVol ? parseFloat(cfgVol.value) : NaN; SoundManager.setVolume(Number.isFinite(volVal) ? volVal / 100 : 0.25); }
       },
 
@@ -22013,8 +21992,6 @@
         this.roomCode = null;
         this.playerId = null;
         this.isHost = false;
-        GameController._onlineMode = false;
-        GameController._isRemoteSession = false;
       }
     };
     /* Chat was tied to online play and is disabled in offline-only mode. */
@@ -22096,7 +22073,7 @@
       if (e.key === 'Enter') {
         if (on('homeScreen')) {
           e.preventDefault();
-          showHowToPlay();
+          MultiplayerEngine.openCreateModal();
         } else if (on('playerLobbyScreen')) {
           const btn = document.getElementById('lobbyStartBtn');
           if (btn && !btn.disabled) { e.preventDefault(); PlayerLobby.start(); }
@@ -22126,6 +22103,18 @@
       if (now - _lastHoverTime < 80) return;
       const sel = 'button,.btn-primary,.btn-secondary,.btn-outline,.admin-tab,.add-frame-btn,.add-section-btn,.add-player-btn,.close-btn,.skip-btn,.spbtn,.nonk-btn,.btn-start,.back-lnk';
       if (e.target.matches(sel) || e.target.closest(sel)) { _lastHoverTime = now; SoundManager.playHover(); }
+    });
+
+    /* Auto-refresh presence on mobile tab wake / foreground */
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible' && typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.roomCode) {
+        if (!MultiplayerEngine.isHost) {
+          MultiplayerEngine.sendEvent('CLIENT_HEARTBEAT', {
+            playerId: MultiplayerEngine.playerId,
+            name: MultiplayerEngine.playerName
+          });
+        }
+      }
     });
 
     /* Cleanup on page unload - prevent orphaned connections */
@@ -22192,7 +22181,7 @@
           el.className = 'nb-av-popover';
           el.innerHTML = `
             <div class="nb-popover-circle">
-              <img src="" id="nbPopoverImg" alt="Avatar Preview" />
+              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="nbPopoverImg" alt="Avatar Preview" />
             </div>
             <div class="nb-popover-name" id="nbPopoverName">Player</div>
           `;
