@@ -13400,52 +13400,17 @@
               </div>
             </section>
 
-            <!-- Match Preparation Section -->
-            <section class="bg-surface border-4 border-on-surface shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between rounded-xl overflow-hidden flex-1">
-              <div class="bg-neo-blue border-b-4 border-on-surface p-3 flex items-center">
-                <h3 class="font-headline-sm text-headline-sm text-on-surface flex items-center gap-2 font-black">
-                  <span class="material-symbols-outlined" aria-hidden="true">movie</span>
-                  Match Preparation
-                </h3>
-              </div>
-              <div class="p-6 flex flex-col md:flex-row items-center gap-6">
-                <div class="w-24 h-24 bg-surface-variant border-4 border-on-surface flex items-center justify-center p-2 neo-shadow shrink-0">
-                  <div class="w-full h-full bg-surface border-2 border-on-surface flex flex-col items-center justify-center relative overflow-hidden">
-                    <div class="w-full h-3 bg-on-surface flex gap-1 px-1 items-center">
-                      <span class="w-1.5 h-1.5 bg-surface transform rotate-45"></span>
-                      <span class="w-1.5 h-1.5 bg-surface transform rotate-45"></span>
-                    </div>
-                    <span class="material-symbols-outlined text-2xl mt-1 text-on-surface">play_arrow</span>
-                  </div>
-                </div>
-                <div class="flex-1 w-full flex flex-col gap-3">
-                  <div class="flex justify-between items-end">
-                    <div>
-                      <h4 class="font-headline-md text-2xl font-black text-on-surface" id="loadTitleText">Match Ready!</h4>
-                      <p class="font-label-sm text-label-sm text-outline font-medium" id="loadSubtitleText">All Assets Loaded &amp; Ready</p>
-                    </div>
-                    <div class="bg-neo-yellow border-2 border-on-surface px-2 py-1 font-mono font-bold text-sm shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" id="loadPercent">100%</div>
-                  </div>
-                  <!-- Progress Bar -->
-                  <div class="w-full h-6 bg-surface-variant border-2 border-on-surface p-0.5 overflow-hidden">
-                    <div class="h-full bg-neo-green border-r-2 border-on-surface transition-all duration-300 relative" style="width: 100%" id="loadBar">
-                      <div class="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.2)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.2)_50%,rgba(255,255,255,0.2)_75%,transparent_75%,transparent)] bg-[length:1rem_1rem]"></div>
-                    </div>
-                  </div>
-                  <div class="flex gap-4 font-label-bold text-xs font-semibold overflow-x-auto text-on-surface">
-                    <span class="flex items-center gap-1" id="prepStatusFrames"><span class="material-symbols-outlined fill text-neo-green text-sm" aria-hidden="true">check_box</span> Movie Frames Loaded</span>
-                    <span class="flex items-center gap-1"><span class="material-symbols-outlined fill text-neo-green text-sm" aria-hidden="true">check_box</span> Player Connections Stable</span>
-                    <span class="flex items-center gap-1"><span class="material-symbols-outlined fill text-neo-green text-sm" aria-hidden="true">check_box</span> Game Data Synchronized</span>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </div>
+            <!-- Hidden Asset Loading Fallback Anchor -->
+            <div style="display:none;" aria-hidden="true">
+              <div id="loadBar" style="width:100%"></div>
+              <div id="loadPercent">100%</div>
+              <div id="loadTitleText">Match Ready!</div>
+              <div id="loadSubtitleText">All Assets Loaded &amp; Ready</div>
+              <span id="prepStatusFrames"></span>
+            </div>
 
-          <!-- Right Column (Span 1) -->
-          <div class="md:col-span-1 flex flex-col h-full min-h-0">
-            <!-- MATCH CONFIGURATION (EXPANDED TO FILL FULL HEIGHT) -->
-            <section class="bg-surface border-4 border-on-surface shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between rounded-xl overflow-hidden h-full flex-1">
+            <!-- MATCH CONFIGURATION (Moved to Left Column) -->
+            <section class="bg-surface border-4 border-on-surface shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between rounded-xl overflow-hidden flex-1">
               <!-- Header -->
               <div class="bg-neo-purple border-b-4 border-on-surface p-3.5 flex items-center justify-between shrink-0">
                 <h3 class="font-headline-sm text-headline-sm uppercase text-on-surface flex items-center gap-2 font-black">
@@ -13573,6 +13538,34 @@
                 </div>
 
               </div>
+            </section>
+          </div>
+
+          <!-- Right Column (Span 1) -->
+          <div class="md:col-span-1 flex flex-col h-full min-h-0">
+            <!-- LOBBY CHAT BOX (EXACT SAME OUTER DIMENSIONS AND STYLING) -->
+            <section class="bg-surface border-4 border-on-surface shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between rounded-xl overflow-hidden h-full flex-1">
+              <!-- Header -->
+              <div class="bg-neo-blue border-b-4 border-on-surface p-3.5 flex items-center justify-between shrink-0">
+                <h3 class="font-headline-sm text-headline-sm uppercase text-on-surface flex items-center gap-2 font-black">
+                  <span class="material-symbols-outlined font-black">chat</span>
+                  Lobby Chat
+                </h3>
+                <span class="bg-surface border-2 border-on-surface px-2.5 py-1 font-label-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-black flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-neo-green inline-block"></span> Live
+                </span>
+              </div>
+
+              <!-- Live Lobby Chat Stream -->
+              <div class="chat-stream flex-1" id="lobbyChatStream">
+                <div class="chat-msg-round">💬 Lobby chat ready! Say hello! 👋</div>
+              </div>
+
+              <!-- Lobby Chat Input Form -->
+              <form class="chat-input-form shrink-0" id="lobbyChatForm" onsubmit="ChatEngine.handleLobbyFormSubmit(event)">
+                <input type="text" id="lobbyChatInput" class="chat-input-box" placeholder="Chat with lobby..." autocomplete="off" maxlength="80" />
+                <button type="submit" class="chat-send-btn" id="lobbyChatSendBtn">Send</button>
+              </form>
             </section>
           </div>
         </div>
@@ -16872,12 +16865,21 @@
 
       renderSystemMessage(htmlOrText) {
         const stream = document.getElementById('liveChatStream');
-        if (!stream) return;
-        const msgEl = document.createElement('div');
-        msgEl.className = 'chat-notice-subtle';
-        msgEl.innerHTML = '<span class="cns-text">' + htmlOrText + '</span>';
-        stream.appendChild(msgEl);
-        stream.scrollTop = stream.scrollHeight;
+        if (stream) {
+          const msgEl = document.createElement('div');
+          msgEl.className = 'chat-notice-subtle';
+          msgEl.innerHTML = '<span class="cns-text">' + htmlOrText + '</span>';
+          stream.appendChild(msgEl);
+          stream.scrollTop = stream.scrollHeight;
+        }
+        const lobbyStream = document.getElementById('lobbyChatStream');
+        if (lobbyStream) {
+          const lobbyEl = document.createElement('div');
+          lobbyEl.className = 'chat-notice-subtle';
+          lobbyEl.innerHTML = '<span class="cns-text">' + htmlOrText + '</span>';
+          lobbyStream.appendChild(lobbyEl);
+          lobbyStream.scrollTop = lobbyStream.scrollHeight;
+        }
       },
 
       renderPersonalHintMessage(hintText) {
@@ -16926,11 +16928,22 @@
         this.processOutgoingMessage(text);
       },
 
+      handleLobbyFormSubmit(event) {
+        if (event) event.preventDefault();
+        const input = document.getElementById('lobbyChatInput');
+        const text = input ? input.value.trim() : '';
+        if (!text) return;
+        this.clearInputs();
+        this.processOutgoingMessage(text);
+      },
+
       setPlaceholder(text) {
         const desktopInput = document.getElementById('chatTextInput');
         if (desktopInput) desktopInput.placeholder = text;
         const mobileInput = document.getElementById('mobileQuickInput');
         if (mobileInput) mobileInput.placeholder = text;
+        const lobbyInput = document.getElementById('lobbyChatInput');
+        if (lobbyInput) lobbyInput.placeholder = text;
       },
 
       clearInputs() {
@@ -16938,6 +16951,8 @@
         if (desktopInput) desktopInput.value = '';
         const mobileInput = document.getElementById('mobileQuickInput');
         if (mobileInput) mobileInput.value = '';
+        const lobbyInput = document.getElementById('lobbyChatInput');
+        if (lobbyInput) lobbyInput.value = '';
       },
 
       processOutgoingMessage(text) {
@@ -17009,8 +17024,7 @@
       },
 
       renderMessage(msg) {
-        const stream = document.getElementById('liveChatStream');
-        if (!stream || !msg) return;
+        if (!msg) return;
 
         // Defense-in-depth: Never render the answer into live chat stream during an active round
         const currentAns = this.getCurrentRoundAnswer();
@@ -17032,9 +17046,6 @@
 
         const isMe = msg.senderId === MultiplayerEngine.playerId;
         const safeMsgId = String(msg.id).replace(/[^a-zA-Z0-9_-]/g, '');
-        const msgEl = document.createElement('div');
-        msgEl.className = 'chat-msg';
-        msgEl.id = 'chatMsg_' + safeMsgId;
 
         const rawKey = String(msg.senderAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
         const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
@@ -17059,24 +17070,50 @@
             '<span class="reaction-count" id="dislikeCount_' + safeMsgId + '"></span>' +
           '</button>');
 
-        msgEl.innerHTML = '<div class="chat-avatar">' +
-          '<img src="avvtar/' + safeAvatar + '.svg" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/aman.svg\'" />' +
-          '</div>' +
-          '<div class="chat-msg-body">' +
-          '<div class="chat-msg-header">' +
-          '<span style="color:#1a1a1a;">' + SecurityUtil.escapeHtml(msg.senderName) + '</span>' +
-          (msg.isGuessed ? '<span class="chat-badge-guessed">🏆 GUESSED</span>' : '') +
-          (isMe ? '<span style="color:#3b82f6; font-size:10px;">(YOU)</span>' : '') +
-          '</div>' +
-          '<div class="chat-msg-text">' + SecurityUtil.escapeHtml(msg.text) + '</div>' +
-          '<div class="chat-msg-reactions" data-msg-id="' + msg.id + '">' +
-            reactionButtonsHtml +
-          '</div>' +
-          '</div>';
+        const stream = document.getElementById('liveChatStream');
+        if (stream) {
+          const msgEl = document.createElement('div');
+          msgEl.className = 'chat-msg';
+          msgEl.id = 'chatMsg_' + safeMsgId;
+          msgEl.innerHTML = '<div class="chat-avatar">' +
+            '<img src="avvtar/' + safeAvatar + '.svg" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/aman.svg\'" />' +
+            '</div>' +
+            '<div class="chat-msg-body">' +
+            '<div class="chat-msg-header">' +
+            '<span style="color:#1a1a1a;">' + SecurityUtil.escapeHtml(msg.senderName) + '</span>' +
+            (msg.isGuessed ? '<span class="chat-badge-guessed">🏆 GUESSED</span>' : '') +
+            (isMe ? '<span style="color:#3b82f6; font-size:10px;">(YOU)</span>' : '') +
+            '</div>' +
+            '<div class="chat-msg-text">' + SecurityUtil.escapeHtml(msg.text) + '</div>' +
+            '<div class="chat-msg-reactions" data-msg-id="' + msg.id + '">' +
+              reactionButtonsHtml +
+            '</div>' +
+            '</div>';
 
-        stream.appendChild(msgEl);
-        this.updateReactionUI(msg.id);
-        stream.scrollTop = stream.scrollHeight;
+          stream.appendChild(msgEl);
+          this.updateReactionUI(msg.id);
+          stream.scrollTop = stream.scrollHeight;
+        }
+
+        const lobbyStream = document.getElementById('lobbyChatStream');
+        if (lobbyStream) {
+          const lobbyEl = document.createElement('div');
+          lobbyEl.className = 'chat-msg';
+          lobbyEl.innerHTML = '<div class="chat-avatar">' +
+            '<img src="avvtar/' + safeAvatar + '.svg" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/aman.svg\'" />' +
+            '</div>' +
+            '<div class="chat-msg-body">' +
+            '<div class="chat-msg-header">' +
+            '<span style="color:#1a1a1a;">' + SecurityUtil.escapeHtml(msg.senderName) + '</span>' +
+            (msg.isGuessed ? '<span class="chat-badge-guessed">🏆 GUESSED</span>' : '') +
+            (isMe ? '<span style="color:#3b82f6; font-size:10px;">(YOU)</span>' : '') +
+            '</div>' +
+            '<div class="chat-msg-text">' + SecurityUtil.escapeHtml(msg.text) + '</div>' +
+            '</div>';
+
+          lobbyStream.appendChild(lobbyEl);
+          lobbyStream.scrollTop = lobbyStream.scrollHeight;
+        }
 
         if (!this.isMobileDrawerOpen) {
           this.unreadCount++;
