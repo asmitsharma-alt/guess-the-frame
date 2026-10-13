@@ -13917,7 +13917,7 @@
               <div class="ans-dialogue" id="ansDialogue"></div>
               <div class="ans-action-bar" id="ansActionBar">
                 <button type="button" class="ans-next-round-btn" id="ansNextRoundBtn" onclick="MultiplayerEngine.hostNextRound()">
-                  NEXT ROUND ⏭
+                  NEXT ROUND ⏭ [Enter]
                 </button>
                 <div class="ans-waiting-host-pill" id="ansWaitingHostPill" style="display:none;">
                   ⌛ Waiting for host to start next round...
@@ -16897,8 +16897,15 @@
       handleFormSubmit(event) {
         if (event) event.preventDefault();
         const input = document.getElementById('chatTextInput');
-        if (!input || !input.value.trim()) return;
-        const text = input.value.trim();
+        const text = input ? input.value.trim() : '';
+        if (!text) {
+          const ansOv = document.getElementById('answerOverlay');
+          const isAnsVisible = ansOv && (ansOv.classList.contains('visible') || ansOv.style.display === 'flex' || window.getComputedStyle(ansOv).display !== 'none');
+          if (isAnsVisible && typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.isHost) {
+            MultiplayerEngine.hostNextRound();
+          }
+          return;
+        }
         this.clearInputs();
         this.processOutgoingMessage(text);
       },
@@ -16906,8 +16913,15 @@
       handleMobileQuickGuess(event) {
         if (event) event.preventDefault();
         const input = document.getElementById('mobileQuickInput');
-        if (!input || !input.value.trim()) return;
-        const text = input.value.trim();
+        const text = input ? input.value.trim() : '';
+        if (!text) {
+          const ansOv = document.getElementById('answerOverlay');
+          const isAnsVisible = ansOv && (ansOv.classList.contains('visible') || ansOv.style.display === 'flex' || window.getComputedStyle(ansOv).display !== 'none');
+          if (isAnsVisible && typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.isHost) {
+            MultiplayerEngine.hostNextRound();
+          }
+          return;
+        }
         this.clearInputs();
         this.processOutgoingMessage(text);
       },
@@ -19208,6 +19222,13 @@
         if (submitBtn) submitBtn.disabled = false;
         if (pill) { pill.style.display = 'none'; pill.textContent = ''; }
 
+        setTimeout(() => {
+          const chatInput = document.getElementById('chatTextInput');
+          if (chatInput && !chatInput.disabled) {
+            chatInput.focus();
+          }
+        }, 50);
+
         const roundInfo = document.getElementById('roundInfo');
         if (roundInfo) roundInfo.textContent = `Round ${roundIndex + 1} / ${this.currentPlaylist.length}`;
         const secName = document.getElementById('curSecName');
@@ -19308,6 +19329,13 @@
         }
         if (submitBtn) submitBtn.disabled = false;
         if (pill) { pill.style.display = 'none'; pill.textContent = ''; }
+
+        setTimeout(() => {
+          const chatInput = document.getElementById('chatTextInput');
+          if (chatInput && !chatInput.disabled) {
+            chatInput.focus();
+          }
+        }, 50);
 
         const roundInfo = document.getElementById('roundInfo');
         const totalR = msg.totalRounds || this.totalMatchRounds || 10;
@@ -19654,7 +19682,7 @@
           const nextBtn = document.getElementById('ansNextRoundBtn');
           const waitPill = document.getElementById('ansWaitingHostPill');
           const isLast = (this.currentPlayIndex + 1 >= this.currentPlaylist.length);
-          const baseLabel = isLast ? 'FINISH MATCH 🏁' : 'NEXT ROUND ⏭';
+          const baseLabel = isLast ? 'FINISH MATCH 🏁 [Enter]' : 'NEXT ROUND ⏭ [Enter]';
           if (nextBtn) {
             nextBtn.style.display = 'inline-flex';
             nextBtn.textContent = baseLabel + ' (20s)';
@@ -22072,6 +22100,16 @@
       const on = id => { const el = document.getElementById(id); return el && el.classList.contains('active'); };
 
       if (e.key === 'Enter') {
+        const ansOv = document.getElementById('answerOverlay');
+        const isAnsVisible = ansOv && (ansOv.classList.contains('visible') || ansOv.style.display === 'flex' || window.getComputedStyle(ansOv).display !== 'none');
+        if (isAnsVisible) {
+          if (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.isHost) {
+            e.preventDefault();
+            MultiplayerEngine.hostNextRound();
+          }
+          return;
+        }
+
         if (on('homeScreen')) {
           e.preventDefault();
           MultiplayerEngine.openCreateModal();
