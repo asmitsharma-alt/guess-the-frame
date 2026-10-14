@@ -8578,9 +8578,17 @@
     }
 
     /* Mobile Responsive Optimizations */
+    @media (max-width: 767px) {
+      #playerLobbyScreen {
+        justify-content: flex-start !important;
+        padding-top: 16px !important;
+        padding-bottom: 220px !important;
+      }
+    }
     @media (max-width: 480px) {
       #playerLobbyScreen {
-        padding: 12px 10px !important;
+        justify-content: flex-start !important;
+        padding: 12px 10px 220px 10px !important;
       }
       #playerLobbyScreen .lobby-wrap {
         max-width: 360px !important;
@@ -8737,6 +8745,377 @@
       .h-card-mp {
         width: 100%;
         max-width: 240px;
+      }
+    }
+
+    /* ══ MATCH CONFIGURATION COMPACT REDESIGN ══ */
+    .match-config-header {
+      background-color: var(--nb-purple, #9747FF);
+      border-bottom: 4px solid #1a1c19;
+      padding: 0 16px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      box-sizing: border-box;
+    }
+    .match-config-title {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 900;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #1a1c19;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      line-height: 1;
+      margin: 0;
+      white-space: nowrap;
+    }
+    .match-config-title svg {
+      width: 17px;
+      height: 17px;
+      flex-shrink: 0;
+      display: block;
+    }
+    .match-config-badge {
+      background: #ffffff;
+      border: 2px solid #1a1c19;
+      border-radius: 6px;
+      padding: 0 10px;
+      height: 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 900;
+      font-size: 12px;
+      text-transform: uppercase;
+      color: #1a1c19;
+      box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .match-config-top-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      align-items: stretch;
+    }
+    @media (min-width: 1024px) {
+      .match-config-top-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .match-config-mode-btns {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+    }
+    .match-config-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      align-items: stretch;
+    }
+    .match-mode-btn {
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 0 4px;
+      border: 2px solid #1a1c19;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+      transition: all 0.15s ease;
+      line-height: 1;
+    }
+    .match-mode-btn:hover {
+      transform: translateY(-1px);
+    }
+    .match-mode-btn:active {
+      transform: translateY(1px);
+      box-shadow: 1px 1px 0px 0px rgba(0,0,0,1);
+    }
+    .match-mode-panel {
+      background-color: rgba(230, 230, 220, 0.2);
+      border: 2px solid #1a1c19;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+    .match-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      min-width: 0;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 0 2px;
+    }
+    .match-section-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11.5px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #1a1c19;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      line-height: 1;
+      white-space: nowrap;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .match-section-title svg {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+      display: block;
+    }
+    .match-section-meta {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #74796e;
+      line-height: 1;
+      white-space: nowrap;
+      flex-shrink: 0;
+      user-select: none;
+    }
+    .match-timer-panel {
+      background-color: rgba(230, 230, 220, 0.2);
+      border: 2px solid #1a1c19;
+      border-radius: 12px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      box-sizing: border-box;
+      min-width: 0;
+    }
+    .match-timer-stepper {
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      background: #9b59b6;
+      border: 2px solid #1a1c19;
+      border-radius: 9px;
+      box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+      padding: 3px;
+      gap: 3px;
+      width: fit-content;
+      max-width: 100%;
+      flex-shrink: 0;
+      user-select: none;
+      box-sizing: border-box;
+    }
+    .match-timer-btn {
+      width: 28px !important;
+      height: 28px !important;
+      min-height: 28px !important;
+      max-height: 28px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      background: #ffffff !important;
+      color: #1a1c19 !important;
+      border: 2px solid #1a1c19 !important;
+      border-radius: 6px !important;
+      cursor: pointer !important;
+      flex-shrink: 0 !important;
+      box-shadow: 1px 1px 0px 0px rgba(0,0,0,1) !important;
+      transition: all 0.15s ease !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+    }
+    .match-timer-btn:hover {
+      background: #f4f4ee !important;
+      transform: translateY(-0.5px) !important;
+    }
+    .match-timer-btn:active {
+      transform: translateY(1px) !important;
+      box-shadow: 0px 0px 0px 0px rgba(0,0,0,1) !important;
+    }
+    .match-timer-value {
+      min-width: 50px;
+      padding: 0 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      box-sizing: border-box;
+    }
+    .match-timer-val-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 900;
+      color: #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      line-height: 1;
+    }
+    .match-timer-unit-text {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 7.5px;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.9);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1;
+      margin-top: 1.5px;
+    }
+    .match-card-btn {
+      height: 28px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #1a1c19;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 1px 1px 0px 0px rgba(0,0,0,1);
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    .match-card-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
+    }
+    .match-card-title {
+      font-size: 11.5px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.025em;
+      display: flex;
+      align-items: center;
+      gap: 3.5px;
+      min-width: 0;
+      line-height: 1;
+    }
+    .match-card-rounds-count {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+    .match-card-rounds-label {
+      font-size: 9.5px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #74796e;
+      margin-top: 2px;
+      line-height: 1;
+    }
+    @media (max-width: 640px) {
+      .match-config-header {
+        padding: 0 12px;
+        height: 38px;
+      }
+      .match-config-title {
+        font-size: 12px;
+        gap: 6px;
+      }
+      .match-config-title svg {
+        width: 15px;
+        height: 15px;
+      }
+      .match-config-badge {
+        height: 22px;
+        padding: 0 8px;
+        font-size: 10.5px;
+      }
+      .match-config-mode-btns {
+        gap: 4px;
+      }
+      .match-config-cards-grid {
+        gap: 5px;
+      }
+      .match-mode-btn {
+        height: 34px;
+        font-size: 10.5px;
+        gap: 3px;
+        padding: 0 2px;
+      }
+      .match-mode-panel {
+        padding: 8px 10px;
+      }
+      .match-section-header {
+        padding: 0 2px;
+        gap: 6px;
+      }
+      .match-section-title {
+        font-size: 11px;
+        gap: 5px;
+      }
+      .match-section-title svg {
+        width: 12px;
+        height: 12px;
+      }
+      .match-section-meta {
+        font-size: 8.5px;
+      }
+      .match-timer-panel {
+        padding: 8px 10px;
+      }
+      .match-timer-stepper {
+        height: 34px;
+        padding: 2px;
+        gap: 2px;
+      }
+      .match-timer-btn {
+        width: 26px !important;
+        height: 26px !important;
+        min-height: 26px !important;
+        max-height: 26px !important;
+      }
+      .match-timer-value {
+        min-width: 44px;
+        padding: 0 2px;
+      }
+      .match-timer-val-text {
+        font-size: 13.5px;
+      }
+      .match-timer-unit-text {
+        font-size: 7px;
+      }
+      .match-card-btn {
+        height: 26px;
+      }
+      .match-card-title {
+        font-size: 8.5px;
+        gap: 2px;
+      }
+      .match-card-title svg {
+        width: 11px !important;
+        height: 11px !important;
+      }
+      .match-card-rounds-count {
+        font-size: 20px;
+      }
+      .match-card-rounds-label {
+        font-size: 7.5px;
       }
     }
 
@@ -13466,130 +13845,153 @@
             </div>
 
             <!-- MATCH CONFIGURATION (Moved to Left Column) -->
-            <section class="bg-surface border-4 border-on-surface shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between rounded-xl overflow-hidden flex-1">
+            <section class="bg-surface border-4 border-on-surface shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] flex flex-col rounded-xl overflow-hidden shrink-0">
               <!-- Header -->
-              <div class="bg-neo-purple border-b-4 border-on-surface p-3.5 flex items-center justify-between shrink-0">
-                <h3 class="font-headline-sm text-headline-sm uppercase text-on-surface flex items-center gap-2 font-black">
-                  <span class="material-symbols-outlined font-black">tune</span>
+              <div class="match-config-header">
+                <h3 class="match-config-title">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/></svg>
                   Match Configuration
                 </h3>
-                <span class="bg-surface border-2 border-on-surface px-2.5 py-1 font-label-bold text-xs uppercase shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] font-black" id="gameSettingsTotalBadge">40 Rounds</span>
+                <span class="match-config-badge" id="gameSettingsTotalBadge">40 Rounds</span>
               </div>
 
-              <div class="p-5 flex flex-col justify-between flex-1 gap-4">
+              <div class="p-3 sm:p-3.5 flex flex-col gap-2.5 sm:gap-3">
                 
-                <!-- Active Mode Toggle Badges -->
-                <div class="shrink-0">
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="font-label-bold text-xs uppercase tracking-wider text-on-surface flex items-center gap-1.5 font-bold">
-                      <span class="material-symbols-outlined text-base text-neo-purple">category</span> Mode Rotation
-                    </span>
-                    <span class="font-label-sm text-[10px] text-outline uppercase font-bold">Active Mode</span>
+                <!-- Top Configuration Section: Two-Column Layout -->
+                <div class="match-config-top-grid">
+                  <!-- Left Panel: Mode Selection -->
+                  <div class="match-mode-panel">
+                    <div class="match-section-header mb-2">
+                      <div class="match-section-title">
+                        <svg width="13" height="13" class="text-neo-purple shrink-0" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
+                        <span>Mode Selection</span>
+                      </div>
+                      <span class="match-section-meta">Active Mode</span>
+                    </div>
+                    <div class="match-config-mode-btns" id="categoryModeBadges">
+                      <!-- Frames Badge -->
+                      <button type="button" id="modeBadge-frames" onclick="PlayerLobby.toggleMode('frames')" class="mode-badge match-mode-btn" style="background-color: #cae6ff;">
+                        <svg width="13" height="13" class="shrink-0" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                        <span class="truncate leading-none">Frames</span>
+                      </button>
+                      <!-- Eyes Badge -->
+                      <button type="button" id="modeBadge-eyes" onclick="PlayerLobby.toggleMode('eyes')" class="mode-badge match-mode-btn" style="background-color: #86EFAC;">
+                        <svg width="13" height="13" class="shrink-0" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                        <span class="truncate leading-none">Eyes</span>
+                      </button>
+                      <!-- Dialogue Badge -->
+                      <button type="button" id="modeBadge-dialogue" onclick="PlayerLobby.toggleMode('dialogue')" class="mode-badge match-mode-btn" style="background-color: #FEF08A;">
+                        <svg width="13" height="13" class="shrink-0" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                        <span class="truncate leading-none">Dialogue</span>
+                      </button>
+                    </div>
                   </div>
-                  <div class="grid grid-cols-3 gap-2.5" id="categoryModeBadges">
-                    <!-- Frames Badge -->
-                    <button type="button" id="modeBadge-frames" onclick="PlayerLobby.toggleMode('frames')" class="mode-badge border-2 border-on-surface py-2.5 px-2 rounded-xl font-label-bold text-xs uppercase flex items-center justify-center gap-1.5 neo-shadow-sm active:translate-y-[1px] transition-all cursor-pointer font-black select-none" style="background-color: #cae6ff;">
-                      <span class="material-symbols-outlined text-base">panorama</span>
-                      <span>Frames</span>
-                    </button>
-                    <!-- Eyes Badge -->
-                    <button type="button" id="modeBadge-eyes" onclick="PlayerLobby.toggleMode('eyes')" class="mode-badge border-2 border-on-surface py-2.5 px-2 rounded-xl font-label-bold text-xs uppercase flex items-center justify-center gap-1.5 neo-shadow-sm active:translate-y-[1px] transition-all cursor-pointer font-black select-none" style="background-color: #86EFAC;">
-                      <span class="material-symbols-outlined text-base">visibility</span>
-                      <span>Eyes</span>
-                    </button>
-                    <!-- Dialogue Badge -->
-                    <button type="button" id="modeBadge-dialogue" onclick="PlayerLobby.toggleMode('dialogue')" class="mode-badge border-2 border-on-surface py-2.5 px-2 rounded-xl font-label-bold text-xs uppercase flex items-center justify-center gap-1.5 neo-shadow-sm active:translate-y-[1px] transition-all cursor-pointer font-black select-none" style="background-color: #FEF08A;">
-                      <span class="material-symbols-outlined text-base">chat</span>
-                      <span>Dialogue</span>
-                    </button>
+
+                  <!-- Right Panel: Round Timer -->
+                  <div class="match-timer-panel">
+                    <div class="flex flex-col justify-center min-w-0 pr-1 select-none">
+                      <span class="font-label-bold text-[11px] sm:text-[11.5px] uppercase font-black text-on-surface flex items-center gap-1.5 whitespace-nowrap leading-none">
+                        <svg width="13" height="13" class="text-neo-purple shrink-0" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Round Timer
+                      </span>
+                      <span class="font-label-sm text-[9px] sm:text-[9.5px] text-outline uppercase font-bold tracking-tight whitespace-nowrap leading-none mt-1 sm:mt-1.5">
+                        Per movie frame
+                      </span>
+                    </div>
+                    <div class="match-timer-stepper">
+                      <button type="button" onclick="PlayerLobby.adjustTimer(-1)" class="match-timer-btn" title="Decrease Timer">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                      </button>
+                      <div id="hostTimerBtn" class="match-timer-value">
+                        <span id="hostTimerBtnText" class="match-timer-val-text">30s</span>
+                        <span class="match-timer-unit-text">Seconds</span>
+                      </div>
+                      <button type="button" onclick="PlayerLobby.adjustTimer(1)" class="match-timer-btn" title="Increase Timer">
+                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                      </button>
+                    </div>
                   </div>
                 </div>
 
-                <hr class="border-t-2 border-dashed border-outline/30 my-0 shrink-0"/>
-
-                <!-- Live Round Distribution Steppers (Per Mode) Expanded -->
-                <div class="flex-1 flex flex-col justify-between my-1">
-                  <div class="flex items-center justify-between mb-2">
-                    <span class="font-label-bold text-xs uppercase tracking-wider text-on-surface flex items-center gap-1.5 font-bold">
-                      <span class="material-symbols-outlined text-base text-neo-purple">grid_view</span> Rounds by Mode
-                    </span>
-                    <span class="font-label-sm text-[10px] text-outline uppercase font-bold">20 Frames • 10 Eyes • 10 Dialogue</span>
+                <!-- Bottom Section: Rounds by Mode -->
+                <div class="shrink-0 flex flex-col gap-1.5">
+                  <div class="match-section-header">
+                    <div class="match-section-title">
+                      <svg width="13" height="13" class="text-neo-purple shrink-0" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/></svg>
+                      <span>Rounds by Mode</span>
+                    </div>
+                    <span class="match-section-meta">Per Active Mode</span>
                   </div>
 
-                  <div class="grid grid-cols-3 gap-2.5 flex-1 items-stretch">
+                  <div class="match-config-cards-grid">
                     <!-- Frames Stepper Card -->
-                    <div id="modeCard-frames" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-3 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden h-full" style="border-top: 4px solid #3b82f6;">
-                      <div class="flex items-center justify-between mb-1.5 pb-1.5 border-b-2 border-outline/20 cursor-pointer" onclick="PlayerLobby.toggleMode('frames')">
-                        <span class="font-label-bold text-xs uppercase font-black text-on-surface flex items-center gap-1">
-                          <span class="material-symbols-outlined text-sm">panorama</span> Frame
+                    <div id="modeCard-frames" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-1.5 sm:p-2.5 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden select-none" style="border-top: 4px solid #3b82f6;">
+                      <div class="flex items-center justify-between pb-1.5 border-b border-on-surface/10 cursor-pointer h-6" onclick="PlayerLobby.toggleMode('frames')">
+                        <span class="match-card-title text-on-surface truncate">
+                          <svg width="13" height="13" class="shrink-0 text-[#3b82f6]" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
+                          <span class="truncate">Frames</span>
                         </span>
-                        <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface" id="modeStatusDot-frames"></span>
+                        <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface shrink-0" id="modeStatusDot-frames"></span>
                       </div>
-                      <div class="flex flex-col items-center justify-center py-4 flex-1">
-                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostFramesRoundsBtn">20</span>
-                        <span class="text-[9px] font-label-bold uppercase text-outline mt-1.5 tracking-wider font-black">Rounds</span>
+                      <div class="flex flex-col items-center justify-center py-2 sm:py-2.5 leading-none">
+                        <span class="match-card-rounds-count text-on-surface" id="hostFramesRoundsBtn">20</span>
+                        <span class="match-card-rounds-label">Rounds</span>
                       </div>
-                      <div class="grid grid-cols-2 gap-1.5 mt-auto pt-2 border-t-2 border-dashed border-outline/20">
-                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', -1)" class="w-full bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Decrease Frame Rounds">−</button>
-                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', 1)" class="w-full bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Increase Frame Rounds">+</button>
+                      <div class="grid grid-cols-2 gap-1.5 pt-1.5 border-t border-on-surface/10">
+                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', -1)" class="match-card-btn bg-[#ffd8df] hover:bg-[#ffb6c1] active:bg-[#ff9fad] text-on-surface" title="Decrease Frame Rounds">
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
+                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', 1)" class="match-card-btn bg-[#cae6ff] hover:bg-[#a6d5ff] active:bg-[#8cc6ff] text-on-surface" title="Increase Frame Rounds">
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
                       </div>
                     </div>
 
                     <!-- Eyes Stepper Card -->
-                    <div id="modeCard-eyes" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-3 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden h-full" style="border-top: 4px solid #22c55e;">
-                      <div class="flex items-center justify-between mb-1.5 pb-1.5 border-b-2 border-outline/20 cursor-pointer" onclick="PlayerLobby.toggleMode('eyes')">
-                        <span class="font-label-bold text-xs uppercase font-black text-on-surface flex items-center gap-1">
-                          <span class="material-symbols-outlined text-sm">visibility</span> Eyes
+                    <div id="modeCard-eyes" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-1.5 sm:p-2.5 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden select-none" style="border-top: 4px solid #22c55e;">
+                      <div class="flex items-center justify-between pb-1.5 border-b border-on-surface/10 cursor-pointer h-6" onclick="PlayerLobby.toggleMode('eyes')">
+                        <span class="match-card-title text-on-surface truncate">
+                          <svg width="13" height="13" class="shrink-0 text-[#22c55e]" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                          <span class="truncate">Eyes</span>
                         </span>
-                        <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface" id="modeStatusDot-eyes"></span>
+                        <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface shrink-0" id="modeStatusDot-eyes"></span>
                       </div>
-                      <div class="flex flex-col items-center justify-center py-4 flex-1">
-                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostEyesRoundsBtn">10</span>
-                        <span class="text-[9px] font-label-bold uppercase text-outline mt-1.5 tracking-wider font-black">Rounds</span>
+                      <div class="flex flex-col items-center justify-center py-2 sm:py-2.5 leading-none">
+                        <span class="match-card-rounds-count text-on-surface" id="hostEyesRoundsBtn">10</span>
+                        <span class="match-card-rounds-label">Rounds</span>
                       </div>
-                      <div class="grid grid-cols-2 gap-1.5 mt-auto pt-2 border-t-2 border-dashed border-outline/20">
-                        <button type="button" onclick="PlayerLobby.adjustRounds('eyes', -1)" class="w-full bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Decrease Eyes Rounds">−</button>
-                        <button type="button" onclick="PlayerLobby.adjustRounds('eyes', 1)" class="w-full bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Increase Eyes Rounds">+</button>
+                      <div class="grid grid-cols-2 gap-1.5 pt-1.5 border-t border-on-surface/10">
+                        <button type="button" onclick="PlayerLobby.adjustRounds('eyes', -1)" class="match-card-btn bg-[#ffd8df] hover:bg-[#ffb6c1] active:bg-[#ff9fad] text-on-surface" title="Decrease Eyes Rounds">
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
+                        <button type="button" onclick="PlayerLobby.adjustRounds('eyes', 1)" class="match-card-btn bg-[#cae6ff] hover:bg-[#a6d5ff] active:bg-[#8cc6ff] text-on-surface" title="Increase Eyes Rounds">
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
                       </div>
                     </div>
 
                     <!-- Dialogue Stepper Card -->
-                    <div id="modeCard-dialogue" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-3 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden h-full" style="border-top: 4px solid #eab308;">
-                      <div class="flex items-center justify-between mb-1.5 pb-1.5 border-b-2 border-outline/20 cursor-pointer" onclick="PlayerLobby.toggleMode('dialogue')">
-                        <span class="font-label-bold text-xs uppercase font-black text-on-surface flex items-center gap-1">
-                          <span class="material-symbols-outlined text-sm">chat</span> Dialogue
+                    <div id="modeCard-dialogue" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-1.5 sm:p-2.5 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden select-none" style="border-top: 4px solid #eab308;">
+                      <div class="flex items-center justify-between pb-1.5 border-b border-on-surface/10 cursor-pointer h-6" onclick="PlayerLobby.toggleMode('dialogue')">
+                        <span class="match-card-title text-on-surface truncate">
+                          <svg width="13" height="13" class="shrink-0 text-[#eab308]" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                          <span class="truncate">Dialogue</span>
                         </span>
-                        <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface" id="modeStatusDot-dialogue"></span>
+                        <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface shrink-0" id="modeStatusDot-dialogue"></span>
                       </div>
-                      <div class="flex flex-col items-center justify-center py-4 flex-1">
-                        <span class="font-headline-xl text-4xl font-black text-on-surface leading-none" id="hostDialogueRoundsBtn">10</span>
-                        <span class="text-[9px] font-label-bold uppercase text-outline mt-1.5 tracking-wider font-black">Rounds</span>
+                      <div class="flex flex-col items-center justify-center py-2 sm:py-2.5 leading-none">
+                        <span class="match-card-rounds-count text-on-surface" id="hostDialogueRoundsBtn">10</span>
+                        <span class="match-card-rounds-label">Rounds</span>
                       </div>
-                      <div class="grid grid-cols-2 gap-1.5 mt-auto pt-2 border-t-2 border-dashed border-outline/20">
-                        <button type="button" onclick="PlayerLobby.adjustRounds('dialogue', -1)" class="w-full bg-[#ffd8df] hover:bg-[#ffb6c1] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Decrease Dialogue Rounds">−</button>
-                        <button type="button" onclick="PlayerLobby.adjustRounds('dialogue', 1)" class="w-full bg-[#cae6ff] hover:bg-[#a6d5ff] border-2 border-on-surface font-black text-sm py-1.5 rounded-lg flex items-center justify-center active:translate-y-[1px] transition-all cursor-pointer shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" title="Increase Dialogue Rounds">+</button>
+                      <div class="grid grid-cols-2 gap-1.5 pt-1.5 border-t border-on-surface/10">
+                        <button type="button" onclick="PlayerLobby.adjustRounds('dialogue', -1)" class="match-card-btn bg-[#ffd8df] hover:bg-[#ffb6c1] active:bg-[#ff9fad] text-on-surface" title="Decrease Dialogue Rounds">
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
+                        <button type="button" onclick="PlayerLobby.adjustRounds('dialogue', 1)" class="match-card-btn bg-[#cae6ff] hover:bg-[#a6d5ff] active:bg-[#8cc6ff] text-on-surface" title="Increase Dialogue Rounds">
+                          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        </button>
                       </div>
                     </div>
-                  </div>
-                </div>
-
-                <hr class="border-t-2 border-dashed border-outline/30 my-0 shrink-0"/>
-
-                <!-- Timer Stepper (Inline Row) Expanded -->
-                <div class="flex items-center justify-between bg-surface-variant/40 border-2 border-on-surface rounded-xl p-4 neo-shadow-sm shrink-0">
-                  <div class="flex flex-col">
-                    <span class="font-label-bold text-xs uppercase font-bold text-on-surface flex items-center gap-1.5">
-                      <span class="material-symbols-outlined text-base text-neo-purple">timer</span>
-                      Round Timer
-                    </span>
-                    <span class="font-label-sm text-[10px] text-outline uppercase font-bold">Per movie frame</span>
-                  </div>
-                  <div class="flex items-center bg-primary-container border-2 border-on-surface rounded-lg p-1.5 neo-shadow-sm">
-                    <button type="button" onclick="PlayerLobby.adjustTimer(-1)" class="w-8 h-8 bg-surface hover:bg-surface-variant border-2 border-on-surface font-black text-sm flex items-center justify-center rounded-lg cursor-pointer active:translate-y-[1px] transition-all shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]" title="Decrease Timer">−</button>
-                    <div class="px-3.5 font-headline-sm text-base uppercase font-black tracking-wide text-on-surface min-w-[55px] text-center" id="hostTimerBtn">
-                      <span id="hostTimerBtnText">30s</span>
-                    </div>
-                    <button type="button" onclick="PlayerLobby.adjustTimer(1)" class="w-8 h-8 bg-surface hover:bg-surface-variant border-2 border-on-surface font-black text-sm flex items-center justify-center rounded-lg cursor-pointer active:translate-y-[1px] transition-all shadow-[1px_1px_0px_0px_rgba(0,0,0,1)]" title="Increase Timer">+</button>
                   </div>
                 </div>
 
