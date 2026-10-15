@@ -2,7 +2,7 @@ const { test, expect } = require('@playwright/test');
 
 test('Homepage loads correctly', async ({ page }) => {
   await page.goto('/');
-  await expect(page).toHaveTitle(/Guess The Frame By Asmit/);
+  await expect(page).toHaveTitle(/Guess The Frame/);
   await expect(page.locator('#homeScreen.active')).toBeVisible();
   await expect(page.locator('.h-hero')).toBeVisible();
   await expect(page.locator('.h-card-mp, .h-card-play').first()).toBeVisible();

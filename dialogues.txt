@@ -1,28 +1,23 @@
-"Aaya hoon, kuch toh loot kar jaunga... Khandani chor hoon main, khandani!" 
-- Andaaz apna apna
 
-"Khoon kharabe wale khandan se aata hoon... roz subah uthkar 2-4 khoon na karoon toh mera naashta hazam nahi hota!"
-- hungama
 
-"Yeh koi tareeka hai bheek maangne ka?!"
-- Golmaal
+## 🌍 International Cinema (Hollywood)
 
-​"Meri ek taang nakli hai, main hockey ka bohot bada khiladi tha..."
-- Welcome
+| # | Dialogue | Movie | Year | Actor / Character | Answer (Uppercase) |
+|---|---|---|---|---|---|
+| **1** | *"In case I don't see ya, good afternoon, good evening, and good night!"* | The Truman Show | 1998 | Jim Carrey (*Truman Burbank*) | `THE TRUMAN SHOW` |
+| **2** | *"There is a difference between knowing the path and walking the path."* | The Matrix | 1999 | Laurence Fishburne (*Morpheus*) | `THE MATRIX` |
+| **3** | *"Get busy living, or get busy dying."* | The Shawshank Redemption | 1994 | Tim Robbins (*Andy Dufresne*) | `THE SHAWSHANK REDEMPTION` |
+| **4** | *"I think this just might be my masterpiece."* | Inglourious Basterds | 2009 | Brad Pitt (*Lt. Aldo Raine*) | `INGLOURIOUS BASTERDS` |
+| **5** | *"I'm the guy who does his job. You must be the other guy."* | The Departed | 2006 | Mark Wahlberg (*Staff Sergeant Sean Dignam*) | `THE DEPARTED` |
 
-"Arey ₹5 mein chicken biryani de raha hai re woh!"
-- Run
-"Hi, guys. We're going on a national bikini tour, and we're looking for two oil boys who can grease us up before each competition." 
+---
 
-Dumb and Dumber
-​"It’s not a purse, it’s a satchel. Gods and Indiana Jones wears one."
-- The hangover
-I'm not Bad. I'm just Drawn That Way. 
+## 🇮🇳 Indian Cinema (Bollywood)
 
-Who Framed Roger Rabbit 
-I don't want to survive. I want to live. 
-
-Wall-E
-I wasted so much time worrying what could go wrong, but what did go wrong, was never the things I worried about. 
-
-The Worst Person in the world
+| # | Dialogue | Movie | Year | Actor / Character | English Translation | Answer (Uppercase) |
+|---|---|---|---|---|---|---|
+| **6** | *"Yeh duniya kisi ki laalach ke liye nahi, zaroorat ke liye bani hai."* | Tumbbad | 2018 | Sohum Shah (*Vinayak Rao*) | This world was made for man's need, not man's greed. | `TUMBBAD` |
+| **7** | *"Inteqaam se sirf inteqaam paida hota hai."* | Haider | 2014 | Tabu (*Ghazala Meer*) / Shahid Kapoor (*Haider Meer*) | Revenge only gives birth to more revenge. | `HAIDER` |
+| **8** | *"Freedom is my birthright and fighting for freedom is no crime."* | Sardar Udham | 2021 | Vicky Kaushal (*Sardar Udham Singh*) | Freedom is my birthright and fighting for freedom is no crime. | `SARDAR UDHAM` |
+| **9** | *"Jao pehle us aadmi ka sign le kar aao jisne mere baap ko chor kaha tha."* | Deewaar | 1975 | Amitabh Bachchan (*Vijay Verma*) | Go first and bring the signature of the man who called my father a thief. | `DEEWAAR` |
+| **10** | *"Apne hi paani mein pighal jaana barf ka muqaddar hota hai."* | Swades | 2004 | Shah Rukh Khan (*Mohan Bhargava*) | To melt into its own water is the destiny of ice. | `SWADES` |

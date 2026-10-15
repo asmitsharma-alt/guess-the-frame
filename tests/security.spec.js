@@ -38,7 +38,7 @@ test.describe("Security, Input Sanitization & Authorization Defenses", () => {
         roomCode: "SEC1",
         senderId: "player_1",
         type: "CHAT_MESSAGE",
-        timestamp: Date.now() - 120000, // 2 minutes ago (limit is 60s)
+        timestamp: Date.now() - 300000, // 5 minutes ago (limit is 120s)
         msg: { text: "Hello from the past" }
       };
       return NetworkSecurity.validateIncomingMessage(staleMsg, "SEC1", [], false);

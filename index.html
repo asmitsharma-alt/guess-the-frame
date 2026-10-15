@@ -8947,6 +8947,9 @@
       transition: all 0.15s ease !important;
       padding: 0 !important;
       box-sizing: border-box !important;
+      touch-action: manipulation !important;
+      user-select: none !important;
+      -webkit-user-select: none !important;
     }
     .match-timer-btn:hover {
       background: #f4f4ee !important;
@@ -8997,6 +9000,8 @@
       box-shadow: 1px 1px 0px 0px rgba(0,0,0,1);
       transition: all 0.15s ease;
       user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
     }
     .match-card-btn:active {
       transform: translateY(1px);
@@ -13899,14 +13904,14 @@
                       </span>
                     </div>
                     <div class="match-timer-stepper">
-                      <button type="button" onclick="PlayerLobby.adjustTimer(-1)" class="match-timer-btn" title="Decrease Timer">
+                      <button type="button" onclick="if(!PlayerLobby._isRepeating){PlayerLobby.adjustTimer(-1);}else{PlayerLobby._isRepeating=false;}" onpointerdown="PlayerLobby.startRepeat('timer', -1)" class="match-timer-btn" title="Decrease Timer">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
                       </button>
                       <div id="hostTimerBtn" class="match-timer-value">
                         <span id="hostTimerBtnText" class="match-timer-val-text">30s</span>
                         <span class="match-timer-unit-text">Seconds</span>
                       </div>
-                      <button type="button" onclick="PlayerLobby.adjustTimer(1)" class="match-timer-btn" title="Increase Timer">
+                      <button type="button" onclick="if(!PlayerLobby._isRepeating){PlayerLobby.adjustTimer(1);}else{PlayerLobby._isRepeating=false;}" onpointerdown="PlayerLobby.startRepeat('timer', 1)" class="match-timer-btn" title="Increase Timer">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                       </button>
                     </div>
@@ -13938,10 +13943,10 @@
                         <span class="match-card-rounds-label">Rounds</span>
                       </div>
                       <div class="grid grid-cols-2 gap-1.5 pt-1.5 border-t border-on-surface/10">
-                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', -1)" class="match-card-btn bg-[#ffd8df] hover:bg-[#ffb6c1] active:bg-[#ff9fad] text-on-surface" title="Decrease Frame Rounds">
+                        <button type="button" onclick="if(!PlayerLobby._isRepeating){PlayerLobby.adjustRounds('frames', -1);}else{PlayerLobby._isRepeating=false;}" onpointerdown="PlayerLobby.startRepeat('rounds', 'frames', -1)" class="match-card-btn bg-[#ffd8df] hover:bg-[#ffb6c1] active:bg-[#ff9fad] text-on-surface" title="Decrease Frame Rounds">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         </button>
-                        <button type="button" onclick="PlayerLobby.adjustRounds('frames', 1)" class="match-card-btn bg-[#cae6ff] hover:bg-[#a6d5ff] active:bg-[#8cc6ff] text-on-surface" title="Increase Frame Rounds">
+                        <button type="button" onclick="if(!PlayerLobby._isRepeating){PlayerLobby.adjustRounds('frames', 1);}else{PlayerLobby._isRepeating=false;}" onpointerdown="PlayerLobby.startRepeat('rounds', 'frames', 1)" class="match-card-btn bg-[#cae6ff] hover:bg-[#a6d5ff] active:bg-[#8cc6ff] text-on-surface" title="Increase Frame Rounds">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         </button>
                       </div>
@@ -13961,10 +13966,10 @@
                         <span class="match-card-rounds-label">Rounds</span>
                       </div>
                       <div class="grid grid-cols-2 gap-1.5 pt-1.5 border-t border-on-surface/10">
-                        <button type="button" onclick="PlayerLobby.adjustRounds('eyes', -1)" class="match-card-btn bg-[#ffd8df] hover:bg-[#ffb6c1] active:bg-[#ff9fad] text-on-surface" title="Decrease Eyes Rounds">
+                        <button type="button" onclick="if(!PlayerLobby._isRepeating){PlayerLobby.adjustRounds('eyes', -1);}else{PlayerLobby._isRepeating=false;}" onpointerdown="PlayerLobby.startRepeat('rounds', 'eyes', -1)" class="match-card-btn bg-[#ffd8df] hover:bg-[#ffb6c1] active:bg-[#ff9fad] text-on-surface" title="Decrease Eyes Rounds">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         </button>
-                        <button type="button" onclick="PlayerLobby.adjustRounds('eyes', 1)" class="match-card-btn bg-[#cae6ff] hover:bg-[#a6d5ff] active:bg-[#8cc6ff] text-on-surface" title="Increase Eyes Rounds">
+                        <button type="button" onclick="if(!PlayerLobby._isRepeating){PlayerLobby.adjustRounds('eyes', 1);}else{PlayerLobby._isRepeating=false;}" onpointerdown="PlayerLobby.startRepeat('rounds', 'eyes', 1)" class="match-card-btn bg-[#cae6ff] hover:bg-[#a6d5ff] active:bg-[#8cc6ff] text-on-surface" title="Increase Eyes Rounds">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         </button>
                       </div>
@@ -13984,10 +13989,10 @@
                         <span class="match-card-rounds-label">Rounds</span>
                       </div>
                       <div class="grid grid-cols-2 gap-1.5 pt-1.5 border-t border-on-surface/10">
-                        <button type="button" onclick="PlayerLobby.adjustRounds('dialogue', -1)" class="match-card-btn bg-[#ffd8df] hover:bg-[#ffb6c1] active:bg-[#ff9fad] text-on-surface" title="Decrease Dialogue Rounds">
+                        <button type="button" onclick="if(!PlayerLobby._isRepeating){PlayerLobby.adjustRounds('dialogue', -1);}else{PlayerLobby._isRepeating=false;}" onpointerdown="PlayerLobby.startRepeat('rounds', 'dialogue', -1)" class="match-card-btn bg-[#ffd8df] hover:bg-[#ffb6c1] active:bg-[#ff9fad] text-on-surface" title="Decrease Dialogue Rounds">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         </button>
-                        <button type="button" onclick="PlayerLobby.adjustRounds('dialogue', 1)" class="match-card-btn bg-[#cae6ff] hover:bg-[#a6d5ff] active:bg-[#8cc6ff] text-on-surface" title="Increase Dialogue Rounds">
+                        <button type="button" onclick="if(!PlayerLobby._isRepeating){PlayerLobby.adjustRounds('dialogue', 1);}else{PlayerLobby._isRepeating=false;}" onpointerdown="PlayerLobby.startRepeat('rounds', 'dialogue', 1)" class="match-card-btn bg-[#cae6ff] hover:bg-[#a6d5ff] active:bg-[#8cc6ff] text-on-surface" title="Increase Dialogue Rounds">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         </button>
                       </div>
@@ -15500,12 +15505,13 @@
         }
       },
       render() {
+        this.renderPlayers();
+        this.renderSettings();
+      },
+
+      renderPlayers() {
         const list = document.getElementById('lobbyPlayerList');
         const count = document.getElementById('lobbyCount');
-        const startBtn = document.getElementById('lobbyStartBtn');
-        const mobileStartBtn = document.getElementById('mobileLobbyStartBtn');
-        const startText = document.getElementById('lobbyStartBtnText');
-        const mobileStartText = document.getElementById('mobileLobbyStartBtnText');
         const codeDisplay = document.getElementById('displayRoomCode');
 
         if (codeDisplay) {
@@ -15587,6 +15593,13 @@
         if (count) {
           count.textContent = `${GS.players.length} / 10 Players`;
         }
+      },
+
+      renderSettings() {
+        const startBtn = document.getElementById('lobbyStartBtn');
+        const mobileStartBtn = document.getElementById('mobileLobbyStartBtn');
+        const startText = document.getElementById('lobbyStartBtnText');
+        const mobileStartText = document.getElementById('mobileLobbyStartBtnText');
 
         // Settings sync
         const settings = MultiplayerEngine.hostSettings || {
@@ -15707,6 +15720,53 @@
         if (mobileStartText) mobileStartText.textContent = label;
       },
 
+      _repeatTimer: null,
+      _repeatInterval: null,
+      _isRepeating: false,
+
+      startRepeat(type, modeOrDelta, deltaOrEvent) {
+        if (!MultiplayerEngine.isHost) return;
+        this.stopRepeat();
+        this._isRepeating = false;
+
+        let action;
+        if (type === 'timer') {
+          const delta = modeOrDelta;
+          action = () => this.adjustTimer(delta);
+        } else if (type === 'rounds') {
+          const mode = modeOrDelta;
+          const delta = deltaOrEvent;
+          action = () => this.adjustRounds(mode, delta);
+        }
+
+        this._repeatTimer = setTimeout(() => {
+          this._isRepeating = true;
+          if (action) action();
+          this._repeatInterval = setInterval(() => {
+            if (action) action();
+          }, 80);
+        }, 320);
+
+        const stopHandler = () => {
+          this.stopRepeat();
+          window.removeEventListener('pointerup', stopHandler, true);
+          window.removeEventListener('pointercancel', stopHandler, true);
+        };
+        window.addEventListener('pointerup', stopHandler, true);
+        window.addEventListener('pointercancel', stopHandler, true);
+      },
+
+      stopRepeat() {
+        if (this._repeatTimer) {
+          clearTimeout(this._repeatTimer);
+          this._repeatTimer = null;
+        }
+        if (this._repeatInterval) {
+          clearInterval(this._repeatInterval);
+          this._repeatInterval = null;
+        }
+      },
+
       applyPreset(preset) {
         if (!MultiplayerEngine.isHost) return;
         SoundManager.playClick();
@@ -15771,7 +15831,6 @@
 
       adjustRounds(mode, delta) {
         if (!MultiplayerEngine.isHost) return;
-        SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
             category: 'all',
@@ -15787,7 +15846,10 @@
         
         let current = Number(s.roundsByMode[mode]) || 0;
         const maxRounds = mode === 'frames' ? 20 : 10;
-        current = Math.max(0, Math.min(maxRounds, current + delta));
+        const next = Math.max(0, Math.min(maxRounds, current + delta));
+        if (next === current) return;
+        SoundManager.playClick();
+        current = next;
         s.roundsByMode[mode] = current;
 
         if (current > 0 && !s.categories.includes(mode)) {
@@ -15801,9 +15863,13 @@
         else if (s.categories.length === 1) s.category = s.categories[0];
         else s.category = 'mixed';
 
-        MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
-        MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
-        this.render();
+        if (typeof MultiplayerEngine.syncHostSettingsDebounced === 'function') {
+          MultiplayerEngine.syncHostSettingsDebounced();
+        } else {
+          MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
+          MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
+        }
+        this.renderSettings();
       },
 
       cycleRounds(mode) {
@@ -15812,7 +15878,6 @@
 
       adjustTimer(delta) {
         if (!MultiplayerEngine.isHost) return;
-        SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
             category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
@@ -15822,10 +15887,16 @@
         }
         const current = Number(MultiplayerEngine.hostSettings.timer) || 30;
         const newTimer = Math.max(1, Math.min(180, current + delta));
+        if (newTimer === current) return;
+        SoundManager.playClick();
         MultiplayerEngine.hostSettings.timer = newTimer;
-        MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: MultiplayerEngine.hostSettings });
-        MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
-        this.render();
+        if (typeof MultiplayerEngine.syncHostSettingsDebounced === 'function') {
+          MultiplayerEngine.syncHostSettingsDebounced();
+        } else {
+          MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: MultiplayerEngine.hostSettings });
+          MultiplayerEngine.broadcastState('SETTINGS_UPDATED');
+        }
+        this.renderSettings();
       },
 
       cycleTimer() {
@@ -16247,54 +16318,54 @@
       sections: [
         {
           id: 1, name: 'Guess the Frame', icon: '<svg class="svg-icon"><use href="#icon-film" /></svg>', collapsed: false, frames: [
-            { type: "image", content: "GUESSTHEFRAME/13B Fear Has a New Address (2009).webp", answer: "13B", year: "2009" },
-            { type: "image", content: "GUESSTHEFRAME/Ankhon Dekhi (2014).webp", answer: "ANKHON DEKHI", year: "2014" },
-            { type: "image", content: "GUESSTHEFRAME/Bhoothakaalam (2022).webp", answer: "BHOOTHAKAALAM", year: "2022" },
-            { type: "image", content: "GUESSTHEFRAME/Chef (2014).webp", answer: "CHEF", year: "2014" },
-            { type: "image", content: "GUESSTHEFRAME/Chillar Party (2011).webp", answer: "CHILLAR PARTY", year: "2011" },
-            { type: "image", content: "GUESSTHEFRAME/Citizen Kane (1941).webp", answer: "CITIZEN KANE", year: "1941" },
-            { type: "image", content: "GUESSTHEFRAME/Dev.D (2009).webp", answer: "DEV D", year: "2009" },
-            { type: "image", content: "GUESSTHEFRAME/Kaho Naa... Pyaar Hai (2000).webp", answer: "KAHO NAA PYAAR HAI", year: "2000" },
-            { type: "image", content: "GUESSTHEFRAME/Laila Majnu (2018).webp", answer: "LAILA MAJNU", year: "2018" },
-            { type: "image", content: "GUESSTHEFRAME/Madaari (2016).webp", answer: "MADAARI", year: "2016" },
-            { type: "image", content: "GUESSTHEFRAME/Memories of Murder (2003).webp", answer: "MEMORIES OF MURDER", year: "2003" },
-            { type: "image", content: "GUESSTHEFRAME/Rakta Charitra (2010).webp", answer: "RAKTA CHARITRA", year: "2010" },
-            { type: "image", content: "GUESSTHEFRAME/Still Walking (2008).webp", answer: "STILL WALKING", year: "2008" },
-            { type: "image", content: "GUESSTHEFRAME/The Bear (TV Series 2022–2026).webp", answer: "THE BEAR", year: "2022" },
-            { type: "image", content: "GUESSTHEFRAME/The Departed (2006).webp", answer: "THE DEPARTED", year: "2006" },
-            { type: "image", content: "GUESSTHEFRAME/The Drama (2026).webp", answer: "THE DRAMA", year: "2026" },
-            { type: "image", content: "GUESSTHEFRAME/The Revenant (2015).webp", answer: "THE REVENANT", year: "2015" },
-            { type: "image", content: "GUESSTHEFRAME/The Witch (2015).webp", answer: "THE WITCH", year: "2015" },
-            { type: "image", content: "GUESSTHEFRAME/Under the Skin (2013).webp", answer: "UNDER THE SKIN", year: "2013" },
-            { type: "image", content: "GUESSTHEFRAME/Welcome (2007).webp", revealContent: "GUESSTHEFRAME/welcome_reveal.webp", tributeText: "May his soul rest in peace", answer: "WELCOME", year: "2007" }
+            { type: "image", content: "GUESSTHEFRAME/300 (2006).webp", answer: "300", year: "2006", aliases: ["THREE HUNDRED"] },
+            { type: "image", content: "GUESSTHEFRAME/Autumn Sonata (1978).webp", answer: "AUTUMN SONATA", year: "1978", aliases: ["HOSTSONATEN"] },
+            { type: "image", content: "GUESSTHEFRAME/Carrie (TV Series 2026).webp", answer: "CARRIE", year: "2026", aliases: ["CARRIE TV SERIES"] },
+            { type: "image", content: "GUESSTHEFRAME/Easy A (2010).webp", answer: "EASY A", year: "2010", aliases: ["EASY-A"] },
+            { type: "image", content: "GUESSTHEFRAME/Go Goa Gone (2013).webp", answer: "GO GOA GONE", year: "2013", aliases: ["GOGOA GONE"] },
+            { type: "image", content: "GUESSTHEFRAME/Hope (2026).webp", answer: "HOPE", year: "2026" },
+            { type: "image", content: "GUESSTHEFRAME/Jaws (1975).webp", answer: "JAWS", year: "1975" },
+            { type: "image", content: "GUESSTHEFRAME/Kaun.webp", answer: "KAUN", year: "1999", aliases: ["KAUN?", "WHO'S THERE"] },
+            { type: "image", content: "GUESSTHEFRAME/Murder 3.webp", answer: "MURDER 3", year: "2013", aliases: ["MURDER THREE"] },
+            { type: "image", content: "GUESSTHEFRAME/my name is khan.webp", answer: "MY NAME IS KHAN", year: "2010", aliases: ["MNIK"] },
+            { type: "image", content: "GUESSTHEFRAME/Project Hail Mary (2026).webp", answer: "PROJECT HAIL MARY", year: "2026" },
+            { type: "image", content: "GUESSTHEFRAME/RoboCop (1987).webp", answer: "ROBOCOP", year: "1987", aliases: ["ROBO COP"] },
+            { type: "image", content: "GUESSTHEFRAME/Rush (2013).webp", answer: "RUSH", year: "2013" },
+            { type: "image", content: "GUESSTHEFRAME/Sangharsh (1999).webp", answer: "SANGHARSH", year: "1999" },
+            { type: "image", content: "GUESSTHEFRAME/Spider-Man Brand New Day (2026).webp", answer: "SPIDER-MAN: BRAND NEW DAY", displayAnswer: "Spider-Man: Brand New Day", year: "2026", aliases: ["SPIDER-MAN BRAND NEW DAY", "SPIDER MAN BRAND NEW DAY", "SPIDERMAN BRAND NEW DAY", "BRAND NEW DAY"] },
+            { type: "image", content: "GUESSTHEFRAME/Stanley Ka Dabba (2011).webp", answer: "STANLEY KA DABBA", year: "2011", aliases: ["STANLEY'S TIFFIN BOX"] },
+            { type: "image", content: "GUESSTHEFRAME/The Elephant Man (1980).webp", answer: "THE ELEPHANT MAN", year: "1980", aliases: ["ELEPHANT MAN"] },
+            { type: "image", content: "GUESSTHEFRAME/The Mirror (1975).webp", answer: "THE MIRROR", year: "1975", aliases: ["MIRROR", "ZERKALO"] },
+            { type: "image", content: "GUESSTHEFRAME/The Secret Agent (2025).webp", answer: "THE SECRET AGENT", year: "2025", aliases: ["SECRET AGENT"] },
+            { type: "image", content: "GUESSTHEFRAME/Your Name. (2016).webp", answer: "YOUR NAME", year: "2016", aliases: ["YOUR NAME.", "KIMI NO NA WA"] }
           ]
         },
         {
           id: 2, name: 'Guess the Dialogue', icon: '<svg class="svg-icon"><use href="#icon-message-circle" /></svg>', collapsed: false, frames: [
-            { type: 'dialogue', dialogue: "Pata hai, yahan se bohot door, galat aur sahi ke paar, ek maidan hai... main wahan milunga tujhe.", answer: "ROCKSTAR", year: "2011", character: "Janardhan / Jordan(Ranbir Kapoor)" },
-            { type: 'dialogue', dialogue: "Hindustan mein jab tak cinema hai... log bewakoof bante rahenge!", answer: "GANGS OF WASSEYPUR", year: "2012", character: "Ramadhir Singh(Tigmanshu Dhulia)" },
-            { type: 'dialogue', dialogue: "Thappad se darr nahi lagta sahab... pyar se lagta hai.", answer: "DABANGG", year: "2010", character: "Rajjo (Sonakshi Sinha)" },
-            { type: 'dialogue', dialogue: "Sir... yeh toh tatti hai!", answer: "DELHI BELLY", year: "2011", character: "Nitin(Kunaal Roy Kapur)" },
-            { type: 'dialogue', dialogue: "Main nahi manta hamara desh sabse mahan hai... lekin yeh zaroor manta hoon ki hum mein taaqat hai isse mahan banane ki.", answer: "SWADES", year: "2004", character: "Mohan Bhargava(Shah Rukh Khan)" },
-            { type: 'dialogue', dialogue: "There are no two words in the English language more harmful than 'good job'.", answer: "WHIPLASH", year: "2014", character: "Terence Fletcher(J.K. Simmons)" },
-            { type: 'dialogue', dialogue: "What's the most you've ever lost on a coin toss?", answer: "NO COUNTRY FOR OLD MEN", year: "2007", character: "Anton Chigurh(Javier Bardem)" },
-            { type: 'dialogue', dialogue: "You're looking for the secret... but you won't find it, because of course you're not really looking. You want to be fooled.", answer: "THE PRESTIGE", year: "2006", character: "John Cutter(Michael Caine)" },
-            { type: 'dialogue', dialogue: "Which would be worse: to live as a monster, or to die as a good man?", answer: "SHUTTER ISLAND", year: "2010", character: "Teddy Daniels(Leonardo DiCaprio)" },
-            { type: 'dialogue', dialogue: "Funny how? What's funny about it? Funny like I'm a clown, I amuse you?!", answer: "GOODFELLAS", year: "1990", character: "Tommy DeVito(Joe Pesci)" }
+            { type: 'dialogue', dialogue: "Bete ko haath lagane se pehle, baap se baat kar.", answer: "JAWAN", year: "2023", character: "Vikram Rathore (Shah Rukh Khan)", aliases: ["JAWAAN"] },
+            { type: 'dialogue', dialogue: "Duniya mein sabse bada yoddha maa hoti hai.", answer: "KGF", year: "2018", character: "Rocky (Yash)", aliases: ["KGF CHAPTER 1", "K.G.F"] },
+            { type: 'dialogue', dialogue: "Imaandari ki third division, baimaani ki first division se kahin zyada khushi deti hai.", answer: "12TH FAIL", year: "2023", character: "Manoj Kumar Sharma (Vikrant Massey)", aliases: ["TWELFTH FAIL"] },
+            { type: 'dialogue', dialogue: "Pushpa, Pushpa Raj... Main jhukega nahi sala!", answer: "PUSHPA", year: "2021", character: "Pushpa Raj (Allu Arjun)", aliases: ["PUSHPA: THE RISE", "PUSHPA THE RISE"] },
+            { type: 'dialogue', dialogue: "Woh stree hai, woh kuch bhi kar sakti hai!", answer: "STREE", year: "2018", character: "Rudra (Pankaj Tripathi)", aliases: ["STREE 2"] },
+            { type: 'dialogue', dialogue: "Now I am become Death, the destroyer of worlds.", answer: "OPPENHEIMER", year: "2023", character: "J. Robert Oppenheimer (Cillian Murphy)" },
+            { type: 'dialogue', dialogue: "Mankind was born on Earth. It was never meant to die here.", answer: "INTERSTELLAR", year: "2014", character: "Cooper (Matthew McConaughey)" },
+            { type: 'dialogue', dialogue: "I must not fear. Fear is the mind-killer. Fear is the little-death that brings total obliteration.", answer: "DUNE", year: "2021", character: "Paul Atreides (Timothée Chalamet)", aliases: ["DUNE: PART ONE", "DUNE PART ONE"] },
+            { type: 'dialogue', dialogue: "In case I don't see ya, good afternoon, good evening, and good night!", answer: "THE TRUMAN SHOW", year: "1998", character: "Truman Burbank (Jim Carrey)", aliases: ["TRUMAN SHOW"] },
+            { type: 'dialogue', dialogue: "There is a difference between knowing the path and walking the path.", answer: "THE MATRIX", year: "1999", character: "Morpheus (Laurence Fishburne)", aliases: ["MATRIX"] }
           ]
         },
         {
           id: 3, name: 'Guess the Eye', icon: '<svg class="svg-icon"><use href="#icon-eye" /></svg>', collapsed: false, frames: [
-            { type: 'eye', content: 'GUESSTHEEYES/Aditi Rao Hydari copy.webp', revealContent: 'GUESSTHEEYES/Aditi Rao Hydari.webp', answer: 'ADITI RAO HYDARI', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Cameron Diaz copy.webp', revealContent: 'GUESSTHEEYES/Cameron Diaz.webp', answer: 'CAMERON DIAZ', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Jennifer Lopez copy.webp', revealContent: 'GUESSTHEEYES/Jennifer Lopez.webp', answer: 'JENNIFER LOPEZ', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Jeremy Allen White copy.webp', revealContent: 'GUESSTHEEYES/Jeremy Allen White.webp', answer: 'JEREMY ALLEN WHITE', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Jodie Comer copy.webp', revealContent: 'GUESSTHEEYES/Jodie Comer.webp', answer: 'JODIE COMER', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Pedro Ka Pyaasa copy.webp', revealContent: 'GUESSTHEEYES/Pedro Ka Pyaasa.webp', answer: 'VISH', displayAnswer: 'Pedro Ka Pyaasa', aliases: ['VISWJEET', 'VISHWAJEET'], year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Rachel Brosnahan copy.webp', revealContent: 'GUESSTHEEYES/Rachel Brosnahan.webp', answer: 'RACHEL BROSNAHAN', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Sai Pallavi copy.webp', revealContent: 'GUESSTHEEYES/Sai Pallavi.webp', answer: 'SAI PALLAVI', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Yami Gautam copy.webp', revealContent: 'GUESSTHEEYES/Yami Gautam.webp', answer: 'YAMI GAUTAM', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Zoe Kravitz copy.webp', revealContent: 'GUESSTHEEYES/Zoe Kravitz.webp', answer: 'ZOE KRAVITZ', year: '' }
+            { type: 'eye', content: 'GUESSTHEEYES/Inde Navarrette Ma_am copy.webp', revealContent: 'GUESSTHEEYES/Inde Navarrette Ma_am.webp', answer: 'INDE NAVARRETTE', displayAnswer: 'Inde Navarrette', year: '', aliases: ['INDE NAVARETTE', 'INDE NAVARRETE'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Keira Knightley copy.webp', revealContent: 'GUESSTHEEYES/Keira Knightley.webp', answer: 'KEIRA KNIGHTLEY', displayAnswer: 'Keira Knightley', year: '', aliases: ['KIERA KNIGHTLEY'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Milly Alcock copy.webp', revealContent: 'GUESSTHEEYES/Milly Alcock.webp', answer: 'MILLY ALCOCK', displayAnswer: 'Milly Alcock', year: '', aliases: ['MILLIE ALCOCK'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Olivia Rodrigo copy.webp', revealContent: 'GUESSTHEEYES/Olivia Rodrigo.webp', answer: 'OLIVIA RODRIGO', displayAnswer: 'Olivia Rodrigo', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Paul Mescal copy.webp', revealContent: 'GUESSTHEEYES/Paul Mescal.webp', answer: 'PAUL MESCAL', displayAnswer: 'Paul Mescal', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Rukmini Vasanth copy.webp', revealContent: 'GUESSTHEEYES/Rukmini Vasanth.webp', answer: 'RUKMINI VASANTH', displayAnswer: 'Rukmini Vasanth', year: '', aliases: ['RUKMINI VASANT'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Sadie Sink copy.webp', revealContent: 'GUESSTHEEYES/Sadie Sink.webp', answer: 'SADIE SINK', displayAnswer: 'Sadie Sink', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Sara Arjun copy.webp', revealContent: 'GUESSTHEEYES/Sara Arjun.webp', answer: 'SARA ARJUN', displayAnswer: 'Sara Arjun', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Steve Carell copy.webp', revealContent: 'GUESSTHEEYES/Steve Carell.webp', answer: 'STEVE CARELL', displayAnswer: 'Steve Carell', year: '', aliases: ['STEVE CARRELL'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Tom Holland copy.webp', revealContent: 'GUESSTHEEYES/Tom Holland.webp', answer: 'TOM HOLLAND', displayAnswer: 'Tom Holland', year: '' }
           ]
         }
       ],
@@ -18618,12 +18689,32 @@
         });
       },
 
+      _hostSettingsSyncTimer: null,
+      syncHostSettingsDebounced(delay = 120) {
+        if (!this.isHost) return;
+        if (this._hostSettingsSyncTimer) clearTimeout(this._hostSettingsSyncTimer);
+        this._hostSettingsSyncTimer = setTimeout(() => {
+          this._hostSettingsSyncTimer = null;
+          this.syncHostSettingsImmediate();
+        }, delay);
+      },
+
+      syncHostSettingsImmediate() {
+        if (!this.isHost) return;
+        if (this._hostSettingsSyncTimer) {
+          clearTimeout(this._hostSettingsSyncTimer);
+          this._hostSettingsSyncTimer = null;
+        }
+        this.sendEvent('UPDATE_HOST_SETTINGS', { settings: this.hostSettings });
+        this.broadcastState('SETTINGS_UPDATED');
+      },
+
       handleIncomingEvent(msg) {
         if (!msg) return;
         const incomingRoom = String(msg.roomCode || '').trim().toUpperCase();
         const currentRoom = String(this.roomCode || '').trim().toUpperCase();
         if (!incomingRoom || !currentRoom || incomingRoom !== currentRoom) return;
-        if (msg.senderId === this.playerId && msg.type !== 'SYNC_ROOM_STATE') return;
+        if (msg.senderId === this.playerId) return;
 
         // Phase 4: Network Security Validation (host auth, tokens, rate limits)
         if (typeof NetworkSecurity !== 'undefined' && !NetworkSecurity.validateIncomingMessage(msg, this.roomCode, GS.players, this.isHost)) {
@@ -19295,6 +19386,10 @@
 
       startMatch() {
         if (!this.isHost) return;
+        if (this._hostSettingsSyncTimer) {
+          clearTimeout(this._hostSettingsSyncTimer);
+          this._hostSettingsSyncTimer = null;
+        }
         this.currentPlaylist = this.generateAuthoritativePlaylist();
         this.currentPlayIndex = 0;
         this.isMatchActive = true;
@@ -19560,6 +19655,13 @@
         if (this._clientWaitTimer) clearInterval(this._clientWaitTimer);
         if (this._joinTimeoutTimer) clearTimeout(this._joinTimeoutTimer);
         this._joinTimeoutTimer = null;
+        if (this._hostSettingsSyncTimer) {
+          clearTimeout(this._hostSettingsSyncTimer);
+          this._hostSettingsSyncTimer = null;
+        }
+        if (typeof PlayerLobby !== 'undefined' && PlayerLobby.stopRepeat) {
+          PlayerLobby.stopRepeat();
+        }
         this.isJoining = false;
         this.clearActiveSession();
         const clientToEnd = this.mqttClient;

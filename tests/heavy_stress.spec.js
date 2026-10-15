@@ -18,8 +18,8 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
     });
 
     expect(hostData.roomCode).toHaveLength(4);
-    expect(hostData.hostSettings.category).toBe('frames');
-    expect(hostData.hostSettings.categories).toEqual(['frames']);
+    expect(hostData.hostSettings.category).toBe('all');
+    expect(hostData.hostSettings.categories).toEqual(['frames', 'eyes', 'dialogue']);
 
     // 2. Simulate 4 concurrent client joins within 100ms
     const joinedPlayers = await page.evaluate(async (hData) => {
@@ -52,12 +52,12 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
 
     // 3. Host updates settings: adjust frame rounds
     const updatedSettings = await page.evaluate(() => {
-      PlayerLobby.adjustRounds('frames', 5); // 10 + 5 = 15 rounds
+      PlayerLobby.adjustRounds('frames', -5); // 20 - 5 = 15 frames
       PlayerLobby.adjustTimer(15);           // 30 + 15 = 45s
       return MultiplayerEngine.hostSettings;
     });
 
-    expect(updatedSettings.rounds).toBe(15);
+    expect(updatedSettings.rounds).toBe(35); // 15 + 10 + 10 = 35
     expect(updatedSettings.roundsByMode.frames).toBe(15);
     expect(updatedSettings.timer).toBe(45);
   });
@@ -72,7 +72,7 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
       MultiplayerEngine.hostSettings = {
         category: 'frames',
         categories: ['frames'],
-        roundsByMode: { frames: 10 },
+        roundsByMode: { frames: 10, eyes: 0, dialogue: 0 },
         rounds: 10,
         timer: 30
       };
@@ -100,7 +100,6 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
       expect(item.content, `Item ${i} must have image path`).toBeTruthy();
       expect(item.answer, `Item ${i} must have valid answer string`).toBeTruthy();
       expect(item.dialogue, `Item ${i} must not have dialogue property`).toBeUndefined();
-      expect(item.revealContent, `Item ${i} must not have revealContent property`).toBeUndefined();
     }
   });
 

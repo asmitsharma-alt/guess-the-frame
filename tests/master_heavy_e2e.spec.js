@@ -81,7 +81,7 @@ test.describe('Master Heavy E2E Test Suite — All Features, Buttons, Pointing &
       };
     });
 
-    expect(hintResult.scoreAfterHint).toBe(8); // 10 - 2 = 8
+    expect(hintResult.scoreAfterHint).toBe(6); // 10 - 4 = 6
     expect(hintResult.maskedHint).toBeTruthy();
   });
 
@@ -134,8 +134,8 @@ test.describe('Master Heavy E2E Test Suite — All Features, Buttons, Pointing &
     await page.locator('#hostPlayerNameInput').fill('Captain Kirk');
     expect(await page.locator('#hostPlayerNameInput').inputValue()).toBe('Captain Kirk');
 
-    // Click Ayush avatar
-    await page.locator('#createRoomModal .mp-avatar-option[data-avatar="ayush"]').click();
+    // Click Amish avatar
+    await page.locator('#createRoomModal .mp-avatar-option[data-avatar="amish"]').click();
     expect(await page.locator('#hostPlayerNameInput').inputValue()).toBe('Captain Kirk'); // Preserves custom typed name
 
     // Close create modal
@@ -150,7 +150,7 @@ test.describe('Master Heavy E2E Test Suite — All Features, Buttons, Pointing &
     // Type name and code
     await page.locator('#joinPlayerNameInput').fill('Spock');
     await page.locator('#joinCodeInput').fill('KIRK');
-    await page.locator('#joinRoomModal .mp-avatar-option[data-avatar="joel"]').click();
+    await page.locator('#joinRoomModal .mp-avatar-option[data-avatar="aziz"]').click();
 
     // Close join modal
     await page.locator('#joinRoomModal .mp-modal-close').click();

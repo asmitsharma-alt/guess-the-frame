@@ -48,9 +48,7 @@ test('Verify Native Avatars on Game Screen', async ({ page }) => {
   });
 
   await page.locator('#lobbyStartBtn').click();
-  await page.evaluate(() => { HowToAnswerGuide._secondsLeft = 1; });
-  await page.waitForTimeout(1200);
-  await page.locator('#htaHostStartBtn').click();
+  await page.waitForTimeout(500);
 
   // Dismiss round intro
   await page.waitForTimeout(3500);

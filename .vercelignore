@@ -1,0 +1,14 @@
+*.mp4
+*.apk
+screenshot_*.png
+root_test_*.png
+sites_test_*.png
+recordings/
+tests/
+test-results/
+scripts/
+docs/
+.agents/
+.playwright/
+.git/
+

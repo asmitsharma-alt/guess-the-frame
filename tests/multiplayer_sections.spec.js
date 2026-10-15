@@ -269,7 +269,7 @@ test.describe('Multiplayer Mode: Section Loading & Gameplay Reliability', () => 
         dialogueVisible,
         ansTitle,
         ansBadge,
-        expectedAnswer: eyeItem.answer,
+        expectedAnswer: eyeItem.displayAnswer || eyeItem.answer,
         ansOverlayHasEyeAnswer,
         hasFullRevealImg: !!fullRevealImg,
         fullRevealSrc: fullRevealImg ? decodeURIComponent(fullRevealImg.src) : null,

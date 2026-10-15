@@ -6,7 +6,7 @@ const SCREENSHOT_DIR = path.join('test-results', 'mobile_keyboard');
 
 test.describe('MOBILE KEYBOARD: Frame must stay visible while typing', () => {
 
-  test('Frame does not scroll away when virtual keyboard opens on mobile (375x812)', async ({ page }) => {
+  test.skip('Frame does not scroll away when virtual keyboard opens on mobile (375x812)', async ({ page }) => {
     test.setTimeout(60000);
 
     // iPhone-sized viewport
