@@ -12041,6 +12041,227 @@
       letter-spacing: 0.2px;
     }
 
+    /* ── NEOBRUTALIST QR POP-UP (LEFT SIDE / BESIDE MESSAGE BOX) ── */
+    #cwQrPopup {
+      display: none;
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 10050;
+      width: 272px;
+      background: #FFFDF5;
+      border: 3.5px solid #111827;
+      border-radius: 18px;
+      box-shadow: 6px 6px 0px #111827;
+      transform: rotate(-1.5deg);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+      animation: qrPopupSpringIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    #winnerScreen.active #cwQrPopup.active {
+      display: block !important;
+    }
+    #cwQrPopup:hover {
+      transform: rotate(0deg) scale(1.02);
+      box-shadow: 8px 8px 0px #111827;
+    }
+    @keyframes qrPopupSpringIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.85) rotate(-6deg);
+      }
+      70% {
+        transform: translateY(4px) scale(1.03) rotate(0.5deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(-1.5deg);
+      }
+    }
+    .cw-qr-popup-inner {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    .cw-qr-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: #FACC15;
+      border-bottom: 3px solid #111827;
+    }
+    .cw-qr-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .cw-qr-icon {
+      font-size: 15px;
+      line-height: 1;
+    }
+    .cw-qr-title {
+      font-family: 'Lilita One', cursive, sans-serif;
+      font-size: 14.5px;
+      color: #111827;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    .cw-qr-close-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 25px;
+      height: 25px;
+      background: #FFFFFF;
+      border: 2px solid #111827;
+      border-radius: 50%;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 900;
+      font-size: 12px;
+      color: #111827;
+      cursor: pointer;
+      box-shadow: 2px 2px 0px #111827;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+      padding: 0;
+      line-height: 1;
+    }
+    .cw-qr-close-btn:hover {
+      background: #FF5E97;
+      color: #FFFFFF;
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px #111827;
+    }
+    .cw-qr-close-btn:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px #111827;
+    }
+    .cw-qr-body {
+      padding: 12px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 8px;
+    }
+    .cw-qr-canvas-wrap {
+      width: 172px;
+      height: 172px;
+      background: #FFFFFF;
+      border: 3px solid #111827;
+      border-radius: 12px;
+      box-shadow: 3.5px 3.5px 0px #111827;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      transition: transform 0.15s ease;
+    }
+    .cw-qr-canvas-wrap:hover {
+      transform: scale(1.03);
+    }
+    .cw-qr-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .cw-qr-link-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      background: #3B82F6;
+      color: #FFFFFF;
+      font-family: 'Space Mono', 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 2px solid #111827;
+      border-radius: 8px;
+      box-shadow: 2px 2px 0px #111827;
+      transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.1s ease;
+      letter-spacing: -0.2px;
+    }
+    .cw-qr-link-badge:hover {
+      background: #2563EB;
+      color: #FFFFFF;
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 3px 0px #111827;
+    }
+    .cw-qr-link-badge:active {
+      transform: translate(1px, 1px);
+      box-shadow: 1px 1px 0px #111827;
+    }
+    .cw-qr-desc {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: 11.5px;
+      line-height: 1.42;
+      font-weight: 600;
+      color: #1F2937;
+      margin: 0;
+      letter-spacing: -0.1px;
+    }
+
+    /* Floating re-open trigger pill when pop-up closed */
+    #cwQrPillTrigger {
+      display: none;
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 10050;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      background: #FACC15;
+      border: 2.5px solid #111827;
+      border-radius: 999px;
+      box-shadow: 4px 4px 0px #111827;
+      font-family: 'Lilita One', cursive, sans-serif;
+      font-size: 13px;
+      color: #111827;
+      cursor: pointer;
+      transform: rotate(-2deg);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+      letter-spacing: 0.5px;
+      user-select: none;
+    }
+    #winnerScreen.active #cwQrPillTrigger.active {
+      display: inline-flex !important;
+    }
+    #cwQrPillTrigger:hover {
+      transform: rotate(0deg) scale(1.06);
+      box-shadow: 5px 5px 0px #111827;
+      background: #FEF08A;
+    }
+    #cwQrPillTrigger:active {
+      transform: translate(2px, 2px);
+      box-shadow: 1px 1px 0px #111827;
+    }
+    #cwQrPillTrigger .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10B981;
+      border: 1.5px solid #111827;
+      display: inline-block;
+      animation: pillPulse 1.8s infinite;
+    }
+
+    @media (min-width: 1480px) {
+      #cwQrPopup {
+        top: 50%;
+        transform: translateY(-50%) rotate(-1deg);
+        left: max(24px, calc(50vw - 520px - 295px));
+      }
+      #cwQrPillTrigger {
+        top: 50%;
+        transform: translateY(-50%) rotate(-2deg);
+        left: max(24px, calc(50vw - 520px - 220px));
+      }
+    }
+
     /* ── CENTER COLUMN: PODIUM ── */
     .cw-center-col {
       display: flex;
@@ -12648,6 +12869,24 @@
       .cw-info-text {
         font-size: 13.5px;
         line-height: 1.55;
+      }
+      #cwQrPopup {
+        top: auto;
+        bottom: 20px;
+        left: 14px;
+        right: 14px;
+        width: auto;
+        max-width: 310px;
+        margin: 0 auto;
+        transform: none !important;
+        box-shadow: 5px 5px 0px #111827;
+      }
+      #cwQrPillTrigger {
+        top: auto;
+        bottom: 16px;
+        left: 16px;
+        right: auto;
+        transform: none !important;
       }
       .cw-credits-pill-bar {
         width: 100%;
@@ -14629,9 +14868,7 @@
               <span>MESSAGE</span>
             </div>
             <p class="cw-info-text">
-              Happy Birthday Vish Bhai! 🎉<br>
-              Sorry for the inconvenience last time. I’ll do my best to make sure it doesn’t happen again.<br>
-              <span class="cw-info-closing">Hope you enjoyed the game. See you next week!</span>
+              Is QR code se hone wali total earning ka 20% hum ScoopCast ko samarpit karenge. Aap sabhi se vinamra nivedan hai ki kripya humein ScoopLuck pradan karein.
             </p>
           </div>
         </div>
@@ -14771,7 +15008,44 @@
 
     </div><!-- /.comic-winner-card -->
 
+    <!-- ── NEOBRUTALIST QR POP-UP CARD (OUTSIDE THE BOX) ── -->
+    <div id="cwQrPopup" class="cw-qr-popup active" role="dialog" aria-label="Contact and Services QR Code">
+      <div class="cw-qr-popup-inner">
+        <div class="cw-qr-header">
+          <div class="cw-qr-badge">
+            <span class="cw-qr-icon">💼</span>
+            <span class="cw-qr-title">WORK WITH ME</span>
+          </div>
+          <button type="button" class="cw-qr-close-btn" onclick="WinnerScreen.closeQrPopup()" aria-label="Close QR pop-up" title="Close pop-up">✕</button>
+        </div>
+        
+        <div class="cw-qr-body">
+          <div class="cw-qr-canvas-wrap" title="Scan to open asmit.scoopcast.me">
+            <!-- Inline Crisp Vector QR Code for https://asmit.scoopcast.me -->
+            <svg class="cw-qr-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" shape-rendering="crispEdges">
+              <path fill="#FFFFFF" d="M0 0h35v35H0z"/>
+              <path stroke="#111827" d="M1 1.5h7m1 0h2m2 0h1m1 0h2m6 0h3m1 0h7M1 2.5h1m5 0h1m1 0h2m1 0h1m2 0h2m2 0h2m2 0h2m2 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m2 0h1m2 0h2m2 0h2m2 0h1m3 0h1m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h1m2 0h3m1 0h3m1 0h1m2 0h1m1 0h1m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m1 0h1m5 0h1m1 0h1m1 0h2m2 0h1m1 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m1 0h1m1 0h1m1 0h3m1 0h1m3 0h1m1 0h1m1 0h1m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M11 8.5h1m1 0h2m1 0h2m2 0h5M4 9.5h1m2 0h1m8 0h1m2 0h1m1 0h2m1 0h2m2 0h3m1 0h2M2 10.5h3m3 0h1m1 0h2m3 0h4m1 0h1m6 0h1m3 0h1m1 0h1M2 11.5h2m1 0h3m3 0h4m1 0h1m3 0h1m1 0h2m1 0h2m3 0h1m2 0h1M1 12.5h1m1 0h4m2 0h1m1 0h5m9 0h1m1 0h1m2 0h1m2 0h1M3 13.5h1m3 0h2m1 0h2m2 0h3m2 0h2m5 0h2m1 0h2m2 0h1M4 14.5h2m2 0h1m1 0h4m1 0h1m1 0h1m1 0h2m2 0h1m1 0h3m3 0h1m1 0h1M2 15.5h2m1 0h4m2 0h1m1 0h4m1 0h1m1 0h3m1 0h2m4 0h1m1 0h1M1 16.5h1m2 0h1m3 0h1m1 0h2m3 0h1m1 0h2m1 0h1m1 0h2m1 0h1m3 0h1m1 0h3M1 17.5h1m1 0h1m1 0h4m3 0h2m3 0h6m1 0h1m2 0h1m1 0h1m1 0h2M2 18.5h1m3 0h1m2 0h3m3 0h1m1 0h1m1 0h1m2 0h1m1 0h1m6 0h3M4 19.5h1m2 0h2m1 0h1m1 0h1m1 0h1m1 0h8m3 0h2m2 0h1m1 0h1M3 20.5h3m2 0h1m2 0h2m2 0h2m4 0h2m3 0h1m1 0h2m2 0h1M1 21.5h3m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m1 0h1m3 0h1m1 0h2m6 0h1M2 22.5h2m4 0h5m1 0h1m1 0h2m2 0h2m2 0h2m4 0h1m1 0h2M1 23.5h2m2 0h1m1 0h3m1 0h1m1 0h1m4 0h3m2 0h6m1 0h1m2 0h1M2 24.5h4m3 0h2m6 0h1m2 0h8m1 0h2M1 25.5h1m2 0h1m1 0h3m1 0h1m2 0h1m1 0h1m1 0h1m4 0h1m1 0h6m2 0h1M9 26.5h2m3 0h1m2 0h2m1 0h4m1 0h1m3 0h2m2 0h1M1 27.5h7m2 0h1m1 0h2m1 0h2m1 0h1m2 0h1m1 0h1m1 0h1m1 0h1m1 0h4M1 28.5h1m5 0h1m2 0h2m1 0h1m1 0h1m2 0h1m1 0h1m1 0h2m1 0h1m3 0h1m3 0h1M1 29.5h1m1 0h3m1 0h1m3 0h1m1 0h2m1 0h2m1 0h3m3 0h5M1 30.5h1m1 0h3m1 0h1m1 0h3m2 0h3m1 0h4m1 0h3m1 0h1m1 0h1m3 0h1M1 31.5h1m1 0h3m1 0h1m2 0h3m2 0h1m3 0h4m2 0h2m1 0h4m1 0h1M1 32.5h1m5 0h1m2 0h1m3 0h2m3 0h1m3 0h4m1 0h3M1 33.5h7m5 0h2m1 0h3m1 0h1m3 0h2m2 0h2m1 0h2"/>
+            </svg>
+          </div>
+          
+          <a href="https://asmit.scoopcast.me" target="_blank" rel="noopener noreferrer" class="cw-qr-link-badge" title="Open asmit.scoopcast.me">
+            <span>asmit.scoopcast.me</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
 
+          <p class="cw-qr-desc">
+            Jisko bhi apne business wagaira ke liye koi website ya app ya kuch bhi zaroorat ho, mujhe ye QR code scan karke contact kar sakte hain.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating re-open trigger pill when pop-up is closed -->
+    <button id="cwQrPillTrigger" type="button" class="cw-qr-pill-trigger" onclick="WinnerScreen.openQrPopup()" aria-label="Open contact QR code">
+      <span class="pill-dot"></span>
+      <span class="pill-icon">📱</span>
+      <span class="pill-text">WORK WITH ME</span>
+    </button>
   
   </div><!-- /#winnerScreen -->
 
@@ -20768,10 +21042,25 @@
         this.renderScoreboard(playerList);
         this.renderMatchSummary(playerList);
         this.fireComicConfetti();
+        this.openQrPopup();
 
         // Auto trigger celebratory party poppers
         setTimeout(() => this.triggerPopper('left'), 350);
         setTimeout(() => this.triggerPopper('right'), 600);
+      },
+
+      openQrPopup() {
+        const popup = document.getElementById('cwQrPopup');
+        const trigger = document.getElementById('cwQrPillTrigger');
+        if (popup) popup.classList.add('active');
+        if (trigger) trigger.classList.remove('active');
+      },
+
+      closeQrPopup() {
+        const popup = document.getElementById('cwQrPopup');
+        const trigger = document.getElementById('cwQrPillTrigger');
+        if (popup) popup.classList.remove('active');
+        if (trigger) trigger.classList.add('active');
       },
 
       triggerPopper(side) {
