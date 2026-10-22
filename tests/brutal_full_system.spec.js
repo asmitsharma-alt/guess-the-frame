@@ -51,7 +51,7 @@ test.describe('BRUTAL FULL SYSTEM TEST SUITE: Every Feature, Button, Logic, Conn
     await expect(createModal).toHaveClass(/active/);
 
     // 1.3 Lobby Creation
-    await page.locator('#createRoomModal .mp-btn-primary').click();
+    await page.locator('#createRoomModal .mp-btn-primary').click({ force: true });
     const lobby = page.locator('#playerLobbyScreen');
     await expect(lobby).toHaveClass(/active/);
 

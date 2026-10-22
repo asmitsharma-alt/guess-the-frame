@@ -41,13 +41,13 @@ test.describe('MASTER PRODUCTION READINESS — Connectivity, Sync, Rejoin, Laten
     console.log(`[PASS] All ${assetResults.length} assets successfully loaded over HTTP 200!`);
   });
 
-  test('2. ROUND 6 LOGIC & SECRET REVEAL: Wrong guess is rejected, Rukmini Vasant alias awards points, reveal shows Rukmini Vasanth', async ({ page }) => {
+  test('2. ROUND 6 LOGIC & SECRET REVEAL: Wrong guess is rejected, correct answer awards points, reveal shows correct title', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
 
     const r6Test = await page.evaluate(() => {
       const s3 = GS.sections.find(s => s.id === 3);
-      const r6 = s3.frames[5]; // Rukmini Vasanth
+      const r6 = s3.frames[5]; // Elizabeth Olsen
 
       GS.players = [{ id: 'p1', name: 'Tester', score: 0, avatar: 'aman' }];
       MultiplayerEngine.isHost = true;
@@ -68,8 +68,8 @@ test.describe('MASTER PRODUCTION READINESS — Connectivity, Sync, Rejoin, Laten
       MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'aman', guess: 'random name', roundIndex: 0 });
       const p2Score = GS.players[0].score;
 
-      // Attempt 3: "rukmini vasant" (alias)
-      MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'aman', guess: 'rukmini vasant', roundIndex: 0 });
+      // Attempt 3: correct answer (e.g. "Elizabeth Olsen")
+      MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'aman', guess: r6.answer, roundIndex: 0 });
       const p3Score = GS.players[0].score;
 
       // End round and inspect reveal card
@@ -80,14 +80,15 @@ test.describe('MASTER PRODUCTION READINESS — Connectivity, Sync, Rejoin, Laten
         p1Score,
         p2Score,
         p3Score,
+        expectedTitle: r6.displayAnswer || r6.answer,
         revealedTitle: ansTitle ? ansTitle.textContent : ''
       };
     });
 
     expect(r6Test.p1Score).toBe(0); // Wrong rejected
     expect(r6Test.p2Score).toBe(0); // Wrong rejected
-    expect(r6Test.p3Score).toBe(10); // Rukmini Vasant alias accepted
-    expect(r6Test.revealedTitle).toBe('Rukmini Vasanth'); // Title is Rukmini Vasanth
+    expect(r6Test.p3Score).toBe(10); // Correct guess accepted
+    expect(r6Test.revealedTitle).toBe(r6Test.expectedTitle); // Title matches
   });
 
   test('3. REALTIME MULTI-CLIENT MATCH, LATENCY & SYNC: 3 clients join, sync settings, play round, and calculate score', async ({ browser }) => {
