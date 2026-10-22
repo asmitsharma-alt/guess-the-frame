@@ -1,11 +1,9 @@
-
-
 ## 🌍 International Cinema (Hollywood)
 
 | # | Dialogue | Movie | Year | Actor / Character | Answer (Uppercase) |
 |---|---|---|---|---|---|
-| **1** | *"In case I don't see ya, good afternoon, good evening, and good night!"* | The Truman Show | 1998 | Jim Carrey (*Truman Burbank*) | `THE TRUMAN SHOW` |
-| **2** | *"There is a difference between knowing the path and walking the path."* | The Matrix | 1999 | Laurence Fishburne (*Morpheus*) | `THE MATRIX` |
+| **1** | *"What if my problem isn't that I don't understand people, but that I don't like them?"* | Nightcrawler | 2014 | Jake Gyllenhaal (*Lou Bloom*) | `NIGHTCRAWLER` |
+| **2** | *"Yeh loktantra hai... yahan bhediye bhi bhed ki khaal pehan ke ghoomte hain."* | Gulaal | 2009 | Kay Kay Menon (*Dukey Bana*) | `GULAAL` |
 | **3** | *"Get busy living, or get busy dying."* | The Shawshank Redemption | 1994 | Tim Robbins (*Andy Dufresne*) | `THE SHAWSHANK REDEMPTION` |
 | **4** | *"I think this just might be my masterpiece."* | Inglourious Basterds | 2009 | Brad Pitt (*Lt. Aldo Raine*) | `INGLOURIOUS BASTERDS` |
 | **5** | *"I'm the guy who does his job. You must be the other guy."* | The Departed | 2006 | Mark Wahlberg (*Staff Sergeant Sean Dignam*) | `THE DEPARTED` |

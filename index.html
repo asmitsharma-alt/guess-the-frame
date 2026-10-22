@@ -12079,6 +12079,64 @@
         transform: translateY(0) scale(1) rotate(-1.5deg);
       }
     }
+    /* ── NEOBRUTALIST QR POP-UP (RIGHT SIDE / INSTAGRAM SUBMISSION) ── */
+    #cwQrPopupRight {
+      display: none;
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      z-index: 10050;
+      width: 272px;
+      background: #FFFDF5;
+      border: 3.5px solid #111827;
+      border-radius: 18px;
+      box-shadow: 6px 6px 0px #111827;
+      transform: rotate(1.5deg);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+      animation: qrPopupSpringInRight 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    #winnerScreen.active #cwQrPopupRight.active {
+      display: block !important;
+    }
+    #cwQrPopupRight:hover {
+      transform: rotate(0deg) scale(1.02);
+      box-shadow: 8px 8px 0px #111827;
+    }
+    @keyframes qrPopupSpringInRight {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.85) rotate(6deg);
+      }
+      70% {
+        transform: translateY(4px) scale(1.03) rotate(-0.5deg);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(1.5deg);
+      }
+    }
+    .cw-qr-header-insta {
+      background: #F472B6 !important;
+    }
+    .cw-qr-link-badge-insta {
+      background: #FDF2F8 !important;
+      border-color: #BE185D !important;
+      color: #9D174D !important;
+    }
+    .cw-qr-link-badge-insta:hover {
+      background: #FCE7F3 !important;
+      color: #831843 !important;
+    }
+    .cw-qr-pill-trigger-right {
+      left: auto !important;
+      right: 24px !important;
+      transform: rotate(2deg) !important;
+    }
+    .cw-qr-pill-trigger-right:hover {
+      transform: rotate(0deg) scale(1.05) translateY(-2px) !important;
+    }
     .cw-qr-popup-inner {
       display: flex;
       flex-direction: column;
@@ -12205,7 +12263,7 @@
     }
 
     /* Floating re-open trigger pill when pop-up closed */
-    #cwQrPillTrigger {
+    .cw-qr-pill-trigger {
       display: none;
       position: fixed;
       top: 24px;
@@ -12227,19 +12285,19 @@
       letter-spacing: 0.5px;
       user-select: none;
     }
-    #winnerScreen.active #cwQrPillTrigger.active {
+    #winnerScreen.active .cw-qr-pill-trigger.active {
       display: inline-flex !important;
     }
-    #cwQrPillTrigger:hover {
+    .cw-qr-pill-trigger:hover {
       transform: rotate(0deg) scale(1.06);
       box-shadow: 5px 5px 0px #111827;
       background: #FEF08A;
     }
-    #cwQrPillTrigger:active {
+    .cw-qr-pill-trigger:active {
       transform: translate(2px, 2px);
       box-shadow: 1px 1px 0px #111827;
     }
-    #cwQrPillTrigger .pill-dot {
+    .cw-qr-pill-trigger .pill-dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
@@ -12255,10 +12313,20 @@
         transform: translateY(-50%) rotate(-1deg);
         left: max(24px, calc(50vw - 520px - 295px));
       }
+      #cwQrPopupRight {
+        top: 50%;
+        transform: translateY(-50%) rotate(1deg);
+        right: max(24px, calc(50vw - 520px - 295px));
+      }
       #cwQrPillTrigger {
         top: 50%;
         transform: translateY(-50%) rotate(-2deg);
         left: max(24px, calc(50vw - 520px - 220px));
+      }
+      #cwQrPillTriggerRight {
+        top: 50%;
+        transform: translateY(-50%) rotate(2deg);
+        right: max(24px, calc(50vw - 520px - 220px));
       }
     }
 
@@ -12881,11 +12949,29 @@
         transform: none !important;
         box-shadow: 5px 5px 0px #111827;
       }
+      #cwQrPopupRight {
+        top: auto;
+        bottom: 20px;
+        left: 14px;
+        right: 14px;
+        width: auto;
+        max-width: 310px;
+        margin: 0 auto;
+        transform: none !important;
+        box-shadow: 5px 5px 0px #111827;
+      }
       #cwQrPillTrigger {
         top: auto;
         bottom: 16px;
         left: 16px;
         right: auto;
+        transform: none !important;
+      }
+      #cwQrPillTriggerRight {
+        top: auto;
+        bottom: 16px;
+        left: auto;
+        right: 16px;
         transform: none !important;
       }
       .cw-credits-pill-bar {
@@ -15014,9 +15100,9 @@
         <div class="cw-qr-header">
           <div class="cw-qr-badge">
             <span class="cw-qr-icon">💼</span>
-            <span class="cw-qr-title">WORK WITH ME</span>
+            <span class="cw-qr-title">SCAN TO CONNECT</span>
           </div>
-          <button type="button" class="cw-qr-close-btn" onclick="WinnerScreen.closeQrPopup()" aria-label="Close QR pop-up" title="Close pop-up">✕</button>
+          <button type="button" class="cw-qr-close-btn" onclick="WinnerScreen.closeQrPopup('left')" aria-label="Close QR pop-up" title="Close pop-up">✕</button>
         </div>
         
         <div class="cw-qr-body">
@@ -15040,11 +15126,45 @@
       </div>
     </div>
 
-    <!-- Floating re-open trigger pill when pop-up is closed -->
-    <button id="cwQrPillTrigger" type="button" class="cw-qr-pill-trigger" onclick="WinnerScreen.openQrPopup()" aria-label="Open contact QR code">
+    <!-- ── NEOBRUTALIST QR POP-UP CARD (OUTSIDE THE BOX - RIGHT / INSTAGRAM) ── -->
+    <div id="cwQrPopupRight" class="cw-qr-popup cw-qr-popup-right active" role="dialog" aria-label="Instagram Frames Submission QR Code">
+      <div class="cw-qr-popup-inner">
+        <div class="cw-qr-header cw-qr-header-insta">
+          <div class="cw-qr-badge">
+            <span class="cw-qr-icon">📸</span>
+            <span class="cw-qr-title">SUBMIT FRAMES</span>
+          </div>
+          <button type="button" class="cw-qr-close-btn" onclick="WinnerScreen.closeQrPopup('right')" aria-label="Close QR pop-up" title="Close pop-up">✕</button>
+        </div>
+        
+        <div class="cw-qr-body">
+          <div class="cw-qr-canvas-wrap" title="Scan to open Instagram @tanny_irl2">
+            <svg class="cw-qr-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" shape-rendering="crispEdges"><path fill="#FFFFFF" d="M0 0h35v35H0z"/><path stroke="#111827" d="M1 1.5h7m4 0h1m2 0h1m2 0h2m2 0h2m1 0h1m1 0h7M1 2.5h1m5 0h1m5 0h7m1 0h2m2 0h1m1 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m1 0h1m3 0h1m1 0h1m4 0h1m1 0h4m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h1m1 0h1m2 0h2m1 0h1m2 0h3m1 0h2m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m2 0h5m4 0h4m1 0h2m1 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m5 0h2m2 0h3m3 0h3m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M10 8.5h2m3 0h1m3 0h2m2 0h3M4 9.5h2m1 0h2m1 0h3m1 0h1m2 0h1m1 0h1m5 0h1m4 0h2M1 10.5h1m1 0h3m2 0h1m2 0h3m1 0h3m1 0h2m1 0h3m1 0h1m1 0h3M3 11.5h2m1 0h3m1 0h3m3 0h1m1 0h1m1 0h1m2 0h6m1 0h1m1 0h2M2 12.5h2m2 0h1m5 0h1m2 0h1m1 0h1m4 0h3m3 0h2m1 0h2M1 13.5h1m1 0h2m1 0h3m2 0h5m1 0h4m1 0h1m1 0h1m2 0h1m2 0h1m1 0h1M1 14.5h2m1 0h1m3 0h1m1 0h5m1 0h1m1 0h2m1 0h2m1 0h1m1 0h1m1 0h1m3 0h1M2 15.5h1m1 0h1m2 0h1m1 0h1m1 0h5m1 0h1m3 0h1m5 0h1m1 0h3M3 16.5h4m3 0h1m2 0h2m2 0h1m1 0h2m3 0h1m1 0h2m2 0h2m1 0h1M1 17.5h4m1 0h3m7 0h1m1 0h1m5 0h1m2 0h3m1 0h1m1 0h1M1 18.5h1m1 0h3m2 0h3m3 0h1m2 0h2m4 0h1m1 0h1m1 0h4m1 0h2M1 19.5h4m1 0h5m1 0h4m2 0h1m1 0h5m1 0h2m2 0h2m1 0h1M2 20.5h1m1 0h2m4 0h2m1 0h1m1 0h2m2 0h1m1 0h1m1 0h4m1 0h5M1 21.5h1m4 0h2m1 0h1m5 0h1m1 0h1m1 0h3m8 0h1m2 0h1M1 22.5h1m1 0h2m1 0h1m3 0h1m2 0h2m1 0h1m1 0h2m1 0h5m2 0h3M1 23.5h1m2 0h2m1 0h3m1 0h2m2 0h1m1 0h1m1 0h2m2 0h3m1 0h1m1 0h2m2 0h1M1 24.5h1m2 0h2m3 0h1m3 0h1m1 0h1m1 0h2m1 0h2m1 0h2m4 0h1m1 0h2M1 25.5h2m1 0h2m1 0h1m1 0h2m3 0h1m1 0h1m4 0h1m3 0h5M9 26.5h3m2 0h2m2 0h1m5 0h2m3 0h1m1 0h2M1 27.5h7m1 0h5m2 0h4m1 0h5m1 0h1m1 0h2M1 28.5h1m5 0h1m2 0h1m2 0h4m2 0h2m3 0h2m3 0h4M1 29.5h1m1 0h3m1 0h1m1 0h1m1 0h2m2 0h8m1 0h7m1 0h1M1 30.5h1m1 0h3m1 0h1m1 0h5m2 0h1m2 0h2m5 0h1m1 0h1m4 0h1M1 31.5h1m1 0h3m1 0h1m2 0h1m2 0h1m4 0h1m3 0h1m6 0h1m2 0h2M1 32.5h1m5 0h1m2 0h1m1 0h1m1 0h5m1 0h1m2 0h1m2 0h2m2 0h4M1 33.5h7m2 0h1m1 0h1m5 0h1m1 0h1m1 0h4m3 0h1"/></svg>
+          </div>
+          
+          <a href="https://instagram.com/tanny_irl2" target="_blank" rel="noopener noreferrer" class="cw-qr-link-badge cw-qr-link-badge-insta" title="Open Instagram @tanny_irl2">
+            <span>@tanny_irl2</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+          </a>
+
+          <p class="cw-qr-desc">
+            Agr kisiko frames bhejna ho to is scan karke contact kare Instagram <strong>tanny_irl2</strong>
+          </p>
+        </div>
+      </div>
+    </div>
+
+<!-- Floating re-open trigger pills when pop-ups are closed -->
+    <button id="cwQrPillTrigger" type="button" class="cw-qr-pill-trigger" onclick="WinnerScreen.openQrPopup('left')" aria-label="Open contact QR code">
       <span class="pill-dot"></span>
-      <span class="pill-icon">📱</span>
-      <span class="pill-text">WORK WITH ME</span>
+      <span class="pill-icon">💼</span>
+      <span class="pill-text">SCAN TO CONNECT</span>
+    </button>
+
+    <button id="cwQrPillTriggerRight" type="button" class="cw-qr-pill-trigger cw-qr-pill-trigger-right" onclick="WinnerScreen.openQrPopup('right')" aria-label="Open Instagram frame submission QR code">
+      <span class="pill-dot" style="background:#EC4899;"></span>
+      <span class="pill-icon">📸</span>
+      <span class="pill-text">SEND FRAMES</span>
     </button>
   
   </div><!-- /#winnerScreen -->
@@ -16589,57 +16709,57 @@
     const GS = {
       PHASES: { IDLE: 'IDLE', ROUND_ACTIVE: 'ROUND_ACTIVE', JUDGE_PHASE: 'JUDGE_PHASE', ANSWER_REVEAL: 'ANSWER_REVEAL', SCORING_PHASE: 'SCORING_PHASE', ROUND_TRANSITION: 'ROUND_TRANSITION', WINNER_SCREEN: 'WINNER_SCREEN' },
       currentPhase: 'IDLE',
-      sections: [
+            sections: [
         {
           id: 1, name: 'Guess the Frame', icon: '<svg class="svg-icon"><use href="#icon-film" /></svg>', collapsed: false, frames: [
-            { type: "image", content: "GUESSTHEFRAME/300 (2006).webp", answer: "300", year: "2006", aliases: ["THREE HUNDRED"] },
-            { type: "image", content: "GUESSTHEFRAME/Autumn Sonata (1978).webp", answer: "AUTUMN SONATA", year: "1978", aliases: ["HOSTSONATEN"] },
-            { type: "image", content: "GUESSTHEFRAME/Carrie (TV Series 2026).webp", answer: "CARRIE", year: "2026", aliases: ["CARRIE TV SERIES"] },
-            { type: "image", content: "GUESSTHEFRAME/Easy A (2010).webp", answer: "EASY A", year: "2010", aliases: ["EASY-A"] },
-            { type: "image", content: "GUESSTHEFRAME/Go Goa Gone (2013).webp", answer: "GO GOA GONE", year: "2013", aliases: ["GOGOA GONE"] },
-            { type: "image", content: "GUESSTHEFRAME/Hope (2026).webp", answer: "HOPE", year: "2026" },
-            { type: "image", content: "GUESSTHEFRAME/Jaws (1975).webp", answer: "JAWS", year: "1975" },
-            { type: "image", content: "GUESSTHEFRAME/Kaun.webp", answer: "KAUN", year: "1999", aliases: ["KAUN?", "WHO'S THERE"] },
-            { type: "image", content: "GUESSTHEFRAME/Murder 3.webp", answer: "MURDER 3", year: "2013", aliases: ["MURDER THREE"] },
-            { type: "image", content: "GUESSTHEFRAME/my name is khan.webp", answer: "MY NAME IS KHAN", year: "2010", aliases: ["MNIK"] },
-            { type: "image", content: "GUESSTHEFRAME/Project Hail Mary (2026).webp", answer: "PROJECT HAIL MARY", year: "2026" },
-            { type: "image", content: "GUESSTHEFRAME/RoboCop (1987).webp", answer: "ROBOCOP", year: "1987", aliases: ["ROBO COP"] },
-            { type: "image", content: "GUESSTHEFRAME/Rush (2013).webp", answer: "RUSH", year: "2013" },
-            { type: "image", content: "GUESSTHEFRAME/Sangharsh (1999).webp", answer: "SANGHARSH", year: "1999" },
-            { type: "image", content: "GUESSTHEFRAME/Spider-Man Brand New Day (2026).webp", answer: "SPIDER-MAN: BRAND NEW DAY", displayAnswer: "Spider-Man: Brand New Day", year: "2026", aliases: ["SPIDER-MAN BRAND NEW DAY", "SPIDER MAN BRAND NEW DAY", "SPIDERMAN BRAND NEW DAY", "BRAND NEW DAY"] },
-            { type: "image", content: "GUESSTHEFRAME/Stanley Ka Dabba (2011).webp", answer: "STANLEY KA DABBA", year: "2011", aliases: ["STANLEY'S TIFFIN BOX"] },
-            { type: "image", content: "GUESSTHEFRAME/The Elephant Man (1980).webp", answer: "THE ELEPHANT MAN", year: "1980", aliases: ["ELEPHANT MAN"] },
-            { type: "image", content: "GUESSTHEFRAME/The Mirror (1975).webp", answer: "THE MIRROR", year: "1975", aliases: ["MIRROR", "ZERKALO"] },
-            { type: "image", content: "GUESSTHEFRAME/The Secret Agent (2025).webp", answer: "THE SECRET AGENT", year: "2025", aliases: ["SECRET AGENT"] },
-            { type: "image", content: "GUESSTHEFRAME/Your Name. (2016).webp", answer: "YOUR NAME", year: "2016", aliases: ["YOUR NAME.", "KIMI NO NA WA"] }
+            { type: "image", content: "GUESSTHEFRAME/12 Angry Men (1957) - Frame 02.webp", answer: "12 ANGRY MEN", year: "1957", aliases: ["TWELVE ANGRY MEN", "12 ANGRY MEN (1957)"] },
+            { type: "image", content: "GUESSTHEFRAME/2001 - A Space Odyssey (1968) - Frame 04.webp", answer: "2001: A SPACE ODYSSEY", year: "1968", aliases: ["2001 A SPACE ODYSSEY", "SPACE ODYSSEY", "2001 SPACE ODYSSEY"] },
+            { type: "image", content: "GUESSTHEFRAME/Adipurush (2023).webp", answer: "ADIPURUSH", year: "2023", aliases: ["AADIPURUSH", "ADIPURUSH (2023)"] },
+            { type: "image", content: "GUESSTHEFRAME/Awarapan 2.webp", answer: "AWARAPAN 2", year: "2026", aliases: ["AWARAPAN TWO", "AWARAPAN"] },
+            { type: "image", content: "GUESSTHEFRAME/Back to the Future (1985) - Frame 10.webp", answer: "BACK TO THE FUTURE", year: "1985", aliases: ["BTTF", "BACK TO THE FUTURE 1"] },
+            { type: "image", content: "GUESSTHEFRAME/Bad Apples (2025).webp", answer: "BAD APPLES", year: "2025", aliases: ["BAD APPLE"] },
+            { type: "image", content: "GUESSTHEFRAME/Batman Begins (2005).webp", answer: "BATMAN BEGINS", year: "2005", aliases: ["BATMAN 1", "THE BATMAN BEGINS"] },
+            { type: "image", content: "GUESSTHEFRAME/Buddy (2026).webp", answer: "BUDDY", year: "2026" },
+            { type: "image", content: "GUESSTHEFRAME/Children of Heaven (1997).webp", answer: "CHILDREN OF HEAVEN", year: "1997", aliases: ["BACHEHA-YE ASEMAN", "BACHEHAYE ASEMAN"] },
+            { type: "image", content: "GUESSTHEFRAME/Dil Chahta Hai (2001).webp", answer: "DIL CHAHTA HAI", year: "2001", aliases: ["DCH", "DIL CHAHATA HAI"] },
+            { type: "image", content: "GUESSTHEFRAME/Fitoor (2016).webp", answer: "FITOOR", year: "2016" },
+            { type: "image", content: "GUESSTHEFRAME/Insidious (2010).webp", answer: "INSIDIOUS", year: "2010", aliases: ["INSIDIOUS 1", "INSIDIOUS CHAPTER 1"] },
+            { type: "image", content: "GUESSTHEFRAME/Laal Singh Chadda.webp", answer: "LAAL SINGH CHADDHA", year: "2022", aliases: ["LAAL SINGH CHADDA", "LAL SINGH CHADDHA", "LAL SINGH CHADDA", "FORREST GUMP HINDI"] },
+            { type: "image", content: "GUESSTHEFRAME/Lage Raho Munna Bhai (2006).webp", answer: "LAGE RAHO MUNNA BHAI", year: "2006", aliases: ["LAGE RAHO MUNNABHAI", "MUNNA BHAI 2", "MUNNABHAI 2"] },
+            { type: "image", content: "GUESSTHEFRAME/Mard Ko Dard Nahi Hota (2018).webp", answer: "MARD KO DARD NAHI HOTA", year: "2018", aliases: ["THE MAN WHO FEELS NO PAIN", "MKDNH"] },
+            { type: "image", content: "GUESSTHEFRAME/Ocean_s Eleven (2001).webp", answer: "OCEAN'S ELEVEN", year: "2001", aliases: ["OCEANS ELEVEN", "OCEAN ELEVEN", "OCEANS 11", "OCEAN'S 11"] },
+            { type: "image", content: "GUESSTHEFRAME/Saat Uchakkey (2016).webp", answer: "SAAT UCHAKKEY", year: "2016", aliases: ["SAAT UCHAKKE", "7 UCHAKKEY"] },
+            { type: "image", content: "GUESSTHEFRAME/Tenzing (2026).webp", answer: "TENZING", year: "2026" },
+            { type: "image", content: "GUESSTHEFRAME/The Paradise (2026).webp", answer: "THE PARADISE", year: "2026", aliases: ["PARADISE"] },
+            { type: "image", content: "GUESSTHEFRAME/VisionQuest (TV Mini Series 2026).webp", answer: "VISIONQUEST", year: "2026", aliases: ["VISION QUEST", "VISIONQUEST SERIES", "VISION QUEST SERIES"] }
           ]
         },
         {
           id: 2, name: 'Guess the Dialogue', icon: '<svg class="svg-icon"><use href="#icon-message-circle" /></svg>', collapsed: false, frames: [
-            { type: 'dialogue', dialogue: "Bete ko haath lagane se pehle, baap se baat kar.", answer: "JAWAN", year: "2023", character: "Vikram Rathore (Shah Rukh Khan)", aliases: ["JAWAAN"] },
-            { type: 'dialogue', dialogue: "Duniya mein sabse bada yoddha maa hoti hai.", answer: "KGF", year: "2018", character: "Rocky (Yash)", aliases: ["KGF CHAPTER 1", "K.G.F"] },
-            { type: 'dialogue', dialogue: "Imaandari ki third division, baimaani ki first division se kahin zyada khushi deti hai.", answer: "12TH FAIL", year: "2023", character: "Manoj Kumar Sharma (Vikrant Massey)", aliases: ["TWELFTH FAIL"] },
-            { type: 'dialogue', dialogue: "Pushpa, Pushpa Raj... Main jhukega nahi sala!", answer: "PUSHPA", year: "2021", character: "Pushpa Raj (Allu Arjun)", aliases: ["PUSHPA: THE RISE", "PUSHPA THE RISE"] },
-            { type: 'dialogue', dialogue: "Woh stree hai, woh kuch bhi kar sakti hai!", answer: "STREE", year: "2018", character: "Rudra (Pankaj Tripathi)", aliases: ["STREE 2"] },
-            { type: 'dialogue', dialogue: "Now I am become Death, the destroyer of worlds.", answer: "OPPENHEIMER", year: "2023", character: "J. Robert Oppenheimer (Cillian Murphy)" },
-            { type: 'dialogue', dialogue: "Mankind was born on Earth. It was never meant to die here.", answer: "INTERSTELLAR", year: "2014", character: "Cooper (Matthew McConaughey)" },
-            { type: 'dialogue', dialogue: "I must not fear. Fear is the mind-killer. Fear is the little-death that brings total obliteration.", answer: "DUNE", year: "2021", character: "Paul Atreides (Timothée Chalamet)", aliases: ["DUNE: PART ONE", "DUNE PART ONE"] },
-            { type: 'dialogue', dialogue: "In case I don't see ya, good afternoon, good evening, and good night!", answer: "THE TRUMAN SHOW", year: "1998", character: "Truman Burbank (Jim Carrey)", aliases: ["TRUMAN SHOW"] },
-            { type: 'dialogue', dialogue: "There is a difference between knowing the path and walking the path.", answer: "THE MATRIX", year: "1999", character: "Morpheus (Laurence Fishburne)", aliases: ["MATRIX"] }
+            { type: 'dialogue', dialogue: "What if my problem isn't that I don't understand people, but that I don't like them?", answer: "NIGHTCRAWLER", year: "2014", character: "Lou Bloom (Jake Gyllenhaal)" },
+            { type: 'dialogue', dialogue: "Yeh loktantra hai... yahan bhediye bhi bhed ki khaal pehan ke ghoomte hain.", answer: "GULAAL", year: "2009", character: "Dukey Bana (Kay Kay Menon)" },
+            { type: 'dialogue', dialogue: "Get busy living, or get busy dying.", answer: "THE SHAWSHANK REDEMPTION", year: "1994", character: "Andy Dufresne (Tim Robbins)", aliases: ["SHAWSHANK REDEMPTION", "SHAWSHANK"] },
+            { type: 'dialogue', dialogue: "I think this just might be my masterpiece.", answer: "INGLOURIOUS BASTERDS", year: "2009", character: "Lt. Aldo Raine (Brad Pitt)", aliases: ["INGLORIOUS BASTERDS", "INGLOURIOUS BASTARDS"] },
+            { type: 'dialogue', dialogue: "I'm the guy who does his job. You must be the other guy.", answer: "THE DEPARTED", year: "2006", character: "Staff Sergeant Sean Dignam (Mark Wahlberg)", aliases: ["DEPARTED"] },
+            { type: 'dialogue', dialogue: "Yeh duniya kisi ki laalach ke liye nahi, zaroorat ke liye bani hai.", answer: "TUMBBAD", year: "2018", character: "Vinayak Rao (Sohum Shah)", aliases: ["TUMBADD", "TUMBAD"] },
+            { type: 'dialogue', dialogue: "Inteqaam se sirf inteqaam paida hota hai.", answer: "HAIDER", year: "2014", character: "Ghazala Meer / Haider Meer (Tabu / Shahid Kapoor)" },
+            { type: 'dialogue', dialogue: "Freedom is my birthright and fighting for freedom is no crime.", answer: "SARDAR UDHAM", year: "2021", character: "Sardar Udham Singh (Vicky Kaushal)", aliases: ["UDHAM SINGH"] },
+            { type: 'dialogue', dialogue: "Jao pehle us aadmi ka sign le kar aao jisne mere baap ko chor kaha tha.", answer: "DEEWAAR", year: "1975", character: "Vijay Verma (Amitabh Bachchan)", aliases: ["DEEWAR"] },
+            { type: 'dialogue', dialogue: "Apne hi paani mein pighal jaana barf ka muqaddar hota hai.", answer: "SWADES", year: "2004", character: "Mohan Bhargava (Shah Rukh Khan)" }
           ]
         },
         {
           id: 3, name: 'Guess the Eye', icon: '<svg class="svg-icon"><use href="#icon-eye" /></svg>', collapsed: false, frames: [
-            { type: 'eye', content: 'GUESSTHEEYES/Inde Navarrette Ma_am copy.webp', revealContent: 'GUESSTHEEYES/Inde Navarrette Ma_am.webp', answer: 'INDE NAVARRETTE', displayAnswer: 'Inde Navarrette', year: '', aliases: ['INDE NAVARETTE', 'INDE NAVARRETE'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Keira Knightley copy.webp', revealContent: 'GUESSTHEEYES/Keira Knightley.webp', answer: 'KEIRA KNIGHTLEY', displayAnswer: 'Keira Knightley', year: '', aliases: ['KIERA KNIGHTLEY'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Milly Alcock copy.webp', revealContent: 'GUESSTHEEYES/Milly Alcock.webp', answer: 'MILLY ALCOCK', displayAnswer: 'Milly Alcock', year: '', aliases: ['MILLIE ALCOCK'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Olivia Rodrigo copy.webp', revealContent: 'GUESSTHEEYES/Olivia Rodrigo.webp', answer: 'OLIVIA RODRIGO', displayAnswer: 'Olivia Rodrigo', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Paul Mescal copy.webp', revealContent: 'GUESSTHEEYES/Paul Mescal.webp', answer: 'PAUL MESCAL', displayAnswer: 'Paul Mescal', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Rukmini Vasanth copy.webp', revealContent: 'GUESSTHEEYES/Rukmini Vasanth.webp', answer: 'RUKMINI VASANTH', displayAnswer: 'Rukmini Vasanth', year: '', aliases: ['RUKMINI VASANT'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Sadie Sink copy.webp', revealContent: 'GUESSTHEEYES/Sadie Sink.webp', answer: 'SADIE SINK', displayAnswer: 'Sadie Sink', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Sara Arjun copy.webp', revealContent: 'GUESSTHEEYES/Sara Arjun.webp', answer: 'SARA ARJUN', displayAnswer: 'Sara Arjun', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Steve Carell copy.webp', revealContent: 'GUESSTHEEYES/Steve Carell.webp', answer: 'STEVE CARELL', displayAnswer: 'Steve Carell', year: '', aliases: ['STEVE CARRELL'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Tom Holland copy.webp', revealContent: 'GUESSTHEEYES/Tom Holland.webp', answer: 'TOM HOLLAND', displayAnswer: 'Tom Holland', year: '' }
+            { type: 'eye', content: 'GUESSTHEEYES/Aishwarya Rai Bachchan copy.webp', revealContent: 'GUESSTHEEYES/Aishwarya Rai Bachchan.webp', answer: 'AISHWARYA RAI BACHCHAN', displayAnswer: 'Aishwarya Rai Bachchan', year: '', aliases: ['AISHWARYA RAI', 'AISHWARYA', 'ASH'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Alia Bhatt copy.webp', revealContent: 'GUESSTHEEYES/Alia Bhatt.webp', answer: 'ALIA BHATT', displayAnswer: 'Alia Bhatt', year: '', aliases: ['AALIA BHATT', 'ALIA'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Amanda Seyfried copy.webp', revealContent: 'GUESSTHEEYES/Amanda Seyfried.webp', answer: 'AMANDA SEYFRIED', displayAnswer: 'Amanda Seyfried', year: '', aliases: ['AMANDA SIEFRIED'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Courteney Cox copy.webp', revealContent: 'GUESSTHEEYES/Courteney Cox.webp', answer: 'COURTENEY COX', displayAnswer: 'Courteney Cox', year: '', aliases: ['COURTNEY COX', 'MONICA GELLER'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Dafne Keen copy.webp', revealContent: 'GUESSTHEEYES/Dafne Keen.webp', answer: 'DAFNE KEEN', displayAnswer: 'Dafne Keen', year: '', aliases: ['DAFNE KEEN FERNANDEZ', 'X-23', 'LAURA'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Elizabeth Olsen copy.webp', revealContent: 'GUESSTHEEYES/Elizabeth Olsen.webp', answer: 'ELIZABETH OLSEN', displayAnswer: 'Elizabeth Olsen', year: '', aliases: ['WANDA MAXIMOFF', 'SCARLET WITCH'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Eva Green copy.webp', revealContent: 'GUESSTHEEYES/Eva Green.webp', answer: 'EVA GREEN', displayAnswer: 'Eva Green', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Juhi Chawla Mehta copy.webp', revealContent: 'GUESSTHEEYES/Juhi Chawla Mehta.webp', answer: 'JUHI CHAWLA MEHTA', displayAnswer: 'Juhi Chawla Mehta', year: '', aliases: ['JUHI CHAWLA', 'JUHI'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Julia Roberts copy.webp', revealContent: 'GUESSTHEEYES/Julia Roberts.webp', answer: 'JULIA ROBERTS', displayAnswer: 'Julia Roberts', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Unbiased Shaikh copy.webp', revealContent: 'GUESSTHEEYES/Unbiased Shaikh.webp', answer: 'UNBIASED SHAIKH', displayAnswer: 'Unbiased Shaikh', year: '', aliases: ['UNBIASED', 'SHAIKH', 'UNBIASED SHAIKH YOUTUBE'] }
           ]
         }
       ],
@@ -21049,18 +21169,41 @@
         setTimeout(() => this.triggerPopper('right'), 600);
       },
 
-      openQrPopup() {
-        const popup = document.getElementById('cwQrPopup');
-        const trigger = document.getElementById('cwQrPillTrigger');
-        if (popup) popup.classList.add('active');
-        if (trigger) trigger.classList.remove('active');
+      openQrPopup(side = 'all') {
+        const isMobile = typeof window !== 'undefined' && window.innerWidth < 900;
+        if (side === 'left' || (side === 'all' && !isMobile) || (side === 'all' && isMobile)) {
+          const popup = document.getElementById('cwQrPopup');
+          const trigger = document.getElementById('cwQrPillTrigger');
+          if (popup) popup.classList.add('active');
+          if (trigger) trigger.classList.remove('active');
+        }
+        if (side === 'right' || (side === 'all' && !isMobile)) {
+          const popupRight = document.getElementById('cwQrPopupRight');
+          const triggerRight = document.getElementById('cwQrPillTriggerRight');
+          if (popupRight) popupRight.classList.add('active');
+          if (triggerRight) triggerRight.classList.remove('active');
+        } else if (side === 'all' && isMobile) {
+          // On mobile, show right pill so user can easily tap to view Instagram QR
+          const popupRight = document.getElementById('cwQrPopupRight');
+          const triggerRight = document.getElementById('cwQrPillTriggerRight');
+          if (popupRight) popupRight.classList.remove('active');
+          if (triggerRight) triggerRight.classList.add('active');
+        }
       },
 
-      closeQrPopup() {
-        const popup = document.getElementById('cwQrPopup');
-        const trigger = document.getElementById('cwQrPillTrigger');
-        if (popup) popup.classList.remove('active');
-        if (trigger) trigger.classList.add('active');
+      closeQrPopup(side = 'left') {
+        if (side === 'left' || side === 'all') {
+          const popup = document.getElementById('cwQrPopup');
+          const trigger = document.getElementById('cwQrPillTrigger');
+          if (popup) popup.classList.remove('active');
+          if (trigger) trigger.classList.add('active');
+        }
+        if (side === 'right' || side === 'all') {
+          const popupRight = document.getElementById('cwQrPopupRight');
+          const triggerRight = document.getElementById('cwQrPillTriggerRight');
+          if (popupRight) popupRight.classList.remove('active');
+          if (triggerRight) triggerRight.classList.add('active');
+        }
       },
 
       triggerPopper(side) {
