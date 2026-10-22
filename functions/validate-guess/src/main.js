@@ -46,7 +46,7 @@ const MASTER_PLAYLIST = [
   { id: 37, type: 'eye', answer: 'EVA GREEN', title: 'Eva Green' },
   { id: 38, type: 'eye', answer: 'JUHI CHAWLA MEHTA', title: 'Juhi Chawla Mehta' },
   { id: 39, type: 'eye', answer: 'JULIA ROBERTS', title: 'Julia Roberts' },
-  { id: 40, type: 'eye', answer: 'UNBIASED SHAIKH', title: 'Unbiased Shaikh' }
+  { id: 40, type: 'eye', answer: 'AZIZ SHAIKH', title: 'UNBIASED SHAIKH (Aziz bhai mazaak tha, serious mat hona 😄)' }
 ];
 
 // Production Fuzzy Matcher Engine
@@ -82,7 +82,8 @@ const FuzzyMatcher = {
     'daisy edgar jones': 'daisy edgar jones',
     'dulquer salman': 'dulquer salmaan',
     'sudeep': 'kiccha sudeep',
-    'kichcha sudeep': 'kiccha sudeep'
+    'kichcha sudeep': 'kiccha sudeep',
+    'aziz': 'aziz shaikh'
   },
 
   normalize(str) {
