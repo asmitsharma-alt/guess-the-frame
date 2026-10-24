@@ -71,12 +71,12 @@ test.describe('Lobby & Player Setup Tests', () => {
     const count = await avatarOpts.count();
     expect(count).toBeGreaterThanOrEqual(4);
 
-    // Click second avatar (Amish)
+    // Click second avatar (Ayush)
     await avatarOpts.nth(1).click();
     const selectedAvatar = await page.evaluate(() => {
       return MultiplayerEngine.selectedAvatarForModal || MultiplayerEngine.playerAvatar;
     });
-    expect(selectedAvatar).toBe('amish');
+    expect(selectedAvatar).toBe('ayush');
   });
 
   test('Lobby renders player cards and allows host to adjust game settings', async ({ page }) => {
@@ -84,9 +84,9 @@ test.describe('Lobby & Player Setup Tests', () => {
       MultiplayerEngine.isHost = true;
       MultiplayerEngine.roomCode = 'TEST';
       MultiplayerEngine.playerName = 'HostPlayer';
-      MultiplayerEngine.playerAvatar = 'aman';
+      MultiplayerEngine.playerAvatar = 'ayank';
       GS.players = [
-        { id: 'p_host', name: 'HostPlayer', avatar: 'aman', score: 0, isHost: true, loaded: true }
+        { id: 'p_host', name: 'HostPlayer', avatar: 'ayank', score: 0, isHost: true, loaded: true }
       ];
       UI.showScreen('playerLobbyScreen');
       MultiplayerEngine.renderLobbyUI();

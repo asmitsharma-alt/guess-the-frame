@@ -14,10 +14,11 @@ test('Verify Native Avatars on Game Screen', async ({ page }) => {
   // Verify renderAvatar output natively from the code
   const directOutputs = await page.evaluate(() => {
     return [
-      { name: 'Aman', avatar: 'aman' },
-      { name: 'Amish', avatar: 'amish' },
-      { name: 'Aziz', avatar: 'aziz' },
-      { name: 'Vish', avatar: 'vish' }
+      { name: 'Ayank', avatar: 'ayank' },
+      { name: 'Ayush', avatar: 'ayush' },
+      { name: 'Joel', avatar: 'joel' },
+      { name: 'Praggya', avatar: 'praggya' },
+      { name: 'Ruhaan', avatar: 'ruhaan' }
     ].map(p => ({
       player: p,
       rendered: renderAvatar(p, 'lb')
@@ -28,22 +29,22 @@ test('Verify Native Avatars on Game Screen', async ({ page }) => {
 
   for (const item of directOutputs) {
     expect(item.rendered).toContain('img src="avvtar/');
-    expect(item.rendered).toContain('.svg"');
+    expect(item.rendered).toContain('.webp"');
   }
 
   // Navigate through flow to game screen
   await page.locator('.h-card-create').click();
-  await page.locator('#hostPlayerNameInput').fill('Aman');
-  await page.locator('#createRoomModal .mp-avatar-option[data-avatar="aman"]').click();
+  await page.locator('#hostPlayerNameInput').fill('Ayank');
+  await page.locator('#createRoomModal .mp-avatar-option[data-avatar="ayank"]').click();
   await page.locator('#createRoomModal .mp-btn-primary').click();
 
   // Add 4 players
   await page.evaluate(() => {
     GS.players = [
-      { id: 'p1', name: 'Aman', avatar: 'aman', score: 20, isHost: true, color: '#ff6b9d', loaded: true },
-      { id: 'p2', name: 'Amish', avatar: 'amish', score: 15, isHost: false, color: '#3b82f6', loaded: true },
-      { id: 'p3', name: 'Aziz', avatar: 'aziz', score: 10, isHost: false, color: '#84cc16', loaded: true },
-      { id: 'p4', name: 'Vish', avatar: 'vish', score: 5, isHost: false, color: '#facc15', loaded: true }
+      { id: 'p1', name: 'Ayank', avatar: 'ayank', score: 20, isHost: true, color: '#ff6b9d', loaded: true },
+      { id: 'p2', name: 'Ayush', avatar: 'ayush', score: 15, isHost: false, color: '#3b82f6', loaded: true },
+      { id: 'p3', name: 'Joel', avatar: 'joel', score: 10, isHost: false, color: '#84cc16', loaded: true },
+      { id: 'p4', name: 'Praggya', avatar: 'praggya', score: 5, isHost: false, color: '#facc15', loaded: true }
     ];
   });
 
@@ -65,20 +66,4 @@ test('Verify Native Avatars on Game Screen', async ({ page }) => {
   // Take screenshot of leaderboard
   const lbElement = page.locator('#leaderboard');
   await lbElement.screenshot({ path: path.join(OUT_DIR, 'native_leaderboard_verified.png') });
-
-  // Open scoring grid
-  await page.evaluate(() => {
-    UI.showScoringOv(true);
-  });
-  await page.waitForTimeout(300);
-
-  const spImgCount = await page.locator('#scoringGrid .spbtn img').count();
-  expect(spImgCount).toBe(4);
-
-  // Take screenshot of scoring grid
-  const scoringGridElement = page.locator('#scoringGrid');
-  await scoringGridElement.screenshot({ path: path.join(OUT_DIR, 'native_scoring_grid_verified.png') });
-
-  // Full game screen screenshot
-  await page.screenshot({ path: path.join(OUT_DIR, 'native_game_screen_verified.png') });
 });

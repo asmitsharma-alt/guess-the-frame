@@ -39,7 +39,7 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     const hostInput = page.locator('#hostPlayerNameInput');
     await hostInput.fill('Captain_Marvel');
 
-    const avatars = ['aman', 'amish', 'aziz', 'vish'];
+    const avatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
     for (const av of avatars) {
       const opt = page.locator(`#createRoomModal .mp-avatar-option[data-avatar="${av}"]`);
       await opt.click();
@@ -260,7 +260,7 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     await p1Page.goto(`/?room=${roomCode}`);
     await p1Page.waitForLoadState('domcontentloaded');
     await p1Page.locator('#joinPlayerNameInput').fill('Spiderman');
-    await p1Page.locator('#joinRoomModal .mp-avatar-option[data-avatar="amish"]').click();
+    await p1Page.locator('#joinRoomModal .mp-avatar-option[data-avatar="praggya"]').click();
     await p1Page.locator('#joinRoomModal .mp-btn-primary').click();
     await expect(p1Page.locator('#playerLobbyScreen')).toBeVisible({ timeout: 15000 });
 
@@ -274,7 +274,7 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     await p2CodeInput.click();
     await p2CodeInput.fill(roomCode);
     await p2Page.locator('#joinPlayerNameInput').fill('Thor');
-    await p2Page.locator('#joinRoomModal .mp-avatar-option[data-avatar="aziz"]').click();
+    await p2Page.locator('#joinRoomModal .mp-avatar-option[data-avatar="joel"]').click();
     await p2Page.locator('#joinRoomModal .mp-btn-primary').click();
     await expect(p2Page.locator('#playerLobbyScreen')).toBeVisible({ timeout: 15000 });
 

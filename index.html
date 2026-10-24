@@ -12041,7 +12041,8 @@
       letter-spacing: 0.2px;
     }
 
-    /* ── NEOBRUTALIST QR POP-UP (LEFT SIDE / BESIDE MESSAGE BOX) ── */
+    /* ── NEOBRUTALIST MEME / QR POP-UP (LEFT SIDE / BESIDE MESSAGE BOX) ── */
+    #cwMemePopup,
     #cwQrPopup {
       display: none;
       position: fixed;
@@ -12059,9 +12060,11 @@
       overflow: hidden;
       box-sizing: border-box;
     }
+    #winnerScreen.active #cwMemePopup.active,
     #winnerScreen.active #cwQrPopup.active {
       display: block !important;
     }
+    #cwMemePopup:hover,
     #cwQrPopup:hover {
       transform: rotate(0deg) scale(1.02);
       box-shadow: 8px 8px 0px #111827;
@@ -12119,6 +12122,34 @@
     }
     .cw-qr-header-insta {
       background: #F472B6 !important;
+    }
+    .cw-qr-header-meme {
+      background: #FBBF24 !important;
+    }
+    .cw-meme-body {
+      padding: 10px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .cw-meme-img-wrap {
+      width: 100%;
+      border: 3px solid #111827;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      box-shadow: 3.5px 3.5px 0px #111827;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .cw-meme-img {
+      width: 100%;
+      height: auto;
+      max-height: 250px;
+      display: block;
+      object-fit: cover;
     }
     .cw-qr-link-badge-insta {
       background: #FDF2F8 !important;
@@ -12308,6 +12339,7 @@
     }
 
     @media (min-width: 1480px) {
+      #cwMemePopup,
       #cwQrPopup {
         top: 50%;
         transform: translateY(-50%) rotate(-1deg);
@@ -12318,6 +12350,7 @@
         transform: translateY(-50%) rotate(1deg);
         right: max(24px, calc(50vw - 520px - 295px));
       }
+      #cwMemePillTrigger,
       #cwQrPillTrigger {
         top: 50%;
         transform: translateY(-50%) rotate(-2deg);
@@ -12938,6 +12971,7 @@
         font-size: 13.5px;
         line-height: 1.55;
       }
+      #cwMemePopup,
       #cwQrPopup {
         top: auto;
         bottom: 20px;
@@ -12960,6 +12994,7 @@
         transform: none !important;
         box-shadow: 5px 5px 0px #111827;
       }
+      #cwMemePillTrigger,
       #cwQrPillTrigger {
         top: auto;
         bottom: 16px;
@@ -13991,21 +14026,25 @@
         <div class="mp-form-group">
           <label class="mp-label">Select Your Animated Avatar</label>
           <div class="mp-avatar-grid">
-            <div class="mp-avatar-option selected" data-avatar="aman" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/aman.svg" alt="Aman" />
-              <div class="mp-avatar-name">Aman</div>
+            <div class="mp-avatar-option selected" data-avatar="ayank" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/ayank.webp" alt="Ayank" />
+              <div class="mp-avatar-name">Ayank</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="amish" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/amish.svg" alt="Amish" />
-              <div class="mp-avatar-name">Amish</div>
+            <div class="mp-avatar-option" data-avatar="ayush" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/ayush.webp" alt="Ayush" />
+              <div class="mp-avatar-name">Ayush</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="aziz" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/aziz.svg" alt="Aziz" />
-              <div class="mp-avatar-name">Aziz</div>
+            <div class="mp-avatar-option" data-avatar="joel" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/joel.webp" alt="Joel" />
+              <div class="mp-avatar-name">Joel</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="vish" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/vish.svg" alt="Vish" />
-              <div class="mp-avatar-name">Vish</div>
+            <div class="mp-avatar-option" data-avatar="praggya" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/praggya.webp" alt="Praggya" />
+              <div class="mp-avatar-name">Praggya</div>
+            </div>
+            <div class="mp-avatar-option" data-avatar="ruhaan" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/ruhaan.webp" alt="Ruhaan" />
+              <div class="mp-avatar-name">Ruhaan</div>
             </div>
           </div>
         </div>
@@ -14033,21 +14072,25 @@
         <div class="mp-form-group">
           <label class="mp-label">Select Your Animated Avatar</label>
           <div class="mp-avatar-grid">
-            <div class="mp-avatar-option selected" data-avatar="aman" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/aman.svg" alt="Aman" />
-              <div class="mp-avatar-name">Aman</div>
+            <div class="mp-avatar-option selected" data-avatar="ayank" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/ayank.webp" alt="Ayank" />
+              <div class="mp-avatar-name">Ayank</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="amish" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/amish.svg" alt="Amish" />
-              <div class="mp-avatar-name">Amish</div>
+            <div class="mp-avatar-option" data-avatar="ayush" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/ayush.webp" alt="Ayush" />
+              <div class="mp-avatar-name">Ayush</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="aziz" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/aziz.svg" alt="Aziz" />
-              <div class="mp-avatar-name">Aziz</div>
+            <div class="mp-avatar-option" data-avatar="joel" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/joel.webp" alt="Joel" />
+              <div class="mp-avatar-name">Joel</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="vish" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/vish.svg" alt="Vish" />
-              <div class="mp-avatar-name">Vish</div>
+            <div class="mp-avatar-option" data-avatar="praggya" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/praggya.webp" alt="Praggya" />
+              <div class="mp-avatar-name">Praggya</div>
+            </div>
+            <div class="mp-avatar-option" data-avatar="ruhaan" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/ruhaan.webp" alt="Ruhaan" />
+              <div class="mp-avatar-name">Ruhaan</div>
             </div>
           </div>
         </div>
@@ -14071,7 +14114,7 @@
         <div style="background: #fafaf4; border: 3px solid #1a1a1a; border-radius: 12px; padding: 14px; margin-bottom: 16px; box-shadow: 4px 4px 0 #1a1a1a; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
           <div style="display: flex; align-items: center; gap: 12px;">
             <div id="rejoinAvatarContainer" style="width: 52px; height: 52px; border-radius: 50%; border: 3px solid #1a1a1a; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #FF6B9D;">
-              <img id="rejoinAvatarImg" src="avvtar/aman.svg" style="width: 100%; height: 100%; object-fit: cover;" alt="Avatar" />
+              <img id="rejoinAvatarImg" src="avvtar/ayank.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Avatar" />
             </div>
             <div style="text-align: left;">
               <div id="rejoinPlayerName" style="font-size: 16px; font-weight: 900; color: #1a1a1a; text-transform: uppercase;">AMAN</div>
@@ -14954,7 +14997,7 @@
               <span>MESSAGE</span>
             </div>
             <p class="cw-info-text">
-              Is QR code se hone wali total earning ka 20% hum ScoopCast ko samarpit karenge. Aap sabhi se vinamra nivedan hai ki kripya humein ScoopLuck pradan karein.
+              Umeed hai ki aap logon ko game khelne mein maza aaya hoga! Milte hain agle hafte
             </p>
           </div>
         </div>
@@ -14973,14 +15016,14 @@
               <div class="cw-runner-card runner-blue" id="silverCard">
                 <div class="runner-rank-tab blue-tab">2</div>
                 <div class="runner-avatar-frame" id="silverAvatarWrap">
-                  <img id="silverAvatarImg" src="avvtar/vish.svg" alt="2nd Place" onerror="this.onerror=null;this.src='avvtar/vish.svg'" />
+                  <img id="silverAvatarImg" src="avvtar/ayush.webp" alt="2nd Place" onerror="this.onerror=null;this.src='avvtar/ayush.webp'" />
                 </div>
-                <div class="runner-nameplate" id="silverName">VISH</div>
+                <div class="runner-nameplate" id="silverName">AYUSH</div>
                 <div class="runner-score-tag blue-score-tag" id="silverScore">12 POINTS</div>
               </div>
             </div>
 
-            <!-- Card 1 (Center - Aman) -->
+            <!-- Card 1 (Center - Ayank) -->
             <div class="cw-runner-col">
               <div class="cw-runner-card runner-gold" id="champHeroCard">
                 <div class="runner-rank-tab gold-tab">
@@ -14990,14 +15033,14 @@
                   </svg>
                 </div>
                 <div class="runner-avatar-frame champ-avatar-frame" id="champAvatarWrap">
-                  <img id="champAvatarImg" src="avvtar/aman.svg" alt="Champion" onerror="this.onerror=null;this.src='avvtar/aman.svg'" />
+                  <img id="champAvatarImg" src="avvtar/ayank.webp" alt="Champion" onerror="this.onerror=null;this.src='avvtar/ayank.webp'" />
                 </div>
-                <div class="runner-nameplate champ-nameplate" id="champName">AMAN</div>
+                <div class="runner-nameplate champ-nameplate" id="champName">AYANK</div>
                 <div class="runner-score-tag gold-score-tag" id="champScore">30 POINTS</div>
               </div>
             </div>
 
-            <!-- Card 3 (Right - Aziz) -->
+            <!-- Card 3 (Right - Joel) -->
             <div class="cw-runner-col">
               <div class="cw-card-burst burst-right" aria-hidden="true">
                 <svg viewBox="0 0 30 25" width="22" height="18" fill="none">
@@ -15008,9 +15051,9 @@
               <div class="cw-runner-card runner-orange" id="bronzeCard">
                 <div class="runner-rank-tab orange-tab">3</div>
                 <div class="runner-avatar-frame" id="bronzeAvatarWrap">
-                  <img id="bronzeAvatarImg" src="avvtar/aziz.svg" alt="3rd Place" onerror="this.onerror=null;this.src='avvtar/aziz.svg'" />
+                  <img id="bronzeAvatarImg" src="avvtar/joel.webp" alt="3rd Place" onerror="this.onerror=null;this.src='avvtar/joel.webp'" />
                 </div>
-                <div class="runner-nameplate" id="bronzeName">AZIZ</div>
+                <div class="runner-nameplate" id="bronzeName">JOEL</div>
                 <div class="runner-score-tag orange-score-tag" id="bronzeScore">16 POINTS</div>
               </div>
             </div>
@@ -15028,32 +15071,32 @@
               <div class="sb-row sb-champ">
                 <div class="sb-left">
                   <span class="sb-rank">1</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/aman.svg" alt="Aman" /></div>
-                  <span class="sb-name">AMAN</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/ayank.webp" alt="Ayank" /></div>
+                  <span class="sb-name">AYANK</span>
                 </div>
                 <span class="sb-score">30 PTS</span>
               </div>
               <div class="sb-row">
                 <div class="sb-left">
                   <span class="sb-rank">2</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/vish.svg" alt="Vish" /></div>
-                  <span class="sb-name">VISH</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/ayush.webp" alt="Ayush" /></div>
+                  <span class="sb-name">AYUSH</span>
                 </div>
                 <span class="sb-score">12 PTS</span>
               </div>
               <div class="sb-row">
                 <div class="sb-left">
                   <span class="sb-rank">3</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/aziz.svg" alt="Aziz" /></div>
-                  <span class="sb-name">AZIZ</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/joel.webp" alt="Joel" /></div>
+                  <span class="sb-name">JOEL</span>
                 </div>
                 <span class="sb-score">16 PTS</span>
               </div>
               <div class="sb-row">
                 <div class="sb-left">
                   <span class="sb-rank">4</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/amish.svg" alt="Amish" /></div>
-                  <span class="sb-name">AMISH</span>
+                  <div class="sb-avatar-mini"><img src="avvtar/praggya.webp" alt="Praggya" /></div>
+                  <span class="sb-name">PRAGGYA</span>
                 </div>
                 <span class="sb-score">7 PTS</span>
               </div>
@@ -15094,34 +15137,21 @@
 
     </div><!-- /.comic-winner-card -->
 
-    <!-- ── NEOBRUTALIST QR POP-UP CARD (OUTSIDE THE BOX) ── -->
-    <div id="cwQrPopup" class="cw-qr-popup active" role="dialog" aria-label="Contact and Services QR Code">
+    <!-- ── NEOBRUTALIST MEME POP-UP CARD ── -->
+    <div id="cwMemePopup" class="cw-qr-popup cw-meme-popup active" role="dialog" aria-label="Winner Special Meme">
       <div class="cw-qr-popup-inner">
-        <div class="cw-qr-header">
+        <div class="cw-qr-header cw-qr-header-meme">
           <div class="cw-qr-badge">
-            <span class="cw-qr-icon">💼</span>
-            <span class="cw-qr-title">SCAN TO CONNECT</span>
+            <span class="cw-qr-icon">🎉</span>
+            <span class="cw-qr-title">SPECIAL MEME</span>
           </div>
-          <button type="button" class="cw-qr-close-btn" onclick="WinnerScreen.closeQrPopup('left')" aria-label="Close QR pop-up" title="Close pop-up">✕</button>
+          <button type="button" class="cw-qr-close-btn" onclick="WinnerScreen.closeMemePopup()" aria-label="Close meme pop-up" title="Close pop-up">✕</button>
         </div>
         
-        <div class="cw-qr-body">
-          <div class="cw-qr-canvas-wrap" title="Scan to open asmit.scoopcast.me">
-            <!-- Inline Crisp Vector QR Code for https://asmit.scoopcast.me -->
-            <svg class="cw-qr-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" shape-rendering="crispEdges">
-              <path fill="#FFFFFF" d="M0 0h35v35H0z"/>
-              <path stroke="#111827" d="M1 1.5h7m1 0h2m2 0h1m1 0h2m6 0h3m1 0h7M1 2.5h1m5 0h1m1 0h2m1 0h1m2 0h2m2 0h2m2 0h2m2 0h1m5 0h1M1 3.5h1m1 0h3m1 0h1m2 0h1m2 0h2m2 0h2m2 0h1m3 0h1m1 0h1m1 0h3m1 0h1M1 4.5h1m1 0h3m1 0h1m1 0h1m2 0h3m1 0h3m1 0h1m2 0h1m1 0h1m1 0h1m1 0h3m1 0h1M1 5.5h1m1 0h3m1 0h1m1 0h1m1 0h1m5 0h1m1 0h1m1 0h2m2 0h1m1 0h1m1 0h3m1 0h1M1 6.5h1m5 0h1m1 0h1m1 0h1m1 0h3m1 0h1m3 0h1m1 0h1m1 0h1m1 0h1m5 0h1M1 7.5h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7M11 8.5h1m1 0h2m1 0h2m2 0h5M4 9.5h1m2 0h1m8 0h1m2 0h1m1 0h2m1 0h2m2 0h3m1 0h2M2 10.5h3m3 0h1m1 0h2m3 0h4m1 0h1m6 0h1m3 0h1m1 0h1M2 11.5h2m1 0h3m3 0h4m1 0h1m3 0h1m1 0h2m1 0h2m3 0h1m2 0h1M1 12.5h1m1 0h4m2 0h1m1 0h5m9 0h1m1 0h1m2 0h1m2 0h1M3 13.5h1m3 0h2m1 0h2m2 0h3m2 0h2m5 0h2m1 0h2m2 0h1M4 14.5h2m2 0h1m1 0h4m1 0h1m1 0h1m1 0h2m2 0h1m1 0h3m3 0h1m1 0h1M2 15.5h2m1 0h4m2 0h1m1 0h4m1 0h1m1 0h3m1 0h2m4 0h1m1 0h1M1 16.5h1m2 0h1m3 0h1m1 0h2m3 0h1m1 0h2m1 0h1m1 0h2m1 0h1m3 0h1m1 0h3M1 17.5h1m1 0h1m1 0h4m3 0h2m3 0h6m1 0h1m2 0h1m1 0h1m1 0h2M2 18.5h1m3 0h1m2 0h3m3 0h1m1 0h1m1 0h1m2 0h1m1 0h1m6 0h3M4 19.5h1m2 0h2m1 0h1m1 0h1m1 0h1m1 0h8m3 0h2m2 0h1m1 0h1M3 20.5h3m2 0h1m2 0h2m2 0h2m4 0h2m3 0h1m1 0h2m2 0h1M1 21.5h3m1 0h1m1 0h1m1 0h1m1 0h1m2 0h1m1 0h1m1 0h1m3 0h1m1 0h2m6 0h1M2 22.5h2m4 0h5m1 0h1m1 0h2m2 0h2m2 0h2m4 0h1m1 0h2M1 23.5h2m2 0h1m1 0h3m1 0h1m1 0h1m4 0h3m2 0h6m1 0h1m2 0h1M2 24.5h4m3 0h2m6 0h1m2 0h8m1 0h2M1 25.5h1m2 0h1m1 0h3m1 0h1m2 0h1m1 0h1m1 0h1m4 0h1m1 0h6m2 0h1M9 26.5h2m3 0h1m2 0h2m1 0h4m1 0h1m3 0h2m2 0h1M1 27.5h7m2 0h1m1 0h2m1 0h2m1 0h1m2 0h1m1 0h1m1 0h1m1 0h1m1 0h4M1 28.5h1m5 0h1m2 0h2m1 0h1m1 0h1m2 0h1m1 0h1m1 0h2m1 0h1m3 0h1m3 0h1M1 29.5h1m1 0h3m1 0h1m3 0h1m1 0h2m1 0h2m1 0h3m3 0h5M1 30.5h1m1 0h3m1 0h1m1 0h3m2 0h3m1 0h4m1 0h3m1 0h1m1 0h1m3 0h1M1 31.5h1m1 0h3m1 0h1m2 0h3m2 0h1m3 0h4m2 0h2m1 0h4m1 0h1M1 32.5h1m5 0h1m2 0h1m3 0h2m3 0h1m3 0h4m1 0h3M1 33.5h7m5 0h2m1 0h3m1 0h1m3 0h2m2 0h2m1 0h2"/>
-            </svg>
+        <div class="cw-qr-body cw-meme-body">
+          <div class="cw-meme-img-wrap">
+            <img src="bg/winner_meme.webp" alt="Scoopcast Special Meme" class="cw-meme-img" loading="eager" />
           </div>
-          
-          <a href="https://asmit.scoopcast.me" target="_blank" rel="noopener noreferrer" class="cw-qr-link-badge" title="Open asmit.scoopcast.me">
-            <span>asmit.scoopcast.me</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-          </a>
-
-          <p class="cw-qr-desc">
-            Jisko bhi apne business wagaira ke liye koi website ya app ya kuch bhi zaroorat ho, mujhe ye QR code scan karke contact kar sakte hain.
-          </p>
         </div>
       </div>
     </div>
@@ -15155,10 +15185,10 @@
     </div>
 
 <!-- Floating re-open trigger pills when pop-ups are closed -->
-    <button id="cwQrPillTrigger" type="button" class="cw-qr-pill-trigger" onclick="WinnerScreen.openQrPopup('left')" aria-label="Open contact QR code">
-      <span class="pill-dot"></span>
-      <span class="pill-icon">💼</span>
-      <span class="pill-text">SCAN TO CONNECT</span>
+    <button id="cwMemePillTrigger" type="button" class="cw-qr-pill-trigger" onclick="WinnerScreen.openMemePopup()" aria-label="Open special meme">
+      <span class="pill-dot" style="background:#F59E0B;"></span>
+      <span class="pill-icon">🎉</span>
+      <span class="pill-text">VIEW MEME</span>
     </button>
 
     <button id="cwQrPillTriggerRight" type="button" class="cw-qr-pill-trigger cw-qr-pill-trigger-right" onclick="WinnerScreen.openQrPopup('right')" aria-label="Open Instagram frame submission QR code">
@@ -15749,51 +15779,51 @@
 
     /* ═══ PLAYER LOBBY ═══ */
     const AVATAR_MAP = {
-      aman: {
-        color: '#FF6B9D',
-        bg: '#FF6B9D',
-        img: 'avvtar/aman.svg'
-      },
-      amish: {
-        color: '#FACC15',
-        bg: '#FACC15',
-        img: 'avvtar/amish.svg'
-      },
-      aziz: {
-        color: '#84CC16',
-        bg: '#84CC16',
-        img: 'avvtar/aziz.svg'
-      },
-      vish: {
-        color: '#3B82F6',
-        bg: '#3B82F6',
-        img: 'avvtar/vish.svg'
-      },
-      // Legacy fallback mappings
       ayank: {
         color: '#FF6B9D',
         bg: '#FF6B9D',
-        img: 'avvtar/aman.svg'
+        img: 'avvtar/ayank.webp'
       },
       ayush: {
         color: '#3B82F6',
         bg: '#3B82F6',
-        img: 'avvtar/vish.svg'
+        img: 'avvtar/ayush.webp'
       },
       joel: {
         color: '#84CC16',
         bg: '#84CC16',
-        img: 'avvtar/aziz.svg'
+        img: 'avvtar/joel.webp'
       },
       praggya: {
         color: '#FACC15',
         bg: '#FACC15',
-        img: 'avvtar/amish.svg'
+        img: 'avvtar/praggya.webp'
       },
       ruhaan: {
         color: '#A855F7',
         bg: '#A855F7',
-        img: 'avvtar/aman.svg'
+        img: 'avvtar/ruhaan.webp'
+      },
+      // Legacy fallback mappings
+      aman: {
+        color: '#FF6B9D',
+        bg: '#FF6B9D',
+        img: 'avvtar/ayank.webp'
+      },
+      amish: {
+        color: '#FACC15',
+        bg: '#FACC15',
+        img: 'avvtar/praggya.webp'
+      },
+      aziz: {
+        color: '#84CC16',
+        bg: '#84CC16',
+        img: 'avvtar/joel.webp'
+      },
+      vish: {
+        color: '#3B82F6',
+        bg: '#3B82F6',
+        img: 'avvtar/ayush.webp'
       }
     };
 
@@ -15917,13 +15947,13 @@
         if (list) {
           const playersHtml = GS.players.map((p, i) => {
             const isH = !!p.isHost;
-            const rawAv = (p.avatar || (p.name && p.name.toLowerCase()) || 'aman');
+            const rawAv = (p.avatar || (p.name && p.name.toLowerCase()) || 'ayank');
             let avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
-            const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
+            const legacyAlias = { aman: 'ayank', amish: 'praggya', aziz: 'joel', vish: 'ayush' };
             if (legacyAlias[avKey]) avKey = legacyAlias[avKey];
-            const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
-            const safeAvKey = validAvatars.includes(avKey) ? avKey : 'aman';
-            const avConfig = AVATAR_MAP[safeAvKey] || { bg: bgOrder[i % bgOrder.length], img: `avvtar/${safeAvKey}.svg`, color: '#FF6B9D' };
+            const validAvatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
+            const safeAvKey = validAvatars.includes(avKey) ? avKey : 'ayank';
+            const avConfig = AVATAR_MAP[safeAvKey] || { bg: bgOrder[i % bgOrder.length], img: `avvtar/${safeAvKey}.webp`, color: '#FF6B9D' };
             const safeName = SecurityUtil.escapeHtml(p.name || `Player ${i+1}`);
             const isMe = (MultiplayerEngine.isHost ? (p.isHost || p.id === MultiplayerEngine.playerId || i === 0) : (p.id === MultiplayerEngine.playerId || p.name === MultiplayerEngine.playerName));
             const canRemove = MultiplayerEngine.isHost && GS.players.length > 1 && !p.isHost && p.id !== MultiplayerEngine.playerId;
@@ -15939,7 +15969,7 @@
                   <button type="button" onclick="PlayerLobby.remove(${i})" class="absolute -top-2.5 -right-2.5 bg-[#ff6b6b] text-white hover:bg-red-600 border-2 border-on-surface w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] transition-all z-10 cursor-pointer" title="Remove Player">✕</button>
                 ` : ''}
                 <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-on-surface overflow-hidden mb-3 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" style="background-color: ${avConfig.color};">
-                  <img class="w-full h-full object-cover" src="${avConfig.img}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/aman.svg'"/>
+                  <img class="w-full h-full object-cover" src="${avConfig.img}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/ayank.webp'"/>
                 </div>
                 ${isMe ? `
                   <div class="relative w-full max-w-[140px] flex items-center group">
@@ -16764,10 +16794,10 @@
         }
       ],
       players: [
-        { name: 'AMAN', score: 0, avatar: 'aman', avatarImg: 'avvtar/aman.svg' },
-        { name: 'AMISH', score: 0, avatar: 'amish', avatarImg: 'avvtar/amish.svg' },
-        { name: 'AZIZ', score: 0, avatar: 'aziz', avatarImg: 'avvtar/aziz.svg' },
-        { name: 'VISH', score: 0, avatar: 'vish', avatarImg: 'avvtar/vish.svg' }
+        { name: 'AYANK', score: 0, avatar: 'ayank', avatarImg: 'avvtar/ayank.webp' },
+        { name: 'AYUSH', score: 0, avatar: 'ayush', avatarImg: 'avvtar/ayush.webp' },
+        { name: 'JOEL', score: 0, avatar: 'joel', avatarImg: 'avvtar/joel.webp' },
+        { name: 'PRAGGYA', score: 0, avatar: 'praggya', avatarImg: 'avvtar/praggya.webp' }
       ],
       judge: { totalRounds: 0, totalPlayers: 0, roundsPerJudge: 1, globalRoundIndex: 0, currentJudge: null, currentJudgeIndex: -1, currentJudgeRoundsServed: 0, usedJudges: [], cycleCount: 0, judgeAnswered: false, judgeRewardGiven: false },
       scoring: { locked: false, completed: false },
@@ -16813,19 +16843,19 @@
     /* ═══ AVATAR HELPER ═══ */
     function renderAvatar(p, type) {
       const safeName = SecurityUtil.escapeHtml(p && p.name || '');
-      const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase())) || 'aman');
+      const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase())) || 'ayank');
       let avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
-      const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
+      const legacyAlias = { aman: 'ayank', amish: 'praggya', aziz: 'joel', vish: 'ayush' };
       if (legacyAlias[avKey]) avKey = legacyAlias[avKey];
 
-      const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
-      const safeAv = validAvatars.includes(avKey) ? avKey : 'aman';
-      let avSrc = (p && p.avatarImg) || `avvtar/${safeAv}.svg`;
-      if (avSrc.endsWith('.png') || avSrc.includes('ayank') || avSrc.includes('ayush') || avSrc.includes('joel') || avSrc.includes('praggya') || avSrc.includes('ruhaan')) {
-        avSrc = `avvtar/${safeAv}.svg`;
+      const validAvatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
+      const safeAv = validAvatars.includes(avKey) ? avKey : 'ayank';
+      let avSrc = (p && p.avatarImg) || `avvtar/${safeAv}.webp`;
+      if (avSrc.endsWith('.png') || avSrc.endsWith('.svg')) {
+        avSrc = `avvtar/${safeAv}.webp`;
       }
 
-      return `<img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" class="av-img-elem" style="width:100%;height:100%;max-width:100%;max-height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block;" onerror="this.onerror=null;this.src='avvtar/aman.svg';">`;
+      return `<img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" class="av-img-elem" style="width:100%;height:100%;max-width:100%;max-height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block;" onerror="this.onerror=null;this.src='avvtar/ayank.webp';">`;
     }
     window.renderAvatar = renderAvatar;
 
@@ -17970,10 +18000,10 @@
         const isMe = msg.senderId === MultiplayerEngine.playerId;
         const safeMsgId = String(msg.id).replace(/[^a-zA-Z0-9_-]/g, '');
 
-        const rawKey = String(msg.senderAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
+        const rawKey = String(msg.senderAvatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const legacyAlias = { aman: 'ayank', amish: 'praggya', aziz: 'joel', vish: 'ayush' };
         const mappedKey = legacyAlias[rawKey] || rawKey;
-        const safeAvatar = ['aman', 'amish', 'aziz', 'vish'].includes(mappedKey) ? mappedKey : 'aman';
+        const safeAvatar = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'].includes(mappedKey) ? mappedKey : 'ayank';
 
         const reactionButtonsHtml = isMe ?
           ('<span class="chat-reaction-btn chat-self-disabled" title="You cannot vote on your own answer">' +
@@ -17999,7 +18029,7 @@
           msgEl.className = 'chat-msg';
           msgEl.id = 'chatMsg_' + safeMsgId;
           msgEl.innerHTML = '<div class="chat-avatar">' +
-            '<img src="avvtar/' + safeAvatar + '.svg" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/aman.svg\'" />' +
+            '<img src="avvtar/' + safeAvatar + '.webp" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/ayank.webp\'" />' +
             '</div>' +
             '<div class="chat-msg-body">' +
             '<div class="chat-msg-header">' +
@@ -18023,7 +18053,7 @@
           const lobbyEl = document.createElement('div');
           lobbyEl.className = 'chat-msg';
           lobbyEl.innerHTML = '<div class="chat-avatar">' +
-            '<img src="avvtar/' + safeAvatar + '.svg" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/aman.svg\'" />' +
+            '<img src="avvtar/' + safeAvatar + '.webp" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/ayank.webp\'" />' +
             '</div>' +
             '<div class="chat-msg-body">' +
             '<div class="chat-msg-header">' +
@@ -18303,9 +18333,9 @@
       roomCode: null,
       playerId: null,
       playerName: 'Player',
-      playerAvatar: 'aman',
+      playerAvatar: 'ayank',
       isHost: false,
-      selectedAvatarForModal: 'aman',
+      selectedAvatarForModal: 'ayank',
       currentMaskedHint: null,
       currentRoundWinners: [],
       currentPlaylist: [],
@@ -18424,13 +18454,13 @@
         const avImg = document.getElementById('rejoinAvatarImg');
         const avContainer = document.getElementById('rejoinAvatarContainer');
 
-        const av = (session.playerAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#FF6B9D', img: `avvtar/${av}.svg` };
+        const av = (session.playerAvatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#FF6B9D', img: `avvtar/${av}.webp` };
 
         if (codeEl) codeEl.textContent = session.roomCode;
         if (nameEl) nameEl.textContent = session.playerName || this.getAvatarDisplayName(av);
         if (roleEl) roleEl.textContent = session.isHost ? 'Host 👑' : 'Player';
-        if (avImg) avImg.src = avConfig.img || `avvtar/${av}.svg`;
+        if (avImg) avImg.src = avConfig.img || `avvtar/${av}.webp`;
         if (avContainer) avContainer.style.backgroundColor = avConfig.color;
 
         if (modal) modal.classList.add('active');
@@ -18572,22 +18602,22 @@
 
       getAvatarDisplayName(av) {
         const map = {
-          aman: 'Aman',
-          amish: 'Amish',
-          aziz: 'Aziz',
-          vish: 'Vish',
-          ayank: 'Aman',
-          ayush: 'Vish',
-          joel: 'Aziz',
-          praggya: 'Amish',
-          ruhaan: 'Aman'
+          ayank: 'Ayank',
+          ayush: 'Ayush',
+          joel: 'Joel',
+          praggya: 'Praggya',
+          ruhaan: 'Ruhaan',
+          aman: 'Ayank',
+          amish: 'Praggya',
+          aziz: 'Joel',
+          vish: 'Ayush'
         };
-        const key = (av || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
-        return map[key] || (key ? key.charAt(0).toUpperCase() + key.slice(1) : 'Aman');
+        const key = (av || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
+        return map[key] || (key ? key.charAt(0).toUpperCase() + key.slice(1) : 'Ayank');
       },
 
       openCreateModal() {
-        this.playerAvatar = this.playerAvatar || 'aman';
+        this.playerAvatar = this.playerAvatar || 'ayank';
         this.selectedAvatarForModal = this.playerAvatar;
         const savedName = localStorage.getItem('gtf_player_name');
         this.playerName = savedName || this.playerName || this.getAvatarDisplayName(this.playerAvatar);
@@ -18599,7 +18629,7 @@
       },
 
       openJoinModal() {
-        this.playerAvatar = this.playerAvatar || 'aman';
+        this.playerAvatar = this.playerAvatar || 'ayank';
         this.selectedAvatarForModal = this.playerAvatar;
         const savedName = localStorage.getItem('gtf_player_name');
         this.playerName = savedName || this.playerName || this.getAvatarDisplayName(this.playerAvatar);
@@ -18748,7 +18778,7 @@
       confirmCreateRoom() {
         const nameInput = document.getElementById('hostPlayerNameInput');
         const typedName = (nameInput ? nameInput.value : '').trim();
-        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'aman';
+        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'ayank';
         this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
         this.isHost = true;
         this.roomCode = this.generateRoomCode();
@@ -18798,7 +18828,7 @@
         }
         const nameInput = document.getElementById('joinPlayerNameInput');
         const typedName = (nameInput ? nameInput.value : '').trim();
-        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'aman';
+        this.playerAvatar = this.selectedAvatarForModal || this.playerAvatar || 'ayank';
         this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
         this.isHost = false;
         this.roomCode = code;
@@ -21163,6 +21193,7 @@
         this.renderMatchSummary(playerList);
         this.fireComicConfetti();
         this.openQrPopup();
+        this.openMemePopup();
 
         // Auto trigger celebratory party poppers
         setTimeout(() => this.triggerPopper('left'), 350);
@@ -21204,6 +21235,20 @@
           if (popupRight) popupRight.classList.remove('active');
           if (triggerRight) triggerRight.classList.add('active');
         }
+      },
+
+      openMemePopup() {
+        const popup = document.getElementById('cwMemePopup');
+        const trigger = document.getElementById('cwMemePillTrigger');
+        if (popup) popup.classList.add('active');
+        if (trigger) trigger.classList.remove('active');
+      },
+
+      closeMemePopup() {
+        const popup = document.getElementById('cwMemePopup');
+        const trigger = document.getElementById('cwMemePillTrigger');
+        if (popup) popup.classList.remove('active');
+        if (trigger) trigger.classList.add('active');
       },
 
       triggerPopper(side) {
@@ -21277,20 +21322,20 @@
         }
       },
 
-      resolveAvatar(p, fallbackKey = 'aman') {
-        const valid = ['aman', 'amish', 'aziz', 'vish'];
-        const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
-        if (p && p.avatarImg && !p.avatarImg.endsWith('.png') && !p.avatarImg.includes('ayank') && !p.avatarImg.includes('ayush') && !p.avatarImg.includes('joel') && !p.avatarImg.includes('praggya') && !p.avatarImg.includes('ruhaan')) {
+      resolveAvatar(p, fallbackKey = 'ayank') {
+        const valid = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
+        const legacyAlias = { aman: 'ayank', amish: 'praggya', aziz: 'joel', vish: 'ayush' };
+        if (p && p.avatarImg && p.avatarImg.endsWith('.webp')) {
           return p.avatarImg;
         }
         const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase()))) || fallbackKey;
         let avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
         if (legacyAlias[avKey]) avKey = legacyAlias[avKey];
         let safeFallback = legacyAlias[fallbackKey] || fallbackKey;
-        if (!valid.includes(safeFallback)) safeFallback = 'aman';
+        if (!valid.includes(safeFallback)) safeFallback = 'ayank';
 
         const safeKey = valid.includes(avKey) ? avKey : safeFallback;
-        return `avvtar/${safeKey}.svg`;
+        return `avvtar/${safeKey}.webp`;
       },
 
       renderScoreboard(players) {
@@ -21304,7 +21349,7 @@
         c.innerHTML = sorted.map((p, i) => {
           const rank = i + 1;
           const isChamp = i === 0 && (p.score || 0) > 0;
-          const defaultKey = i === 0 ? 'aman' : i === 1 ? 'vish' : i === 2 ? 'aziz' : 'amish';
+          const defaultKey = i === 0 ? 'ayank' : i === 1 ? 'ayush' : i === 2 ? 'joel' : i === 3 ? 'praggya' : 'ruhaan';
           const avSrc = this.resolveAvatar(p, defaultKey);
           const escapeFn = (typeof SecurityUtil !== 'undefined' && SecurityUtil.escapeHtml) ? SecurityUtil.escapeHtml : (s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
           const safeName = escapeFn(p.name || ('Player ' + rank));
@@ -21313,7 +21358,7 @@
             <div class="sb-row ${isChamp ? 'sb-champ' : ''}">
               <div class="sb-left">
                 <span class="sb-rank">${rank}</span>
-                <div class="sb-avatar-mini"><img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/${defaultKey}.svg'" /></div>
+                <div class="sb-avatar-mini"><img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/${defaultKey}.webp'" /></div>
                 <span class="sb-name">${safeName.toUpperCase()}</span>
               </div>
               <span class="sb-score">${score} PTS</span>
@@ -21337,8 +21382,8 @@
         if (champNameEl) champNameEl.textContent = (p1 && p1.name ? p1.name : 'PLAYER 1').toUpperCase();
         if (champScoreEl) champScoreEl.textContent = p1Score + ' POINTS';
         if (champAvatarImg) {
-          champAvatarImg.onerror = function() { this.onerror = null; this.src = 'avvtar/aman.svg'; };
-          champAvatarImg.src = this.resolveAvatar(p1, 'aman');
+          champAvatarImg.onerror = function() { this.onerror = null; this.src = 'avvtar/ayank.webp'; };
+          champAvatarImg.src = this.resolveAvatar(p1, 'ayank');
           champAvatarImg.alt = p1 ? (p1.name || 'Champion') : 'Champion';
         }
 
@@ -21357,8 +21402,8 @@
             if (silverName) silverName.textContent = (p2.name || 'PLAYER 2').toUpperCase();
             if (silverScore) silverScore.textContent = p2Score + ' POINTS';
             if (silverImg) {
-              silverImg.onerror = function() { this.onerror = null; this.src = 'avvtar/vish.svg'; };
-              silverImg.src = this.resolveAvatar(p2, 'vish');
+              silverImg.onerror = function() { this.onerror = null; this.src = 'avvtar/ayush.webp'; };
+              silverImg.src = this.resolveAvatar(p2, 'ayush');
               silverImg.alt = p2.name || '2nd Place';
             }
           } else {
@@ -21383,8 +21428,8 @@
             if (bronzeName) bronzeName.textContent = (p3.name || 'PLAYER 3').toUpperCase();
             if (bronzeScore) bronzeScore.textContent = p3Score + ' POINTS';
             if (bronzeImg) {
-              bronzeImg.onerror = function() { this.onerror = null; this.src = 'avvtar/aziz.svg'; };
-              bronzeImg.src = this.resolveAvatar(p3, 'aziz');
+              bronzeImg.onerror = function() { this.onerror = null; this.src = 'avvtar/joel.webp'; };
+              bronzeImg.src = this.resolveAvatar(p3, 'joel');
               bronzeImg.alt = p3.name || '3rd Place';
             }
           } else {
@@ -21717,9 +21762,9 @@
         if (GS.tieBreaker && Array.isArray(GS.tieBreaker.frames)) collect(GS.tieBreaker.frames);
 
         // Player assets: avatars (priority)
-        const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
+        const validAvatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
         validAvatars.forEach(av => {
-          priorityImages.push('avvtar/' + av + '.svg');
+          priorityImages.push('avvtar/' + av + '.webp');
         });
 
         let loaded = 0;
@@ -22609,13 +22654,13 @@
 
         // winner-only: full-body trophy image
         const trophyImg = (p) => {
-          const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase()))) || 'aman';
+          const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase()))) || 'ayank';
           let avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
-          const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
+          const legacyAlias = { aman: 'ayank', amish: 'praggya', aziz: 'joel', vish: 'ayush' };
           if (legacyAlias[avKey]) avKey = legacyAlias[avKey];
-          const valid = ['aman', 'amish', 'aziz', 'vish'];
-          const safeKey = valid.includes(avKey) ? avKey : 'aman';
-          return 'avvtar/' + safeKey + '.svg';
+          const valid = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
+          const safeKey = valid.includes(avKey) ? avKey : 'ayank';
+          return 'avvtar/' + safeKey + '.webp';
         };
         const buildTrophies = (players) => {
           const count = players.length;
@@ -22624,12 +22669,12 @@
             const p = players[0];
             const tp = trophyImg(p);
             return `<div class="podium-avatar podium-trophy" data-count="1">
-              <img class="trophy-fig" src="${tp}" alt="${SecurityUtil.escapeHtml(p && p.name || 'Champion')}" onerror="this.onerror=null;this.src='avvtar/aman.svg';">
+              <img class="trophy-fig" src="${tp}" alt="${SecurityUtil.escapeHtml(p && p.name || 'Champion')}" onerror="this.onerror=null;this.src='avvtar/ayank.webp';">
             </div>`;
           }
           return `<div class="podium-avatar podium-trophy" data-count="${count}">${players.map(p => {
             const tp = trophyImg(p);
-            return `<img class="trophy-fig" src="${tp}" alt="${SecurityUtil.escapeHtml(p && p.name || 'Player')}" onerror="this.onerror=null;this.src='avvtar/aman.svg';">`;
+            return `<img class="trophy-fig" src="${tp}" alt="${SecurityUtil.escapeHtml(p && p.name || 'Player')}" onerror="this.onerror=null;this.src='avvtar/ayank.webp';">`;
           }).join('')}</div>`;
         };
 

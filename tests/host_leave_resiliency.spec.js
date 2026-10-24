@@ -21,7 +21,7 @@ test.describe('HOST LEAVE & MIGRATION RESILIENCY SUITE', () => {
     // 2. Player joins
     await playerPage.goto(`/?room=${roomCode}`);
     await playerPage.locator('#joinPlayerNameInput').fill('PlayerBob');
-    await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="amish"]').click();
+    await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="praggya"]').click();
     await playerPage.locator('#joinRoomModal .mp-btn-primary').click();
     await expect(playerPage.locator('#playerLobbyScreen')).toBeVisible({ timeout: 15000 });
 
@@ -76,7 +76,7 @@ test.describe('HOST LEAVE & MIGRATION RESILIENCY SUITE', () => {
     // 2. Player joins
     await playerPage.goto(`/?room=${roomCode}`);
     await playerPage.locator('#joinPlayerNameInput').fill('PlayerDave');
-    await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="amish"]').click();
+    await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="praggya"]').click();
     await playerPage.locator('#joinRoomModal .mp-btn-primary').click();
     await expect(playerPage.locator('#playerLobbyScreen')).toBeVisible();
 
@@ -140,7 +140,7 @@ test.describe('HOST LEAVE & MIGRATION RESILIENCY SUITE', () => {
 
     await playerPage.goto(`/?room=${roomCode}`);
     await playerPage.locator('#joinPlayerNameInput').fill('PlayerFrank');
-    await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="amish"]').click();
+    await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="praggya"]').click();
     await playerPage.locator('#joinRoomModal .mp-btn-primary').click();
     await expect(playerPage.locator('#playerLobbyScreen')).toBeVisible();
 

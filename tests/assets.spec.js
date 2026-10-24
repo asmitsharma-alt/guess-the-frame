@@ -54,6 +54,19 @@ test.describe("Asset & Frame Loading Reliability", () => {
     }
   });
 
+  test("Team WebP PFPs and Winner Meme resolve with status 200", async ({ request }) => {
+    const pfps = ["ayank", "ayush", "joel", "praggya", "ruhaan"];
+    for (const pfp of pfps) {
+      const response = await request.get("/avvtar/" + pfp + ".webp");
+      expect(response.status(), "Team PFP failed to load: " + pfp).toBe(200);
+      const ct = response.headers()["content-type"] || "";
+      expect(ct.includes("webp") || ct.includes("image")).toBe(true);
+    }
+
+    const memeResp = await request.get("/bg/winner_meme.webp");
+    expect(memeResp.status(), "Winner meme failed to load").toBe(200);
+  });
+
   test("FrameDisplay handles missing or broken images gracefully without crashing", async ({ page }) => {
     const handledGracefully = await page.evaluate(async () => {
       try {

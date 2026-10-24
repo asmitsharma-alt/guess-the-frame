@@ -38,7 +38,7 @@ test.describe('ULTRA-COMPREHENSIVE MASTER TEST: Every Feature, Button, Logic, Sy
     await hostNameInput.fill('Captain_Marvel');
 
     // Test picking each of the 4 avatars
-    const avatars = ['aman', 'amish', 'aziz', 'vish'];
+    const avatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
     for (const av of avatars) {
       const opt = page.locator(`#createRoomModal .mp-avatar-option[data-avatar="${av}"]`);
       await opt.click();
@@ -66,7 +66,7 @@ test.describe('ULTRA-COMPREHENSIVE MASTER TEST: Every Feature, Button, Logic, Sy
     expect(codeVal.toUpperCase()).toBe('ABCD');
 
     // Pick avatar
-    await page.locator('#joinRoomModal .mp-avatar-option[data-avatar="vish"]').click();
+    await page.locator('#joinRoomModal .mp-avatar-option[data-avatar="ayush"]').click();
 
     // Close Join Modal button (✕)
     await page.locator('#joinRoomModal .mp-modal-close').click();
