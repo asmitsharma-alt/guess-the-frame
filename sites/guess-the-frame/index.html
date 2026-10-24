@@ -12041,8 +12041,33 @@
       letter-spacing: 0.2px;
     }
 
-    /* ── NEOBRUTALIST MEME / QR POP-UP (LEFT SIDE / BESIDE MESSAGE BOX) ── */
-    #cwMemePopup,
+    /* ── NEOBRUTALIST MEME POP-UP (WINNER PAGE - 2X BIGGER) ── */
+    #cwMemePopup {
+      display: none;
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      z-index: 10050;
+      width: 544px;
+      max-width: min(544px, calc(100vw - 32px));
+      max-height: min(92vh, 650px);
+      background: #FFFDF5;
+      border: 3.5px solid #111827;
+      border-radius: 20px;
+      box-shadow: 8px 8px 0px #111827;
+      transform: rotate(-1.5deg);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+      animation: qrPopupSpringIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+    #winnerScreen.active #cwMemePopup.active {
+      display: block !important;
+    }
+    #cwMemePopup:hover {
+      transform: rotate(0deg) scale(1.01);
+      box-shadow: 10px 10px 0px #111827;
+    }
     #cwQrPopup {
       display: none;
       position: fixed;
@@ -12060,11 +12085,9 @@
       overflow: hidden;
       box-sizing: border-box;
     }
-    #winnerScreen.active #cwMemePopup.active,
     #winnerScreen.active #cwQrPopup.active {
       display: block !important;
     }
-    #cwMemePopup:hover,
     #cwQrPopup:hover {
       transform: rotate(0deg) scale(1.02);
       box-shadow: 8px 8px 0px #111827;
@@ -12126,20 +12149,30 @@
     .cw-qr-header-meme {
       background: #FBBF24 !important;
     }
+    .cw-qr-header-meme .cw-qr-title {
+      font-size: 16px;
+      letter-spacing: 0.8px;
+    }
+    #cwMemePopup .cw-qr-close-btn {
+      width: 28px;
+      height: 28px;
+      font-size: 14px;
+    }
     .cw-meme-body {
-      padding: 10px 12px 12px;
+      padding: 12px 14px 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      box-sizing: border-box;
     }
     .cw-meme-img-wrap {
       width: 100%;
-      border: 3px solid #111827;
-      border-radius: 12px;
+      border: 3.5px solid #111827;
+      border-radius: 14px;
       overflow: hidden;
       background: #000;
-      box-shadow: 3.5px 3.5px 0px #111827;
+      box-shadow: 4px 4px 0px #111827;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -12147,9 +12180,9 @@
     .cw-meme-img {
       width: 100%;
       height: auto;
-      max-height: 250px;
+      max-height: 500px;
       display: block;
-      object-fit: cover;
+      object-fit: contain;
     }
     .cw-qr-link-badge-insta {
       background: #FDF2F8 !important;
@@ -12339,7 +12372,11 @@
     }
 
     @media (min-width: 1480px) {
-      #cwMemePopup,
+      #cwMemePopup {
+        top: 50%;
+        transform: translateY(-50%) rotate(-1deg);
+        left: max(24px, calc(50vw - 520px - 565px));
+      }
       #cwQrPopup {
         top: 50%;
         transform: translateY(-50%) rotate(-1deg);
@@ -12971,7 +13008,18 @@
         font-size: 13.5px;
         line-height: 1.55;
       }
-      #cwMemePopup,
+      #cwMemePopup {
+        top: auto;
+        bottom: 20px;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        max-width: min(544px, calc(100vw - 24px));
+        max-height: 80vh;
+        margin: 0 auto;
+        transform: none !important;
+        box-shadow: 5px 5px 0px #111827;
+      }
       #cwQrPopup {
         top: auto;
         bottom: 20px;

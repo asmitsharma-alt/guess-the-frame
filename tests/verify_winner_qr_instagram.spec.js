@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Winner Screen Pop-ups (Left Special Meme + Right Instagram QR)', () => {
   test('Winner Screen opens Special Meme popup, Instagram QR, and updated hindi message', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto('http://localhost:8080/');
+    await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
 
     // Trigger Winner Screen
@@ -48,13 +48,14 @@ test.describe('Winner Screen Pop-ups (Left Special Meme + Right Instagram QR)', 
     const rightSvg = rightPopup.locator('.cw-qr-svg');
     await expect(rightSvg).toBeVisible();
 
+    await page.waitForTimeout(600); // Wait for spring animations
     // Take screenshot of desktop winner screen for artifact
     await page.screenshot({ path: 'winner_screen_dual_popups_desktop.png' });
   });
 
   test('Closing and re-opening meme popup and Instagram QR pop-up via trigger pills', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto('http://localhost:8080/');
+    await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
 
     await page.evaluate(() => {
@@ -92,5 +93,34 @@ test.describe('Winner Screen Pop-ups (Left Special Meme + Right Instagram QR)', 
     await rightPill.click();
     await expect(rightPopup).toBeVisible();
     await expect(rightPill).toBeHidden();
+  });
+
+  test('Meme popup and image render with 2x larger dimensions (width ~544px, max-height 500px)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+
+    await page.evaluate(() => {
+      WinnerScreen.show([
+        { id: 'p1', name: 'Winner 1', score: 100, avatar: 'ayank' }
+      ]);
+    });
+
+    const memePopup = page.locator('#cwMemePopup');
+    await expect(memePopup).toBeVisible();
+
+    await page.waitForTimeout(600); // Allow spring animation to finish
+
+    const offsetWidth = await memePopup.evaluate(el => el.offsetWidth);
+    expect(offsetWidth).toBe(544);
+
+    const popupBox = await memePopup.boundingBox();
+    expect(popupBox.width).toBeGreaterThanOrEqual(500);
+
+    const memeImg = page.locator('.cw-meme-img');
+    await expect(memeImg).toBeVisible();
+    const imgBox = await memeImg.boundingBox();
+    expect(imgBox.width).toBeGreaterThanOrEqual(450);
+    expect(imgBox.height).toBeGreaterThanOrEqual(300);
   });
 });
