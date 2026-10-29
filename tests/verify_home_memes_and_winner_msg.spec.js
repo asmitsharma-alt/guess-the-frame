@@ -1,9 +1,22 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Home Screen Memes, Zero-Overlap & Winner Screen Updates', () => {
+test.describe('Winner Screen 4-Corner Pop-ups (Dual QR + 2 Bigger Memes) & No Home Memes', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
+  });
+
+  test('Home screen has NO memes or meme pills (memes moved strictly to Winner Screen)', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const homeLeftMeme = page.locator('#homeMemeLeftPopup');
+    const homeRightMeme = page.locator('#homeMemeRightPopup');
+    const homeLeftPill = page.locator('#homeMemeLeftPill');
+    const homeRightPill = page.locator('#homeMemeRightPill');
+
+    expect(await homeLeftMeme.count()).toBe(0);
+    expect(await homeRightMeme.count()).toBe(0);
+    expect(await homeLeftPill.count()).toBe(0);
+    expect(await homeRightPill.count()).toBe(0);
   });
 
   test('Winner screen message matches exact requested text', async ({ page }) => {
@@ -62,108 +75,119 @@ test.describe('Home Screen Memes, Zero-Overlap & Winner Screen Updates', () => {
     expect(testR40.revealedTitle).toBe('SUPA SUPA');
   });
 
-  test('Home screen displays both left and right memes on desktop without overlapping cards', async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
+  test('Winner screen displays all 4 pop-ups in 4 corners on large desktop without overlap', async ({ page }) => {
+    await page.setViewportSize({ width: 1920, height: 1080 });
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
 
-    const leftPopup = page.locator('#homeMemeLeftPopup');
-    const rightPopup = page.locator('#homeMemeRightPopup');
-    const centerCards = page.locator('.h-cards-multiplayer');
+    // Trigger WinnerScreen directly
+    await page.evaluate(() => {
+      UI.showScreen('winnerScreen');
+      WinnerScreen.openQrPopup('all');
+      WinnerScreen.openMeme('all');
+    });
 
-    await expect(leftPopup).toBeVisible();
-    await expect(rightPopup).toBeVisible();
+    await page.waitForTimeout(600); // allow spring animations
 
-    const leftBox = await leftPopup.boundingBox();
-    const rightBox = await rightPopup.boundingBox();
-    const centerBox = await centerCards.boundingBox();
+    const qrLeft = page.locator('#cwQrPopup');
+    const qrRight = page.locator('#cwQrPopupRight');
+    const memeLeft = page.locator('#cwMemeLeftPopup');
+    const memeRight = page.locator('#cwMemeRightPopup');
+    const stage = page.locator('.cw-center-stage-grid');
 
-    expect(leftBox).not.toBeNull();
-    expect(rightBox).not.toBeNull();
-    expect(centerBox).not.toBeNull();
+    await expect(qrLeft).toBeVisible();
+    await expect(qrRight).toBeVisible();
+    await expect(memeLeft).toBeVisible();
+    await expect(memeRight).toBeVisible();
 
-    // Verify left popup is completely to the left of center cards
-    expect(leftBox.x + leftBox.width).toBeLessThan(centerBox.x);
+    const boxQrLeft = await qrLeft.boundingBox();
+    const boxQrRight = await qrRight.boundingBox();
+    const boxMemeLeft = await memeLeft.boundingBox();
+    const boxMemeRight = await memeRight.boundingBox();
+    const boxStage = await stage.boundingBox();
 
-    // Verify right popup is completely to the right of center cards
-    expect(rightBox.x).toBeGreaterThan(centerBox.x + centerBox.width);
+    expect(boxQrLeft).not.toBeNull();
+    expect(boxQrRight).not.toBeNull();
+    expect(boxMemeLeft).not.toBeNull();
+    expect(boxMemeRight).not.toBeNull();
+    expect(boxStage).not.toBeNull();
 
-    // Verify image sources
-    const leftImgSrc = await leftPopup.locator('.home-meme-img').getAttribute('src');
-    const rightImgSrc = await rightPopup.locator('.home-meme-img').getAttribute('src');
-    expect(leftImgSrc).toBe('bg/home_meme_left.webp');
-    expect(rightImgSrc).toBe('bg/home_meme_right.webp');
+    // 1. Verify bigger meme dimensions (width >= 320px)
+    expect(boxMemeLeft.width).toBeGreaterThanOrEqual(320);
+    expect(boxMemeRight.width).toBeGreaterThanOrEqual(320);
+
+    // 2. Vertical separation on Left Flank: Top QR is completely above Bottom Meme
+    expect(boxQrLeft.y + boxQrLeft.height).toBeLessThan(boxMemeLeft.y);
+
+    // 3. Vertical separation on Right Flank: Top QR is completely above Bottom Meme
+    expect(boxQrRight.y + boxQrRight.height).toBeLessThan(boxMemeRight.y);
+
+    // 4. Horizontal separation: Left flank popups are to the left of the center stage
+    expect(boxQrLeft.x + boxQrLeft.width).toBeLessThan(boxStage.x);
+    expect(boxMemeLeft.x + boxMemeLeft.width).toBeLessThan(boxStage.x);
+
+    // 5. Horizontal separation: Right flank popups are to the right of the center stage
+    expect(boxQrRight.x).toBeGreaterThan(boxStage.x + boxStage.width);
+    expect(boxMemeRight.x).toBeGreaterThan(boxStage.x + boxStage.width);
+
+    // Verify meme images
+    const imgLeft = await memeLeft.locator('.cw-meme-img').getAttribute('src');
+    const imgRight = await memeRight.locator('.cw-meme-img').getAttribute('src');
+    expect(imgLeft).toBe('bg/home_meme_left.webp');
+    expect(imgRight).toBe('bg/home_meme_right.webp');
   });
 
-  test('Opening Create Room modal hides home meme popups (Zero-Overlap Guarantee)', async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
+  test('Dismissing winner meme opens its pill and clicking pill restores popup', async ({ page }) => {
+    await page.setViewportSize({ width: 1920, height: 1080 });
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
 
-    const leftPopup = page.locator('#homeMemeLeftPopup');
-    const rightPopup = page.locator('#homeMemeRightPopup');
+    await page.evaluate(() => {
+      UI.showScreen('winnerScreen');
+      WinnerScreen.openMeme('left');
+    });
 
-    await expect(leftPopup).toBeVisible();
-    await expect(rightPopup).toBeVisible();
+    const memeLeft = page.locator('#cwMemeLeftPopup');
+    const memePill = page.locator('#cwMemeLeftPill');
 
-    // Open modal
-    await page.locator('.h-card-create').click();
-    await expect(page.locator('#createRoomModal')).toHaveClass(/active/);
+    await expect(memeLeft).toBeVisible();
+    await expect(memePill).toBeHidden();
 
-    // Verify meme popups are hidden
-    await expect(leftPopup).toBeHidden();
-    await expect(rightPopup).toBeHidden();
-
-    // Close modal
-    await page.locator('#createRoomModal .mp-modal-close').click();
-    await expect(page.locator('#createRoomModal')).not.toHaveClass(/active/);
-
-    // Popups reappear
-    await expect(leftPopup).toBeVisible();
-    await expect(rightPopup).toBeVisible();
-  });
-
-  test('Dismissing home meme opens pill and clicking pill restores popup', async ({ page }) => {
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await page.goto('/');
-    await page.waitForLoadState('domcontentloaded');
-
-    const leftPopup = page.locator('#homeMemeLeftPopup');
-    const leftPill = page.locator('#homeMemeLeftPill');
-
-    await expect(leftPopup).toBeVisible();
-    await expect(leftPill).toBeHidden();
-
-    // Click close on left popup
-    await leftPopup.locator('.home-meme-close-btn').click();
-    await expect(leftPopup).toBeHidden();
-    await expect(leftPill).toBeVisible();
+    // Close meme
+    await memeLeft.locator('.cw-meme-close-btn').click();
+    await expect(memeLeft).toBeHidden();
+    await expect(memePill).toBeVisible();
 
     // Click pill to reopen
-    await leftPill.click();
-    await expect(leftPopup).toBeVisible();
-    await expect(leftPill).toBeHidden();
+    await memePill.click();
+    await expect(memeLeft).toBeVisible();
+    await expect(memePill).toBeHidden();
   });
 
-  test('Responsive behavior: on compact viewports (1024px), pills are shown and popups open in modal-mode', async ({ page }) => {
-    await page.setViewportSize({ width: 1024, height: 768 });
+  test('On compact viewports (< 1500px), bottom memes tuck into pills to guarantee zero overlap', async ({ page }) => {
+    await page.setViewportSize({ width: 1366, height: 768 });
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
 
-    const leftPopup = page.locator('#homeMemeLeftPopup');
-    const leftPill = page.locator('#homeMemeLeftPill');
+    await page.evaluate(() => {
+      UI.showScreen('winnerScreen');
+      WinnerScreen.openMeme('all');
+    });
 
-    // On narrow screens (1024px < 1260px), fixed side popups are tucked away
-    await expect(leftPopup).toBeHidden();
-    await expect(leftPill).toBeVisible();
+    const memeLeft = page.locator('#cwMemeLeftPopup');
+    const memePill = page.locator('#cwMemeLeftPill');
 
-    // Click pill opens modal mode
-    await leftPill.click();
-    await expect(leftPopup).toBeVisible();
-    await expect(leftPopup).toHaveClass(/modal-mode/);
+    // Bottom meme is tucked into pill
+    await expect(memeLeft).toBeHidden();
+    await expect(memePill).toBeVisible();
+
+    // Clicking pill opens centered modal mode without overlapping
+    await memePill.click();
+    await expect(memeLeft).toBeVisible();
+    await expect(memeLeft).toHaveClass(/modal-mode/);
 
     // Close modal
-    await leftPopup.locator('.home-meme-close-btn').click();
-    await expect(leftPopup).toBeHidden();
+    await memeLeft.locator('.cw-meme-close-btn').click();
+    await expect(memeLeft).toBeHidden();
   });
 });

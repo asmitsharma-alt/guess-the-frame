@@ -12309,23 +12309,39 @@
 
     @media (min-width: 1480px) {
       #cwQrPopup {
-        top: 50%;
-        transform: translateY(-50%) rotate(-1deg);
+        top: 24px;
+        transform: rotate(-1.5deg);
         left: max(24px, calc(50vw - 520px - 295px));
       }
       #cwQrPopupRight {
-        top: 50%;
-        transform: translateY(-50%) rotate(1deg);
+        top: 24px;
+        transform: rotate(1.5deg);
         right: max(24px, calc(50vw - 520px - 295px));
       }
       #cwQrPillTrigger {
-        top: 50%;
-        transform: translateY(-50%) rotate(-2deg);
+        top: 24px;
+        transform: rotate(-2deg);
         left: max(24px, calc(50vw - 520px - 220px));
       }
       #cwQrPillTriggerRight {
-        top: 50%;
-        transform: translateY(-50%) rotate(2deg);
+        top: 24px;
+        transform: rotate(2deg);
+        right: max(24px, calc(50vw - 520px - 220px));
+      }
+      .cw-meme-popup-left {
+        bottom: 24px;
+        left: max(24px, calc(50vw - 520px - 340px));
+      }
+      .cw-meme-popup-right {
+        bottom: 24px;
+        right: max(24px, calc(50vw - 520px - 340px));
+      }
+      .cw-meme-pill-left {
+        bottom: 24px;
+        left: max(24px, calc(50vw - 520px - 220px));
+      }
+      .cw-meme-pill-right {
+        bottom: 24px;
         right: max(24px, calc(50vw - 520px - 220px));
       }
     }
@@ -13591,206 +13607,199 @@
 
 
   
-    /* ── HOME SCREEN MEME POP-UPS (NEOBRUTALIST FLANKING CARDS) ── */
-    .home-meme-popup {
+    
+  
+    /* ── WINNER SCREEN 4-CORNER FLANKING MEME POP-UPS (BIGGER 330px SIZE) ── */
+    .cw-meme-popup {
       display: none;
       position: fixed;
-      z-index: 90;
-      width: 220px;
+      z-index: 10040;
+      width: 330px;
       background: #FFFDF5;
       border: 3.5px solid #111827;
-      border-radius: 16px;
-      box-shadow: 6px 6px 0px #111827;
+      border-radius: 18px;
+      box-shadow: 7px 7px 0px #111827;
       overflow: hidden;
       box-sizing: border-box;
       transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
     }
-    #homeScreen.active .home-meme-popup.active {
+    #winnerScreen.active .cw-meme-popup.active {
       display: block !important;
     }
-    .home-meme-popup-left {
-      top: 50%;
+    .cw-meme-popup-left {
+      bottom: 24px;
       left: 24px;
-      transform: translateY(-50%) rotate(-2deg);
-      animation: homeMemeSpringLeft 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      transform: rotate(-1.5deg);
+      animation: cwMemeSpringInLeft 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
-    .home-meme-popup-left:hover {
-      transform: translateY(-50%) rotate(0deg) scale(1.03);
-      box-shadow: 8px 8px 0px #111827;
+    .cw-meme-popup-left:hover {
+      transform: rotate(0deg) scale(1.02);
+      box-shadow: 9px 9px 0px #111827;
     }
-    .home-meme-popup-right {
-      top: 50%;
+    .cw-meme-popup-right {
+      bottom: 24px;
       right: 24px;
-      transform: translateY(-50%) rotate(2deg);
-      animation: homeMemeSpringRight 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+      transform: rotate(1.5deg);
+      animation: cwMemeSpringInRight 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
     }
-    .home-meme-popup-right:hover {
-      transform: translateY(-50%) rotate(0deg) scale(1.03);
-      box-shadow: 8px 8px 0px #111827;
+    .cw-meme-popup-right:hover {
+      transform: rotate(0deg) scale(1.02);
+      box-shadow: 9px 9px 0px #111827;
     }
-    @keyframes homeMemeSpringLeft {
-      0% { opacity: 0; transform: translateY(-50%) translateX(-30px) scale(0.85) rotate(-6deg); }
-      70% { transform: translateY(-50%) translateX(4px) scale(1.02) rotate(0.5deg); }
-      100% { opacity: 1; transform: translateY(-50%) translateX(0) scale(1) rotate(-2deg); }
+    @keyframes cwMemeSpringInLeft {
+      0% { opacity: 0; transform: translateY(30px) scale(0.85) rotate(-5deg); }
+      70% { transform: translateY(-4px) scale(1.02) rotate(0.5deg); }
+      100% { opacity: 1; transform: translateY(0) scale(1) rotate(-1.5deg); }
     }
-    @keyframes homeMemeSpringRight {
-      0% { opacity: 0; transform: translateY(-50%) translateX(30px) scale(0.85) rotate(6deg); }
-      70% { transform: translateY(-50%) translateX(-4px) scale(1.02) rotate(-0.5deg); }
-      100% { opacity: 1; transform: translateY(-50%) translateX(0) scale(1) rotate(2deg); }
+    @keyframes cwMemeSpringInRight {
+      0% { opacity: 0; transform: translateY(30px) scale(0.85) rotate(5deg); }
+      70% { transform: translateY(-4px) scale(1.02) rotate(-0.5deg); }
+      100% { opacity: 1; transform: translateY(0) scale(1) rotate(1.5deg); }
     }
-    .home-meme-popup-inner {
+    .cw-meme-popup-inner {
       display: flex;
       flex-direction: column;
       width: 100%;
     }
-    .home-meme-header {
+    .cw-meme-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 7px 10px;
+      padding: 9px 12px;
       border-bottom: 3px solid #111827;
     }
-    .home-meme-header-left {
+    .cw-meme-header-left {
       background: #4ADE80;
     }
-    .home-meme-header-right {
+    .cw-meme-header-right {
       background: #FB923C;
     }
-    .home-meme-badge {
+    .cw-meme-badge {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 7px;
     }
-    .home-meme-icon {
-      font-size: 14px;
+    .cw-meme-icon {
+      font-size: 16px;
       line-height: 1;
     }
-    .home-meme-title {
+    .cw-meme-title {
       font-family: 'Space Grotesk', -apple-system, sans-serif;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 800;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       color: #111827;
       text-transform: uppercase;
     }
-    .home-meme-close-btn {
+    .cw-meme-close-btn {
       background: #FFFDF5;
       border: 2px solid #111827;
-      border-radius: 6px;
-      width: 22px;
-      height: 22px;
+      border-radius: 7px;
+      width: 24px;
+      height: 24px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: 900;
       color: #111827;
       cursor: pointer;
-      box-shadow: 1.5px 1.5px 0px #111827;
+      box-shadow: 2px 2px 0px #111827;
       padding: 0;
       transition: all 0.15s ease;
     }
-    .home-meme-close-btn:hover {
+    .cw-meme-close-btn:hover {
       background: #EF4444;
       color: #FFF;
       transform: translate(-1px, -1px);
-      box-shadow: 2.5px 2.5px 0px #111827;
+      box-shadow: 3px 3px 0px #111827;
     }
-    .home-meme-body {
-      padding: 10px;
+    .cw-meme-body {
+      padding: 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       background: #FFFDF5;
     }
-    .home-meme-img-wrap {
+    .cw-meme-img-wrap {
       width: 100%;
-      border-radius: 10px;
+      border-radius: 12px;
       overflow: hidden;
-      border: 2.5px solid #111827;
+      border: 3px solid #111827;
       background: #111827;
-      box-shadow: 2px 2px 0px #111827;
+      box-shadow: 3px 3px 0px #111827;
     }
-    .home-meme-img {
+    .cw-meme-img {
       display: block;
       width: 100%;
       height: auto;
-      max-height: 210px;
+      max-height: 280px;
       object-fit: cover;
     }
-    .home-meme-caption {
+    .cw-meme-caption {
       font-family: 'Space Grotesk', -apple-system, sans-serif;
-      font-size: 10.5px;
-      font-weight: 700;
-      color: #374151;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #1F2937;
       text-align: center;
-      line-height: 1.3;
+      line-height: 1.35;
     }
-    .home-meme-pill-trigger {
+    .cw-meme-pill-trigger {
       display: none;
       position: fixed;
-      z-index: 92;
-      bottom: 20px;
+      z-index: 10045;
+      bottom: 24px;
       background: #FFFDF5;
-      border: 2.5px solid #111827;
+      border: 3px solid #111827;
       border-radius: 9999px;
-      box-shadow: 3px 3px 0px #111827;
-      padding: 6px 14px;
+      box-shadow: 4px 4px 0px #111827;
+      padding: 7px 16px;
       align-items: center;
-      gap: 7px;
+      gap: 8px;
       cursor: pointer;
       font-family: 'Space Grotesk', -apple-system, sans-serif;
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 800;
       letter-spacing: 0.04em;
       color: #111827;
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
-    .home-meme-pill-left {
-      left: 20px;
+    .cw-meme-pill-left {
+      left: 24px;
       transform: rotate(-2deg);
     }
-    .home-meme-pill-right {
-      right: 20px;
+    .cw-meme-pill-right {
+      right: 24px;
       transform: rotate(2deg);
     }
-    .home-meme-pill-trigger:hover {
+    .cw-meme-pill-trigger:hover {
       transform: scale(1.05) translateY(-2px);
-      box-shadow: 5px 5px 0px #111827;
+      box-shadow: 6px 6px 0px #111827;
     }
-    #homeScreen.active .home-meme-pill-trigger.active {
+    #winnerScreen.active .cw-meme-pill-trigger.active {
       display: inline-flex !important;
     }
 
-    /* ZERO-OVERLAP GUARANTEE */
-    /* 1. When screen is <= 1260px, tuck side cards away to prevent touching center cards */
-    @media (max-width: 1260px) {
-      #homeScreen.active .home-meme-popup:not(.modal-mode) {
+    /* ── ZERO-OVERLAP GUARANTEE FOR ALL 4 WINNER POP-UPS ── */
+    @media (max-height: 879px), (max-width: 1499px) {
+      #winnerScreen.active .cw-meme-popup:not(.modal-mode) {
         display: none !important;
       }
-      #homeScreen.active .home-meme-pill-trigger {
+      #winnerScreen.active .cw-meme-pill-trigger {
         display: inline-flex !important;
       }
-      #homeScreen.active .home-meme-popup.modal-mode {
+      #winnerScreen.active .cw-meme-popup.modal-mode {
         display: block !important;
         top: 50% !important;
         left: 50% !important;
+        bottom: auto !important;
         right: auto !important;
         transform: translate(-50%, -50%) !important;
-        width: 280px !important;
-        z-index: 10020 !important;
-        box-shadow: 8px 8px 0px #111827 !important;
+        width: min(350px, 92vw) !important;
+        z-index: 10070 !important;
+        box-shadow: 10px 10px 0px #111827 !important;
       }
-    }
-    /* 2. When any room modal is open, completely hide home meme popups and pills */
-    body:has(.mp-modal-overlay.active) #homeScreen #homeMemeLeftPopup,
-    body:has(.mp-modal-overlay.active) #homeScreen #homeMemeRightPopup,
-    body:has(.mp-modal-overlay.active) #homeScreen .home-meme-popup,
-    body:has(.mp-modal-overlay.active) #homeScreen .home-meme-pill-trigger,
-    body.has-active-modal #homeScreen .home-meme-popup,
-    body.has-active-modal #homeScreen .home-meme-pill-trigger {
-      display: none !important;
     }
 
   </style>
@@ -14173,57 +14182,6 @@
 
       <!-- invisible secret trigger — Space x5 opens admin -->
       
-      <!-- ── HOME SCREEN MEME POP-UP (LEFT: AMISH LAY'S) ── -->
-      <div id="homeMemeLeftPopup" class="home-meme-popup home-meme-popup-left active" role="dialog" aria-label="Amish Podcast Meme">
-        <div class="home-meme-popup-inner">
-          <div class="home-meme-header home-meme-header-left">
-            <div class="home-meme-badge">
-              <span class="home-meme-icon">🥔</span>
-              <span class="home-meme-title">BRO IN EVERY PODCAST</span>
-            </div>
-            <button type="button" class="home-meme-close-btn" onclick="HomeScreenMeme.close('left')" aria-label="Close meme pop-up" title="Close pop-up">✕</button>
-          </div>
-          <div class="home-meme-body">
-            <div class="home-meme-img-wrap">
-              <img src="bg/home_meme_left.webp" alt="Amish Lay's Meme" class="home-meme-img" loading="lazy" />
-            </div>
-            <div class="home-meme-caption">Amish with Lay's Cream &amp; Onion</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── HOME SCREEN MEME POP-UP (RIGHT: AZIZ BUTTER MURUKKU) ── -->
-      <div id="homeMemeRightPopup" class="home-meme-popup home-meme-popup-right active" role="dialog" aria-label="Aziz Murukku Meme">
-        <div class="home-meme-popup-inner">
-          <div class="home-meme-header home-meme-header-right">
-            <div class="home-meme-badge">
-              <span class="home-meme-icon">🥨</span>
-              <span class="home-meme-title">BUTTER MURUKKU</span>
-            </div>
-            <button type="button" class="home-meme-close-btn" onclick="HomeScreenMeme.close('right')" aria-label="Close meme pop-up" title="Close pop-up">✕</button>
-          </div>
-          <div class="home-meme-body">
-            <div class="home-meme-img-wrap">
-              <img src="bg/home_meme_right.webp" alt="Aziz Butter Murukku Meme" class="home-meme-img" loading="lazy" />
-            </div>
-            <div class="home-meme-caption">Aziz enjoying Butter Murukku</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Floating pills to reopen home memes when closed -->
-      <button id="homeMemeLeftPill" type="button" class="home-meme-pill-trigger home-meme-pill-left" onclick="HomeScreenMeme.open('left')" aria-label="Open Amish meme">
-        <span class="pill-dot" style="background:#22C55E;"></span>
-        <span class="pill-icon">🥔</span>
-        <span class="pill-text">AMISH MEME</span>
-      </button>
-
-      <button id="homeMemeRightPill" type="button" class="home-meme-pill-trigger home-meme-pill-right" onclick="HomeScreenMeme.open('right')" aria-label="Open Aziz meme">
-        <span class="pill-dot" style="background:#F97316;"></span>
-        <span class="pill-icon">🥨</span>
-        <span class="pill-text">AZIZ MEME</span>
-      </button>
-
       <div id="hSecretHint" class="h-secret-hint"></div>
 
     </div>
@@ -15422,6 +15380,58 @@
       <span class="pill-text">SEND FRAMES</span>
     </button>
   
+  
+    <!-- ── WINNER SCREEN MEME POP-UP (BOTTOM-LEFT: AMISH LAY'S) ── -->
+    <div id="cwMemeLeftPopup" class="cw-meme-popup cw-meme-popup-left active" role="dialog" aria-label="Amish Lay's Podcast Meme">
+      <div class="cw-meme-popup-inner">
+        <div class="cw-meme-header cw-meme-header-left">
+          <div class="cw-meme-badge">
+            <span class="cw-meme-icon">🥔</span>
+            <span class="cw-meme-title">BRO IN EVERY PODCAST</span>
+          </div>
+          <button type="button" class="cw-meme-close-btn" onclick="WinnerScreen.closeMeme('left')" aria-label="Close meme pop-up" title="Close pop-up">✕</button>
+        </div>
+        <div class="cw-meme-body">
+          <div class="cw-meme-img-wrap">
+            <img src="bg/home_meme_left.webp" alt="Amish Lay's Meme" class="cw-meme-img" loading="lazy" />
+          </div>
+          <div class="cw-meme-caption">Amish with Lay's Cream &amp; Onion</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── WINNER SCREEN MEME POP-UP (BOTTOM-RIGHT: AZIZ BUTTER MURUKKU) ── -->
+    <div id="cwMemeRightPopup" class="cw-meme-popup cw-meme-popup-right active" role="dialog" aria-label="Aziz Murukku Meme">
+      <div class="cw-meme-popup-inner">
+        <div class="cw-meme-header cw-meme-header-right">
+          <div class="cw-meme-badge">
+            <span class="cw-meme-icon">🥨</span>
+            <span class="cw-meme-title">BUTTER MURUKKU</span>
+          </div>
+          <button type="button" class="cw-meme-close-btn" onclick="WinnerScreen.closeMeme('right')" aria-label="Close meme pop-up" title="Close pop-up">✕</button>
+        </div>
+        <div class="cw-meme-body">
+          <div class="cw-meme-img-wrap">
+            <img src="bg/home_meme_right.webp" alt="Aziz Butter Murukku Meme" class="cw-meme-img" loading="lazy" />
+          </div>
+          <div class="cw-meme-caption">Aziz enjoying Butter Murukku</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating pills to reopen winner memes when closed or in compact mode -->
+    <button id="cwMemeLeftPill" type="button" class="cw-meme-pill-trigger cw-meme-pill-left" onclick="WinnerScreen.openMeme('left')" aria-label="Open Amish meme">
+      <span class="pill-dot" style="background:#22C55E;"></span>
+      <span class="pill-icon">🥔</span>
+      <span class="pill-text">AMISH MEME</span>
+    </button>
+
+    <button id="cwMemeRightPill" type="button" class="cw-meme-pill-trigger cw-meme-pill-right" onclick="WinnerScreen.openMeme('right')" aria-label="Open Aziz meme">
+      <span class="pill-dot" style="background:#F97316;"></span>
+      <span class="pill-icon">🥨</span>
+      <span class="pill-text">AZIZ MEME</span>
+    </button>
+
   </div><!-- /#winnerScreen -->
 
     <!-- ADMIN -->
@@ -21418,6 +21428,7 @@
         this.renderMatchSummary(playerList);
         this.fireComicConfetti();
         this.openQrPopup();
+        this.openMeme('all');
 
         // Auto trigger celebratory party poppers
         setTimeout(() => this.triggerPopper('left'), 350);
@@ -21458,6 +21469,54 @@
           const triggerRight = document.getElementById('cwQrPillTriggerRight');
           if (popupRight) popupRight.classList.remove('active');
           if (triggerRight) triggerRight.classList.add('active');
+        }
+      },
+
+      openMeme(side = 'all') {
+        const isCompact = typeof window !== 'undefined' && (window.innerWidth < 1500 || window.innerHeight < 880);
+        if (side === 'left' || side === 'all') {
+          const pop = document.getElementById('cwMemeLeftPopup');
+          const pill = document.getElementById('cwMemeLeftPill');
+          if (pill) pill.classList.remove('active');
+          if (pop) {
+            pop.classList.add('active');
+            if (isCompact && side === 'left') {
+              pop.classList.add('modal-mode');
+            } else if (isCompact && side === 'all') {
+              pop.classList.remove('active');
+              if (pill) pill.classList.add('active');
+            }
+          }
+        }
+        if (side === 'right' || side === 'all') {
+          const pop = document.getElementById('cwMemeRightPopup');
+          const pill = document.getElementById('cwMemeRightPill');
+          if (pill) pill.classList.remove('active');
+          if (pop) {
+            pop.classList.add('active');
+            if (isCompact && side === 'right') {
+              pop.classList.add('modal-mode');
+            } else if (isCompact && side === 'all') {
+              pop.classList.remove('active');
+              if (pill) pill.classList.add('active');
+            }
+          }
+        }
+      },
+
+      closeMeme(side = 'left') {
+        if (typeof SoundManager !== 'undefined') SoundManager.playClick();
+        if (side === 'left' || side === 'all') {
+          const pop = document.getElementById('cwMemeLeftPopup');
+          const pill = document.getElementById('cwMemeLeftPill');
+          if (pop) pop.classList.remove('active', 'modal-mode');
+          if (pill) pill.classList.add('active');
+        }
+        if (side === 'right' || side === 'all') {
+          const pop = document.getElementById('cwMemeRightPopup');
+          const pill = document.getElementById('cwMemeRightPill');
+          if (pop) pop.classList.remove('active', 'modal-mode');
+          if (pill) pill.classList.add('active');
         }
       },
 
@@ -23597,65 +23656,7 @@
     }
 
   
-  // ── HOME SCREEN MEMES CONTROLLER ──
-  const HomeScreenMeme = {
-    close(side) {
-      if (typeof SoundManager !== 'undefined') SoundManager.playClick();
-      if (side === 'left') {
-        const pop = document.getElementById('homeMemeLeftPopup');
-        const pill = document.getElementById('homeMemeLeftPill');
-        if (pop) {
-          pop.classList.remove('active', 'modal-mode');
-          pop.style.display = 'none';
-        }
-        if (pill) {
-          pill.classList.add('active');
-          pill.style.display = 'inline-flex';
-        }
-      } else {
-        const pop = document.getElementById('homeMemeRightPopup');
-        const pill = document.getElementById('homeMemeRightPill');
-        if (pop) {
-          pop.classList.remove('active', 'modal-mode');
-          pop.style.display = 'none';
-        }
-        if (pill) {
-          pill.classList.add('active');
-          pill.style.display = 'inline-flex';
-        }
-      }
-    },
-    open(side) {
-      if (typeof SoundManager !== 'undefined') SoundManager.playClick();
-      const isMobile = window.innerWidth <= 1260;
-      if (side === 'left') {
-        const pop = document.getElementById('homeMemeLeftPopup');
-        const pill = document.getElementById('homeMemeLeftPill');
-        if (pill) {
-          pill.classList.remove('active');
-          pill.style.display = 'none';
-        }
-        if (pop) {
-          pop.classList.add('active');
-          if (isMobile) pop.classList.add('modal-mode');
-          pop.style.display = 'block';
-        }
-      } else {
-        const pop = document.getElementById('homeMemeRightPopup');
-        const pill = document.getElementById('homeMemeRightPill');
-        if (pill) {
-          pill.classList.remove('active');
-          pill.style.display = 'none';
-        }
-        if (pop) {
-          pop.classList.add('active');
-          if (isMobile) pop.classList.add('modal-mode');
-          pop.style.display = 'block';
-        }
-      }
-    }
-  };
-  window.HomeScreenMeme = HomeScreenMeme;
+  
 
   </script>
 </body>
