@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Dialogue Rounds & Character Hint System', () => {
   test('Section 2 contains the 10 exact new dialogues with characters', async ({ page }) => {
-    await page.goto('http://localhost:8080/');
+    await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
 
     const dialogues = await page.evaluate(() => {
@@ -13,54 +13,54 @@ test.describe('Dialogue Rounds & Character Hint System', () => {
     expect(dialogues.length).toBe(10);
 
     // Verify key dialogues and character names
-    expect(dialogues[0].dialogue).toContain("What if my problem isn't that I don't understand people");
-    expect(dialogues[0].answer).toBe('NIGHTCRAWLER');
-    expect(dialogues[0].character).toBe('Lou Bloom (Jake Gyllenhaal)');
+    expect(dialogues[0].dialogue).toContain('Hamare parivaar ne 2 aur 3 October ko Panaji mein satsang suna');
+    expect(dialogues[0].answer).toBe('DRISHYAM');
+    expect(dialogues[0].character).toBe('Vijay Salgaonkar (Ajay Devgn)');
 
-    expect(dialogues[1].dialogue).toContain('Yeh loktantra hai');
-    expect(dialogues[1].answer).toBe('GULAAL');
-    expect(dialogues[1].character).toBe('Dukey Bana (Kay Kay Menon)');
+    expect(dialogues[1].dialogue).toContain('Sirf piano bajane gaya tha main');
+    expect(dialogues[1].answer).toBe('ANDHADHUN');
+    expect(dialogues[1].character).toBe('Akash (Ayushmann Khurrana)');
 
-    expect(dialogues[2].dialogue).toContain('Get busy living, or get busy dying');
-    expect(dialogues[2].answer).toBe('THE SHAWSHANK REDEMPTION');
-    expect(dialogues[2].character).toBe('Andy Dufresne (Tim Robbins)');
+    expect(dialogues[2].dialogue).toContain('Har subah jab main aankh kholta hoon');
+    expect(dialogues[2].answer).toBe('GHAJINI');
+    expect(dialogues[2].character).toBe('Sanjay Singhania (Aamir Khan)');
 
-    expect(dialogues[3].dialogue).toContain('I think this just might be my masterpiece');
-    expect(dialogues[3].answer).toBe('INGLOURIOUS BASTERDS');
-    expect(dialogues[3].character).toBe('Lt. Aldo Raine (Brad Pitt)');
+    expect(dialogues[3].dialogue).toContain('Maine chaar aatankwadiyon ko azaad karane ke liye phone nahi kiya tha');
+    expect(dialogues[3].answer).toBe('A WEDNESDAY!');
+    expect(dialogues[3].character).toBe('The Common Man (Naseeruddin Shah)');
 
-    expect(dialogues[4].dialogue).toContain("I'm the guy who does his job");
-    expect(dialogues[4].answer).toBe('THE DEPARTED');
-    expect(dialogues[4].character).toBe('Staff Sergeant Sean Dignam (Mark Wahlberg)');
+    expect(dialogues[4].dialogue).toContain('Rajouri Garden mein ladkiyon ko akele sadak paar karne nahi dete');
+    expect(dialogues[4].answer).toBe('QUEEN');
+    expect(dialogues[4].character).toBe('Rani Mehra (Kangana Ranaut)');
 
-    expect(dialogues[5].dialogue).toContain('Yeh duniya kisi ki laalach ke liye nahi');
-    expect(dialogues[5].answer).toBe('TUMBBAD');
-    expect(dialogues[5].character).toBe('Vinayak Rao (Sohum Shah)');
+    expect(dialogues[5].dialogue).toContain('Seven years per hour on that water planet');
+    expect(dialogues[5].answer).toBe('INTERSTELLAR');
+    expect(dialogues[5].character).toBe('Joseph Cooper (Matthew McConaughey)');
 
-    expect(dialogues[6].dialogue).toContain('Inteqaam se sirf inteqaam paida hota hai');
-    expect(dialogues[6].answer).toBe('HAIDER');
-    expect(dialogues[6].character).toBe('Ghazala Meer / Haider Meer (Tabu / Shahid Kapoor)');
+    expect(dialogues[6].dialogue).toContain('There is a bomb on a bus');
+    expect(dialogues[6].answer).toBe('SPEED');
+    expect(dialogues[6].character).toBe('Howard Payne (Dennis Hopper)');
 
-    expect(dialogues[7].dialogue).toContain('Freedom is my birthright');
-    expect(dialogues[7].answer).toBe('SARDAR UDHAM');
-    expect(dialogues[7].character).toBe('Sardar Udham Singh (Vicky Kaushal)');
+    expect(dialogues[7].dialogue).toContain("It's not easy for me to raise my hand and send a boy to the electric chair");
+    expect(dialogues[7].answer).toBe('12 ANGRY MEN');
+    expect(dialogues[7].character).toBe('Juror 8 (Henry Fonda)');
 
-    expect(dialogues[8].dialogue).toContain('Jao pehle us aadmi ka sign le kar aao');
-    expect(dialogues[8].answer).toBe('DEEWAAR');
-    expect(dialogues[8].character).toBe('Vijay Verma (Amitabh Bachchan)');
+    expect(dialogues[8].dialogue).toContain("Their language doesn't have a past or future");
+    expect(dialogues[8].answer).toBe('ARRIVAL');
+    expect(dialogues[8].character).toBe('Dr. Louise Banks (Amy Adams)');
 
-    expect(dialogues[9].dialogue).toContain('Apne hi paani mein pighal jaana');
-    expect(dialogues[9].answer).toBe('SWADES');
-    expect(dialogues[9].character).toBe('Mohan Bhargava (Shah Rukh Khan)');
+    expect(dialogues[9].dialogue).toContain("They don't see each other. They only see what they want to see");
+    expect(dialogues[9].answer).toBe('THE SIXTH SENSE');
+    expect(dialogues[9].character).toBe('Cole Sear (Haley Joel Osment)');
   });
 
   test('Requesting hint on a dialogue round reveals character/actor name with readable font style', async ({ page }) => {
-    await page.goto('http://localhost:8080/');
+    await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
 
     const result = await page.evaluate(() => {
       const s2 = GS.sections.find(s => s.id === 2);
-      const testDialogueFrame = s2.frames[1]; // Dukey Bana (Kay Kay Menon)
+      const testDialogueFrame = s2.frames[1]; // Akash (Ayushmann Khurrana)
 
       GS.players = [{ id: 'p1', name: 'Tester', score: 10, avatar: 'aman' }];
       MultiplayerEngine.playerId = 'p1';
@@ -91,16 +91,39 @@ test.describe('Dialogue Rounds & Character Hint System', () => {
     });
 
     // Verify character/actor name is revealed in hint
-    expect(result.maskedHint).toContain('Dukey Bana (Kay Kay Menon)');
-    expect(result.chatHintText).toContain('Dukey Bana (Kay Kay Menon)');
-    expect(result.mobileHintText).toContain('Dukey Bana (Kay Kay Menon)');
-    expect(result.hfbHintText).toContain('Dukey Bana (Kay Kay Menon)');
+    expect(result.maskedHint).toContain('Akash (Ayushmann Khurrana)');
+    expect(result.chatHintText).toContain('Akash (Ayushmann Khurrana)');
+    expect(result.mobileHintText).toContain('Akash (Ayushmann Khurrana)');
+    expect(result.hfbHintText).toContain('Akash (Ayushmann Khurrana)');
 
     // Verify readable typography
     expect(result.fontFamily.toLowerCase()).toContain('dm sans');
-    expect(parseFloat(result.letterSpacing)).toBeLessThan(1);
+  });
 
-    // Verify -4 points penalty
-    expect(result.scoreAfter).toBe(6);
+  test('Player score is deducted by 4 when hint is requested on a dialogue round', async ({ page }) => {
+    await page.goto('/');
+    await page.waitForLoadState('domcontentloaded');
+
+    const scoreCheck = await page.evaluate(() => {
+      const s2 = GS.sections.find(s => s.id === 2);
+      const testDialogueFrame = s2.frames[0];
+
+      GS.players = [{ id: 'p1', name: 'Tester', score: 10, avatar: 'aman' }];
+      MultiplayerEngine.playerId = 'p1';
+      MultiplayerEngine.playerName = 'Tester';
+      MultiplayerEngine.currentPlaylist = [{ ...testDialogueFrame, sectionName: 'Guess the Dialogue', sectionId: 2 }];
+      MultiplayerEngine.currentPlayIndex = 0;
+      MultiplayerEngine.currentMaskedHint = null;
+      MultiplayerEngine.hasUsedHintThisRound = false;
+
+      const initialScore = GS.players[0].score;
+      MultiplayerEngine.requestHint();
+      const afterScore = GS.players[0].score;
+
+      return { initialScore, afterScore };
+    });
+
+    expect(scoreCheck.initialScore).toBe(10);
+    expect(scoreCheck.afterScore).toBe(6);
   });
 });

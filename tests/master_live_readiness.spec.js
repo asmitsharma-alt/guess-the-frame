@@ -47,7 +47,7 @@ test.describe('MASTER PRODUCTION READINESS — Connectivity, Sync, Rejoin, Laten
 
     const r6Test = await page.evaluate(() => {
       const s3 = GS.sections.find(s => s.id === 3);
-      const r6 = s3.frames[5]; // Elizabeth Olsen
+      const r6 = s3.frames[5]; // Daniel Craig
 
       GS.players = [{ id: 'p1', name: 'Tester', score: 0, avatar: 'aman' }];
       MultiplayerEngine.isHost = true;
@@ -65,10 +65,11 @@ test.describe('MASTER PRODUCTION READINESS — Connectivity, Sync, Rejoin, Laten
       const p1Score = GS.players[0].score;
 
       // Attempt 2: "another wrong guess"
-      MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'aman', guess: 'random name', roundIndex: 0 });
-      const p2Score = GS.players[0].score;
+      MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'aman', guess: 'completely wrong guess', roundIndex: 0 });
+      console.log('DEBUG r6:', r6.answer, 'aliases:', r6.aliases, 'match2:', FuzzyMatcher.isMatch('random name', r6.answer), 'aliases match:', (r6.aliases || []).map(a => [a, FuzzyMatcher.isMatch('random name', a)]));
+    const p2Score = GS.players[0].score;
 
-      // Attempt 3: correct answer (e.g. "Elizabeth Olsen")
+      // Attempt 3: correct answer (e.g. "Daniel Craig")
       MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'aman', guess: r6.answer, roundIndex: 0 });
       const p3Score = GS.players[0].score;
 

@@ -2,11 +2,11 @@
 
 | # | Dialogue | Movie | Year | Actor / Character | Answer (Uppercase) |
 |---|---|---|---|---|---|
-| **1** | *"What if my problem isn't that I don't understand people, but that I don't like them?"* | Nightcrawler | 2014 | Jake Gyllenhaal (*Lou Bloom*) | `NIGHTCRAWLER` |
-| **2** | *"Yeh loktantra hai... yahan bhediye bhi bhed ki khaal pehan ke ghoomte hain."* | Gulaal | 2009 | Kay Kay Menon (*Dukey Bana*) | `GULAAL` |
-| **3** | *"Get busy living, or get busy dying."* | The Shawshank Redemption | 1994 | Tim Robbins (*Andy Dufresne*) | `THE SHAWSHANK REDEMPTION` |
-| **4** | *"I think this just might be my masterpiece."* | Inglourious Basterds | 2009 | Brad Pitt (*Lt. Aldo Raine*) | `INGLOURIOUS BASTERDS` |
-| **5** | *"I'm the guy who does his job. You must be the other guy."* | The Departed | 2006 | Mark Wahlberg (*Staff Sergeant Sean Dignam*) | `THE DEPARTED` |
+| **1** | *"Seven years per hour on that water planet... Every second we waste down there, decades are passing back home on Earth for our children."* | Interstellar | 2014 | Matthew McConaughey (*Joseph Cooper*) | `INTERSTELLAR` |
+| **2** | *"There is a bomb on a bus. Once the bus goes 50 miles an hour, the bomb is armed. If it drops below 50, it blows up. What do you do?"* | Speed | 1994 | Dennis Hopper (*Howard Payne*) | `SPEED` |
+| **3** | *"It's not easy for me to raise my hand and send a boy to the electric chair without talking about it first. Eleven of you think he's guilty, and I'm just asking for one hour to discuss it in this heat."* | 12 Angry Men | 1957 | Henry Fonda (*Juror 8*) | `12 ANGRY MEN` |
+| **4** | *"Their language doesn't have a past or future... Once you learn their circular ink symbols, you start remembering tomorrow."* | Arrival | 2016 | Amy Adams (*Dr. Louise Banks*) | `ARRIVAL` |
+| **5** | *"They don't see each other. They only see what they want to see. They don't know that they're dead."* | The Sixth Sense | 1999 | Haley Joel Osment (*Cole Sear*) | `THE SIXTH SENSE` |
 
 ---
 
@@ -14,8 +14,8 @@
 
 | # | Dialogue | Movie | Year | Actor / Character | English Translation | Answer (Uppercase) |
 |---|---|---|---|---|---|---|
-| **6** | *"Yeh duniya kisi ki laalach ke liye nahi, zaroorat ke liye bani hai."* | Tumbbad | 2018 | Sohum Shah (*Vinayak Rao*) | This world was made for man's need, not man's greed. | `TUMBBAD` |
-| **7** | *"Inteqaam se sirf inteqaam paida hota hai."* | Haider | 2014 | Tabu (*Ghazala Meer*) / Shahid Kapoor (*Haider Meer*) | Revenge only gives birth to more revenge. | `HAIDER` |
-| **8** | *"Freedom is my birthright and fighting for freedom is no crime."* | Sardar Udham | 2021 | Vicky Kaushal (*Sardar Udham Singh*) | Freedom is my birthright and fighting for freedom is no crime. | `SARDAR UDHAM` |
-| **9** | *"Jao pehle us aadmi ka sign le kar aao jisne mere baap ko chor kaha tha."* | Deewaar | 1975 | Amitabh Bachchan (*Vijay Verma*) | Go first and bring the signature of the man who called my father a thief. | `DEEWAAR` |
-| **10** | *"Apne hi paani mein pighal jaana barf ka muqaddar hota hai."* | Swades | 2004 | Shah Rukh Khan (*Mohan Bhargava*) | To melt into its own water is the destiny of ice. | `SWADES` |
+| **6** | *"Hamare parivaar ne 2 aur 3 October ko Panaji mein satsang suna, pav bhaji khayi, aur film dekhi... chahe toh aap bus ki ticket check kar lijiye."* | Drishyam | 2015 | Ajay Devgn (*Vijay Salgaonkar*) | Our family listened to satsang, ate pav bhaji, and watched a movie on 2nd and 3rd October in Panaji... you can check our bus tickets. | `DRISHYAM` |
+| **7** | *"Sirf piano bajane gaya tha main... kya pata tha kisi ki dead body mere piano ke bagal mein padi hogi aur mujhe bas andhe hone ka natak karke dhun bajate rehna padega!"* | Andhadhun | 2018 | Ayushmann Khurrana (*Akash*) | I only went to play piano... who knew someone's dead body would be right next to my piano and I had to pretend to be blind and keep playing! | `ANDHADHUN` |
+| **8** | *"Har subah jab main aankh kholta hoon, toh mere shareer par bane yeh tattoos mujhe batate hain ki main kaun hoon aur mujhe kisse badla lena hai."* | Ghajini | 2008 | Aamir Khan (*Sanjay Singhania*) | Every morning when I open my eyes, these tattoos on my body remind me who I am and who I need revenge on. | `GHAJINI` |
+| **9** | *"Maine chaar aatankwadiyon ko azaad karane ke liye phone nahi kiya tha commissioner sahab... maine unhe khatam karne ke liye ek chhat par bulwaya tha."* | A Wednesday! | 2008 | Naseeruddin Shah (*The Common Man*) | I didn't call to free four terrorists, commissioner... I called them to a rooftop to finish them off. | `A WEDNESDAY!` |
+| **10** | *"Rajouri Garden mein ladkiyon ko akele sadak paar karne nahi dete... aur yahan main poore Paris aur Amsterdam mein akele ghoom rahi hoon!"* | Queen | 2014 | Kangana Ranaut (*Rani Mehra*) | In Rajouri Garden they don't let girls cross the street alone... and here I am roaming all over Paris and Amsterdam alone! | `QUEEN` |

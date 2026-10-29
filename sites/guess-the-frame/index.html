@@ -13590,6 +13590,209 @@
     }
 
 
+  
+    /* ── HOME SCREEN MEME POP-UPS (NEOBRUTALIST FLANKING CARDS) ── */
+    .home-meme-popup {
+      display: none;
+      position: fixed;
+      z-index: 90;
+      width: 220px;
+      background: #FFFDF5;
+      border: 3.5px solid #111827;
+      border-radius: 16px;
+      box-shadow: 6px 6px 0px #111827;
+      overflow: hidden;
+      box-sizing: border-box;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+    }
+    #homeScreen.active .home-meme-popup.active {
+      display: block !important;
+    }
+    .home-meme-popup-left {
+      top: 50%;
+      left: 24px;
+      transform: translateY(-50%) rotate(-2deg);
+      animation: homeMemeSpringLeft 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .home-meme-popup-left:hover {
+      transform: translateY(-50%) rotate(0deg) scale(1.03);
+      box-shadow: 8px 8px 0px #111827;
+    }
+    .home-meme-popup-right {
+      top: 50%;
+      right: 24px;
+      transform: translateY(-50%) rotate(2deg);
+      animation: homeMemeSpringRight 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .home-meme-popup-right:hover {
+      transform: translateY(-50%) rotate(0deg) scale(1.03);
+      box-shadow: 8px 8px 0px #111827;
+    }
+    @keyframes homeMemeSpringLeft {
+      0% { opacity: 0; transform: translateY(-50%) translateX(-30px) scale(0.85) rotate(-6deg); }
+      70% { transform: translateY(-50%) translateX(4px) scale(1.02) rotate(0.5deg); }
+      100% { opacity: 1; transform: translateY(-50%) translateX(0) scale(1) rotate(-2deg); }
+    }
+    @keyframes homeMemeSpringRight {
+      0% { opacity: 0; transform: translateY(-50%) translateX(30px) scale(0.85) rotate(6deg); }
+      70% { transform: translateY(-50%) translateX(-4px) scale(1.02) rotate(-0.5deg); }
+      100% { opacity: 1; transform: translateY(-50%) translateX(0) scale(1) rotate(2deg); }
+    }
+    .home-meme-popup-inner {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+    .home-meme-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 10px;
+      border-bottom: 3px solid #111827;
+    }
+    .home-meme-header-left {
+      background: #4ADE80;
+    }
+    .home-meme-header-right {
+      background: #FB923C;
+    }
+    .home-meme-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .home-meme-icon {
+      font-size: 14px;
+      line-height: 1;
+    }
+    .home-meme-title {
+      font-family: 'Space Grotesk', -apple-system, sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #111827;
+      text-transform: uppercase;
+    }
+    .home-meme-close-btn {
+      background: #FFFDF5;
+      border: 2px solid #111827;
+      border-radius: 6px;
+      width: 22px;
+      height: 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 900;
+      color: #111827;
+      cursor: pointer;
+      box-shadow: 1.5px 1.5px 0px #111827;
+      padding: 0;
+      transition: all 0.15s ease;
+    }
+    .home-meme-close-btn:hover {
+      background: #EF4444;
+      color: #FFF;
+      transform: translate(-1px, -1px);
+      box-shadow: 2.5px 2.5px 0px #111827;
+    }
+    .home-meme-body {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      background: #FFFDF5;
+    }
+    .home-meme-img-wrap {
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2.5px solid #111827;
+      background: #111827;
+      box-shadow: 2px 2px 0px #111827;
+    }
+    .home-meme-img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 210px;
+      object-fit: cover;
+    }
+    .home-meme-caption {
+      font-family: 'Space Grotesk', -apple-system, sans-serif;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #374151;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .home-meme-pill-trigger {
+      display: none;
+      position: fixed;
+      z-index: 92;
+      bottom: 20px;
+      background: #FFFDF5;
+      border: 2.5px solid #111827;
+      border-radius: 9999px;
+      box-shadow: 3px 3px 0px #111827;
+      padding: 6px 14px;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      font-family: 'Space Grotesk', -apple-system, sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #111827;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .home-meme-pill-left {
+      left: 20px;
+      transform: rotate(-2deg);
+    }
+    .home-meme-pill-right {
+      right: 20px;
+      transform: rotate(2deg);
+    }
+    .home-meme-pill-trigger:hover {
+      transform: scale(1.05) translateY(-2px);
+      box-shadow: 5px 5px 0px #111827;
+    }
+    #homeScreen.active .home-meme-pill-trigger.active {
+      display: inline-flex !important;
+    }
+
+    /* ZERO-OVERLAP GUARANTEE */
+    /* 1. When screen is <= 1260px, tuck side cards away to prevent touching center cards */
+    @media (max-width: 1260px) {
+      #homeScreen.active .home-meme-popup:not(.modal-mode) {
+        display: none !important;
+      }
+      #homeScreen.active .home-meme-pill-trigger {
+        display: inline-flex !important;
+      }
+      #homeScreen.active .home-meme-popup.modal-mode {
+        display: block !important;
+        top: 50% !important;
+        left: 50% !important;
+        right: auto !important;
+        transform: translate(-50%, -50%) !important;
+        width: 280px !important;
+        z-index: 10020 !important;
+        box-shadow: 8px 8px 0px #111827 !important;
+      }
+    }
+    /* 2. When any room modal is open, completely hide home meme popups and pills */
+    body:has(.mp-modal-overlay.active) #homeScreen #homeMemeLeftPopup,
+    body:has(.mp-modal-overlay.active) #homeScreen #homeMemeRightPopup,
+    body:has(.mp-modal-overlay.active) #homeScreen .home-meme-popup,
+    body:has(.mp-modal-overlay.active) #homeScreen .home-meme-pill-trigger,
+    body.has-active-modal #homeScreen .home-meme-popup,
+    body.has-active-modal #homeScreen .home-meme-pill-trigger {
+      display: none !important;
+    }
+
   </style>
   <!-- Appwrite Web SDK & QRCode for Online Multiplayer -->
   <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
@@ -13969,6 +14172,58 @@
       <div class="h-footer">How many can <em>you</em> name?</div>
 
       <!-- invisible secret trigger — Space x5 opens admin -->
+      
+      <!-- ── HOME SCREEN MEME POP-UP (LEFT: AMISH LAY'S) ── -->
+      <div id="homeMemeLeftPopup" class="home-meme-popup home-meme-popup-left active" role="dialog" aria-label="Amish Podcast Meme">
+        <div class="home-meme-popup-inner">
+          <div class="home-meme-header home-meme-header-left">
+            <div class="home-meme-badge">
+              <span class="home-meme-icon">🥔</span>
+              <span class="home-meme-title">BRO IN EVERY PODCAST</span>
+            </div>
+            <button type="button" class="home-meme-close-btn" onclick="HomeScreenMeme.close('left')" aria-label="Close meme pop-up" title="Close pop-up">✕</button>
+          </div>
+          <div class="home-meme-body">
+            <div class="home-meme-img-wrap">
+              <img src="bg/home_meme_left.webp" alt="Amish Lay's Meme" class="home-meme-img" loading="lazy" />
+            </div>
+            <div class="home-meme-caption">Amish with Lay's Cream &amp; Onion</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── HOME SCREEN MEME POP-UP (RIGHT: AZIZ BUTTER MURUKKU) ── -->
+      <div id="homeMemeRightPopup" class="home-meme-popup home-meme-popup-right active" role="dialog" aria-label="Aziz Murukku Meme">
+        <div class="home-meme-popup-inner">
+          <div class="home-meme-header home-meme-header-right">
+            <div class="home-meme-badge">
+              <span class="home-meme-icon">🥨</span>
+              <span class="home-meme-title">BUTTER MURUKKU</span>
+            </div>
+            <button type="button" class="home-meme-close-btn" onclick="HomeScreenMeme.close('right')" aria-label="Close meme pop-up" title="Close pop-up">✕</button>
+          </div>
+          <div class="home-meme-body">
+            <div class="home-meme-img-wrap">
+              <img src="bg/home_meme_right.webp" alt="Aziz Butter Murukku Meme" class="home-meme-img" loading="lazy" />
+            </div>
+            <div class="home-meme-caption">Aziz enjoying Butter Murukku</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating pills to reopen home memes when closed -->
+      <button id="homeMemeLeftPill" type="button" class="home-meme-pill-trigger home-meme-pill-left" onclick="HomeScreenMeme.open('left')" aria-label="Open Amish meme">
+        <span class="pill-dot" style="background:#22C55E;"></span>
+        <span class="pill-icon">🥔</span>
+        <span class="pill-text">AMISH MEME</span>
+      </button>
+
+      <button id="homeMemeRightPill" type="button" class="home-meme-pill-trigger home-meme-pill-right" onclick="HomeScreenMeme.open('right')" aria-label="Open Aziz meme">
+        <span class="pill-dot" style="background:#F97316;"></span>
+        <span class="pill-icon">🥨</span>
+        <span class="pill-text">AZIZ MEME</span>
+      </button>
+
       <div id="hSecretHint" class="h-secret-hint"></div>
 
     </div>
@@ -14954,7 +15209,7 @@
               <span>MESSAGE</span>
             </div>
             <p class="cw-info-text">
-              Is QR code se hone wali total earning ka 20% hum ScoopCast ko samarpit karenge. Aap sabhi se vinamra nivedan hai ki kripya humein ScoopLuck pradan karein.
+              Bhai, woh QR code UPI ka nahi hai. Jisko bhi apne business ke liye website, app ya kuch bhi banwana ho, woh QR code scan karke mujhse contact kar sakta hai. Isse jitna bhi revenue hoga, uska 20% hum Scoopcast ko Super Chat kar denge. Toh iske liye Scoop Luck bhi de dijiye
             </p>
           </div>
         </div>
@@ -16712,54 +16967,54 @@
             sections: [
         {
           id: 1, name: 'Guess the Frame', icon: '<svg class="svg-icon"><use href="#icon-film" /></svg>', collapsed: false, frames: [
-            { type: "image", content: "GUESSTHEFRAME/12 Angry Men (1957) - Frame 02.webp", answer: "12 ANGRY MEN", year: "1957", aliases: ["TWELVE ANGRY MEN", "12 ANGRY MEN (1957)"] },
-            { type: "image", content: "GUESSTHEFRAME/2001 - A Space Odyssey (1968) - Frame 04.webp", answer: "2001: A SPACE ODYSSEY", year: "1968", aliases: ["2001 A SPACE ODYSSEY", "SPACE ODYSSEY", "2001 SPACE ODYSSEY"] },
-            { type: "image", content: "GUESSTHEFRAME/Adipurush (2023).webp", answer: "ADIPURUSH", year: "2023", aliases: ["AADIPURUSH", "ADIPURUSH (2023)"] },
-            { type: "image", content: "GUESSTHEFRAME/Awarapan 2.webp", answer: "AWARAPAN 2", year: "2026", aliases: ["AWARAPAN TWO", "AWARAPAN"] },
-            { type: "image", content: "GUESSTHEFRAME/Back to the Future (1985) - Frame 10.webp", answer: "BACK TO THE FUTURE", year: "1985", aliases: ["BTTF", "BACK TO THE FUTURE 1"] },
-            { type: "image", content: "GUESSTHEFRAME/Bad Apples (2025).webp", answer: "BAD APPLES", year: "2025", aliases: ["BAD APPLE"] },
-            { type: "image", content: "GUESSTHEFRAME/Batman Begins (2005).webp", answer: "BATMAN BEGINS", year: "2005", aliases: ["BATMAN 1", "THE BATMAN BEGINS"] },
-            { type: "image", content: "GUESSTHEFRAME/Buddy (2026).webp", answer: "BUDDY", year: "2026" },
-            { type: "image", content: "GUESSTHEFRAME/Children of Heaven (1997).webp", answer: "CHILDREN OF HEAVEN", year: "1997", aliases: ["BACHEHA-YE ASEMAN", "BACHEHAYE ASEMAN"] },
-            { type: "image", content: "GUESSTHEFRAME/Dil Chahta Hai (2001).webp", answer: "DIL CHAHTA HAI", year: "2001", aliases: ["DCH", "DIL CHAHATA HAI"] },
-            { type: "image", content: "GUESSTHEFRAME/Fitoor (2016).webp", answer: "FITOOR", year: "2016" },
-            { type: "image", content: "GUESSTHEFRAME/Insidious (2010).webp", answer: "INSIDIOUS", year: "2010", aliases: ["INSIDIOUS 1", "INSIDIOUS CHAPTER 1"] },
-            { type: "image", content: "GUESSTHEFRAME/Laal Singh Chadda.webp", answer: "LAAL SINGH CHADDHA", year: "2022", aliases: ["LAAL SINGH CHADDA", "LAL SINGH CHADDHA", "LAL SINGH CHADDA", "FORREST GUMP HINDI"] },
-            { type: "image", content: "GUESSTHEFRAME/Lage Raho Munna Bhai (2006).webp", answer: "LAGE RAHO MUNNA BHAI", year: "2006", aliases: ["LAGE RAHO MUNNABHAI", "MUNNA BHAI 2", "MUNNABHAI 2"] },
-            { type: "image", content: "GUESSTHEFRAME/Mard Ko Dard Nahi Hota (2018).webp", answer: "MARD KO DARD NAHI HOTA", year: "2018", aliases: ["THE MAN WHO FEELS NO PAIN", "MKDNH"] },
-            { type: "image", content: "GUESSTHEFRAME/Ocean_s Eleven (2001).webp", answer: "OCEAN'S ELEVEN", year: "2001", aliases: ["OCEANS ELEVEN", "OCEAN ELEVEN", "OCEANS 11", "OCEAN'S 11"] },
-            { type: "image", content: "GUESSTHEFRAME/Saat Uchakkey (2016).webp", answer: "SAAT UCHAKKEY", year: "2016", aliases: ["SAAT UCHAKKE", "7 UCHAKKEY"] },
-            { type: "image", content: "GUESSTHEFRAME/Tenzing (2026).webp", answer: "TENZING", year: "2026" },
-            { type: "image", content: "GUESSTHEFRAME/The Paradise (2026).webp", answer: "THE PARADISE", year: "2026", aliases: ["PARADISE"] },
-            { type: "image", content: "GUESSTHEFRAME/VisionQuest (TV Mini Series 2026).webp", answer: "VISIONQUEST", year: "2026", aliases: ["VISION QUEST", "VISIONQUEST SERIES", "VISION QUEST SERIES"] }
+            { type: "image", content: "GUESSTHEFRAME/Ab Tak Chhappan (2004).webp", answer: "AB TAK CHHAPPAN", year: "2004", aliases: ["AB TAK CHHAPAN", "AB TAK 56"] },
+            { type: "image", content: "GUESSTHEFRAME/Ardh Satya (1983).webp", answer: "ARDH SATYA", year: "1983", aliases: ["ARDHSATYA"] },
+            { type: "image", content: "GUESSTHEFRAME/Baby Do Die Do (2026).webp", answer: "BABY DO DIE DO", year: "2026", aliases: ["BABY DO DO DIE"] },
+            { type: "image", content: "GUESSTHEFRAME/Bahut Hua Samman (2020).webp", answer: "BAHUT HUA SAMMAN", year: "2020", aliases: ["BAHUT HUA SAMMAAN"] },
+            { type: "image", content: "GUESSTHEFRAME/Bend It Like Beckham (2002).webp", answer: "BEND IT LIKE BECKHAM", year: "2002" },
+            { type: "image", content: "GUESSTHEFRAME/Cinema Paradiso (1988).webp", answer: "CINEMA PARADISO", year: "1988", aliases: ["NUOVO CINEMA PARADISO"] },
+            { type: "image", content: "GUESSTHEFRAME/Dorothy (2026).webp", answer: "DOROTHY", year: "2026" },
+            { type: "image", content: "GUESSTHEFRAME/Hamnet (2025).webp", answer: "HAMNET", year: "2025" },
+            { type: "image", content: "GUESSTHEFRAME/Kwaidan (1964).webp", answer: "KWAIDAN", year: "1964", aliases: ["KAIDAN"] },
+            { type: "image", content: "GUESSTHEFRAME/Laalo Krishna Sada Sahaayate (2025).webp", answer: "LAALO KRISHNA SADA SAHAAYATE", year: "2025", aliases: ["LAALO", "LAALO KRISHNA"] },
+            { type: "image", content: "GUESSTHEFRAME/Marriage Story (2019).webp", answer: "MARRIAGE STORY", year: "2019" },
+            { type: "image", content: "GUESSTHEFRAME/Mass (2004).webp", answer: "MASS", year: "2004" },
+            { type: "image", content: "GUESSTHEFRAME/Nocturnal Animals (2016).webp", answer: "NOCTURNAL ANIMALS", year: "2016" },
+            { type: "image", content: "GUESSTHEFRAME/Ocean_s Twelve (2004).webp", answer: "OCEAN'S TWELVE", year: "2004", aliases: ["OCEANS TWELVE", "OCEAN'S 12", "OCEANS 12", "OCEAN TWELVE"] },
+            { type: "image", content: "GUESSTHEFRAME/Ram Leela (2013).webp", answer: "RAM LEELA", year: "2013", aliases: ["RAM-LEELA", "GOLIYON KI RAASLEELA RAM-LEELA", "RAMLEELA", "GOLIYON KI RAASLEELA RAM LEELA"] },
+            { type: "image", content: "GUESSTHEFRAME/Ramayana The Epic (2010).webp", answer: "RAMAYANA: THE EPIC", year: "2010", aliases: ["RAMAYANA THE EPIC", "RAMAYANA"] },
+            { type: "image", content: "GUESSTHEFRAME/Saw (2004).webp", answer: "SAW", year: "2004", aliases: ["SAW 1"] },
+            { type: "image", content: "GUESSTHEFRAME/Taste of Cherry (1997).webp", answer: "TASTE OF CHERRY", year: "1997", aliases: ["TA'M-E GILAS", "TAM E GILAS"] },
+            { type: "image", content: "GUESSTHEFRAME/The Dog Stars (2026).webp", answer: "THE DOG STARS", year: "2026", aliases: ["DOG STARS"] },
+            { type: "image", content: "GUESSTHEFRAME/Verity (2026).webp", answer: "VERITY", year: "2026" }
           ]
         },
         {
           id: 2, name: 'Guess the Dialogue', icon: '<svg class="svg-icon"><use href="#icon-message-circle" /></svg>', collapsed: false, frames: [
-            { type: 'dialogue', dialogue: "What if my problem isn't that I don't understand people, but that I don't like them?", answer: "NIGHTCRAWLER", year: "2014", character: "Lou Bloom (Jake Gyllenhaal)" },
-            { type: 'dialogue', dialogue: "Yeh loktantra hai... yahan bhediye bhi bhed ki khaal pehan ke ghoomte hain.", answer: "GULAAL", year: "2009", character: "Dukey Bana (Kay Kay Menon)" },
-            { type: 'dialogue', dialogue: "Get busy living, or get busy dying.", answer: "THE SHAWSHANK REDEMPTION", year: "1994", character: "Andy Dufresne (Tim Robbins)", aliases: ["SHAWSHANK REDEMPTION", "SHAWSHANK"] },
-            { type: 'dialogue', dialogue: "I think this just might be my masterpiece.", answer: "INGLOURIOUS BASTERDS", year: "2009", character: "Lt. Aldo Raine (Brad Pitt)", aliases: ["INGLORIOUS BASTERDS", "INGLOURIOUS BASTARDS"] },
-            { type: 'dialogue', dialogue: "I'm the guy who does his job. You must be the other guy.", answer: "THE DEPARTED", year: "2006", character: "Staff Sergeant Sean Dignam (Mark Wahlberg)", aliases: ["DEPARTED"] },
-            { type: 'dialogue', dialogue: "Yeh duniya kisi ki laalach ke liye nahi, zaroorat ke liye bani hai.", answer: "TUMBBAD", year: "2018", character: "Vinayak Rao (Sohum Shah)", aliases: ["TUMBADD", "TUMBAD"] },
-            { type: 'dialogue', dialogue: "Inteqaam se sirf inteqaam paida hota hai.", answer: "HAIDER", year: "2014", character: "Ghazala Meer / Haider Meer (Tabu / Shahid Kapoor)" },
-            { type: 'dialogue', dialogue: "Freedom is my birthright and fighting for freedom is no crime.", answer: "SARDAR UDHAM", year: "2021", character: "Sardar Udham Singh (Vicky Kaushal)", aliases: ["UDHAM SINGH"] },
-            { type: 'dialogue', dialogue: "Jao pehle us aadmi ka sign le kar aao jisne mere baap ko chor kaha tha.", answer: "DEEWAAR", year: "1975", character: "Vijay Verma (Amitabh Bachchan)", aliases: ["DEEWAR"] },
-            { type: 'dialogue', dialogue: "Apne hi paani mein pighal jaana barf ka muqaddar hota hai.", answer: "SWADES", year: "2004", character: "Mohan Bhargava (Shah Rukh Khan)" }
+            { type: 'dialogue', dialogue: "Hamare parivaar ne 2 aur 3 October ko Panaji mein satsang suna, pav bhaji khayi, aur film dekhi... chahe toh aap bus ki ticket check kar lijiye.", answer: "DRISHYAM", year: "2015", character: "Vijay Salgaonkar (Ajay Devgn)", aliases: ["DRISHYAM 1"] },
+            { type: 'dialogue', dialogue: "Sirf piano bajane gaya tha main... kya pata tha kisi ki dead body mere piano ke bagal mein padi hogi aur mujhe bas andhe hone ka natak karke dhun bajate rehna padega!", answer: "ANDHADHUN", year: "2018", character: "Akash (Ayushmann Khurrana)", aliases: ["ANDHADHOON"] },
+            { type: 'dialogue', dialogue: "Har subah jab main aankh kholta hoon, toh mere shareer par bane yeh tattoos mujhe batate hain ki main kaun hoon aur mujhe kisse badla lena hai.", answer: "GHAJINI", year: "2008", character: "Sanjay Singhania (Aamir Khan)" },
+            { type: 'dialogue', dialogue: "Maine chaar aatankwadiyon ko azaad karane ke liye phone nahi kiya tha commissioner sahab... maine unhe khatam karne ke liye ek chhat par bulwaya tha.", answer: "A WEDNESDAY!", year: "2008", character: "The Common Man (Naseeruddin Shah)", aliases: ["A WEDNESDAY", "WEDNESDAY"] },
+            { type: 'dialogue', dialogue: "Rajouri Garden mein ladkiyon ko akele sadak paar karne nahi dete... aur yahan main poore Paris aur Amsterdam mein akele ghoom rahi hoon!", answer: "QUEEN", year: "2014", character: "Rani Mehra (Kangana Ranaut)" },
+            { type: 'dialogue', dialogue: "Seven years per hour on that water planet... Every second we waste down there, decades are passing back home on Earth for our children.", answer: "INTERSTELLAR", year: "2014", character: "Joseph Cooper (Matthew McConaughey)" },
+            { type: 'dialogue', dialogue: "There is a bomb on a bus. Once the bus goes 50 miles an hour, the bomb is armed. If it drops below 50, it blows up. What do you do?", answer: "SPEED", year: "1994", character: "Howard Payne (Dennis Hopper)", aliases: ["SPEED 1"] },
+            { type: 'dialogue', dialogue: "It's not easy for me to raise my hand and send a boy to the electric chair without talking about it first. Eleven of you think he's guilty, and I'm just asking for one hour to discuss it in this heat.", answer: "12 ANGRY MEN", year: "1957", character: "Juror 8 (Henry Fonda)", aliases: ["TWELVE ANGRY MEN", "12 ANGRY MEN (1957)"] },
+            { type: 'dialogue', dialogue: "Their language doesn't have a past or future... Once you learn their circular ink symbols, you start remembering tomorrow.", answer: "ARRIVAL", year: "2016", character: "Dr. Louise Banks (Amy Adams)" },
+            { type: 'dialogue', dialogue: "They don't see each other. They only see what they want to see. They don't know that they're dead.", answer: "THE SIXTH SENSE", year: "1999", character: "Cole Sear (Haley Joel Osment)", aliases: ["SIXTH SENSE"] }
           ]
         },
         {
           id: 3, name: 'Guess the Eye', icon: '<svg class="svg-icon"><use href="#icon-eye" /></svg>', collapsed: false, frames: [
-            { type: 'eye', content: 'GUESSTHEEYES/Aishwarya Rai Bachchan copy.webp', revealContent: 'GUESSTHEEYES/Aishwarya Rai Bachchan.webp', answer: 'AISHWARYA RAI BACHCHAN', displayAnswer: 'Aishwarya Rai Bachchan', year: '', aliases: ['AISHWARYA RAI', 'AISHWARYA', 'ASH'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Alia Bhatt copy.webp', revealContent: 'GUESSTHEEYES/Alia Bhatt.webp', answer: 'ALIA BHATT', displayAnswer: 'Alia Bhatt', year: '', aliases: ['AALIA BHATT', 'ALIA'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Amanda Seyfried copy.webp', revealContent: 'GUESSTHEEYES/Amanda Seyfried.webp', answer: 'AMANDA SEYFRIED', displayAnswer: 'Amanda Seyfried', year: '', aliases: ['AMANDA SIEFRIED'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Courteney Cox copy.webp', revealContent: 'GUESSTHEEYES/Courteney Cox.webp', answer: 'COURTENEY COX', displayAnswer: 'Courteney Cox', year: '', aliases: ['COURTNEY COX', 'MONICA GELLER'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Dafne Keen copy.webp', revealContent: 'GUESSTHEEYES/Dafne Keen.webp', answer: 'DAFNE KEEN', displayAnswer: 'Dafne Keen', year: '', aliases: ['DAFNE KEEN FERNANDEZ', 'X-23', 'LAURA'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Elizabeth Olsen copy.webp', revealContent: 'GUESSTHEEYES/Elizabeth Olsen.webp', answer: 'ELIZABETH OLSEN', displayAnswer: 'Elizabeth Olsen', year: '', aliases: ['WANDA MAXIMOFF', 'SCARLET WITCH'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Eva Green copy.webp', revealContent: 'GUESSTHEEYES/Eva Green.webp', answer: 'EVA GREEN', displayAnswer: 'Eva Green', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Juhi Chawla Mehta copy.webp', revealContent: 'GUESSTHEEYES/Juhi Chawla Mehta.webp', answer: 'JUHI CHAWLA MEHTA', displayAnswer: 'Juhi Chawla Mehta', year: '', aliases: ['JUHI CHAWLA', 'JUHI'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Julia Roberts copy.webp', revealContent: 'GUESSTHEEYES/Julia Roberts.webp', answer: 'JULIA ROBERTS', displayAnswer: 'Julia Roberts', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Unbiased Shaikh copy.webp', revealContent: 'GUESSTHEEYES/Unbiased Shaikh.webp', answer: 'AZIZ SHAIKH', displayAnswer: 'UNBIASED SHAIKH', year: '', aliases: ['AZIZ', 'AZIZ SHAIKH'] }
+            { type: 'eye', content: 'GUESSTHEEYES/Amy Adams copy.webp', revealContent: 'GUESSTHEEYES/Amy Adams.webp', answer: 'AMY ADAMS', displayAnswer: 'Amy Adams', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Ana de Armas copy.webp', revealContent: 'GUESSTHEEYES/Ana de Armas.webp', answer: 'ANA DE ARMAS', displayAnswer: 'Ana de Armas', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Anne Hathaway copy.webp', revealContent: 'GUESSTHEEYES/Anne Hathaway.webp', answer: 'ANNE HATHAWAY', displayAnswer: 'Anne Hathaway', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Anya Taylor-Joy copy.webp', revealContent: 'GUESSTHEEYES/Anya Taylor-Joy.webp', answer: 'ANYA TAYLOR-JOY', displayAnswer: 'Anya Taylor-Joy', year: '', aliases: ['ANYA TAYLOR JOY', 'ANYA TAYLOR'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Bipasha Basu copy.webp', revealContent: 'GUESSTHEEYES/Bipasha Basu.webp', answer: 'BIPASHA BASU', displayAnswer: 'Bipasha Basu', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Daniel Craig copy.webp', revealContent: 'GUESSTHEEYES/Daniel Craig.webp', answer: 'DANIEL CRAIG', displayAnswer: 'Daniel Craig', year: '', aliases: ['007', 'JAMES BOND'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Helena Bonham Carter copy.webp', revealContent: 'GUESSTHEEYES/Helena Bonham Carter.webp', answer: 'HELENA BONHAM CARTER', displayAnswer: 'Helena Bonham Carter', year: '', aliases: ['BELLATRIX LESTRANGE'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Kangana Ranaut copy.webp', revealContent: 'GUESSTHEEYES/Kangana Ranaut.webp', answer: 'KANGANA RANAUT', displayAnswer: 'Kangana Ranaut', year: '', aliases: ['KANGANA'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Kareena Kapoor Khan copy.webp', revealContent: 'GUESSTHEEYES/Kareena Kapoor Khan.webp', answer: 'KAREENA KAPOOR KHAN', displayAnswer: 'Kareena Kapoor Khan', year: '', aliases: ['KAREENA KAPOOR', 'KAREENA', 'BEBO'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Supa Supa copy.webp', revealContent: 'GUESSTHEEYES/Supa Supa.webp', answer: 'AMAN SINHA', displayAnswer: 'SUPA SUPA', year: '', aliases: ['AMAN', 'AMAN SINHA', 'SUPA SUPA'] }
           ]
         }
       ],
@@ -23340,6 +23595,67 @@
         });
       });
     }
+
+  
+  // ── HOME SCREEN MEMES CONTROLLER ──
+  const HomeScreenMeme = {
+    close(side) {
+      if (typeof SoundManager !== 'undefined') SoundManager.playClick();
+      if (side === 'left') {
+        const pop = document.getElementById('homeMemeLeftPopup');
+        const pill = document.getElementById('homeMemeLeftPill');
+        if (pop) {
+          pop.classList.remove('active', 'modal-mode');
+          pop.style.display = 'none';
+        }
+        if (pill) {
+          pill.classList.add('active');
+          pill.style.display = 'inline-flex';
+        }
+      } else {
+        const pop = document.getElementById('homeMemeRightPopup');
+        const pill = document.getElementById('homeMemeRightPill');
+        if (pop) {
+          pop.classList.remove('active', 'modal-mode');
+          pop.style.display = 'none';
+        }
+        if (pill) {
+          pill.classList.add('active');
+          pill.style.display = 'inline-flex';
+        }
+      }
+    },
+    open(side) {
+      if (typeof SoundManager !== 'undefined') SoundManager.playClick();
+      const isMobile = window.innerWidth <= 1260;
+      if (side === 'left') {
+        const pop = document.getElementById('homeMemeLeftPopup');
+        const pill = document.getElementById('homeMemeLeftPill');
+        if (pill) {
+          pill.classList.remove('active');
+          pill.style.display = 'none';
+        }
+        if (pop) {
+          pop.classList.add('active');
+          if (isMobile) pop.classList.add('modal-mode');
+          pop.style.display = 'block';
+        }
+      } else {
+        const pop = document.getElementById('homeMemeRightPopup');
+        const pill = document.getElementById('homeMemeRightPill');
+        if (pill) {
+          pill.classList.remove('active');
+          pill.style.display = 'none';
+        }
+        if (pop) {
+          pop.classList.add('active');
+          if (isMobile) pop.classList.add('modal-mode');
+          pop.style.display = 'block';
+        }
+      }
+    }
+  };
+  window.HomeScreenMeme = HomeScreenMeme;
 
   </script>
 </body>
