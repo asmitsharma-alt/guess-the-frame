@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Winner Screen 4-Corner Pop-ups (Dual QR + 2 Bigger Memes) & No Home Memes', () => {
+test.describe('Winner Screen & Home Screen Meme Removal & Winner Message Verification', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
   });
 
-  test('Home screen has NO memes or meme pills (memes moved strictly to Winner Screen)', async ({ page }) => {
+  test('Home screen has NO memes or meme pills', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     const homeLeftMeme = page.locator('#homeMemeLeftPopup');
     const homeRightMeme = page.locator('#homeMemeRightPopup');
@@ -17,6 +17,26 @@ test.describe('Winner Screen 4-Corner Pop-ups (Dual QR + 2 Bigger Memes) & No Ho
     expect(await homeRightMeme.count()).toBe(0);
     expect(await homeLeftPill.count()).toBe(0);
     expect(await homeRightPill.count()).toBe(0);
+  });
+
+  test('Winner screen has NO memes or meme pills', async ({ page }) => {
+    await page.setViewportSize({ width: 1920, height: 1080 });
+    await page.evaluate(() => {
+      UI.showScreen('winnerScreen');
+      if (typeof WinnerScreen !== 'undefined') {
+        if (WinnerScreen.openMeme) WinnerScreen.openMeme('all');
+      }
+    });
+
+    const memeLeft = page.locator('#cwMemeLeftPopup');
+    const memeRight = page.locator('#cwMemeRightPopup');
+    const memePillLeft = page.locator('#cwMemeLeftPill');
+    const memePillRight = page.locator('#cwMemeRightPill');
+
+    expect(await memeLeft.count()).toBe(0);
+    expect(await memeRight.count()).toBe(0);
+    expect(await memePillLeft.count()).toBe(0);
+    expect(await memePillRight.count()).toBe(0);
   });
 
   test('Winner screen message matches exact requested text', async ({ page }) => {
@@ -43,7 +63,7 @@ test.describe('Winner Screen 4-Corner Pop-ups (Dual QR + 2 Bigger Memes) & No Ho
       const s3 = GS.sections.find(s => s.id === 3);
       const frame = s3.frames[9];
 
-      GS.players = [{ id: 'p1', name: 'Tester', score: 0, avatar: 'aman' }];
+      GS.players = [{ id: 'p1', name: 'Tester', score: 0, avatar: 'ayank' }];
       MultiplayerEngine.isHost = true;
       MultiplayerEngine.isMatchActive = true;
       MultiplayerEngine.isRoundFinished = false;
@@ -55,7 +75,7 @@ test.describe('Winner Screen 4-Corner Pop-ups (Dual QR + 2 Bigger Memes) & No Ho
       MultiplayerEngine._roundGuessedCorrectIds = new Set();
 
       // Submit correct guess "AMAN SINHA"
-      MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'aman', guess: 'AMAN SINHA', roundIndex: 0 });
+      MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'ayank', guess: 'AMAN SINHA', roundIndex: 0 });
       const scoreAfter = GS.players[0].score;
 
       // End round and verify displayAnswer
@@ -72,7 +92,7 @@ test.describe('Winner Screen 4-Corner Pop-ups (Dual QR + 2 Bigger Memes) & No Ho
     expect(testR40.revealedTitle).toBe('SUPA SUPA');
   });
 
-  test('Winner screen displays all 4 pop-ups in 4 corners on large desktop without overlap', async ({ page }) => {
+  test('Winner screen displays right QR pop-up cleanly on large desktop', async ({ page }) => {
     await page.setViewportSize({ width: 1920, height: 1080 });
     await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
@@ -81,105 +101,25 @@ test.describe('Winner Screen 4-Corner Pop-ups (Dual QR + 2 Bigger Memes) & No Ho
     await page.evaluate(() => {
       UI.showScreen('winnerScreen');
       WinnerScreen.openQrPopup('all');
-      WinnerScreen.openMeme('all');
     });
 
-    await page.waitForTimeout(600); // allow spring animations
+    await page.waitForTimeout(400);
 
     const qrLeft = page.locator('#cwQrPopup');
     const qrRight = page.locator('#cwQrPopupRight');
-    const memeLeft = page.locator('#cwMemeLeftPopup');
-    const memeRight = page.locator('#cwMemeRightPopup');
     const stage = page.locator('.cw-center-stage-grid');
 
     // Left QR removed per user request
     expect(await qrLeft.count()).toBe(0);
     await expect(qrRight).toBeVisible();
-    await expect(memeLeft).toBeVisible();
-    await expect(memeRight).toBeVisible();
 
     const boxQrRight = await qrRight.boundingBox();
-    const boxMemeLeft = await memeLeft.boundingBox();
-    const boxMemeRight = await memeRight.boundingBox();
     const boxStage = await stage.boundingBox();
 
     expect(boxQrRight).not.toBeNull();
-    expect(boxMemeLeft).not.toBeNull();
-    expect(boxMemeRight).not.toBeNull();
     expect(boxStage).not.toBeNull();
 
-    // 1. Verify bigger meme dimensions (width >= 320px)
-    expect(boxMemeLeft.width).toBeGreaterThanOrEqual(320);
-    expect(boxMemeRight.width).toBeGreaterThanOrEqual(320);
-
-    // 2. Vertical separation on Right Flank: Top QR is completely above Bottom Meme
-    expect(boxQrRight.y + boxQrRight.height).toBeLessThan(boxMemeRight.y);
-
-    // 3. Horizontal separation: Left meme is to the left of the center stage
-    expect(boxMemeLeft.x + boxMemeLeft.width).toBeLessThan(boxStage.x);
-
-    // 4. Horizontal separation: Right flank popups are to the right of the center stage
+    // Horizontal separation: Right QR is to the right of the center stage
     expect(boxQrRight.x).toBeGreaterThan(boxStage.x + boxStage.width);
-    expect(boxMemeRight.x).toBeGreaterThan(boxStage.x + boxStage.width);
-
-    // Verify meme images
-    const imgLeft = await memeLeft.locator('.cw-meme-img').getAttribute('src');
-    const imgRight = await memeRight.locator('.cw-meme-img').getAttribute('src');
-    expect(imgLeft).toBe('bg/home_meme_left.webp');
-    expect(imgRight).toBe('bg/home_meme_right.webp');
-  });
-
-  test('Dismissing winner meme opens its pill and clicking pill restores popup', async ({ page }) => {
-    await page.setViewportSize({ width: 1920, height: 1080 });
-    await page.goto('/');
-    await page.waitForLoadState('domcontentloaded');
-
-    await page.evaluate(() => {
-      UI.showScreen('winnerScreen');
-      WinnerScreen.openMeme('left');
-    });
-
-    const memeLeft = page.locator('#cwMemeLeftPopup');
-    const memePill = page.locator('#cwMemeLeftPill');
-
-    await expect(memeLeft).toBeVisible();
-    await expect(memePill).toBeHidden();
-
-    // Close meme
-    await memeLeft.locator('.cw-meme-close-btn').click();
-    await expect(memeLeft).toBeHidden();
-    await expect(memePill).toBeVisible();
-
-    // Click pill to reopen
-    await memePill.click();
-    await expect(memeLeft).toBeVisible();
-    await expect(memePill).toBeHidden();
-  });
-
-  test('On compact viewports (< 1500px), bottom memes tuck into pills to guarantee zero overlap', async ({ page }) => {
-    await page.setViewportSize({ width: 1366, height: 768 });
-    await page.goto('/');
-    await page.waitForLoadState('domcontentloaded');
-
-    await page.evaluate(() => {
-      UI.showScreen('winnerScreen');
-      WinnerScreen.openMeme('all');
-    });
-
-    const memeLeft = page.locator('#cwMemeLeftPopup');
-    const memePill = page.locator('#cwMemeLeftPill');
-
-    // Bottom meme is tucked into pill
-    await expect(memeLeft).toBeHidden();
-    await expect(memePill).toBeVisible();
-
-    // Clicking pill opens centered modal mode without overlapping
-    await memePill.click();
-    await expect(memeLeft).toBeVisible();
-    await expect(memeLeft).toHaveClass(/modal-mode/);
-
-    // Close modal
-    await memeLeft.locator('.cw-meme-close-btn').click();
-    await expect(memeLeft).toBeHidden();
   });
 });

@@ -15355,55 +15355,7 @@
     </button>
   
   
-    <!-- ── WINNER SCREEN MEME POP-UP (BOTTOM-LEFT: AMISH LAY'S) ── -->
-    <div id="cwMemeLeftPopup" class="cw-meme-popup cw-meme-popup-left active" role="dialog" aria-label="Amish Lay's Podcast Meme">
-      <div class="cw-meme-popup-inner">
-        <div class="cw-meme-header cw-meme-header-left">
-          <div class="cw-meme-badge">
-            <span class="cw-meme-icon">🥔</span>
-            <span class="cw-meme-title">BRO IN EVERY PODCAST</span>
-          </div>
-          <button type="button" class="cw-meme-close-btn" onclick="WinnerScreen.closeMeme('left')" aria-label="Close meme pop-up" title="Close pop-up">✕</button>
-        </div>
-        <div class="cw-meme-body">
-          <div class="cw-meme-img-wrap">
-            <img src="bg/home_meme_left.webp" alt="Amish Lay's Meme" class="cw-meme-img" loading="lazy" />
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- ── WINNER SCREEN MEME POP-UP (BOTTOM-RIGHT: AZIZ BUTTER MURUKKU) ── -->
-    <div id="cwMemeRightPopup" class="cw-meme-popup cw-meme-popup-right active" role="dialog" aria-label="Aziz Murukku Meme">
-      <div class="cw-meme-popup-inner">
-        <div class="cw-meme-header cw-meme-header-right">
-          <div class="cw-meme-badge">
-            <span class="cw-meme-icon">🥨</span>
-            <span class="cw-meme-title">BUTTER MURUKKU</span>
-          </div>
-          <button type="button" class="cw-meme-close-btn" onclick="WinnerScreen.closeMeme('right')" aria-label="Close meme pop-up" title="Close pop-up">✕</button>
-        </div>
-        <div class="cw-meme-body">
-          <div class="cw-meme-img-wrap">
-            <img src="bg/home_meme_right.webp" alt="Aziz Butter Murukku Meme" class="cw-meme-img" loading="lazy" />
-          </div>
-          <div class="cw-meme-caption">Aziz enjoying Butter Murukku</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Floating pills to reopen winner memes when closed or in compact mode -->
-    <button id="cwMemeLeftPill" type="button" class="cw-meme-pill-trigger cw-meme-pill-left" onclick="WinnerScreen.openMeme('left')" aria-label="Open meme">
-      <span class="pill-dot" style="background:#22C55E;"></span>
-      <span class="pill-icon">🥔</span>
-      <span class="pill-text">MEME</span>
-    </button>
-
-    <button id="cwMemeRightPill" type="button" class="cw-meme-pill-trigger cw-meme-pill-right" onclick="WinnerScreen.openMeme('right')" aria-label="Open Aziz meme">
-      <span class="pill-dot" style="background:#F97316;"></span>
-      <span class="pill-icon">🥨</span>
-      <span class="pill-text">AZIZ MEME</span>
-    </button>
 
   </div><!-- /#winnerScreen -->
 
@@ -21402,7 +21354,6 @@
         this.renderMatchSummary(playerList);
         this.fireComicConfetti();
         this.openQrPopup();
-        this.openMeme('all');
 
         // Auto trigger celebratory party poppers
         setTimeout(() => this.triggerPopper('left'), 350);
@@ -21446,53 +21397,9 @@
         }
       },
 
-      openMeme(side = 'all') {
-        const isCompact = typeof window !== 'undefined' && (window.innerWidth < 1500 || window.innerHeight < 880);
-        if (side === 'left' || side === 'all') {
-          const pop = document.getElementById('cwMemeLeftPopup');
-          const pill = document.getElementById('cwMemeLeftPill');
-          if (pill) pill.classList.remove('active');
-          if (pop) {
-            pop.classList.add('active');
-            if (isCompact && side === 'left') {
-              pop.classList.add('modal-mode');
-            } else if (isCompact && side === 'all') {
-              pop.classList.remove('active');
-              if (pill) pill.classList.add('active');
-            }
-          }
-        }
-        if (side === 'right' || side === 'all') {
-          const pop = document.getElementById('cwMemeRightPopup');
-          const pill = document.getElementById('cwMemeRightPill');
-          if (pill) pill.classList.remove('active');
-          if (pop) {
-            pop.classList.add('active');
-            if (isCompact && side === 'right') {
-              pop.classList.add('modal-mode');
-            } else if (isCompact && side === 'all') {
-              pop.classList.remove('active');
-              if (pill) pill.classList.add('active');
-            }
-          }
-        }
-      },
+      openMeme(side = 'all') {},
 
-      closeMeme(side = 'left') {
-        if (typeof SoundManager !== 'undefined') SoundManager.playClick();
-        if (side === 'left' || side === 'all') {
-          const pop = document.getElementById('cwMemeLeftPopup');
-          const pill = document.getElementById('cwMemeLeftPill');
-          if (pop) pop.classList.remove('active', 'modal-mode');
-          if (pill) pill.classList.add('active');
-        }
-        if (side === 'right' || side === 'all') {
-          const pop = document.getElementById('cwMemeRightPopup');
-          const pill = document.getElementById('cwMemeRightPill');
-          if (pop) pop.classList.remove('active', 'modal-mode');
-          if (pill) pill.classList.add('active');
-        }
-      },
+      closeMeme(side = 'left') {},
 
       triggerPopper(side) {
         const popperEl = document.getElementById(side === 'left' ? 'popperLeft' : 'popperRight');
