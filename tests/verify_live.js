@@ -34,7 +34,7 @@ async function testEndpoint(ep) {
     await page.waitForSelector('#createRoomModal.active', { timeout: 5000 });
     const hostInput = page.locator('#hostPlayerNameInput');
     await hostInput.fill('Phoenix');
-    await page.locator('#createRoomModal .mp-avatar-option[data-avatar="amish"]').click();
+    await page.locator('#createRoomModal .mp-avatar-option[data-avatar="praggya"]').click();
     
     // Screenshot Create Modal with Custom Name
     const modalPath = path.join(ARTIFACT_DIR, `${ep.prefix}_master_create_modal.png`);

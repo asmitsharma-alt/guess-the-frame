@@ -14,10 +14,11 @@ test('Verify Native Avatars on Game Screen', async ({ page }) => {
   // Verify renderAvatar output natively from the code
   const directOutputs = await page.evaluate(() => {
     return [
-      { name: 'Aman', avatar: 'aman' },
-      { name: 'Amish', avatar: 'amish' },
-      { name: 'Aziz', avatar: 'aziz' },
-      { name: 'Vish', avatar: 'vish' }
+      { name: 'Ayank', avatar: 'ayank' },
+      { name: 'Ayush', avatar: 'ayush' },
+      { name: 'Joel', avatar: 'joel' },
+      { name: 'Praggya', avatar: 'praggya' },
+      { name: 'Ruhaan', avatar: 'ruhaan' }
     ].map(p => ({
       player: p,
       rendered: renderAvatar(p, 'lb')
@@ -28,13 +29,13 @@ test('Verify Native Avatars on Game Screen', async ({ page }) => {
 
   for (const item of directOutputs) {
     expect(item.rendered).toContain('img src="avvtar/');
-    expect(item.rendered).toContain('.svg"');
+    expect(item.rendered).toContain('.png"');
   }
 
   // Navigate through flow to game screen
   await page.locator('.h-card-create').click();
   await page.locator('#hostPlayerNameInput').fill('Aman');
-  await page.locator('#createRoomModal .mp-avatar-option[data-avatar="aman"]').click();
+  await page.locator('#createRoomModal .mp-avatar-option[data-avatar="ayank"]').click();
   await page.locator('#createRoomModal .mp-btn-primary').click();
 
   // Add 4 players

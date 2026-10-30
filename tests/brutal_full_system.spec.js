@@ -278,7 +278,7 @@ test.describe('BRUTAL FULL SYSTEM TEST SUITE: Every Feature, Button, Logic, Conn
     expect(joinCodeVal).toBe(roomCode);
 
     await playerPage.locator('#joinPlayerNameInput').fill('GuestPro');
-    await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="amish"]').click();
+    await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="praggya"]').click();
     await playerPage.locator('#joinRoomModal .mp-btn-primary').click();
 
     await expect(playerPage.locator('#playerLobbyScreen')).toBeVisible({ timeout: 15000 });

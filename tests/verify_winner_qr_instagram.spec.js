@@ -17,7 +17,8 @@ test.describe('Winner Screen Dual QR Pop-ups (Left Services + Right Instagram)',
     const leftPopup = page.locator('#cwQrPopup');
     const rightPopup = page.locator('#cwQrPopupRight');
 
-    await expect(leftPopup).toBeVisible();
+    // Left QR removed per user request
+    expect(await leftPopup.count()).toBe(0);
     await expect(rightPopup).toBeVisible();
 
     // Verify Right (Instagram) Popup content

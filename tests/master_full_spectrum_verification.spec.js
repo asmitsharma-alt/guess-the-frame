@@ -66,7 +66,7 @@ test.describe('ULTRA-COMPREHENSIVE MASTER TEST: Every Feature, Button, Logic, Sy
     expect(codeVal.toUpperCase()).toBe('ABCD');
 
     // Pick avatar
-    await page.locator('#joinRoomModal .mp-avatar-option[data-avatar="vish"]').click();
+    await page.locator('#joinRoomModal .mp-avatar-option[data-avatar="ayush"]').click();
 
     // Close Join Modal button (✕)
     await page.locator('#joinRoomModal .mp-modal-close').click();

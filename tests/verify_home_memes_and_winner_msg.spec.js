@@ -21,10 +21,7 @@ test.describe('Winner Screen 4-Corner Pop-ups (Dual QR + 2 Bigger Memes) & No Ho
 
   test('Winner screen message matches exact requested text', async ({ page }) => {
     const msg = await page.locator('.cw-info-text').textContent();
-    expect(msg).toContain('Bhai, woh QR code UPI ka nahi hai');
-    expect(msg).toContain('Jisko bhi apne business ke liye website, app ya kuch bhi banwana ho');
-    expect(msg).toContain('20% hum Scoopcast ko Super Chat kar denge');
-    expect(msg).toContain('Toh iske liye Scoop Luck bhi de dijiye');
+    expect(msg).toContain('Umeed hai ki aap logon ko game khelne mein maza aaya hoga! Milte hain agle hafte');
   });
 
   test('All 3 sections have updated counts and Round 40 Supa Supa logic', async ({ page }) => {
@@ -95,18 +92,17 @@ test.describe('Winner Screen 4-Corner Pop-ups (Dual QR + 2 Bigger Memes) & No Ho
     const memeRight = page.locator('#cwMemeRightPopup');
     const stage = page.locator('.cw-center-stage-grid');
 
-    await expect(qrLeft).toBeVisible();
+    // Left QR removed per user request
+    expect(await qrLeft.count()).toBe(0);
     await expect(qrRight).toBeVisible();
     await expect(memeLeft).toBeVisible();
     await expect(memeRight).toBeVisible();
 
-    const boxQrLeft = await qrLeft.boundingBox();
     const boxQrRight = await qrRight.boundingBox();
     const boxMemeLeft = await memeLeft.boundingBox();
     const boxMemeRight = await memeRight.boundingBox();
     const boxStage = await stage.boundingBox();
 
-    expect(boxQrLeft).not.toBeNull();
     expect(boxQrRight).not.toBeNull();
     expect(boxMemeLeft).not.toBeNull();
     expect(boxMemeRight).not.toBeNull();
@@ -116,17 +112,13 @@ test.describe('Winner Screen 4-Corner Pop-ups (Dual QR + 2 Bigger Memes) & No Ho
     expect(boxMemeLeft.width).toBeGreaterThanOrEqual(320);
     expect(boxMemeRight.width).toBeGreaterThanOrEqual(320);
 
-    // 2. Vertical separation on Left Flank: Top QR is completely above Bottom Meme
-    expect(boxQrLeft.y + boxQrLeft.height).toBeLessThan(boxMemeLeft.y);
-
-    // 3. Vertical separation on Right Flank: Top QR is completely above Bottom Meme
+    // 2. Vertical separation on Right Flank: Top QR is completely above Bottom Meme
     expect(boxQrRight.y + boxQrRight.height).toBeLessThan(boxMemeRight.y);
 
-    // 4. Horizontal separation: Left flank popups are to the left of the center stage
-    expect(boxQrLeft.x + boxQrLeft.width).toBeLessThan(boxStage.x);
+    // 3. Horizontal separation: Left meme is to the left of the center stage
     expect(boxMemeLeft.x + boxMemeLeft.width).toBeLessThan(boxStage.x);
 
-    // 5. Horizontal separation: Right flank popups are to the right of the center stage
+    // 4. Horizontal separation: Right flank popups are to the right of the center stage
     expect(boxQrRight.x).toBeGreaterThan(boxStage.x + boxStage.width);
     expect(boxMemeRight.x).toBeGreaterThan(boxStage.x + boxStage.width);
 

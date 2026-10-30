@@ -117,7 +117,7 @@ test.describe('MASTER PRODUCTION READINESS — Connectivity, Sync, Rejoin, Laten
     await p1Page.goto(`/?room=${roomCode}`);
     await p1Page.waitForLoadState('domcontentloaded');
     await p1Page.locator('#joinPlayerNameInput').fill('PlayerBeta');
-    await p1Page.locator('#joinRoomModal .mp-avatar-option[data-avatar="amish"]').click();
+    await p1Page.locator('#joinRoomModal .mp-avatar-option[data-avatar="praggya"]').click();
     await p1Page.locator('#joinRoomModal .mp-btn-primary').click();
     await expect(p1Page.locator('#playerLobbyScreen')).toBeVisible({ timeout: 15000 });
 
@@ -125,7 +125,7 @@ test.describe('MASTER PRODUCTION READINESS — Connectivity, Sync, Rejoin, Laten
     await p2Page.goto(`/?room=${roomCode}`);
     await p2Page.waitForLoadState('domcontentloaded');
     await p2Page.locator('#joinPlayerNameInput').fill('PlayerGamma');
-    await p2Page.locator('#joinRoomModal .mp-avatar-option[data-avatar="aziz"]').click();
+    await p2Page.locator('#joinRoomModal .mp-avatar-option[data-avatar="joel"]').click();
     await p2Page.locator('#joinRoomModal .mp-btn-primary').click();
     await expect(p2Page.locator('#playerLobbyScreen')).toBeVisible({ timeout: 15000 });
 

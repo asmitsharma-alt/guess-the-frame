@@ -76,7 +76,7 @@ test.describe('Lobby & Player Setup Tests', () => {
     const selectedAvatar = await page.evaluate(() => {
       return MultiplayerEngine.selectedAvatarForModal || MultiplayerEngine.playerAvatar;
     });
-    expect(selectedAvatar).toBe('amish');
+    expect(selectedAvatar).toBe('ayush');
   });
 
   test('Lobby renders player cards and allows host to adjust game settings', async ({ page }) => {
