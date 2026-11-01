@@ -17546,11 +17546,24 @@
        SMART FUZZY MATCHER (Levenshtein Distance + Article/Year Normalization)
        ══════════════════════════════════════════════════════════════════ */
     const FuzzyMatcher = {
+      PURE_GRAMMATICAL: new Set([
+        'the', 'a', 'an', 'this', 'that', 'these', 'those', 'there', 'here',
+        'in', 'on', 'at', 'to', 'for', 'with', 'by', 'of', 'off', 'up', 'out', 'into', 'onto',
+        'about', 'above', 'after', 'before', 'below', 'between', 'during', 'through', 'under', 'from',
+        'and', 'or', 'but', 'nor', 'so', 'yet',
+        'i', 'me', 'my', 'myself', 'we', 'us', 'our', 'ours', 'you', 'your', 'yours', 'he', 'him', 'his', 'she', 'her', 'it', 'they', 'them',
+        'is', 'are', 'was', 'were', 'be', 'been', 'being',
+        'have', 'has', 'had', 'having', 'do', 'does', 'did', 'doing',
+        'can', 'could', 'will', 'would', 'shall', 'should', 'may', 'might', 'must',
+        'what', 'which', 'who', 'whom', 'whose', 'why', 'where', 'when', 'how',
+        'all', 'any', 'both', 'each', 'few', 'more', 'most', 'other', 'some', 'such', 'no', 'not'
+      ]),
+
       STOP_WORDS: new Set([
         // Articles & Demonstratives
         'the', 'a', 'an', 'this', 'that', 'these', 'those', 'there', 'here',
         // Prepositions
-        'in', 'on', 'at', 'to', 'for', 'with', 'by', 'of', 'off', 'up', 'out', 'over', 'into', 'onto',
+        'in', 'on', 'at', 'to', 'for', 'with', 'by', 'of', 'off', 'up', 'out', 'into', 'onto',
         'about', 'above', 'after', 'before', 'below', 'between', 'during', 'through',
         'under', 'over', 'from', 'as', 'down', 'around', 'among', 'without', 'against',
         // Conjunctions
@@ -17738,7 +17751,7 @@
           return true;
         }
 
-        const allowedLenDiff = maxLen >= 8 ? 3 : (maxLen >= 5 ? 2 : 1);
+        const allowedLenDiff = maxLen >= 7 ? 3 : (maxLen >= 5 ? 2 : 1);
         if (lenDiff > allowedLenDiff) return false;
 
         const dist = this.levenshtein(c1, c2);
@@ -17747,17 +17760,27 @@
         // unrelated words (love/close, clue/close) from being accepted.
         if (c1[0] !== c2[0]) return false;
         if (maxLen <= 5) return false;
-        if (maxLen <= 8) {
+        if (maxLen <= 7) {
           return dist <= 2;
         }
+        // Words of length >= 8 (e.g. paradiso): allow dist <= 3 when first letter matches
         return dist <= 3;
       },
 
-      getSignificantWords(normalizedStr) {
+      getSignificantWords(normalizedStr, answerContext = null) {
         if (!normalizedStr) return [];
+        const ansWords = answerContext
+          ? new Set(String(answerContext).toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length >= 2 && !this.PURE_GRAMMATICAL.has(w)))
+          : null;
+
         return normalizedStr.split(' ')
           .map(w => w.trim())
-          .filter(w => w.length >= 2 && !this.STOP_WORDS.has(w));
+          .filter(w => {
+            if (w.length < 2) return false;
+            // Words that are literally in the answer title are ALWAYS significant
+            if (ansWords && ansWords.has(w)) return true;
+            return !this.STOP_WORDS.has(w);
+          });
       },
 
       isMatch(guess, answer) {
@@ -17770,7 +17793,7 @@
         // normalization, which would turn "seven" into "7" and drop it).
         {
           const rawGuess = String(guess).toLowerCase().trim();
-          if (rawGuess.length >= 3 && !this.STOP_WORDS.has(rawGuess)) {
+          if (rawGuess.length >= 3 && !this.PURE_GRAMMATICAL.has(rawGuess)) {
             const rawWords = String(answer).toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
             if (rawWords.includes(rawGuess)) return true;
           }
@@ -17803,13 +17826,13 @@
           }
         }
 
-        // Extract significant words from both answer and guess
-        const ansSigWords = this.getSignificantWords(nAns);
-        const guessSigWords = this.getSignificantWords(nGuess);
+        // Extract significant words using answer context so title words (e.g. "cinema", "eyes") are never discarded
+        const ansSigWords = this.getSignificantWords(nAns, answer);
+        const guessSigWords = this.getSignificantWords(nGuess, answer);
 
         // Include compound words if hyphenated/multi-word
         if (answer.includes('-') || answer.includes(' ')) {
-          const rawAnsWords = String(answer).toLowerCase().split(/[\s\-:]+/).filter(w => w.length >= 2 && !this.STOP_WORDS.has(w));
+          const rawAnsWords = String(answer).toLowerCase().split(/[\s\-:]+/).filter(w => w.length >= 2 && !this.PURE_GRAMMATICAL.has(w));
           for (const rw of rawAnsWords) {
             if (!ansSigWords.includes(rw)) ansSigWords.push(rw);
           }
@@ -17826,18 +17849,14 @@
           return nGuess === nAns || compactGuess === compactAns || this.levenshtein(nGuess, nAns) <= 1;
         }
 
-        // Negative guard: if guess has NO significant words (all stop words like "this", "that", "the", "on", "is", "what movie is this")
+        // Negative guard: if guess has NO significant words
         if (guessSigWords.length === 0) {
           return false;
         }
 
         // ═══ UNIVERSAL WORD MATCH ═══
-        // ANY significant guess word matching ANY significant answer word → accept.
-        // Handles single-word guesses, multi-word guesses, and chat messages with
-        // extra filler words like "is it dangal bro" or "dev d is awesome".
-        // isWordMatch already provides Levenshtein-based typo tolerance.
         for (const gw of guessSigWords) {
-          if (gw.length >= 3 && !this.STOP_WORDS.has(gw)) {
+          if (gw.length >= 3) {
             for (const aw of ansSigWords) {
               if (this.isWordMatch(gw, aw)) return true;
             }
@@ -18101,23 +18120,21 @@
           }
         }
 
-        // Spoiler shield: check if message contains answer-like content
-        if (roundActive && ((currentAns && this.isAnswerOrSpoiler(text, currentAns)) || currentAliases.some(a => this.isAnswerOrSpoiler(text, a)))) {
-          if (alreadyWon) {
-            // Already scored this round: block the spoiler from chat
-            this.renderSystemMessage('⚠️ <strong>Shh!</strong> That\'s the answer! Don\'t spoil it in chat! 🤫');
-            if (typeof SoundManager !== 'undefined' && SoundManager.playPop) {
-              SoundManager.playPop();
-            }
-            return;
-          } else {
-            // Haven't won yet: treat as a guess attempt so they can potentially score
-            MultiplayerEngine.submitGuessDirect(text);
-            return;
+        // Spoiler shield for players who have ALREADY WON: prevent leaking answer words into chat
+        if (roundActive && alreadyWon && ((currentAns && this.isAnswerOrSpoiler(text, currentAns)) || currentAliases.some(a => this.isAnswerOrSpoiler(text, a)))) {
+          this.renderSystemMessage('⚠️ <strong>Shh!</strong> That\'s the answer! Don\'t spoil it in chat! 🤫');
+          if (typeof SoundManager !== 'undefined' && SoundManager.playPop) {
+            SoundManager.playPop();
           }
+          return;
         }
 
-        // Regular chat message (NOT an answer guess)
+        // For active players who haven't won yet: submit non-winning guess for host feedback / stats, but DO NOT drop or swallow the message from chat!
+        if (roundActive && !alreadyWon) {
+          MultiplayerEngine.submitGuessDirect(text);
+        }
+
+        // Regular chat message (rendered to screen and broadcast to peers)
         const msg = {
           id: 'msg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6),
           senderId: MultiplayerEngine.playerId,
