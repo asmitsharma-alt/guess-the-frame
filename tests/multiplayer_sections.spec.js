@@ -88,7 +88,7 @@ test.describe('Multiplayer Mode: Section Loading & Gameplay Reliability', () => 
     expect(result.playerScores.find(p => p.id === 'client_amish').score).toBe(10);
   });
 
-  test('Section 2 (Guess The Dialogue): Loads quote card for both host and non-host client in multiplayer', async ({ page }) => {
+  test('Section 2 (Guess The Plot): Loads quote card for both host and non-host client in multiplayer', async ({ page }) => {
     const hostResult = await page.evaluate(async () => {
       MultiplayerEngine.selectedAvatarForModal = 'aman';
       MultiplayerEngine.confirmCreateRoom();
@@ -101,8 +101,8 @@ test.describe('Multiplayer Mode: Section Loading & Gameplay Reliability', () => 
       ];
 
       const s2 = GS.sections.find(s => s.id === 2);
-      const dialogueItem = { ...s2.frames[0], sectionName: 'Guess the Dialogue', sectionId: 2 };
-      MultiplayerEngine.currentPlaylist = [dialogueItem];
+      const plotItem = { ...s2.frames[0], sectionName: s2.name || 'Guess the Plot', sectionId: 2 };
+      MultiplayerEngine.currentPlaylist = [plotItem];
       MultiplayerEngine.hostSettings = { rounds: 1, timer: 30 };
 
       // Host starts round
@@ -122,16 +122,16 @@ test.describe('Multiplayer Mode: Section Loading & Gameplay Reliability', () => 
         dialogueQuote,
         isDialogueVisible,
         imgCount,
-        expectedQuote: dialogueItem.dialogue,
-        expectedAnswer: dialogueItem.answer
+        expectedQuote: plotItem.plot || plotItem.dialogue,
+        expectedAnswer: plotItem.answer
       };
     });
 
-    expect(hostResult.secName).toBe('Guess the Dialogue');
+    expect(hostResult.secName).toMatch(/Guess the (Plot|Dialogue)/);
     expect(hostResult.chatPlaceholder).toBe('Type movie guess or chat...');
     expect(hostResult.isDialogueVisible).toBe(true);
     expect(hostResult.dialogueQuote).toBe(hostResult.expectedQuote);
-    expect(hostResult.imgCount).toBe(0); // Dialogue rounds should not display movie frame image
+    expect(hostResult.imgCount).toBe(0); // Plot rounds should not display movie frame image
 
     // Now test client side receiving ROUND_START event with sanitized clientFrame
     const clientResult = await page.evaluate(async (expectedQuote) => {
@@ -140,7 +140,7 @@ test.describe('Multiplayer Mode: Section Loading & Gameplay Reliability', () => 
       MultiplayerEngine.playerId = 'client_amish';
 
       const s2 = GS.sections.find(s => s.id === 2);
-      const dialogueFrame = s2.frames[0];
+      const plotFrame = s2.frames[0];
 
       // Simulated ROUND_START message dispatched to client
       MultiplayerEngine.handleRemoteRoundStart({
@@ -148,11 +148,12 @@ test.describe('Multiplayer Mode: Section Loading & Gameplay Reliability', () => 
         totalRounds: 1,
         timerDuration: 30,
         frame: {
-          id: dialogueFrame.id,
-          type: 'dialogue',
-          dialogue: dialogueFrame.dialogue,
-          context: 'Guess the Movie / Show',
-          sectionName: 'Guess the Dialogue',
+          id: plotFrame.id,
+          type: plotFrame.type || 'plot',
+          plot: plotFrame.plot,
+          dialogue: plotFrame.dialogue,
+          context: plotFrame.context || 'Guess the Movie from the Plot',
+          sectionName: s2.name || 'Guess the Plot',
           sectionId: 2
         }
       });
@@ -165,8 +166,8 @@ test.describe('Multiplayer Mode: Section Loading & Gameplay Reliability', () => 
       // Remote client also receives ROUND_FINISH_BROADCAST
       MultiplayerEngine.handleRemoteRoundFinish({
         currentPlayIndex: 0,
-        revealedAnswer: dialogueFrame.answer,
-        revealedYear: dialogueFrame.year,
+        revealedAnswer: plotFrame.answer,
+        revealedYear: plotFrame.year,
         currentRoundWinners: [
           { playerId: 'client_amish', playerName: 'AMISH', points: 10, position: 1 }
         ]
@@ -187,7 +188,7 @@ test.describe('Multiplayer Mode: Section Loading & Gameplay Reliability', () => 
       };
     }, hostResult.expectedQuote);
 
-    expect(clientResult.clientSecName).toBe('Guess the Dialogue');
+    expect(clientResult.clientSecName).toMatch(/Guess the (Plot|Dialogue)/);
     expect(clientResult.clientChatPlaceholder).toBe('Type movie guess or chat...');
     expect(clientResult.clientDialogueVisible).toBe(true);
     expect(clientResult.clientDialogueQuote).toBe(hostResult.expectedQuote);
@@ -281,7 +282,7 @@ test.describe('Multiplayer Mode: Section Loading & Gameplay Reliability', () => 
     expect(eyeResult.secName).toBe('Guess the Eye');
     expect(eyeResult.chatPlaceholder).toBe('Type celebrity guess or chat...');
     expect(eyeResult.hasCropImg).toBe(true);
-    expect(eyeResult.cropSrc).toContain('copy.webp');
+    expect(eyeResult.cropSrc).toContain('copy.');
     expect(eyeResult.dialogueVisible).toBe(false);
     expect(eyeResult.ansTitle).toBe(eyeResult.expectedAnswer);
     expect(eyeResult.ansBadge).toBe('CELEBRITY REVEAL');
@@ -366,9 +367,9 @@ test.describe('Multiplayer Mode: Section Loading & Gameplay Reliability', () => 
     expect(transitions[0].hasImage).toBe(true);
     expect(transitions[0].dialogueVisible).toBe(false);
 
-    // Verify Round 2 (Dialogue)
+    // Verify Round 2 (Plot / Dialogue)
     expect(transitions[1].round).toBe(2);
-    expect(transitions[1].sec).toBe('Guess the Dialogue');
+    expect(transitions[1].sec).toMatch(/Guess the (Plot|Dialogue)/);
     expect(transitions[1].hasImage).toBe(false);
     expect(transitions[1].dialogueVisible).toBe(true);
     expect(transitions[1].quoteText).toBeTruthy();

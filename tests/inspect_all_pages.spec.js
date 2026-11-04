@@ -44,7 +44,7 @@ test.describe('FULL APPLICATION PAGE & SCREEN INSPECTOR', () => {
     await expect(page.locator('#createRoomModal .mp-btn-primary')).toBeVisible();
 
     await page.locator('#hostPlayerNameInput').fill('Commander');
-    await page.locator('#createRoomModal .mp-avatar-option[data-avatar="ayank"]').click();
+    await page.locator('#createRoomModal .mp-avatar-option[data-avatar="aman"]').click();
 
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, '02_create_modal_desktop.png') });
     await page.locator('#createRoomModal .mp-modal-close').click();

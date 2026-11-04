@@ -44,26 +44,26 @@ test.describe('Winner Screen & Home Screen Meme Removal & Winner Message Verific
     expect(msg).toContain('Umeed hai ki aap logon ko game khelne mein maza aaya hoga! Milte hain agle hafte');
   });
 
-  test('All 3 sections have updated counts and Round 40 Supa Supa logic', async ({ page }) => {
+  test('All 3 sections have updated counts and Round 40 Scarlett Johansson logic', async ({ page }) => {
     const sections = await page.evaluate(() => GS.sections);
     expect(sections.length).toBe(3);
     expect(sections[0].frames.length).toBe(20);
     expect(sections[1].frames.length).toBe(10);
     expect(sections[2].frames.length).toBe(10);
 
-    // Verify Round 40 Supa Supa
+    // Verify Round 40 Scarlett Johansson
     const r40 = sections[2].frames[9];
-    expect(r40.answer).toBe('AMAN SINHA');
-    expect(r40.displayAnswer).toBe('SUPA SUPA');
-    expect(r40.content).toContain('Supa Supa copy.webp');
-    expect(r40.revealContent).toContain('Supa Supa.webp');
+    expect(r40.answer).toBe('SCARLETT JOHANSSON');
+    expect(r40.displayAnswer).toBe('Scarlett Johansson');
+    expect(r40.content).toContain('Scarlett Johansson copy.webp');
+    expect(r40.revealContent).toContain('Scarlett Johansson.webp');
 
     // Test Round 40 gameplay reveal in engine
     const testR40 = await page.evaluate(() => {
       const s3 = GS.sections.find(s => s.id === 3);
       const frame = s3.frames[9];
 
-      GS.players = [{ id: 'p1', name: 'Tester', score: 0, avatar: 'ayank' }];
+      GS.players = [{ id: 'p1', name: 'Tester', score: 0, avatar: 'aman' }];
       MultiplayerEngine.isHost = true;
       MultiplayerEngine.isMatchActive = true;
       MultiplayerEngine.isRoundFinished = false;
@@ -74,8 +74,8 @@ test.describe('Winner Screen & Home Screen Meme Removal & Winner Message Verific
       MultiplayerEngine.currentRoundWinners = [];
       MultiplayerEngine._roundGuessedCorrectIds = new Set();
 
-      // Submit correct guess "AMAN SINHA"
-      MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'ayank', guess: 'AMAN SINHA', roundIndex: 0 });
+      // Submit correct guess "SCARLETT JOHANSSON"
+      MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'aman', guess: 'SCARLETT JOHANSSON', roundIndex: 0 });
       const scoreAfter = GS.players[0].score;
 
       // End round and verify displayAnswer
@@ -89,7 +89,7 @@ test.describe('Winner Screen & Home Screen Meme Removal & Winner Message Verific
     });
 
     expect(testR40.scoreAfter).toBe(10);
-    expect(testR40.revealedTitle).toBe('SUPA SUPA');
+    expect(testR40.revealedTitle).toBe('Scarlett Johansson');
   });
 
   test('Winner screen displays right QR pop-up cleanly on large desktop', async ({ page }) => {

@@ -5642,9 +5642,9 @@
     #gameScreen .dialogue-quote {
       color: var(--nb-ink, #1a1a1a) !important;
       font-family: 'DM Sans', sans-serif !important;
-      font-weight: 800 !important;
-      font-size: clamp(20px, 3.5vw, 32px) !important;
-      line-height: 1.3 !important;
+      font-weight: 700 !important;
+      font-size: clamp(16px, 2.4vw, 24px) !important;
+      line-height: 1.45 !important;
     }
     #gameScreen .dialogue-context {
       display: inline-block !important;
@@ -13871,6 +13871,10 @@
         <path d="m12.3 3.5 3 3.9" />
         <path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" />
       </symbol>
+      <symbol id="icon-book-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+      </symbol>
       <symbol id="icon-film" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
         stroke-linecap="round" stroke-linejoin="round">
         <rect width="18" height="18" x="3" y="3" rx="2" />
@@ -14204,25 +14208,21 @@
         <div class="mp-form-group">
           <label class="mp-label">Select Your Animated Avatar</label>
           <div class="mp-avatar-grid">
-            <div class="mp-avatar-option selected" data-avatar="ayank" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/ayank.png" alt="Ayank" />
-              <div class="mp-avatar-name">Ayank</div>
+            <div class="mp-avatar-option selected" data-avatar="aman" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/aman.svg" alt="Aman" />
+              <div class="mp-avatar-name">Aman</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="ayush" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/ayush.png" alt="Ayush" />
-              <div class="mp-avatar-name">Ayush</div>
+            <div class="mp-avatar-option" data-avatar="amish" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/amish.svg" alt="Amish" />
+              <div class="mp-avatar-name">Amish</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="joel" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/joel.png" alt="Joel" />
-              <div class="mp-avatar-name">Joel</div>
+            <div class="mp-avatar-option" data-avatar="aziz" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/aziz.svg" alt="Aziz" />
+              <div class="mp-avatar-name">Aziz</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="praggya" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/praggya.png" alt="Praggya" />
-              <div class="mp-avatar-name">Praggya</div>
-            </div>
-            <div class="mp-avatar-option" data-avatar="ruhaan" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/ruhaan.png" alt="Ruhaan" />
-              <div class="mp-avatar-name">Ruhaan</div>
+            <div class="mp-avatar-option" data-avatar="vish" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/vish.svg" alt="Vish" />
+              <div class="mp-avatar-name">Vish</div>
             </div>
           </div>
         </div>
@@ -14250,25 +14250,21 @@
         <div class="mp-form-group">
           <label class="mp-label">Select Your Animated Avatar</label>
           <div class="mp-avatar-grid">
-            <div class="mp-avatar-option selected" data-avatar="ayank" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/ayank.png" alt="Ayank" />
-              <div class="mp-avatar-name">Ayank</div>
+            <div class="mp-avatar-option selected" data-avatar="aman" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/aman.svg" alt="Aman" />
+              <div class="mp-avatar-name">Aman</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="ayush" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/ayush.png" alt="Ayush" />
-              <div class="mp-avatar-name">Ayush</div>
+            <div class="mp-avatar-option" data-avatar="amish" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/amish.svg" alt="Amish" />
+              <div class="mp-avatar-name">Amish</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="joel" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/joel.png" alt="Joel" />
-              <div class="mp-avatar-name">Joel</div>
+            <div class="mp-avatar-option" data-avatar="aziz" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/aziz.svg" alt="Aziz" />
+              <div class="mp-avatar-name">Aziz</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="praggya" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/praggya.png" alt="Praggya" />
-              <div class="mp-avatar-name">Praggya</div>
-            </div>
-            <div class="mp-avatar-option" data-avatar="ruhaan" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/ruhaan.png" alt="Ruhaan" />
-              <div class="mp-avatar-name">Ruhaan</div>
+            <div class="mp-avatar-option" data-avatar="vish" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/vish.svg" alt="Vish" />
+              <div class="mp-avatar-name">Vish</div>
             </div>
           </div>
         </div>
@@ -14292,7 +14288,7 @@
         <div style="background: #fafaf4; border: 3px solid #1a1a1a; border-radius: 12px; padding: 14px; margin-bottom: 16px; box-shadow: 4px 4px 0 #1a1a1a; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
           <div style="display: flex; align-items: center; gap: 12px;">
             <div id="rejoinAvatarContainer" style="width: 52px; height: 52px; border-radius: 50%; border: 3px solid #1a1a1a; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #FF6B9D;">
-              <img id="rejoinAvatarImg" src="avvtar/ayank.png" style="width: 100%; height: 100%; object-fit: cover;" alt="Avatar" />
+              <img id="rejoinAvatarImg" src="avvtar/aman.svg" style="width: 100%; height: 100%; object-fit: cover;" alt="Avatar" />
             </div>
             <div style="text-align: left;">
               <div id="rejoinPlayerName" style="font-size: 16px; font-weight: 900; color: #1a1a1a; text-transform: uppercase;">AYANK</div>
@@ -14430,10 +14426,10 @@
                         <svg width="13" height="13" class="shrink-0" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
                         <span class="truncate leading-none">Eyes</span>
                       </button>
-                      <!-- Dialogue Badge -->
-                      <button type="button" id="modeBadge-dialogue" onclick="PlayerLobby.toggleMode('dialogue')" class="mode-badge match-mode-btn" style="background-color: #FEF08A;">
-                        <svg width="13" height="13" class="shrink-0" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-                        <span class="truncate leading-none">Dialogue</span>
+                      <!-- Plot Badge -->
+                      <button type="button" id="modeBadge-plot" onclick="PlayerLobby.toggleMode('plot')" class="mode-badge match-mode-btn" style="background-color: #FEF08A;">
+                        <svg width="13" height="13" class="shrink-0" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                        <span class="truncate leading-none">Plot</span>
                       </button>
                     </div>
                   </div>
@@ -14521,29 +14517,28 @@
                       </div>
                     </div>
 
-                    <!-- Dialogue Stepper Card -->
-                    <div id="modeCard-dialogue" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-1.5 sm:p-2.5 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden select-none" style="border-top: 4px solid #eab308;">
-                      <div class="flex items-center justify-between pb-1.5 border-b border-on-surface/10 cursor-pointer h-6" onclick="PlayerLobby.toggleMode('dialogue')">
+                    <!-- Plot Stepper Card -->
+                    <div id="modeCard-plot" class="mode-round-card bg-surface border-2 border-on-surface rounded-xl p-1.5 sm:p-2.5 flex flex-col justify-between neo-shadow-sm transition-all relative overflow-hidden select-none" style="border-top: 4px solid #eab308;">
+                      <div class="flex items-center justify-between pb-1.5 border-b border-on-surface/10 cursor-pointer h-6" onclick="PlayerLobby.toggleMode('plot')">
                         <span class="match-card-title text-on-surface truncate">
-                          <svg width="13" height="13" class="shrink-0 text-[#eab308]" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-                          <span class="truncate">Dialogue</span>
+                          <svg width="13" height="13" class="shrink-0 text-[#eab308]" style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                          <span class="truncate">Plot</span>
                         </span>
-                        <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface shrink-0" id="modeStatusDot-dialogue"></span>
+                        <span class="mode-status-dot w-2.5 h-2.5 rounded-full bg-neo-green border border-on-surface shrink-0" id="modeStatusDot-plot"></span>
                       </div>
                       <div class="flex flex-col items-center justify-center py-2 sm:py-2.5 leading-none">
-                        <span class="match-card-rounds-count text-on-surface" id="hostDialogueRoundsBtn">10</span>
+                        <span class="match-card-rounds-count text-on-surface" id="hostPlotRoundsBtn">10</span>
                         <span class="match-card-rounds-label">Rounds</span>
                       </div>
                       <div class="grid grid-cols-2 gap-1.5 pt-1.5 border-t border-on-surface/10">
-                        <button type="button" onclick="if(!PlayerLobby._isRepeating){PlayerLobby.adjustRounds('dialogue', -1);}else{PlayerLobby._isRepeating=false;}" onpointerdown="PlayerLobby.startRepeat('rounds', 'dialogue', -1)" class="match-card-btn bg-[#ffd8df] hover:bg-[#ffb6c1] active:bg-[#ff9fad] text-on-surface" title="Decrease Dialogue Rounds">
+                        <button type="button" onclick="if(!PlayerLobby._isRepeating){PlayerLobby.adjustRounds('plot', -1);}else{PlayerLobby._isRepeating=false;}" onpointerdown="PlayerLobby.startRepeat('rounds', 'plot', -1)" class="match-card-btn bg-[#ffd8df] hover:bg-[#ffb6c1] active:bg-[#ff9fad] text-on-surface" title="Decrease Plot Rounds">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         </button>
-                        <button type="button" onclick="if(!PlayerLobby._isRepeating){PlayerLobby.adjustRounds('dialogue', 1);}else{PlayerLobby._isRepeating=false;}" onpointerdown="PlayerLobby.startRepeat('rounds', 'dialogue', 1)" class="match-card-btn bg-[#cae6ff] hover:bg-[#a6d5ff] active:bg-[#8cc6ff] text-on-surface" title="Increase Dialogue Rounds">
+                        <button type="button" onclick="if(!PlayerLobby._isRepeating){PlayerLobby.adjustRounds('plot', 1);}else{PlayerLobby._isRepeating=false;}" onpointerdown="PlayerLobby.startRepeat('rounds', 'plot', 1)" class="match-card-btn bg-[#cae6ff] hover:bg-[#a6d5ff] active:bg-[#8cc6ff] text-on-surface" title="Increase Plot Rounds">
                           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                         </button>
                       </div>
                     </div>
-                  </div>
                 </div>
 
               </div>
@@ -15194,7 +15189,7 @@
               <div class="cw-runner-card runner-blue" id="silverCard">
                 <div class="runner-rank-tab blue-tab">2</div>
                 <div class="runner-avatar-frame" id="silverAvatarWrap">
-                  <img id="silverAvatarImg" src="avvtar/ayush.png" alt="2nd Place" onerror="this.onerror=null;this.src='avvtar/ayush.png'" />
+                  <img id="silverAvatarImg" src="avvtar/vish.svg" alt="2nd Place" onerror="this.onerror=null;this.src='avvtar/vish.svg'" />
                 </div>
                 <div class="runner-nameplate" id="silverName">AYUSH</div>
                 <div class="runner-score-tag blue-score-tag" id="silverScore">12 POINTS</div>
@@ -15211,7 +15206,7 @@
                   </svg>
                 </div>
                 <div class="runner-avatar-frame champ-avatar-frame" id="champAvatarWrap">
-                  <img id="champAvatarImg" src="avvtar/ayank.png" alt="Champion" onerror="this.onerror=null;this.src='avvtar/ayank.png'" />
+                  <img id="champAvatarImg" src="avvtar/aman.svg" alt="Champion" onerror="this.onerror=null;this.src='avvtar/aman.svg'" />
                 </div>
                 <div class="runner-nameplate champ-nameplate" id="champName">AYANK</div>
                 <div class="runner-score-tag gold-score-tag" id="champScore">30 POINTS</div>
@@ -15229,7 +15224,7 @@
               <div class="cw-runner-card runner-orange" id="bronzeCard">
                 <div class="runner-rank-tab orange-tab">3</div>
                 <div class="runner-avatar-frame" id="bronzeAvatarWrap">
-                  <img id="bronzeAvatarImg" src="avvtar/joel.png" alt="3rd Place" onerror="this.onerror=null;this.src='avvtar/joel.png'" />
+                  <img id="bronzeAvatarImg" src="avvtar/aziz.svg" alt="3rd Place" onerror="this.onerror=null;this.src='avvtar/aziz.svg'" />
                 </div>
                 <div class="runner-nameplate" id="bronzeName">JOEL</div>
                 <div class="runner-score-tag orange-score-tag" id="bronzeScore">16 POINTS</div>
@@ -15249,7 +15244,7 @@
               <div class="sb-row sb-champ">
                 <div class="sb-left">
                   <span class="sb-rank">1</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/ayank.png" alt="Ayank" /></div>
+                  <div class="sb-avatar-mini"><img src="avvtar/aman.svg" alt="Aman" /></div>
                   <span class="sb-name">AYANK</span>
                 </div>
                 <span class="sb-score">30 PTS</span>
@@ -15257,7 +15252,7 @@
               <div class="sb-row">
                 <div class="sb-left">
                   <span class="sb-rank">2</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/ayush.png" alt="Ayush" /></div>
+                  <div class="sb-avatar-mini"><img src="avvtar/vish.svg" alt="Vish" /></div>
                   <span class="sb-name">AYUSH</span>
                 </div>
                 <span class="sb-score">12 PTS</span>
@@ -15265,7 +15260,7 @@
               <div class="sb-row">
                 <div class="sb-left">
                   <span class="sb-rank">3</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/joel.png" alt="Joel" /></div>
+                  <div class="sb-avatar-mini"><img src="avvtar/aziz.svg" alt="Aziz" /></div>
                   <span class="sb-name">JOEL</span>
                 </div>
                 <span class="sb-score">16 PTS</span>
@@ -15273,7 +15268,7 @@
               <div class="sb-row">
                 <div class="sb-left">
                   <span class="sb-rank">4</span>
-                  <div class="sb-avatar-mini"><img src="avvtar/praggya.png" alt="Praggya" /></div>
+                  <div class="sb-avatar-mini"><img src="avvtar/amish.svg" alt="Amish" /></div>
                   <span class="sb-name">PRAGGYA</span>
                 </div>
                 <span class="sb-score">7 PTS</span>
@@ -15939,51 +15934,51 @@
 
     /* ═══ PLAYER LOBBY ═══ */
     const AVATAR_MAP = {
-      ayank: {
-        color: '#FF6B9D',
-        bg: '#FF6B9D',
-        img: 'avvtar/ayank.png'
-      },
-      ayush: {
-        color: '#3B82F6',
-        bg: '#3B82F6',
-        img: 'avvtar/ayush.png'
-      },
-      joel: {
-        color: '#84CC16',
-        bg: '#84CC16',
-        img: 'avvtar/joel.png'
-      },
-      praggya: {
-        color: '#FACC15',
-        bg: '#FACC15',
-        img: 'avvtar/praggya.png'
-      },
-      ruhaan: {
-        color: '#A855F7',
-        bg: '#A855F7',
-        img: 'avvtar/ruhaan.png'
-      },
-      // Backward compatibility aliases
       aman: {
-        color: '#FF6B9D',
-        bg: '#FF6B9D',
-        img: 'avvtar/ayank.png'
+        color: '#57c3e0',
+        bg: '#57c3e0',
+        img: 'avvtar/aman.svg'
       },
       vish: {
-        color: '#3B82F6',
-        bg: '#3B82F6',
-        img: 'avvtar/ayush.png'
+        color: '#ff7eb6',
+        bg: '#ff7eb6',
+        img: 'avvtar/vish.svg'
       },
       aziz: {
-        color: '#84CC16',
-        bg: '#84CC16',
-        img: 'avvtar/joel.png'
+        color: '#f0a828',
+        bg: '#f0a828',
+        img: 'avvtar/aziz.svg'
       },
       amish: {
-        color: '#FACC15',
-        bg: '#FACC15',
-        img: 'avvtar/praggya.png'
+        color: '#3fbf8f',
+        bg: '#3fbf8f',
+        img: 'avvtar/amish.svg'
+      },
+      // Backward compatibility aliases
+      ayank: {
+        color: '#57c3e0',
+        bg: '#57c3e0',
+        img: 'avvtar/aman.svg'
+      },
+      ayush: {
+        color: '#ff7eb6',
+        bg: '#ff7eb6',
+        img: 'avvtar/vish.svg'
+      },
+      joel: {
+        color: '#f0a828',
+        bg: '#f0a828',
+        img: 'avvtar/aziz.svg'
+      },
+      praggya: {
+        color: '#3fbf8f',
+        bg: '#3fbf8f',
+        img: 'avvtar/amish.svg'
+      },
+      ruhaan: {
+        color: '#57c3e0',
+        bg: '#57c3e0',
+        img: 'avvtar/aman.svg'
       }
     };
 
@@ -16107,13 +16102,13 @@
         if (list) {
           const playersHtml = GS.players.map((p, i) => {
             const isH = !!p.isHost;
-            const rawAv = (p.avatar || (p.name && p.name.toLowerCase()) || 'ayank');
+            const rawAv = (p.avatar || (p.name && p.name.toLowerCase()) || 'aman');
             let avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
-            const legacyAlias = { aman: 'ayank', amish: 'praggya', aziz: 'joel', vish: 'ayush' };
+            const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
             if (legacyAlias[avKey]) avKey = legacyAlias[avKey];
-            const validAvatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
-            const safeAvKey = validAvatars.includes(avKey) ? avKey : 'ayank';
-            const avConfig = AVATAR_MAP[safeAvKey] || { bg: bgOrder[i % bgOrder.length], img: `avvtar/${safeAvKey}.png`, color: '#FF6B9D' };
+            const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
+            const safeAvKey = validAvatars.includes(avKey) ? avKey : 'aman';
+            const avConfig = AVATAR_MAP[safeAvKey] || { bg: bgOrder[i % bgOrder.length], img: `avvtar/${safeAvKey}.svg`, color: '#57c3e0' };
             const safeName = SecurityUtil.escapeHtml(p.name || `Player ${i+1}`);
             const isMe = (MultiplayerEngine.isHost ? (p.isHost || p.id === MultiplayerEngine.playerId || i === 0) : (p.id === MultiplayerEngine.playerId || p.name === MultiplayerEngine.playerName));
             const canRemove = MultiplayerEngine.isHost && GS.players.length > 1 && !p.isHost && p.id !== MultiplayerEngine.playerId;
@@ -16129,7 +16124,7 @@
                   <button type="button" onclick="PlayerLobby.remove(${i})" class="absolute -top-2.5 -right-2.5 bg-[#ff6b6b] text-white hover:bg-red-600 border-2 border-on-surface w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] transition-all z-10 cursor-pointer" title="Remove Player">✕</button>
                 ` : ''}
                 <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-on-surface overflow-hidden mb-3 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" style="background-color: ${avConfig.color};">
-                  <img class="w-full h-full object-cover" src="${avConfig.img}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/ayank.png'"/>
+                  <img class="w-full h-full object-cover" src="${avConfig.img}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/aman.svg'"/>
                 </div>
                 ${isMe ? `
                   <div class="relative w-full max-w-[140px] flex items-center group">
@@ -16187,21 +16182,23 @@
 
         // Settings sync
         const settings = MultiplayerEngine.hostSettings || {
-          category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+          category: 'all', categories: ['frames', 'eyes', 'plot'], roundsByMode: { frames: 20, eyes: 10, plot: 10 },
           rounds: 40,
           timer: 30
         };
 
-        const activeCategories = settings.categories || ['frames', 'eyes', 'dialogue'];
-        const counts = settings.roundsByMode || { frames: 20, eyes: 10, dialogue: 10 };
+        const activeCategories = (settings.categories || ['frames', 'eyes', 'plot']).map(c => c === 'dialogue' ? 'plot' : c);
+        const counts = settings.roundsByMode || { frames: 20, eyes: 10, plot: 10 };
+        if (counts.plot === undefined && counts.dialogue !== undefined) counts.plot = counts.dialogue;
 
         const modeColors = {
           frames: { active: '#cae6ff', inactive: '#f4f4ee' },
           eyes: { active: '#2ecc71', inactive: '#f4f4ee' },
+          plot: { active: '#f1c40f', inactive: '#f4f4ee' },
           dialogue: { active: '#f1c40f', inactive: '#f4f4ee' }
         };
 
-        ['frames', 'eyes', 'dialogue'].forEach(mode => {
+        ['frames', 'eyes', 'plot'].forEach(mode => {
           const badge = document.getElementById(`modeBadge-${mode}`);
           const card = document.getElementById(`modeCard-${mode}`);
           const dot = document.getElementById(`modeStatusDot-${mode}`);
@@ -16240,10 +16237,11 @@
         // Update Rounds Per Mode Number Display
         const rFrames = document.getElementById('hostFramesRoundsBtn');
         const rEyes = document.getElementById('hostEyesRoundsBtn');
-        const rDialogue = document.getElementById('hostDialogueRoundsBtn');
+        const rPlot = document.getElementById('hostPlotRoundsBtn') || document.getElementById('hostDialogueRoundsBtn');
         if (rFrames) rFrames.textContent = (counts.frames !== undefined) ? counts.frames : 20;
         if (rEyes) rEyes.textContent = (counts.eyes !== undefined) ? counts.eyes : 10;
-        if (rDialogue) rDialogue.textContent = (counts.dialogue !== undefined) ? counts.dialogue : 10;
+        const plotVal = (counts.plot !== undefined) ? counts.plot : ((counts.dialogue !== undefined) ? counts.dialogue : 10);
+        if (rPlot) rPlot.textContent = plotVal;
 
         // Update Total Rounds in Settings Header
         const totalR = (settings.roundsByMode ? Object.values(settings.roundsByMode).reduce((a, b) => a + b, 0) : settings.rounds) || 40;
@@ -16265,7 +16263,7 @@
         if (infoMode) {
           if (activeCategories.length >= 3 || settings.category === 'all') infoMode.textContent = 'Mixed Mode';
           else if (activeCategories.length === 1) {
-            const map = { frames: 'Frame Mode', eyes: 'Eyes Mode', dialogue: 'Dialogue Mode' };
+            const map = { frames: 'Frame Mode', eyes: 'Eyes Mode', plot: 'Plot Mode', dialogue: 'Plot Mode' };
             infoMode.textContent = map[activeCategories[0]] || 'Custom Mode';
           } else {
             infoMode.textContent = activeCategories.map(c => c.charAt(0).toUpperCase() + c.slice(1)).join(' + ');
@@ -16356,21 +16354,21 @@
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+            category: 'all', categories: ['frames', 'eyes', 'plot'], roundsByMode: { frames: 20, eyes: 10, plot: 10 },
             rounds: 40,
             timer: 30
           };
         }
         const s = MultiplayerEngine.hostSettings;
-        s.categories = ['frames', 'eyes', 'dialogue'];
+        s.categories = ['frames', 'eyes', 'plot'];
         if (preset === 'quick') {
-          s.roundsByMode = { frames: 5, eyes: 5, dialogue: 5 };
+          s.roundsByMode = { frames: 5, eyes: 5, plot: 5 };
         } else if (preset === 'classic') {
-          s.roundsByMode = { frames: 10, eyes: 5, dialogue: 5 };
+          s.roundsByMode = { frames: 10, eyes: 5, plot: 5 };
         } else if (preset === 'long') {
-          s.roundsByMode = { frames: 15, eyes: 8, dialogue: 8 };
+          s.roundsByMode = { frames: 15, eyes: 8, plot: 8 };
         } else if (preset === 'max') {
-          s.roundsByMode = { frames: 20, eyes: 10, dialogue: 10 };
+          s.roundsByMode = { frames: 20, eyes: 10, plot: 10 };
         }
         s.rounds = Object.values(s.roundsByMode).reduce((a, b) => a + b, 0);
         MultiplayerEngine.sendEvent('UPDATE_HOST_SETTINGS', { settings: s });
@@ -16380,17 +16378,20 @@
 
       toggleMode(mode) {
         if (!MultiplayerEngine.isHost) return;
+        if (mode === 'dialogue') mode = 'plot';
         SoundManager.playClick();
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+            category: 'all', categories: ['frames', 'eyes', 'plot'], roundsByMode: { frames: 20, eyes: 10, plot: 10 },
             rounds: 40,
             timer: 30
           };
         }
         const s = MultiplayerEngine.hostSettings;
-        if (!s.categories) s.categories = ['frames', 'eyes', 'dialogue'];
-        if (!s.roundsByMode) s.roundsByMode = { frames: 20, eyes: 10, dialogue: 10 };
+        if (!s.categories) s.categories = ['frames', 'eyes', 'plot'];
+        s.categories = s.categories.map(c => c === 'dialogue' ? 'plot' : c);
+        if (!s.roundsByMode) s.roundsByMode = { frames: 20, eyes: 10, plot: 10 };
+        if (s.roundsByMode.plot === undefined && s.roundsByMode.dialogue !== undefined) s.roundsByMode.plot = s.roundsByMode.dialogue;
 
         if (s.categories.includes(mode) && (s.roundsByMode[mode] > 0)) {
           // Disable mode
@@ -16415,18 +16416,21 @@
 
       adjustRounds(mode, delta) {
         if (!MultiplayerEngine.isHost) return;
+        if (mode === 'dialogue') mode = 'plot';
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
             category: 'all',
-            categories: ['frames', 'eyes', 'dialogue'],
-            roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+            categories: ['frames', 'eyes', 'plot'],
+            roundsByMode: { frames: 20, eyes: 10, plot: 10 },
             rounds: 40,
             timer: 30
           };
         }
         const s = MultiplayerEngine.hostSettings;
-        if (!s.roundsByMode) s.roundsByMode = { frames: 20, eyes: 10, dialogue: 10 };
-        if (!s.categories) s.categories = ['frames', 'eyes', 'dialogue'];
+        if (!s.roundsByMode) s.roundsByMode = { frames: 20, eyes: 10, plot: 10 };
+        if (s.roundsByMode.plot === undefined && s.roundsByMode.dialogue !== undefined) s.roundsByMode.plot = s.roundsByMode.dialogue;
+        if (!s.categories) s.categories = ['frames', 'eyes', 'plot'];
+        s.categories = s.categories.map(c => c === 'dialogue' ? 'plot' : c);
         
         let current = Number(s.roundsByMode[mode]) || 0;
         const maxRounds = mode === 'frames' ? 20 : 10;
@@ -16464,7 +16468,7 @@
         if (!MultiplayerEngine.isHost) return;
         if (!MultiplayerEngine.hostSettings) {
           MultiplayerEngine.hostSettings = {
-            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+            category: 'all', categories: ['frames', 'eyes', 'plot'], roundsByMode: { frames: 20, eyes: 10, plot: 10 },
             rounds: 40,
             timer: 30
           };
@@ -16899,66 +16903,65 @@
     const GS = {
       PHASES: { IDLE: 'IDLE', ROUND_ACTIVE: 'ROUND_ACTIVE', JUDGE_PHASE: 'JUDGE_PHASE', ANSWER_REVEAL: 'ANSWER_REVEAL', SCORING_PHASE: 'SCORING_PHASE', ROUND_TRANSITION: 'ROUND_TRANSITION', WINNER_SCREEN: 'WINNER_SCREEN' },
       currentPhase: 'IDLE',
-            sections: [
+      sections: [
         {
           id: 1, name: 'Guess the Frame', icon: '<svg class="svg-icon"><use href="#icon-film" /></svg>', collapsed: false, frames: [
-            { type: "image", content: "GUESSTHEFRAME/Ab Tak Chhappan (2004).webp", answer: "AB TAK CHHAPPAN", year: "2004", aliases: ["AB TAK CHHAPAN", "AB TAK 56"] },
-            { type: "image", content: "GUESSTHEFRAME/Ardh Satya (1983).webp", answer: "ARDH SATYA", year: "1983", aliases: ["ARDHSATYA"] },
-            { type: "image", content: "GUESSTHEFRAME/Baby Do Die Do (2026).webp", answer: "BABY DO DIE DO", year: "2026", aliases: ["BABY DO DO DIE"] },
-            { type: "image", content: "GUESSTHEFRAME/Bahut Hua Samman (2020).webp", answer: "BAHUT HUA SAMMAN", year: "2020", aliases: ["BAHUT HUA SAMMAAN"] },
-            { type: "image", content: "GUESSTHEFRAME/Bend It Like Beckham (2002).webp", answer: "BEND IT LIKE BECKHAM", year: "2002" },
-            { type: "image", content: "GUESSTHEFRAME/Cinema Paradiso (1988).webp", answer: "CINEMA PARADISO", year: "1988", aliases: ["NUOVO CINEMA PARADISO"] },
-            { type: "image", content: "GUESSTHEFRAME/Dorothy (2026).webp", answer: "DOROTHY", year: "2026" },
-            { type: "image", content: "GUESSTHEFRAME/Hamnet (2025).webp", answer: "HAMNET", year: "2025" },
-            { type: "image", content: "GUESSTHEFRAME/Kwaidan (1964).webp", answer: "KWAIDAN", year: "1964", aliases: ["KAIDAN"] },
-            { type: "image", content: "GUESSTHEFRAME/Laalo Krishna Sada Sahaayate (2025).webp", answer: "LAALO KRISHNA SADA SAHAAYATE", year: "2025", aliases: ["LAALO", "LAALO KRISHNA"] },
-            { type: "image", content: "GUESSTHEFRAME/Marriage Story (2019).webp", answer: "MARRIAGE STORY", year: "2019" },
-            { type: "image", content: "GUESSTHEFRAME/Mass (2004).webp", answer: "MASS", year: "2004" },
-            { type: "image", content: "GUESSTHEFRAME/Nocturnal Animals (2016).webp", answer: "NOCTURNAL ANIMALS", year: "2016" },
-            { type: "image", content: "GUESSTHEFRAME/Ocean_s Twelve (2004).webp", answer: "OCEAN'S TWELVE", year: "2004", aliases: ["OCEANS TWELVE", "OCEAN'S 12", "OCEANS 12", "OCEAN TWELVE"] },
-            { type: "image", content: "GUESSTHEFRAME/Ram Leela (2013).webp", answer: "RAM LEELA", year: "2013", aliases: ["RAM-LEELA", "GOLIYON KI RAASLEELA RAM-LEELA", "RAMLEELA", "GOLIYON KI RAASLEELA RAM LEELA"] },
-            { type: "image", content: "GUESSTHEFRAME/Ramayana The Epic (2010).webp", answer: "RAMAYANA: THE EPIC", year: "2010", aliases: ["RAMAYANA THE EPIC", "RAMAYANA"] },
-            { type: "image", content: "GUESSTHEFRAME/Saw (2004).webp", answer: "SAW", year: "2004", aliases: ["SAW 1"] },
-            { type: "image", content: "GUESSTHEFRAME/Taste of Cherry (1997).webp", answer: "TASTE OF CHERRY", year: "1997", aliases: ["TA'M-E GILAS", "TAM E GILAS"] },
-            { type: "image", content: "GUESSTHEFRAME/The Dog Stars (2026).webp", answer: "THE DOG STARS", year: "2026", aliases: ["DOG STARS"] },
-            { type: "image", content: "GUESSTHEFRAME/Verity (2026).webp", answer: "VERITY", year: "2026" }
+            { type: "image", content: "GUESSTHEFRAME/Baby Driver (2017).png", answer: "BABY DRIVER", year: "2017" },
+            { type: "image", content: "GUESSTHEFRAME/Baththa (2026).png", answer: "BATHTHA", year: "2026", aliases: ["BHATHTHA", "BHATTA", "BATTHA"] },
+            { type: "image", content: "GUESSTHEFRAME/City of God (2002).png", answer: "CITY OF GOD", year: "2002", aliases: ["CIDADE DE DEUS"] },
+            { type: "image", content: "GUESSTHEFRAME/Daredevil Born Again (TV Series 2025\u20132027).png", answer: "DAREDEVIL: BORN AGAIN", year: "2025", aliases: ["DAREDEVIL BORN AGAIN", "DAREDEVIL"] },
+            { type: "image", content: "GUESSTHEFRAME/Fighter (2024) - Frame 02.webp", answer: "FIGHTER", year: "2024" },
+            { type: "image", content: "GUESSTHEFRAME/Garuda Gamana Vrishabha Vahana (2021) - Frame 03.webp", answer: "GARUDA GAMANA VRISHABHA VAHANA", year: "2021", aliases: ["GGVV", "GARUDA GAMANA"] },
+            { type: "image", content: "GUESSTHEFRAME/HIT - The First Case (2020) - Frame 01.webp", answer: "HIT: THE FIRST CASE", year: "2020", aliases: ["HIT THE FIRST CASE", "HIT", "HIT 1", "HIT: FIRST CASE"] },
+            { type: "image", content: "GUESSTHEFRAME/Indra (2002) - Frame 03.webp", answer: "INDRA", year: "2002", aliases: ["INDRA THE TIGER"] },
+            { type: "image", content: "GUESSTHEFRAME/Krrish 3 (2013) - Frame 03.webp", answer: "KRRISH 3", year: "2013", aliases: ["KRISH 3", "KRRISH"] },
+            { type: "image", content: "GUESSTHEFRAME/Lingaa (2014).png", answer: "LINGAA", year: "2014", aliases: ["LINGA"] },
+            { type: "image", content: "GUESSTHEFRAME/Longlegs (2024).png", answer: "LONGLEGS", year: "2024" },
+            { type: "image", content: "GUESSTHEFRAME/Maharshi (2019) - Frame 01.webp", answer: "MAHARSHI", year: "2019" },
+            { type: "image", content: "GUESSTHEFRAME/Mirzapur The Movie (2026).png", answer: "MIRZAPUR: THE FILM", year: "2026", aliases: ["MIRZAPUR THE MOVIE", "MIRZAPUR", "MIRZAPUR MOVIE"] },
+            { type: "image", content: "GUESSTHEFRAME/Perfect Blue (1997).png", answer: "PERFECT BLUE", year: "1997" },
+            { type: "image", content: "GUESSTHEFRAME/Poor Things (2023).png", answer: "POOR THINGS", year: "2023" },
+            { type: "image", content: "GUESSTHEFRAME/Primetime (2026) .png", answer: "PRIMETIME", year: "2026" },
+            { type: "image", content: "GUESSTHEFRAME/Ran (1985).png", answer: "RAN", year: "1985" },
+            { type: "image", content: "GUESSTHEFRAME/Talvar (2015) - Frame 02.webp", answer: "TALVAR", year: "2015", aliases: ["TALWAR"] },
+            { type: "image", content: "GUESSTHEFRAME/The Aviator (2004).png", answer: "THE AVIATOR", year: "2004", aliases: ["AVIATOR"] },
+            { type: "image", content: "GUESSTHEFRAME/resident evil (2026).png", answer: "RESIDENT EVIL", year: "2026" }
           ]
         },
         {
-          id: 2, name: 'Guess the Dialogue', icon: '<svg class="svg-icon"><use href="#icon-message-circle" /></svg>', collapsed: false, frames: [
-            { type: 'dialogue', dialogue: "Hamare parivaar ne 2 aur 3 October ko Panaji mein satsang suna, pav bhaji khayi, aur film dekhi... chahe toh aap bus ki ticket check kar lijiye.", answer: "DRISHYAM", year: "2015", character: "Vijay Salgaonkar (Ajay Devgn)", aliases: ["DRISHYAM 1"] },
-            { type: 'dialogue', dialogue: "Sirf piano bajane gaya tha main... kya pata tha kisi ki dead body mere piano ke bagal mein padi hogi aur mujhe bas andhe hone ka natak karke dhun bajate rehna padega!", answer: "ANDHADHUN", year: "2018", character: "Akash (Ayushmann Khurrana)", aliases: ["ANDHADHOON"] },
-            { type: 'dialogue', dialogue: "Har subah jab main aankh kholta hoon, toh mere shareer par bane yeh tattoos mujhe batate hain ki main kaun hoon aur mujhe kisse badla lena hai.", answer: "GHAJINI", year: "2008", character: "Sanjay Singhania (Aamir Khan)" },
-            { type: 'dialogue', dialogue: "Maine chaar aatankwadiyon ko azaad karane ke liye phone nahi kiya tha commissioner sahab... maine unhe khatam karne ke liye ek chhat par bulwaya tha.", answer: "A WEDNESDAY!", year: "2008", character: "The Common Man (Naseeruddin Shah)", aliases: ["A WEDNESDAY", "WEDNESDAY"] },
-            { type: 'dialogue', dialogue: "Rajouri Garden mein ladkiyon ko akele sadak paar karne nahi dete... aur yahan main poore Paris aur Amsterdam mein akele ghoom rahi hoon!", answer: "QUEEN", year: "2014", character: "Rani Mehra (Kangana Ranaut)" },
-            { type: 'dialogue', dialogue: "Seven years per hour on that water planet... Every second we waste down there, decades are passing back home on Earth for our children.", answer: "INTERSTELLAR", year: "2014", character: "Joseph Cooper (Matthew McConaughey)" },
-            { type: 'dialogue', dialogue: "There is a bomb on a bus. Once the bus goes 50 miles an hour, the bomb is armed. If it drops below 50, it blows up. What do you do?", answer: "SPEED", year: "1994", character: "Howard Payne (Dennis Hopper)", aliases: ["SPEED 1"] },
-            { type: 'dialogue', dialogue: "It's not easy for me to raise my hand and send a boy to the electric chair without talking about it first. Eleven of you think he's guilty, and I'm just asking for one hour to discuss it in this heat.", answer: "12 ANGRY MEN", year: "1957", character: "Juror 8 (Henry Fonda)", aliases: ["TWELVE ANGRY MEN", "12 ANGRY MEN (1957)"] },
-            { type: 'dialogue', dialogue: "Their language doesn't have a past or future... Once you learn their circular ink symbols, you start remembering tomorrow.", answer: "ARRIVAL", year: "2016", character: "Dr. Louise Banks (Amy Adams)" },
-            { type: 'dialogue', dialogue: "They don't see each other. They only see what they want to see. They don't know that they're dead.", answer: "THE SIXTH SENSE", year: "1999", character: "Cole Sear (Haley Joel Osment)", aliases: ["SIXTH SENSE"] }
+          id: 2, name: 'Guess the Plot', icon: '<svg class="svg-icon"><use href="#icon-book-open" /></svg>', collapsed: false, frames: [
+            { type: 'plot', plot: "A heavily pregnant software engineer arrives in Kolkata during the chaotic Durga Puja festival to track down her missing husband, only to be told by everyone from his employer to hotel staff that no such man ever existed.", answer: "KAHAANI", year: "2012", aliases: ["KAHANI"] },
+            { type: 'plot', plot: "A rare mistake by Mumbai's famed dabbawalas delivers a home-cooked lunch intended for an indifferent husband to a lonely, reclusive widower on the verge of retirement, sparking a poignant exchange of handwritten letters through the tiffin carriers.", answer: "THE LUNCHBOX", year: "2013", aliases: ["LUNCHBOX"] },
+            { type: 'plot', plot: "An adventurous orphan raised beneath a colossal waterfall scales the towering cliffs above, only to discover his royal lineage in an ancient kingdom torn apart by a tyrannous usurper who murdered his father.", answer: "BAAHUBALI: THE BEGINNING", year: "2015", aliases: ["BAAHUBALI", "BAHUBALI", "BAAHUBALI 1", "BAHUBALI 1", "BAAHUBALI THE BEGINNING", "BAHUBALI THE BEGINNING"] },
+            { type: 'plot', plot: "An innocent, wide-eyed extraterrestrial stranded in Rajasthan loses his spaceship remote and embarks on a quest across India to find God, naively challenging superstition, ritualism, and religious dogma with child-like logic.", answer: "PK", year: "2014", aliases: ["PEEKAY"] },
+            { type: 'plot', plot: "In a coastal village of Karnataka, an unruly buffalo-race champion finds himself at odds with a no-nonsense forest officer over ancestral tribal forest lands, before becoming possessed by the fierce deity his family once pledged their lives to.", answer: "KANTARA", year: "2022", aliases: ["KANTARA: A LEGEND"] },
+            { type: 'plot', plot: "An unassuming insurance salesman begins noticing strange anomalies in his idyllic seaside hometown—like a falling studio lamp and recurring extras—slowly realizing his entire life is an around-the-clock reality broadcast watched by millions.", answer: "THE TRUMAN SHOW", year: "1998", aliases: ["TRUMAN SHOW"] },
+            { type: 'plot', plot: "An insurance investigator suffering from anterograde amnesia cannot form new memories and must rely on Polaroid photos and tattoos inked across his body to hunt down the man who raped and murdered his wife.", answer: "MEMENTO", year: "2000" },
+            { type: 'plot', plot: "A destitute family of four living in a squalid semi-basement schemes their way into the lives of a wealthy household by posing as unrelated, highly qualified private tutors, an art therapist, and domestic staff.", answer: "PARASITE", year: "2019", aliases: ["GISAENGCHUNG"] },
+            { type: 'plot', plot: "A young Black photographer travels to an affluent upstate estate to meet his white girlfriend's parents for the weekend, but uncovers a horrifying sinister conspiracy involving hypnosis and neurosurgery behind their overly welcoming facade.", answer: "GET OUT", year: "2017" },
+            { type: 'plot', plot: "A quiet banker falsely convicted of murdering his wife and her lover endures decades inside a brutal Maine penitentiary, winning the respect of fellow inmates through financial advice and secretly tunneling out behind a poster of Rita Hayworth.", answer: "THE SHAWSHANK REDEMPTION", year: "1994", aliases: ["SHAWSHANK REDEMPTION", "SHAWSHANK"] }
           ]
         },
         {
           id: 3, name: 'Guess the Eye', icon: '<svg class="svg-icon"><use href="#icon-eye" /></svg>', collapsed: false, frames: [
-            { type: 'eye', content: 'GUESSTHEEYES/Amy Adams copy.webp', revealContent: 'GUESSTHEEYES/Amy Adams.webp', answer: 'AMY ADAMS', displayAnswer: 'Amy Adams', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Ana de Armas copy.webp', revealContent: 'GUESSTHEEYES/Ana de Armas.webp', answer: 'ANA DE ARMAS', displayAnswer: 'Ana de Armas', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Anne Hathaway copy.webp', revealContent: 'GUESSTHEEYES/Anne Hathaway.webp', answer: 'ANNE HATHAWAY', displayAnswer: 'Anne Hathaway', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Anya Taylor-Joy copy.webp', revealContent: 'GUESSTHEEYES/Anya Taylor-Joy.webp', answer: 'ANYA TAYLOR-JOY', displayAnswer: 'Anya Taylor-Joy', year: '', aliases: ['ANYA TAYLOR JOY', 'ANYA TAYLOR'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Bipasha Basu copy.webp', revealContent: 'GUESSTHEEYES/Bipasha Basu.webp', answer: 'BIPASHA BASU', displayAnswer: 'Bipasha Basu', year: '' },
-            { type: 'eye', content: 'GUESSTHEEYES/Daniel Craig copy.webp', revealContent: 'GUESSTHEEYES/Daniel Craig.webp', answer: 'DANIEL CRAIG', displayAnswer: 'Daniel Craig', year: '', aliases: ['007', 'JAMES BOND'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Helena Bonham Carter copy.webp', revealContent: 'GUESSTHEEYES/Helena Bonham Carter.webp', answer: 'HELENA BONHAM CARTER', displayAnswer: 'Helena Bonham Carter', year: '', aliases: ['BELLATRIX LESTRANGE'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Kangana Ranaut copy.webp', revealContent: 'GUESSTHEEYES/Kangana Ranaut.webp', answer: 'KANGANA RANAUT', displayAnswer: 'Kangana Ranaut', year: '', aliases: ['KANGANA'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Kareena Kapoor Khan copy.webp', revealContent: 'GUESSTHEEYES/Kareena Kapoor Khan.webp', answer: 'KAREENA KAPOOR KHAN', displayAnswer: 'Kareena Kapoor Khan', year: '', aliases: ['KAREENA KAPOOR', 'KAREENA', 'BEBO'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Supa Supa copy.webp', revealContent: 'GUESSTHEEYES/Supa Supa.webp', answer: 'AMAN SINHA', displayAnswer: 'SUPA SUPA', year: '', aliases: ['AMAN', 'AMAN SINHA', 'SUPA SUPA'] }
+            { type: 'eye', content: 'GUESSTHEEYES/Gal Gadot copy.png', revealContent: 'GUESSTHEEYES/Gal Gadot.png', answer: 'GAL GADOT', displayAnswer: 'Gal Gadot', year: '', aliases: ['WONDER WOMAN'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Keerthy Suresh copy.webp', revealContent: 'GUESSTHEEYES/Keerthy Suresh.webp', answer: 'KEERTHY SURESH', displayAnswer: 'Keerthy Suresh', year: '', aliases: ['KEERTHI SURESH', 'KEERTHI'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Mark Wahlberg copy.webp', revealContent: 'GUESSTHEEYES/Mark Wahlberg.webp', answer: 'MARK WAHLBERG', displayAnswer: 'Mark Wahlberg', year: '', aliases: ['WAHLBERG'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Mckenna Grace copy.png', revealContent: 'GUESSTHEEYES/Mckenna Grace.png', answer: 'MCKENNA GRACE', displayAnswer: 'Mckenna Grace', year: '', aliases: ['MACKENNA GRACE'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Mila Kunis copy.png', revealContent: 'GUESSTHEEYES/Mila Kunis.png', answer: 'MILA KUNIS', displayAnswer: 'Mila Kunis', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Mohanlal copy.webp', revealContent: 'GUESSTHEEYES/Mohanlal.webp', answer: 'MOHANLAL', displayAnswer: 'Mohanlal', year: '', aliases: ['LALETTAN'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Rachel McAdams copy.webp', revealContent: 'GUESSTHEEYES/Rachel McAdams.webp', answer: 'RACHEL MCADAMS', displayAnswer: 'Rachel McAdams', year: '', aliases: ['RACHEL MC ADAMS'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Radhika Apte copy.webp', revealContent: 'GUESSTHEEYES/Radhika Apte.webp', answer: 'RADHIKA APTE', displayAnswer: 'Radhika Apte', year: '' },
+            { type: 'eye', content: 'GUESSTHEEYES/Samantha Ruth Prabhu copy.webp', revealContent: 'GUESSTHEEYES/Samantha Ruth Prabhu.webp', answer: 'SAMANTHA RUTH PRABHU', displayAnswer: 'Samantha Ruth Prabhu', year: '', aliases: ['SAMANTHA', 'SAMANTHA AKKINENI', 'SAMANTHA PRABHU'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Scarlett Johansson copy.webp', revealContent: 'GUESSTHEEYES/Scarlett Johansson.webp', answer: 'SCARLETT JOHANSSON', displayAnswer: 'Scarlett Johansson', year: '', aliases: ['SCARLETT', 'BLACK WIDOW'] }
           ]
         }
       ],
       players: [
-        { name: 'AYANK', score: 0, avatar: 'ayank', avatarImg: 'avvtar/ayank.png' },
-        { name: 'AYUSH', score: 0, avatar: 'ayush', avatarImg: 'avvtar/ayush.png' },
-        { name: 'JOEL', score: 0, avatar: 'joel', avatarImg: 'avvtar/joel.png' },
-        { name: 'PRAGGYA', score: 0, avatar: 'praggya', avatarImg: 'avvtar/praggya.png' },
-        { name: 'RUHAAN', score: 0, avatar: 'ruhaan', avatarImg: 'avvtar/ruhaan.png' }
+        { name: 'AMAN', score: 0, avatar: 'aman', avatarImg: 'avvtar/aman.svg' },
+        { name: 'VISH', score: 0, avatar: 'vish', avatarImg: 'avvtar/vish.svg' },
+        { name: 'AZIZ', score: 0, avatar: 'aziz', avatarImg: 'avvtar/aziz.svg' },
+        { name: 'AMISH', score: 0, avatar: 'amish', avatarImg: 'avvtar/amish.svg' }
       ],
       judge: { totalRounds: 0, totalPlayers: 0, roundsPerJudge: 1, globalRoundIndex: 0, currentJudge: null, currentJudgeIndex: -1, currentJudgeRoundsServed: 0, usedJudges: [], cycleCount: 0, judgeAnswered: false, judgeRewardGiven: false },
       scoring: { locked: false, completed: false },
@@ -17009,14 +17012,14 @@
       const legacyAlias = { aman: 'ayank', amish: 'praggya', aziz: 'joel', vish: 'ayush' };
       if (legacyAlias[avKey]) avKey = legacyAlias[avKey];
 
-      const validAvatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
-      const safeAv = validAvatars.includes(avKey) ? avKey : 'ayank';
-      let avSrc = (p && p.avatarImg) || `avvtar/${safeAv}.png`;
-      if (!avSrc.endsWith('.png')) {
-        avSrc = `avvtar/${safeAv}.png`;
+      const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
+      const safeAv = validAvatars.includes(avKey) ? avKey : 'aman';
+      let avSrc = (p && p.avatarImg) || `avvtar/${safeAv}.svg`;
+      if (!avSrc.endsWith('.svg')) {
+        avSrc = `avvtar/${safeAv}.svg`;
       }
 
-      return `<img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" class="av-img-elem" style="width:100%;height:100%;max-width:100%;max-height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block;" onerror="this.onerror=null;this.src='avvtar/ayank.png';">`;
+      return `<img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" class="av-img-elem" style="width:100%;height:100%;max-width:100%;max-height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block;" onerror="this.onerror=null;this.src='avvtar/aman.svg';">`;
     }
     window.renderAvatar = renderAvatar;
 
@@ -17419,7 +17422,7 @@
 
     /* ═══ JUDGES ═══ */
     const Judges = {
-      calcTotal() { return GS.sections.reduce((s, sec) => s + sec.frames.filter(f => (f.content && f.answer) || (f.type === 'dialogue' && f.dialogue && f.answer)).length, 0); },
+      calcTotal() { return GS.sections.reduce((s, sec) => s + sec.frames.filter(f => (f.content && f.answer) || ((f.type === 'dialogue' || f.type === 'plot') && (f.dialogue || f.plot) && f.answer)).length, 0); },
       init() {
         const j = GS.judge;
         j.totalRounds = this.calcTotal(); j.totalPlayers = GS.players.length;
@@ -17910,10 +17913,11 @@
           const targetContent = MultiplayerEngine.currentClientFrame.content;
           const targetId = MultiplayerEngine.currentClientFrame.id;
           const targetDialogue = MultiplayerEngine.currentClientFrame.dialogue;
+          const targetPlot = MultiplayerEngine.currentClientFrame.plot;
           if (Array.isArray(GS.sections)) {
             for (const sec of GS.sections) {
               if (!sec || !sec.frames) continue;
-              const match = sec.frames.find(f => (targetId && f.id === targetId) || (targetContent && f.content === targetContent) || (targetDialogue && f.dialogue === targetDialogue));
+              const match = sec.frames.find(f => (targetId && f.id === targetId) || (targetContent && f.content === targetContent) || (targetDialogue && f.dialogue === targetDialogue) || (targetPlot && f.plot === targetPlot));
               if (match && match.answer) return match.answer;
             }
           }
@@ -17942,10 +17946,11 @@
           const targetContent = MultiplayerEngine.currentClientFrame.content;
           const targetId = MultiplayerEngine.currentClientFrame.id;
           const targetDialogue = MultiplayerEngine.currentClientFrame.dialogue;
+          const targetPlot = MultiplayerEngine.currentClientFrame.plot;
           if (Array.isArray(GS.sections)) {
             for (const sec of GS.sections) {
               if (!sec || !sec.frames) continue;
-              const match = sec.frames.find(f => (targetId && f.id === targetId) || (targetContent && f.content === targetContent) || (targetDialogue && f.dialogue === targetDialogue));
+              const match = sec.frames.find(f => (targetId && f.id === targetId) || (targetContent && f.content === targetContent) || (targetDialogue && f.dialogue === targetDialogue) || (targetPlot && f.plot === targetPlot));
               if (match && Array.isArray(match.aliases)) return match.aliases;
             }
           }
@@ -18178,10 +18183,10 @@
         const isMe = msg.senderId === MultiplayerEngine.playerId;
         const safeMsgId = String(msg.id).replace(/[^a-zA-Z0-9_-]/g, '');
 
-        const rawKey = String(msg.senderAvatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const legacyAlias = { aman: 'ayank', amish: 'praggya', aziz: 'joel', vish: 'ayush' };
+        const rawKey = String(msg.senderAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
         const mappedKey = legacyAlias[rawKey] || rawKey;
-        const safeAvatar = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'].includes(mappedKey) ? mappedKey : 'ayank';
+        const safeAvatar = ['aman', 'amish', 'aziz', 'vish'].includes(mappedKey) ? mappedKey : 'aman';
 
         const reactionButtonsHtml = isMe ?
           ('<span class="chat-reaction-btn chat-self-disabled" title="You cannot vote on your own answer">' +
@@ -18207,7 +18212,7 @@
           msgEl.className = 'chat-msg';
           msgEl.id = 'chatMsg_' + safeMsgId;
           msgEl.innerHTML = '<div class="chat-avatar">' +
-            '<img src="avvtar/' + safeAvatar + '.png" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/ayank.png\'" />' +
+            '<img src="avvtar/' + safeAvatar + '.svg" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/aman.svg\'" />' +
             '</div>' +
             '<div class="chat-msg-body">' +
             '<div class="chat-msg-header">' +
@@ -18231,7 +18236,7 @@
           const lobbyEl = document.createElement('div');
           lobbyEl.className = 'chat-msg';
           lobbyEl.innerHTML = '<div class="chat-avatar">' +
-            '<img src="avvtar/' + safeAvatar + '.png" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/ayank.png\'" />' +
+            '<img src="avvtar/' + safeAvatar + '.svg" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/aman.svg\'" />' +
             '</div>' +
             '<div class="chat-msg-body">' +
             '<div class="chat-msg-header">' +
@@ -18511,17 +18516,17 @@
       roomCode: null,
       playerId: null,
       playerName: 'Player',
-      playerAvatar: 'ayank',
+      playerAvatar: 'aman',
       isHost: false,
-      selectedAvatarForModal: 'ayank',
+      selectedAvatarForModal: 'aman',
       currentMaskedHint: null,
       currentRoundWinners: [],
       currentPlaylist: [],
       currentPlayIndex: 0,
       hostSettings: {
         category: 'all',
-        categories: ['frames', 'eyes', 'dialogue'],
-        roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+        categories: ['frames', 'eyes', 'plot'],
+        roundsByMode: { frames: 20, eyes: 10, plot: 10 },
         rounds: 40,
         timer: 30
       },
@@ -18632,13 +18637,13 @@
         const avImg = document.getElementById('rejoinAvatarImg');
         const avContainer = document.getElementById('rejoinAvatarContainer');
 
-        const av = (session.playerAvatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#FF6B9D', img: `avvtar/${av}.png` };
+        const av = (session.playerAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#57c3e0', img: `avvtar/${av}.svg` };
 
         if (codeEl) codeEl.textContent = session.roomCode;
         if (nameEl) nameEl.textContent = session.playerName || this.getAvatarDisplayName(av);
         if (roleEl) roleEl.textContent = session.isHost ? 'Host 👑' : 'Player';
-        if (avImg) avImg.src = avConfig.img || `avvtar/${av}.png`;
+        if (avImg) avImg.src = avConfig.img || `avvtar/${av}.svg`;
         if (avContainer) avContainer.style.backgroundColor = avConfig.color;
 
         if (modal) modal.classList.add('active');
@@ -18697,8 +18702,8 @@
         } else if (!this.hostSettings) {
           this.hostSettings = {
             category: 'all',
-            categories: ['frames', 'eyes', 'dialogue'],
-            roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+            categories: ['frames', 'eyes', 'plot'],
+            roundsByMode: { frames: 20, eyes: 10, plot: 10 },
             rounds: 40,
             timer: 30
           };
@@ -18960,7 +18965,7 @@
         this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
         this.isHost = true;
         this.roomCode = this.generateRoomCode();
-        this.hostSettings = { category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 }, rounds: 40, timer: 30 };
+        this.hostSettings = { category: 'all', categories: ['frames', 'eyes', 'plot'], roundsByMode: { frames: 20, eyes: 10, plot: 10 }, rounds: 40, timer: 30 };
         this.roomId = 'room_' + this.roomCode;
 
         localStorage.setItem('gtf_player_name', this.playerName);
@@ -19949,7 +19954,7 @@
         let pool = [];
         if (!this.hostSettings) {
           this.hostSettings = {
-            category: 'all', categories: ['frames', 'eyes', 'dialogue'], roundsByMode: { frames: 20, eyes: 10, dialogue: 10 },
+            category: 'all', categories: ['frames', 'eyes', 'plot'], roundsByMode: { frames: 20, eyes: 10, plot: 10 },
             rounds: 40,
             timer: 30
           };
@@ -19963,12 +19968,12 @@
             pool.push(...shuf.slice(0, numFrames).map(f => ({ ...f, sectionName: 'Guess the Frame', sectionId: 1 })));
           }
         }
-        const numDialogue = counts.dialogue !== undefined ? counts.dialogue : 10;
-        if (numDialogue > 0) {
+        const numPlot = counts.plot !== undefined ? counts.plot : ((counts.dialogue !== undefined) ? counts.dialogue : 10);
+        if (numPlot > 0) {
           const s2 = (typeof GS !== 'undefined' && GS.sections) ? GS.sections.find(s => s.id === 2) : null;
           if (s2 && s2.frames) {
             const shuf = [...s2.frames].sort(() => 0.5 - Math.random());
-            pool.push(...shuf.slice(0, numDialogue).map(f => ({ ...f, sectionName: 'Guess the Dialogue', sectionId: 2 })));
+            pool.push(...shuf.slice(0, numPlot).map(f => ({ ...f, sectionName: (s2.name || 'Guess the Plot'), sectionId: 2 })));
           }
         }
         const numEyes = counts.eyes !== undefined ? counts.eyes : 10;
@@ -20459,6 +20464,7 @@
             content: frame.content,
             revealContent: frame.revealContent,
             tributeText: frame.tributeText,
+            plot: frame.plot,
             dialogue: frame.dialogue,
             context: frame.context,
             character: frame.character,
@@ -20846,8 +20852,8 @@
         }
 
         let spotlightHtml = '';
-        if (currentFrame.type === 'dialogue' && currentFrame.dialogue) {
-          spotlightHtml += `<div class="ans-dialogue-quote" style="margin-bottom:8px; font-style:italic; font-weight:700; color:var(--text-secondary,#666); font-size:1.05rem;">"${SecurityUtil.escapeHtml(currentFrame.dialogue)}"</div>`;
+        if ((currentFrame.type === 'dialogue' || currentFrame.type === 'plot') && (currentFrame.dialogue || currentFrame.plot)) {
+          spotlightHtml += `<div class="ans-dialogue-quote" style="margin-bottom:8px; font-style:italic; font-weight:700; color:var(--text-secondary,#666); font-size:1.05rem;">"${SecurityUtil.escapeHtml(currentFrame.plot || currentFrame.dialogue)}"</div>`;
           if (currentFrame.character) {
             spotlightHtml += `<div class="ans-dialogue-character" style="margin-bottom:12px; font-weight:800; color:#b45309; font-size:0.95rem; font-family:'DM Sans',sans-serif;">${SecurityUtil.escapeHtml(currentFrame.character)}</div>`;
           }
@@ -20978,8 +20984,8 @@
         }
 
         let spotlightHtml = '';
-        if (currentFrame && currentFrame.type === 'dialogue' && currentFrame.dialogue) {
-          spotlightHtml += `<div class="ans-dialogue-quote" style="margin-bottom:12px; font-style:italic; font-weight:700; color:var(--text-secondary,#666); font-size:1.05rem;">"${SecurityUtil.escapeHtml(currentFrame.dialogue)}"</div>`;
+        if (currentFrame && (currentFrame.type === 'dialogue' || currentFrame.type === 'plot') && (currentFrame.dialogue || currentFrame.plot)) {
+          spotlightHtml += `<div class="ans-dialogue-quote" style="margin-bottom:12px; font-style:italic; font-weight:700; color:var(--text-secondary,#666); font-size:1.05rem;">"${SecurityUtil.escapeHtml(currentFrame.plot || currentFrame.dialogue)}"</div>`;
         }
         if (this.currentRoundWinners.length > 0) {
           spotlightHtml += '<div class="winners-spotlight">' + this.currentRoundWinners.map(w => {
@@ -21489,20 +21495,20 @@
         }
       },
 
-      resolveAvatar(p, fallbackKey = 'ayank') {
-        const valid = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
-        const legacyAlias = { aman: 'ayank', amish: 'praggya', aziz: 'joel', vish: 'ayush' };
-        if (p && p.avatarImg && p.avatarImg.endsWith('.png')) {
-          return p.avatarImg;
+      resolveAvatar(p, fallbackKey = 'aman') {
+        const valid = ['aman', 'amish', 'aziz', 'vish'];
+        const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
+        if (p && p.avatarImg && (p.avatarImg.endsWith('.svg') || p.avatarImg.endsWith('.png'))) {
+          if (p.avatarImg.endsWith('.svg')) return p.avatarImg;
         }
         const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase()))) || fallbackKey;
         let avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
         if (legacyAlias[avKey]) avKey = legacyAlias[avKey];
         let safeFallback = legacyAlias[fallbackKey] || fallbackKey;
-        if (!valid.includes(safeFallback)) safeFallback = 'ayank';
+        if (!valid.includes(safeFallback)) safeFallback = 'aman';
 
         const safeKey = valid.includes(avKey) ? avKey : safeFallback;
-        return `avvtar/${safeKey}.png`;
+        return `avvtar/${safeKey}.svg`;
       },
 
       renderScoreboard(players) {
@@ -21516,7 +21522,7 @@
         c.innerHTML = sorted.map((p, i) => {
           const rank = i + 1;
           const isChamp = i === 0 && (p.score || 0) > 0;
-          const defaultKey = i === 0 ? 'ayank' : i === 1 ? 'ayush' : i === 2 ? 'joel' : i === 3 ? 'praggya' : 'ruhaan';
+          const defaultKey = i === 0 ? 'aman' : i === 1 ? 'vish' : i === 2 ? 'aziz' : 'amish';
           const avSrc = this.resolveAvatar(p, defaultKey);
           const escapeFn = (typeof SecurityUtil !== 'undefined' && SecurityUtil.escapeHtml) ? SecurityUtil.escapeHtml : (s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
           const safeName = escapeFn(p.name || ('Player ' + rank));
@@ -21525,7 +21531,7 @@
             <div class="sb-row ${isChamp ? 'sb-champ' : ''}">
               <div class="sb-left">
                 <span class="sb-rank">${rank}</span>
-                <div class="sb-avatar-mini"><img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/${defaultKey}.png'" /></div>
+                <div class="sb-avatar-mini"><img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/${defaultKey}.svg'" /></div>
                 <span class="sb-name">${safeName.toUpperCase()}</span>
               </div>
               <span class="sb-score">${score} PTS</span>
@@ -21549,8 +21555,8 @@
         if (champNameEl) champNameEl.textContent = (p1 && p1.name ? p1.name : 'PLAYER 1').toUpperCase();
         if (champScoreEl) champScoreEl.textContent = p1Score + ' POINTS';
         if (champAvatarImg) {
-          champAvatarImg.onerror = function() { this.onerror = null; this.src = 'avvtar/ayank.png'; };
-          champAvatarImg.src = this.resolveAvatar(p1, 'ayank');
+          champAvatarImg.onerror = function() { this.onerror = null; this.src = 'avvtar/aman.svg'; };
+          champAvatarImg.src = this.resolveAvatar(p1, 'aman');
           champAvatarImg.alt = p1 ? (p1.name || 'Champion') : 'Champion';
         }
 
@@ -21569,8 +21575,8 @@
             if (silverName) silverName.textContent = (p2.name || 'PLAYER 2').toUpperCase();
             if (silverScore) silverScore.textContent = p2Score + ' POINTS';
             if (silverImg) {
-              silverImg.onerror = function() { this.onerror = null; this.src = 'avvtar/ayush.png'; };
-              silverImg.src = this.resolveAvatar(p2, 'ayush');
+              silverImg.onerror = function() { this.onerror = null; this.src = 'avvtar/vish.svg'; };
+              silverImg.src = this.resolveAvatar(p2, 'vish');
               silverImg.alt = p2.name || '2nd Place';
             }
           } else {
@@ -21595,8 +21601,8 @@
             if (bronzeName) bronzeName.textContent = (p3.name || 'PLAYER 3').toUpperCase();
             if (bronzeScore) bronzeScore.textContent = p3Score + ' POINTS';
             if (bronzeImg) {
-              bronzeImg.onerror = function() { this.onerror = null; this.src = 'avvtar/joel.png'; };
-              bronzeImg.src = this.resolveAvatar(p3, 'joel');
+              bronzeImg.onerror = function() { this.onerror = null; this.src = 'avvtar/aziz.svg'; };
+              bronzeImg.src = this.resolveAvatar(p3, 'aziz');
               bronzeImg.alt = p3.name || '3rd Place';
             }
           } else {
@@ -21929,9 +21935,9 @@
         if (GS.tieBreaker && Array.isArray(GS.tieBreaker.frames)) collect(GS.tieBreaker.frames);
 
         // Player assets: avatars (priority)
-        const validAvatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
+        const validAvatars = ['aman', 'amish', 'aziz', 'vish'];
         validAvatars.forEach(av => {
-          priorityImages.push('avvtar/' + av + '.png');
+          priorityImages.push('avvtar/' + av + '.svg');
         });
 
         let loaded = 0;
@@ -21954,7 +21960,7 @@
         for (let s = GS.currentSection; s < GS.sections.length && count < 3; s++) {
           const sec = GS.sections[s];
           const startRound = (s === GS.currentSection) ? GS.currentSectionRound + 1 : 0;
-          const valid = sec.frames.filter(f => (f.content && f.answer) || (f.type === 'dialogue' && f.dialogue && f.answer));
+          const valid = sec.frames.filter(f => (f.content && f.answer) || ((f.type === 'dialogue' || f.type === 'plot') && (f.dialogue || f.plot) && f.answer));
           for (let r = startRound; r < valid.length && count < 3; r++) {
             const frame = valid[r];
             if ((frame.type === 'image' || frame.type === 'eye') && frame.content) this.preloadImage(frame.content).catch(() => { });
@@ -22012,18 +22018,17 @@
         ansOv.classList.remove('visible', 'eye-answer', 'tribute-answer');
         const tdShow = document.getElementById('tributeDisplay'); if (tdShow) tdShow.style.display = 'none';
 
-        // Handle dialogue type
-        if (f.type === 'dialogue') {
+        // Handle dialogue or plot type
+        if (f.type === 'dialogue' || f.type === 'plot') {
           PaletteManager.reset();
           layer.style.opacity = '0';
           imageContainer.innerHTML = '';
           dialogue.style.filter = '';
 
-          // Show dialogue text instantly (no typewriter animation)
           const dialogueQuote = document.getElementById('dialogueQuote');
           const dialogueContext = document.getElementById('dialogueContext');
-          if (dialogueQuote) dialogueQuote.textContent = f.dialogue || '';
-          if (dialogueContext) dialogueContext.textContent = f.context || 'Guess the Movie / Show';
+          if (dialogueQuote) dialogueQuote.textContent = f.plot || f.dialogue || '';
+          if (dialogueContext) dialogueContext.textContent = f.context || (f.type === 'plot' ? 'Guess the Movie from the Plot' : 'Guess the Movie / Show');
 
           if (ph) ph.classList.add('hidden');
           dialogue.classList.add('visible');
@@ -22164,15 +22169,15 @@
         ansTitle.textContent = f.displayAnswer || f.answer || '';
         ansYear.textContent = f.year ? `${f.year}` : '';
 
-        if (f.type === 'dialogue' && f.dialogue) {
-          ansDialogue.textContent = `"${f.dialogue}"`;
+        if ((f.type === 'dialogue' || f.type === 'plot') && (f.dialogue || f.plot)) {
+          ansDialogue.textContent = `"${f.plot || f.dialogue}"`;
           ansDialogue.style.display = 'block';
         } else {
           ansDialogue.style.display = 'none';
         }
 
         // Blur effect
-        if (f.type === 'dialogue') {
+        if (f.type === 'dialogue' || f.type === 'plot') {
           dialogue.style.filter = 'blur(5px) brightness(0.5)';
         } else if (f.type === 'eye' && f.revealContent) {
           const loadedImg = imageContainer.querySelector('.frame-image.loaded:not(.eye-full-reveal)');
@@ -22315,7 +22320,7 @@
         if (secBadge) secBadge.classList.remove('tie-mode');
       },
       _validFramesForSection(sec) {
-        return sec ? sec.frames.filter(f => (f.content && f.answer) || (f.type === 'dialogue' && f.dialogue && f.answer)) : [];
+        return sec ? sec.frames.filter(f => (f.content && f.answer) || ((f.type === 'dialogue' || f.type === 'plot') && (f.dialogue || f.plot) && f.answer)) : [];
       },
       _currentValidFrames() {
         return GS.tieBreaker.active && GS.tieBreaker.frame ? [GS.tieBreaker.frame] : this._validFramesForSection(GS.sections[GS.currentSection]);
@@ -22328,7 +22333,7 @@
         return GS.sections.flatMap(sec => this._validFramesForSection(sec));
       },
       _tieBreakerFramePool() {
-        const frames = Array.isArray(GS.tieBreaker.frames) ? GS.tieBreaker.frames.filter(f => (f.content && f.answer) || (f.type === 'dialogue' && f.dialogue && f.answer)) : [];
+        const frames = Array.isArray(GS.tieBreaker.frames) ? GS.tieBreaker.frames.filter(f => (f.content && f.answer) || ((f.type === 'dialogue' || f.type === 'plot') && (f.dialogue || f.plot) && f.answer)) : [];
         return frames.length ? frames : this._allPlayableFrames();
       },
       _frameKey(frame) {
@@ -22821,13 +22826,13 @@
 
         // winner-only: full-body trophy image
         const trophyImg = (p) => {
-          const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase()))) || 'ayank';
+          const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase()))) || 'aman';
           let avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
-          const legacyAlias = { aman: 'ayank', amish: 'praggya', aziz: 'joel', vish: 'ayush' };
+          const legacyAlias = { ayank: 'aman', ayush: 'vish', joel: 'aziz', praggya: 'amish', ruhaan: 'aman' };
           if (legacyAlias[avKey]) avKey = legacyAlias[avKey];
-          const valid = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
-          const safeKey = valid.includes(avKey) ? avKey : 'ayank';
-          return 'avvtar/' + safeKey + '.png';
+          const valid = ['aman', 'amish', 'aziz', 'vish'];
+          const safeKey = valid.includes(avKey) ? avKey : 'aman';
+          return 'avvtar/' + safeKey + '.svg';
         };
         const buildTrophies = (players) => {
           const count = players.length;
@@ -22836,12 +22841,12 @@
             const p = players[0];
             const tp = trophyImg(p);
             return `<div class="podium-avatar podium-trophy" data-count="1">
-              <img class="trophy-fig" src="${tp}" alt="${SecurityUtil.escapeHtml(p && p.name || 'Champion')}" onerror="this.onerror=null;this.src='avvtar/ayank.png';">
+              <img class="trophy-fig" src="${tp}" alt="${SecurityUtil.escapeHtml(p && p.name || 'Champion')}" onerror="this.onerror=null;this.src='avvtar/aman.svg';">
             </div>`;
           }
           return `<div class="podium-avatar podium-trophy" data-count="${count}">${players.map(p => {
             const tp = trophyImg(p);
-            return `<img class="trophy-fig" src="${tp}" alt="${SecurityUtil.escapeHtml(p && p.name || 'Player')}" onerror="this.onerror=null;this.src='avvtar/ayank.png';">`;
+            return `<img class="trophy-fig" src="${tp}" alt="${SecurityUtil.escapeHtml(p && p.name || 'Player')}" onerror="this.onerror=null;this.src='avvtar/aman.svg';">`;
           }).join('')}</div>`;
         };
 
@@ -23119,7 +23124,7 @@
         <div class="section-card-header" onclick="AdminPanel.toggleSec(${si})">
           <select class="section-icon-select" onclick="event.stopPropagation()" onchange="AdminPanel.setSecIcon(${si},this.value)">${sectionIcons.map((ic, ii) => { const m = ic.match(/#icon-([a-z0-9-]+)/); return `<option value="${ii}" ${sec.icon === ic ? 'selected' : ''}>${m ? m[1].replace(/-/g, ' ') : 'icon'}</option>`; }).join('')}</select>
           <input type="text" value="${sec.name}" placeholder="Section Name" onclick="event.stopPropagation()" onchange="AdminPanel.setSecName(${si},this.value)">
-          <div class="section-meta"><span class="rc">${sec.frames.filter(f => (f.content && f.answer) || (f.type === 'dialogue' && f.dialogue && f.answer)).length} rounds</span><button onclick="event.stopPropagation();AdminPanel.delSec(${si})"><svg class="svg-icon"><use href="#icon-trash-2" /></svg></button></div>
+          <div class="section-meta"><span class="rc">${sec.frames.filter(f => (f.content && f.answer) || ((f.type === 'dialogue' || f.type === 'plot') && (f.dialogue || f.plot) && f.answer)).length} rounds</span><button onclick="event.stopPropagation();AdminPanel.delSec(${si})"><svg class="svg-icon"><use href="#icon-trash-2" /></svg></button></div>
         </div>
         <div class="section-content">
           <div class="frame-list">${sec.frames.map((fr, fi) => `
