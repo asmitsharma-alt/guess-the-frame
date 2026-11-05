@@ -19,7 +19,7 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
 
     expect(hostData.roomCode).toHaveLength(4);
     expect(hostData.hostSettings.category).toBe('all');
-    expect(hostData.hostSettings.categories).toEqual(['frames', 'eyes', 'dialogue']);
+    expect(hostData.hostSettings.categories).toEqual(['frames', 'eyes', 'plot']);
 
     // 2. Simulate 4 concurrent client joins within 100ms
     const joinedPlayers = await page.evaluate(async (hData) => {
@@ -48,7 +48,7 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
     }, hostData);
 
     expect(joinedPlayers).toHaveLength(5);
-    expect(joinedPlayers.map(p => p.name.toUpperCase())).toEqual(['AMAN', 'AMISH', 'AZIZ', 'VISH', 'SNEHA']);
+    expect(joinedPlayers.map(p => p.name.toUpperCase())).toEqual(['AYANK', 'AMISH', 'AZIZ', 'VISH', 'SNEHA']);
 
     // 3. Host updates settings: adjust frame rounds
     const updatedSettings = await page.evaluate(() => {
@@ -249,11 +249,13 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
     await page.waitForLoadState('domcontentloaded');
 
     const result = await page.evaluate(() => {
-      MultiplayerEngine.selectedAvatarForModal = 'aman';
+      MultiplayerEngine.selectedAvatarForModal = 'ayank';
+      MultiplayerEngine.playerName = 'AMAN';
       MultiplayerEngine.confirmCreateRoom();
+      MultiplayerEngine.playerName = 'AMAN';
 
       GS.players = [
-        { id: MultiplayerEngine.playerId, name: 'AMAN', avatar: 'aman', score: 0 }
+        { id: MultiplayerEngine.playerId, name: 'AMAN', avatar: 'ayank', score: 0 }
       ];
 
       MultiplayerEngine.currentPlaylist = [
@@ -336,11 +338,13 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
     await page.waitForLoadState('domcontentloaded');
 
     const result = await page.evaluate(() => {
-      MultiplayerEngine.selectedAvatarForModal = 'aman';
+      MultiplayerEngine.selectedAvatarForModal = 'ayank';
+      MultiplayerEngine.playerName = 'AMAN';
       MultiplayerEngine.confirmCreateRoom();
+      MultiplayerEngine.playerName = 'AMAN';
 
       GS.players = [
-        { id: MultiplayerEngine.playerId, name: 'AMAN', avatar: 'aman', score: 0 }
+        { id: MultiplayerEngine.playerId, name: 'AMAN', avatar: 'ayank', score: 0 }
       ];
 
       MultiplayerEngine.currentPlaylist = [

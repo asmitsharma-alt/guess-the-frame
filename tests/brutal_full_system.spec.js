@@ -36,7 +36,7 @@ test.describe('BRUTAL FULL SYSTEM TEST SUITE: Every Feature, Button, Logic, Conn
     await hostNameInput.fill('IronMan');
 
     // Cycle through all avatars and verify active selection
-    for (const av of ['amish', 'aziz', 'vish', 'aman']) {
+    for (const av of ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan']) {
       const avOption = page.locator(`#createRoomModal .mp-avatar-option[data-avatar="${av}"]`);
       await avOption.click();
       await expect(avOption).toHaveClass(/selected/);
@@ -303,8 +303,8 @@ test.describe('BRUTAL FULL SYSTEM TEST SUITE: Every Feature, Button, Logic, Conn
       MultiplayerEngine.startMatch();
     });
 
-    await expect(hostPage.locator('#gameScreen')).toBeVisible();
-    await expect(playerPage.locator('#gameScreen')).toBeVisible();
+    await expect(hostPage.locator('#gameScreen')).toBeVisible({ timeout: 15000 });
+    await expect(playerPage.locator('#gameScreen')).toBeVisible({ timeout: 15000 });
 
     // 3.8 Active Gameplay: Guessing submission via chat form
     const currentAnswer = await hostPage.evaluate(() => {

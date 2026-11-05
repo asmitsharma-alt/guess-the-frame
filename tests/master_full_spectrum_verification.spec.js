@@ -37,8 +37,8 @@ test.describe('ULTRA-COMPREHENSIVE MASTER TEST: Every Feature, Button, Logic, Sy
     const hostNameInput = page.locator('#hostPlayerNameInput');
     await hostNameInput.fill('Captain_Marvel');
 
-    // Test picking each of the 4 avatars
-    const avatars = ['aman', 'amish', 'aziz', 'vish'];
+    // Test picking each of the 5 photo avatars
+    const avatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
     for (const av of avatars) {
       const opt = page.locator(`#createRoomModal .mp-avatar-option[data-avatar="${av}"]`);
       await opt.click();

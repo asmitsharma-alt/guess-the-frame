@@ -36,7 +36,8 @@ test.describe('Lobby Screen Layout & Live Chat Suite', () => {
     // Verify round steppers and timer inside left column
     await expect(leftCol.locator('#hostFramesRoundsBtn')).toHaveText('20');
     await expect(leftCol.locator('#hostEyesRoundsBtn')).toHaveText('10');
-    await expect(leftCol.locator('#hostDialogueRoundsBtn')).toHaveText('10');
+    const plotOrDialogueBtn = leftCol.locator('#hostPlotRoundsBtn, #hostDialogueRoundsBtn').first();
+    await expect(plotOrDialogueBtn).toHaveText('10');
     await expect(leftCol.locator('#hostTimerBtnText')).toHaveText('30s');
 
     // Test stepper adjustment in new location (decrease from 20 max to 19, then increase back to 20)

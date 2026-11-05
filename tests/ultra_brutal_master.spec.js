@@ -39,7 +39,7 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     const hostInput = page.locator('#hostPlayerNameInput');
     await hostInput.fill('Captain_Marvel');
 
-    const avatars = ['aman', 'amish', 'aziz', 'vish'];
+    const avatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
     for (const av of avatars) {
       const opt = page.locator(`#createRoomModal .mp-avatar-option[data-avatar="${av}"]`);
       await opt.click();

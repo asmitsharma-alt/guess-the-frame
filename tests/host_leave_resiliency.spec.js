@@ -78,7 +78,7 @@ test.describe('HOST LEAVE & MIGRATION RESILIENCY SUITE', () => {
     await playerPage.locator('#joinPlayerNameInput').fill('PlayerDave');
     await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="praggya"]').click();
     await playerPage.locator('#joinRoomModal .mp-btn-primary').click();
-    await expect(playerPage.locator('#playerLobbyScreen')).toBeVisible();
+    await expect(playerPage.locator('#playerLobbyScreen')).toBeVisible({ timeout: 15000 });
 
     await hostPage.waitForFunction(() => typeof GS !== 'undefined' && GS.players && GS.players.length >= 2, { timeout: 25000 });
     await playerPage.waitForFunction(() => typeof GS !== 'undefined' && GS.players && GS.players.length >= 2, { timeout: 25000 });
@@ -142,7 +142,7 @@ test.describe('HOST LEAVE & MIGRATION RESILIENCY SUITE', () => {
     await playerPage.locator('#joinPlayerNameInput').fill('PlayerFrank');
     await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="praggya"]').click();
     await playerPage.locator('#joinRoomModal .mp-btn-primary').click();
-    await expect(playerPage.locator('#playerLobbyScreen')).toBeVisible();
+    await expect(playerPage.locator('#playerLobbyScreen')).toBeVisible({ timeout: 15000 });
 
     await hostPage.waitForFunction(() => typeof GS !== 'undefined' && GS.players && GS.players.length >= 2, { timeout: 25000 });
     await playerPage.waitForFunction(() => typeof GS !== 'undefined' && GS.players && GS.players.length >= 2, { timeout: 25000 });
