@@ -44,13 +44,18 @@ test.describe("Asset & Frame Loading Reliability", () => {
     }
   });
 
-  test("Avatar SVGs for core players resolve with status 200", async ({ request }) => {
-    const avatars = ["aman", "amish", "aziz", "vish"];
-    for (const av of avatars) {
-      const response = await request.get("/avvtar/" + av + ".svg");
-      expect(response.status(), "Avatar failed to load: " + av).toBe(200);
+  test("Avatar WebPs, PNGs and SVGs for core players resolve with status 200", async ({ request }) => {
+    const webpAvatars = ["ayank", "ayush", "joel", "praggya", "ruhaan"];
+    for (const av of webpAvatars) {
+      const response = await request.get("/avvtar/" + av + ".webp");
+      expect(response.status(), "WebP avatar failed to load: " + av).toBe(200);
       const ct = response.headers()["content-type"] || "";
-      expect(ct.includes("svg") || ct.includes("xml") || ct.includes("image")).toBe(true);
+      expect(ct.includes("webp") || ct.includes("image")).toBe(true);
+    }
+    const svgAvatars = ["aman", "amish", "aziz", "vish"];
+    for (const av of svgAvatars) {
+      const response = await request.get("/avvtar/" + av + ".svg");
+      expect(response.status(), "SVG avatar failed to load: " + av).toBe(200);
     }
   });
 
