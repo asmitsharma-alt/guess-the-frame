@@ -5580,23 +5580,22 @@
     #gameScreen .frame-area {
       flex: 1 !important;
       position: relative !important;
-      background: #0b0e17 !important;
-      background-image: radial-gradient(ellipse 95% 75% at 50% 45%, #182035 0%, #0d1220 50%, #070911 100%) !important;
+      background: #090c15 !important;
+      background-image: radial-gradient(ellipse 95% 75% at 50% 45%, #151a2d 0%, #0b0e18 50%, #06070d 100%) !important;
       border: 3.5px solid var(--nb-ink, #1a1a1a) !important;
-      box-shadow: 6px 6px 0 var(--nb-ink, #1a1a1a), 0 10px 32px rgba(99, 102, 241, 0.12) !important;
+      box-shadow: 6px 6px 0 var(--nb-ink, #1a1a1a), 0 14px 44px var(--frame-accent, rgba(99, 102, 241, 0.22)) !important;
       border-radius: 0 !important;
       overflow: hidden !important;
       display: flex !important;
       flex-direction: column !important;
-      transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+      transition: transform 0.2s ease, box-shadow 0.6s ease !important;
     }
     #gameScreen .frame-area::before, #gameScreen .frame-area::after { display: none !important; }
 
     #gameScreen .frame-display {
       flex: 1 !important;
       position: relative !important;
-      background: #0b0e17 !important;
-      background-image: radial-gradient(ellipse 90% 70% at 50% 48%, #1d253d 0%, #101423 55%, #080a13 100%) !important;
+      background: #090c15 !important;
       border-radius: 0 !important;
       border: none !important;
       box-shadow: none !important;
@@ -10037,20 +10036,21 @@
       cursor: pointer !important;
     }
 
-    /* CINEMATIC FRAME AREA — AMBIENT LIGHTING ENHANCED */
+    /* CINEMATIC FRAME AREA — EXTENDED CUT AMBIENT BACKDROP */
     #gameScreen .frame-area {
       flex: 1 1 0% !important;
       min-height: 0 !important;
       width: 100% !important;
-      background: #0b0e17 !important;
-      background-image: radial-gradient(ellipse 95% 75% at 50% 45%, #182035 0%, #0d1220 50%, #070911 100%) !important;
+      background: #090c15 !important;
+      background-image: radial-gradient(ellipse 95% 75% at 50% 45%, #151a2d 0%, #0b0e18 50%, #06070d 100%) !important;
       border: 3.5px solid #1a1a1a !important;
       border-radius: 16px !important;
-      box-shadow: 6px 6px 0 #1a1a1a, 0 10px 32px rgba(99, 102, 241, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+      box-shadow: 6px 6px 0 #1a1a1a, 0 14px 44px var(--frame-accent, rgba(99, 102, 241, 0.22)), 0 2px 10px rgba(0, 0, 0, 0.08) !important;
       position: relative !important;
       overflow: hidden !important;
       display: flex !important;
       flex-direction: column !important;
+      transition: box-shadow 0.6s ease !important;
     }
     #gameScreen .frame-display {
       flex: 1 1 0% !important;
@@ -10058,22 +10058,47 @@
       height: 100% !important;
       position: relative !important;
       overflow: hidden !important;
-      background: #0b0e17 !important;
-      background-image: radial-gradient(ellipse 90% 70% at 50% 48%, #1d253d 0%, #101423 55%, #080a13 100%) !important;
+      background: #090c15 !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
+    }
+    #gameScreen .frame-ambient-glow {
+      position: absolute !important;
+      inset: -24px !important;
+      width: calc(100% + 48px) !important;
+      height: calc(100% + 48px) !important;
+      background-size: cover !important;
+      background-position: center center !important;
+      background-repeat: no-repeat !important;
+      filter: blur(52px) saturate(1.85) brightness(0.82) !important;
+      transform: scale(1.12) translateZ(0) !important;
+      opacity: 0;
+      transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-image 0.4s ease !important;
+      pointer-events: none !important;
+      z-index: 0 !important;
+      will-change: opacity, transform !important;
+    }
+    #gameScreen .frame-ambient-glow.active {
+      opacity: 0.88 !important;
+    }
+    #gameScreen .frame-ambient-glow::after {
+      content: '' !important;
+      position: absolute !important;
+      inset: 0 !important;
+      background: radial-gradient(ellipse at 50% 50%, rgba(9, 12, 21, 0.12) 30%, rgba(9, 12, 21, 0.55) 75%, #090c15 100%) !important;
+      pointer-events: none !important;
     }
     #gameScreen .frame-display::before {
       content: '' !important;
       display: block !important;
       position: absolute !important;
       inset: 6% 8% !important;
-      background: radial-gradient(ellipse at 50% 50%, rgba(99, 102, 241, 0.28) 0%, rgba(168, 85, 247, 0.16) 42%, rgba(56, 189, 248, 0.10) 65%, transparent 75%) !important;
+      background: radial-gradient(ellipse at 50% 50%, var(--frame-accent, rgba(99, 102, 241, 0.22)) 0%, var(--frame-accent-2, rgba(168, 85, 247, 0.14)) 42%, transparent 75%) !important;
       filter: blur(48px) !important;
       pointer-events: none !important;
       z-index: 0 !important;
-      opacity: 0.9 !important;
+      opacity: 0.85 !important;
       animation: ambientGlowPulse 8s ease-in-out infinite alternate !important;
     }
     @keyframes ambientGlowPulse {
@@ -14909,6 +14934,7 @@
         <!-- Frame display with smooth transitions -->
         <div class="frame-display" id="frameDisplay">
           <div class="frame-stage-loader" id="frameStageLoader" style="display:none;"><div class="fsl-bar"></div></div>
+          <div class="frame-ambient-glow" id="frameAmbientGlow"></div>
           <div class="frame-placeholder" id="framePlaceholder">
             <span class="emoji"><svg class="svg-icon">
                 <use href="#icon-clapperboard" />
@@ -20872,6 +20898,11 @@
                 if (!fullImg.parentNode) imageContainer.appendChild(fullImg);
                 requestAnimationFrame(() => fullImg.classList.add('visible', 'loaded'));
                 if (typeof PaletteManager !== 'undefined') PaletteManager.fromImage(fullImg);
+                const ambGlow = document.getElementById('frameAmbientGlow');
+                if (ambGlow && fullImg && fullImg.src) {
+                  ambGlow.style.backgroundImage = `url("${fullImg.src}")`;
+                  ambGlow.classList.add('active');
+                }
               };
               fullImg.onload = showFull;
               fullImg.src = currentFrame.revealContent;
@@ -21004,6 +21035,11 @@
                 if (!fullImg.parentNode) imageContainer.appendChild(fullImg);
                 requestAnimationFrame(() => fullImg.classList.add('visible', 'loaded'));
                 if (typeof PaletteManager !== 'undefined') PaletteManager.fromImage(fullImg);
+                const ambGlow = document.getElementById('frameAmbientGlow');
+                if (ambGlow && fullImg && fullImg.src) {
+                  ambGlow.style.backgroundImage = `url("${fullImg.src}")`;
+                  ambGlow.classList.add('active');
+                }
               };
               fullImg.onload = showFull;
               fullImg.src = currentFrame.revealContent;
@@ -22028,6 +22064,8 @@
 
         ansOv.classList.remove('visible', 'eye-answer', 'tribute-answer');
         const tdClear = document.getElementById('tributeDisplay'); if (tdClear) tdClear.style.display = 'none';
+        const ambGlow = document.getElementById('frameAmbientGlow');
+        if (ambGlow) { ambGlow.style.backgroundImage = 'none'; ambGlow.classList.remove('active'); }
         // Reset answer divider animation so it replays on next reveal
         if (ansDivider) { ansDivider.style.animation = 'none'; void ansDivider.offsetWidth; ansDivider.style.animation = ''; }
         if (ph) ph.classList.remove('hidden');
@@ -22055,6 +22093,8 @@
         // Handle dialogue or plot type
         if (f.type === 'dialogue' || f.type === 'plot') {
           PaletteManager.reset();
+          const ambGlow = document.getElementById('frameAmbientGlow');
+          if (ambGlow) { ambGlow.style.backgroundImage = 'none'; ambGlow.classList.remove('active'); }
           layer.style.opacity = '0';
           imageContainer.innerHTML = '';
           dialogue.style.filter = '';
@@ -22115,6 +22155,12 @@
           if (stageLoader) stageLoader.style.display = 'none';
           imgElement.classList.add('loaded');
           PaletteManager.fromImage(imgElement);
+
+          const ambGlow = document.getElementById('frameAmbientGlow');
+          if (ambGlow && imgElement && imgElement.src) {
+            ambGlow.style.backgroundImage = `url("${imgElement.src}")`;
+            ambGlow.classList.add('active');
+          }
 
           // Clean up old images
           const oldImages = imageContainer.querySelectorAll('.frame-image.loaded');
@@ -22229,6 +22275,11 @@
               if (!fullImg.parentNode) imageContainer.appendChild(fullImg);
               requestAnimationFrame(() => fullImg.classList.add('visible', 'loaded'));
               PaletteManager.fromImage(fullImg);
+              const ambGlow = document.getElementById('frameAmbientGlow');
+              if (ambGlow && fullImg && fullImg.src) {
+                ambGlow.style.backgroundImage = `url("${fullImg.src}")`;
+                ambGlow.classList.add('active');
+              }
             };
             fullImg.onload = showFull;
             fullImg.onerror = () => { fullImg.onerror = null; fullImg.removeAttribute('src'); };
