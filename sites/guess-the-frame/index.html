@@ -5580,9 +5580,10 @@
     #gameScreen .frame-area {
       flex: 1 !important;
       position: relative !important;
-      background: #000 !important;
+      background: #0b0e17 !important;
+      background-image: radial-gradient(ellipse 95% 75% at 50% 45%, #182035 0%, #0d1220 50%, #070911 100%) !important;
       border: 3.5px solid var(--nb-ink, #1a1a1a) !important;
-      box-shadow: 6px 6px 0 var(--nb-ink, #1a1a1a) !important;
+      box-shadow: 6px 6px 0 var(--nb-ink, #1a1a1a), 0 10px 32px rgba(99, 102, 241, 0.12) !important;
       border-radius: 0 !important;
       overflow: hidden !important;
       display: flex !important;
@@ -5594,7 +5595,8 @@
     #gameScreen .frame-display {
       flex: 1 !important;
       position: relative !important;
-      background: #0c0d12 !important;
+      background: #0b0e17 !important;
+      background-image: radial-gradient(ellipse 90% 70% at 50% 48%, #1d253d 0%, #101423 55%, #080a13 100%) !important;
       border-radius: 0 !important;
       border: none !important;
       box-shadow: none !important;
@@ -9877,9 +9879,9 @@
       padding: 10px 14px !important;
       box-sizing: border-box !important;
       overflow: hidden !important;
-      background: #ffffff !important;
-      background-color: #ffffff !important;
-      background-image: none !important;
+      background: radial-gradient(circle at 50% 20%, #ffffff 0%, #f6f7fc 55%, #edf0f8 100%) !important;
+      background-color: #f8f9fd !important;
+      background-image: radial-gradient(circle at 50% 20%, #ffffff 0%, #f6f7fc 55%, #edf0f8 100%) !important;
       position: fixed !important;
       inset: 0 !important;
     }
@@ -9887,17 +9889,17 @@
       display: flex !important;
       flex-direction: row !important;
       align-items: stretch !important;
-      background: #ffffff !important;
-      background-color: #ffffff !important;
-      background-image: none !important;
+      background: radial-gradient(circle at 50% 20%, #ffffff 0%, #f6f7fc 55%, #edf0f8 100%) !important;
+      background-color: #f8f9fd !important;
+      background-image: radial-gradient(circle at 50% 20%, #ffffff 0%, #f6f7fc 55%, #edf0f8 100%) !important;
     }
 
-    /* ONLY GAME PAGE BACKGROUND TO FULL WHITE */
+    /* ONLY GAME PAGE BACKGROUND TO FULL WHITE WITH SUBTLE AMBIENT LIGHTING */
     body.in-game-screen,
     body:has(#gameScreen.active) {
-      background: #ffffff !important;
-      background-color: #ffffff !important;
-      background-image: none !important;
+      background: radial-gradient(circle at 50% 20%, #ffffff 0%, #f6f7fc 55%, #edf0f8 100%) !important;
+      background-color: #f8f9fd !important;
+      background-image: radial-gradient(circle at 50% 20%, #ffffff 0%, #f6f7fc 55%, #edf0f8 100%) !important;
     }
     body.in-game-screen #bgBackdrop,
     body.in-game-screen #bgFocusScrim,
@@ -10035,15 +10037,16 @@
       cursor: pointer !important;
     }
 
-    /* CINEMATIC FRAME AREA */
+    /* CINEMATIC FRAME AREA — AMBIENT LIGHTING ENHANCED */
     #gameScreen .frame-area {
       flex: 1 1 0% !important;
       min-height: 0 !important;
       width: 100% !important;
-      background: #0a0b10 !important;
+      background: #0b0e17 !important;
+      background-image: radial-gradient(ellipse 95% 75% at 50% 45%, #182035 0%, #0d1220 50%, #070911 100%) !important;
       border: 3.5px solid #1a1a1a !important;
       border-radius: 16px !important;
-      box-shadow: 6px 6px 0 #1a1a1a !important;
+      box-shadow: 6px 6px 0 #1a1a1a, 0 10px 32px rgba(99, 102, 241, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08) !important;
       position: relative !important;
       overflow: hidden !important;
       display: flex !important;
@@ -10055,10 +10058,33 @@
       height: 100% !important;
       position: relative !important;
       overflow: hidden !important;
-      background: #0a0b10 !important;
+      background: #0b0e17 !important;
+      background-image: radial-gradient(ellipse 90% 70% at 50% 48%, #1d253d 0%, #101423 55%, #080a13 100%) !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
+    }
+    #gameScreen .frame-display::before {
+      content: '' !important;
+      display: block !important;
+      position: absolute !important;
+      inset: 6% 8% !important;
+      background: radial-gradient(ellipse at 50% 50%, rgba(99, 102, 241, 0.28) 0%, rgba(168, 85, 247, 0.16) 42%, rgba(56, 189, 248, 0.10) 65%, transparent 75%) !important;
+      filter: blur(48px) !important;
+      pointer-events: none !important;
+      z-index: 0 !important;
+      opacity: 0.9 !important;
+      animation: ambientGlowPulse 8s ease-in-out infinite alternate !important;
+    }
+    @keyframes ambientGlowPulse {
+      0% {
+        transform: scale(0.96);
+        opacity: 0.75;
+      }
+      100% {
+        transform: scale(1.04);
+        opacity: 0.95;
+      }
     }
     #gameScreen .frame-image-container {
       position: absolute !important;
