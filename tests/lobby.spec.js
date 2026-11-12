@@ -71,12 +71,12 @@ test.describe('Lobby & Player Setup Tests', () => {
     const count = await avatarOpts.count();
     expect(count).toBeGreaterThanOrEqual(4);
 
-    // Click second avatar (Amish)
+    // Click second avatar (Aziz)
     await avatarOpts.nth(1).click();
     const selectedAvatar = await page.evaluate(() => {
       return MultiplayerEngine.selectedAvatarForModal || MultiplayerEngine.playerAvatar;
     });
-    expect(selectedAvatar).toBe('ayush');
+    expect(selectedAvatar).toBe('aziz');
   });
 
   test('Lobby renders player cards and allows host to adjust game settings', async ({ page }) => {

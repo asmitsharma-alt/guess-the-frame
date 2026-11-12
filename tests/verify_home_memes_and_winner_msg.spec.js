@@ -44,19 +44,19 @@ test.describe('Winner Screen & Home Screen Meme Removal & Winner Message Verific
     expect(msg).toContain('Umeed hai ki aap logon ko game khelne mein maza aaya hoga! Milte hain agle hafte');
   });
 
-  test('All 3 sections have updated counts and Round 40 Scarlett Johansson logic', async ({ page }) => {
+  test('All 3 sections have updated counts and Round 40 Wamiqa Gabbi logic', async ({ page }) => {
     const sections = await page.evaluate(() => GS.sections);
     expect(sections.length).toBe(3);
     expect(sections[0].frames.length).toBe(20);
     expect(sections[1].frames.length).toBe(10);
     expect(sections[2].frames.length).toBe(10);
 
-    // Verify Round 40 Scarlett Johansson
+    // Verify Round 40 Wamiqa Gabbi
     const r40 = sections[2].frames[9];
-    expect(r40.answer).toBe('SCARLETT JOHANSSON');
-    expect(r40.displayAnswer).toBe('Scarlett Johansson');
-    expect(r40.content).toContain('Scarlett Johansson copy.webp');
-    expect(r40.revealContent).toContain('Scarlett Johansson.webp');
+    expect(r40.answer).toBe('WAMIQA GABBI');
+    expect(r40.displayAnswer).toBe('Wamiqa Gabbi');
+    expect(r40.content).toContain('Wamiqa Gabbi copy.webp');
+    expect(r40.revealContent).toContain('Wamiqa Gabbi.webp');
 
     // Test Round 40 gameplay reveal in engine
     const testR40 = await page.evaluate(() => {
@@ -74,8 +74,8 @@ test.describe('Winner Screen & Home Screen Meme Removal & Winner Message Verific
       MultiplayerEngine.currentRoundWinners = [];
       MultiplayerEngine._roundGuessedCorrectIds = new Set();
 
-      // Submit correct guess "SCARLETT JOHANSSON"
-      MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'aman', guess: 'SCARLETT JOHANSSON', roundIndex: 0 });
+      // Submit correct guess "WAMIQA GABBI"
+      MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'aman', guess: 'WAMIQA GABBI', roundIndex: 0 });
       const scoreAfter = GS.players[0].score;
 
       // End round and verify displayAnswer
@@ -89,7 +89,7 @@ test.describe('Winner Screen & Home Screen Meme Removal & Winner Message Verific
     });
 
     expect(testR40.scoreAfter).toBe(10);
-    expect(testR40.revealedTitle).toBe('Scarlett Johansson');
+    expect(testR40.revealedTitle).toBe('Wamiqa Gabbi');
   });
 
   test('Winner screen displays right QR pop-up cleanly on large desktop', async ({ page }) => {
