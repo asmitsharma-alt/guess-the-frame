@@ -19624,6 +19624,23 @@
                 if (ansTitle && curFrame) FrameDisplay.setAnsTitle(ansTitle, curFrame.displayAnswer || curFrame.answer || '');
                 const ansYear = document.getElementById('ansYear');
                 if (ansYear && curFrame) ansYear.textContent = curFrame.year ? `(${curFrame.year})` : '';
+
+                const nextBtn = document.getElementById('ansNextRoundBtn');
+                const waitPill = document.getElementById('ansWaitingHostPill');
+                if (this.isHost) {
+                  const isLast = (this.currentPlayIndex + 1 >= (this.currentPlaylist ? this.currentPlaylist.length : 40));
+                  if (nextBtn) {
+                    nextBtn.style.display = 'inline-flex';
+                    nextBtn.textContent = isLast ? 'FINISH MATCH 🏁 [Enter]' : 'NEXT ROUND ⏭ [Enter]';
+                  }
+                  if (waitPill) waitPill.style.display = 'none';
+                } else {
+                  if (nextBtn) nextBtn.style.display = 'none';
+                  if (waitPill) {
+                    waitPill.style.display = 'inline-flex';
+                    waitPill.textContent = '⌛ Waiting for host to start next round...';
+                  }
+                }
               } else {
                 this.isRoundFinished = false;
                 const ansOv = document.getElementById('answerOverlay');
@@ -20990,31 +21007,21 @@
             tributeText: (currentFrame && currentFrame.tributeText) || ''
           });
 
-          // Show Next Round button for host with safety auto-advance
+          // Show Next Round button for host (fully manual — no auto-advance countdown timer)
           const nextBtn = document.getElementById('ansNextRoundBtn');
           const waitPill = document.getElementById('ansWaitingHostPill');
           const isLast = (this.currentPlayIndex + 1 >= this.currentPlaylist.length);
           const baseLabel = isLast ? 'FINISH MATCH 🏁 [Enter]' : 'NEXT ROUND ⏭ [Enter]';
           if (nextBtn) {
             nextBtn.style.display = 'inline-flex';
-            nextBtn.textContent = baseLabel + ' (20s)';
+            nextBtn.textContent = baseLabel;
           }
           if (waitPill) waitPill.style.display = 'none';
 
-          if (this._hostAutoAdvanceTimer) clearInterval(this._hostAutoAdvanceTimer);
-          let hostCountdown = 20;
-          this._hostAutoAdvanceTimer = setInterval(() => {
-            hostCountdown--;
-            if (nextBtn && nextBtn.style.display !== 'none') {
-              nextBtn.textContent = baseLabel + ' (' + hostCountdown + 's)';
-            }
-            if (hostCountdown <= 0) {
-              clearInterval(this._hostAutoAdvanceTimer);
-              if (this.isHost && document.getElementById('answerOverlay') && document.getElementById('answerOverlay').classList.contains('visible')) {
-                this.hostNextRound();
-              }
-            }
-          }, 1000);
+          if (this._hostAutoAdvanceTimer) {
+            clearInterval(this._hostAutoAdvanceTimer);
+            this._hostAutoAdvanceTimer = null;
+          }
 
           // Dynamically morph Skip button into "▶ Next Round" (or "🏁 Finish Match")
           this.setHostSkipButtonState('next');
@@ -21119,32 +21126,13 @@
         if (nextBtn) nextBtn.style.display = 'none';
         if (waitPill) {
           waitPill.style.display = 'inline-flex';
-          waitPill.textContent = '⌛ WAITING FOR HOST... (20s)';
+          waitPill.textContent = '⌛ Waiting for host to start next round...';
         }
 
-        if (this._clientWaitTimer) clearInterval(this._clientWaitTimer);
-        let clientCountdown = 20;
-        this._clientWaitTimer = setInterval(() => {
-          clientCountdown--;
-          if (waitPill && waitPill.style.display !== 'none') {
-            waitPill.textContent = '⌛ WAITING FOR HOST... (' + clientCountdown + 's)';
-          }
-          if (clientCountdown <= 0) {
-            clearInterval(this._clientWaitTimer);
-            if (document.getElementById('answerOverlay') && document.getElementById('answerOverlay').classList.contains('visible')) {
-              if (Date.now() - (this.lastHostHeartbeat || 0) > 6000) {
-                this.checkHostMigration();
-              } else if (!this.isHost) {
-                waitPill.textContent = '⌛ WAITING FOR HOST TO START NEXT ROUND...';
-                setTimeout(() => {
-                  if (document.getElementById('answerOverlay') && document.getElementById('answerOverlay').classList.contains('visible')) {
-                    this.checkHostMigration();
-                  }
-                }, 4000);
-              }
-            }
-          }
-        }, 1000);
+        if (this._clientWaitTimer) {
+          clearInterval(this._clientWaitTimer);
+          this._clientWaitTimer = null;
+        }
         this.saveActiveSession();
       },
 
