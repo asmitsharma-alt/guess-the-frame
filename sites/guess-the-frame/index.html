@@ -1954,6 +1954,10 @@
       background-clip: text;
       animation: goldShimmer 2.5s linear infinite, ansSlideUp .5s ease both;
       filter: drop-shadow(0 0 30px rgba(255, 215, 0, .45));
+      max-width: 100%;
+      box-sizing: border-box;
+      word-break: break-word;
+      overflow-wrap: anywhere;
     }
 
     .answer-overlay .ans-divider {
@@ -5072,6 +5076,40 @@
         height: 55vh;
       }
 
+      #frameDisplay .answer-overlay {
+        padding: 8px !important;
+      }
+      #frameDisplay .answer-overlay .ans-card,
+      #gameScreen .answer-overlay .ans-card {
+        padding: 12px 14px !important;
+        gap: 6px !important;
+        max-height: calc(100% - 10px) !important;
+        box-shadow: 4px 4px 0 var(--nb-ink, #1a1a1a) !important;
+      }
+      #frameDisplay .answer-overlay .ans-title,
+      #gameScreen .answer-overlay .ans-title {
+        font-size: clamp(16px, 4.5vw, 24px) !important;
+        padding: 0 4px !important;
+      }
+      #frameDisplay .answer-overlay .ans-title.ans-title-long,
+      #gameScreen .answer-overlay .ans-title.ans-title-long {
+        font-size: clamp(13px, 3.2vw, 16px) !important;
+        padding: 4px 6px !important;
+      }
+      #frameDisplay .answer-overlay .ans-title.ans-title-xlong,
+      #gameScreen .answer-overlay .ans-title.ans-title-xlong {
+        font-size: clamp(10.5px, 2.7vw, 12.5px) !important;
+        padding: 6px 8px !important;
+        max-height: 100px !important;
+      }
+      .ans-action-bar {
+        margin-top: 6px !important;
+      }
+      .ans-next-round-btn {
+        padding: 8px 18px !important;
+        font-size: 13px !important;
+      }
+
       .game-header {
         flex-wrap: wrap;
         gap: 6px;
@@ -5681,12 +5719,17 @@
       border: 4px solid var(--nb-ink, #1a1a1a) !important;
       box-shadow: 8px 8px 0 var(--nb-ink, #1a1a1a) !important;
       border-radius: 0 !important;
-      padding: 32px 36px !important;
-      max-width: min(92%, 560px) !important;
+      padding: clamp(16px, 3vh, 32px) clamp(16px, 3.5vw, 36px) !important;
+      max-width: min(94%, 580px) !important;
+      width: 100% !important;
+      max-height: calc(100% - 16px) !important;
+      box-sizing: border-box !important;
+      overflow-y: auto !important;
+      -webkit-overflow-scrolling: touch !important;
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
-      gap: 12px !important;
+      gap: clamp(6px, 1.5vh, 12px) !important;
       animation: nbHeroIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
       text-align: center !important;
       transform: none !important;
@@ -5724,15 +5767,55 @@
     #frameDisplay .answer-overlay .ans-title {
       font-family: 'DM Sans', sans-serif !important;
       font-weight: 900 !important;
-      font-size: clamp(26px, 5vw, 44px) !important;
+      font-size: clamp(22px, 4.5vw, 42px) !important;
       letter-spacing: 0.5px !important;
       text-transform: uppercase !important;
       color: var(--nb-ink, #1a1a1a) !important;
-      line-height: 1.1 !important;
+      line-height: 1.15 !important;
       text-shadow: none !important;
       background: none !important;
       -webkit-text-fill-color: var(--nb-ink, #1a1a1a) !important;
       filter: none !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      box-sizing: border-box !important;
+      word-break: break-word !important;
+      overflow-wrap: anywhere !important;
+      hyphens: auto !important;
+      padding: 0 10px !important;
+    }
+    #frameDisplay .answer-overlay .ans-title.ans-title-long,
+    #gameScreen .answer-overlay .ans-title.ans-title-long,
+    .answer-overlay .ans-title.ans-title-long {
+      font-size: clamp(14px, 2.8vw, 20px) !important;
+      line-height: 1.3 !important;
+      letter-spacing: 0.2px !important;
+      word-break: break-all !important;
+      overflow-wrap: anywhere !important;
+      padding: 4px 8px !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      text-transform: none !important;
+    }
+    #frameDisplay .answer-overlay .ans-title.ans-title-xlong,
+    #gameScreen .answer-overlay .ans-title.ans-title-xlong,
+    .answer-overlay .ans-title.ans-title-xlong {
+      font-family: 'Space Mono', 'Consolas', 'Courier New', monospace !important;
+      font-weight: 700 !important;
+      font-size: clamp(11.5px, 2.3vw, 15px) !important;
+      line-height: 1.35 !important;
+      letter-spacing: 0px !important;
+      word-break: break-all !important;
+      overflow-wrap: anywhere !important;
+      padding: 8px 12px !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      text-transform: none !important;
+      background: rgba(0, 0, 0, 0.04) !important;
+      border: 2px dashed var(--nb-ink, #1a1a1a) !important;
+      border-radius: 6px !important;
+      max-height: 120px !important;
+      overflow-y: auto !important;
     }
     #frameDisplay .answer-overlay .ans-dialogue {
       color: var(--nb-ink, #1a1a1a) !important;
@@ -5793,6 +5876,10 @@
       line-height: 1.15 !important;
       letter-spacing: 0.5px !important;
       margin: 2px 0 !important;
+      word-break: break-word !important;
+      overflow-wrap: anywhere !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
     }
 
     #gameScreen .answer-overlay.eye-answer .ans-dialogue,
@@ -19581,7 +19668,7 @@
                 const ansOv = document.getElementById('answerOverlay');
                 if (ansOv) ansOv.classList.add('visible', 'active');
                 const ansTitle = document.getElementById('ansTitle');
-                if (ansTitle && curFrame) ansTitle.textContent = curFrame.displayAnswer || curFrame.answer || '';
+                if (ansTitle && curFrame) FrameDisplay.setAnsTitle(ansTitle, curFrame.displayAnswer || curFrame.answer || '');
                 const ansYear = document.getElementById('ansYear');
                 if (ansYear && curFrame) ansYear.textContent = curFrame.year ? `(${curFrame.year})` : '';
               } else {
@@ -20863,7 +20950,7 @@
         const ansOverlay = document.getElementById('answerOverlay');
 
         if (ansBadge) ansBadge.textContent = (currentFrame && currentFrame.type === 'eye') ? 'CELEBRITY REVEAL' : 'ANSWER';
-        if (ansTitle) ansTitle.textContent = (currentFrame && (currentFrame.displayAnswer || currentFrame.answer)) || '';
+        if (ansTitle) FrameDisplay.setAnsTitle(ansTitle, (currentFrame && (currentFrame.displayAnswer || currentFrame.answer)) || '');
         if (ansYear) ansYear.textContent = currentFrame.year ? `(${currentFrame.year})` : '';
 
         // Tribute memorial reveal (e.g. Nana Patekar memorial in Welcome)
@@ -20999,7 +21086,7 @@
         const revealedAns = msg.revealedAnswer || (currentFrame && (currentFrame.displayAnswer || currentFrame.answer)) || '';
         const revealedYr = msg.revealedYear || (currentFrame && currentFrame.year) || '';
         if (ansBadge) ansBadge.textContent = (currentFrame && currentFrame.type === 'eye') ? 'CELEBRITY REVEAL' : 'ANSWER';
-        if (ansTitle) ansTitle.textContent = revealedAns;
+        if (ansTitle) FrameDisplay.setAnsTitle(ansTitle, revealedAns);
         if (ansYear) ansYear.textContent = revealedYr ? '(' + revealedYr + ')' : '';
 
         // Tribute memorial reveal (e.g. Nana Patekar memorial in Welcome)
@@ -22081,10 +22168,24 @@
         // Reset answer divider animation so it replays on next reveal
         if (ansDivider) { ansDivider.style.animation = 'none'; void ansDivider.offsetWidth; ansDivider.style.animation = ''; }
         if (ph) ph.classList.remove('hidden');
+        const ansTitleReset = document.getElementById('ansTitle');
+        if (ansTitleReset) {
+          ansTitleReset.textContent = '';
+          ansTitleReset.classList.remove('ans-title-long', 'ans-title-xlong');
+        }
 
         this._currentFrame = null;
         this._currentImage = null;
         GS.currentFrameLoader = null;
+      },
+
+      /* Formats and scales answer title for ultra-long filenames or titles */
+      setAnsTitle(ansTitle, text) {
+        if (!ansTitle) return;
+        const str = (text || '').trim();
+        ansTitle.textContent = str;
+        ansTitle.classList.toggle('ans-title-long', str.length > 35 && str.length <= 60);
+        ansTitle.classList.toggle('ans-title-xlong', str.length > 60);
       },
 
       /* Show a frame with smooth loading */
@@ -22261,7 +22362,7 @@
         const ansBadge = document.getElementById('ansBadge');
         if (ansBadge) ansBadge.textContent = (f && f.type === 'eye') ? 'CELEBRITY REVEAL' : 'ANSWER';
 
-        ansTitle.textContent = f.displayAnswer || f.answer || '';
+        this.setAnsTitle(ansTitle, f.displayAnswer || f.answer || '');
         ansYear.textContent = f.year ? `${f.year}` : '';
 
         if ((f.type === 'dialogue' || f.type === 'plot') && (f.dialogue || f.plot)) {
@@ -22322,6 +22423,19 @@
       },
     };
     window.MultiplayerEngine = MultiplayerEngine;
+
+    // Safety auto-formatter for answer overlay title
+    try {
+      const _atEl = document.getElementById('ansTitle');
+      if (_atEl) {
+        const _atObs = new MutationObserver(() => {
+          const l = (_atEl.textContent || '').trim().length;
+          _atEl.classList.toggle('ans-title-long', l > 35 && l <= 60);
+          _atEl.classList.toggle('ans-title-xlong', l > 60);
+        });
+        _atObs.observe(_atEl, { childList: true, characterData: true, subtree: true });
+      }
+    } catch (_) {}
 
     /* ═══ GAME CONTROLLER ═══ */
     const GameController = {
