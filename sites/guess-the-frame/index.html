@@ -14501,7 +14501,7 @@
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>
                       </button>
                       <div id="hostTimerBtn" class="match-timer-value">
-                        <span id="hostTimerBtnText" class="match-timer-val-text">30s</span>
+                        <span id="hostTimerBtnText" class="match-timer-val-text">20s</span>
                         <span class="match-timer-unit-text">Seconds</span>
                       </div>
                       <button type="button" onclick="if(!PlayerLobby._isRepeating){PlayerLobby.adjustTimer(1);}else{PlayerLobby._isRepeating=false;}" onpointerdown="PlayerLobby.startRepeat('timer', 1)" class="match-timer-btn" title="Increase Timer">
@@ -15045,7 +15045,7 @@
                 <circle class="tpg" id="timerProg" cx="50" cy="50" r="42" stroke-dasharray="264"
                   stroke-dashoffset="0"></circle>
               </svg>
-              <span class="ttx" id="timerTxt">30</span>
+              <span class="ttx" id="timerTxt">20</span>
             </div>
             <div class="timer-label" id="timerLbl">Time Remaining</div>
           </div>
@@ -15857,7 +15857,7 @@
             status: 'lobby',
             currentSection: 'frames',
             currentRound: 0,
-            timer: hostSettings.timer || 30,
+            timer: hostSettings.timer || 20,
             totalRounds: hostSettings.rounds || 10,
             categories: (hostSettings.categories || ['frames', 'eyes', 'dialogue']).join(','),
             createdAt: Date.now(),
@@ -16241,7 +16241,7 @@
         const settings = MultiplayerEngine.hostSettings || {
           category: 'all', categories: ['frames', 'eyes', 'plot'], roundsByMode: { frames: 20, eyes: 10, plot: 10 },
           rounds: 40,
-          timer: 30
+          timer: 20
         };
 
         const activeCategories = (settings.categories || ['frames', 'eyes', 'plot']).map(c => c === 'dialogue' ? 'plot' : c);
@@ -16309,7 +16309,7 @@
 
         // Update Timer button
         const timerBtnText = document.getElementById('hostTimerBtnText');
-        if (timerBtnText) timerBtnText.textContent = `${settings.timer || 30}s`;
+        if (timerBtnText) timerBtnText.textContent = `${settings.timer || 20}s`;
 
         // Update Match Info
         const infoMode = document.getElementById('matchInfoMode');
@@ -16328,7 +16328,7 @@
         }
         if (infoTotal) infoTotal.textContent = totalR;
         if (infoDuration) {
-          const estMins = Math.max(1, Math.ceil((totalR * ((settings.timer || 30) + 5)) / 60));
+          const estMins = Math.max(1, Math.ceil((totalR * ((settings.timer || 20) + 5)) / 60));
           infoDuration.textContent = `~ ${estMins} Min`;
         }
         const readyCount = GS.players.filter(p => p.loaded === true || GS.framesLoaded).length;
@@ -16413,7 +16413,7 @@
           MultiplayerEngine.hostSettings = {
             category: 'all', categories: ['frames', 'eyes', 'plot'], roundsByMode: { frames: 20, eyes: 10, plot: 10 },
             rounds: 40,
-            timer: 30
+            timer: 20
           };
         }
         const s = MultiplayerEngine.hostSettings;
@@ -16441,7 +16441,7 @@
           MultiplayerEngine.hostSettings = {
             category: 'all', categories: ['frames', 'eyes', 'plot'], roundsByMode: { frames: 20, eyes: 10, plot: 10 },
             rounds: 40,
-            timer: 30
+            timer: 20
           };
         }
         const s = MultiplayerEngine.hostSettings;
@@ -16480,7 +16480,7 @@
             categories: ['frames', 'eyes', 'plot'],
             roundsByMode: { frames: 20, eyes: 10, plot: 10 },
             rounds: 40,
-            timer: 30
+            timer: 20
           };
         }
         const s = MultiplayerEngine.hostSettings;
@@ -16527,10 +16527,10 @@
           MultiplayerEngine.hostSettings = {
             category: 'all', categories: ['frames', 'eyes', 'plot'], roundsByMode: { frames: 20, eyes: 10, plot: 10 },
             rounds: 40,
-            timer: 30
+            timer: 20
           };
         }
-        const current = Number(MultiplayerEngine.hostSettings.timer) || 30;
+        const current = Number(MultiplayerEngine.hostSettings.timer) || 20;
         const newTimer = Math.max(1, Math.min(180, current + delta));
         if (newTimer === current) return;
         SoundManager.playClick();
@@ -17332,7 +17332,7 @@
         GS.activeTimerId = timerId;
       },
       start(duration, cb) {
-        this.startWithDuration(duration || GS.settings.timerDuration || 30, cb);
+        this.startWithDuration(duration || GS.settings.timerDuration || 20, cb);
       },
 
       clear() {
@@ -18584,7 +18584,7 @@
         categories: ['frames', 'eyes', 'plot'],
         roundsByMode: { frames: 20, eyes: 10, plot: 10 },
         rounds: 40,
-        timer: 30
+        timer: 20
       },
       isPaused: false,
       joinRetryTimer: null,
@@ -18761,7 +18761,7 @@
             categories: ['frames', 'eyes', 'plot'],
             roundsByMode: { frames: 20, eyes: 10, plot: 10 },
             rounds: 40,
-            timer: 30
+            timer: 20
           };
         }
 
@@ -19021,7 +19021,7 @@
         this.playerName = typedName || this.getAvatarDisplayName(this.playerAvatar);
         this.isHost = true;
         this.roomCode = this.generateRoomCode();
-        this.hostSettings = { category: 'all', categories: ['frames', 'eyes', 'plot'], roundsByMode: { frames: 20, eyes: 10, plot: 10 }, rounds: 40, timer: 30 };
+        this.hostSettings = { category: 'all', categories: ['frames', 'eyes', 'plot'], roundsByMode: { frames: 20, eyes: 10, plot: 10 }, rounds: 40, timer: 20 };
         this.roomId = 'room_' + this.roomCode;
 
         localStorage.setItem('gtf_player_name', this.playerName);
@@ -19483,7 +19483,7 @@
               UI.renderLB();
               this.saveActiveSession();
 
-              const totalTimer = (this.hostSettings && this.hostSettings.timer) || 30;
+              const totalTimer = (this.hostSettings && this.hostSettings.timer) || 20;
               const elapsed = this.currentRoundStartTime ? Math.max(0, (Date.now() - this.currentRoundStartTime) / 1000) : 0;
               const remainingSeconds = Math.max(1, Math.round(totalTimer - elapsed));
 
@@ -19601,7 +19601,7 @@
                 }
                 if (submitBtn) submitBtn.disabled = alreadyGuessed;
 
-                TC.start(msg.remainingSeconds || msg.timerDuration || 30, () => {
+                TC.start(msg.remainingSeconds || msg.timerDuration || 20, () => {
                   this.endRound();
                 });
               }
@@ -19736,7 +19736,7 @@
 
               // If match is active, sync rejoining player directly into active round
               if (this.isMatchActive) {
-                const totalTimer = (this.hostSettings && this.hostSettings.timer) || 30;
+                const totalTimer = (this.hostSettings && this.hostSettings.timer) || 20;
                 const elapsed = this.currentRoundStartTime ? Math.max(0, (Date.now() - this.currentRoundStartTime) / 1000) : 0;
                 const remainingSeconds = Math.max(1, Math.round(totalTimer - elapsed));
                 this.sendEvent('REJOIN_SYNC_STATE', {
@@ -20012,7 +20012,7 @@
           this.hostSettings = {
             category: 'all', categories: ['frames', 'eyes', 'plot'], roundsByMode: { frames: 20, eyes: 10, plot: 10 },
             rounds: 40,
-            timer: 30
+            timer: 20
           };
         }
         const counts = this.hostSettings.roundsByMode || { frames: 20, eyes: 10, dialogue: 10 };
@@ -20098,6 +20098,9 @@
         GS.players = msg.players || GS.players;
         if (msg.playlist && msg.playlist.length > 0) {
           this.currentPlaylist = msg.playlist;
+          if (typeof FrameDisplay !== 'undefined' && FrameDisplay.warmPlaylist) {
+            FrameDisplay.warmPlaylist(msg.playlist);
+          }
         }
         this.currentPlayIndex = 0;
         UI.showScreen('gameScreen');
@@ -20118,6 +20121,9 @@
         this.isPaused = false;
         { const pb = document.getElementById('hfbPauseBtn'); if (pb) pb.textContent = '⏸ Pause'; }
         { const si = document.getElementById('stateInd'); if (si) { si.textContent = ''; si.style.display = 'none'; } }
+        if (this.currentPlaylist && this.currentPlaylist.length > 0 && typeof FrameDisplay !== 'undefined' && FrameDisplay.warmPlaylist) {
+          FrameDisplay.warmPlaylist(this.currentPlaylist);
+        }
         UI.showScreen('gameScreen');
         const ogp = document.getElementById('onlineGuessPanel'); if (ogp) ogp.classList.add('active');
         if (this.isHost) {
@@ -20505,7 +20511,7 @@
         const hfbNext = document.getElementById('hfbNextBtn'); if (hfbNext) hfbNext.style.display = 'none';
         document.getElementById('scoringOv').classList.remove('active');
 
-        const timerDuration = (this.hostSettings && this.hostSettings.timer) ? this.hostSettings.timer : 30;
+        const timerDuration = (this.hostSettings && this.hostSettings.timer) ? this.hostSettings.timer : 20;
         this.playRoundIntroAnimation(roundIndex + 1, this.currentPlaylist.length, () => {
           TC.start(timerDuration, () => {
             this.endRound();
@@ -20614,7 +20620,7 @@
         document.getElementById('scoringOv').classList.remove('active');
 
         this.playRoundIntroAnimation(msg.roundIndex + 1, totalR, () => {
-          TC.start(msg.timerDuration || 30, () => {
+          TC.start(msg.timerDuration || 20, () => {
             this.endRound();
           });
         });
@@ -22022,6 +22028,16 @@
 
       /* Preload next few frames */
       async preloadUpcoming() {
+        if (typeof MultiplayerEngine !== 'undefined' && MultiplayerEngine.isMatchActive && MultiplayerEngine.currentPlaylist && MultiplayerEngine.currentPlaylist.length > 0) {
+          const start = (Number(MultiplayerEngine.currentPlayIndex) || 0) + 1;
+          const upcoming = MultiplayerEngine.currentPlaylist.slice(start, start + 3);
+          upcoming.forEach(f => {
+            if (!f) return;
+            if (f.content) this.preloadImage(f.content).catch(() => {});
+            if (f.revealContent) this.preloadImage(f.revealContent).catch(() => {});
+          });
+          return;
+        }
         let count = 0;
         for (let s = GS.currentSection; s < GS.sections.length && count < 3; s++) {
           const sec = GS.sections[s];
@@ -22140,10 +22156,19 @@
         const stageLoader = document.getElementById('frameStageLoader');
         if (stageLoader) stageLoader.style.display = 'none';
 
-        // Create and load new image with instant cache display
+        const src = f.content;
+        if (!src) {
+          this.preloadUpcoming();
+          return;
+        }
+
+        // Create and mount new image immediately so browser network pipeline fetches it instantly
         const newImg = document.createElement('img');
         newImg.className = f.type === 'eye' ? 'frame-image eye-image' : 'frame-image';
+        newImg.setAttribute('data-src', src);
+        newImg.alt = f.answer || 'Movie Frame';
         newImg.loading = 'eager';
+        newImg.decoding = 'async';
         const frameRef = f; // capture reference for async callback
 
         const applyImage = (imgElement) => {
@@ -22175,54 +22200,48 @@
           SoundManager.playFrameIn();
         };
 
-        // Instant cache fast-path
-        if (GS.imageCache.has(f.content)) {
-          const cached = GS.imageCache.get(f.content);
-          if (cached && cached.complete && cached.naturalWidth > 0) {
-            newImg.src = f.content;
-            applyImage(newImg);
-            this.preloadUpcoming();
+        // Attach image directly to DOM container without waiting
+        imageContainer.appendChild(newImg);
+
+        newImg.onload = async () => {
+          if (GS.currentFrameLoader !== frameRef) {
+            newImg.onload = null; newImg.onerror = null; newImg.removeAttribute('src');
             return;
           }
-        }
+          try { if (newImg.decode) await newImg.decode(); } catch (e) { }
+          applyImage(newImg);
+        };
 
-        // If not in instant cache, display loader while fetching
-        if (stageLoader) stageLoader.style.display = 'block';
-
-        try {
-          await this.preloadImage(f.content);
-
-          // Check if still valid after async preload
-          if (GS.currentFrameLoader !== frameRef) return;
-
-          newImg.onload = async () => {
-            if (GS.currentFrameLoader !== frameRef) {
-              newImg.onload = null; newImg.onerror = null; newImg.removeAttribute('src');
-              return;
-            }
-            try { if (newImg.decode) await newImg.decode(); } catch (e) { }
-            applyImage(newImg);
-          };
-
-          newImg.onerror = () => {
-            if (stageLoader) stageLoader.style.display = 'none';
-            PaletteManager.reset();
-            layer.innerHTML = `<span class="frame-emoji-big"><svg class="svg-icon"><use href="#icon-clapperboard" /></svg></span>`;
-            layer.style.opacity = '1';
-          };
-
-          newImg.src = f.content;
-          if (newImg.complete && newImg.naturalWidth > 0) {
-            applyImage(newImg);
-          }
-
-        } catch (e) {
+        newImg.onerror = () => {
           if (stageLoader) stageLoader.style.display = 'none';
-          if (GS.currentFrameLoader !== frameRef) return;
           PaletteManager.reset();
           layer.innerHTML = `<span class="frame-emoji-big"><svg class="svg-icon"><use href="#icon-clapperboard" /></svg></span>`;
           layer.style.opacity = '1';
+        };
+
+        // Set src to kick off native browser load
+        newImg.src = src;
+
+        // Instant cache fast-path check
+        if (newImg.complete && newImg.naturalWidth > 0) {
+          applyImage(newImg);
+        } else if (GS.imageCache.has(src)) {
+          const cached = GS.imageCache.get(src);
+          if (cached && cached.complete && cached.naturalWidth > 0) {
+            applyImage(newImg);
+          } else if (stageLoader) {
+            stageLoader.style.display = 'block';
+          }
+        } else if (stageLoader) {
+          stageLoader.style.display = 'block';
         }
+
+        // Safety warmup: preload into GS.imageCache and ensure loaded state
+        this.preloadImage(src).then(img => {
+          if (img && newImg && !newImg.classList.contains('loaded') && GS.currentFrameLoader === frameRef) {
+            applyImage(newImg);
+          }
+        }).catch(() => {});
 
         this.preloadUpcoming();
       },
