@@ -41,7 +41,7 @@ test.describe('Winner Screen & Home Screen Meme Removal & Winner Message Verific
 
   test('Winner screen message matches exact requested text', async ({ page }) => {
     const msg = await page.locator('.cw-info-text').textContent();
-    expect(msg).toContain('Umeed hai ki aap logon ko game khelne mein maza aaya hoga! Milte hain agle hafte');
+    expect(msg).toContain('Umeed hai ki aap logon ko game khelne mein maza aaya hoga! Aap sabhi ko Chhath Puja ki hardik shubhkamnayein! 🙏🌅');
   });
 
   test('All 3 sections have updated counts and Round 40 Wamiqa Gabbi logic', async ({ page }) => {
