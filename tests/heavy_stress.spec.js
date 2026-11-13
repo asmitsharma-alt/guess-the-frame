@@ -53,13 +53,13 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
     // 3. Host updates settings: adjust frame rounds
     const updatedSettings = await page.evaluate(() => {
       PlayerLobby.adjustRounds('frames', -5); // 20 - 5 = 15 frames
-      PlayerLobby.adjustTimer(15);           // 30 + 15 = 45s
+      PlayerLobby.adjustTimer(15);           // 20 + 15 = 35s
       return MultiplayerEngine.hostSettings;
     });
 
     expect(updatedSettings.rounds).toBe(35); // 15 + 10 + 10 = 35
     expect(updatedSettings.roundsByMode.frames).toBe(15);
-    expect(updatedSettings.timer).toBe(45);
+    expect(updatedSettings.timer).toBe(35);
   });
 
   test('Match playlist samples exclusively from 34 movie frames with zero dialogue/eye entries', async ({ page }) => {

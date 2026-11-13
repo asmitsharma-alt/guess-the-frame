@@ -110,13 +110,13 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     const incTimerBtn = page.locator('button[title="Increase Timer"]');
     const decTimerBtn = page.locator('button[title="Decrease Timer"]');
 
-    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(30);
+    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(20);
 
     await incTimerBtn.click();
-    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(31);
+    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(21);
 
     await decTimerBtn.click();
-    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(30);
+    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(20);
 
     // Copy Link button
     const copyBtn = page.locator('#copyLinkBtn');
@@ -288,12 +288,12 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     expect(hostRoster.some(n => n.includes('Spiderman'))).toBe(true);
     expect(hostRoster.some(n => n.includes('Thor'))).toBe(true);
 
-    // 3.5 Real-Time Settings Broadcast: Host adjusts timer by -1s (30 -> 29)
+    // 3.5 Real-Time Settings Broadcast: Host adjusts timer by -1s (20 -> 19)
     await hostPage.locator('button[title="Decrease Timer"]').click();
 
     // Both Player 1 and Player 2 see the updated timer in real-time
-    await expect(p1Page.locator('#hostTimerBtnText')).toContainText('29', { timeout: 10000 });
-    await expect(p2Page.locator('#hostTimerBtnText')).toContainText('29', { timeout: 10000 });
+    await expect(p1Page.locator('#hostTimerBtnText')).toContainText('19', { timeout: 10000 });
+    await expect(p2Page.locator('#hostTimerBtnText')).toContainText('19', { timeout: 10000 });
 
     // 3.6 Host Starts Match -> Synchronized transition directly to gameScreen
     await hostPage.evaluate(() => {
@@ -399,7 +399,7 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     expect(currentRounds).toBe(40);
 
     const currentTimer = await page.evaluate(() => MultiplayerEngine.hostSettings.timer);
-    expect(currentTimer).toBe(30);
+    expect(currentTimer).toBe(20);
 
     const roster = await page.evaluate(() => GS.players);
     expect(roster.length).toBe(1);

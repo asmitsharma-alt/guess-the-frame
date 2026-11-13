@@ -93,18 +93,18 @@ test.describe('BRUTAL FULL SYSTEM TEST SUITE: Every Feature, Button, Logic, Conn
 
     // 1.5 Timer +/- 1s Precision & Rapid Clicking Stress Test
     const initialTimer = await page.evaluate(() => MultiplayerEngine.hostSettings.timer);
-    expect(initialTimer).toBe(30);
+    expect(initialTimer).toBe(20);
 
     const incTimerBtn = page.locator('button[title="Increase Timer"]');
     const decTimerBtn = page.locator('button[title="Decrease Timer"]');
 
-    // Increment by 1s (30 -> 31)
+    // Increment by 1s (20 -> 21)
     await incTimerBtn.click();
-    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(31);
+    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(21);
 
-    // Decrement by 1s (31 -> 30)
+    // Decrement by 1s (21 -> 20)
     await decTimerBtn.click();
-    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(30);
+    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(20);
 
     // Boundary limits (1s min, 180s max)
     const minTimer = await page.evaluate(() => {
@@ -119,9 +119,9 @@ test.describe('BRUTAL FULL SYSTEM TEST SUITE: Every Feature, Button, Logic, Conn
     });
     expect(maxTimer).toBe(180);
 
-    // Reset timer back to 30 for subsequent tests
+    // Reset timer back to 20 for subsequent tests
     await page.evaluate(() => {
-      MultiplayerEngine.hostSettings.timer = 30;
+      MultiplayerEngine.hostSettings.timer = 20;
       PlayerLobby.render();
     });
 
@@ -292,11 +292,11 @@ test.describe('BRUTAL FULL SYSTEM TEST SUITE: Every Feature, Button, Logic, Conn
     expect(hostRosterNames.some(n => n.includes('HostCaptain'))).toBe(true);
     expect(hostRosterNames.some(n => n.includes('GuestPro'))).toBe(true);
 
-    // 3.5 Real-time Settings Sync: Host adjusts timer by -1s (30 -> 29)
+    // 3.5 Real-time Settings Sync: Host adjusts timer by -1s (20 -> 19)
     await hostPage.locator('button[title="Decrease Timer"]').click();
 
-    // Player screen should reflect 29s via real-time sync
-    await expect(playerPage.locator('#hostTimerBtnText')).toContainText('29', { timeout: 10000 });
+    // Player screen should reflect 19s via real-time sync
+    await expect(playerPage.locator('#hostTimerBtnText')).toContainText('19', { timeout: 10000 });
 
     // 3.6 Host starts match -> Both screens transition directly to gameScreen
     await hostPage.evaluate(() => {
@@ -512,7 +512,7 @@ test.describe('BRUTAL FULL SYSTEM TEST SUITE: Every Feature, Button, Logic, Conn
     expect(rounds).toBe(40);
 
     const timer = await page.evaluate(() => MultiplayerEngine.hostSettings.timer);
-    expect(timer).toBe(30);
+    expect(timer).toBe(20);
   });
 
 });
