@@ -18279,10 +18279,68 @@
         const isMe = msg.senderId === MultiplayerEngine.playerId;
         const safeMsgId = String(msg.id).replace(/[^a-zA-Z0-9_-]/g, '');
 
-        const rawKey = String(msg.senderAvatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const legacyAlias = { aman: 'ayank', amish: 'praggya', aziz: 'joel', vish: 'ayush' };
-        const mappedKey = legacyAlias[rawKey] || rawKey;
-        const safeAvatar = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'].includes(mappedKey) ? mappedKey : 'ayank';
+        const resolveChatAvatar = (senderAvatar, senderId, senderName) => {
+          let src = '';
+          let bg = '#ff7eb6';
+
+          // 1. Direct path check
+          if (typeof senderAvatar === 'string' && senderAvatar.trim()) {
+            const trimmed = senderAvatar.trim();
+            if (trimmed.startsWith('avvtar/') || trimmed.startsWith('http') || trimmed.startsWith('data:')) {
+              src = trimmed.replace(/\.png$/i, '.svg');
+            }
+          }
+
+          // 2. Player match from active game state
+          if (!src && typeof GS !== 'undefined' && Array.isArray(GS.players)) {
+            const p = GS.players.find(pl => 
+              (senderId && pl.id === senderId) || 
+              (senderName && pl.name && pl.name.toLowerCase() === String(senderName).toLowerCase())
+            );
+            if (p) {
+              if (p.avatarImg) src = p.avatarImg;
+              else if (p.avatar) {
+                const k = String(p.avatar).toLowerCase().replace(/[^a-z0-9]/g, '');
+                if (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[k]) {
+                  src = AVATAR_MAP[k].img;
+                  bg = AVATAR_MAP[k].bg || AVATAR_MAP[k].color || bg;
+                }
+              }
+              if (p.color) bg = p.color;
+            }
+          }
+
+          // 3. Fallback resolution via AVATAR_MAP or known direct mappings
+          if (!src) {
+            const rawKey = String(senderAvatar || senderName || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[rawKey]) {
+              src = AVATAR_MAP[rawKey].img;
+              bg = AVATAR_MAP[rawKey].bg || AVATAR_MAP[rawKey].color || bg;
+            } else {
+              const directMap = {
+                aman: { img: 'avvtar/aman.svg', bg: '#FF6B9D' },
+                aziz: { img: 'avvtar/aziz.svg', bg: '#84CC16' },
+                vish: { img: 'avvtar/vish.svg', bg: '#3B82F6' },
+                amish: { img: 'avvtar/amish.svg', bg: '#FACC15' },
+                ayank: { img: 'avvtar/aman.svg', bg: '#FF6B9D' },
+                joel: { img: 'avvtar/aziz.svg', bg: '#84CC16' },
+                ayush: { img: 'avvtar/vish.svg', bg: '#3B82F6' },
+                praggya: { img: 'avvtar/amish.svg', bg: '#FACC15' },
+                ruhaan: { img: 'avvtar/aman.svg', bg: '#A855F7' }
+              };
+              const mapped = directMap[rawKey] || directMap.aman;
+              src = mapped.img;
+              bg = mapped.bg;
+            }
+          }
+
+          if (!src) src = 'avvtar/aman.svg';
+          return { src, bg };
+        };
+
+        const resolvedChatAvatar = resolveChatAvatar(msg.senderAvatar, msg.senderId, msg.senderName);
+        const safeAvatarSrc = resolvedChatAvatar.src;
+        const safeAvatarBg = resolvedChatAvatar.bg;
 
         const reactionButtonsHtml = isMe ?
           ('<span class="chat-reaction-btn chat-self-disabled" title="You cannot vote on your own answer">' +
@@ -18307,8 +18365,8 @@
           const msgEl = document.createElement('div');
           msgEl.className = 'chat-msg';
           msgEl.id = 'chatMsg_' + safeMsgId;
-          msgEl.innerHTML = '<div class="chat-avatar">' +
-            '<img src="avvtar/' + safeAvatar + '.png" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/ayank.webp\'" />' +
+          msgEl.innerHTML = '<div class="chat-avatar" style="background-color:' + SecurityUtil.escapeHtml(safeAvatarBg) + ';">' +
+            '<img src="' + SecurityUtil.escapeHtml(safeAvatarSrc) + '" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/aman.svg\'" />' +
             '</div>' +
             '<div class="chat-msg-body">' +
             '<div class="chat-msg-header">' +
@@ -18331,8 +18389,8 @@
         if (lobbyStream) {
           const lobbyEl = document.createElement('div');
           lobbyEl.className = 'chat-msg';
-          lobbyEl.innerHTML = '<div class="chat-avatar">' +
-            '<img src="avvtar/' + safeAvatar + '.png" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/ayank.webp\'" />' +
+          lobbyEl.innerHTML = '<div class="chat-avatar" style="background-color:' + SecurityUtil.escapeHtml(safeAvatarBg) + ';">' +
+            '<img src="' + SecurityUtil.escapeHtml(safeAvatarSrc) + '" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/aman.svg\'" />' +
             '</div>' +
             '<div class="chat-msg-body">' +
             '<div class="chat-msg-header">' +
@@ -18733,14 +18791,17 @@
         const avImg = document.getElementById('rejoinAvatarImg');
         const avContainer = document.getElementById('rejoinAvatarContainer');
 
-        const av = (session.playerAvatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#FF6B9D', img: `avvtar/${av}.webp` };
+        const av = (session.playerAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#FF6B9D', img: `avvtar/${av}.svg` };
 
         if (codeEl) codeEl.textContent = session.roomCode;
         if (nameEl) nameEl.textContent = session.playerName || this.getAvatarDisplayName(av);
         if (roleEl) roleEl.textContent = session.isHost ? 'Host 👑' : 'Player';
-        if (avImg) avImg.src = avConfig.img || `avvtar/${av}.png`;
-        if (avContainer) avContainer.style.backgroundColor = avConfig.color;
+        if (avImg) {
+          avImg.src = avConfig.img || `avvtar/${av}.svg`;
+          avImg.onerror = function() { this.onerror = null; this.src = 'avvtar/aman.svg'; };
+        }
+        if (avContainer) avContainer.style.backgroundColor = avConfig.color || avConfig.bg || '#FF6B9D';
 
         if (modal) modal.classList.add('active');
       },
