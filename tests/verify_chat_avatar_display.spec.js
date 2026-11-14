@@ -7,7 +7,7 @@ if (!fs.existsSync(ARTIFACT_DIR)) {
   fs.mkdirSync(ARTIFACT_DIR, { recursive: true });
 }
 
-test('Verify player avatars render properly in lobby chat and in-game chat without falling back to old ayank.webp', async ({ page }) => {
+test('Verify player avatars render properly in lobby chat and in-game chat', async ({ page }) => {
   const failed404s = [];
   page.on('response', response => {
     if (response.status() === 404 && response.url().includes('avvtar/')) {
@@ -18,16 +18,17 @@ test('Verify player avatars render properly in lobby chat and in-game chat witho
   await page.goto('/');
   await page.waitForLoadState('domcontentloaded');
 
-  // Verify chat rendering logic directly with all 4 player avatars in lobbyChatStream
+  // Verify chat rendering logic directly with player avatars in lobbyChatStream
   const lobbyChatResults = await page.evaluate(() => {
     const stream = document.getElementById('lobbyChatStream');
     if (stream) stream.innerHTML = '';
 
     const testMessages = [
-      { id: 'm1', senderId: 'p1', senderName: 'Aman', senderAvatar: 'aman', text: 'Hey from Aman!' },
-      { id: 'm2', senderId: 'p2', senderName: 'Aziz', senderAvatar: 'aziz', text: 'Hey from Aziz!' },
-      { id: 'm3', senderId: 'p3', senderName: 'Vish', senderAvatar: 'vish', text: 'Hey from Vish!' },
-      { id: 'm4', senderId: 'p4', senderName: 'Amish', senderAvatar: 'amish', text: 'Hey from Amish!' }
+      { id: 'm1', senderId: 'p1', senderName: 'Ayank', senderAvatar: 'ayank', text: 'Hey from Ayank!' },
+      { id: 'm2', senderId: 'p2', senderName: 'Ayush', senderAvatar: 'ayush', text: 'Hey from Ayush!' },
+      { id: 'm3', senderId: 'p3', senderName: 'Joel', senderAvatar: 'joel', text: 'Hey from Joel!' },
+      { id: 'm4', senderId: 'p4', senderName: 'Praggya', senderAvatar: 'praggya', text: 'Hey from Praggya!' },
+      { id: 'm5', senderId: 'p5', senderName: 'Ruhaan', senderAvatar: 'ruhaan', text: 'Hey from Ruhaan!' }
     ];
 
     testMessages.forEach(msg => ChatEngine.renderMessage(msg));
@@ -50,16 +51,16 @@ test('Verify player avatars render properly in lobby chat and in-game chat witho
 
   console.log('LOBBY CHAT RENDERED:', JSON.stringify(lobbyChatResults, null, 2));
 
-  expect(lobbyChatResults.length).toBe(4);
-  expect(lobbyChatResults[0].src).toBe('avvtar/aman.svg');
-  expect(lobbyChatResults[1].src).toBe('avvtar/aziz.svg');
-  expect(lobbyChatResults[2].src).toBe('avvtar/vish.svg');
-  expect(lobbyChatResults[3].src).toBe('avvtar/amish.svg');
+  expect(lobbyChatResults.length).toBe(5);
+  expect(lobbyChatResults[0].src).toBe('avvtar/ayank.webp');
+  expect(lobbyChatResults[1].src).toBe('avvtar/ayush.webp');
+  expect(lobbyChatResults[2].src).toBe('avvtar/joel.webp');
+  expect(lobbyChatResults[3].src).toBe('avvtar/praggya.webp');
+  expect(lobbyChatResults[4].src).toBe('avvtar/ruhaan.webp');
 
-  // Ensure NONE of them tried to use .png or old ayank.webp
+  // Ensure NONE of them tried to use missing .png
   lobbyChatResults.forEach(r => {
     expect(r.src).not.toContain('.png');
-    expect(r.src).not.toContain('ayank.webp');
   });
 
   // Verify in-game liveChatStream as well
@@ -69,17 +70,19 @@ test('Verify player avatars render properly in lobby chat and in-game chat witho
 
     // Simulate active players in GS.players
     GS.players = [
-      { id: 'p1', name: 'Aman', avatar: 'aman', score: 0, color: '#ff6b9d' },
-      { id: 'p2', name: 'Aziz', avatar: 'aziz', score: 0, color: '#84cc16' },
-      { id: 'p3', name: 'Vish', avatar: 'vish', score: 0, color: '#3b82f6' },
-      { id: 'p4', name: 'Amish', avatar: 'amish', score: 0, color: '#facc15' }
+      { id: 'p1', name: 'Ayank', avatar: 'ayank', score: 0, color: '#ff6b9d' },
+      { id: 'p2', name: 'Ayush', avatar: 'ayush', score: 0, color: '#3b82f6' },
+      { id: 'p3', name: 'Joel', avatar: 'joel', score: 0, color: '#84cc16' },
+      { id: 'p4', name: 'Praggya', avatar: 'praggya', score: 0, color: '#facc15' },
+      { id: 'p5', name: 'Ruhaan', avatar: 'ruhaan', score: 0, color: '#a855f7' }
     ];
 
     const testMessages = [
-      { id: 'lm1', senderId: 'p1', senderName: 'Aman', senderAvatar: 'aman', text: 'Live guess 1' },
-      { id: 'lm2', senderId: 'p2', senderName: 'Aziz', senderAvatar: 'aziz', text: 'Live guess 2' },
-      { id: 'lm3', senderId: 'p3', senderName: 'Vish', senderAvatar: 'vish', text: 'Live guess 3' },
-      { id: 'lm4', senderId: 'p4', senderName: 'Amish', senderAvatar: 'amish', text: 'Live guess 4' }
+      { id: 'lm1', senderId: 'p1', senderName: 'Ayank', senderAvatar: 'ayank', text: 'Live guess 1' },
+      { id: 'lm2', senderId: 'p2', senderName: 'Ayush', senderAvatar: 'ayush', text: 'Live guess 2' },
+      { id: 'lm3', senderId: 'p3', senderName: 'Joel', senderAvatar: 'joel', text: 'Live guess 3' },
+      { id: 'lm4', senderId: 'p4', senderName: 'Praggya', senderAvatar: 'praggya', text: 'Live guess 4' },
+      { id: 'lm5', senderId: 'p5', senderName: 'Ruhaan', senderAvatar: 'ruhaan', text: 'Live guess 5' }
     ];
 
     testMessages.forEach(msg => ChatEngine.renderMessage(msg));
@@ -100,11 +103,12 @@ test('Verify player avatars render properly in lobby chat and in-game chat witho
 
   console.log('LIVE CHAT RENDERED:', JSON.stringify(liveChatResults, null, 2));
 
-  expect(liveChatResults.length).toBe(4);
-  expect(liveChatResults[0].src).toBe('avvtar/aman.svg');
-  expect(liveChatResults[1].src).toBe('avvtar/aziz.svg');
-  expect(liveChatResults[2].src).toBe('avvtar/vish.svg');
-  expect(liveChatResults[3].src).toBe('avvtar/amish.svg');
+  expect(liveChatResults.length).toBe(5);
+  expect(liveChatResults[0].src).toBe('avvtar/ayank.webp');
+  expect(liveChatResults[1].src).toBe('avvtar/ayush.webp');
+  expect(liveChatResults[2].src).toBe('avvtar/joel.webp');
+  expect(liveChatResults[3].src).toBe('avvtar/praggya.webp');
+  expect(liveChatResults[4].src).toBe('avvtar/ruhaan.webp');
 
   // Verify actual image files render without 404
   await page.waitForTimeout(500);

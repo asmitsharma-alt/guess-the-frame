@@ -48,7 +48,7 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
     }, hostData);
 
     expect(joinedPlayers).toHaveLength(5);
-    expect(joinedPlayers.map(p => p.name.toUpperCase())).toEqual(['AMAN', 'AMISH', 'AZIZ', 'VISH', 'SNEHA']);
+    expect(joinedPlayers.map(p => p.name.toUpperCase())).toEqual(['AYANK', 'AMISH', 'AZIZ', 'VISH', 'SNEHA']);
 
     // 3. Host updates settings: adjust frame rounds
     const updatedSettings = await page.evaluate(() => {

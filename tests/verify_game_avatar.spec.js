@@ -35,7 +35,7 @@ test('Verify Native Avatars on Game Screen', async ({ page }) => {
   // Navigate through flow to game screen
   await page.locator('.h-card-create').click();
   await page.locator('#hostPlayerNameInput').fill('Aman');
-  await page.locator('#createRoomModal .mp-avatar-option[data-avatar="aman"]').click();
+  await page.locator('#createRoomModal .mp-avatar-option[data-avatar="ayank"]').click();
   await page.locator('#createRoomModal .mp-btn-primary').click();
 
   // Add 4 players

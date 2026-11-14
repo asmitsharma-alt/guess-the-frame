@@ -44,7 +44,7 @@ test.describe('FULL APPLICATION PAGE & SCREEN INSPECTOR', () => {
     await expect(page.locator('#createRoomModal .mp-btn-primary')).toBeVisible();
 
     await page.locator('#hostPlayerNameInput').fill('Commander');
-    await page.locator('#createRoomModal .mp-avatar-option[data-avatar="aman"]').click();
+    await page.locator('#createRoomModal .mp-avatar-option[data-avatar="ayank"]').click();
 
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, '02_create_modal_desktop.png') });
     await page.locator('#createRoomModal .mp-modal-close').click();
@@ -62,7 +62,7 @@ test.describe('FULL APPLICATION PAGE & SCREEN INSPECTOR', () => {
 
     await page.locator('#joinPlayerNameInput').fill('Spock');
     await page.locator('#joinCodeInput').fill('KIRK');
-    await page.locator('#joinRoomModal .mp-avatar-option[data-avatar="aziz"]').click();
+    await page.locator('#joinRoomModal .mp-avatar-option[data-avatar="joel"]').click();
 
     await page.screenshot({ path: path.join(SCREENSHOT_DIR, '03_join_modal_desktop.png') });
     await page.locator('#joinRoomModal .mp-modal-close').click();

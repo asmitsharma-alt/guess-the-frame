@@ -21,7 +21,7 @@ test.describe('Mid-Game Leave and Rejoin Score Restoration & Persistence Engine'
     // 2. Player joins room
     await playerPage.goto(`/?room=${roomCode}`);
     await playerPage.locator('#joinPlayerNameInput').fill('PlayerBeta');
-    await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="amish"]').click();
+    await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="praggya"]').click();
     await playerPage.locator('#joinRoomModal .mp-btn-primary').click();
     await expect(playerPage.locator('#playerLobbyScreen')).toBeVisible({ timeout: 20000 });
 
@@ -125,7 +125,7 @@ test.describe('Mid-Game Leave and Rejoin Score Restoration & Persistence Engine'
     // 2. Player joins room
     await playerPage.goto(`/?room=${roomCode}`);
     await playerPage.locator('#joinPlayerNameInput').fill('PlayerBeta');
-    await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="amish"]').click();
+    await playerPage.locator('#joinRoomModal .mp-avatar-option[data-avatar="praggya"]').click();
     await playerPage.locator('#joinRoomModal .mp-btn-primary').click();
     await expect(playerPage.locator('#playerLobbyScreen')).toBeVisible({ timeout: 20000 });
 

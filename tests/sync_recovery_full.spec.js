@@ -22,7 +22,7 @@ async function createRoom(browser, name) {
   return { ctx, page, code };
 }
 
-async function joinRoom(browser, code, name, avatar = 'amish') {
+async function joinRoom(browser, code, name, avatar = 'praggya') {
   const ctx = await mkCtx(browser);
   const page = await ctx.newPage();
   await page.goto(`/?room=${code}`);
@@ -56,7 +56,7 @@ async function closeAll(...ctxs) { for (const c of ctxs) { try { await c.close()
 test('SYNC 1: host lobby settings change reaches every peer', async ({ browser }) => {
   const h = await createRoom(browser, 'HostA');
   const p1 = await joinRoom(browser, h.code, 'PeerB');
-  const p2 = await joinRoom(browser, h.code, 'PeerC', 'aziz');
+  const p2 = await joinRoom(browser, h.code, 'PeerC', 'joel');
   await waitPlayers(h.page, 3); await waitPlayers(p1.page, 3); await waitPlayers(p2.page, 3);
 
   const before = await settingsTimer(h.page);
@@ -74,7 +74,7 @@ test('SYNC 2: late joiner receives the already-changed settings and full roster'
   const p1 = await joinRoom(browser, h.code, 'PeerB');
   await h.page.evaluate(() => PlayerLobby.adjustTimer(1));
   const t = await settingsTimer(h.page);
-  const late = await joinRoom(browser, h.code, 'LateD', 'vish');
+  const late = await joinRoom(browser, h.code, 'LateD', 'ayush');
   await waitPlayers(late.page, 3);
   await late.page.waitForFunction((t) => MultiplayerEngine.hostSettings.timer === t, t, { timeout: 10000 });
   const names = await late.page.evaluate(() => GS.players.map(p => p.name).sort());
@@ -95,7 +95,7 @@ test('SYNC 3: dropped lobby message self-heals via periodic host resync', async 
 test('SYNC 4: match start moves all clients to the arena with the same playlist and index', async ({ browser }) => {
   const h = await createRoom(browser, 'HostA');
   const p1 = await joinRoom(browser, h.code, 'PeerB');
-  const p2 = await joinRoom(browser, h.code, 'PeerC', 'aziz');
+  const p2 = await joinRoom(browser, h.code, 'PeerC', 'joel');
   await waitPlayers(h.page, 3);
   await startMatch(h.page, [p1.page, p2.page]);
   await h.page.waitForTimeout(2500);
@@ -115,7 +115,7 @@ test('SYNC 4: match start moves all clients to the arena with the same playlist 
 test('SYNC 5: correct answer awards the same score on host and all peers', async ({ browser }) => {
   const h = await createRoom(browser, 'HostA');
   const p1 = await joinRoom(browser, h.code, 'PeerB');
-  const p2 = await joinRoom(browser, h.code, 'PeerC', 'aziz');
+  const p2 = await joinRoom(browser, h.code, 'PeerC', 'joel');
   await waitPlayers(h.page, 3);
   await startMatch(h.page, [p1.page, p2.page]);
   const ans = await currentAnswer(h.page);
@@ -158,7 +158,7 @@ test('SYNC 7: host pause and resume propagate to peers', async ({ browser }) => 
 test('SYNC 8: host skip advances every client to the same frame', async ({ browser }) => {
   const h = await createRoom(browser, 'HostA');
   const p1 = await joinRoom(browser, h.code, 'PeerB');
-  const p2 = await joinRoom(browser, h.code, 'PeerC', 'aziz');
+  const p2 = await joinRoom(browser, h.code, 'PeerC', 'joel');
   await waitPlayers(h.page, 3);
   await startMatch(h.page, [p1.page, p2.page]);
   const startIdx = await h.page.evaluate(() => MultiplayerEngine.currentPlayIndex);
@@ -176,7 +176,7 @@ test('SYNC 8: host skip advances every client to the same frame', async ({ brows
 test('RECOVERY 1: player going offline mid-match catches up on missed scores after reconnecting', async ({ browser }) => {
   const h = await createRoom(browser, 'HostA');
   const p1 = await joinRoom(browser, h.code, 'PeerB');
-  const p2 = await joinRoom(browser, h.code, 'PeerC', 'aziz');
+  const p2 = await joinRoom(browser, h.code, 'PeerC', 'joel');
   await waitPlayers(h.page, 3);
   await startMatch(h.page, [p1.page, p2.page]);
 
@@ -237,7 +237,7 @@ test('RECOVERY 3: mid-match rejoin restores arena, score and current frame index
 test('RECOVERY 4: host disappears mid-match and a peer is promoted to the single host', async ({ browser }) => {
   const h = await createRoom(browser, 'HostA');
   const p1 = await joinRoom(browser, h.code, 'PeerB');
-  const p2 = await joinRoom(browser, h.code, 'PeerC', 'aziz');
+  const p2 = await joinRoom(browser, h.code, 'PeerC', 'joel');
   await waitPlayers(h.page, 3);
   await startMatch(h.page, [p1.page, p2.page]);
 
