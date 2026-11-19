@@ -1,6 +1,18 @@
 # Excluded Movies - Guess the Movie by Plot
 
 ## Current Roster
+- 3 Idiots (2009)
+- Inception (2010)
+- Tumbbad (2018)
+- Interstellar (2014)
+- Drishyam (2015)
+- The Matrix (1999)
+- Gangs of Wasseypur (2012)
+- Fight Club (1999)
+- Lagaan (2001)
+- The Prestige (2006)
+
+## Previous Roster
 - Satya (1998)
 - Dangal (2016)
 - Swades (2004)
@@ -11,8 +23,6 @@
 - Jurassic Park (1993)
 - The Departed (2006)
 - Back to the Future (1985)
-
-## Previous Roster
 - Kahaani (2012)
 - The Lunchbox (2013)
 - Baahubali: The Beginning (2015)

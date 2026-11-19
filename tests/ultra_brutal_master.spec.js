@@ -39,7 +39,7 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     const hostInput = page.locator('#hostPlayerNameInput');
     await hostInput.fill('Captain_Marvel');
 
-    const avatars = ['ayank', 'ayush', 'joel', 'praggya', 'ruhaan'];
+    const avatars = ['aman', 'aziz', 'vish', 'amish'];
     for (const av of avatars) {
       const opt = page.locator(`#createRoomModal .mp-avatar-option[data-avatar="${av}"]`);
       await opt.click();
@@ -110,13 +110,13 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     const incTimerBtn = page.locator('button[title="Increase Timer"]');
     const decTimerBtn = page.locator('button[title="Decrease Timer"]');
 
-    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(20);
+    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(30);
 
     await incTimerBtn.click();
-    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(21);
+    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(31);
 
     await decTimerBtn.click();
-    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(20);
+    expect(await page.evaluate(() => MultiplayerEngine.hostSettings.timer)).toBe(30);
 
     // Copy Link button
     const copyBtn = page.locator('#copyLinkBtn');
@@ -260,7 +260,7 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     await p1Page.goto(`/?room=${roomCode}`);
     await p1Page.waitForLoadState('domcontentloaded');
     await p1Page.locator('#joinPlayerNameInput').fill('Spiderman');
-    await p1Page.locator('#joinRoomModal .mp-avatar-option[data-avatar="praggya"]').click();
+    await p1Page.locator('#joinRoomModal .mp-avatar-option[data-avatar="amish"]').click();
     await p1Page.locator('#joinRoomModal .mp-btn-primary').click();
     await expect(p1Page.locator('#playerLobbyScreen')).toBeVisible({ timeout: 15000 });
 
@@ -274,7 +274,7 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     await p2CodeInput.click();
     await p2CodeInput.fill(roomCode);
     await p2Page.locator('#joinPlayerNameInput').fill('Thor');
-    await p2Page.locator('#joinRoomModal .mp-avatar-option[data-avatar="joel"]').click();
+    await p2Page.locator('#joinRoomModal .mp-avatar-option[data-avatar="aziz"]').click();
     await p2Page.locator('#joinRoomModal .mp-btn-primary').click();
     await expect(p2Page.locator('#playerLobbyScreen')).toBeVisible({ timeout: 15000 });
 
@@ -288,12 +288,12 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     expect(hostRoster.some(n => n.includes('Spiderman'))).toBe(true);
     expect(hostRoster.some(n => n.includes('Thor'))).toBe(true);
 
-    // 3.5 Real-Time Settings Broadcast: Host adjusts timer by -1s (20 -> 19)
+    // 3.5 Real-Time Settings Broadcast: Host adjusts timer by -1s (30 -> 29)
     await hostPage.locator('button[title="Decrease Timer"]').click();
 
     // Both Player 1 and Player 2 see the updated timer in real-time
-    await expect(p1Page.locator('#hostTimerBtnText')).toContainText('19', { timeout: 10000 });
-    await expect(p2Page.locator('#hostTimerBtnText')).toContainText('19', { timeout: 10000 });
+    await expect(p1Page.locator('#hostTimerBtnText')).toContainText('29', { timeout: 10000 });
+    await expect(p2Page.locator('#hostTimerBtnText')).toContainText('29', { timeout: 10000 });
 
     // 3.6 Host Starts Match -> Synchronized transition directly to gameScreen
     await hostPage.evaluate(() => {
@@ -399,7 +399,7 @@ test.describe('ULTRA BRUTAL MASTER TEST SUITE — Every Button, Feature, Logic &
     expect(currentRounds).toBe(40);
 
     const currentTimer = await page.evaluate(() => MultiplayerEngine.hostSettings.timer);
-    expect(currentTimer).toBe(20);
+    expect(currentTimer).toBe(30);
 
     const roster = await page.evaluate(() => GS.players);
     expect(roster.length).toBe(1);

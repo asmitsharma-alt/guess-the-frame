@@ -5081,18 +5081,32 @@
       }
       #frameDisplay .answer-overlay .ans-card,
       #gameScreen .answer-overlay .ans-card {
-        padding: 14px 16px !important;
-        gap: 8px !important;
-        width: min(98%, 1200px) !important;
-        max-width: min(98%, 1200px) !important;
+        padding: 12px 14px !important;
+        gap: 6px !important;
         max-height: calc(100% - 10px) !important;
         box-shadow: 4px 4px 0 var(--nb-ink, #1a1a1a) !important;
       }
+      #frameDisplay .answer-overlay .ans-title,
+      #gameScreen .answer-overlay .ans-title {
+        font-size: clamp(16px, 4.5vw, 24px) !important;
+        padding: 0 4px !important;
+      }
+      #frameDisplay .answer-overlay .ans-title.ans-title-long,
+      #gameScreen .answer-overlay .ans-title.ans-title-long {
+        font-size: clamp(13px, 3.2vw, 16px) !important;
+        padding: 4px 6px !important;
+      }
+      #frameDisplay .answer-overlay .ans-title.ans-title-xlong,
+      #gameScreen .answer-overlay .ans-title.ans-title-xlong {
+        font-size: clamp(10.5px, 2.7vw, 12.5px) !important;
+        padding: 6px 8px !important;
+        max-height: 100px !important;
+      }
       .ans-action-bar {
-        margin-top: 8px !important;
+        margin-top: 6px !important;
       }
       .ans-next-round-btn {
-        padding: 8px 20px !important;
+        padding: 8px 18px !important;
         font-size: 13px !important;
       }
 
@@ -5705,9 +5719,9 @@
       border: 4px solid var(--nb-ink, #1a1a1a) !important;
       box-shadow: 8px 8px 0 var(--nb-ink, #1a1a1a) !important;
       border-radius: 0 !important;
-      padding: clamp(20px, 3.5vh, 36px) clamp(20px, 4vw, 48px) !important;
-      max-width: min(96%, 1150px) !important;
-      width: min(96%, 1150px) !important;
+      padding: clamp(16px, 3vh, 32px) clamp(16px, 3.5vw, 36px) !important;
+      max-width: min(94%, 580px) !important;
+      width: 100% !important;
       max-height: calc(100% - 16px) !important;
       box-sizing: border-box !important;
       overflow-y: auto !important;
@@ -5715,7 +5729,7 @@
       display: flex !important;
       flex-direction: column !important;
       align-items: center !important;
-      gap: clamp(8px, 1.8vh, 16px) !important;
+      gap: clamp(6px, 1.5vh, 12px) !important;
       animation: nbHeroIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
       text-align: center !important;
       transform: none !important;
@@ -5745,7 +5759,7 @@
       padding: 2px 10px !important;
     }
     #frameDisplay .answer-overlay .ans-divider {
-      width: min(800px, 100%) !important;
+      width: 100% !important;
       height: 0 !important;
       border-top: 2px dashed var(--nb-ink, #1a1a1a) !important;
       margin: 4px 0 !important;
@@ -5753,7 +5767,7 @@
     #frameDisplay .answer-overlay .ans-title {
       font-family: 'DM Sans', sans-serif !important;
       font-weight: 900 !important;
-      font-size: clamp(26px, 5vw, 44px) !important;
+      font-size: clamp(22px, 4.5vw, 42px) !important;
       letter-spacing: 0.5px !important;
       text-transform: uppercase !important;
       color: var(--nb-ink, #1a1a1a) !important;
@@ -5768,7 +5782,40 @@
       word-break: break-word !important;
       overflow-wrap: anywhere !important;
       hyphens: auto !important;
-      padding: 0 16px !important;
+      padding: 0 10px !important;
+    }
+    #frameDisplay .answer-overlay .ans-title.ans-title-long,
+    #gameScreen .answer-overlay .ans-title.ans-title-long,
+    .answer-overlay .ans-title.ans-title-long {
+      font-size: clamp(14px, 2.8vw, 20px) !important;
+      line-height: 1.3 !important;
+      letter-spacing: 0.2px !important;
+      word-break: break-all !important;
+      overflow-wrap: anywhere !important;
+      padding: 4px 8px !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      text-transform: none !important;
+    }
+    #frameDisplay .answer-overlay .ans-title.ans-title-xlong,
+    #gameScreen .answer-overlay .ans-title.ans-title-xlong,
+    .answer-overlay .ans-title.ans-title-xlong {
+      font-family: 'Space Mono', 'Consolas', 'Courier New', monospace !important;
+      font-weight: 700 !important;
+      font-size: clamp(11.5px, 2.3vw, 15px) !important;
+      line-height: 1.35 !important;
+      letter-spacing: 0px !important;
+      word-break: break-all !important;
+      overflow-wrap: anywhere !important;
+      padding: 8px 12px !important;
+      max-width: 100% !important;
+      box-sizing: border-box !important;
+      text-transform: none !important;
+      background: rgba(0, 0, 0, 0.04) !important;
+      border: 2px dashed var(--nb-ink, #1a1a1a) !important;
+      border-radius: 6px !important;
+      max-height: 120px !important;
+      overflow-y: auto !important;
     }
     #frameDisplay .answer-overlay .ans-dialogue {
       color: var(--nb-ink, #1a1a1a) !important;
@@ -5798,8 +5845,8 @@
     #frameDisplay .answer-overlay.eye-answer .ans-card {
       margin-top: auto !important;
       margin-bottom: 0 !important;
-      width: min(96%, 1150px) !important;
-      max-width: min(96%, 1150px) !important;
+      width: 100% !important;
+      max-width: min(94%, 560px) !important;
       background: rgba(255, 253, 245, 0.96) !important;
       backdrop-filter: blur(12px) !important;
       -webkit-backdrop-filter: blur(12px) !important;
@@ -14299,25 +14346,21 @@
         <div class="mp-form-group">
           <label class="mp-label">Select Your Animated Avatar</label>
           <div class="mp-avatar-grid">
-            <div class="mp-avatar-option selected" data-avatar="ayank" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/ayank.webp" alt="Ayank" />
-              <div class="mp-avatar-name">Ayank</div>
+            <div class="mp-avatar-option selected" data-avatar="aman" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/aman.svg" alt="Aman" />
+              <div class="mp-avatar-name">Aman</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="ayush" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/ayush.webp" alt="Ayush" />
-              <div class="mp-avatar-name">Ayush</div>
+            <div class="mp-avatar-option" data-avatar="aziz" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/aziz.svg" alt="Aziz" />
+              <div class="mp-avatar-name">Aziz</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="joel" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/joel.webp" alt="Joel" />
-              <div class="mp-avatar-name">Joel</div>
+            <div class="mp-avatar-option" data-avatar="vish" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/vish.svg" alt="Vish" />
+              <div class="mp-avatar-name">Vish</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="praggya" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/praggya.webp" alt="Praggya" />
-              <div class="mp-avatar-name">Praggya</div>
-            </div>
-            <div class="mp-avatar-option" data-avatar="ruhaan" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
-              <img src="avvtar/ruhaan.webp" alt="Ruhaan" />
-              <div class="mp-avatar-name">Ruhaan</div>
+            <div class="mp-avatar-option" data-avatar="amish" onclick="MultiplayerEngine.selectAvatar(this, 'host')">
+              <img src="avvtar/amish.svg" alt="Amish" />
+              <div class="mp-avatar-name">Amish</div>
             </div>
           </div>
         </div>
@@ -14345,25 +14388,21 @@
         <div class="mp-form-group">
           <label class="mp-label">Select Your Animated Avatar</label>
           <div class="mp-avatar-grid">
-            <div class="mp-avatar-option selected" data-avatar="ayank" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/ayank.webp" alt="Ayank" />
-              <div class="mp-avatar-name">Ayank</div>
+            <div class="mp-avatar-option selected" data-avatar="aman" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/aman.svg" alt="Aman" />
+              <div class="mp-avatar-name">Aman</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="ayush" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/ayush.webp" alt="Ayush" />
-              <div class="mp-avatar-name">Ayush</div>
+            <div class="mp-avatar-option" data-avatar="aziz" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/aziz.svg" alt="Aziz" />
+              <div class="mp-avatar-name">Aziz</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="joel" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/joel.webp" alt="Joel" />
-              <div class="mp-avatar-name">Joel</div>
+            <div class="mp-avatar-option" data-avatar="vish" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/vish.svg" alt="Vish" />
+              <div class="mp-avatar-name">Vish</div>
             </div>
-            <div class="mp-avatar-option" data-avatar="praggya" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/praggya.webp" alt="Praggya" />
-              <div class="mp-avatar-name">Praggya</div>
-            </div>
-            <div class="mp-avatar-option" data-avatar="ruhaan" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
-              <img src="avvtar/ruhaan.webp" alt="Ruhaan" />
-              <div class="mp-avatar-name">Ruhaan</div>
+            <div class="mp-avatar-option" data-avatar="amish" onclick="MultiplayerEngine.selectAvatar(this, 'join')">
+              <img src="avvtar/amish.svg" alt="Amish" />
+              <div class="mp-avatar-name">Amish</div>
             </div>
           </div>
         </div>
@@ -14387,10 +14426,10 @@
         <div style="background: #fafaf4; border: 3px solid #1a1a1a; border-radius: 12px; padding: 14px; margin-bottom: 16px; box-shadow: 4px 4px 0 #1a1a1a; display: flex; align-items: center; justify-content: space-between; gap: 12px;">
           <div style="display: flex; align-items: center; gap: 12px;">
             <div id="rejoinAvatarContainer" style="width: 52px; height: 52px; border-radius: 50%; border: 3px solid #1a1a1a; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #FF6B9D;">
-              <img id="rejoinAvatarImg" src="avvtar/ayank.webp" style="width: 100%; height: 100%; object-fit: cover;" alt="Avatar" />
+              <img id="rejoinAvatarImg" src="avvtar/aman.svg" style="width: 100%; height: 100%; object-fit: cover;" alt="Avatar" />
             </div>
             <div style="text-align: left;">
-              <div id="rejoinPlayerName" style="font-size: 16px; font-weight: 900; color: #1a1a1a; text-transform: uppercase;">AYANK</div>
+              <div id="rejoinPlayerName" style="font-size: 16px; font-weight: 900; color: #1a1a1a; text-transform: uppercase;">AMAN</div>
               <div id="rejoinRoleTag" style="font-size: 11px; font-weight: 800; color: #666; text-transform: uppercase;">Player</div>
             </div>
           </div>
@@ -15270,7 +15309,7 @@
               <span>MESSAGE</span>
             </div>
             <p class="cw-info-text">
-              HAPPY BIRTHDAY AZIZ BHAI! Umeed hai ki aap logon ko game khelne mein maza aaya hoga! Aap sabhi ko Chhath Puja ki hardik shubhkamnayein! 🙏🌅
+              Umeed hai ki aap sabhi ko game khelne mein maza aaya hoga! Scoopcast ki audience se suggestions bhi chahiye ki hum aur kaun-se sections ya naye ideas add kar sakte hain. Aap apne suggestions comment section mein zaroor share karein.Aur Discord par achhe-achhe memes bhi share karein—jo memes humein pasand aayenge, unhe hum website par bhi add karenge.
             </p>
           </div>
         </div>
@@ -16034,66 +16073,60 @@
 
     /* ═══ PLAYER LOBBY ═══ */
     const AVATAR_MAP = {
-      ayank: {
-        color: '#FF6B9D',
-        bg: '#FF6B9D',
-        img: 'avvtar/ayank.webp',
-        name: 'Ayank'
-      },
-      ayush: {
-        color: '#3B82F6',
-        bg: '#3B82F6',
-        img: 'avvtar/ayush.webp',
-        name: 'Ayush'
-      },
-      joel: {
-        color: '#84CC16',
-        bg: '#84CC16',
-        img: 'avvtar/joel.webp',
-        name: 'Joel'
-      },
-      praggya: {
-        color: '#FACC15',
-        bg: '#FACC15',
-        img: 'avvtar/praggya.webp',
-        name: 'Praggya'
-      },
-      praagya: {
-        color: '#FACC15',
-        bg: '#FACC15',
-        img: 'avvtar/praggya.webp',
-        name: 'Praggya'
-      },
-      ruhaan: {
-        color: '#A855F7',
-        bg: '#A855F7',
-        img: 'avvtar/ruhaan.webp',
-        name: 'Ruhaan'
-      },
-      // Backward compatibility aliases
       aman: {
         color: '#FF6B9D',
         bg: '#FF6B9D',
-        img: 'avvtar/ayank.webp',
-        name: 'Ayank'
-      },
-      vish: {
-        color: '#3B82F6',
-        bg: '#3B82F6',
-        img: 'avvtar/ayush.webp',
-        name: 'Ayush'
+        img: 'avvtar/aman.svg',
+        name: 'Aman'
       },
       aziz: {
         color: '#84CC16',
         bg: '#84CC16',
-        img: 'avvtar/joel.webp',
-        name: 'Joel'
+        img: 'avvtar/aziz.svg',
+        name: 'Aziz'
+      },
+      vish: {
+        color: '#3B82F6',
+        bg: '#3B82F6',
+        img: 'avvtar/vish.svg',
+        name: 'Vish'
       },
       amish: {
         color: '#FACC15',
         bg: '#FACC15',
-        img: 'avvtar/praggya.webp',
-        name: 'Praggya'
+        img: 'avvtar/amish.svg',
+        name: 'Amish'
+      },
+      // Aliases
+      ayank: {
+        color: '#FF6B9D',
+        bg: '#FF6B9D',
+        img: 'avvtar/aman.svg',
+        name: 'Aman'
+      },
+      ayush: {
+        color: '#3B82F6',
+        bg: '#3B82F6',
+        img: 'avvtar/vish.svg',
+        name: 'Vish'
+      },
+      joel: {
+        color: '#84CC16',
+        bg: '#84CC16',
+        img: 'avvtar/aziz.svg',
+        name: 'Aziz'
+      },
+      praggya: {
+        color: '#FACC15',
+        bg: '#FACC15',
+        img: 'avvtar/amish.svg',
+        name: 'Amish'
+      },
+      ruhaan: {
+        color: '#A855F7',
+        bg: '#A855F7',
+        img: 'avvtar/aman.svg',
+        name: 'Aman'
       }
     };
 
@@ -16217,9 +16250,9 @@
         if (list) {
           const playersHtml = GS.players.map((p, i) => {
             const isH = !!p.isHost;
-            const rawAv = (p.avatar || (p.name && p.name.toLowerCase()) || 'ayank');
+            const rawAv = (p.avatar || (p.name && p.name.toLowerCase()) || 'aman');
             const avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
-            const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[avKey]) ? AVATAR_MAP[avKey] : { bg: bgOrder[i % bgOrder.length], img: 'avvtar/ayank.webp', color: '#FF6B9D' };
+            const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[avKey]) ? AVATAR_MAP[avKey] : { bg: bgOrder[i % bgOrder.length], img: 'avvtar/aman.svg', color: '#FF6B9D' };
             const safeName = SecurityUtil.escapeHtml(p.name || `Player ${i+1}`);
             const isMe = (MultiplayerEngine.isHost ? (p.isHost || p.id === MultiplayerEngine.playerId || i === 0) : (p.id === MultiplayerEngine.playerId || p.name === MultiplayerEngine.playerName));
             const canRemove = MultiplayerEngine.isHost && GS.players.length > 1 && !p.isHost && p.id !== MultiplayerEngine.playerId;
@@ -16235,7 +16268,7 @@
                   <button type="button" onclick="PlayerLobby.remove(${i})" class="absolute -top-2.5 -right-2.5 bg-[#ff6b6b] text-white hover:bg-red-600 border-2 border-on-surface w-6 h-6 rounded-full flex items-center justify-center text-xs font-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[1px] transition-all z-10 cursor-pointer" title="Remove Player">✕</button>
                 ` : ''}
                 <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-4 border-on-surface overflow-hidden mb-3 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" style="background-color: ${avConfig.color};">
-                  <img class="w-full h-full object-cover" src="${avConfig.img}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/ayank.webp'"/>
+                  <img class="w-full h-full object-cover" src="${avConfig.img}" alt="${safeName}" onerror="this.onerror=null;this.src='avvtar/aman.svg'"/>
                 </div>
                 ${isMe ? `
                   <div class="relative w-full max-w-[140px] flex items-center group">
@@ -17017,62 +17050,62 @@
       sections: [
         {
           id: 1, name: 'Guess the Frame', icon: '<svg class="svg-icon"><use href="#icon-film" /></svg>', collapsed: false, frames: [
-            { type: "image", content: "GUESSTHEFRAME/Angrezi Medium (2020) - Frame 02.webp", answer: "ANGREZI MEDIUM", year: "2020" },
-            { type: "image", content: "GUESSTHEFRAME/Captain America - Civil War (2016) - Frame 06.webp", answer: "CAPTAIN AMERICA: CIVIL WAR", year: "2016", aliases: ["CAPTAIN AMERICA CIVIL WAR", "CIVIL WAR"] },
-            { type: "image", content: "GUESSTHEFRAME/Casablanca (1942) - Frame 06.webp", answer: "CASABLANCA", year: "1942" },
-            { type: "image", content: "GUESSTHEFRAME/Chennai Express (2013).webp", answer: "CHENNAI EXPRESS", year: "2013" },
-            { type: "image", content: "GUESSTHEFRAME/Dhobi Ghat (2010).webp", answer: "DHOBI GHAT", year: "2010", aliases: ["MUMBAI DIARIES"] },
-            { type: "image", content: "GUESSTHEFRAME/Funny Games (1997).webp", answer: "FUNNY GAMES", year: "1997" },
-            { type: "image", content: "GUESSTHEFRAME/Heart of the Beast (2026).webp", answer: "HEART OF THE BEAST", year: "2026" },
-            { type: "image", content: "GUESSTHEFRAME/I'm Game (2026).webp", answer: "I'M GAME", year: "2026", aliases: ["IM GAME", "I AM GAME", "GAME"] },
-            { type: "image", content: "GUESSTHEFRAME/Jailer 2 (2026).webp", answer: "JAILER 2", year: "2026", aliases: ["JAILER", "HUKUM"] },
-            { type: "image", content: "GUESSTHEFRAME/Last Man in Tower.webp", answer: "LAST MAN IN TOWER", year: "2024", aliases: ["RAY", "HUNGAMA HAI KYON BARPA", "GALI GULEIYAN", "THE LAST MAN IN TOWER", "KILLER SOUP"] },
-            { type: "image", content: "GUESSTHEFRAME/Life is Beautiful (1997).webp", answer: "LIFE IS BEAUTIFUL", year: "1997", aliases: ["LA VITA E BELLA"] },
-            { type: "image", content: "GUESSTHEFRAME/Madhumati (1958).webp", answer: "MADHUMATI", year: "1958" },
-            { type: "image", content: "GUESSTHEFRAME/Master (2021).webp", answer: "MASTER", year: "2021" },
-            { type: "image", content: "GUESSTHEFRAME/Ratsasan (2018).webp", answer: "RATSASAN", year: "2018", aliases: ["RAATCHASAN"] },
-            { type: "image", content: "GUESSTHEFRAME/Sonchiriya (2019).webp", answer: "SONCHIRIYA", year: "2019", aliases: ["SONCHIRAIYA"] },
-            { type: "image", content: "GUESSTHEFRAME/The Odyssey (2026).webp", answer: "THE ODYSSEY", displayAnswer: "The.Odyssey.2026.2160p.IMAX.UHD.Blu-ray.Remux.HDR.HEVC.DTS-HD.MA.5.1-CiNEPHiLES.mkv", year: "2026", aliases: ["ODYSSEY"] },
-            { type: "image", content: "GUESSTHEFRAME/Venom - Let There Be Carnage (2021) - Frame 10.webp", answer: "VENOM: LET THERE BE CARNAGE", year: "2021", aliases: ["VENOM LET THERE BE CARNAGE", "VENOM 2"] },
-            { type: "image", content: "GUESSTHEFRAME/Vettaiyan (2024) - Frame 02.webp", answer: "VETTAIYAN", year: "2024" },
-            { type: "image", content: "GUESSTHEFRAME/Whiplash (2014) - Frame 06.webp", answer: "WHIPLASH", year: "2014" },
-            { type: "image", content: "GUESSTHEFRAME/Your Mother (2023).webp", answer: "YOUR MOTHER YOUR MOTHER YOUR MOTHER", displayAnswer: "Your Mother Your Mother Your Mother", year: "2023", aliases: ["YOUR MOTHER", "YOUR MOTHER YOUR MOTHER", "YOUR MOTHER YOUR MOTHER YOUR MOTHER", "YOUR MOTHER (2023)", "LUTHER", "LUTHER: THE FALLEN SUN", "THE FALLEN SUN", "Y TU MAMA TAMBIEN", "BASTILLE DAY", "THE TAKE"] }
+            { type: "image", content: "GUESSTHEFRAME/99 (2009).jpg", answer: "99", year: "2009", aliases: ["NINETY NINE"] },
+            { type: "image", content: "GUESSTHEFRAME/A Story of Derry (2026).png", answer: "A STORY OF DERRY", year: "2026", aliases: ["STORY OF DERRY", "DERRY"] },
+            { type: "image", content: "GUESSTHEFRAME/After Hours (1985).png", answer: "AFTER HOURS", year: "1985" },
+            { type: "image", content: "GUESSTHEFRAME/Blade Runner 2049 (2017).png", answer: "BLADE RUNNER 2049", year: "2017", aliases: ["BLADE RUNNER", "BR 2049", "BR2049"] },
+            { type: "image", content: "GUESSTHEFRAME/Challengers (2024).png", answer: "CHALLENGERS", year: "2024" },
+            { type: "image", content: "GUESSTHEFRAME/Dhindora (2021).png", answer: "DHINDORA", year: "2021" },
+            { type: "image", content: "GUESSTHEFRAME/Hacksaw Ridge (2016).png", answer: "HACKSAW RIDGE", year: "2016" },
+            { type: "image", content: "GUESSTHEFRAME/High and Low (1963).png", answer: "HIGH AND LOW", year: "1963", aliases: ["TENGOKU TO JIGOKU"] },
+            { type: "image", content: "GUESSTHEFRAME/Life of Pi (2012).png", answer: "LIFE OF PI", year: "2012" },
+            { type: "image", content: "GUESSTHEFRAME/Logan (2017).png", answer: "LOGAN", year: "2017", aliases: ["WOLVERINE"] },
+            { type: "image", content: "GUESSTHEFRAME/Possible Love (2026).png", answer: "POSSIBLE LOVE", year: "2026" },
+            { type: "image", content: "GUESSTHEFRAME/Pride & Prejudice (2005).png", answer: "PRIDE & PREJUDICE", year: "2005", aliases: ["PRIDE AND PREJUDICE"] },
+            { type: "image", content: "GUESSTHEFRAME/Rush Hour (1998).png", answer: "RUSH HOUR", year: "1998", aliases: ["RUSH HOUR 1"] },
+            { type: "image", content: "GUESSTHEFRAME/Sicario (2015).png", answer: "SICARIO", year: "2015" },
+            { type: "image", content: "GUESSTHEFRAME/Soul (2020).png", answer: "SOUL", year: "2020" },
+            { type: "image", content: "GUESSTHEFRAME/The Batman (2022).png", answer: "THE BATMAN", year: "2022", aliases: ["BATMAN", "BATMAN 2022"] },
+            { type: "image", content: "GUESSTHEFRAME/The Brutalist (2024).png", answer: "THE BRUTALIST", year: "2024", aliases: ["BRUTALIST"] },
+            { type: "image", content: "GUESSTHEFRAME/The Darjeeling Limited (2007).png", answer: "THE DARJEELING LIMITED", year: "2007", aliases: ["DARJEELING LIMITED"] },
+            { type: "image", content: "GUESSTHEFRAME/The Girl with the Dragon Tattoo (2011).png", answer: "THE GIRL WITH THE DRAGON TATTOO", year: "2011", aliases: ["GIRL WITH THE DRAGON TATTOO"] },
+            { type: "image", content: "GUESSTHEFRAME/The Worst Person in the World (2021).png", answer: "THE WORST PERSON IN THE WORLD", year: "2021", aliases: ["WORST PERSON IN THE WORLD"] }
           ]
         },
         {
           id: 2, name: 'Guess the Plot', icon: '<svg class="svg-icon"><use href="#icon-book-open" /></svg>', collapsed: false, frames: [
-            { type: 'plot', plot: "An innocent migrant arrives in Mumbai seeking honest work, but after being falsely framed and jailed, he is pulled into the gritty underworld of extortion, shootout squads, and gang wars alongside a charismatic gangster named Bhiku Mhatre.", answer: "SATYA", year: "1998", aliases: ["SATYA 1998"] },
-            { type: 'plot', plot: "After being forced to give up his dream of winning an international gold medal, an ex-wrestler in rural Haryana defies rigid patriarchal traditions by training his two young daughters on dirt pits to become world champions.", answer: "DANGAL", year: "2016" },
-            { type: 'plot', plot: "A successful NASA project manager returns to a remote Indian village to bring his childhood nanny to the US, but witnessing grassroots poverty and power shortages inspires him to build a localized hydroelectric turbine instead.", answer: "SWADES", year: "2004", aliases: ["SWADES: WE, THE PEOPLE"] },
-            { type: 'plot', plot: "In 1920s British-occupied India, a fearless tribal guardian on a quest to rescue an abducted village child and an ambitious colonial police officer with a secret mission forge a fierce friendship, unaware of each other's true identities.", answer: "RRR", year: "2022", aliases: ["RISE ROAR REVOLT", "ROUDRAM RANAM RUDHIRAM"] },
-            { type: 'plot', plot: "During a carefree holiday trip to Kodaikanal, a group of tight-knit friends from a small town faces a harrowing test of courage when one of them slips into the pitch-black, 120-foot abyss of the perilous Devil's Kitchen caves.", answer: "MANJUMMEL BOYS", year: "2024", aliases: ["MANJUMMEL"] },
-            { type: 'plot', plot: "While hunting near the Rio Grande, a welder stumbles upon the bloody aftermath of a desert drug deal gone bad and absconds with a satchel containing $2 million, pursued by a psychopathic hitman armed with a cattle bolt pistol.", answer: "NO COUNTRY FOR OLD MEN", year: "2007", aliases: ["NO COUNTRY"] },
-            { type: 'plot', plot: "A retiring veteran detective and his hot-tempered new rookie partner investigate a chilling series of grotesque, meticulously staged murders, each calculated around one of the Seven Deadly Sins.", answer: "SE7EN", year: "1995", aliases: ["SEVEN", "SE7EN (1995)"] },
-            { type: 'plot', plot: "A visionary billionaire invites a paleontologist, a paleobotanist, and a mathematician to endorse his island wildlife reserve populated by cloned prehistoric creatures, before an act of sabotage cuts the power and unleashes deadly predators.", answer: "JURASSIC PARK", year: "1993", aliases: ["JURASSIC PARK 1"] },
-            { type: 'plot', plot: "In South Boston, a state trooper goes deep undercover inside an Irish mob syndicate, unaware that the mob boss has simultaneously planted a mole within the state police's Special Investigation Unit.", answer: "THE DEPARTED", year: "2006", aliases: ["DEPARTED"] },
-            { type: 'plot', plot: "A suburban high-school teenager is accidentally catapulted thirty years into the past inside a plutonium-powered sports car built by an eccentric scientist, where he must make his teenage parents fall in love or cease to exist.", answer: "BACK TO THE FUTURE", year: "1985", aliases: ["BTTF", "BACK TO THE FUTURE 1"] }
+            { type: 'plot', plot: "Two college friends embark on a road trip across India to find their eccentric, brilliant long-lost engineering roommate who challenged the rigid, rote educational system before vanishing on graduation day.", answer: "3 IDIOTS", year: "2009", aliases: ["THREE IDIOTS"] },
+            { type: 'plot', plot: "A skilled thief who steals corporate secrets through shared subconscious dream-architecture is offered a chance to erase his criminal past if he can accomplish the inverse task: planting an idea into the mind of a corporate heir.", answer: "INCEPTION", year: "2010", aliases: ["INCEPTION 2010"] },
+            { type: 'plot', plot: "Consumed by generational greed, a man repeatedly descends into the cursed subterranean womb of a decaying ancestral mansion to extract gold coins from an ancient demon goddess, risking a horrifying monstrous fate.", answer: "TUMBBAD", year: "2018", aliases: ["TUMBAD"] },
+            { type: 'plot', plot: "With Earth slowly dying from catastrophic crop blights and dust storms, a former NASA pilot leaves his children behind to navigate a newly appeared wormhole near Saturn in search of a habitable new world.", answer: "INTERSTELLAR", year: "2014", aliases: ["INTERSTELLAR 2014"] },
+            { type: 'plot', plot: "When the son of a high-ranking Inspector General mysteriously disappears after blackmailing a schoolgirl, her cinema-loving father crafts an airtight family alibi using fabricated receipts and deceptive optical recall.", answer: "DRISHYAM", year: "2015", aliases: ["DRISHYAM 1"] },
+            { type: 'plot', plot: "A disillusioned computer programmer and hacker discovers that everyday reality is a simulated dream-world created by sentient machines to harvest human bioelectricity, and joins an underground rebellion to fulfill a messianic prophecy.", answer: "THE MATRIX", year: "1999", aliases: ["MATRIX", "THE MATRIX 1"] },
+            { type: 'plot', plot: "Spanning three generations of a ruthless coal-mining family, a vengeance-driven patriarch and his sons fight bloody turf wars against an entrenched politician for control of extortion rackets in Dhanbad.", answer: "GANGS OF WASSEYPUR", year: "2012", aliases: ["GOW", "GANGS OF WASSEYPUR 1", "GANGS OF WASSEYPUR PART 1"] },
+            { type: 'plot', plot: "An insomniac corporate recall specialist looking for an escape from his hollow consumerist existence meets a charismatic soap salesman and starts an underground bare-knuckle fighting club that metastasizes into an anarchist movement.", answer: "FIGHT CLUB", displayAnswer: "***** ****", year: "1999", aliases: ["FIGHT CLUB 1999", "FIGHT CLUCB"] },
+            { type: 'plot', plot: "In Victorian-era India, residents of a drought-stricken village accept an arrogant British cantonment commander’s wager to play an unfamiliar game of cricket to cancel their crushing agricultural taxes for three years.", answer: "LAGAAN", year: "2001", aliases: ["LAGAAN: ONCE UPON A TIME IN INDIA"] },
+            { type: 'plot', plot: "Following a backstage tragedy in Victorian London, two former stage partners turn into bitter rivals, obsessively sacrificing their health, ethics, and sanity to outdo each other's teleportation illusions.", answer: "THE PRESTIGE", year: "2006", aliases: ["PRESTIGE"] }
           ]
         },
         {
           id: 3, name: 'Guess the Eye', icon: '<svg class="svg-icon"><use href="#icon-eye" /></svg>', collapsed: false, frames: [
-            { type: 'eye', content: 'GUESSTHEEYES/Alexandra Daddario copy.webp', revealContent: 'GUESSTHEEYES/Alexandra Daddario.webp', answer: 'ALEXANDRA DADDARIO', displayAnswer: 'Alexandra Daddario', year: '', aliases: ['DADDARIO', 'ALEXANDRA'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Andrew Garfield copy.webp', revealContent: 'GUESSTHEEYES/Andrew Garfield.webp', answer: 'ANDREW GARFIELD', displayAnswer: 'Andrew Garfield', year: '', aliases: ['GARFIELD'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Ben Affleck copy.webp', revealContent: 'GUESSTHEEYES/Ben Affleck.webp', answer: 'BEN AFFLECK', displayAnswer: 'Ben Affleck', year: '', aliases: ['AFFLECK'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Megan Fox copy.webp', revealContent: 'GUESSTHEEYES/Megan Fox.webp', answer: 'MEGAN FOX', displayAnswer: 'Megan Fox', year: '', aliases: ['FOX'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Natalie Portman copy.webp', revealContent: 'GUESSTHEEYES/Natalie Portman.webp', answer: 'NATALIE PORTMAN', displayAnswer: 'Natalie Portman', year: '', aliases: ['PORTMAN'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Nora Fatehi copy.webp', revealContent: 'GUESSTHEEYES/Nora Fatehi.webp', answer: 'NORA FATEHI', displayAnswer: 'Nora Fatehi', year: '', aliases: ['NORA'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Rani Mukerji copy.webp', revealContent: 'GUESSTHEEYES/Rani Mukerji.webp', answer: 'RANI MUKERJI', displayAnswer: 'Rani Mukerji', year: '', aliases: ['RANI MUKHERJEE', 'RANI MUKHERJI'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Sydney Sweeney copy.webp', revealContent: 'GUESSTHEEYES/Sydney Sweeney.webp', answer: 'SYDNEY SWEENEY', displayAnswer: 'Sydney Sweeney', year: '', aliases: ['SWEENEY', 'SYDNEY'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Triptii Dimri copy.webp', revealContent: 'GUESSTHEEYES/Triptii Dimri.webp', answer: 'TRIPTII DIMRI', displayAnswer: 'Triptii Dimri', year: '', aliases: ['TRIPTI DIMRI', 'TRIPTI'] },
-            { type: 'eye', content: 'GUESSTHEEYES/Wamiqa Gabbi copy.webp', revealContent: 'GUESSTHEEYES/Wamiqa Gabbi.webp', answer: 'WAMIQA GABBI', displayAnswer: 'Wamiqa Gabbi', year: '', aliases: ['WAMIQA', 'GABBI'] }
+            { type: 'eye', content: 'GUESSTHEEYES/Astromard copy.png', revealContent: 'GUESSTHEEYES/Astromard.png', answer: 'ASTROMARD', displayAnswer: 'Astromard', year: '', aliases: ['AMISH', 'ASTROMARD'] },
+            { type: 'eye', content: 'GUESSTHEEYES/James Gunn copy.png', revealContent: 'GUESSTHEEYES/James Gunn.png', answer: 'JAMES GUNN', displayAnswer: 'James Gunn', year: '', aliases: ['GUNN'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Kajal Aggarwal copy.png', revealContent: 'GUESSTHEEYES/Kajal Aggarwal.png', answer: 'KAJAL AGGARWAL', displayAnswer: 'Kajal Aggarwal', year: '', aliases: ['KAJAL AGARWAL', 'KAJAL'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Kylie Jenner copy.png', revealContent: 'GUESSTHEEYES/Kylie Jenner.png', answer: 'KYLIE JENNER', displayAnswer: 'Kylie Jenner', year: '', aliases: ['KYLIE', 'JENNER'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Monica Barbaro copy.png', revealContent: 'GUESSTHEEYES/Monica Barbaro.png', answer: 'MONICA BARBARO', displayAnswer: 'Monica Barbaro', year: '', aliases: ['BARBARO', 'MONICA'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Penélope Cruz copy.png', revealContent: 'GUESSTHEEYES/Penélope Cruz.png', answer: 'PENELOPE CRUZ', displayAnswer: 'Penélope Cruz', year: '', aliases: ['PENELOPE', 'CRUZ', 'PENÉLOPE CRUZ', 'PENÉLOPE CRUZ'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Sandra Bullock copy.png', revealContent: 'GUESSTHEEYES/Sandra Bullock.png', answer: 'SANDRA BULLOCK', displayAnswer: 'Sandra Bullock', year: '', aliases: ['BULLOCK', 'SANDRA'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Shruti Haasan copy.png', revealContent: 'GUESSTHEEYES/Shruti Haasan.png', answer: 'SHRUTI HAASAN', displayAnswer: 'Shruti Haasan', year: '', aliases: ['SHRUTI HASAN', 'SHRUTI'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Sonam Bajwa copy.png', revealContent: 'GUESSTHEEYES/Sonam Bajwa.png', answer: 'SONAM BAJWA', displayAnswer: 'Sonam Bajwa', year: '', aliases: ['BAJWA', 'SONAM'] },
+            { type: 'eye', content: 'GUESSTHEEYES/Tom Hanks copy.png', revealContent: 'GUESSTHEEYES/Tom Hanks.png', answer: 'TOM HANKS', displayAnswer: 'Tom Hanks', year: '', aliases: ['HANKS'] }
           ]
         }
       ],
       players: [
-        { name: 'AYANK', score: 0, avatar: 'ayank', avatarImg: 'avvtar/ayank.webp' },
-        { name: 'AYUSH', score: 0, avatar: 'ayush', avatarImg: 'avvtar/ayush.webp' },
-        { name: 'JOEL', score: 0, avatar: 'joel', avatarImg: 'avvtar/joel.webp' },
-        { name: 'PRAGGYA', score: 0, avatar: 'praggya', avatarImg: 'avvtar/praggya.webp' }
+        { name: 'AMAN', score: 0, avatar: 'aman', avatarImg: 'avvtar/aman.svg' },
+        { name: 'AZIZ', score: 0, avatar: 'aziz', avatarImg: 'avvtar/aziz.svg' },
+        { name: 'VISH', score: 0, avatar: 'vish', avatarImg: 'avvtar/vish.svg' },
+        { name: 'AMISH', score: 0, avatar: 'amish', avatarImg: 'avvtar/amish.svg' }
       ],
       judge: { totalRounds: 0, totalPlayers: 0, roundsPerJudge: 1, globalRoundIndex: 0, currentJudge: null, currentJudgeIndex: -1, currentJudgeRoundsServed: 0, usedJudges: [], cycleCount: 0, judgeAnswered: false, judgeRewardGiven: false },
       scoring: { locked: false, completed: false },
@@ -17118,7 +17151,7 @@
     /* ═══ AVATAR HELPER ═══ */
     function renderAvatar(p, type) {
       const safeName = SecurityUtil.escapeHtml(p && p.name || '');
-      const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase())) || 'ayank');
+      const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase())) || 'aman');
       const avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
 
       let avSrc = (p && p.avatarImg) || '';
@@ -17126,10 +17159,10 @@
         avSrc = AVATAR_MAP[avKey].img;
       }
       if (!avSrc) {
-        avSrc = 'avvtar/ayank.webp';
+        avSrc = 'avvtar/aman.svg';
       }
 
-      return `<img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" class="av-img-elem" style="width:100%;height:100%;max-width:100%;max-height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block;" onerror="this.onerror=null;this.src='avvtar/ayank.webp';">`;
+      return `<img src="${SecurityUtil.escapeHtml(avSrc)}" alt="${safeName}" class="av-img-elem" style="width:100%;height:100%;max-width:100%;max-height:100%;object-fit:cover;object-position:center;border-radius:50%;display:block;" onerror="this.onerror=null;this.src='avvtar/aman.svg';">`;
     }
     window.renderAvatar = renderAvatar;
 
@@ -18326,30 +18359,29 @@
 
           // 3. Fallback resolution via AVATAR_MAP or known direct mappings
           if (!src) {
-            const rawKey = String(senderAvatar || senderName || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
+            const rawKey = String(senderAvatar || senderName || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
             if (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[rawKey]) {
               src = AVATAR_MAP[rawKey].img;
               bg = AVATAR_MAP[rawKey].bg || AVATAR_MAP[rawKey].color || bg;
             } else {
               const directMap = {
-                ayank: { img: 'avvtar/ayank.webp', bg: '#FF6B9D' },
-                ayush: { img: 'avvtar/ayush.webp', bg: '#3B82F6' },
-                joel: { img: 'avvtar/joel.webp', bg: '#84CC16' },
-                praggya: { img: 'avvtar/praggya.webp', bg: '#FACC15' },
-                praagya: { img: 'avvtar/praggya.webp', bg: '#FACC15' },
-                ruhaan: { img: 'avvtar/ruhaan.webp', bg: '#A855F7' },
-                aman: { img: 'avvtar/ayank.webp', bg: '#FF6B9D' },
-                aziz: { img: 'avvtar/joel.webp', bg: '#84CC16' },
-                vish: { img: 'avvtar/ayush.webp', bg: '#3B82F6' },
-                amish: { img: 'avvtar/praggya.webp', bg: '#FACC15' }
+                aman: { img: 'avvtar/aman.svg', bg: '#FF6B9D' },
+                aziz: { img: 'avvtar/aziz.svg', bg: '#84CC16' },
+                vish: { img: 'avvtar/vish.svg', bg: '#3B82F6' },
+                amish: { img: 'avvtar/amish.svg', bg: '#FACC15' },
+                ayank: { img: 'avvtar/aman.svg', bg: '#FF6B9D' },
+                joel: { img: 'avvtar/aziz.svg', bg: '#84CC16' },
+                ayush: { img: 'avvtar/vish.svg', bg: '#3B82F6' },
+                praggya: { img: 'avvtar/amish.svg', bg: '#FACC15' },
+                ruhaan: { img: 'avvtar/aman.svg', bg: '#A855F7' }
               };
-              const mapped = directMap[rawKey] || directMap.ayank;
+              const mapped = directMap[rawKey] || directMap.aman;
               src = mapped.img;
               bg = mapped.bg;
             }
           }
 
-          if (!src) src = 'avvtar/ayank.webp';
+          if (!src) src = 'avvtar/aman.svg';
           return { src, bg };
         };
 
@@ -18381,7 +18413,7 @@
           msgEl.className = 'chat-msg';
           msgEl.id = 'chatMsg_' + safeMsgId;
           msgEl.innerHTML = '<div class="chat-avatar" style="background-color:' + SecurityUtil.escapeHtml(safeAvatarBg) + ';">' +
-            '<img src="' + SecurityUtil.escapeHtml(safeAvatarSrc) + '" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/ayank.webp\'" />' +
+            '<img src="' + SecurityUtil.escapeHtml(safeAvatarSrc) + '" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/aman.svg\'" />' +
             '</div>' +
             '<div class="chat-msg-body">' +
             '<div class="chat-msg-header">' +
@@ -18405,7 +18437,7 @@
           const lobbyEl = document.createElement('div');
           lobbyEl.className = 'chat-msg';
           lobbyEl.innerHTML = '<div class="chat-avatar" style="background-color:' + SecurityUtil.escapeHtml(safeAvatarBg) + ';">' +
-            '<img src="' + SecurityUtil.escapeHtml(safeAvatarSrc) + '" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/ayank.webp\'" />' +
+            '<img src="' + SecurityUtil.escapeHtml(safeAvatarSrc) + '" alt="' + SecurityUtil.escapeHtml(msg.senderName) + '" onerror="this.onerror=null;this.src=\'avvtar/aman.svg\'" />' +
             '</div>' +
             '<div class="chat-msg-body">' +
             '<div class="chat-msg-header">' +
@@ -18806,15 +18838,15 @@
         const avImg = document.getElementById('rejoinAvatarImg');
         const avContainer = document.getElementById('rejoinAvatarContainer');
 
-        const av = (session.playerAvatar || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
-        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#FF6B9D', img: `avvtar/${av}.webp` };
+        const av = (session.playerAvatar || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const avConfig = (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[av]) ? AVATAR_MAP[av] : { color: '#FF6B9D', img: `avvtar/${av}.svg` };
 
         if (codeEl) codeEl.textContent = session.roomCode;
         if (nameEl) nameEl.textContent = session.playerName || this.getAvatarDisplayName(av);
         if (roleEl) roleEl.textContent = session.isHost ? 'Host 👑' : 'Player';
         if (avImg) {
-          avImg.src = avConfig.img || `avvtar/${av}.webp`;
-          avImg.onerror = function() { this.onerror = null; this.src = 'avvtar/ayank.webp'; };
+          avImg.src = avConfig.img || `avvtar/${av}.svg`;
+          avImg.onerror = function() { this.onerror = null; this.src = 'avvtar/aman.svg'; };
         }
         if (avContainer) avContainer.style.backgroundColor = avConfig.color || avConfig.bg || '#FF6B9D';
 
@@ -18957,23 +18989,22 @@
 
       getAvatarDisplayName(av) {
         const map = {
-          ayank: 'Ayank',
-          ayush: 'Ayush',
-          joel: 'Joel',
-          praggya: 'Praggya',
-          praagya: 'Praggya',
-          ruhaan: 'Ruhaan',
-          aman: 'Ayank',
-          aziz: 'Joel',
-          vish: 'Ayush',
-          amish: 'Praggya'
+          aman: 'Aman',
+          aziz: 'Aziz',
+          vish: 'Vish',
+          amish: 'Amish',
+          ayank: 'Aman',
+          ayush: 'Vish',
+          joel: 'Aziz',
+          praggya: 'Amish',
+          ruhaan: 'Aman'
         };
-        const key = (av || 'ayank').toLowerCase().replace(/[^a-z0-9]/g, '');
-        return map[key] || (key ? key.charAt(0).toUpperCase() + key.slice(1) : 'Ayank');
+        const key = (av || 'aman').toLowerCase().replace(/[^a-z0-9]/g, '');
+        return map[key] || (key ? key.charAt(0).toUpperCase() + key.slice(1) : 'Aman');
       },
 
       openCreateModal() {
-        this.playerAvatar = this.playerAvatar || 'ayank';
+        this.playerAvatar = this.playerAvatar || 'aman';
         this.selectedAvatarForModal = this.playerAvatar;
         const savedName = localStorage.getItem('gtf_player_name');
         this.playerName = savedName || this.playerName || this.getAvatarDisplayName(this.playerAvatar);
@@ -18985,7 +19016,7 @@
       },
 
       openJoinModal() {
-        this.playerAvatar = this.playerAvatar || 'ayank';
+        this.playerAvatar = this.playerAvatar || 'aman';
         this.selectedAvatarForModal = this.playerAvatar;
         const savedName = localStorage.getItem('gtf_player_name');
         this.playerName = savedName || this.playerName || this.getAvatarDisplayName(this.playerAvatar);
@@ -19091,7 +19122,7 @@
         const parent = element.parentElement;
         parent.querySelectorAll('.mp-avatar-option').forEach(el => el.classList.remove('selected'));
         element.classList.add('selected');
-        const av = element.getAttribute('data-avatar') || 'ayank';
+        const av = element.getAttribute('data-avatar') || 'aman';
         this.selectedAvatarForModal = av;
         this.playerAvatar = av;
         const nameInput = modalType === 'host'
@@ -21672,7 +21703,7 @@
         }
       },
 
-      resolveAvatar(p, fallbackKey = 'ayank') {
+      resolveAvatar(p, fallbackKey = 'aman') {
         if (p && p.avatarImg && (p.avatarImg.endsWith('.svg') || p.avatarImg.endsWith('.webp') || p.avatarImg.endsWith('.png'))) {
           return p.avatarImg;
         }
@@ -21685,7 +21716,7 @@
         if (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[fbKey]) {
           return AVATAR_MAP[fbKey].img;
         }
-        return 'avvtar/ayank.webp';
+        return 'avvtar/aman.svg';
       },
 
       renderScoreboard(players) {
@@ -22112,7 +22143,7 @@
         if (GS.tieBreaker && Array.isArray(GS.tieBreaker.frames)) collect(GS.tieBreaker.frames);
 
         // Player assets: avatars (priority)
-        const validAvatars = ['ayank.webp', 'ayush.webp', 'joel.webp', 'praggya.webp', 'ruhaan.webp'];
+        const validAvatars = ['aman.svg', 'aziz.svg', 'vish.svg', 'amish.svg'];
         validAvatars.forEach(av => {
           priorityImages.push('avvtar/' + av);
         });
@@ -22187,17 +22218,23 @@
         if (ansDivider) { ansDivider.style.animation = 'none'; void ansDivider.offsetWidth; ansDivider.style.animation = ''; }
         if (ph) ph.classList.remove('hidden');
         const ansTitleReset = document.getElementById('ansTitle');
-        if (ansTitleReset) ansTitleReset.textContent = '';
+        if (ansTitleReset) {
+          ansTitleReset.textContent = '';
+          ansTitleReset.classList.remove('ans-title-long', 'ans-title-xlong');
+        }
 
         this._currentFrame = null;
         this._currentImage = null;
         GS.currentFrameLoader = null;
       },
 
-      /* Formats answer title */
+      /* Formats and scales answer title for ultra-long filenames or titles */
       setAnsTitle(ansTitle, text) {
         if (!ansTitle) return;
-        ansTitle.textContent = (text || '').trim();
+        const str = (text || '').trim();
+        ansTitle.textContent = str;
+        ansTitle.classList.toggle('ans-title-long', str.length > 35 && str.length <= 60);
+        ansTitle.classList.toggle('ans-title-xlong', str.length > 60);
       },
 
       /* Show a frame with smooth loading */
@@ -22435,6 +22472,19 @@
       },
     };
     window.MultiplayerEngine = MultiplayerEngine;
+
+    // Safety auto-formatter for answer overlay title
+    try {
+      const _atEl = document.getElementById('ansTitle');
+      if (_atEl) {
+        const _atObs = new MutationObserver(() => {
+          const l = (_atEl.textContent || '').trim().length;
+          _atEl.classList.toggle('ans-title-long', l > 35 && l <= 60);
+          _atEl.classList.toggle('ans-title-xlong', l > 60);
+        });
+        _atObs.observe(_atEl, { childList: true, characterData: true, subtree: true });
+      }
+    } catch (_) {}
 
     /* ═══ GAME CONTROLLER ═══ */
     const GameController = {
@@ -23042,12 +23092,12 @@
           if (p && p.avatarImg && (p.avatarImg.endsWith('.svg') || p.avatarImg.endsWith('.webp') || p.avatarImg.endsWith('.png'))) {
             return p.avatarImg;
           }
-          const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase()))) || 'ayank';
+          const rawAv = (p && (p.avatar || (p.name && p.name.toLowerCase()))) || 'aman';
           const avKey = String(rawAv).toLowerCase().replace(/[^a-z0-9]/g, '');
           if (typeof AVATAR_MAP !== 'undefined' && AVATAR_MAP[avKey]) {
             return AVATAR_MAP[avKey].img;
           }
-          return 'avvtar/ayank.webp';
+          return 'avvtar/aman.svg';
         };
         const buildTrophies = (players) => {
           const count = players.length;

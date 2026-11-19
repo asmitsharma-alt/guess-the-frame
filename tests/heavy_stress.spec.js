@@ -48,18 +48,18 @@ test.describe('Heavy Multiplayer Stress & Load Testing', () => {
     }, hostData);
 
     expect(joinedPlayers).toHaveLength(5);
-    expect(joinedPlayers.map(p => p.name.toUpperCase())).toEqual(['AYANK', 'AMISH', 'AZIZ', 'VISH', 'SNEHA']);
+    expect(joinedPlayers.map(p => p.name.toUpperCase())).toEqual(['AMAN', 'AMISH', 'AZIZ', 'VISH', 'SNEHA']);
 
     // 3. Host updates settings: adjust frame rounds
     const updatedSettings = await page.evaluate(() => {
       PlayerLobby.adjustRounds('frames', -5); // 20 - 5 = 15 frames
-      PlayerLobby.adjustTimer(15);           // 20 + 15 = 35s
+      PlayerLobby.adjustTimer(15);           // 30 + 15 = 45s
       return MultiplayerEngine.hostSettings;
     });
 
     expect(updatedSettings.rounds).toBe(35); // 15 + 10 + 10 = 35
     expect(updatedSettings.roundsByMode.frames).toBe(15);
-    expect(updatedSettings.timer).toBe(35);
+    expect(updatedSettings.timer).toBe(45);
   });
 
   test('Match playlist samples exclusively from 34 movie frames with zero dialogue/eye entries', async ({ page }) => {

@@ -41,23 +41,28 @@ test.describe('Winner Screen & Home Screen Meme Removal & Winner Message Verific
 
   test('Winner screen message matches exact requested text', async ({ page }) => {
     const msg = await page.locator('.cw-info-text').textContent();
-    expect(msg).toContain('HAPPY BIRTHDAY AZIZ BHAI');
-    expect(msg).toContain('Umeed hai ki aap logon ko game khelne mein maza aaya hoga! Aap sabhi ko Chhath Puja ki hardik shubhkamnayein! 🙏🌅');
+    expect(msg).toContain('Umeed hai ki aap sabhi ko game khelne mein maza aaya hoga! Scoopcast ki audience se suggestions bhi chahiye');
   });
 
-  test('All 3 sections have updated counts and Round 40 Wamiqa Gabbi logic', async ({ page }) => {
+  test('All 3 sections have updated counts and Round 40 Tom Hanks logic', async ({ page }) => {
     const sections = await page.evaluate(() => GS.sections);
     expect(sections.length).toBe(3);
     expect(sections[0].frames.length).toBe(20);
     expect(sections[1].frames.length).toBe(10);
     expect(sections[2].frames.length).toBe(10);
 
-    // Verify Round 40 Wamiqa Gabbi
+    // Verify Round 31 Astromard
+    const r31 = sections[2].frames[0];
+    expect(r31.answer).toBe('ASTROMARD');
+    expect(r31.displayAnswer).toBe('Astromard');
+    expect(r31.aliases).toContain('AMISH');
+
+    // Verify Round 40 Tom Hanks
     const r40 = sections[2].frames[9];
-    expect(r40.answer).toBe('WAMIQA GABBI');
-    expect(r40.displayAnswer).toBe('Wamiqa Gabbi');
-    expect(r40.content).toContain('Wamiqa Gabbi copy.webp');
-    expect(r40.revealContent).toContain('Wamiqa Gabbi.webp');
+    expect(r40.answer).toBe('TOM HANKS');
+    expect(r40.displayAnswer).toBe('Tom Hanks');
+    expect(r40.content).toContain('Tom Hanks copy.png');
+    expect(r40.revealContent).toContain('Tom Hanks.png');
 
     // Test Round 40 gameplay reveal in engine
     const testR40 = await page.evaluate(() => {
@@ -75,8 +80,8 @@ test.describe('Winner Screen & Home Screen Meme Removal & Winner Message Verific
       MultiplayerEngine.currentRoundWinners = [];
       MultiplayerEngine._roundGuessedCorrectIds = new Set();
 
-      // Submit correct guess "WAMIQA GABBI"
-      MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'aman', guess: 'WAMIQA GABBI', roundIndex: 0 });
+      // Submit correct guess "TOM HANKS"
+      MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'aman', guess: 'TOM HANKS', roundIndex: 0 });
       const scoreAfter = GS.players[0].score;
 
       // End round and verify displayAnswer
@@ -90,7 +95,40 @@ test.describe('Winner Screen & Home Screen Meme Removal & Winner Message Verific
     });
 
     expect(testR40.scoreAfter).toBe(10);
-    expect(testR40.revealedTitle).toBe('Wamiqa Gabbi');
+    expect(testR40.revealedTitle).toBe('Tom Hanks');
+
+    // Test Astromard gameplay reveal with "AMISH" guess in engine
+    const testAstromard = await page.evaluate(() => {
+      const s3 = GS.sections.find(s => s.id === 3);
+      const frame = s3.frames[0];
+
+      GS.players = [{ id: 'p1', name: 'Tester', score: 0, avatar: 'aman' }];
+      MultiplayerEngine.isHost = true;
+      MultiplayerEngine.isMatchActive = true;
+      MultiplayerEngine.isRoundFinished = false;
+      MultiplayerEngine.playerId = 'p1';
+      MultiplayerEngine.playerName = 'Tester';
+      MultiplayerEngine.currentPlaylist = [{ ...frame, sectionName: 'Guess the Eye', sectionId: 3 }];
+      MultiplayerEngine.currentPlayIndex = 0;
+      MultiplayerEngine.currentRoundWinners = [];
+      MultiplayerEngine._roundGuessedCorrectIds = new Set();
+
+      // Submit guess "AMISH" which should match Astromard
+      MultiplayerEngine.validateAndProcessGuess({ playerId: 'p1', playerName: 'Tester', playerAvatar: 'aman', guess: 'AMISH', roundIndex: 0 });
+      const scoreAfter = GS.players[0].score;
+
+      // End round and verify displayAnswer shows Astromard
+      MultiplayerEngine.endRound();
+      const ansTitle = document.getElementById('ansTitle');
+
+      return {
+        scoreAfter,
+        revealedTitle: ansTitle ? ansTitle.textContent : ''
+      };
+    });
+
+    expect(testAstromard.scoreAfter).toBe(10);
+    expect(testAstromard.revealedTitle).toBe('Astromard');
   });
 
   test('Winner screen displays right QR pop-up cleanly on large desktop', async ({ page }) => {

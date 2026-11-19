@@ -13,45 +13,46 @@ test.describe('Section 2: Guess the Plot & Hint System', () => {
     expect(plots.length).toBe(10);
 
     // Verify key plots and answers
-    expect(plots[0].plot).toContain('Bhiku Mhatre');
-    expect(plots[0].answer).toBe('SATYA');
-    expect(plots[0].year).toBe('1998');
+    expect(plots[0].plot).toContain('engineering roommate');
+    expect(plots[0].answer).toBe('3 IDIOTS');
+    expect(plots[0].year).toBe('2009');
 
-    expect(plots[1].plot).toContain('wrestler');
-    expect(plots[1].answer).toBe('DANGAL');
-    expect(plots[1].year).toBe('2016');
+    expect(plots[1].plot).toContain('dream-architecture');
+    expect(plots[1].answer).toBe('INCEPTION');
+    expect(plots[1].year).toBe('2010');
 
-    expect(plots[2].plot).toContain('NASA');
-    expect(plots[2].answer).toBe('SWADES');
-    expect(plots[2].year).toBe('2004');
+    expect(plots[2].plot).toContain('ancient demon goddess');
+    expect(plots[2].answer).toBe('TUMBBAD');
+    expect(plots[2].year).toBe('2018');
 
-    expect(plots[3].plot).toContain('1920s');
-    expect(plots[3].answer).toBe('RRR');
-    expect(plots[3].year).toBe('2022');
+    expect(plots[3].plot).toContain('wormhole near Saturn');
+    expect(plots[3].answer).toBe('INTERSTELLAR');
+    expect(plots[3].year).toBe('2014');
 
-    expect(plots[4].plot).toContain('Kodaikanal');
-    expect(plots[4].answer).toBe('MANJUMMEL BOYS');
-    expect(plots[4].year).toBe('2024');
+    expect(plots[4].plot).toContain('Inspector General');
+    expect(plots[4].answer).toBe('DRISHYAM');
+    expect(plots[4].year).toBe('2015');
 
-    expect(plots[5].plot).toContain('Rio Grande');
-    expect(plots[5].answer).toBe('NO COUNTRY FOR OLD MEN');
-    expect(plots[5].year).toBe('2007');
+    expect(plots[5].plot).toContain('simulated dream-world');
+    expect(plots[5].answer).toBe('THE MATRIX');
+    expect(plots[5].year).toBe('1999');
 
-    expect(plots[6].plot).toContain('Seven Deadly Sins');
-    expect(plots[6].answer).toBe('SE7EN');
-    expect(plots[6].year).toBe('1995');
+    expect(plots[6].plot).toContain('coal-mining family');
+    expect(plots[6].answer).toBe('GANGS OF WASSEYPUR');
+    expect(plots[6].year).toBe('2012');
 
-    expect(plots[7].plot).toContain('cloned prehistoric creatures');
-    expect(plots[7].answer).toBe('JURASSIC PARK');
-    expect(plots[7].year).toBe('1993');
+    expect(plots[7].plot).toContain('bare-knuckle fighting club');
+    expect(plots[7].answer).toBe('FIGHT CLUB');
+    expect(plots[7].displayAnswer).toBe('***** ****');
+    expect(plots[7].year).toBe('1999');
 
-    expect(plots[8].plot).toContain('South Boston');
-    expect(plots[8].answer).toBe('THE DEPARTED');
-    expect(plots[8].year).toBe('2006');
+    expect(plots[8].plot).toContain('cricket');
+    expect(plots[8].answer).toBe('LAGAAN');
+    expect(plots[8].year).toBe('2001');
 
-    expect(plots[9].plot).toContain('plutonium-powered sports car');
-    expect(plots[9].answer).toBe('BACK TO THE FUTURE');
-    expect(plots[9].year).toBe('1985');
+    expect(plots[9].plot).toContain('teleportation illusions');
+    expect(plots[9].answer).toBe('THE PRESTIGE');
+    expect(plots[9].year).toBe('2006');
   });
 
   test('Requesting hint on a plot round generates masked hint and deducts 4 points', async ({ page }) => {
