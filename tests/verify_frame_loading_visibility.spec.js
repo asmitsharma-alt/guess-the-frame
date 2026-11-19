@@ -158,7 +158,7 @@ test.describe('Frame Loading & Visibility Verification', () => {
 
   test('Production (www.scoopcast-live.in): Test live frame loading & visibility', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 720 });
-    await page.goto('https://www.scoopcast-live.in', { timeout: 30000 });
+    await page.goto('https://www.scoopcast-live.in', { waitUntil: 'domcontentloaded', timeout: 30000 });
     await page.waitForLoadState('domcontentloaded');
 
     const liveStatus = await page.evaluate(async () => {
