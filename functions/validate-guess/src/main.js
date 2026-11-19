@@ -3,50 +3,50 @@ import { Client, Databases } from 'node-appwrite';
 // Master Private Answer Catalog
 const MASTER_PLAYLIST = [
   // SECTION 1: Guess the Frame (20 Rounds)
-  { id: 1, type: 'image', answer: 'AB TAK CHHAPPAN', title: 'Ab Tak Chhappan' },
-  { id: 2, type: 'image', answer: 'ARDH SATYA', title: 'Ardh Satya' },
-  { id: 3, type: 'image', answer: 'BABY DO DIE DO', title: 'Baby Do Die Do' },
-  { id: 4, type: 'image', answer: 'BAHUT HUA SAMMAN', title: 'Bahut Hua Samman' },
-  { id: 5, type: 'image', answer: 'BEND IT LIKE BECKHAM', title: 'Bend It Like Beckham' },
-  { id: 6, type: 'image', answer: 'CINEMA PARADISO', title: 'Cinema Paradiso' },
-  { id: 7, type: 'image', answer: 'DOROTHY', title: 'Dorothy' },
-  { id: 8, type: 'image', answer: 'HAMNET', title: 'Hamnet' },
-  { id: 9, type: 'image', answer: 'KWAIDAN', title: 'Kwaidan' },
-  { id: 10, type: 'image', answer: 'LAALO KRISHNA SADA SAHAAYATE', title: 'Laalo Krishna Sada Sahaayate' },
-  { id: 11, type: 'image', answer: 'MARRIAGE STORY', title: 'Marriage Story' },
-  { id: 12, type: 'image', answer: 'MASS', title: 'Mass' },
-  { id: 13, type: 'image', answer: 'NOCTURNAL ANIMALS', title: 'Nocturnal Animals' },
-  { id: 14, type: 'image', answer: 'OCEAN\'S TWELVE', title: 'Ocean\'s Twelve' },
-  { id: 15, type: 'image', answer: 'RAM LEELA', title: 'Ram Leela' },
-  { id: 16, type: 'image', answer: 'RAMAYANA: THE EPIC', title: 'Ramayana: The Epic' },
-  { id: 17, type: 'image', answer: 'SAW', title: 'Saw' },
-  { id: 18, type: 'image', answer: 'TASTE OF CHERRY', title: 'Taste of Cherry' },
-  { id: 19, type: 'image', answer: 'THE DOG STARS', title: 'The Dog Stars' },
-  { id: 20, type: 'image', answer: 'VERITY', title: 'Verity' },
+  { id: 1, type: 'image', answer: '99', title: '99', aliases: ['NINETY NINE'] },
+  { id: 2, type: 'image', answer: 'A STORY OF DERRY', title: 'A Story of Derry', aliases: ['STORY OF DERRY', 'DERRY'] },
+  { id: 3, type: 'image', answer: 'AFTER HOURS', title: 'After Hours' },
+  { id: 4, type: 'image', answer: 'BLADE RUNNER 2049', title: 'Blade Runner 2049', aliases: ['BLADE RUNNER', 'BR 2049', 'BR2049'] },
+  { id: 5, type: 'image', answer: 'CHALLENGERS', title: 'Challengers' },
+  { id: 6, type: 'image', answer: 'DHINDORA', title: 'Dhindora' },
+  { id: 7, type: 'image', answer: 'HACKSAW RIDGE', title: 'Hacksaw Ridge' },
+  { id: 8, type: 'image', answer: 'HIGH AND LOW', title: 'High and Low', aliases: ['TENGOKU TO JIGOKU'] },
+  { id: 9, type: 'image', answer: 'LIFE OF PI', title: 'Life of Pi' },
+  { id: 10, type: 'image', answer: 'LOGAN', title: 'Logan', aliases: ['WOLVERINE'] },
+  { id: 11, type: 'image', answer: 'POSSIBLE LOVE', title: 'Possible Love' },
+  { id: 12, type: 'image', answer: 'PRIDE & PREJUDICE', title: 'Pride & Prejudice', aliases: ['PRIDE AND PREJUDICE'] },
+  { id: 13, type: 'image', answer: 'RUSH HOUR', title: 'Rush Hour', aliases: ['RUSH HOUR 1'] },
+  { id: 14, type: 'image', answer: 'SICARIO', title: 'Sicario' },
+  { id: 15, type: 'image', answer: 'SOUL', title: 'Soul' },
+  { id: 16, type: 'image', answer: 'THE BATMAN', title: 'The Batman', aliases: ['BATMAN', 'BATMAN 2022'] },
+  { id: 17, type: 'image', answer: 'THE BRUTALIST', title: 'The Brutalist', aliases: ['BRUTALIST'] },
+  { id: 18, type: 'image', answer: 'THE DARJEELING LIMITED', title: 'The Darjeeling Limited', aliases: ['DARJEELING LIMITED'] },
+  { id: 19, type: 'image', answer: 'THE GIRL WITH THE DRAGON TATTOO', title: 'The Girl with the Dragon Tattoo', aliases: ['GIRL WITH THE DRAGON TATTOO'] },
+  { id: 20, type: 'image', answer: 'THE WORST PERSON IN THE WORLD', title: 'The Worst Person in the World', aliases: ['WORST PERSON IN THE WORLD'] },
 
-  // SECTION 2: Guess the Dialogue (10 Rounds)
-  { id: 21, type: 'dialogue', answer: 'DRISHYAM', title: 'Drishyam' },
-  { id: 22, type: 'dialogue', answer: 'ANDHADHUN', title: 'Andhadhun' },
-  { id: 23, type: 'dialogue', answer: 'GHAJINI', title: 'Ghajini' },
-  { id: 24, type: 'dialogue', answer: 'A WEDNESDAY!', title: 'A Wednesday!' },
-  { id: 25, type: 'dialogue', answer: 'QUEEN', title: 'Queen' },
-  { id: 26, type: 'dialogue', answer: 'INTERSTELLAR', title: 'Interstellar' },
-  { id: 27, type: 'dialogue', answer: 'SPEED', title: 'Speed' },
-  { id: 28, type: 'dialogue', answer: '12 ANGRY MEN', title: '12 Angry Men' },
-  { id: 29, type: 'dialogue', answer: 'ARRIVAL', title: 'Arrival' },
-  { id: 30, type: 'dialogue', answer: 'THE SIXTH SENSE', title: 'The Sixth Sense' },
+  // SECTION 2: Guess the Plot (10 Rounds)
+  { id: 21, type: 'plot', answer: '3 IDIOTS', title: '3 Idiots', aliases: ['THREE IDIOTS'] },
+  { id: 22, type: 'plot', answer: 'INCEPTION', title: 'Inception', aliases: ['INCEPTION 2010'] },
+  { id: 23, type: 'plot', answer: 'TUMBBAD', title: 'Tumbbad', aliases: ['TUMBAD'] },
+  { id: 24, type: 'plot', answer: 'INTERSTELLAR', title: 'Interstellar', aliases: ['INTERSTELLAR 2014'] },
+  { id: 25, type: 'plot', answer: 'DRISHYAM', title: 'Drishyam', aliases: ['DRISHYAM 1'] },
+  { id: 26, type: 'plot', answer: 'THE MATRIX', title: 'The Matrix', aliases: ['MATRIX', 'THE MATRIX 1'] },
+  { id: 27, type: 'plot', answer: 'GANGS OF WASSEYPUR', title: 'Gangs of Wasseypur', aliases: ['GOW', 'GANGS OF WASSEYPUR 1', 'GANGS OF WASSEYPUR PART 1'] },
+  { id: 28, type: 'plot', answer: 'FIGHT CLUB', displayAnswer: '***** ****', title: 'Fight Club', aliases: ['FIGHT CLUB 1999', 'FIGHT CLUCB'] },
+  { id: 29, type: 'plot', answer: 'LAGAAN', title: 'Lagaan', aliases: ['LAGAAN: ONCE UPON A TIME IN INDIA'] },
+  { id: 30, type: 'plot', answer: 'THE PRESTIGE', title: 'The Prestige', aliases: ['PRESTIGE'] },
 
   // SECTION 3: Guess the Eye (10 Rounds)
-  { id: 31, type: 'eye', answer: 'AMY ADAMS', title: 'Amy Adams' },
-  { id: 32, type: 'eye', answer: 'ANA DE ARMAS', title: 'Ana de Armas' },
-  { id: 33, type: 'eye', answer: 'ANNE HATHAWAY', title: 'Anne Hathaway' },
-  { id: 34, type: 'eye', answer: 'ANYA TAYLOR-JOY', title: 'Anya Taylor-Joy' },
-  { id: 35, type: 'eye', answer: 'BIPASHA BASU', title: 'Bipasha Basu' },
-  { id: 36, type: 'eye', answer: 'DANIEL CRAIG', title: 'Daniel Craig' },
-  { id: 37, type: 'eye', answer: 'HELENA BONHAM CARTER', title: 'Helena Bonham Carter' },
-  { id: 38, type: 'eye', answer: 'KANGANA RANAUT', title: 'Kangana Ranaut' },
-  { id: 39, type: 'eye', answer: 'KAREENA KAPOOR KHAN', title: 'Kareena Kapoor Khan' },
-  { id: 40, type: 'eye', answer: 'AMAN SINHA', title: 'SUPA SUPA' }
+  { id: 31, type: 'eye', answer: 'ASTROMARD', displayAnswer: 'Astromard', title: 'Astromard', aliases: ['AMISH', 'ASTROMARD'] },
+  { id: 32, type: 'eye', answer: 'JAMES GUNN', displayAnswer: 'James Gunn', title: 'James Gunn', aliases: ['GUNN'] },
+  { id: 33, type: 'eye', answer: 'KAJAL AGGARWAL', displayAnswer: 'Kajal Aggarwal', title: 'Kajal Aggarwal', aliases: ['KAJAL AGARWAL', 'KAJAL'] },
+  { id: 34, type: 'eye', answer: 'KYLIE JENNER', displayAnswer: 'Kylie Jenner', title: 'Kylie Jenner', aliases: ['KYLIE', 'JENNER'] },
+  { id: 35, type: 'eye', answer: 'MONICA BARBARO', displayAnswer: 'Monica Barbaro', title: 'Monica Barbaro', aliases: ['BARBARO', 'MONICA'] },
+  { id: 36, type: 'eye', answer: 'PENELOPE CRUZ', displayAnswer: 'Penélope Cruz', title: 'Penélope Cruz', aliases: ['PENELOPE', 'CRUZ', 'PENÉLOPE CRUZ'] },
+  { id: 37, type: 'eye', answer: 'SANDRA BULLOCK', displayAnswer: 'Sandra Bullock', title: 'Sandra Bullock', aliases: ['BULLOCK', 'SANDRA'] },
+  { id: 38, type: 'eye', answer: 'SHRUTI HAASAN', displayAnswer: 'Shruti Haasan', title: 'Shruti Haasan', aliases: ['SHRUTI HASAN', 'SHRUTI'] },
+  { id: 39, type: 'eye', answer: 'SONAM BAJWA', displayAnswer: 'Sonam Bajwa', title: 'Sonam Bajwa', aliases: ['BAJWA', 'SONAM'] },
+  { id: 40, type: 'eye', answer: 'TOM HANKS', displayAnswer: 'Tom Hanks', title: 'Tom Hanks', aliases: ['HANKS'] }
 ];
 
 // Production Fuzzy Matcher Engine
@@ -85,7 +85,9 @@ const FuzzyMatcher = {
     'kichcha sudeep': 'kiccha sudeep',
     'aziz': 'aziz shaikh',
     'supa supa': 'aman sinha',
-    'aman': 'aman sinha'
+    'aman': 'aman sinha',
+    'amish': 'astromard',
+    'fight clucb': 'fight club'
   },
 
   normalize(str) {
@@ -279,7 +281,15 @@ export default async ({ req, res, log, error }) => {
       return res.json({ success: false, error: 'Round not found in playlist' }, 404);
     }
 
-    const isCorrect = FuzzyMatcher.isMatch(cleanGuess, targetItem.answer);
+    let isCorrect = FuzzyMatcher.isMatch(cleanGuess, targetItem.answer);
+    if (!isCorrect && targetItem.aliases && Array.isArray(targetItem.aliases)) {
+      for (const alias of targetItem.aliases) {
+        if (FuzzyMatcher.isMatch(cleanGuess, alias)) {
+          isCorrect = true;
+          break;
+        }
+      }
+    }
 
     if (!isCorrect) {
       return res.json({
