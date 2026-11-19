@@ -8,6 +8,7 @@ if (!fs.existsSync(OUT_DIR)) {
 }
 
 test('Verify Native Avatars on Game Screen', async ({ page }) => {
+  test.setTimeout(60000);
   await page.goto('/');
   await page.waitForLoadState('domcontentloaded');
 

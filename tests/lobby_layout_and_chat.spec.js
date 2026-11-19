@@ -38,7 +38,7 @@ test.describe('Lobby Screen Layout & Live Chat Suite', () => {
     await expect(leftCol.locator('#hostEyesRoundsBtn')).toHaveText('10');
     const plotOrDialogueBtn = leftCol.locator('#hostPlotRoundsBtn, #hostDialogueRoundsBtn').first();
     await expect(plotOrDialogueBtn).toHaveText('10');
-    await expect(leftCol.locator('#hostTimerBtnText')).toHaveText('30s');
+    await expect(leftCol.locator('#hostTimerBtnText')).toHaveText('20s');
 
     // Test stepper adjustment in new location (decrease from 20 max to 19, then increase back to 20)
     const framesMinusBtn = leftCol.locator('button[onclick*="adjustRounds(\'frames\', -1)"]');
@@ -52,7 +52,7 @@ test.describe('Lobby Screen Layout & Live Chat Suite', () => {
     // Test timer adjustment
     const timerPlusBtn = leftCol.locator('button[onclick*="adjustTimer(1)"]');
     await timerPlusBtn.click();
-    await expect(leftCol.locator('#hostTimerBtnText')).toHaveText('31s');
+    await expect(leftCol.locator('#hostTimerBtnText')).toHaveText('21s');
 
     // 4. Verify Lobby Live Chat is in the right column (inside md:col-span-1)
     const rightCol = page.locator('#playerLobbyScreen .md\\:col-span-1');

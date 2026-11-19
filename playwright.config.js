@@ -1,4 +1,5 @@
 module.exports = {
+  workers: 2,
   testIgnore: '**/mobile_keyboard.spec.js',
   use: {
     baseURL: 'http://localhost:8080',

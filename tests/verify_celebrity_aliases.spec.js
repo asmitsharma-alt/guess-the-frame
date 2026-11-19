@@ -9,8 +9,8 @@ test('Verify character roles (Batman, Spiderman) are rejected and only real acto
     const section3 = GS.sections.find(s => s.id === 3 || s.name === 'Guess the Eye');
     if (!section3) return { error: 'Section 3 not found' };
 
-    const benFrame = section3.frames.find(f => f.answer === 'BEN AFFLECK');
-    const andrewFrame = section3.frames.find(f => f.answer === 'ANDREW GARFIELD');
+    const tomFrame = section3.frames.find(f => f.answer === 'TOM HANKS');
+    const sandraFrame = section3.frames.find(f => f.answer === 'SANDRA BULLOCK');
 
     const checkMatch = (guess, frame) => {
       const matchPrimary = FuzzyMatcher.isMatch(guess, frame.answer);
@@ -19,26 +19,29 @@ test('Verify character roles (Batman, Spiderman) are rejected and only real acto
     };
 
     return {
-      benAliases: benFrame.aliases,
-      andrewAliases: andrewFrame.aliases,
-      ben_batman_matches: checkMatch('batman', benFrame),
-      ben_real_name_matches: checkMatch('ben affleck', benFrame),
-      ben_surname_matches: checkMatch('affleck', benFrame),
-      andrew_spiderman_matches: checkMatch('spiderman', andrewFrame),
-      andrew_real_name_matches: checkMatch('andrew garfield', andrewFrame),
-      andrew_surname_matches: checkMatch('garfield', andrewFrame)
+      tomAliases: tomFrame.aliases,
+      sandraAliases: sandraFrame.aliases,
+      tom_forrest_matches: checkMatch('forrest gump', tomFrame),
+      tom_woody_matches: checkMatch('woody', tomFrame),
+      tom_real_name_matches: checkMatch('tom hanks', tomFrame),
+      tom_surname_matches: checkMatch('hanks', tomFrame),
+      sandra_character_matches: checkMatch('miss congeniality', sandraFrame),
+      sandra_real_name_matches: checkMatch('sandra bullock', sandraFrame),
+      sandra_surname_matches: checkMatch('bullock', sandraFrame)
     };
   });
 
   console.log('VALIDATION RESULTS:', JSON.stringify(validationResults, null, 2));
 
-  expect(validationResults.benAliases).not.toContain('BATMAN');
-  expect(validationResults.ben_batman_matches).toBe(false);
-  expect(validationResults.ben_real_name_matches).toBe(true);
-  expect(validationResults.ben_surname_matches).toBe(true);
+  expect(validationResults.tomAliases).not.toContain('FORREST GUMP');
+  expect(validationResults.tomAliases).not.toContain('WOODY');
+  expect(validationResults.tom_forrest_matches).toBe(false);
+  expect(validationResults.tom_woody_matches).toBe(false);
+  expect(validationResults.tom_real_name_matches).toBe(true);
+  expect(validationResults.tom_surname_matches).toBe(true);
 
-  expect(validationResults.andrewAliases).not.toContain('SPIDERMAN');
-  expect(validationResults.andrew_spiderman_matches).toBe(false);
-  expect(validationResults.andrew_real_name_matches).toBe(true);
-  expect(validationResults.andrew_surname_matches).toBe(true);
+  expect(validationResults.sandraAliases).not.toContain('MISS CONGENIALITY');
+  expect(validationResults.sandra_character_matches).toBe(false);
+  expect(validationResults.sandra_real_name_matches).toBe(true);
+  expect(validationResults.sandra_surname_matches).toBe(true);
 });

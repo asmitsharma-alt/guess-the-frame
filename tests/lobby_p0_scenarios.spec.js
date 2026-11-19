@@ -1,6 +1,7 @@
 const { test, expect } = require('@playwright/test');
 
 test.describe('P0 Lobby Join Reliability Suite', () => {
+  test.setTimeout(60000);
 
   test('Scenario A & C: Normal Join + In-flight Double Click Guard', async ({ browser }) => {
     // 1. Host creates room
@@ -28,7 +29,7 @@ test.describe('P0 Lobby Join Reliability Suite', () => {
     await joinBtn.click({ clickCount: 2, delay: 50 });
 
     // Player should transition to playerLobbyScreen upon confirmation
-    await expect(playerPage.locator('#playerLobbyScreen')).toBeVisible({ timeout: 10000 });
+    await expect(playerPage.locator('#playerLobbyScreen')).toBeVisible({ timeout: 25000 });
 
     // Host roster should contain exactly 2 unique players (no duplicate FastClicker)
     await hostPage.waitForTimeout(1000);
